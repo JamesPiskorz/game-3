@@ -63,6 +63,9 @@
     - Chats speed the simulated attentive player's first partner from about 15 days to about 13; the gains were trimmed so listening helps without becoming a shortcut.
     - Two good replies of one style teach the player what that person responds to. It's saved, shown on the card and marked on later replies, the same "learn by playing, then see it written down" pattern as likes.
 
+23. **Families come from the character generator, not from the sim.** The town asks the population generator for a quarter of residents as siblings; the sim then gives them the family's surname and an age a few years apart. Every other family name is unique, so a shared surname always means family. Siblings aren't paired as friends or couples. They count as part of each other's circle for news, good words and jealousy, and a stranger whose sibling is fond of the player greets them as someone they've heard about.
+    - Saves regenerate the town from its seed, so changing town generation (as families did) changes who lives in an existing save's town. That's acceptable before release; a released game will need town generation versioned with the save.
+
 ## Pacing (simulated, 24 residents, 60 days)
 
 The player visits one resident every evening with three talks and a compliment, plus a gift every other day.
@@ -83,4 +86,4 @@ Partner may still be too quick for a sandbox. Retune it after real play sessions
   - NPCs dating and gossiping among themselves over time (the web is static apart from breakups).
   - Weather, and outfits changing by occasion beyond casual and date.
   - Jealousy when dating several people.
-- **Tests:** 119 sim tests (the town, profiles, schedules, weather, interactions, chats, pacing, dialogue, dates, the boutique, contacts, the social web, invitations, the day loop, saves, the session, a fuzz test and story tests) pass on .NET 8 and in Unity. The prototype is verified headless by `TownCapture`, which presses HUD buttons through a scripted visit and saves `Docs/review/town-*.png`.
+- **Tests:** 125 sim tests (the town, families, profiles, schedules, weather, interactions, chats, pacing, dialogue, dates, the boutique, contacts, the social web, invitations, the day loop, saves, the session, a fuzz test and story tests) pass on .NET 8 and in Unity. The prototype is verified headless by `TownCapture`, which presses HUD buttons through a scripted visit and saves `Docs/review/town-*.png`.

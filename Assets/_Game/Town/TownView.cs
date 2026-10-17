@@ -505,8 +505,10 @@ namespace Game.Town
         static string Life(Resident resident, SimWorld world)
         {
             var parts = new List<string>();
+            List<string> siblings = world.SiblingsOf(resident).Select(s => s.Profile.FirstName).ToList();
+            if (siblings.Count > 0) parts.Add($"{string.Join(" and ", siblings)}'s {resident.Profile.SiblingWord}");
             List<string> friends = world.Social.FriendsOf(resident.Index).Select(i => world.Residents[i].Profile.FirstName).ToList();
-            if (friends.Count > 0) parts.Add("Friends with " + (friends.Count == 1 ? friends[0] : string.Join(", ", friends.Take(friends.Count - 1)) + " and " + friends.Last()));
+            if (friends.Count > 0) parts.Add("friends with " + (friends.Count == 1 ? friends[0] : string.Join(", ", friends.Take(friends.Count - 1)) + " and " + friends.Last()));
             int partner = world.Social.PartnerOf(resident.Index);
             parts.Add(partner >= 0 ? $"seeing {world.Residents[partner].Profile.FirstName}" : "single");
             string text = string.Join("; ", parts);

@@ -119,6 +119,15 @@ namespace Game.Sim.Relationships
             (Relationship rel, Pcg32 rng, InteractionResult result, Meters before) = Begin(resident, InteractionKind.Greet);
             if (result.FirstMeeting)
             {
+                // Family talks: a brother or sister who's fond of the player has told them all about you.
+                Resident fan = _world.SiblingsOf(resident).FirstOrDefault(s => _world.Find(s.Index)?.Met == true && _world.Find(s.Index).Affection >= GoodWordAffection);
+                if (fan != null && rel.HeardFrom.Add(fan.Index))
+                {
+                    Add(ref rel.Affection, 3f);
+                    Add(ref rel.Familiarity, 2f);
+                    return Finish(resident, rel, rng, result, before, "greet.stranger.family", GreetMinutes,
+                        ("sibling", fan.Profile.FirstName), ("relation", fan.Profile.SiblingWord));
+                }
                 PartEntry favourite = Favourite(resident);
                 if (favourite != null && Impression(resident) >= ImpressedAt)
                     return Finish(resident, rel, rng, result, before, "greet.stranger.impressed", GreetMinutes, ("item", ItemName(favourite)));
@@ -130,9 +139,9 @@ namespace Game.Sim.Relationships
                 (string Key, (string, string) Token)? recalled = Recall(rel);
                 if (recalled != null) return Finish(resident, rel, rng, result, before, recalled.Value.Key, GreetMinutes, recalled.Value.Token);
 
-                // Jealousy: the player is dating them and also dating one of their friends.
+                // Jealousy: the player is dating them and also dating one of their friends (or, worse, family).
                 if (rel.Dating)
-                    foreach (int friend in _world.Social.FriendsOf(resident.Index))
+                    foreach (int friend in Circle(resident))
                     {
                         Relationship rival = _world.Find(friend);
                         if (rival == null || !rival.Dating || !rel.JealousOf.Add(friend)) continue;
@@ -146,8 +155,7 @@ namespace Game.Sim.Relationships
                 {
                     if (Today - e.Day > MemoryDays) break;
                     if (e.Kind == SocialEventKind.LeftForPlayer) continue;
-                    bool close = e.A == resident.Index || e.B == resident.Index
-                        || _world.Social.AreFriends(resident.Index, e.A) || _world.Social.AreFriends(resident.Index, e.B);
+                    bool close = Circle(resident).Contains(e.A) || Circle(resident).Contains(e.B) || e.A == resident.Index || e.B == resident.Index;
                     int id = _world.Social.Events.ToList().IndexOf(e);
                     if (!close || !rel.HeardNews.Add(id)) continue;
                     string a = _world.Residents[e.A].Profile.FirstName, b = _world.Residents[e.B].Profile.FirstName;
@@ -158,8 +166,8 @@ namespace Game.Sim.Relationships
                     return Finish(resident, rel, rng, result, before, key, GreetMinutes, ("a", a), ("b", b), ("other", other));
                 }
 
-                // Word gets around: a friend of theirs who's fond of the player has put in a good word.
-                foreach (int friend in _world.Social.FriendsOf(resident.Index))
+                // Word gets around: a friend (or sibling) of theirs who's fond of the player has put in a good word.
+                foreach (int friend in Circle(resident))
                 {
                     Relationship theirs = _world.Find(friend);
                     if (theirs == null || !theirs.Met || theirs.Affection < GoodWordAffection || !rel.HeardFrom.Add(friend)) continue;
@@ -495,6 +503,10 @@ namespace Game.Sim.Relationships
 
         public static readonly string[] Questions = { "likes", "plans", "friends" };
 
+        /// <summary>The people whose news and opinions reach them: their siblings first, then their friends.</summary>
+        IEnumerable<int> Circle(Resident resident) =>
+            _world.SiblingsOf(resident).Select(s => s.Index).Concat(_world.Social.FriendsOf(resident.Index));
+
         /// <summary>
         /// Getting to know someone by asking: what they're into (reveals a love, or a dislike once those run out), what
         /// they're doing later (reveals where they'll be), or about their friends (who they're close to, and whether
@@ -565,6 +577,9 @@ namespace Game.Sim.Relationships
                 default:
                 {
                     rel.KnowsTheirLife = true;
+                    List<Resident> siblings = _world.SiblingsOf(resident).ToList();
+                    if (siblings.Count > 0)
+                        result.Learnt = $"{profile.FirstName} is {string.Join(" and ", siblings.Select(s => s.Profile.FirstName))}'s {profile.SiblingWord}.";
                     var friends = _world.Social.FriendsOf(resident.Index).Select(i => _world.Residents[i].Profile.FirstName).ToList();
                     int partner = _world.Social.PartnerOf(resident.Index);
                     if (partner >= 0)

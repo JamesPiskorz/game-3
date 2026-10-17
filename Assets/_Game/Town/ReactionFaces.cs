@@ -54,6 +54,7 @@ namespace Game.Town
                 case "greet.remember.date":
                 case "greet.remember.gift":
                 case "greet.remember.topic": return shy ? ("shy", 0.8f) : ("happy", 0.9f);
+                case "greet.stranger.family": return shy ? ("shy", 1f) : ("delighted", 0.8f);
                 case "greet.stranger.impressed": return shy ? ("shy", 0.9f) : ("delighted", 0.7f);
                 case "compliment.style": return shy ? ("shy", 1f) : ("happy", 1f);
                 case "ask.likes":

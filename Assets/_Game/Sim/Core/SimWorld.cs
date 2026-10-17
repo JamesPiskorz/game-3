@@ -15,6 +15,9 @@ namespace Game.Sim
         public ResidentProfile Profile;
         public Schedule Schedule;
 
+        /// <summary>The index of their family's first member: their own index unless they have a sibling in town.</summary>
+        public int Family;
+
         public string Name => Profile.Name;
         public override string ToString() => $"#{Index} {Name}";
     }
@@ -108,6 +111,10 @@ namespace Game.Sim
 
         /// <summary>The relationship with resident <paramref name="index"/> if the player has one, else null (doesn't create one).</summary>
         public Relationship Find(int index) => _relationships.TryGetValue(index, out Relationship relationship) ? relationship : null;
+
+        /// <summary>Their brothers and sisters in town.</summary>
+        public IEnumerable<Resident> SiblingsOf(Resident resident) =>
+            Residents.Where(r => r != resident && r.Family == resident.Family);
 
         public Relationship RelationshipWith(Resident resident)
         {

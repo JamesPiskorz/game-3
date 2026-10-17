@@ -129,7 +129,7 @@ namespace Game.Sim.Social
             // Friends: everyone's best matches above the bar, made mutual, a few each.
             for (int a = 0; a < n; a++)
             {
-                IEnumerable<int> best = Enumerable.Range(0, n).Where(b => b != a && affinity[a, b] >= FriendAffinity)
+                IEnumerable<int> best = Enumerable.Range(0, n).Where(b => b != a && affinity[a, b] >= FriendAffinity && residents[a].Family != residents[b].Family)
                     .OrderByDescending(b => affinity[a, b]).ThenBy(b => b).Take(2);
                 foreach (int b in best)
                     if (web.FriendsOf(a).Count < MaxFriends && web.FriendsOf(b).Count < MaxFriends)
@@ -144,6 +144,7 @@ namespace Game.Sim.Social
             for (int a = 0; a < n; a++)
                 for (int b = a + 1; b < n; b++)
                 {
+                    if (residents[a].Family == residents[b].Family) continue; // siblings
                     float spark = Spark(residents[a], residents[b], worldSeed) + 0.3f * affinity[a, b];
                     web._spark[(a, b)] = spark;
                     pairs.Add((a, b, spark));

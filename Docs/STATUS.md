@@ -7,7 +7,7 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 | Area | State | Where |
 |---|---|---|
 | Character DNA | v1: versioned, deterministic JSON, share codes, migration scaffold | `Characters/Core/Dna` |
-| Generator | Archetypes, presets + noise, colour harmony, slot/tag rules, skin-contrast rule, population mode, reroll with locks | `Characters/Core/Generation`, `Content/Catalog.json` |
+| Generator | Archetypes, presets + noise, colour harmony, slot/tag rules, skin-contrast rule, population mode with families (siblings who look related), reroll with locks | `Characters/Core/Generation`, `Content/Catalog.json` |
 | Runtime assembly | Bone rebinding, part-only bone grafting, blendshape mirroring, region hiding, slot blocking | `Characters/Runtime/Modular` (decision 0001) |
 | Builder | DNA → character, idempotent, sliders/styles on bones, colours, patterns | `Characters/Runtime/Building` |
 | Toon shading | `Game/Characters/Toon`: ramp shading, hand-picked skin shades, outlines, recolour masks, patterns | `Characters/Shaders` (decision 0002) |
@@ -15,10 +15,11 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 | Character creator | UI Toolkit screen over `CreatorSession`: tabs, sliders, swatches, locks, undo/redo, contexts, share codes, your name, how the look reads ("cute and casual"), expression preview, "Into town" | `Creator/`, scene `Creator/Creator.unity` |
 | Blender pipeline | Headless Blender tools: shared rig, weight and shape-key transfer, a validator, FBX export with sidecars; a Unity import post-processor turns them into parts | `Tools/Blender`, `Characters/Editor/Import` (decision 0005) |
 | Sim core | Residents derived from the character seed (name, pronouns, personality, interests, job, hangouts, taste), weekly schedules, relationships, interactions, first impressions from outfits, small saves | `Sim/Core`, `Sim/Content/SimCatalog.json` (decision 0006) |
-| Dialogue | 291 tone-flavoured lines over 76 reactions. Lines can be gated by stage, and no line repeats back to back. Residents bring up recent shared moments, pass on town news and good words, get jealous, and notice an outfit they love by name | `Sim/Core/Dialogue.cs`, `SimCatalog.json` |
+| Dialogue | 295 tone-flavoured lines over 77 reactions. Lines can be gated by stage, and no line repeats back to back. Residents bring up recent shared moments, pass on town news and good words, get jealous, and notice an outfit they love by name | `Sim/Core/Dialogue.cs`, `SimCatalog.json` |
 | Town prototype | `TownSession` loop and a playable scene: blockout sets per location, time-of-day light, residents built from DNA. The HUD lets you travel, talk, give gifts, ask people out, work shifts, shop, change clothes, and save/load | `Town/`, scene `Town/Town.unity` (decision 0007: one stage per place, for now) |
 | Boutique | Daily stock taken from generated outfits; buying, a wardrobe, outfit rules; money from shifts | `Sim/Core/Sandbox/Boutique.cs` |
 | Dates | Three-round scenes: pick topics, a compliment or something the place offers to do together (dancing, feeding the ducks, the arcade...). The outcome combines your choices with how well the place suits them; the date that makes someone a partner ends with them asking to be together | `Sim/Core/Relationships/DateScene.cs` |
+| Families | About a quarter of residents have a brother or sister in town. They look related (skin tone, natural hair and eye colour, face and build carry over; dyed hair doesn't), share a family name, are a few years apart, and are never paired as friends or couples. Siblings pass on news and good words, a stranger whose sibling likes you says so, and dating two siblings is noticed. The card says whose brother or sister they are | `Characters/Core/Generation/FamilyResemblance.cs`, `TownGenerator`, `Docs/review/family-sheet.png` |
 | Contacts | Everyone you've met, with whereabouts hints that sharpen as you get to know them; click to go to them | `Sim/Core/Sandbox/Contacts.cs` |
 | Social web | Friendships and couples among residents, derived from the town seed. Taken residents turn you down unless smitten enough to leave their partner. Friends put in a good word | `Sim/Core/Social/SocialWeb.cs` |
 | Day loop | Priced gifts, an end-of-day summary, autosave on sleep, gentle decay for neglected friends | `Sim/Core/Sandbox/TownSession.cs`, `Relationships/Decay.cs` |
@@ -31,7 +32,7 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 | Expressions | Seven facial expressions plus blinking on the face bones, plus idle breathing, sway, gaze and a procedural walk cycle (people walk in and out of town scenes as time passes). Both layer over the builder's pose; residents react and nod at each interaction | `Characters/Runtime/Expressions`, `Docs/review/expressions.png` |
 | Stand-in content | Procedural body with simple face, 33 parts (12 hair, 21 clothing and accessories, including neckwear), 9 face presets, 7 eye and 5 brow styles, 8 patterns, toon materials. **Placeholder art until Phase 1.** | `Characters/Editor/StandIns`, `Content/StandIn` |
 | Performance | Town benchmark; distance-based detail (`CharacterLod`) | decision 0004, `Docs/review/perf.md` |
-| Tests | 225 Unity EditMode tests (106 characters, 119 sim); the pure C# sets also run on .NET 8 | `Characters/Tests`, `Sim/Tests` |
+| Tests | 235 Unity EditMode tests (110 characters, 125 sim); the pure C# sets also run on .NET 8 | `Characters/Tests`, `Sim/Tests` |
 
 ## Try it
 
@@ -49,7 +50,7 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
   11. **Things to do** at each place raise your stats; the card says what a resident admires.
   12. Once someone's close, they'll send **Messages** inviting you out later that day. Click one to go there. In the evenings, people dress up for the bar, and for Friday and Saturday nights out.
   - Opening `Town/Town.unity` directly works too. It uses the look you last took into town, or a generated one.
-- **Review sheets:** the **Game → Characters → Review** menu has the generated lineup, the 96-character quality sheet, the skin ramp, the spring filmstrip, the town benchmark, the part sheet (every part on one model, front and back) and the expression sheet. **Game → Town → Build Town Scene** rebuilds the town scene.
+- **Review sheets:** the **Game → Characters → Review** menu has the generated lineup, the 96-character quality sheet, the skin ramp, the spring filmstrip, the town benchmark, the part sheet (every part on one model, front and back), the expression sheet and the family sheet (six families of three). **Game → Town → Build Town Scene** rebuilds the town scene.
 - **Regenerate stand-ins:** **Game → Characters → Content → Regenerate All Stand-in Content**.
 - **Tests:** Window → General → Test Runner → EditMode, or headless:
   `unity test . --editor-version 6000.6.6f1 --mode EditMode`

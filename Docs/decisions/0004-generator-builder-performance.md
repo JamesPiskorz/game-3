@@ -12,6 +12,7 @@
    - Colour harmony uses one accent plus neutrals, placed by a scheme.
    - Slot and tag rules (blocks / requires / excludes) keep outfits wearable.
    - Population mode rejects lookalikes.
+   - Families: some residents are generated as siblings of an earlier one (`FamilyResemblance`). A sibling is their own generated person; then skin tone is constrained near the relative's (through the request, so clothes are coloured against the real tone), natural hair and eye colour carry over, the face usually takes the same preset and leans towards the relative's features, and each body slider borrows half of the relative's difference from their presentation's average. Everything family-related draws from its own stream. Siblings need only half the usual distance from each other, and the full distance from everyone else. `Docs/review/family-sheet.png` is the review artifact.
 3. **Determinism is per stream:**
    - Every slider and category draws from its own seed stream (PCG32 seeded from SplitMix64 and FNV-1a).
    - Normal noise uses Irwin–Hall rather than Box–Muller, so the arithmetic is the same on every runtime.

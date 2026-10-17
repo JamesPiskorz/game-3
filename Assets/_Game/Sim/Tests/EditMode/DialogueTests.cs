@@ -11,7 +11,7 @@ namespace Game.Sim.Tests
 {
     public class DialogueTests
     {
-        static readonly HashSet<string> Tokens = new HashSet<string> { "name", "player", "topic", "gift", "location", "item", "partner", "friend", "a", "b", "other", "time" };
+        static readonly HashSet<string> Tokens = new HashSet<string> { "name", "player", "topic", "gift", "location", "item", "partner", "friend", "a", "b", "other", "time", "sibling", "relation" };
 
         [Test]
         public void EveryLineUsesOnlyKnownTokens()

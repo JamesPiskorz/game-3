@@ -43,5 +43,8 @@ namespace Game.Sim.Residents
         public string Subject => Pronouns == Pronouns.She ? "she" : Pronouns == Pronouns.He ? "he" : "they";
         public string Object => Pronouns == Pronouns.She ? "her" : Pronouns == Pronouns.He ? "him" : "them";
         public string Possessive => Pronouns == Pronouns.She ? "her" : Pronouns == Pronouns.He ? "his" : "their";
+
+        /// <summary>What a sibling calls them: sister, brother or sibling.</summary>
+        public string SiblingWord => Pronouns == Pronouns.She ? "sister" : Pronouns == Pronouns.He ? "brother" : "sibling";
     }
 }
