@@ -486,6 +486,8 @@ namespace Game.Town
             if (rel.Familiarity >= LifeFamiliarity || rel.KnowsTheirLife) Add(_card, new Label(Life(selected, world)), "known", "life");
             Makeover change = Makeovers.Noticeable(world, selected, rel, rel.LastSeenDay == world.Now.Day ? -1 : rel.LastSeenDay);
             if (change != null) Add(_card, new Label($"Something's different: {Makeovers.Describe(change.Kind)}."), "known", "makeover");
+            List<string> gifts = ClothesGifts.WornGifts(world, selected);
+            if (gifts.Count > 0) Add(_card, new Label("Wearing your " + string.Join(" and ", gifts) + "."), "known", "liked");
 
             Meter("Affection", rel.Affection, "affection");
             Meter("Attraction", rel.Attraction, "attraction");

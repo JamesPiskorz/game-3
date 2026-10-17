@@ -61,6 +61,7 @@ namespace Game.Sim.Tests
             Assert.That(everyday.Items.Any(i => i.ItemId == boots.ItemId && i.RegionColors[0].H == boots.RegionColors[0].H), "They wear it, in its colours.");
             Assert.That(DnaValidator.Validate(world.Characters, resident.Dna), Is.Empty);
             Assert.That(result.Learnt, Does.Contain("wearing your"));
+            Assert.That(ClothesGifts.WornGifts(world, resident), Is.EqualTo(new[] { "boots" }), "The card can say so.");
             _ = session;
         }
 

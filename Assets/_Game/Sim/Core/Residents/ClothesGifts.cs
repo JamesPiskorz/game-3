@@ -41,6 +41,15 @@ namespace Game.Sim.Residents
             return kept && DnaValidator.Validate(catalog, dna).Count == 0 ? dna : null;
         }
 
+        /// <summary>The names of the player's gifts the resident has on in their everyday outfit right now.</summary>
+        public static List<string> WornGifts(SimWorld world, Resident resident)
+        {
+            OutfitDna everyday = resident.Dna.Outfits.FirstOrDefault(o => o.Context == Sandbox.TownSession.DayOutfit);
+            if (everyday == null) return new List<string>();
+            return world.GiftedClothes.Where(g => g.Resident == resident.Index && everyday.Items.Any(i => i.ItemId == g.Item.ItemId))
+                .Select(g => world.Characters.Part(g.Item.ItemId)?.Name?.ToLowerInvariant()).Where(n => n != null).Distinct().ToList();
+        }
+
         /// <summary>Puts every gift back on its wearer, oldest first (after makeovers, and after loading).</summary>
         public static void Apply(SimWorld world)
         {
