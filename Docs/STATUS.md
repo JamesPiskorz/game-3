@@ -36,7 +36,7 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
   6. **Work a shift** to earn coins. Spend them at the **Boutique** in Arcade Lane, and change clothes in the **Wardrobe** at home. Once you know someone a little, their card says which looks they go for.
   7. **Contacts** lists everyone you've met. Once you know someone well, it says where they are right now; click a contact to go to them.
   - Opening `Town/Town.unity` directly works too. It uses the look you last took into town, or a generated one.
-- **Review sheets:** the **Game → Characters → Review** menu has the generated lineup, the 96-character quality sheet, the skin ramp, the spring filmstrip and the town benchmark. **Game → Town → Build Town Scene** rebuilds the town scene.
+- **Review sheets:** the **Game → Characters → Review** menu has the generated lineup, the 96-character quality sheet, the skin ramp, the spring filmstrip, the town benchmark, the part sheet (every part on one model, front and back) and the expression sheet. **Game → Town → Build Town Scene** rebuilds the town scene.
 - **Regenerate stand-ins:** **Game → Characters → Content → Regenerate All Stand-in Content**.
 - **Tests:** Window → General → Test Runner → EditMode, or headless:
   `unity test . --editor-version 6000.6.6f1 --mode EditMode`
