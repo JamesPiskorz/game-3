@@ -39,7 +39,10 @@ namespace Game.Town
         public TownSession Session { get; private set; }
         public TownView View { get; private set; }
 
-        string SavePath => Path.Combine(Application.persistentDataPath, "town-save.json");
+        public static string SavePath => Path.Combine(Application.persistentDataPath, "town-save.json");
+
+        /// <summary>Set by the main menu's Continue: load the save as soon as the town starts.</summary>
+        public static bool ContinueOnStart;
 
         void Start()
         {
@@ -58,7 +61,12 @@ namespace Game.Town
 
             VisualElement root = Document.rootVisualElement;
             if (Style != null) root.styleSheets.Add(Style);
-            View = new TownView(root, Session, Save, Load);
+            View = new TownView(root, Session, Save, Load, ToMenu);
+            if (ContinueOnStart)
+            {
+                ContinueOnStart = false;
+                Load();
+            }
             Stage.Show(Session);
             Stage.SnapCamera();
         }
@@ -69,6 +77,13 @@ namespace Game.Town
         {
             File.WriteAllText(SavePath, SimSave.Capture(Session.World).ToJson());
             Session.Tell("Saved.");
+        }
+
+        /// <summary>Back to the main menu, saving first so Continue picks up here.</summary>
+        void ToMenu()
+        {
+            Autosave();
+            UnityEngine.SceneManagement.SceneManager.LoadScene(MainMenuScreen.MenuScene);
         }
 
         /// <summary>Every night, quietly. Load picks up the morning after.</summary>

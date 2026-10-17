@@ -57,14 +57,56 @@ namespace Game.Town
             Debug.Log("[Town] Saved " + ScenePath);
         }
 
+        public const string MenuScenePath = Folder + "/MainMenu.unity";
+        const string MenuPanelSettingsPath = Folder + "/UI/MenuPanelSettings.asset";
+
+        /// <summary>Builds the main menu scene: a lit stage for the generated cast, a camera, and the menu document.</summary>
+        [MenuItem("Game/Town/Build Main Menu Scene")]
+        public static void BuildMenuScene()
+        {
+            var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            PanelSettings panelSettings = PanelSettingsAsset(MenuPanelSettingsPath);
+
+            var stage = new GameObject("Stage").transform;
+            Game.Characters.Review.LightingRig.Day.Apply(new[] { Vector3.zero });
+            GameObject floor = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            floor.name = "Floor";
+            floor.transform.SetParent(stage, false);
+            floor.transform.localScale = new Vector3(6f, 0.01f, 3f);
+            Object.DestroyImmediate(floor.GetComponent<Collider>());
+            floor.GetComponent<Renderer>().sharedMaterial = MaterialAsset(Folder + "/Materials/MenuFloor.mat", "Universal Render Pipeline/Lit", new Color(0.36f, 0.3f, 0.4f));
+
+            var camera = new GameObject("Main Camera") { tag = "MainCamera" }.AddComponent<Camera>();
+            camera.clearFlags = CameraClearFlags.SolidColor;
+            camera.backgroundColor = new Color(0.42f, 0.32f, 0.42f);
+            camera.fieldOfView = 30f;
+            camera.nearClipPlane = 0.05f;
+            // The menu panel sits on the left, so look past the cast: screen-left is world +X for a camera facing -Z.
+            camera.transform.position = new Vector3(1.25f, 1.3f, 8.4f);
+            camera.transform.LookAt(new Vector3(1.25f, 0.95f, 0f));
+
+            var ui = new GameObject("Menu UI");
+            var document = ui.AddComponent<UIDocument>();
+            document.panelSettings = panelSettings;
+            var menu = ui.AddComponent<MainMenuScreen>();
+            menu.Content = StandInContent.Load();
+            menu.Document = document;
+            menu.Style = AssetDatabase.LoadAssetAtPath<StyleSheet>(StylePath);
+            menu.Stage = stage;
+
+            EditorSceneManager.SaveScene(scene, MenuScenePath);
+            RegisterScenes();
+            Debug.Log("[Town] Saved " + MenuScenePath);
+        }
+
         /// <summary>
-        /// Puts the game's scenes first in the build list: the creator (where a new game starts), then the town the
-        /// creator's "Into town" button loads. Other scenes keep their place after them.
+        /// Puts the game's scenes first in the build list: the main menu (the build starts there), the creator (where a
+        /// new game starts), then the town. Other scenes keep their place after them.
         /// </summary>
         [MenuItem("Game/Town/Register Game Scenes")]
         public static void RegisterScenes()
         {
-            string[] game = { "Assets/_Game/Creator/Creator.unity", ScenePath };
+            string[] game = { MenuScenePath, "Assets/_Game/Creator/Creator.unity", ScenePath };
             var scenes = game.Where(path => AssetDatabase.LoadAssetAtPath<SceneAsset>(path) != null)
                 .Select(path => new EditorBuildSettingsScene(path, true))
                 .Concat(EditorBuildSettings.scenes.Where(s => !game.Contains(s.path)))
@@ -83,9 +125,9 @@ namespace Game.Town
             return material;
         }
 
-        static PanelSettings PanelSettingsAsset()
+        static PanelSettings PanelSettingsAsset(string path = PanelSettingsPath)
         {
-            var existing = AssetDatabase.LoadAssetAtPath<PanelSettings>(PanelSettingsPath);
+            var existing = AssetDatabase.LoadAssetAtPath<PanelSettings>(path);
             if (existing != null) return existing;
 
             var settings = ScriptableObject.CreateInstance<PanelSettings>();
@@ -94,7 +136,7 @@ namespace Game.Town
             settings.referenceResolution = new Vector2Int(1920, 1080);
             settings.screenMatchMode = PanelScreenMatchMode.MatchWidthOrHeight;
             settings.match = 1f;
-            AssetDatabase.CreateAsset(settings, PanelSettingsPath);
+            AssetDatabase.CreateAsset(settings, path);
             return settings;
         }
     }

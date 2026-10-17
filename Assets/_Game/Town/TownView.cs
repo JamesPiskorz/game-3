@@ -28,7 +28,7 @@ namespace Game.Town
         string _choices; // "talk", "gift" or "date": which picker is open under the actions
         Resident _choicesFor;
 
-        public TownView(VisualElement root, TownSession session, Action save, Action load)
+        public TownView(VisualElement root, TownSession session, Action save, Action load, Action menu = null)
         {
             _session = session;
             root.AddToClassList("town");
@@ -49,6 +49,7 @@ namespace Game.Town
             Add(top, Button("sleep", "Sleep", () => _session.Sleep()));
             Add(top, Button("save", "Save", save));
             Add(top, Button("load", "Load", load));
+            if (menu != null) Add(top, Button("menu", "Menu", menu));
             _notice = Add(main, new Label(), "notice");
             Add(main, new VisualElement(), "spacer");
             _dialogue = Add(main, new VisualElement(), "dialogue");

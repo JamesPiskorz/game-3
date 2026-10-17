@@ -1,6 +1,5 @@
 using System.Linq;
 using Game.Characters.Expressions;
-using Game.Characters.Review;
 using Game.Sim;
 using Game.Sim.Relationships;
 using UnityEditor;
@@ -157,31 +156,8 @@ namespace Game.Town
 
         static void Save(string shot)
         {
-            Texture2D scene = Read(_scene);
-            Texture2D ui = Read(_ui);
-            Color[] background = scene.GetPixels(), overlay = ui.GetPixels();
-            for (int i = 0; i < background.Length; i++)
-                background[i] = Color.Lerp(background[i], new Color(overlay[i].r, overlay[i].g, overlay[i].b), overlay[i].a);
-            scene.SetPixels(background);
-            scene.Apply();
-            Snapshot.Save(scene, $"Docs/review/town-{shot}.png");
-            Object.DestroyImmediate(scene);
-            Object.DestroyImmediate(ui);
+            PanelShot.Save(_scene, _ui, $"Docs/review/town-{shot}.png");
             Debug.Log($"[TownCapture] Saved town-{shot}.png");
-        }
-
-        static Texture2D Read(RenderTexture source)
-        {
-            RenderTexture resolved = RenderTexture.GetTemporary(source.width, source.height, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.sRGB);
-            Graphics.Blit(source, resolved);
-            RenderTexture previous = RenderTexture.active;
-            RenderTexture.active = resolved;
-            var image = new Texture2D(source.width, source.height, TextureFormat.RGBA32, false);
-            image.ReadPixels(new Rect(0, 0, source.width, source.height), 0, 0);
-            image.Apply();
-            RenderTexture.active = previous;
-            RenderTexture.ReleaseTemporary(resolved);
-            return image;
         }
 
         static void Finish(int code)

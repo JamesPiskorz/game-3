@@ -106,6 +106,48 @@ namespace Game.Characters.Tests.Generation
             Assert.That(hair, Is.EquivalentTo(_catalog.Parts.Where(p => p.Slot.StartsWith("hair.")).Select(p => p.Id)));
         }
 
+        /// <summary>
+        /// Content nobody ever gets is wasted art: rules (a cap needing hat-friendly hair, context limits) can quietly
+        /// make a part unreachable. Every part, face preset, style and pattern must show up, and clothing often enough
+        /// to matter.
+        /// </summary>
+        [Test]
+        public void EveryPartStyleAndPattern_ShowsUpOftenEnough()
+        {
+            var parts = new Dictionary<string, int>();
+            var faces = new HashSet<string>();
+            var patterns = new HashSet<string>();
+            int outfits = 0;
+            for (ulong seed = 0; seed < 3000; seed++)
+            {
+                CharacterDna dna = _generator.Generate(seed);
+                faces.Add(dna.Face.PresetId);
+                faces.Add(dna.Face.EyeStyleId);
+                faces.Add(dna.Face.BrowStyleId);
+                foreach (string id in dna.Hair.PieceIds) parts[id] = parts.TryGetValue(id, out int n) ? n + 1 : 1;
+                foreach (OutfitDna outfit in dna.Outfits)
+                {
+                    outfits++;
+                    foreach (ItemDna item in outfit.Items)
+                    {
+                        parts[item.ItemId] = parts.TryGetValue(item.ItemId, out int n) ? n + 1 : 1;
+                        if (item.PatternId != null) patterns.Add(item.PatternId);
+                    }
+                }
+            }
+
+            foreach (PartEntry part in _catalog.Parts)
+            {
+                Assert.That(parts.ContainsKey(part.Id), $"'{part.Id}' never appears.");
+                if (!part.Slot.StartsWith("hair.") && part.Slot != Slots.Glasses && part.Slot != Slots.Hat)
+                    Assert.That(parts[part.Id], Is.GreaterThan(outfits / 200), $"'{part.Id}' is in under 0.5% of outfits.");
+            }
+            Assert.That(faces, Is.SupersetOf(_catalog.FacePresets.Select(p => p.Id)));
+            Assert.That(faces, Is.SupersetOf(_catalog.EyeStyles.Select(s => s.Id)));
+            Assert.That(faces, Is.SupersetOf(_catalog.BrowStyles.Select(s => s.Id)));
+            Assert.That(patterns, Is.EquivalentTo(_catalog.Patterns.Select(p => p.Id)));
+        }
+
         [Test]
         public void Request_IsHonoured()
         {
