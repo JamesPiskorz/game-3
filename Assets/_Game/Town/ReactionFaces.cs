@@ -56,6 +56,13 @@ namespace Game.Town
                 case "greet.remember.topic": return shy ? ("shy", 0.8f) : ("happy", 0.9f);
                 case "greet.stranger.impressed": return shy ? ("shy", 0.9f) : ("delighted", 0.7f);
                 case "compliment.style": return shy ? ("shy", 1f) : ("happy", 1f);
+                case "ask.likes":
+                case "ask.plans":
+                case "ask.friends": return shy ? ("shy", 0.6f) : ("happy", 0.6f);
+                case "ask.friends.partner": return ("happy", 0.5f);
+                case "ask.friends.none": return ("sad", 0.4f);
+                case "ask.nosy":
+                case "ask.again": return ("annoyed", 0.5f);
                 case "invite.met": return shy ? ("shy", 1f) : ("delighted", 0.9f);
                 case "date.taken": return ("shy", 0.5f);
                 case "date.leaves": return shy ? ("shy", 1f) : ("delighted", 0.8f);

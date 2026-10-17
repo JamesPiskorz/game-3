@@ -34,7 +34,13 @@ namespace Game.Sim.Sandbox
             {
                 Resident resident = world.Residents[rel.Resident];
                 var contact = new Contact { Resident = resident, Relationship = rel };
-                if (rel.Familiarity >= KnowsRoutine)
+                bool toldPlan = rel.Plan != null && rel.Plan.Day == world.Now.Day && world.Now.Hour >= rel.PlanHour && world.WhereIs(resident) == rel.Plan.Id;
+                if (toldPlan)
+                {
+                    contact.KnownLocation = rel.Plan.Id;
+                    contact.Hint = $"Said they'd be at {session.LocationName(rel.Plan.Id)} from {rel.PlanHour}:00";
+                }
+                else if (rel.Familiarity >= KnowsRoutine)
                 {
                     string now = world.WhereIs(resident);
                     contact.KnownLocation = now;

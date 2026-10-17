@@ -419,6 +419,7 @@ namespace Game.Sim.Sandbox
         public InteractionResult Greet() => Do(r => Act.Greet(r));
         public InteractionResult Talk(string topic) => Do(r => Act.Talk(r, topic));
         public InteractionResult Compliment() => Do(r => Act.Compliment(r));
+        public InteractionResult Ask(string question) => Do(r => Act.Ask(r, question));
         /// <summary>Gives a gift, which costs its price in coins.</summary>
         public InteractionResult Gift(string giftId)
         {

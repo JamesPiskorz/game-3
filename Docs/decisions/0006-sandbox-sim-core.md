@@ -49,9 +49,14 @@
 14. **The town reaches out.** Each morning, close friends and partners may invite the player to meet later that day, somewhere their own plans already take them. Turning up starts a date with no asking; standing them up costs 6 affection and 4 trust. This gives the player plans to keep, not just people to find.
 15. **Weather is derived, not saved.** Each day's weather comes from the seed (20% rain, 30% cloud). Rain moves people from outdoor plans to an open indoor favourite or home. That's applied in `SimWorld.WhereIs`, the single source of truth for whereabouts, which presence, contacts and invitations all use.
 16. **Evenings out look different.** Residents wear their date outfit for evenings somewhere romantic, and for Friday and Saturday nights anywhere social.
-17. **Robustness and balance are tested by play.** A fuzz test drives the session with a random player and checks world invariants after every step; it found a real bug on its first run. `AutoPlayer` plays a plausible attentive month. The story tests and `Docs/review/stories.md` check that it goes somewhere and that towns differ.
-18. **Expressions and idle motion are character-layer features** (`FaceExpression`, `IdleMotion`). They are symmetric offsets on the stand-in's feature bones, layered over the builder's base and rebased after every Apply. The game maps reactions to faces by tone.
-19. **The playable loop is `TownSession`** (pure C#). It covers travel, waiting, sleeping, selection, closing time and people leaving, and dates. Unity's `TownView` (UI Toolkit) and `TownStage` (3D) only draw it. This is the same pattern as `CreatorSession`.
+17. **The player has stats, and styles admire them.** Charm, fitness, smarts and style are raised by place activities, with tapering gains, at the cost of time and sometimes coins.
+    - Each archetype admires one or two stats, adding up to 0.35 to the first impression. Sporty types admire fitness; bookish ones smarts.
+    - Charm improves compliments. Knowing a loved topic well (fitness for sport, smarts for books) makes talking about it count for more.
+    - This gives the player a second lever besides clothes: who you are, not just what you wear.
+18. **Dates use the place.** Each location offers things to do together that suit some interests, such as dancing at the bar or feeding the ducks. One appears in a round in place of a topic. The date that makes someone a partner ends with them asking to be together, a scripted beat inside a systemic loop.
+19. **Robustness and balance are tested by play.** A fuzz test drives the session with a random player and checks world invariants after every step; it found a real bug on its first run. `AutoPlayer` plays a plausible attentive month. The story tests and `Docs/review/stories.md` check that it goes somewhere and that towns differ.
+20. **Expressions and idle motion are character-layer features** (`FaceExpression`, `IdleMotion`). They are symmetric offsets on the stand-in's feature bones, layered over the builder's base and rebased after every Apply. The game maps reactions to faces by tone.
+21. **The playable loop is `TownSession`** (pure C#). It covers travel, waiting, sleeping, selection, closing time and people leaving, and dates. Unity's `TownView` (UI Toolkit) and `TownStage` (3D) only draw it. This is the same pattern as `CreatorSession`.
 
 ## Pacing (simulated, 24 residents, 60 days)
 
@@ -73,4 +78,4 @@ Partner may still be too quick for a sandbox. Retune it after real play sessions
   - NPCs dating and gossiping among themselves over time (the web is static apart from breakups).
   - Weather, and outfits changing by occasion beyond casual and date.
   - Jealousy when dating several people.
-- **Tests:** 95 sim tests (the town, profiles, schedules, weather, interactions, pacing, dialogue, dates, the boutique, contacts, the social web, invitations, the day loop, saves, the session, a fuzz test and story tests) pass on .NET 8 and in Unity. The prototype is verified headless by `TownCapture`, which presses HUD buttons through a scripted visit and saves `Docs/review/town-*.png`.
+- **Tests:** 102 sim tests (the town, profiles, schedules, weather, interactions, pacing, dialogue, dates, the boutique, contacts, the social web, invitations, the day loop, saves, the session, a fuzz test and story tests) pass on .NET 8 and in Unity. The prototype is verified headless by `TownCapture`, which presses HUD buttons through a scripted visit and saves `Docs/review/town-*.png`.

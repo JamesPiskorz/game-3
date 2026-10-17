@@ -15,10 +15,10 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 | Character creator | UI Toolkit screen over `CreatorSession`: tabs, sliders, swatches, locks, undo/redo, contexts, share codes, your name, how the look reads ("cute and casual"), expression preview, "Into town" | `Creator/`, scene `Creator/Creator.unity` |
 | Blender pipeline | Headless Blender tools: shared rig, weight and shape-key transfer, a validator, FBX export with sidecars; a Unity import post-processor turns them into parts | `Tools/Blender`, `Characters/Editor/Import` (decision 0005) |
 | Sim core | Residents derived from the character seed (name, pronouns, personality, interests, job, hangouts, taste), weekly schedules, relationships, interactions, first impressions from outfits, small saves | `Sim/Core`, `Sim/Content/SimCatalog.json` (decision 0006) |
-| Dialogue | 123 tone-flavoured lines over 26 reactions. Lines can be gated by stage, and no line repeats back to back. Residents bring up recent shared moments and notice an outfit they love by name | `Sim/Core/Dialogue.cs`, `SimCatalog.json` |
+| Dialogue | 194 tone-flavoured lines over 47 reactions. Lines can be gated by stage, and no line repeats back to back. Residents bring up recent shared moments, pass on town news and good words, get jealous, and notice an outfit they love by name | `Sim/Core/Dialogue.cs`, `SimCatalog.json` |
 | Town prototype | `TownSession` loop and a playable scene: blockout sets per location, time-of-day light, residents built from DNA. The HUD lets you travel, talk, give gifts, ask people out, work shifts, shop, change clothes, and save/load | `Town/`, scene `Town/Town.unity` |
 | Boutique | Daily stock taken from generated outfits; buying, a wardrobe, outfit rules; money from shifts | `Sim/Core/Sandbox/Boutique.cs` |
-| Dates | Three-round scenes: pick topics or compliments; the outcome combines your choices with how well the place suits them | `Sim/Core/Relationships/DateScene.cs` |
+| Dates | Three-round scenes: pick topics, a compliment or something the place offers to do together (dancing, feeding the ducks, the arcade...). The outcome combines your choices with how well the place suits them; the date that makes someone a partner ends with them asking to be together | `Sim/Core/Relationships/DateScene.cs` |
 | Contacts | Everyone you've met, with whereabouts hints that sharpen as you get to know them; click to go to them | `Sim/Core/Sandbox/Contacts.cs` |
 | Social web | Friendships and couples among residents, derived from the town seed. Taken residents turn you down unless smitten enough to leave their partner. Friends put in a good word | `Sim/Core/Social/SocialWeb.cs` |
 | Day loop | Priced gifts, an end-of-day summary, autosave on sleep, gentle decay for neglected friends | `Sim/Core/Sandbox/TownSession.cs`, `Relationships/Decay.cs` |
@@ -29,14 +29,14 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 | Expressions | Seven facial expressions plus blinking on the face bones, plus idle breathing, sway, gaze and a procedural walk cycle (people walk in and out of town scenes as time passes). Both layer over the builder's pose; residents react and nod at each interaction | `Characters/Runtime/Expressions`, `Docs/review/expressions.png` |
 | Stand-in content | Procedural body with simple face, 31 parts (12 hair, 19 clothing and accessories), 9 face presets, 7 eye and 5 brow styles, 8 patterns, toon materials. **Placeholder art until Phase 1.** | `Characters/Editor/StandIns`, `Content/StandIn` |
 | Performance | Town benchmark; distance-based detail (`CharacterLod`) | decision 0004, `Docs/review/perf.md` |
-| Tests | 207 Unity EditMode tests (106 characters, 101 sim); the pure C# sets also run on .NET 8 | `Characters/Tests`, `Sim/Tests` |
+| Tests | 213 Unity EditMode tests (106 characters, 107 sim); the pure C# sets also run on .NET 8 | `Characters/Tests`, `Sim/Tests` |
 
 ## Try it
 
 - **Play the slice:** open `Assets/_Game/Town/MainMenu.unity` (the first scene in the build) and press Play.
   1. **New game** opens the creator. Make someone, or press Randomize.
   2. Press **Into town →**. The town scene opens with your character.
-  3. Pick a place, pick someone under **Here**, then use **Say hi** and **Talk about…**. The card lists what you've learned they love.
+  3. Pick a place, pick someone under **Here**, then use **Say hi**, **Talk about…** and **Ask about…** (what they're into, their plans today, their friends). The card lists what you've learned.
   4. Give gifts that match, and **Ask out…** once you're friends. A date is three rounds of choices: talk about what they love.
   5. **Wait an hour** and **Sleep** move time. Places close, and people come and go with their schedules.
   6. **Work a shift** to earn coins. Spend them at the **Boutique** in Arcade Lane, and change clothes in the **Wardrobe** at home. Once you know someone a little, their card says which looks they go for.
@@ -73,6 +73,10 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 
 ## Gotchas found along the way
 
+- **Unity's bundled NUnit is older than NuGet's.** `Is.AnyOf` doesn't exist there; tests that pass on .NET can fail to compile in Unity.
+- **Fuzzing finds what scripted tests don't.** The random-player test caught a time-passing bug on its first run.
+- **Fine colour detail can't live in vertex colours.** Bands narrower than the vertex spacing smear, so lapels and narrow stripes are geometry; details on garments must also follow the body shapes, or they sink into the garment on fuller figures.
+
 - **Unity CLI and licensing need an unsandboxed shell** on this machine, because the sandbox hides the Windows credential store.
 - **Headless rendering:**
   - Disable async shader compilation.
@@ -87,8 +91,9 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 
 ## Suggested next steps
 
-1. **Play it by hand:** an hour in the editor to tune pacing and find UI friction that headless captures can't.
+1. **Play it by hand:** an hour in the editor to tune pacing and find UI friction that headless captures can't. `Docs/review/stories.md` suggests a partner in two to three weeks of attentive play.
 2. **First real art:** base body and head per the style bible, then swap it in for the stand-ins. The stand-in face can't smile; a real head with blendshapes needs its own expression driver.
-3. **More to do in town:** activities on dates, NPC-to-NPC relationships and gossip, and relationship decay.
-4. **The town as a space:** walkable locations with NavMesh, and residents arriving and leaving instead of popping in.
-5. **Performance:** merge each character into fewer renderers (decision 0004), before the town shows more than six people at once.
+3. **Conversations with choices:** multi-line exchanges where the player picks replies, instead of one line per action.
+4. **The town as a space:** walkable locations with NavMesh. People already walk in and out of each scene, but the town itself is a set of stages.
+5. **Sound:** there's none yet. Music per place and time of day, plus UI sounds.
+6. **Performance:** merge each character into fewer renderers (decision 0004) before the town shows many more people at once. The current town renders in about 8 ms in the editor.

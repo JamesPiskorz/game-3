@@ -315,7 +315,7 @@ namespace Game.Town
             Add(_card, new Label($"{profile.Subject}/{profile.Object}  ·  {profile.Age}  ·  {job}"), "card-sub");
             Add(_card, new Label(rel.Met ? StageName(rel.Stage) : "You haven't met yet"), "stage");
             if (rel.Familiarity >= StyleHintFamiliarity) Add(_card, new Label(StyleHint(profile, world)), "known", "style");
-            if (rel.Familiarity >= LifeFamiliarity) Add(_card, new Label(Life(selected, world)), "known", "life");
+            if (rel.Familiarity >= LifeFamiliarity || rel.KnowsTheirLife) Add(_card, new Label(Life(selected, world)), "known", "life");
 
             Meter("Affection", rel.Affection, "affection");
             Meter("Attraction", rel.Attraction, "attraction");
@@ -337,6 +337,7 @@ namespace Game.Town
             var actions = Add(_card, new VisualElement(), "actions");
             if (_session.DateWith == null) Add(actions, Button("act-greet", "Say hi", () => _session.Greet()));
             Add(actions, Picker("act-talk", "Talk about…", "talk"));
+            Add(actions, Picker("act-ask", "Ask about…", "ask"));
             Add(actions, Button("act-compliment", "Compliment", () => _session.Compliment()));
             if (_session.DateWith == null)
             {
@@ -358,6 +359,10 @@ namespace Game.Town
                         if (rel.KnownLikes.Contains(topic.Id)) b.AddToClassList("liked");
                         if (rel.KnownDislikes.Contains(topic.Id)) b.AddToClassList("disliked");
                     }
+                    break;
+                case "ask":
+                    foreach ((string id, string label) in new[] { ("likes", "What they're into"), ("plans", "Their plans today"), ("friends", "Their friends") })
+                        Add(choices, Button("ask-" + id, label, () => _session.Ask(id)), "chip");
                     break;
                 case "gift":
                     foreach (GiftEntry gift in world.Catalog.Gifts)

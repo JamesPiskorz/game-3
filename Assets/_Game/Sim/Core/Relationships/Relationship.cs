@@ -61,6 +61,17 @@ namespace Game.Sim.Relationships
         /// </summary>
         public Memory LovedTopic, LovedGift, GreatDate;
 
+        /// <summary>Questions asked today (by kind), so asking twice is noticed.</summary>
+        public SortedSet<string> AskedToday = new SortedSet<string>(StringComparer.Ordinal);
+        public int AskedDay = -1;
+
+        /// <summary>They've told the player about their friends and whether they're seeing anyone.</summary>
+        public bool KnowsTheirLife;
+
+        /// <summary>Where they said they'd be later today, if asked.</summary>
+        public Memory Plan;
+        public int PlanHour;
+
         /// <summary>Friends of theirs the player is also dating, already found out about.</summary>
         public SortedSet<int> JealousOf = new SortedSet<int>();
 

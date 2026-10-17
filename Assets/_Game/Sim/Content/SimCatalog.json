@@ -183,6 +183,52 @@
       { "tone": "bubbly", "text": "Yay, you made it! Okay, I have plans for us." },
       { "tone": "dry", "text": "Right on time. I'm impressed." }
     ],
+    "ask.likes": [
+      { "tone": "any", "text": "Me? Honestly, I'm really into {topic}." },
+      { "tone": "shy", "text": "Um... I like {topic}. A lot, actually." },
+      { "tone": "bubbly", "text": "{topic}! Don't get me started. Okay, get me started." },
+      { "tone": "dry", "text": "{topic}. Happy?" }
+    ],
+    "ask.dislikes": [
+      { "tone": "any", "text": "I'll tell you what I can't stand: {topic}." },
+      { "tone": "dry", "text": "Whatever you do, don't bring up {topic}." }
+    ],
+    "ask.nothing": [
+      { "tone": "any", "text": "You already know all my secrets!" },
+      { "tone": "dry", "text": "You've heard it all by now." }
+    ],
+    "ask.plans": [
+      { "tone": "any", "text": "Later? I'll be at {location} from {time}." },
+      { "tone": "shy", "text": "I'm going to {location} at {time}... why?" },
+      { "tone": "bubbly", "text": "{location} at {time}! You should come!" },
+      { "tone": "dry", "text": "{location}, {time}. Not that you'd follow me." }
+    ],
+    "ask.plans.none": [
+      { "tone": "any", "text": "Nothing much. Probably home after this." },
+      { "tone": "dry", "text": "Plans? Me? Home, sofa." }
+    ],
+    "ask.friends": [
+      { "tone": "any", "text": "I'm close with {friend}. You should meet them!" },
+      { "tone": "shy", "text": "{friend} is my best friend. They're lovely." },
+      { "tone": "dry", "text": "{friend} puts up with me. That counts." }
+    ],
+    "ask.friends.partner": [
+      { "tone": "any", "text": "I'm seeing {partner}, actually. It's going well." },
+      { "tone": "shy", "text": "I'm... with {partner}. Did you not know?" },
+      { "tone": "dry", "text": "{partner} and I are together. In case you were wondering." }
+    ],
+    "ask.friends.none": [
+      { "tone": "any", "text": "I keep to myself, mostly. Maybe that'll change." },
+      { "tone": "shy", "text": "I don't really have many friends here yet..." }
+    ],
+    "ask.nosy": [
+      { "tone": "any", "text": "That's a bit personal. We've only just met." },
+      { "tone": "dry", "text": "Bit nosy, aren't you?" }
+    ],
+    "ask.again": [
+      { "tone": "any", "text": "You asked me that already today!" },
+      { "tone": "dry", "text": "Same answer as an hour ago." }
+    ],
     "talk.love": [
       { "tone": "any", "text": "Oh, I could talk about {topic} all day!" },
       { "tone": "warm", "text": "You like {topic} too? We're going to get along just fine." },

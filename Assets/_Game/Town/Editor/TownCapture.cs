@@ -111,7 +111,7 @@ namespace Game.Town
             switch (verb)
             {
                 case "shot":
-                    foreach (FaceExpression face in Object.FindObjectsByType<FaceExpression>(FindObjectsSortMode.None)) face.Snap();
+                    foreach (FaceExpression face in Object.FindObjectsByType<FaceExpression>()) face.Snap();
                     screen.Stage.SnapCamera();
                     screen.Stage.Camera.Render();
                     Save(argument);

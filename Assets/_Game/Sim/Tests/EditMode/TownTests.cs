@@ -30,7 +30,8 @@ namespace Game.Sim.Tests
             {
                 "greet.stranger", "greet.stranger.impressed", "greet.acquaintance", "greet.friend", "greet.close", "greet.dating",
                 "greet.remember.date", "greet.remember.gift", "greet.remember.topic", "greet.gossip", "date.taken", "date.leaves", "greet.jealous",
-                "invite", "invite.met", "greet.news.together", "greet.news.apart", "greet.news.mine.together", "greet.news.mine.apart",
+                "invite", "invite.met", "ask.likes", "ask.dislikes", "ask.nothing", "ask.plans", "ask.plans.none",
+                "ask.friends", "ask.friends.partner", "ask.friends.none", "ask.nosy", "ask.again", "greet.news.together", "greet.news.apart", "greet.news.mine.together", "greet.news.mine.apart",
                 "talk.love", "talk.neutral", "talk.dislike", "talk.bored", "compliment.pleased", "compliment.style", "compliment.awkward",
                 "gift.love", "gift.ok", "gift.dislike", "gift.awkward", "gift.again",
                 "date.yes", "date.no", "date.notyet", "date.great", "date.fine", "date.awkward", "date.partner",
