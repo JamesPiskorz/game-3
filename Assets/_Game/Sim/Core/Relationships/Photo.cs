@@ -14,5 +14,8 @@ namespace Game.Sim.Relationships
         /// <summary>Their first name and the place's name, for captions where the town isn't loaded (the main menu).</summary>
         public string Name, Place;
         public string TheirLook;
+
+        /// <summary>The outfit context they were dressed for (null: a date's).</summary>
+        public string Outfit;
     }
 }

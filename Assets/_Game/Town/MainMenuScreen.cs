@@ -110,7 +110,7 @@ namespace Game.Town
             if (last?.PlayerLook == null || last.TheirLook == null) return;
             _studio = new PortraitStudio(new CharacterBuilder(Content), new Color(0.86f, 0.8f, 0.88f));
             _photo = PortraitStudio.Target(360, 240);
-            _studio.RenderPair(DnaSerializer.FromJson(last.PlayerLook), DnaSerializer.FromJson(last.TheirLook), Game.Sim.Sandbox.TownSession.DateOutfit, _photo);
+            _studio.RenderPair(DnaSerializer.FromJson(last.PlayerLook), DnaSerializer.FromJson(last.TheirLook), last.Outfit ?? Game.Sim.Sandbox.TownSession.DateOutfit, _photo);
             var picture = new VisualElement { name = "last-photo" };
             picture.AddToClassList("menu-photo");
             picture.style.backgroundImage = Background.FromRenderTexture(_photo);

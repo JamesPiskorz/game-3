@@ -130,6 +130,42 @@ namespace Game.Sim.Sandbox
         /// <summary>Messages from residents, newest first.</summary>
         public List<Invitation> Messages() => World.Invitations.AsEnumerable().Reverse().ToList();
 
+        public const int BoothPrice = 10, BoothMinutes = 15;
+
+        /// <summary>
+        /// Whether the photo booth at Arcade Lane can take a photo with the selected resident now: someone close (or
+        /// more), once a day each, not during a date.
+        /// </summary>
+        public bool CanUseBooth => Selected != null && Location == Boutique.Location && IsOpen(Location) && DateWith == null && World.Player.Dna != null
+            && World.RelationshipWith(Selected).Stage >= Stage.Close && !World.Photos.Any(p => p.Resident == Selected.Index && p.Day == World.Now.Day);
+
+        /// <summary>A photo with the selected resident from the booth, as you both look right now.</summary>
+        public void PhotoBooth()
+        {
+            Notice = null;
+            if (!CanUseBooth) Notice = "The photo booth is at Arcade Lane, for someone you're close to, once a day.";
+            else if (World.Player.Money < BoothPrice) Notice = $"The booth takes {BoothPrice} coins, and you have {World.Player.Money}.";
+            else
+            {
+                Resident with = Selected;
+                LocationEntry place = World.Catalog.Location(Location);
+                World.Player.Money -= BoothPrice;
+                _today.Spent += BoothPrice;
+                World.Photos.Add(new Photo
+                {
+                    Resident = with.Index, Day = World.Now.Day, Location = Location, Name = with.Profile.FirstName, Place = place?.Name,
+                    PlayerLook = DnaSerializer.ToJson(World.Player.Dna, indented: false), TheirLook = DnaSerializer.ToJson(with.Dna, indented: false),
+                    Outfit = World.Player.Outfit,
+                });
+                Relationship rel = World.RelationshipWith(with);
+                rel.Affection = Math.Min(100f, rel.Affection + 2f);
+                World.Advance(BoothMinutes);
+                AfterTimePasses();
+                Notice ??= $"A strip of photos with {with.Profile.FirstName} from the booth. It's under Photos.";
+            }
+            Raise();
+        }
+
         /// <summary>Keepsake photos from great dates, newest first.</summary>
         public List<Photo> Photos() => World.Photos.AsEnumerable().Reverse().ToList();
 

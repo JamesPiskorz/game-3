@@ -28,7 +28,7 @@ namespace Game.Sim.Tests
 
             for (int step = 0; step < 1000; step++)
             {
-                int verb = rng.NextInt(27);
+                int verb = rng.NextInt(28);
                 string action = verb.ToString();
                 switch (verb)
                 {
@@ -82,6 +82,7 @@ namespace Game.Sim.Tests
                     case 23: session.AnswerConfession(rng.Chance(0.5f)); break;
                     case 24: session.Lipstick(rng.Chance(0.3f) ? (Game.Characters.Dna.HsvColor?)null : rng.Pick(Salon.Lipsticks(world.Characters))); break;
                     case 25: session.Blush(rng.Chance(0.6f)); break;
+                    case 27: session.PhotoBooth(); break;
                     case 26:
                         // Now and then, someone here has quietly fallen for the player since yesterday, so confessions come up.
                         if (session.Selected != null && rng.Chance(0.15f))

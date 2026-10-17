@@ -6,7 +6,7 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 
 - **Generation:** freckles, beauty marks, blush and lipstick by style; three textured hairstyles (afro, puffs, locs) and a hime cut; square and cat-eye glasses; a beret; a turtleneck, a sweater, a cardigan, a pinafore, wide trousers, loafers and high-tops, drop earrings, a flower pin, a choker and a backpack; argyle and chevron patterns; eye and brow styles pushed apart, fuller builds that read, catch-lights, an "angel ring" sheen on the hair; freckles run in families. New review sheets: face styles and body range.
 - **Creator:** face marks and lipstick in the Face tab; **Variations** shows six candidates at once.
-- **Town:** portraits in contacts, messages, the card and your stats line; **Photos**: a great date leaves a photo of the two of you, as you looked that night (also on their card and, with a save, on the menu); the card says when they're wearing your gift; strangers can be taken with your freckles; residents ask what you think of their outfit; confessions (residents ask you out); clothes as gifts that residents wear; a makeup counter at the salon; residents' makeup changes over the weeks.
+- **Town:** portraits in contacts, messages, the card and your stats line; **Photos**: a great date leaves a photo of the two of you, as you looked that night (also on their card and, with a save, on the menu), and a photo booth at Arcade Lane for anyone you're close to; the card says when they're wearing your gift; strangers can be taken with your freckles; residents ask what you think of their outfit; confessions (residents ask you out); clothes as gifts that residents wear; a makeup counter at the salon; residents' makeup changes over the weeks.
 - **Menu:** the cast behind the menu keeps changing, with a caption of what the generator picked; with a saved game, your latest date photo sits under Continue (`FlowCheck` checks it and screenshots `menu-photo.png`).
 - **Fixes:** swept bangs and the hairline no longer show a notch; the first portrait of a session no longer comes out black; the AutoPlayer actually shops; parts unequipped mid-frame no longer render.
 
@@ -46,7 +46,7 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 | Stand-in content | Procedural body with simple face (catch-lights in the eyes), 68 parts (19 hair, including a braid on its own spring chain and three textured styles; 4 face marks; 45 clothing and accessories, including neckwear, outer layers, legwear, earrings, a crossbody bag and a backpack, hair accessories and three kinds of glasses), 9 face presets, 7 eye and 5 brow styles, 12 patterns, toon materials. **Placeholder art until Phase 1.** | `Characters/Editor/StandIns`, `Content/StandIn` |
 | Generator statistics | 10,000 characters measured as a population: style shares against catalog weights, presentation and skin-tone spread, fantasy hair and eyes, how often each part is worn in each context, patterns, rule violations (0) and time per character (about 0.5 ms with tonight's marks and pieces). A test fails if any part goes unworn | `Generation/GeneratorStats.cs`, `Docs/review/generator-stats.md` |
 | Performance | Town benchmark; distance-based detail (`CharacterLod`) | decision 0004, `Docs/review/perf.md` |
-| Tests | 309 Unity EditMode tests (142 characters, 167 sim); the pure C# sets also run on .NET 8 | `Characters/Tests`, `Sim/Tests` |
+| Tests | 310 Unity EditMode tests (142 characters, 168 sim); the pure C# sets also run on .NET 8 | `Characters/Tests`, `Sim/Tests` |
 
 ## Try it
 
@@ -54,7 +54,7 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
   1. **New game** opens the creator. Make someone, press Randomize, or press **Variations** to pick from six at a time.
   2. Press **Into town →**. The town scene opens with your character.
   3. Pick a place, pick someone under **Here**, then use **Say hi**, **Talk about…** and **Ask about…** (what they're into, their plans today, their friends). **Chat** lets them bring something up; pick a warm, playful or curious reply. The card lists what you've learned.
-  4. Give gifts that match, and **Ask out…** once you're friends. A date is three rounds of choices: talk about what they love. A great date ends with a photo of the two of you, kept under **Photos**.
+  4. Give gifts that match, and **Ask out…** once you're friends. A date is three rounds of choices: talk about what they love. A great date ends with a photo of the two of you, kept under **Photos**; the photo booth at Arcade Lane takes one with anyone you're close to.
   5. **Wait an hour** and **Sleep** move time. Places close, and people come and go with their schedules.
   6. **Work a shift** to earn coins. Spend them at the **Boutique** in Arcade Lane, or on a new cut, colour, lipstick or blush at the **Salon** next door, and change clothes in the **Wardrobe** at home. You dress for the occasion automatically, as residents do: a coat in the rain, workout clothes at the gym, dressed up for a night out. Once you know someone a little, their card says which looks they go for.
   7. **Contacts** lists everyone you've met, with a portrait of each. Once you know someone well, it says where they are right now; click a contact to go to them.

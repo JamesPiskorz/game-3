@@ -34,7 +34,7 @@ namespace Game.Town
             if (_photos.TryGetValue(photo, out RenderTexture done)) return done;
             if (photo.PlayerLook == null || photo.TheirLook == null) return null;
             RenderTexture texture = PortraitStudio.Target(360, 240);
-            _studio.RenderPair(DnaSerializer.FromJson(photo.PlayerLook), DnaSerializer.FromJson(photo.TheirLook), Sim.Sandbox.TownSession.DateOutfit, texture);
+            _studio.RenderPair(DnaSerializer.FromJson(photo.PlayerLook), DnaSerializer.FromJson(photo.TheirLook), photo.Outfit ?? Sim.Sandbox.TownSession.DateOutfit, texture);
             _photos[photo] = texture;
             return texture;
         }

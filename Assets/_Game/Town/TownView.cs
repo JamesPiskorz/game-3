@@ -558,6 +558,7 @@ namespace Game.Town
                 _session.StartChat();
             }));
             Add(actions, Button("act-compliment", "Compliment", () => _session.Compliment()));
+            if (_session.CanUseBooth) Add(actions, Button("act-booth", $"Photo booth \u00B7 {TownSession.BoothPrice}", () => _session.PhotoBooth()));
             if (_session.DateWith == null)
             {
                 Add(actions, Picker("act-gift", "Give…", "gift"));
