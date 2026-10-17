@@ -66,6 +66,7 @@
     { "id": "cloth.top.sweater_01", "name": "Sweater", "slot": "top", "tags": ["cute", "casual", "bookish"], "regions": 2, "patternable": true, "lean": 0.2 },
     { "id": "cloth.bottom.shorts_01", "name": "Shorts", "slot": "bottom", "tags": ["casual", "sporty", "street", "bare_legs"], "regions": 2, "contexts": ["casual", "sport"] },
     { "id": "cloth.bottom.pants_01", "name": "Trousers", "slot": "bottom", "tags": ["casual", "elegant", "bookish", "gothic", "street", "date"], "regions": 2, "lean": -0.2 },
+    { "id": "cloth.bottom.wide_01", "name": "Wide trousers", "slot": "bottom", "tags": ["elegant", "street", "bookish", "date"], "regions": 2, "lean": 0.2 },
     { "id": "cloth.bottom.skirt_01", "name": "Skirt", "slot": "bottom", "tags": ["cute", "elegant", "gothic", "bookish", "date", "bare_legs"], "regions": 3, "patternable": true, "lean": 0.7 },
     { "id": "cloth.bottom.longskirt_01", "name": "Long skirt", "slot": "bottom", "tags": ["elegant", "gothic", "bookish", "cute", "date", "bare_legs"], "regions": 3, "patternable": true, "lean": 0.8 },
     { "id": "cloth.bottom.joggers_01", "name": "Joggers", "slot": "bottom", "tags": ["sporty", "street", "casual"], "regions": 2, "contexts": ["casual", "sport"], "lean": -0.1 },

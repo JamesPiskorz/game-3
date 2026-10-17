@@ -30,6 +30,8 @@ MonoBehaviour:
     Prefab: {fileID: 5051435760212608752, guid: 14d1620320f8ceb47b5ed0d705443698, type: 3}
   - Id: cloth.bottom.pants_01
     Prefab: {fileID: 6388049972754282527, guid: 91dfe56a9bc4b5a49bab8df070e87c1b, type: 3}
+  - Id: cloth.bottom.wide_01
+    Prefab: {fileID: 2716031033637107069, guid: e30ae2628c602494996dd261f85881d2, type: 3}
   - Id: cloth.bottom.skirt_01
     Prefab: {fileID: 1274628939109051085, guid: 2a8f2c3ed88b50246ad65ed171e7f3c8, type: 3}
   - Id: cloth.onepiece.dress_01

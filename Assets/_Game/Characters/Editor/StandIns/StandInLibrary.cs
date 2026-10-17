@@ -171,6 +171,30 @@ namespace Game.Characters.StandIns
             };
             yield return new Recipe
             {
+                Id = "cloth.bottom.wide_01", Slot = "bottom", Material = "Cloth",
+                Covers = Pelvis | ThighL | ThighR | CalfL | CalfR,
+                Build = m =>
+                {
+                    // Wide-leg trousers: fitted to the knee, then flaring out over the shoes.
+                    m.AddTube(StandInBody.TubeFor(Pelvis), Cloth, Cap.Closed, Cap.Open, Trim(0.14f, false, true), false);
+                    foreach (BodyRegions thigh in new[] { ThighL, ThighR })
+                    {
+                        Tube tube = StandInBody.TubeFor(thigh);
+                        tube.R1 = Mathf.Max(tube.R1, 0.062f);
+                        m.AddTube(tube, Cloth, Cap.Open, Cap.Open, Region1, false);
+                    }
+                    foreach (BodyRegions calf in new[] { CalfL, CalfR })
+                    {
+                        Tube tube = StandInBody.TubeFor(calf);
+                        tube.R0 = 0.062f;
+                        tube.R1 = 0.078f;
+                        tube.End += new Vector3(0f, -0.03f, 0f);
+                        m.AddTube(tube, Cloth, Cap.Open, Cap.Open, Trim(0.06f, false, true), false);
+                    }
+                },
+            };
+            yield return new Recipe
+            {
                 Id = "cloth.bottom.skirt_01", Slot = "bottom", Material = "Cloth",
                 Covers = Pelvis,
                 Build = m =>
