@@ -68,7 +68,8 @@ namespace Game.Creator
         {
             if (slot < 0 || slot >= _thumbnails.Length) return null;
             _thumbnails[slot] ??= PortraitStudio.Target(128, 200);
-            _studio.Render(dna, _session.Context, _thumbnails[slot], PortraitStudio.Framing.Body);
+            // Close up while the face is in view, full length otherwise.
+            _studio.Render(dna, _session.Context, _thumbnails[slot], _faceView ? PortraitStudio.Framing.Face : PortraitStudio.Framing.Body);
             return _thumbnails[slot];
         }
 

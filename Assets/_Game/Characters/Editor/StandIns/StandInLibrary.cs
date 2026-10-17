@@ -918,6 +918,23 @@ namespace Game.Characters.StandIns
                 Build = m => m.AddEllipsoid(HeadCentre + new Vector3(0f, 0.012f, -0.004f), new Vector3(0.137f, 0.135f, 0.137f), None, false, "Head",
                     (along, around) => along > 0.36f ? new Vector3(0f, 1f, 0f) : new Vector3(1f, 0f, 0f), d => d.y > 0.12f),
             };
+            yield return new Recipe
+            {
+                Id = "acc.hat.beret_01", Slot = "hat", Material = "Cloth", FollowsBodyShapes = false,
+                Build = m =>
+                {
+                    // A soft flat disc worn tilted to one side over the crown, with a band in the second colour and a
+                    // little stalk on top.
+                    Vector3 centre = HeadCentre + new Vector3(0.018f, 0.108f, -0.012f);
+                    int start = m.VertexCount;
+                    using (m.Coarse(latitudes: 12, longitudes: 24))
+                        m.AddEllipsoid(centre, new Vector3(0.132f, 0.042f, 0.126f), None, false, "Head",
+                            (along, around) => along > 0.72f ? new Vector3(0f, 1f, 0f) : new Vector3(1f, 0f, 0f));
+                    m.AddTube(new Tube { Region = None, Start = centre + new Vector3(0f, 0.036f, 0f), End = centre + new Vector3(0.004f, 0.052f, 0f), R0 = 0.006f, R1 = 0.004f, Bone = "Head" },
+                        0f, Cap.Closed, Cap.Closed, Region1, false, withShapes: false);
+                    m.Rotate(start, centre, Quaternion.Euler(4f, 0f, -11f));
+                },
+            };
         }
 
         static Recipe Hair(string id, string slot, Action<StandInMesh> build, params StandInBone[][] extraBones) => new Recipe

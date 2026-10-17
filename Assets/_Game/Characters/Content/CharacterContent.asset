@@ -138,6 +138,8 @@ MonoBehaviour:
     Prefab: {fileID: 1724795837697061746, guid: 1b0bb045c4776624f93c40ee30320e0d, type: 3}
   - Id: acc.hat.beanie_01
     Prefab: {fileID: 6217756984660538669, guid: 0eef57ca19788214ab9b797ff4ede21e, type: 3}
+  - Id: acc.hat.beret_01
+    Prefab: {fileID: 8145162278354465430, guid: d06191f191af0ee479df2cd7e28192f5, type: 3}
   Patterns:
   - Id: pattern.stripes_01
     Texture: {fileID: 2800000, guid: 581ceba358bb34e46b6efc8984b13110, type: 3}

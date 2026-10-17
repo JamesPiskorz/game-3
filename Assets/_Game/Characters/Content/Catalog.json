@@ -118,7 +118,8 @@
     { "id": "acc.neck.scarf_01", "name": "Scarf", "slot": "neck", "tags": ["casual", "street", "bookish", "cute"], "regions": 2, "patternable": true, "contexts": ["casual", "rain"] },
     { "id": "acc.neck.necklace_01", "name": "Necklace", "slot": "neck", "tags": ["elegant", "gothic", "cute", "date"], "regions": 2, "lean": 0.4 },
     { "id": "acc.hat.cap_01", "name": "Cap", "slot": "hat", "tags": ["sporty", "street", "casual", "hat"], "regions": 2, "requiresTags": ["hat_ok"], "contexts": ["casual", "rain", "sport"] },
-    { "id": "acc.hat.beanie_01", "name": "Beanie", "slot": "hat", "tags": ["street", "casual", "sporty", "hat"], "regions": 2, "requiresTags": ["hat_ok"], "contexts": ["casual", "rain", "sport"] }
+    { "id": "acc.hat.beanie_01", "name": "Beanie", "slot": "hat", "tags": ["street", "casual", "sporty", "hat"], "regions": 2, "requiresTags": ["hat_ok"], "contexts": ["casual", "rain", "sport"] },
+    { "id": "acc.hat.beret_01", "name": "Beret", "slot": "hat", "tags": ["elegant", "cute", "gothic", "bookish", "hat"], "regions": 2, "requiresTags": ["hat_ok"], "contexts": ["casual", "date"], "lean": 0.4 }
   ],
 
   "patterns": [

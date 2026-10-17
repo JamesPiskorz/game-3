@@ -82,8 +82,10 @@ namespace Game.Characters.Building
             if (framing == Framing.Face)
             {
                 // From a little below eye level, the head with some room above for big hair.
+                // A tall picture needs to stand back further for the head to fit across.
+                float fit = Mathf.Max(1f, 0.85f * target.height / target.width);
                 Vector3 look = head.position + new Vector3(0f, 0.1f, 0f);
-                _camera.transform.position = look + new Vector3(0f, -0.02f, 1.12f);
+                _camera.transform.position = look + new Vector3(0f, -0.02f, 1.12f * fit);
                 _camera.transform.LookAt(look - new Vector3(0f, 0.02f, 0f));
             }
             else
