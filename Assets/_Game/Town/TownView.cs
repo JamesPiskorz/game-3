@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Game.Characters.Content;
 using Game.Characters.Dna;
+using Game.Characters.Generation;
 using Game.Sim;
 using Game.Sim.Relationships;
 using Game.Sim.Residents;
@@ -147,6 +148,7 @@ namespace Game.Town
         public void PlaceBubbles(Func<int, UnityEngine.Vector3?> head, UnityEngine.Camera camera)
         {
             if (_bubbleLayer?.panel == null) return;
+            var placed = new List<UnityEngine.Rect>();
             foreach (KeyValuePair<int, Label> pair in _bubbles)
             {
                 UnityEngine.Vector3? world = head(pair.Key);
@@ -159,8 +161,14 @@ namespace Game.Town
                 // Keep the whole bubble in the open part of the screen, left of the side panel.
                 float half = float.IsNaN(pair.Value.resolvedStyle.width) ? 120f : pair.Value.resolvedStyle.width / 2f;
                 float right = area.width - PanelWidth - half;
-                pair.Value.style.left = UnityEngine.Mathf.Clamp(viewport.x * area.width, half + 12f, UnityEngine.Mathf.Max(half + 12f, right));
-                pair.Value.style.top = (1f - viewport.y) * area.height;
+                float x = UnityEngine.Mathf.Clamp(viewport.x * area.width, half + 12f, UnityEngine.Mathf.Max(half + 12f, right));
+                // Neighbours talking at once stack upwards instead of covering each other.
+                float height = float.IsNaN(pair.Value.resolvedStyle.height) ? 30f : pair.Value.resolvedStyle.height;
+                var rect = new UnityEngine.Rect(x - half, (1f - viewport.y) * area.height - height, half * 2f, height);
+                while (placed.Any(other => other.Overlaps(rect))) rect.y -= height + 4f;
+                placed.Add(rect);
+                pair.Value.style.left = x;
+                pair.Value.style.top = rect.yMax;
             }
         }
 
@@ -248,6 +256,7 @@ namespace Game.Town
                     button.SetEnabled(!owned && world.Player.Money >= item.Price);
                 }
             }
+            if (_session.AtSalon) SalonPanel(world);
             if (_session.AtHome && _session.DateWith == null)
             {
                 List<ItemDna> wardrobe = _session.Changeable();
@@ -260,6 +269,41 @@ namespace Game.Town
                     PartEntry part = world.Characters.Part(item.ItemId);
                     Add(row, Garment("wear-" + i, part?.Name ?? ContentCatalog.Humanize(item.ItemId), item, () => _session.Wear(item)), "chip");
                 }
+            }
+        }
+
+        /// <summary>The salon next to the boutique: every cut and set of bangs in the catalog, and the hair palettes.</summary>
+        void SalonPanel(SimWorld world)
+        {
+            CharacterDna me = world.Player.Dna;
+            int money = world.Player.Money;
+            Add(_clothes, new Label($"Salon  \u00B7  cut {Salon.CutPrice}  \u00B7  bangs {Salon.BangsPrice}  \u00B7  colour {Salon.DyePrice}"), "section");
+            var cuts = Add(_clothes, new VisualElement(), "chips");
+            foreach (PartEntry cut in Salon.Cuts(world.Characters))
+            {
+                bool yours = me.Hair.PieceIds.Contains(cut.Id);
+                Button b = Add(cuts, Button("cut-" + cut.Id, yours ? $"{cut.Name} (yours)" : cut.Name, () => _session.Haircut(cut.Id)), "chip");
+                b.SetEnabled(!yours && money >= Salon.CutPrice);
+            }
+            List<PartEntry> back = me.Hair.PieceIds.Select(world.Characters.Part).Where(p => p != null && p.Slot == Slots.HairBack).ToList();
+            bool bare = me.Hair.PieceIds.Select(world.Characters.Part).All(p => p == null || p.Slot != Slots.HairFront);
+            var bangs = Add(_clothes, new VisualElement(), "chips");
+            Button none = Add(bangs, Button("bangs-none", bare ? "No bangs (yours)" : "No bangs", () => _session.Bangs(null)), "chip");
+            none.SetEnabled(!bare && money >= Salon.BangsPrice);
+            foreach (PartEntry front in Salon.Bangs(world.Characters))
+            {
+                bool yours = me.Hair.PieceIds.Contains(front.Id);
+                Button b = Add(bangs, Button("bangs-" + front.Id, yours ? $"{front.Name} (yours)" : front.Name, () => _session.Bangs(front.Id)), "chip");
+                b.SetEnabled(!yours && money >= Salon.BangsPrice && CharacterGenerator.Compatible(front, back));
+            }
+            var dyes = Add(_clothes, new VisualElement(), "chips", "dyes");
+            List<HsvColor> colours = Salon.Colours(world.Characters);
+            for (int i = 0; i < colours.Count; i++)
+            {
+                HsvColor c = colours[i];
+                Button b = Add(dyes, Button("dye-" + i, "", () => _session.Dye(c)), "dye");
+                b.style.backgroundColor = UnityEngine.Color.HSVToRGB(c.H - (float)Math.Floor(c.H), Math.Max(0f, Math.Min(1f, c.S)), Math.Max(0f, Math.Min(1f, c.V)));
+                b.SetEnabled(money >= Salon.DyePrice);
             }
         }
 

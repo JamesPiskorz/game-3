@@ -37,17 +37,25 @@ namespace Game.Sim.Relationships
             return favourite;
         }
 
+        /// <summary>
+        /// How much they like the player's hair, 0..1: their average taste across its style tags. An average, not the
+        /// best tag, because nearly everyone likes something casual; what tells is whether the whole look is theirs.
+        /// </summary>
+        public static float HairTaste(ResidentProfile resident, CharacterDna player, ContentCatalog characters) =>
+            player.Hair.PieceIds.Select(characters.Part).Where(p => p != null).SelectMany(p => p.Tags)
+                .Where(tag => characters.Archetypes.Any(a => a.TagWeights.ContainsKey(tag))).Distinct()
+                .Select(tag => resident.StyleTaste.TryGetValue(tag, out float taste) ? taste : 0f).DefaultIfEmpty(0f).Average();
+
         public static float Score(ResidentProfile resident, CharacterDna player, string outfitContext, ContentCatalog characters)
         {
             OutfitDna outfit = player.Outfits.FirstOrDefault(o => o.Context == outfitContext) ?? player.Outfits.FirstOrDefault();
             if (outfit == null) return 0f;
 
-            // Each styled item scores its best-liked tag; untagged basics don't count either way.
+            // Each styled item scores its best-liked tag; untagged basics don't count either way. Hair counts too.
             float total = 0f;
             int styled = 0;
-            foreach (ItemDna item in outfit.Items)
+            foreach (PartEntry part in outfit.Items.Select(i => characters.Part(i.ItemId)).Concat(player.Hair.PieceIds.Select(characters.Part)))
             {
-                PartEntry part = characters.Part(item.ItemId);
                 if (part == null) continue;
                 float best = -1f;
                 foreach (string tag in part.Tags)

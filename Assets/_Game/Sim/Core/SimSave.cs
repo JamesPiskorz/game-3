@@ -32,6 +32,7 @@ namespace Game.Sim
         public int PlayerMoney;
         public SortedDictionary<string, float> PlayerStats;
         public List<ItemDna> PlayerWardrobe = new List<ItemDna>();
+        public Residents.Makeover PlayerMakeover;
         public List<Relationship> Relationships = new List<Relationship>();
 
         public List<Sandbox.Invitation> Invitations = new List<Sandbox.Invitation>();
@@ -52,6 +53,7 @@ namespace Game.Sim
             PlayerMoney = world.Player.Money,
             PlayerStats = new SortedDictionary<string, float>(world.Player.Stats, System.StringComparer.Ordinal),
             PlayerWardrobe = world.Player.Wardrobe.ToList(),
+            PlayerMakeover = world.Player.LastMakeover,
             Relationships = world.Relationships.ToList(),
             SocialHistory = world.Social.Events.ToList(),
             Invitations = world.Invitations.ToList(),
@@ -73,6 +75,7 @@ namespace Game.Sim
                 Location = PlayerLocation,
                 Money = PlayerMoney,
                 Wardrobe = PlayerWardrobe ?? new List<ItemDna>(),
+                LastMakeover = PlayerMakeover,
             };
             if (PlayerStats != null)
                 foreach (KeyValuePair<string, float> stat in PlayerStats) world.Player.Stats[stat.Key] = stat.Value;

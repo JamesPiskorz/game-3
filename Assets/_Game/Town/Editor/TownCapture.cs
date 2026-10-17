@@ -33,7 +33,7 @@ namespace Game.Town
             "press:act-chat", "shot:chat", "press:chatopt-{chat}", "shot:chat-reply", "press:chatopt-{chat}", "shot:chat-heard",
             "press:act-date", "press:dateplace-park", "shot:date",
             "press:dateopt-{best}", "shot:date-round", "press:dateopt-{best}", "press:dateopt-{best}", "shot:date-end",
-            "press:act-end-date", "press:place-mall", "press:buy-0", "shot:boutique",
+            "press:act-end-date", "press:place-mall", "press:buy-0", "shot:boutique", "press:cut-{cut}", "shot:salon",
             "hour:20", "press:place-bar", "press:here-0", "shot:bar",
             "hour:22", "press:place-park", "shot:park-night",
             "press:wait", "pause:75", "live:park-comings-and-goings",
@@ -169,6 +169,10 @@ namespace Game.Town
 
         static string Resolve(TownScreen screen, string name)
         {
+            // A cut the player doesn't have yet, for the salon.
+            string cut = Game.Sim.Sandbox.Salon.Cuts(screen.Session.World.Characters)
+                .First(c => !screen.Session.World.Player.Dna.Hair.PieceIds.Contains(c.Id) && !c.RequiresTags.Any()).Id;
+            name = name.Replace("{cut}", cut);
             Resident selected = screen.Session.Selected;
             if (selected == null) return name;
             SimCatalog catalog = screen.Session.World.Catalog;

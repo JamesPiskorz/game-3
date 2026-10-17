@@ -65,6 +65,9 @@ namespace Game.Sim.Relationships
         public int MentionedMakeoverDay = -1;
         public int NoticedMakeoverDay = -1;
 
+        /// <summary>The day of the player's salon visit they last reacted to.</summary>
+        public int NoticedPlayerMakeoverDay = -1;
+
         /// <summary>Chat replies that landed well, by style; two of a kind and the player has learnt what they like.</summary>
         public SortedDictionary<string, int> ChatWins = new SortedDictionary<string, int>(StringComparer.Ordinal);
 

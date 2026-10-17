@@ -48,6 +48,9 @@ namespace Game.Sim
 
         /// <summary>Goes up whenever what they're wearing changes, so views know to redress them.</summary>
         public int LookVersion;
+
+        /// <summary>Their latest visit to the salon, which people who knew them before will notice (or null).</summary>
+        public Makeover LastMakeover;
     }
 
     /// <summary>

@@ -71,6 +71,10 @@
     - Someone the player knew before the change brings it up when they next meet. The card says "something's different" while it's new. A compliment within the week counts for about three times a normal one, once.
     - This uses the character generator at runtime, so the town looks different from one month to the next.
 
+25. **The player's hair is part of how they come across.** Hair pieces carry the same style tags as clothes, and first impressions now count them. The salon changes cut, bangs and colour.
+    - Anyone who knew the old look reacts once by their average taste across the new hair's style tags. It's an average, not the best tag, because nearly everyone likes something casual.
+    - Measured over a town, that taste runs from about 0.14 (10th percentile) to 0.42 (90th). "Loves it" is 0.4 or more and "different" is below 0.2, so restyling for one person's taste is a real choice.
+
 ## Pacing (simulated, 24 residents, 60 days)
 
 The player visits one resident every evening with three talks and a compliment, plus a gift every other day.
@@ -91,4 +95,4 @@ Partner may still be too quick for a sandbox. Retune it after real play sessions
   - NPCs dating and gossiping among themselves over time (the web is static apart from breakups).
   - Weather, and outfits changing by occasion beyond casual and date.
   - Jealousy when dating several people.
-- **Tests:** 131 sim tests (the town, families, makeovers, profiles, schedules, weather, interactions, chats, pacing, dialogue, dates, the boutique, contacts, the social web, invitations, the day loop, saves, the session, a fuzz test and story tests) pass on .NET 8 and in Unity. The prototype is verified headless by `TownCapture`, which presses HUD buttons through a scripted visit and saves `Docs/review/town-*.png`.
+- **Tests:** 137 sim tests (the town, families, makeovers, the salon, profiles, schedules, weather, interactions, chats, pacing, dialogue, dates, the boutique, contacts, the social web, invitations, the day loop, saves, the session, a fuzz test and story tests) pass on .NET 8 and in Unity. The prototype is verified headless by `TownCapture`, which presses HUD buttons through a scripted visit and saves `Docs/review/town-*.png`.

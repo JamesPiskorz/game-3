@@ -324,6 +324,24 @@
       { "tone": "bubbly", "text": "New outfit day is the best day!" },
       { "tone": "dry", "text": "The new clothes are growing on me." }
     ],
+    "greet.player.makeover.love": [
+      { "tone": "any", "text": "Wait, your hair! Oh, I love it. It really suits you." },
+      { "tone": "shy", "text": "Oh! Your hair... it looks really, really good." },
+      { "tone": "bubbly", "text": "Stop it! Your hair! It's perfect! Who did it?" },
+      { "tone": "dry", "text": "New hair. Good call. Very good call." }
+    ],
+    "greet.player.makeover.nice": [
+      { "tone": "any", "text": "Oh, you changed your hair! Nice." },
+      { "tone": "shy", "text": "You got a new haircut? It's nice." },
+      { "tone": "bubbly", "text": "Ooh, new look! Fun!" },
+      { "tone": "dry", "text": "Different hair. It works." }
+    ],
+    "greet.player.makeover.meh": [
+      { "tone": "any", "text": "Oh! You changed your hair. It's... different." },
+      { "tone": "shy", "text": "Your hair's different. I'll get used to it, I'm sure." },
+      { "tone": "bubbly", "text": "New hair! That's... a choice! A bold one!" },
+      { "tone": "dry", "text": "Hm. Your old hair was fine, you know." }
+    ],
     "chat.open.interest": [
       { "tone": "any", "text": "Can I tell you about {topic}? I've been thinking about it all week." },
       { "tone": "shy", "text": "I, um... have you ever gotten really into {topic}? Because I have." },

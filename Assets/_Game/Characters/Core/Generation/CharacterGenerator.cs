@@ -287,7 +287,8 @@ namespace Game.Characters.Generation
             return part.RequiresTags.All(tag => worn.Any(other => other.Tags.Contains(tag)));
         }
 
-        void DropIncompatibleParts(CharacterDna dna)
+        /// <summary>Takes off optional parts the rest of the look no longer agrees with (a hat over hair that can't take one).</summary>
+        public void DropIncompatibleParts(CharacterDna dna)
         {
             List<PartEntry> hair = dna.Hair.PieceIds.Select(_catalog.Part).Where(p => p != null).ToList();
             foreach (OutfitDna outfit in dna.Outfits)
