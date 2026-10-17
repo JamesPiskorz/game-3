@@ -31,6 +31,7 @@ namespace Game.Town
             "press:act-talk", "press:topic-{liked}", "shot:talk",
             "befriend", "press:act-gift", "press:gift-{gift}", "shot:gift",
             "press:act-date", "press:dateplace-park", "shot:date",
+            "press:dateopt-{best}", "shot:date-round", "press:dateopt-{best}", "press:dateopt-{best}", "shot:date-end",
             "press:act-end-date", "press:place-mall", "press:buy-0", "shot:boutique",
             "hour:20", "press:place-bar", "press:here-0", "shot:bar",
             "hour:22", "press:place-park", "shot:park-night",
@@ -132,7 +133,8 @@ namespace Game.Town
             SimCatalog catalog = screen.Session.World.Catalog;
             string liked = selected.Profile.Interests.Where(i => i.Value >= 0.5f).OrderByDescending(i => i.Value).Select(i => i.Key).First();
             string gift = catalog.Gifts.First(g => g.Topics.Contains(liked)).Id;
-            return name.Replace("{liked}", liked).Replace("{gift}", gift);
+            string best = screen.Session.Date == null || screen.Session.Date.Finished ? "0" : screen.Session.Date.BestOption().ToString();
+            return name.Replace("{liked}", liked).Replace("{gift}", gift).Replace("{best}", best);
         }
 
         static void Press(TownScreen screen, string name)

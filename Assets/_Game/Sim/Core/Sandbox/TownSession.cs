@@ -30,6 +30,9 @@ namespace Game.Sim.Sandbox
         /// <summary>Who's on a date with the player; while set, it's just the two of them.</summary>
         public Resident DateWith { get; private set; }
 
+        /// <summary>The date in progress (its rounds and options), while <see cref="DateWith"/> is set.</summary>
+        public DateScene Date { get; private set; }
+
         /// <summary>The latest interaction and who it was with, for the dialogue box.</summary>
         public InteractionResult Last { get; private set; }
         public Resident Speaker { get; private set; }
@@ -60,6 +63,7 @@ namespace Game.Sim.Sandbox
                     if (!world.Player.Wardrobe.Any(owned => Same(owned, item))) world.Player.Wardrobe.Add(Copy(item));
             Act = new Interactions(world);
             Selected = DateWith = Speaker = null;
+            Date = null;
             Last = null;
             Notice = null;
             Raise();
@@ -284,10 +288,12 @@ namespace Game.Sim.Sandbox
                 return null;
             }
             Resident partner = Selected;
-            InteractionResult result = Do(r => Act.AskOnDate(r, location), keepTime: true);
-            if (result?.Reaction == "date.yes")
+            DateScene scene = null;
+            InteractionResult result = Do(r => Act.Invite(r, location, out scene), keepTime: true);
+            if (scene != null)
             {
                 DateWith = partner;
+                Date = scene;
                 World.Player.Location = location;
                 World.Player.Outfit = DateOutfit;
                 Selected = partner;
@@ -301,15 +307,58 @@ namespace Game.Sim.Sandbox
             return result;
         }
 
-        /// <summary>Says goodbye after a date; the player stays where the date was.</summary>
+        /// <summary>
+        /// Plays a round of the date in progress. After the last round the date wraps up: the reply comes with how
+        /// the whole date went as its follow-up.
+        /// </summary>
+        public InteractionResult DateChoose(int option)
+        {
+            Notice = null;
+            if (Date == null || Date.Finished || option < 0 || option >= Date.Options.Count)
+            {
+                Notice = "There's nothing to choose right now.";
+                Raise();
+                return null;
+            }
+            InteractionResult result = Act.DateChoose(Date, option);
+            if (Date.Done) result = Combine(result, Act.FinishDate(Date));
+            Last = result;
+            Speaker = DateWith;
+            Raise();
+            return result;
+        }
+
+        /// <summary>Says goodbye after a date (ending it early counts the rounds so far); the player stays where it was.</summary>
         public void EndDate()
         {
             if (DateWith == null) return;
+            if (Date != null && !Date.Finished)
+            {
+                Last = Act.FinishDate(Date);
+                Speaker = DateWith;
+            }
             Notice = $"You say goodbye to {DateWith.Profile.FirstName}.";
             EndDateQuietly();
             AfterTimePasses();
             Raise();
         }
+
+        /// <summary>A round's reply followed by the date's outcome, as one exchange.</summary>
+        static InteractionResult Combine(InteractionResult round, InteractionResult outcome) => new InteractionResult
+        {
+            Kind = round.Kind,
+            Reaction = round.Reaction,
+            Line = round.Line,
+            FollowUp = outcome.Line,
+            FollowUpReaction = outcome.Reaction,
+            Before = round.Before,
+            After = outcome.After,
+            Familiarity = round.Familiarity + outcome.Familiarity,
+            Affection = round.Affection + outcome.Affection,
+            Attraction = round.Attraction + outcome.Attraction,
+            Trust = round.Trust + outcome.Trust,
+            Learnt = round.Learnt ?? outcome.Learnt,
+        };
 
         InteractionResult Do(Func<Resident, InteractionResult> verb, bool keepTime = false)
         {
@@ -332,7 +381,9 @@ namespace Game.Sim.Sandbox
         void EndDateQuietly()
         {
             if (DateWith == null) return;
+            if (Date != null && !Date.Finished) Act.FinishDate(Date);
             DateWith = null;
+            Date = null;
             World.Player.Outfit = DayOutfit;
         }
 

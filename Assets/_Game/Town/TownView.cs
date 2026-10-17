@@ -223,6 +223,12 @@ namespace Game.Town
             if (rel.KnownLikes.Count > 0) Add(_card, new Label("Loves " + Topics(rel.KnownLikes)), "known", "liked");
             if (rel.KnownDislikes.Count > 0) Add(_card, new Label("Not into " + Topics(rel.KnownDislikes)), "known", "disliked");
 
+            if (_session.Date != null)
+            {
+                DateCard(world, rel);
+                return;
+            }
+
             var actions = Add(_card, new VisualElement(), "actions");
             if (_session.DateWith == null) Add(actions, Button("act-greet", "Say hi", () => _session.Greet()));
             Add(actions, Picker("act-talk", "Talk about…", "talk"));
@@ -258,6 +264,28 @@ namespace Game.Town
                     break;
             }
             if (_session.DateWith != null && _choices != "talk") choices.style.display = DisplayStyle.None;
+        }
+
+        /// <summary>During a date: the round, what you could do next, and goodnight.</summary>
+        void DateCard(SimWorld world, Relationship rel)
+        {
+            DateScene date = _session.Date;
+            string progress = date.Finished ? "The date's over." : $"Round {date.Round + 1} of {DateScene.Rounds}: what next?";
+            Add(_card, new Label($"On a date at {date.Place.Name}. {progress}"), "date-progress");
+            if (!date.Finished)
+            {
+                var options = Add(_card, new VisualElement(), "chips", "choices");
+                for (int i = 0; i < date.Options.Count; i++)
+                {
+                    int index = i;
+                    DateOption option = date.Options[i];
+                    Button button = Add(options, Button("dateopt-" + i, option.Label, () => _session.DateChoose(index)), "chip");
+                    if (option.Topic != null && rel.KnownLikes.Contains(option.Topic)) button.AddToClassList("liked");
+                    if (option.Topic != null && rel.KnownDislikes.Contains(option.Topic)) button.AddToClassList("disliked");
+                }
+            }
+            var actions = Add(_card, new VisualElement(), "actions");
+            Add(actions, Button("act-end-date", "Say goodnight", () => _session.EndDate()), date.Finished ? "primary" : "chip");
         }
 
         void Meter(string label, float value, string kind)

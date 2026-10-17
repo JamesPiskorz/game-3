@@ -232,6 +232,41 @@
       { "tone": "bubbly", "text": "Ooh, slow down, we've barely started!" },
       { "tone": "dry", "text": "Ask me again after you've bought me a coffee. Or five." }
     ],
+    "date.talk.love": [
+      { "tone": "any", "text": "I could talk about {topic} with you all night." },
+      { "tone": "shy", "text": "Talking about {topic} with you is... really nice." },
+      { "tone": "bubbly", "text": "Okay, this date just got ten times better. {topic}!" },
+      { "tone": "dry", "text": "{topic}. You really did your homework." }
+    ],
+    "date.talk.neutral": [
+      { "tone": "any", "text": "{topic}? Sure, why not." },
+      { "tone": "warm", "text": "I don't know much about {topic}, but I like listening to you." },
+      { "tone": "dry", "text": "{topic}. Bold choice for a date." }
+    ],
+    "date.talk.dislike": [
+      { "tone": "any", "text": "Oh... {topic}. Could we talk about something else?" },
+      { "tone": "shy", "text": "Um... {topic} isn't really my thing..." },
+      { "tone": "dry", "text": "{topic}? On a date? Interesting strategy." }
+    ],
+    "date.repeat": [
+      { "tone": "any", "text": "We already talked about {topic}, silly." },
+      { "tone": "dry", "text": "{topic} again. Are you nervous?" }
+    ],
+    "date.compliment": [
+      { "tone": "any", "text": "You're making me blush." },
+      { "tone": "shy", "text": "St-stop it... no, actually, don't." },
+      { "tone": "bubbly", "text": "Flattery will get you everywhere!" },
+      { "tone": "dry", "text": "Smooth. Annoyingly smooth." }
+    ],
+    "date.compliment.again": [
+      { "tone": "any", "text": "Okay, okay, I get it!" },
+      { "tone": "dry", "text": "You've used that line already." }
+    ],
+    "date.awkward": [
+      { "tone": "any", "text": "Well... that was a date. Thanks, I guess." },
+      { "tone": "shy", "text": "Sorry, I think I was just nervous..." },
+      { "tone": "dry", "text": "That was... a learning experience." }
+    ],
     "date.great": [
       { "tone": "any", "text": "That was wonderful. {location} was perfect." },
       { "tone": "warm", "text": "Thank you for today. I didn't want it to end." },

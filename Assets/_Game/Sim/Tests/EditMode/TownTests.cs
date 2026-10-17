@@ -32,7 +32,8 @@ namespace Game.Sim.Tests
                 "greet.remember.date", "greet.remember.gift", "greet.remember.topic",
                 "talk.love", "talk.neutral", "talk.dislike", "talk.bored", "compliment.pleased", "compliment.style", "compliment.awkward",
                 "gift.love", "gift.ok", "gift.dislike", "gift.awkward", "gift.again",
-                "date.yes", "date.no", "date.notyet", "date.great", "date.fine",
+                "date.yes", "date.no", "date.notyet", "date.great", "date.fine", "date.awkward",
+                "date.talk.love", "date.talk.neutral", "date.talk.dislike", "date.repeat", "date.compliment", "date.compliment.again",
             };
             foreach (string key in reactions)
                 Assert.That(sim.Dialogue.TryGetValue(key, out var lines) && lines.Count > 0, $"No lines for '{key}'.");

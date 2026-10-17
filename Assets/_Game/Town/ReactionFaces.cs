@@ -34,6 +34,13 @@ namespace Game.Town
                 case "date.notyet": return ("shy", 0.6f);
                 case "date.great": return ("delighted", 1f);
                 case "date.fine": return ("happy", 0.7f);
+                case "date.awkward": return ("sad", 0.5f);
+                case "date.talk.love": return dry ? ("happy", 0.9f) : ("delighted", 1f);
+                case "date.talk.neutral": return ("happy", 0.4f);
+                case "date.talk.dislike": return ("annoyed", 0.6f);
+                case "date.repeat": return ("surprised", 0.4f);
+                case "date.compliment": return shy ? ("shy", 1f) : ("happy", 0.9f);
+                case "date.compliment.again": return ("annoyed", 0.3f);
                 default: return ("neutral", 0f);
             }
         }

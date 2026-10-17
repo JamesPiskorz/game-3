@@ -282,3 +282,10 @@ Button.selected,
 .choices {
     margin-top: 6px;
 }
+
+.date-progress {
+    margin-top: 10px;
+    color: rgb(255, 196, 214);
+    white-space: normal;
+    -unity-font-style: bold;
+}
