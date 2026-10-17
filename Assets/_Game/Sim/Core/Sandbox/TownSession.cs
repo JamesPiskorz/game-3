@@ -248,6 +248,7 @@ namespace Game.Sim.Sandbox
             outfit.Items = next;
             World.Player.LookVersion++;
             World.Advance(ChangeMinutes);
+            AfterTimePasses();
             if (!quiet) Notice = $"You change into the {(part.Name ?? ContentCatalog.Humanize(part.Id)).ToLowerInvariant()}.";
             Raise();
             return true;
