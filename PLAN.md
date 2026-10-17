@@ -2,6 +2,8 @@
 
 _Draft v1 · 2026-10-17 · Engine: Unity 6 (URP) · Look: 3D stylized/anime · Art: in-house, small team_
 
+> **Progress:** Phase 0 is done apart from the style bible and Spike C (UMA). Phase 2's generator, creator and quality gate are done on procedural stand-in content. See [Docs/STATUS.md](Docs/STATUS.md) and the decision records in [Docs/decisions](Docs/decisions/).
+
 ---
 
 ## 1. What we're building
@@ -30,13 +32,14 @@ A 3D anime-style dating sim set in a small free-roam town. There is no fixed cas
 
 | Area | Decision | Why |
 |---|---|---|
-| Render pipeline | **URP** + Shader Graph | Well-trodden path for toon/NPR; scales across PC hardware |
+| Render pipeline | **URP**, character shaders in **HLSL** (decision 0002) | Well-trodden path for toon/NPR; Shader Graph can't do the multi-pass outline cleanly |
 | Character system | **Custom**, built on our own DNA model. UMA gets a timeboxed evaluation spike | The anime look needs custom shading, hair handling and a custom face rig. UMA is built around realistic texture-overlay compositing |
 | Base body | **One shared topology, UV layout and skeleton** for everyone. Masculine↔feminine is a shape axis | Each clothing item is authored once and fits every body. Fallback: two bases that share topology |
 | Body shaping | **Bones first, blendshapes only where bones can't do it** | Clothing follows bones automatically. Every body blendshape must be transferred onto every clothing item, so we keep that list short |
 | Face shaping | **Hybrid:** face bones for proportions, blendshapes for shape types and expressions | Expressions stay correct when features are moved or scaled |
 | Variety | **Grayscale/mask-authored textures recoloured in the shader** | One hairstyle comes in any colour. One shirt gives N colourways × M patterns |
 | Source of truth | **`CharacterDna`**: versioned and serialized. Seeds are only used to generate | Content updates never change existing saved characters |
+| Content data | **`Catalog.json`** (pure data) + `CharacterContent.asset` (engine bindings) (decision 0004) | The generator and its rules are tested without the editor |
 | UI | **UI Toolkit** | Mature runtime UI in Unity 6; well suited to the slider-heavy creator |
 | Version control | **Git + Git LFS** | Binary-heavy art; UnityYAMLMerge for scenes and prefabs |
 
@@ -514,11 +517,11 @@ Goal: the full pipeline, end to end and at production quality, with a small set 
 
 ## 11. First two weeks: next steps
 
-- [ ] Create the Unity 6 URP project in this folder and pin the editor version.
-- [ ] Run `git init` and add the Unity `.gitignore`, LFS `.gitattributes` and UnityYAMLMerge config. Set Force Text and Visible Meta.
-- [ ] Install the packages from §6.
-- [ ] Create the folder layout and asmdefs (`Game.Characters` with `noEngineReferences`, `Game.Characters.Unity`, Editor, Tests).
-- [ ] Implement `CharacterDna` v1 and PCG32, with JSON round-trip and determinism tests.
+- [x] Create the Unity 6 URP project in this folder and pin the editor version.
+- [x] Run `git init` and add the Unity `.gitignore`, LFS `.gitattributes` and UnityYAMLMerge config. Set Force Text and Visible Meta.
+- [x] Install the packages from §6.
+- [x] Create the folder layout and asmdefs (`Game.Characters` with `noEngineReferences`, `Game.Characters.Unity`, Editor, Tests).
+- [x] Implement `CharacterDna` v1 and PCG32, with JSON round-trip and determinism tests.
 - [ ] Art: write the style bible, and block out the base-body proportions and skeleton in Blender.
-- [ ] Run spikes A–D and write the decision records.
+- [x] Run spikes A, B and D and write the decision records (0001–0003). Spike C (UMA) is still open.
 - [ ] Answer the open questions in §10, especially platform and camera.
