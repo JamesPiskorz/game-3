@@ -83,6 +83,12 @@ namespace Game.Sim.Relationships
                 total += best;
                 styled++;
             }
+            // Makeup is part of the look too (freckles and beauty marks aren't a choice, so they don't count).
+            if (player.Face.Makeup != null && player.Face.Makeup.Any(m => m.OverlayId == Makeup.Lipstick || Makeup.SlotOf(characters, m.OverlayId) == Slots.FaceBlush))
+            {
+                total += MakeupTaste(resident, characters);
+                styled++;
+            }
             if (styled == 0) return 0f;
 
             float style = total / styled;

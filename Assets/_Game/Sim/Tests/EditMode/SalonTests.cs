@@ -165,6 +165,20 @@ namespace Game.Sim.Tests
             Assert.That(act.Greet(sceptic).Reaction, Is.EqualTo("greet.player.makeup.meh"));
         }
 
+        [Test]
+        public void MakeupCountsInFirstImpressionsByTaste()
+        {
+            AtTheSalon(out SimWorld world);
+            CharacterDna bare = world.Player.Dna;
+            bare.Face.Makeup.Clear();
+            CharacterDna madeUp = DnaSerializer.FromJson(DnaSerializer.ToJson(bare, indented: false));
+            madeUp.Face.Makeup.Add(new OverlayDna { OverlayId = Makeup.Lipstick, Tint = Salon.Lipsticks(world.Characters)[0], Opacity = 1f });
+            Resident fan = world.Residents.OrderByDescending(r => FirstImpression.MakeupTaste(r.Profile, world.Characters)).First();
+            Resident sceptic = world.Residents.OrderBy(r => FirstImpression.MakeupTaste(r.Profile, world.Characters)).First();
+            float Score(Resident r, CharacterDna look) => FirstImpression.Score(r.Profile, look, TownSession.DayOutfit, world.Characters);
+            Assert.That(Score(fan, madeUp) - Score(fan, bare), Is.GreaterThan(Score(sceptic, madeUp) - Score(sceptic, bare)));
+        }
+
         static CharacterDna Cut(SimWorld world, PartEntry cut)
         {
             CharacterDna dna = DnaSerializer.FromJson(DnaSerializer.ToJson(world.Player.Dna, indented: false));

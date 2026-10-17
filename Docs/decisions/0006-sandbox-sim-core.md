@@ -86,7 +86,7 @@
 
 30. **The AutoPlayer shops, and buys presents.** It had never bought anything: it tried the boutique first thing on Saturday, before opening time. Now it waits for opening, dresses for its crush, and when a piece is very much a friend's style and would fit their look, buys it as a present and gives it when they next meet. Over 16 towns and 45 days it buys about 4.4 pieces, 2 of them presents, and about 1 gets worn. Partner pacing moved from 12.8 to 13.4 days, inside its usual range.
 
-31. **Makeup at the salon, judged by style.** The player can buy lipstick (any shade in the catalog's lip palettes) and blush. People who knew the player before react by a makeup taste: their style tastes weighted by how much each style wears lipstick and blush itself. Over a town that runs from 0.29 (20th percentile) to 0.56 (80th); "loves it" is 0.55 and "not sure" below 0.3. Taking makeup off is free and nobody remarks on it.
+31. **Makeup at the salon, judged by style.** The player can buy lipstick (any shade in the catalog's lip palettes) and blush. People who knew the player before react by a makeup taste: their style tastes weighted by how much each style wears lipstick and blush itself. Over a town that runs from 0.29 (20th percentile) to 0.56 (80th); "loves it" is 0.55 and "not sure" below 0.3. Taking makeup off is free and nobody remarks on it. Lipstick or blush also counts in first impressions, as one more styled piece scored by that same makeup taste; freckles and beauty marks don't, since they aren't a choice.
 
 ## Pacing (simulated, 24 residents, 60 days)
 
