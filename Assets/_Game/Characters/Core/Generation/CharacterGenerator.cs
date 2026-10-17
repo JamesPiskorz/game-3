@@ -221,11 +221,24 @@ namespace Game.Characters.Generation
                     Wear(glasses);
 
                 var outfit = new OutfitDna { Context = contextId };
-                OutfitColourer.Colour(rng, _catalog, archetype, palette, items, outfit);
+                OutfitColourer.Colour(rng, _catalog, archetype, palette, items, outfit, SkinColour(dna.Skin.Tone));
                 foreach (ItemDna item in outfit.Items.Where(i => i.ItemId == glasses?.Id))
                     item.RegionColors[0] = glassesColour;
                 dna.Outfits.Add(outfit);
             }
+        }
+
+        /// <summary>The skin's base colour at <paramref name="tone"/>, from the catalog's reference ramp.</summary>
+        public HsvColor SkinColour(float tone)
+        {
+            List<PaletteColour> stops = _catalog.Palette(_catalog.Skin.ReferencePalette).Colours;
+            if (stops.Count == 1) return HsvColor.FromHex(stops[0].Hex);
+            float position = Clamp01(tone) * (stops.Count - 1);
+            int index = Math.Min((int)position, stops.Count - 2);
+            HsvColor.FromHex(stops[index].Hex).ToRgb(out float r0, out float g0, out float b0);
+            HsvColor.FromHex(stops[index + 1].Hex).ToRgb(out float r1, out float g1, out float b1);
+            float t = position - index;
+            return HsvColor.FromRgb(r0 + (r1 - r0) * t, g0 + (g1 - g0) * t, b0 + (b1 - b0) * t);
         }
 
         // A one-piece competes as a single option against "separates", which are the more common choice.

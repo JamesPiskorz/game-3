@@ -142,6 +142,24 @@ namespace Game.Characters.Tests.Generation
         }
 
         [Test]
+        public void TorsoAndLegClothing_NeverMatchesTheSkin()
+        {
+            for (ulong seed = 0; seed < 3000; seed++)
+            {
+                CharacterDna dna = _generator.Generate(seed);
+                HsvColor skin = _generator.SkinColour(dna.Skin.Tone);
+                foreach (OutfitDna outfit in dna.Outfits)
+                    foreach (ItemDna item in outfit.Items)
+                    {
+                        string slot = _catalog.Part(item.ItemId).Slot;
+                        if (slot != Slots.Top && slot != Slots.Bottom && slot != Slots.OnePiece) continue;
+                        Assert.That(HsvColor.Distance(item.RegionColors[0], skin), Is.GreaterThanOrEqualTo(_catalog.Skin.MinClothingContrast),
+                            $"seed {seed}: {item.ItemId} {item.RegionColors[0]} against skin {skin}");
+                    }
+            }
+        }
+
+        [Test]
         public void AddingASlider_DoesNotChangeTheOthers()
         {
             ContentCatalog extended = Catalogs.Project();

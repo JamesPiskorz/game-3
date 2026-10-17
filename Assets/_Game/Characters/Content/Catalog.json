@@ -91,6 +91,9 @@
       { "hex": "#3B2418", "weight": 4 }, { "hex": "#5A3820", "weight": 3 }, { "hex": "#7A5A2E", "weight": 1.5 },
       { "hex": "#B07A30", "weight": 0.8 }, { "hex": "#4E7A4A", "weight": 1 }, { "hex": "#3E6E9E", "weight": 1.2 },
       { "hex": "#7A8A96", "weight": 0.8 } ] },
+    { "id": "skin.reference", "colours": [
+      { "hex": "#FCE7DA" }, { "hex": "#F6D2BC" }, { "hex": "#EAB995" }, { "hex": "#D49F78" },
+      { "hex": "#B47D58" }, { "hex": "#8F5D3E" }, { "hex": "#6B422B" }, { "hex": "#4B2D1E" } ] },
     { "id": "eyes.fantasy", "colours": [
       { "hex": "#8A4FD0" }, { "hex": "#C8303C" }, { "hex": "#D8A830" }, { "hex": "#2FB0A8" }, { "hex": "#E070A8" } ] },
 
@@ -145,5 +148,6 @@
   ],
 
   "hair": { "naturalPalette": "hair.natural", "fantasyPalette": "hair.fantasy" },
-  "eyes": { "naturalPalette": "eyes.natural", "fantasyPalette": "eyes.fantasy", "heterochromiaChance": 0.02 }
+  "eyes": { "naturalPalette": "eyes.natural", "fantasyPalette": "eyes.fantasy", "heterochromiaChance": 0.02 },
+  "skin": { "referencePalette": "skin.reference", "minClothingContrast": 0.2 }
 }

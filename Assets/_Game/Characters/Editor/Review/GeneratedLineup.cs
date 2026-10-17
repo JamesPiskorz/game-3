@@ -20,8 +20,6 @@ namespace Game.Characters.Review
     {
         public const string Folder = "Docs/review";
         public const ulong DefaultWorldSeed = 2026;
-        const int Count = 32;
-        const int Columns = 8;
         const float Spacing = 4f; // far enough apart that each tile shows one character
 
         public static void RegenerateContentAndRender()
@@ -31,23 +29,27 @@ namespace Game.Characters.Review
         }
 
         [MenuItem("Game/Characters/Review/Render Generated Lineup")]
-        public static void Render() => Render(DefaultWorldSeed);
+        public static void Render() => Render(DefaultWorldSeed, 32, 8, "", 300, true);
 
-        public static void Render(ulong worldSeed)
+        /// <summary>The quality-gate sheet (PLAN.md §3.8): 96 residents of another town, casual only, smaller tiles.</summary>
+        [MenuItem("Game/Characters/Review/Render Quality Sheet (96)")]
+        public static void RenderQualitySheet() => Render(7, 96, 12, "qa-", 200, false, onlyFirstContext: true);
+
+        public static void Render(ulong worldSeed, int count, int columns, string prefix, int tileWidth, bool faces, bool onlyFirstContext = false)
         {
             var generator = new CharacterGenerator(StandInContent.Load().LoadCatalog());
-            List<CharacterDna> residents = new PopulationGenerator(generator).Generate(worldSeed, Count);
+            List<CharacterDna> residents = new PopulationGenerator(generator).Generate(worldSeed, count);
 
-            foreach (string context in generator.Catalog.Contexts.Select(c => c.Id))
+            foreach (string context in generator.Catalog.Contexts.Select(c => c.Id).Take(onlyFirstContext ? 1 : int.MaxValue))
             {
                 EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
                 // NewScene unloads unused assets, so load content after it.
                 var builder = new CharacterBuilder(StandInContent.Load());
-                Vector3[] positions = Enumerable.Range(0, Count).Select(i => new Vector3(i * Spacing, 0f, 0f)).ToArray();
+                Vector3[] positions = Enumerable.Range(0, count).Select(i => new Vector3(i * Spacing, 0f, 0f)).ToArray();
                 LightingRig.Day.Apply(positions);
 
                 var characters = new List<ModularCharacter>();
-                for (int i = 0; i < Count; i++)
+                for (int i = 0; i < count; i++)
                 {
                     ModularCharacter character = builder.Build(residents[i], context);
                     character.transform.position = positions[i];
@@ -57,19 +59,20 @@ namespace Game.Characters.Review
 
                 Camera camera = Snapshot.CreateCamera(LightingRig.Day.Background);
                 var bodies = new List<Texture2D>();
-                var faces = new List<Texture2D>();
+                var faceShots = new List<Texture2D>();
                 foreach (ModularCharacter character in characters)
                 {
                     Vector3 origin = character.transform.position;
-                    bodies.Add(Snapshot.Shoot(camera, origin + new Vector3(0f, 1.0f, 3.7f), origin + new Vector3(0f, 0.93f, 0f), 300, 600));
+                    bodies.Add(Snapshot.Shoot(camera, origin + new Vector3(0f, 1.0f, 3.7f), origin + new Vector3(0f, 0.93f, 0f), tileWidth, tileWidth * 2));
+                    if (!faces) continue;
                     Vector3 head = HeadPosition(character);
-                    faces.Add(Snapshot.Shoot(camera, head + new Vector3(0.1f, 0.02f, 0.62f), head, 260, 260));
+                    faceShots.Add(Snapshot.Shoot(camera, head + new Vector3(0.1f, 0.02f, 0.62f), head, 260, 260));
                 }
 
-                Snapshot.Save(Snapshot.Grid(bodies, Columns, Color.black), $"{Folder}/lineup-{context}.png");
-                Snapshot.Save(Snapshot.Grid(faces, Columns, Color.black), $"{Folder}/faces-{context}.png");
+                Snapshot.Save(Snapshot.Grid(bodies, columns, Color.black), $"{Folder}/{prefix}lineup-{context}.png");
+                if (faces) Snapshot.Save(Snapshot.Grid(faceShots, columns, Color.black), $"{Folder}/{prefix}faces-{context}.png");
             }
-            Debug.Log($"[Review] Rendered {Count} generated residents (world seed {worldSeed}) to {Folder}");
+            Debug.Log($"[Review] Rendered {count} generated residents (world seed {worldSeed}) to {Folder}");
         }
 
         static Vector3 HeadPosition(ModularCharacter character)

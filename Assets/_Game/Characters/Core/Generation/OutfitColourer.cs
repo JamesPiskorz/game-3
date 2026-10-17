@@ -9,7 +9,8 @@ namespace Game.Characters.Generation
     /// <summary>
     /// Colours an outfit from the archetype's palette with a harmony scheme rather than independent random picks:
     /// one accent plus neutrals, placed by a scheme (accent top, accent bottom, monochrome, or neutral with accent
-    /// details), with top and bottom kept apart in value or hue so outfits read as separate pieces.
+    /// details), with top and bottom kept apart in value or hue so outfits read as separate pieces, and clothing over the
+    /// torso and legs kept apart from the skin so it never reads as bare skin.
     /// </summary>
     public static class OutfitColourer
     {
@@ -17,8 +18,9 @@ namespace Game.Characters.Generation
 
         enum Scheme { AccentTop, AccentBottom, Monochrome, AccentDetails }
 
-        public static void Colour(Pcg32 rng, ContentCatalog catalog, StyleArchetype archetype, ColourPalette palette, IReadOnlyList<PartEntry> parts, OutfitDna outfit)
+        public static void Colour(Pcg32 rng, ContentCatalog catalog, StyleArchetype archetype, ColourPalette palette, IReadOnlyList<PartEntry> parts, OutfitDna outfit, HsvColor skin)
         {
+            float skinContrast = catalog.Skin.MinClothingContrast;
             List<PaletteColour> neutrals = palette.Colours.Where(c => c.Neutral).ToList();
             List<PaletteColour> accents = palette.Colours.Where(c => !c.Neutral).ToList();
             if (neutrals.Count == 0) neutrals = palette.Colours;
@@ -39,8 +41,8 @@ namespace Game.Characters.Generation
                 case Scheme.Monochrome: top = accent; bottom = Colours.Shift(accent, 0f, 0.05f, accent.V > 0.5f ? -0.35f : 0.3f); break;
                 default: top = neutral1; bottom = neutral2; break;
             }
-            if (HsvColor.Distance(top, bottom) < MinTopBottomContrast)
-                bottom = Colours.Shift(bottom, 0f, 0f, bottom.V > 0.5f ? -0.35f : 0.35f);
+            top = AwayFromSkin(top, skin, skinContrast, accent, neutral1, neutral2);
+            bottom = PickBottom(bottom, top, skin, skinContrast, neutral1, neutral2, accent);
 
             foreach (PartEntry part in parts)
             {
@@ -77,6 +79,37 @@ namespace Game.Characters.Generation
                 }
                 outfit.Items.Add(item);
             }
+        }
+
+        // Margin for the per-item jitter applied afterwards, so the final colour still clears the minimum.
+        const float JitterMargin = 0.08f;
+
+        /// <summary>The colour if it stands apart from the skin; otherwise the first alternative that does; otherwise a value shift.</summary>
+        static HsvColor AwayFromSkin(HsvColor colour, HsvColor skin, float minimum, params HsvColor[] alternatives)
+        {
+            float needed = minimum + JitterMargin;
+            if (HsvColor.Distance(colour, skin) >= needed) return colour;
+            foreach (HsvColor alternative in alternatives)
+                if (HsvColor.Distance(alternative, skin) >= needed) return alternative;
+            return Colours.Shift(colour, 0f, 0f, skin.V > 0.5f ? -0.45f : 0.45f);
+        }
+
+        /// <summary>
+        /// The first candidate that stands apart from both the skin and the top: the scheme's choice, then the other
+        /// palette picks, then lighter and darker variants. Skin contrast wins if nothing satisfies both.
+        /// </summary>
+        static HsvColor PickBottom(HsvColor bottom, HsvColor top, HsvColor skin, float skinContrast, HsvColor neutral1, HsvColor neutral2, HsvColor accent)
+        {
+            HsvColor[] candidates =
+            {
+                bottom, neutral1, neutral2, accent,
+                Colours.Shift(bottom, 0f, 0f, -0.35f), Colours.Shift(bottom, 0f, 0f, 0.35f),
+                Colours.Shift(top, 0f, 0f, -0.45f), Colours.Shift(top, 0f, 0f, 0.45f),
+            };
+            foreach (HsvColor candidate in candidates)
+                if (HsvColor.Distance(candidate, skin) >= skinContrast + JitterMargin && HsvColor.Distance(candidate, top) >= MinTopBottomContrast)
+                    return candidate;
+            return AwayFromSkin(bottom, skin, skinContrast, neutral1, neutral2, accent);
         }
 
         static int PickIndex(Pcg32 rng, params float[] weights)

@@ -27,6 +27,7 @@ namespace Game.Characters.Content
         public List<OutfitContext> Contexts = new List<OutfitContext>();
         public HairRules Hair = new HairRules();
         public EyeRules Eyes = new EyeRules();
+        public SkinRules Skin = new SkinRules();
 
         public PartEntry Part(string id) => Parts.FirstOrDefault(p => p.Id == id);
         public ColourPalette Palette(string id) => Palettes.FirstOrDefault(p => p.Id == id);
@@ -70,7 +71,7 @@ namespace Game.Characters.Content
                     if (FaceSliders.All(s => s.Id != slider)) errors.Add($"Face preset '{preset.Id}' sets unknown slider '{slider}'.");
             foreach (StyleArchetype archetype in Archetypes)
                 if (Palette(archetype.OutfitPalette) == null) errors.Add($"Archetype '{archetype.Id}' uses unknown palette '{archetype.OutfitPalette}'.");
-            foreach (string palette in new[] { Hair.NaturalPalette, Hair.FantasyPalette, Eyes.NaturalPalette, Eyes.FantasyPalette })
+            foreach (string palette in new[] { Hair.NaturalPalette, Hair.FantasyPalette, Eyes.NaturalPalette, Eyes.FantasyPalette, Skin.ReferencePalette })
                 if (Palette(palette) == null) errors.Add($"Unknown palette '{palette}'.");
             foreach (ColourPalette palette in Palettes)
             {
@@ -254,5 +255,16 @@ namespace Game.Characters.Content
         public string NaturalPalette = "eyes.natural";
         public string FantasyPalette = "eyes.fantasy";
         public float HeterochromiaChance = 0.02f;
+    }
+
+    /// <summary>
+    /// What the generator knows about skin colour: the base colours of the skin ramp, light to dark (the renderer's
+    /// SkinTonePalette holds the full art-directed stops). Used to keep clothing from matching the skin it covers,
+    /// which reads as bare skin.
+    /// </summary>
+    public sealed class SkinRules
+    {
+        public string ReferencePalette = "skin.reference";
+        public float MinClothingContrast = 0.2f;
     }
 }
