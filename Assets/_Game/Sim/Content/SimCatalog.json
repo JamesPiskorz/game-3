@@ -29,20 +29,20 @@
   ],
 
   "gifts": [
-    { "id": "flowers", "name": "a bunch of flowers", "topics": ["nature", "art"] },
-    { "id": "sweets", "name": "a box of sweets", "topics": ["food"] },
-    { "id": "novel", "name": "a novel", "topics": ["books"] },
-    { "id": "game", "name": "a new game", "topics": ["games", "tech"] },
-    { "id": "record", "name": "a vinyl record", "topics": ["music"] },
-    { "id": "sports_bottle", "name": "a sports bottle", "topics": ["sports"] },
-    { "id": "sketchbook", "name": "a sketchbook", "topics": ["art"] },
-    { "id": "plush", "name": "a plush toy", "topics": ["pets", "games"] },
-    { "id": "coffee", "name": "fancy coffee beans", "topics": ["food"] },
-    { "id": "plant", "name": "a little houseplant", "topics": ["nature"] },
-    { "id": "scarf", "name": "a silk scarf", "topics": ["fashion"] },
-    { "id": "gadget", "name": "a clever gadget", "topics": ["tech"] },
-    { "id": "tickets", "name": "two film tickets", "topics": ["film"] },
-    { "id": "guidebook", "name": "a travel guide", "topics": ["travel"] }
+    { "id": "flowers", "name": "a bunch of flowers", "topics": ["nature", "art"], "price": 25 },
+    { "id": "sweets", "name": "a box of sweets", "topics": ["food"], "price": 15 },
+    { "id": "novel", "name": "a novel", "topics": ["books"], "price": 20 },
+    { "id": "game", "name": "a new game", "topics": ["games", "tech"], "price": 45 },
+    { "id": "record", "name": "a vinyl record", "topics": ["music"], "price": 35 },
+    { "id": "sports_bottle", "name": "a sports bottle", "topics": ["sports"], "price": 15 },
+    { "id": "sketchbook", "name": "a sketchbook", "topics": ["art"], "price": 20 },
+    { "id": "plush", "name": "a plush toy", "topics": ["pets", "games"], "price": 25 },
+    { "id": "coffee", "name": "fancy coffee beans", "topics": ["food"], "price": 20 },
+    { "id": "plant", "name": "a little houseplant", "topics": ["nature"], "price": 20 },
+    { "id": "scarf", "name": "a silk scarf", "topics": ["fashion"], "price": 40 },
+    { "id": "gadget", "name": "a clever gadget", "topics": ["tech"], "price": 50 },
+    { "id": "tickets", "name": "two film tickets", "topics": ["film"], "price": 30 },
+    { "id": "guidebook", "name": "a travel guide", "topics": ["travel"], "price": 20 }
   ],
 
   "archetypes": {

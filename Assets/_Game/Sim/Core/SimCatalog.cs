@@ -104,6 +104,7 @@ namespace Game.Sim
     {
         public string Id;
         public string Name;
+        public int Price = 20;
         public List<string> Topics = new List<string>();
     }
 

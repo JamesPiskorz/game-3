@@ -98,15 +98,48 @@ namespace Game.Sim.Sandbox
             Raise();
         }
 
+        /// <summary>
+        /// Ends the day: sums it up, sleeps till morning, and lets relationships the player neglected cool a little.
+        /// Fires <see cref="Slept"/> so the game can autosave.
+        /// </summary>
         public void Sleep()
         {
             EndDateQuietly();
+            string summary = _today.Summary();
             World.Sleep();
+            List<Resident> missing = Decay.NewDay(World);
+            _today = new DayLog();
             Selected = null;
             Last = null;
-            Notice = "A new day: " + World.Now + ".";
+            Notice = (summary.Length > 0 ? summary + " " : "") + "A new day: " + World.Now + "."
+                + string.Concat(missing.Select(r => $" {r.Profile.FirstName} misses you."));
+            Slept?.Invoke();
             Raise();
         }
+
+        /// <summary>After every sleep, once the new day has begun.</summary>
+        public event Action Slept;
+
+        /// <summary>What happened today, for the end-of-day summary.</summary>
+        sealed class DayLog
+        {
+            public int Met, Dates, Earned, Spent;
+
+            public string Summary()
+            {
+                var parts = new List<string>();
+                if (Met > 0) parts.Add(Met == 1 ? "met someone new" : $"met {Met} new people");
+                if (Dates > 0) parts.Add(Dates == 1 ? "went on a date" : $"went on {Dates} dates");
+                if (Earned > 0) parts.Add($"earned {Earned} coins");
+                if (Spent > 0) parts.Add($"spent {Spent}");
+                return parts.Count == 0 ? "" : "Today you " + Join(parts) + ".";
+            }
+
+            static string Join(List<string> parts) =>
+                parts.Count == 1 ? parts[0] : string.Join(", ", parts.Take(parts.Count - 1)) + " and " + parts[parts.Count - 1];
+        }
+
+        DayLog _today = new DayLog();
 
         // ---------------------------------------------------------------- work and clothes
 
@@ -127,6 +160,7 @@ namespace Game.Sim.Sandbox
             int hours = Math.Max(1, Math.Min(ShiftHours, place.Closes - World.Now.Hour));
             World.Advance(hours * 60);
             World.Player.Money += hours * PayPerHour;
+            _today.Earned += hours * PayPerHour;
             Selected = null;
             Last = null;
             Notice = $"You worked {hours} hours at {place.Name}: +{hours * PayPerHour} coins.";
@@ -150,6 +184,7 @@ namespace Game.Sim.Sandbox
             else
             {
                 player.Money -= item.Price;
+                _today.Spent += item.Price;
                 player.Wardrobe.Add(Copy(item.Item));
                 Notice = $"You bought the {item.Name.ToLowerInvariant()}.";
                 Wear(item.Item, quiet: true);
@@ -295,7 +330,27 @@ namespace Game.Sim.Sandbox
         public InteractionResult Greet() => Do(r => Act.Greet(r));
         public InteractionResult Talk(string topic) => Do(r => Act.Talk(r, topic));
         public InteractionResult Compliment() => Do(r => Act.Compliment(r));
-        public InteractionResult Gift(string gift) => Do(r => Act.Gift(r, gift));
+        /// <summary>Gives a gift, which costs its price in coins.</summary>
+        public InteractionResult Gift(string giftId)
+        {
+            GiftEntry gift = World.Catalog.Gift(giftId);
+            if (gift != null && Selected != null && World.Player.Money < gift.Price)
+            {
+                Notice = $"{Capitalise(gift.Name)} costs {gift.Price} coins, and you have {World.Player.Money}.";
+                Raise();
+                return null;
+            }
+            InteractionResult result = Do(r => Act.Gift(r, giftId));
+            if (result != null && gift != null)
+            {
+                World.Player.Money -= gift.Price;
+                _today.Spent += gift.Price;
+                Raise();
+            }
+            return result;
+        }
+
+        static string Capitalise(string text) => string.IsNullOrEmpty(text) ? text : char.ToUpperInvariant(text[0]) + text.Substring(1);
 
         /// <summary>Asks the selected resident out to <paramref name="location"/>. A yes goes there now, both dressed for a date.</summary>
         public InteractionResult AskOnDate(string location)
@@ -340,7 +395,11 @@ namespace Game.Sim.Sandbox
                 return null;
             }
             InteractionResult result = Act.DateChoose(Date, option);
-            if (Date.Done) result = Combine(result, Act.FinishDate(Date));
+            if (Date.Done)
+            {
+                result = Combine(result, Act.FinishDate(Date));
+                _today.Dates++;
+            }
             Last = result;
             Speaker = DateWith;
             Raise();
@@ -355,6 +414,7 @@ namespace Game.Sim.Sandbox
             {
                 Last = Act.FinishDate(Date);
                 Speaker = DateWith;
+                _today.Dates++;
             }
             Notice = $"You say goodbye to {DateWith.Profile.FirstName}.";
             EndDateQuietly();
@@ -390,6 +450,7 @@ namespace Game.Sim.Sandbox
             }
             Resident resident = Selected;
             InteractionResult result = verb(resident);
+            if (result.FirstMeeting) _today.Met++;
             Last = result;
             Speaker = resident;
             if (!keepTime) AfterTimePasses();

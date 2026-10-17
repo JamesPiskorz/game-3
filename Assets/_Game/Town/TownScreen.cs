@@ -54,6 +54,7 @@ namespace Game.Town
 
             Session = new TownSession(world);
             Session.Changed += () => Stage.Show(Session);
+            Session.Slept += Autosave;
 
             VisualElement root = Document.rootVisualElement;
             if (Style != null) root.styleSheets.Add(Style);
@@ -68,6 +69,19 @@ namespace Game.Town
         {
             File.WriteAllText(SavePath, SimSave.Capture(Session.World).ToJson());
             Session.Tell("Saved.");
+        }
+
+        /// <summary>Every night, quietly. Load picks up the morning after.</summary>
+        void Autosave()
+        {
+            try
+            {
+                File.WriteAllText(SavePath, SimSave.Capture(Session.World).ToJson());
+            }
+            catch (IOException e)
+            {
+                Debug.LogWarning("[Town] Autosave failed: " + e.Message);
+            }
         }
 
         void Load()

@@ -301,7 +301,10 @@ namespace Game.Town
                     break;
                 case "gift":
                     foreach (GiftEntry gift in world.Catalog.Gifts)
-                        Add(choices, Button("gift-" + gift.Id, Capitalise(gift.Name), () => _session.Gift(gift.Id)), "chip");
+                    {
+                        Button b = Add(choices, Button("gift-" + gift.Id, $"{Capitalise(gift.Name)}  ·  {gift.Price}", () => _session.Gift(gift.Id)), "chip");
+                        b.SetEnabled(world.Player.Money >= gift.Price);
+                    }
                     break;
                 case "date":
                     foreach (LocationEntry place in world.Catalog.Locations.Where(l => l.IsOpen(world.Now.Hour)))
