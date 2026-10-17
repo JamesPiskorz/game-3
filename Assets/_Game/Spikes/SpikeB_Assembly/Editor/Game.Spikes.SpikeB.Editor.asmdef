@@ -1,0 +1,19 @@
+{
+    "name": "Game.Spikes.SpikeB.Editor",
+    "rootNamespace": "Game.Spikes.SpikeB",
+    "references": [
+        "Game.Characters.Unity",
+        "Game.Spikes.SpikeB"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
