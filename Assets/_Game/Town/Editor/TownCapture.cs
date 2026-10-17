@@ -42,7 +42,7 @@ namespace Game.Town
             "close", "sleep-until-invited", "press:messages", "shot:messages",
             "press:messages", "rainy-day", "press:place-park", "shot:park-rain",
             "press:place-library", "press:activity-read", "shot:library-read",
-            "press:place-gym", "shot:gym",
+            "busy:gym", "press:place-gym", "shot:gym",
         };
 
         static int _frame, _step, _pause;
@@ -136,6 +136,13 @@ namespace Game.Town
                     int minutes = (hour * 60 - (world.Now.Hour * 60 + world.Now.Minute) + 24 * 60) % (24 * 60);
                     screen.Session.Wait(minutes);
                     break;
+                case "busy": // wait, an hour at a time, until at least two people are at a place (at most a day)
+                {
+                    SimWorld w = screen.Session.World;
+                    for (int waited = 0; waited < 24 && (w.At(argument).Count() < 2 || !screen.Session.IsOpen(argument)); waited++)
+                        screen.Session.Wait(60);
+                    break;
+                }
                 case "rainy-day": // the next rainy morning, at home
                 {
                     SimWorld w = screen.Session.World;
