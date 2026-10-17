@@ -30,6 +30,17 @@ namespace Game.Characters.Content
 
         public PartEntry Part(string id) => Parts.FirstOrDefault(p => p.Id == id);
         public ColourPalette Palette(string id) => Palettes.FirstOrDefault(p => p.Id == id);
+
+        /// <summary>"cloth.top.tshirt_01" → "Tshirt": the last ID segment without its variant number, capitalised.</summary>
+        public static string Humanize(string id)
+        {
+            if (string.IsNullOrEmpty(id)) return "";
+            string last = id.Substring(id.LastIndexOf('.') + 1);
+            int underscore = last.LastIndexOf('_');
+            if (underscore > 0 && int.TryParse(last.Substring(underscore + 1), out _)) last = last.Substring(0, underscore);
+            last = last.Replace('_', ' ');
+            return char.ToUpperInvariant(last[0]) + last.Substring(1);
+        }
         public StyleArchetype Archetype(string id) => Archetypes.FirstOrDefault(a => a.Id == id);
         public OutfitContext Context(string id) => Contexts.FirstOrDefault(c => c.Id == id);
         public IEnumerable<PartEntry> PartsInSlot(string slot) => Parts.Where(p => p.Slot == slot);
@@ -112,6 +123,9 @@ namespace Game.Characters.Content
     public sealed class SliderEntry
     {
         public string Id;
+
+        /// <summary>Display name for the creator; null falls back to a name made from the ID.</summary>
+        public string Name;
         public float Min = -1f;
         public float Max = 1f;
         public float MeanMasculine;
@@ -123,6 +137,9 @@ namespace Game.Characters.Content
     public sealed class FacePreset
     {
         public string Id;
+
+        /// <summary>Display name for the creator; null falls back to a name made from the ID.</summary>
+        public string Name;
         public float Weight = 1f;
         public List<string> Tags = new List<string>();
         public Dictionary<string, float> Values = new Dictionary<string, float>();
@@ -132,6 +149,9 @@ namespace Game.Characters.Content
     public sealed class StyleEntry
     {
         public string Id;
+
+        /// <summary>Display name for the creator; null falls back to a name made from the ID.</summary>
+        public string Name;
         public float Weight = 1f;
         public List<string> Tags = new List<string>();
     }
@@ -139,6 +159,9 @@ namespace Game.Characters.Content
     public sealed class PartEntry
     {
         public string Id;
+
+        /// <summary>Display name for the creator; null falls back to a name made from the ID.</summary>
+        public string Name;
         public string Slot;
         public List<string> BlocksSlots = new List<string>();
         public float Weight = 1f;
@@ -168,6 +191,9 @@ namespace Game.Characters.Content
     public sealed class PatternEntry
     {
         public string Id;
+
+        /// <summary>Display name for the creator; null falls back to a name made from the ID.</summary>
+        public string Name;
         public float Weight = 1f;
         public List<string> Tags = new List<string>();
         public float MinScale = 6f;
@@ -194,6 +220,9 @@ namespace Game.Characters.Content
     public sealed class StyleArchetype
     {
         public string Id;
+
+        /// <summary>Display name for the creator; null falls back to a name made from the ID.</summary>
+        public string Name;
         public float Weight = 1f;
         public Dictionary<string, float> TagWeights = new Dictionary<string, float>();
         public string OutfitPalette;
@@ -209,6 +238,7 @@ namespace Game.Characters.Content
     public sealed class OutfitContext
     {
         public string Id;
+        public string Name;
         public Dictionary<string, float> TagWeights = new Dictionary<string, float>();
         public bool Shoes = true;
     }

@@ -1,0 +1,198 @@
+.creator {
+    flex-grow: 1;
+    flex-direction: row;
+    font-size: 15px;
+    color: rgb(236, 232, 240);
+}
+
+.panel {
+    width: 460px;
+    margin: 18px;
+    padding: 16px 16px 12px 16px;
+    background-color: rgba(24, 22, 32, 0.9);
+    border-radius: 14px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.title {
+    flex-shrink: 0;
+    font-size: 24px;
+    -unity-font-style: bold;
+    margin-bottom: 10px;
+}
+
+.row {
+    flex-shrink: 0;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+Button {
+    margin: 2px 6px 2px 0;
+    padding: 5px 12px;
+    border-radius: 8px;
+    border-width: 0;
+    background-color: rgb(54, 50, 68);
+    color: rgb(236, 232, 240);
+}
+
+Button:hover {
+    background-color: rgb(72, 66, 92);
+}
+
+Button:disabled {
+    opacity: 0.4;
+}
+
+.primary {
+    background-color: rgb(216, 98, 142);
+    -unity-font-style: bold;
+}
+
+.primary:hover {
+    background-color: rgb(232, 120, 160);
+}
+
+.tab {
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 0;
+    border-bottom-width: 2px;
+    border-color: rgba(0, 0, 0, 0);
+    padding: 6px 8px;
+}
+
+.tab.selected {
+    border-color: rgb(216, 98, 142);
+    -unity-font-style: bold;
+}
+
+.chip.selected {
+    background-color: rgb(216, 98, 142);
+}
+
+#locks-label {
+    color: rgb(170, 164, 184);
+    margin-right: 6px;
+}
+
+.lock {
+    margin-right: 12px;
+}
+
+.lock > .unity-base-field__label {
+    min-width: 0;
+    margin-right: 4px;
+}
+
+.tab-content {
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-height: 0;
+    margin: 4px 0 8px 0;
+}
+
+.field {
+    margin: 4px 0;
+}
+
+.field > Label {
+    min-width: 150px;
+    color: rgb(200, 194, 214);
+}
+
+.swatch-block {
+    margin: 8px 0 4px 0;
+}
+
+.swatch-block > Label {
+    color: rgb(200, 194, 214);
+    margin-bottom: 4px;
+}
+
+.swatches {
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.swatch {
+    width: 26px;
+    height: 26px;
+    margin: 0 4px 4px 0;
+    padding: 0;
+    border-radius: 13px;
+    border-width: 2px;
+    border-color: rgba(0, 0, 0, 0.35);
+}
+
+.compact .swatch {
+    width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    margin: 0 3px 3px 0;
+}
+
+.swatch.selected {
+    border-color: rgb(255, 255, 255);
+    border-width: 3px;
+}
+
+.reroll {
+    margin-top: 12px;
+    align-self: flex-start;
+}
+
+.footer {
+    flex-shrink: 0;
+    border-top-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+    padding-top: 10px;
+}
+
+.share-code {
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-width: 0;
+    margin-right: 6px;
+}
+
+.status {
+    color: rgb(170, 164, 184);
+    white-space: normal;
+}
+
+.status.error {
+    color: rgb(255, 140, 140);
+}
+
+.preview {
+    flex-grow: 1;
+    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 24px;
+}
+
+.views {
+    background-color: rgba(24, 22, 32, 0.75);
+    border-radius: 12px;
+    padding: 6px 4px 6px 10px;
+}
+
+/* Inputs: the default runtime theme draws them light; match the dark panel. */
+.unity-base-popup-field__input,
+.unity-base-text-field__input {
+    background-color: rgb(44, 41, 58);
+    border-color: rgba(255, 255, 255, 0.12);
+    color: rgb(236, 232, 240);
+}
+
+.unity-base-popup-field__text,
+.unity-text-element--inner-input-field-component {
+    color: rgb(236, 232, 240);
+}
+
+.unity-base-popup-field__arrow {
+    -unity-background-image-tint-color: rgb(200, 194, 214);
+}

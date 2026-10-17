@@ -1,9 +1,9 @@
 using System.Linq;
 using UnityEngine;
 
-namespace Game.Characters.Review
+namespace Game.Characters.Building
 {
-    /// <summary>Simple bone poses for review renders (stand-in skeleton names).</summary>
+    /// <summary>Simple bone poses for previews and review renders (stand-in skeleton names) until animation exists.</summary>
     public static class Poses
     {
         /// <summary>Arms down with a slight bend, so characters can stand close together in a lineup.</summary>

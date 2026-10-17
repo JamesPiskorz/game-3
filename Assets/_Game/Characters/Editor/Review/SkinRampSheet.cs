@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Game.Characters.Building;
 using Game.Characters.ContentAuthoring;
 using Game.Characters.Modular;
 using Game.Characters.Rendering;

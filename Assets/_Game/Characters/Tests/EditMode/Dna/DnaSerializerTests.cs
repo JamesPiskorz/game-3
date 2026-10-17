@@ -87,6 +87,8 @@ namespace Game.Characters.Tests.Dna
         [TestCase("hello")]
         [TestCase("dna1.!!!")]
         [TestCase("dna1.AAAA")]
+        [TestCase("dna1.garbage")]
+        [TestCase("dna1.c2hhcmUgY29kZXMgYXJlIGZ1bg")]
         public void ShareCode_RejectsGarbage(string code)
         {
             Assert.Throws<FormatException>(() => DnaSerializer.FromShareCode(code));

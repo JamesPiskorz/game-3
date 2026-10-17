@@ -84,7 +84,8 @@ namespace Game.Characters.Dna
                 using (var reader = new StreamReader(deflate, Encoding.UTF8))
                     json = reader.ReadToEnd();
             }
-            catch (Exception e) when (e is FormatException || e is InvalidDataException)
+            // .NET reports corrupt deflate data as InvalidDataException; Unity's Mono as IOException.
+            catch (Exception e) when (e is FormatException || e is InvalidDataException || e is IOException)
             {
                 throw new FormatException("Character share code is corrupted.", e);
             }
