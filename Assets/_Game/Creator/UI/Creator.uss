@@ -219,3 +219,14 @@ Button:disabled {
     border-radius: 10px;
     -unity-background-scale-mode: scale-and-crop;
 }
+
+.variation-caption {
+    position: absolute;
+    left: 6px;
+    bottom: 6px;
+    padding: 1px 6px;
+    font-size: 12px;
+    border-radius: 6px;
+    color: rgb(240, 236, 248);
+    background-color: rgba(24, 22, 32, 0.75);
+}

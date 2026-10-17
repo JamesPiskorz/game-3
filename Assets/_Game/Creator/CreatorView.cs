@@ -99,6 +99,14 @@ namespace Game.Creator
                 pick.AddToClassList("variation");
                 if (_thumbnail(candidate, i) is UnityEngine.RenderTexture texture) pick.style.backgroundImage = Background.FromRenderTexture(texture);
                 pick.tooltip = candidate.Style ?? "";
+                // Which style the generator aimed for, in a corner.
+                StyleArchetype style = candidate.Style == null ? null : _catalog.Archetype(candidate.Style);
+                if (style != null)
+                {
+                    var caption = new Label(style.Name ?? style.Id);
+                    caption.AddToClassList("variation-caption");
+                    pick.Add(caption);
+                }
                 grid.Add(pick);
             }
             _variations.Add(TextButton("More like this", "variations-more", ShowVariations));
