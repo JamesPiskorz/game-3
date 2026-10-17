@@ -18,6 +18,7 @@ namespace Game.Sim.Sandbox
         readonly TownSession _session;
         readonly Pcg32 _rng;
         readonly List<string> _diary = new List<string>();
+        readonly List<(string ItemId, int For)> _presents = new List<(string, int)>(); // bought for someone, not yet given
 
         public AutoPlayer(TownSession session, ulong seed)
         {
@@ -69,6 +70,13 @@ namespace Game.Sim.Sandbox
             while (!_session.Date.Finished) Record(_session.DateChoose(_session.Date.BestOption()));
             _session.EndDate();
             return true;
+        }
+
+        /// <summary>Whoever it's keenest on, whom it shops for.</summary>
+        Resident Crush()
+        {
+            Relationship keenest = World.Relationships.Where(r => r.Met).OrderByDescending(r => r.Affection + r.Attraction).ThenBy(r => r.Resident).FirstOrDefault();
+            return keenest == null ? null : World.Residents[keenest.Resident];
         }
 
         /// <summary>Once it has a partner, it stops dating anyone else.</summary>
@@ -126,6 +134,18 @@ namespace Game.Sim.Sandbox
             if (_session.Selected == null) return;
             if (rel.LastComplimentDay != World.Now.Day) Record(_session.Compliment());
 
+            // The present bought for them, if it's still spare and still fits their look.
+            if (rel.Stage >= Stage.Friend && rel.LastGiftDay < World.Now.Day - 1 && _session.Selected != null)
+            {
+                ItemDna spare = _session.Giveable().FirstOrDefault(item => _presents.Contains((item.ItemId, favourite.Index))
+                    && Residents.ClothesGifts.Wearing(World, favourite, item) != null);
+                if (spare != null)
+                {
+                    _presents.Remove((spare.ItemId, favourite.Index));
+                    Record(_session.GiveClothes(spare));
+                }
+            }
+
             if (rel.Stage >= Stage.Acquaintance && rel.KnownLikes.Count > 0 && rel.LastGiftDay < World.Now.Day - 1 && _session.Selected != null)
             {
                 GiftEntry gift = World.Catalog.Gifts.FirstOrDefault(g => g.Topics.Any(rel.KnownLikes.Contains) && g.Price <= World.Player.Money);
@@ -168,18 +188,28 @@ namespace Game.Sim.Sandbox
 
         void Shop()
         {
-            if (!_session.IsOpen(Boutique.Location) || World.Player.Money < 50) return;
+            if (World.Player.Money < 50) return;
+            // It's the morning: wait for the boutique to open (it used to give up, and never shopped).
+            for (int waited = 0; waited < 6 && !_session.IsOpen(Boutique.Location); waited++) _session.Wait(60);
+            if (!_session.IsOpen(Boutique.Location)) return;
             _session.Travel(Boutique.Location);
             // Dress for whoever they're keenest on.
-            Relationship keenest = World.Relationships.Where(r => r.Met).OrderByDescending(r => r.Affection + r.Attraction).FirstOrDefault();
-            Resident crush = keenest == null ? null : World.Residents[keenest.Resident];
+            Resident crush = Crush();
             ShopItem pick = _session.Shop().Where(s => !_session.Owns(s.Item) && s.Price <= World.Player.Money)
                 .OrderByDescending(s => crush == null ? 0f : s.Part.Tags.Max(t => crush.Profile.StyleTaste.TryGetValue(t, out float v) ? v : 0f))
                 .ThenBy(s => s.Price).FirstOrDefault();
+            // A friend's very kind of thing they could wear is bought as a present, and kept for when they next meet.
+            bool present = pick != null && crush != null && World.RelationshipWith(crush).Stage >= Stage.Friend
+                && Interactions.ClothesTaste(crush.Profile, pick.Part, World.Characters) >= Interactions.LovesClothesAt
+                && Residents.ClothesGifts.Wearing(World, crush, pick.Item) != null;
             if (pick != null)
             {
+                OutfitDna wearing = World.Player.Dna?.Outfits.FirstOrDefault(o => o.Context == World.Player.Outfit);
+                ItemDna before = wearing?.Items.FirstOrDefault(i => World.Characters.Part(i.ItemId)?.Slot == pick.Part.Slot);
                 _session.Buy(pick);
-                Note(World.Now.Day, $"Bought the {pick.Name.ToLowerInvariant()}" + (crush == null ? "." : $" with {crush.Profile.FirstName}'s taste in mind."));
+                if (present && before != null) _session.Wear(before, quiet: true); // keep it spare, to give
+                if (present) _presents.Add((pick.Item.ItemId, crush.Index));
+                Note(World.Now.Day, $"Bought the {pick.Name.ToLowerInvariant()}" + (crush == null ? "." : present ? $" as a present for {crush.Profile.FirstName}." : $" with {crush.Profile.FirstName}'s taste in mind."));
             }
             Restyle(crush);
         }
@@ -228,6 +258,7 @@ namespace Game.Sim.Sandbox
                 case "greet.gossip": Note(day, $"{name} had heard good things about you from a friend."); break;
                 case "greet.cheated": Note(day, $"{name} heard about another of your dates."); break;
                 case "greet.breakup": Note(day, $"{name} broke up with you."); break;
+                case "gift.clothes.love": Note(day, _session.Last?.Learnt ?? $"{name} loved the clothes you gave."); break;
                 case "greet.confess":
                 case "greet.confess.taken": Note(day, $"{name} confessed {who.Possessive} feelings."); break;
                 case "confess.yes": Note(day, $"Said yes to {name}: dating now."); break;

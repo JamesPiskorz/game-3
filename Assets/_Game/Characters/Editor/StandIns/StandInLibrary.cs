@@ -334,8 +334,15 @@ namespace Game.Characters.StandIns
                 m.AddEllipsoid(HeadCentre, new Vector3(HeadR + 0.019f, HeadR + 0.019f, HeadR + 0.019f), None, false, "Head", Region1,
                     d => d.z > 0.25f && d.y > 0.52f));
             yield return Hair("hair.front.swept_01", "hair.front", m =>
+            {
+                // Swept to one side: a level cut (smooth, along the sphere's rings), tilted so it rises toward +x.
+                // Where it rises above the crown's hairline, the crown fills in beneath.
+                int start = m.VertexCount;
+                using IDisposable fine = m.Coarse(latitudes: 24, longitudes: 36);
                 m.AddEllipsoid(HeadCentre, new Vector3(HeadR + 0.019f, HeadR + 0.019f, HeadR + 0.019f), None, false, "Head", Region1,
-                    d => d.z > 0.2f && d.y > 0.5f + 0.3f * d.x));
+                    d => d.y > 0.48f && d.z > 0.2f);
+                m.Rotate(start, HeadCentre, Quaternion.Euler(0f, 0f, 17f));
+            });
             yield return Hair("hair.front.parted_01", "hair.front", m =>
                 m.AddEllipsoid(HeadCentre, new Vector3(HeadR + 0.019f, HeadR + 0.019f, HeadR + 0.019f), None, false, "Head", Region1,
                     d => d.z > 0.22f && d.y > 0.46f && Mathf.Abs(d.x) > 0.09f));
@@ -710,9 +717,10 @@ namespace Game.Characters.StandIns
         };
 
         // Shared crown: over the head, down the back to the nape, over the ears, with a high front hairline for bangs.
+        // The hairline curves from the forehead down to the temples (a step there showed as a notch beside the bangs).
         static void Crown(StandInMesh mesh) =>
             mesh.AddEllipsoid(HeadCentre, new Vector3(HeadR + 0.014f, HeadR + 0.016f, HeadR + 0.014f), None, false, "Head", Region1,
-                d => (d.z <= 0.3f && d.y > 0.2f) || (d.z > 0.3f && d.y > 0.55f) || (d.z < 0.1f && d.y > -0.45f) || (Mathf.Abs(d.x) > 0.8f && d.y > -0.15f));
+                d => d.y > 0.2f + 0.35f * Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(0.1f, 0.55f, d.z)) || (d.z < 0.1f && d.y > -0.45f) || (Mathf.Abs(d.x) > 0.8f && d.y > -0.15f));
 
         static readonly MaskFunction RegionTwo = (along, around) => new Vector4(0f, 1f, 0f, 0f);
 

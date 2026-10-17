@@ -64,6 +64,21 @@ namespace Game.Characters.StandIns
         public StandInBone[] Bones => _bones;
 
         /// <summary>
+        /// Turns everything added since vertex <paramref name="start"/> about <paramref name="pivot"/>. A cut edge
+        /// that follows the sphere's own rings is smooth; cut level, then tilted, it stays smooth at any angle.
+        /// </summary>
+        public void Rotate(int start, Vector3 pivot, Quaternion rotation)
+        {
+            for (int i = start; i < _positions.Count; i++)
+            {
+                _positions[i] = pivot + rotation * (_positions[i] - pivot);
+                _normals[i] = rotation * _normals[i];
+                if (_deltas[i] == null) continue;
+                for (int shape = 0; shape < _deltas[i].Length; shape++) _deltas[i][shape] = rotation * _deltas[i][shape];
+            }
+        }
+
+        /// <summary>
         /// Recolour weights for regions 1-4: x, y, z go to vertex colour green, blue, alpha; w goes to UV1.x.
         /// Whatever is left over is the base region.
         /// </summary>

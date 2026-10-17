@@ -110,6 +110,11 @@ namespace Game.Sim.Relationships
         /// </summary>
         public const float LovesClothesAt = 0.75f, MehClothesBelow = 0.2f;
 
+        /// <summary>How much a resident likes a piece: their taste for its two best-liked style tags, 0..1.</summary>
+        public static float ClothesTaste(ResidentProfile profile, PartEntry part, Game.Characters.Content.ContentCatalog characters) =>
+            part.Tags.Where(t => characters.Archetypes.Any(a => a.TagWeights.ContainsKey(t))).Distinct()
+                .Select(t => profile.StyleTaste.TryGetValue(t, out float v) ? v : 0f).OrderByDescending(v => v).Take(2).DefaultIfEmpty(0f).Average();
+
         /// <summary>
         /// Gives the resident a piece of clothing. How it lands depends on their taste for its two best-liked style
         /// tags. A piece they love and can wear goes straight into their everyday outfit.
@@ -133,8 +138,7 @@ namespace Game.Sim.Relationships
             }
             else
             {
-                float taste = part.Tags.Where(t => _world.Characters.Archetypes.Any(a => a.TagWeights.ContainsKey(t))).Distinct()
-                    .Select(t => profile.StyleTaste.TryGetValue(t, out float v) ? v : 0f).OrderByDescending(v => v).Take(2).DefaultIfEmpty(0f).Average();
+                float taste = ClothesTaste(profile, part, _world.Characters);
                 if (taste >= LovesClothesAt)
                 {
                     key = "gift.clothes.love";

@@ -84,6 +84,8 @@
 
 29. **Residents ask the player out.** A close friend whose attraction is 75 or more confesses at the first hello of a day, and the answer is the player's: yes is dating, no costs a little affection and 15 attraction (but earns trust). Attraction among close friends who aren't dating runs high (the median is at the cap in AutoPlayer towns), so the gate is mostly being close; the AutoPlayer hears about 0.7 confessions per town in 45 days, and pacing didn't move (friend 4.7, first date 7.1, partner 12.8 days). Nobody confesses to someone with a partner, and a resident seeing someone else only confesses at the same levels that would make them leave for the player.
 
+30. **The AutoPlayer shops, and buys presents.** It had never bought anything: it tried the boutique first thing on Saturday, before opening time. Now it waits for opening, dresses for its crush, and when a piece is very much a friend's style and would fit their look, buys it as a present and gives it when they next meet. Over 16 towns and 45 days it buys about 4.4 pieces, 2 of them presents, and about 1 gets worn. Partner pacing moved from 12.8 to 13.4 days, inside its usual range.
+
 ## Pacing (simulated, 24 residents, 60 days)
 
 The player visits one resident every evening with three talks and a compliment, plus a gift every other day.
