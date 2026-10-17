@@ -176,9 +176,6 @@ namespace Game.Sim.Relationships
             return ("greet.remember.topic", ("topic", _world.Catalog.Topic(latest.Id)?.Name ?? latest.Id));
         }
 
-        PartEntry Favourite(Resident resident) => _world.Player.Dna == null ? null
-            : FirstImpression.Favourite(resident.Profile, _world.Player.Dna, _world.Player.Outfit, _world.Characters);
-
         static string ItemName(PartEntry part) => (part.Name ?? ContentCatalog.Humanize(part.Id)).ToLowerInvariant();
 
         /// <summary>How much they must like a style for new hair to win them over, or how little for it to fall flat.</summary>

@@ -37,7 +37,7 @@ namespace Game.Sim.Tests
                 "chat.react.good", "chat.react.ok", "chat.react.bad", "chat.more.interest", "chat.more.day", "chat.more.worry",
                 "chat.more.dream", "chat.close.heard", "chat.more.interest.warm", "chat.more.interest.playful", "chat.more.interest.curious", "chat.more.day.warm", "chat.more.day.playful", "chat.more.day.curious", "chat.more.worry.warm", "chat.more.worry.playful", "chat.more.worry.curious", "chat.more.dream.warm", "chat.more.dream.playful", "chat.more.dream.curious", "bark.couple", "bark.rain", "bark.rain.out", "bark.sunny", "bark.work", "bark.night", "bark.interest", "ask.likes", "ask.dislikes", "ask.nothing", "ask.plans", "ask.plans.none",
                 "ask.friends", "ask.friends.partner", "ask.friends.none", "ask.nosy", "ask.again", "greet.news.together", "greet.news.apart", "greet.news.mine.together", "greet.news.mine.apart",
-                "talk.love", "talk.neutral", "talk.dislike", "talk.bored", "compliment.pleased", "compliment.style", "compliment.awkward",
+                "talk.love", "talk.neutral", "talk.dislike", "talk.bored", "compliment.pleased", "compliment.style", "compliment.style.mark", "compliment.awkward",
                 "gift.love", "gift.ok", "gift.dislike", "gift.awkward", "gift.again",
                 "date.yes", "date.no", "date.notyet", "date.great", "date.fine", "date.awkward", "date.partner",
                 "date.activity.love", "date.activity.ok", "date.activity.dislike",

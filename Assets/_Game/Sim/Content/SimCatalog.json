@@ -661,6 +661,12 @@
       { "tone": "bubbly", "text": "Thanks! Matching compliments: your {item} is amazing!" },
       { "tone": "dry", "text": "Thanks. Your {item} isn't bad either." }
     ],
+    "compliment.style.mark": [
+      { "tone": "any", "text": "Thank you! I've been meaning to say: I love your {feature}." },
+      { "tone": "shy", "text": "Th-thanks... um, your {feature} is really cute. Sorry. Thanks." },
+      { "tone": "bubbly", "text": "Aww, thanks! And your {feature}! I could look at it all day!" },
+      { "tone": "dry", "text": "Thanks. Your {feature}, though. That's the real compliment here." }
+    ],
     "compliment.awkward": [
       { "tone": "any", "text": "Uh, thanks... I guess." },
       { "tone": "warm", "text": "That's kind, but... we only just met." },

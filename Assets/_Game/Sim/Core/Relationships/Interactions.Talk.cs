@@ -91,12 +91,15 @@ namespace Game.Sim.Relationships
                     return Finish(resident, rel, rng, result, before, "compliment.makeover." + Makeovers.Key(change.Kind), ComplimentMinutes);
                 }
 
-                // Dressed to their taste, they return the compliment.
-                PartEntry favourite = Favourite(resident);
-                if (favourite != null && look >= ImpressedAt)
+                // Dressed to their taste (or with freckles, a beauty mark or blush they like even more), they return the compliment.
+                PartEntry noticed = _world.Player.Dna == null ? null
+                    : FirstImpression.Noticed(resident.Profile, _world.Player.Dna, _world.Player.Outfit, _world.Characters);
+                if (noticed != null && look >= ImpressedAt)
                 {
                     rel.LastComplimentDay = Today;
-                    return Finish(resident, rel, rng, result, before, "compliment.style", ComplimentMinutes, ("item", ItemName(favourite)));
+                    return Makeup.IsMark(noticed.Slot)
+                        ? Finish(resident, rel, rng, result, before, "compliment.style.mark", ComplimentMinutes, ("feature", FirstImpression.FeatureName(noticed)))
+                        : Finish(resident, rel, rng, result, before, "compliment.style", ComplimentMinutes, ("item", ItemName(noticed)));
                 }
             }
             rel.LastComplimentDay = Today;
