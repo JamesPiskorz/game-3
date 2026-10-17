@@ -40,10 +40,10 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
   - all tests,
   - every review render (images in the repo),
   - the creator in Play mode via `CreatorCapture` (`Docs/review/creator-*.png`),
-  - the town in Play mode via `TownCapture`: a scripted visit that presses the HUD's buttons (meet, talk, gift, date, the bar in the evening, the park at night), in `Docs/review/town-*.png`.
+  - the town in Play mode via `TownCapture`: a scripted visit that presses the HUD's buttons (meet, talk, gift, date, the bar in the evening, the park at night), in `Docs/review/town-*.png`,
+  - the new-game flow via `HandOffCheck`: Randomize in the creator, press "Into town", and the town opens with the identical character (same share code). It restores any saved look afterwards.
 - **Not verified:**
   - **Interactive use in the Editor GUI:** mouse dragging, typing, the feel of the sliders and buttons.
-  - **The creator → town hand-off.** "Into town" saves the look and loads the scene. Both scenes are in the build list, but no headless run has pressed the button yet.
   - Anything on min-spec hardware or in a player build.
   - Real art. Everything visual is procedural stand-ins and blockout sets.
 

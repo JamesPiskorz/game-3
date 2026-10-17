@@ -6,7 +6,8 @@
         "Game.Characters.Unity",
         "Game.Characters.Editor",
         "Game.Sim",
-        "Game.Town"
+        "Game.Town",
+        "Game.Creator"
     ],
     "includePlatforms": [
         "Editor"
