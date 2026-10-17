@@ -297,6 +297,34 @@ Button.selected,
 
 .contact {
     margin-bottom: 6px;
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+.contact-line {
+    flex-direction: row;
+    align-items: center;
+}
+
+.portrait {
+    width: 46px;
+    height: 46px;
+    border-radius: 23px;
+    margin: 0 8px 6px 0;
+    flex-shrink: 0;
+}
+
+.card-heading {
+    flex-direction: row;
+    align-items: center;
+}
+
+.card-portrait {
+    width: 72px;
+    height: 72px;
+    border-radius: 12px;
+    margin-right: 12px;
+    flex-shrink: 0;
 }
 
 .contact-hint {

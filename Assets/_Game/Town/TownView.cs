@@ -20,6 +20,7 @@ namespace Game.Town
     public sealed class TownView
     {
         readonly TownSession _session;
+        readonly Func<Resident, UnityEngine.Texture> _portrait;
         readonly VisualElement _root;
         VisualElement _bubbleLayer;
         readonly Dictionary<int, Label> _bubbles = new Dictionary<int, Label>();
@@ -34,9 +35,10 @@ namespace Game.Town
         string _choices; // "talk", "gift" or "date": which picker is open under the actions
         Resident _choicesFor;
 
-        public TownView(VisualElement root, TownSession session, Action save, Action load, Action menu = null)
+        public TownView(VisualElement root, TownSession session, Action save, Action load, Action menu = null, Func<Resident, UnityEngine.Texture> portrait = null)
         {
             _session = session;
+            _portrait = portrait;
             root.AddToClassList("town");
             _root = root;
 
@@ -211,7 +213,9 @@ namespace Game.Town
             for (int i = 0; i < contacts.Count; i++)
             {
                 Contact contact = contacts[i];
-                var row = Add(_contacts, new VisualElement(), "contact");
+                var line = Add(_contacts, new VisualElement(), "contact-line");
+                Portrait(line, contact.Resident, "portrait");
+                var row = Add(line, new VisualElement(), "contact");
                 bool findable = contact.KnownLocation != null && contact.KnownLocation != SimCatalog.Home && _session.IsOpen(contact.KnownLocation);
                 Button button = Add(row, Button("contact-" + i, $"{contact.Resident.Name}   \u00B7   {StageName(contact.Relationship.Stage)}", () =>
                 {
@@ -221,6 +225,14 @@ namespace Game.Town
                 button.SetEnabled(findable && _session.DateWith == null);
                 Add(row, new Label(contact.Hint), "hint", "contact-hint");
             }
+        }
+
+        /// <summary>A small rendered portrait of the resident (when the screen provides them).</summary>
+        void Portrait(VisualElement parent, Resident resident, string style)
+        {
+            if (_portrait == null || !(_portrait(resident) is UnityEngine.RenderTexture texture)) return;
+            var image = Add(parent, new VisualElement(), style);
+            image.style.backgroundImage = Background.FromRenderTexture(texture);
         }
 
         /// <summary>The boutique's stock at the mall, the wardrobe at home, and things to do wherever the player is.</summary>
@@ -423,7 +435,9 @@ namespace Game.Town
 
             var profile = selected.Profile;
             Relationship rel = world.RelationshipWith(selected);
-            Add(_card, new Label(selected.Name), "card-name");
+            var heading = Add(_card, new VisualElement(), "card-heading");
+            Portrait(heading, selected, "card-portrait");
+            Add(heading, new Label(selected.Name), "card-name");
             string job = world.Catalog.Job(profile.JobId)?.Name ?? "";
             Add(_card, new Label($"{profile.Subject}/{profile.Object}  ·  {profile.Age}  ·  {job}"), "card-sub");
             Add(_card, new Label(rel.Met ? StageName(rel.Stage) : "You haven't met yet"), "stage");

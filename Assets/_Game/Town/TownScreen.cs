@@ -64,7 +64,8 @@ namespace Game.Town
 
             VisualElement root = Document.rootVisualElement;
             if (Style != null) root.styleSheets.Add(Style);
-            View = new TownView(root, Session, Save, Load, ToMenu);
+            _portraits = new Portraits(new Game.Characters.Building.CharacterBuilder(Content), Stage.Sun);
+            View = new TownView(root, Session, Save, Load, ToMenu, r => _portraits.For(r));
             if (ContinueOnStart)
             {
                 ContinueOnStart = false;
@@ -73,6 +74,10 @@ namespace Game.Town
             Stage.Show(Session);
             Stage.SnapCamera();
         }
+
+        Portraits _portraits;
+
+        void OnDestroy() => _portraits?.Dispose();
 
         void LateUpdate()
         {

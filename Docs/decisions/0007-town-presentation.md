@@ -35,3 +35,7 @@ The town is **a set of stages**, one per location, rather than a continuous spac
 - **Next:** a walkable town is still the Phase 5 target.
   - Start with one outdoor hub (the park and the café front) with NavMesh, and keep the stage view for interiors.
   - Keep `TownSession` as the authority, so tests and captures don't change.
+
+## Portraits
+
+Contacts and the resident card show a portrait rendered from the resident's DNA (`Town/Portraits.cs`): one hidden character in a studio 500 m below the town, re-dressed per portrait, rendered once into a 160 px texture by a camera that's otherwise off. The sun and ambient light are swapped for neutral daylight for that one render, so portraits don't go dark at night. Portraits are cached per resident and redrawn when their DNA object changes (makeovers and gifted clothes replace it). Real art would likely do the same with a proper portrait light rig and expression.
