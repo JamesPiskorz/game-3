@@ -167,6 +167,10 @@ MonoBehaviour:
     Texture: {fileID: 2800000, guid: b53d25fdb30616842aa59578b1e888d7, type: 3}
   - Id: pattern.denim_01
     Texture: {fileID: 2800000, guid: 418fb98f19e7cc34a88545f540822201, type: 3}
+  - Id: pattern.argyle_01
+    Texture: {fileID: 2800000, guid: 5b7c39b5ab0a97348987d8b9e95c46ae, type: 3}
+  - Id: pattern.chevron_01
+    Texture: {fileID: 2800000, guid: 7c7a7e8b6ab759248be8a41a1b1a7df4, type: 3}
   - Id: pattern.knit_01
     Texture: {fileID: 2800000, guid: 4d62232e7bc38ea4594066d3fcdc2f7c, type: 3}
   Sliders:
