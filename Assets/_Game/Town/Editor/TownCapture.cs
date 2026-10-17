@@ -22,7 +22,8 @@ namespace Game.Town
         const int Width = 1920, Height = 1080;
 
         // One command every few frames. "press:" presses a HUD button by name ({liked} and {gift} pick something the
-        // selected resident loves); "hour:" waits until that hour; "befriend" stands in for a week of visits.
+        // selected resident loves); "hour:" waits until that hour; "befriend" stands in for a week of visits;
+        // "pause:" lets frames pass; "shot:" snaps everyone into place first, "live:" shoots them mid-motion.
         static readonly string[] Script =
         {
             "shot:arrive",
@@ -34,11 +35,12 @@ namespace Game.Town
             "press:act-end-date", "press:place-mall", "press:buy-0", "shot:boutique",
             "hour:20", "press:place-bar", "press:here-0", "shot:bar",
             "hour:22", "press:place-park", "shot:park-night",
+            "press:wait", "pause:75", "live:park-comings-and-goings",
             "press:place-home", "shot:wardrobe",
             "press:contacts", "shot:contacts",
         };
 
-        static int _frame, _step;
+        static int _frame, _step, _pause;
         static RenderTexture _ui, _scene;
 
         static TownCapture()
@@ -94,6 +96,11 @@ namespace Game.Town
                 return;
             }
 
+            if (_pause > 0)
+            {
+                _pause -= 12;
+                return;
+            }
             string command = Script[_step++];
             int colon = command.IndexOf(':');
             string verb = colon < 0 ? command : command.Substring(0, colon);
@@ -103,6 +110,14 @@ namespace Game.Town
                 case "shot":
                     foreach (FaceExpression face in Object.FindObjectsByType<FaceExpression>(FindObjectsSortMode.None)) face.Snap();
                     screen.Stage.SnapCamera();
+                    screen.Stage.Camera.Render();
+                    Save(argument);
+                    break;
+                case "pause": // let things play out for a number of frames
+                    _pause = int.Parse(argument);
+                    break;
+                case "live": // as things are, mid-motion: frame the camera but don't snap anyone into place
+                    screen.Stage.SnapCamera(characters: false);
                     screen.Stage.Camera.Render();
                     Save(argument);
                     break;

@@ -196,6 +196,18 @@ namespace Game.Characters.Tests.Modular
             Poses.Relaxed(character.transform);
             idle.Pose(1.3f);
             Assert.That(Quaternion.Angle(head.localRotation, first), Is.LessThan(1e-3f), "Re-applying DNA doesn't shift the motion.");
+
+            // Walking swings the legs; stopping puts them back exactly.
+            Transform thigh = character.GetComponentsInChildren<Transform>().First(t => t.name == "UpperLeg.L");
+            Quaternion standing = thigh.localRotation;
+            idle.Walking = 1f;
+            idle.SnapWalking();
+            idle.Pose(0.4f);
+            Assert.That(Quaternion.Angle(thigh.localRotation, standing), Is.GreaterThan(3f), "Legs swing when walking.");
+            idle.Walking = 0f;
+            idle.SnapWalking();
+            idle.Pose(0.4f);
+            Assert.That(Quaternion.Angle(thigh.localRotation, standing), Is.LessThan(1e-3f), "Standing still restores the legs.");
         }
 
         ModularCharacter Build(CharacterDna dna, string context)

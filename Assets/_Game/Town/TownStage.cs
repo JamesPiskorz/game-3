@@ -44,7 +44,20 @@ namespace Game.Town
             public string Outfit;
             public CharacterDna Dna;
             public int Version;
+
+            /// <summary>Where they're heading and how they'll stand once there.</summary>
+            public Vector3 Target;
+            public Quaternion Facing;
+
+            /// <summary>Walking off; removed on arrival.</summary>
+            public bool Leaving;
         }
+
+        /// <summary>Walking speed in metres per second.</summary>
+        public float WalkSpeed = 1.3f;
+
+        // Characters walking off, until they're out of view.
+        readonly List<Shown> _leaving = new List<Shown>();
 
         /// <summary>Positions are authored in screen terms (x right, z away from camera); the camera looks down -Z, so screen-right is world -X.</summary>
         public static Vector3 Screen(float x, float y, float z) => new Vector3(-x, y, z);
@@ -53,7 +66,9 @@ namespace Game.Town
         {
             _builder ??= new CharacterBuilder(Content);
             SimWorld world = session.World;
-            if (_setId != session.Location) BuildSet(session.Location);
+            // A new place appears as it is; at the same place, people come and go on foot.
+            bool arrived = _setId != session.Location;
+            if (arrived) BuildSet(session.Location);
             Light(TownSets.For(session.Location), world.Now.Hour);
 
             bool date = session.DateWith != null;
@@ -67,17 +82,80 @@ namespace Game.Town
 
             foreach (int gone in _residents.Keys.Where(index => shown.All(r => r.Index != index)).ToList())
             {
-                ModularCharacter.DestroySafely(_residents[gone].Character.gameObject);
+                Shown leaver = _residents[gone];
                 _residents.Remove(gone);
+                if (arrived) ModularCharacter.DestroySafely(leaver.Character.gameObject);
+                else
+                {
+                    leaver.Leaving = true;
+                    leaver.Target = Offstage(leaver.Character.transform.localPosition);
+                    _leaving.Add(leaver);
+                }
             }
+            if (arrived)
+            {
+                foreach (Shown leaver in _leaving) ModularCharacter.DestroySafely(leaver.Character.gameObject);
+                _leaving.Clear();
+            }
+            var newcomers = new List<Shown>();
             foreach (Resident resident in shown)
             {
                 _residents.TryGetValue(resident.Index, out Shown existing);
                 _residents[resident.Index] = Dress(existing, resident.Dna, outfit, resident.Name);
+                if (existing == null) newcomers.Add(_residents[resident.Index]);
             }
 
             Arrange(shown, session.Selected, date, world);
+            // Newcomers walk in from the side nearest their spot, unless the player has just got here.
+            foreach (Shown newcomer in newcomers)
+            {
+                Transform body = newcomer.Character.transform;
+                body.localPosition = arrived ? newcomer.Target : Offstage(newcomer.Target);
+                body.localRotation = newcomer.Facing;
+            }
+            if (arrived) SnapCharacters();
             React(session);
+        }
+
+        /// <summary>A point out of view on the side of the stage nearest <paramref name="from"/>.</summary>
+        static Vector3 Offstage(Vector3 from) => new Vector3(from.x >= 0f ? 9f : -9f, 0f, from.z - 1f);
+
+        /// <summary>Puts everyone where they're going, facing the right way, at once (arrivals and screenshots).</summary>
+        public void SnapCharacters()
+        {
+            foreach (Shown shown in _residents.Values.Append(_player).Where(s => s != null))
+            {
+                shown.Character.transform.localPosition = shown.Target;
+                shown.Character.transform.localRotation = shown.Facing;
+                var idle = shown.Character.GetComponent<IdleMotion>();
+                if (idle == null) continue;
+                idle.Walking = 0f;
+                idle.SnapWalking();
+            }
+            foreach (Shown leaver in _leaving) ModularCharacter.DestroySafely(leaver.Character.gameObject);
+            _leaving.Clear();
+        }
+
+        /// <summary>Walks everyone towards their spot: facing where they're going, then turning to face the scene.</summary>
+        void Walk(Shown shown, float dt)
+        {
+            Transform body = shown.Character.transform;
+            Vector3 to = shown.Target - body.localPosition;
+            to.y = 0f;
+            bool moving = to.magnitude > 0.03f;
+            var idle = shown.Character.GetComponent<IdleMotion>();
+            if (idle != null) idle.Walking = moving ? 1f : 0f;
+            float turn = 1f - Mathf.Exp(-8f * dt);
+            if (moving)
+            {
+                body.localPosition = Vector3.MoveTowards(body.localPosition, shown.Target, WalkSpeed * dt);
+                body.localRotation = Quaternion.Slerp(body.localRotation, Quaternion.LookRotation(to.normalized, Vector3.up), turn);
+            }
+            else
+            {
+                body.localPosition = shown.Target;
+                body.localRotation = Quaternion.Slerp(body.localRotation, shown.Facing, turn);
+            }
         }
 
         /// <summary>Couples and friends stand together: each resident is followed by whoever they're with.</summary>
@@ -149,9 +227,9 @@ namespace Game.Town
             for (int i = 0; i < shown.Count; i++)
             {
                 Resident resident = shown[i];
-                Transform body = _residents[resident.Index].Character.transform;
+                Shown spot = _residents[resident.Index];
                 Vector3 at = positions[resident.Index];
-                body.localPosition = at;
+                spot.Target = at;
                 // Everyone half-turns to the camera; the selected resident turns to the player, and people standing
                 // with a friend or partner turn towards them as if mid-conversation.
                 Resident companion = null;
@@ -162,13 +240,12 @@ namespace Game.Town
                 Vector3 facing = resident == selected ? (player - at) + (camera - at) * 0.4f
                     : companion != null ? (positions[companion.Index] - at) * 2f + (camera - at) * 0.35f
                     : (player - at) * 0.4f + (camera - at);
-                body.localRotation = Flat(facing);
+                spot.Facing = Flat(facing);
             }
 
-            Transform you = _player.Character.transform;
-            you.localPosition = player;
+            _player.Target = player;
             Vector3 focus = selected != null && positions.TryGetValue(selected.Index, out Vector3 s) ? s : Screen(0.6f, 0f, 0f);
-            you.localRotation = Flat((focus - player) + (camera - player) * 0.35f);
+            _player.Facing = Flat((focus - player) + (camera - player) * 0.35f);
 
             if (_ring == null) _ring = Prop(PrimitiveType.Cylinder, transform, HighlightMaterial);
             _ring.SetActive(selected != null && positions.ContainsKey(selected.Index));
@@ -208,6 +285,19 @@ namespace Game.Town
 
         void Update()
         {
+            float dt = Time.deltaTime;
+            foreach (Shown shown in _residents.Values) Walk(shown, dt);
+            if (_player != null) Walk(_player, dt);
+            for (int i = _leaving.Count - 1; i >= 0; i--)
+            {
+                Walk(_leaving[i], dt);
+                if (Vector3.Distance(_leaving[i].Character.transform.localPosition, _leaving[i].Target) < 0.05f)
+                {
+                    ModularCharacter.DestroySafely(_leaving[i].Character.gameObject);
+                    _leaving.RemoveAt(i);
+                }
+            }
+
             if (Camera == null) return;
             float blend = 1f - Mathf.Exp(-5f * Time.unscaledDeltaTime);
             Transform cam = Camera.transform;
@@ -216,8 +306,9 @@ namespace Game.Town
             cam.rotation = Quaternion.Slerp(cam.rotation, look, blend);
         }
 
-        public void SnapCamera()
+        public void SnapCamera(bool characters = true)
         {
+            if (characters) SnapCharacters();
             Camera.transform.position = transform.TransformPoint(_cameraPosition);
             Camera.transform.LookAt(transform.TransformPoint(_cameraTarget));
         }
