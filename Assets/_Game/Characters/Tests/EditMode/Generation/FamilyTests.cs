@@ -27,6 +27,17 @@ namespace Game.Characters.Tests.Generation
             });
 
         [Test]
+        public void FrecklesRunInTheFamily()
+        {
+            bool Freckled(CharacterDna dna) => dna.Face.Makeup.Any(m => Makeup.SlotOf(_catalog, m.OverlayId) == Slots.FaceFreckles);
+            List<(CharacterDna Relative, CharacterDna Sibling)> pairs = Pairs(1500).ToList();
+            float withFreckled = pairs.Where(p => Freckled(p.Relative)).Average(p => Freckled(p.Sibling) ? 1f : 0f);
+            float withoutFreckled = pairs.Where(p => !Freckled(p.Relative)).Average(p => Freckled(p.Sibling) ? 1f : 0f);
+            Assert.That(withFreckled, Is.GreaterThan(0.6f));
+            Assert.That(withoutFreckled, Is.LessThan(0.25f), "Anyone can have freckles, but less often.");
+        }
+
+        [Test]
         public void SiblingsBreakNoRules()
         {
             foreach ((CharacterDna relative, CharacterDna sibling) in Pairs(400))

@@ -12,6 +12,7 @@ namespace Game.Characters.Generation
     /// - Skin tone stays close, so the outfit's skin-contrast rule still sees the real tone.
     /// - Natural hair colour and eye colour carry over. Someone with dyed hair breaks the hair link, as in life.
     /// - The face usually starts from the same preset and leans towards the relative's features.
+    /// - Freckles usually run in the family.
     /// - The build follows theirs: each body slider keeps its own presentation's average and borrows half the
     ///   relative's difference from theirs, so a tall family has tall daughters and sons.
     /// Everything family-related draws from its own "family" stream, so the rest of the seed is the same character
@@ -45,7 +46,19 @@ namespace Game.Characters.Generation
             Build(catalog, dna, relative);
             Face(catalog, rng, dna, relative);
             Hair(catalog, rng, dna, relative);
+            Freckles(catalog, seed, dna, relative);
             return dna;
+        }
+
+        public const float SharedFrecklesChance = 0.65f;
+
+        /// <summary>Freckles run in families: a freckled relative's sibling usually has them too (on a stream of its own).</summary>
+        static void Freckles(ContentCatalog catalog, ulong seed, CharacterDna dna, CharacterDna relative)
+        {
+            OverlayDna theirs = relative.Face.Makeup?.FirstOrDefault(m => Makeup.SlotOf(catalog, m.OverlayId) == Slots.FaceFreckles);
+            if (theirs == null || !SeedStreams.For(seed, "family.freckles").Chance(SharedFrecklesChance)) return;
+            dna.Face.Makeup.RemoveAll(m => Makeup.SlotOf(catalog, m.OverlayId) == Slots.FaceFreckles);
+            dna.Face.Makeup.Add(new OverlayDna { OverlayId = theirs.OverlayId, Tint = theirs.Tint, Opacity = theirs.Opacity });
         }
 
         static void Build(ContentCatalog catalog, CharacterDna dna, CharacterDna relative)
