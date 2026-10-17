@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Game.Characters.Content;
+using Game.Characters.Dna;
 using Game.Characters.Rng;
 using Game.Sim.Residents;
 using Game.Sim.Social;
@@ -29,9 +30,20 @@ namespace Game.Sim.Relationships
                 if (topic == null) opener = "day";
             }
             string topicName = topic == null ? null : _world.Catalog.Topic(topic)?.Name;
+            // Asking about their look names a piece they have on; with nothing to name, it's just a chat about the day.
+            string piece = null;
+            if (opener == "looks")
+            {
+                OutfitDna wearing = resident.Dna.Outfits.FirstOrDefault(o => o.Context == _world.OutfitFor(resident, _world.WhereIs(resident)))
+                    ?? resident.Dna.Outfits.FirstOrDefault();
+                PartEntry part = wearing?.Items.Select(i => _world.Characters.Part(i.ItemId))
+                    .FirstOrDefault(p => p != null && (p.Slot == Slots.Outer || p.Slot == Slots.OnePiece || p.Slot == Slots.Top));
+                piece = part == null ? null : ItemName(part);
+                if (piece == null) opener = "day";
+            }
             chat = new ChatScene { With = resident, Opener = opener, Topic = topic, Replies = ChatTaste.RepliesFor(opener, topicName) };
             if (topic != null && rel.KnownLikes.Add(topic)) result.Learnt = $"{profile.FirstName} loves {topicName}.";
-            InteractionResult opened = Finish(resident, rel, rng, result, before, "chat.open." + opener, 5, ("topic", topicName ?? ""));
+            InteractionResult opened = Finish(resident, rel, rng, result, before, "chat.open." + opener, 5, ("topic", topicName ?? ""), ("item", piece ?? ""));
             chat.Line = opened.Line;
             return opened;
         }

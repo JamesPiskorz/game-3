@@ -468,6 +468,12 @@
       { "tone": "bubbly", "text": "Quick, pick a dream holiday! I'll go first: everywhere!" },
       { "tone": "dry", "text": "Somewhere far away. That's my whole plan." }
     ],
+    "chat.open.looks": [
+      { "tone": "any", "text": "Okay, honest opinion: this {item}. Yes or no?" },
+      { "tone": "shy", "text": "Um... does this {item} look okay on me? I wasn't sure about it." },
+      { "tone": "bubbly", "text": "New {item}! Look! Do you love it? You love it." },
+      { "tone": "dry", "text": "Rate the {item}. Out of ten. Be careful." }
+    ],
     "chat.more.interest": [
       { "tone": "any", "text": "Honestly, {topic} is the thing that keeps me sane." },
       { "tone": "shy", "text": "I don't usually tell people how much I love {topic}. It's nice to." },
@@ -491,6 +497,30 @@
       { "tone": "shy", "text": "A little house somewhere quiet. With a garden. Is that boring?" },
       { "tone": "bubbly", "text": "Tokyo, then Lisbon, then a beach with nobody on it. Then home, maybe." },
       { "tone": "dry", "text": "A cabin. No neighbours. Excellent coffee." }
+    ],
+    "chat.more.looks": [
+      { "tone": "any", "text": "I go back and forth on it. Some days it feels like me, some days it doesn't." },
+      { "tone": "shy", "text": "I almost didn't wear it. I'm glad I did, now." },
+      { "tone": "bubbly", "text": "I have it in three colours. Is that too many? It's not too many." },
+      { "tone": "dry", "text": "It was on sale. That's the whole story. Mostly." }
+    ],
+    "chat.more.looks.warm": [
+      { "tone": "any", "text": "You think so? I wasn't sure, but I'll keep wearing it, then." },
+      { "tone": "shy", "text": "Oh... thank you. I almost didn't wear it today." },
+      { "tone": "bubbly", "text": "Yay! Okay, I'm wearing it every day now. You did this." },
+      { "tone": "dry", "text": "Good. I'd have had to burn it otherwise." }
+    ],
+    "chat.more.looks.playful": [
+      { "tone": "any", "text": "Mostly?! Okay, fine. What would you change?" },
+      { "tone": "shy", "text": "B-bold? Is bold bad? ...You're teasing me, aren't you." },
+      { "tone": "bubbly", "text": "Bold is my middle name! Well, it's not, but it should be." },
+      { "tone": "dry", "text": "Mostly. I'll take mostly. From you, that's a rave review." }
+    ],
+    "chat.more.looks.curious": [
+      { "tone": "any", "text": "The boutique at Arcade Lane. I'd been eyeing it for weeks." },
+      { "tone": "shy", "text": "Arcade Lane... I went back three times before I bought it." },
+      { "tone": "bubbly", "text": "Arcade Lane! There's a whole rack like it. We should go!" },
+      { "tone": "dry", "text": "Arcade Lane. Don't tell anyone, they'll all want one." }
     ],
     "chat.more.interest.warm": [
       { "tone": "any", "text": "You're sweet. Honestly, {topic} is the thing that keeps me sane." },

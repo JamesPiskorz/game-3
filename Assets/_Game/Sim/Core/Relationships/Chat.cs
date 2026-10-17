@@ -31,7 +31,7 @@ namespace Game.Sim.Relationships
 
         public Resident With;
 
-        /// <summary>The kind of opener ("interest", "day", "worry", "dream"), and the resident's line.</summary>
+        /// <summary>The kind of opener ("interest", "day", "worry", "dream", "looks"), and the resident's line.</summary>
         public string Opener;
         public string Line;
         public string Topic;
@@ -64,7 +64,7 @@ namespace Game.Sim.Relationships
                 case ChatStyle.Warm:
                     return 0.35f + 0.6f * p.Agreeableness + 0.3f * p.Neuroticism + (opener == "worry" ? 0.35f : 0f);
                 case ChatStyle.Playful:
-                    return 0.15f + 0.7f * p.Extraversion + 0.3f * p.Openness - 0.55f * p.Neuroticism - (opener == "worry" ? 0.6f : 0f);
+                    return 0.15f + 0.7f * p.Extraversion + 0.3f * p.Openness - 0.55f * p.Neuroticism - (opener == "worry" ? 0.6f : 0f) - (opener == "looks" ? 0.2f * p.Neuroticism : 0f);
                 default:
                     return 0.2f + 0.6f * p.Openness + 0.4f * (1f - p.Extraversion) + (opener == "dream" ? 0.15f : 0f);
             }
@@ -77,7 +77,8 @@ namespace Game.Sim.Relationships
         /// <summary>The opener a resident picks: worriers sometimes share a worry, dreamers a daydream, everyone talks about what they love.</summary>
         public static string Opener(ResidentProfile profile, Pcg32 rng)
         {
-            var options = new List<(string, float)> { ("interest", 1.2f), ("day", 0.8f), ("worry", profile.Personality.Neuroticism * 1.2f), ("dream", profile.Personality.Openness * 1.0f) };
+            var options = new List<(string, float)> { ("interest", 1.2f), ("day", 0.8f), ("worry", profile.Personality.Neuroticism * 1.2f), ("dream", profile.Personality.Openness * 1.0f),
+                ("looks", 0.25f + 0.35f * profile.Personality.Extraversion) };
             return rng.PickWeighted(options, o => o.Item2).Item1;
         }
 
@@ -87,6 +88,7 @@ namespace Game.Sim.Relationships
             ["day"] = ("That sounds like a lot. Want to sit for a bit?", "Did you at least get to boss someone around?", "What happened?"),
             ["worry"] = ("I'm here. Tell me what's on your mind.", "Stressed? You? Never.", "Is it something I can help with?"),
             ["dream"] = ("Wherever it is, it would suit you.", "Somewhere with free snacks, obviously.", "Why there? What draws you to it?"),
+            ["looks"] = ("It really suits you.", "It's bold. I respect it. Mostly.", "Where did you find it?"),
         };
 
         /// <summary>Replies to what they say next, once the first reply has drawn them out.</summary>
@@ -96,6 +98,7 @@ namespace Game.Sim.Relationships
             ["day"] = ("I'm glad it was me you talked to.", "Lucky for you, I'm an excellent listener. And very modest.", "Is it like that a lot?"),
             ["worry"] = ("You are. Anyone can see how much you care.", "Want me to go and have words with whoever said that?", "Where's that coming from?"),
             ["dream"] = ("I can picture you there. It fits.", "Only if I get to visit. Often.", "What would you do first, once you got there?"),
+            ["looks"] = ("You always look like yourself. That's the best kind of style.", "Next time, I'm picking your outfit. Fair's fair.", "What made you go for that look?"),
         };
 
         public static List<ChatReply> RepliesFor(string opener, string topic, int beat = 0)
