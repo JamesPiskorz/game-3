@@ -34,7 +34,7 @@ namespace Game.Town
             "press:act-chat", "shot:chat", "press:chatopt-{chat}", "shot:chat-reply", "press:chatopt-{chat}", "shot:chat-heard",
             "press:act-date", "press:dateplace-park", "shot:date",
             "press:dateopt-{best}", "shot:date-round", "press:dateopt-{best}", "press:dateopt-{best}", "shot:date-end",
-            "press:act-end-date", "press:photos", "shot:photos", "press:photos", "press:place-mall", "press:buy-0", "shot:boutique", "press:cut-{cut}", "shot:salon", "press:lipstick-1", "press:blush-toggle", "shot:salon-makeup",
+            "press:act-end-date", "press:photos", "shot:photos", "press:photos", "press:place-mall", "press:buy-0", "shot:boutique", "press:cut-{cut}", "shot:salon", "press:lipstick-1", "press:blush-toggle", "scroll-panel", "shot:salon-makeup",
             "hour:20", "press:place-bar", "press:here-0", "shot:bar", "press:act-gift", "shot:give-picker", "press:giveitem-0", "shot:give-clothes",
             "smitten", "press:act-greet", "shot:confess", "press:confess-yes", "shot:confess-yes",
             "hour:22", "press:place-park", "shot:park-night",
@@ -166,6 +166,12 @@ namespace Game.Town
                         known.Trust = Mathf.Max(known.Trust, 40f);
                     }
                     break;
+                case "scroll-panel": // the side panel to its end, to show what's below the fold
+                {
+                    Scroller scroller = screen.Document.rootVisualElement.Q<ScrollView>(className: "panel")?.verticalScroller;
+                    if (scroller != null) scroller.value = scroller.highValue;
+                    break;
+                }
                 case "smitten": // the selected resident has fallen for the player since yesterday, so the next hello is a confession
                 {
                     Relationship smitten = screen.Session.World.RelationshipWith(screen.Session.Selected);
