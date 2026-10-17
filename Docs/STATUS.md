@@ -64,11 +64,12 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
   - all tests,
   - every review render (images in the repo),
   - the creator in Play mode via `CreatorCapture` (`Docs/review/creator-*.png`),
-  - the town in Play mode via `TownCapture`: a scripted visit that presses the HUD's buttons (meet, talk, gift, date, the bar in the evening, the park at night), in `Docs/review/town-*.png`,
+  - the town in Play mode via `TownCapture`: a scripted visit that presses the HUD's buttons (meet, talk, chat, gift, date, shop, the salon, the bar in the evening, the park at night and in the rain, the gym), in `Docs/review/town-*.png`,
   - a month of play in three towns by an automated attentive player (`AutoPlayer`), written up as diaries in `Docs/review/stories.md` (**Game → Town → Write Story Report**). Each town tells a different story, and a test checks that,
-  - a fuzz test: a random player takes 1,000 actions of every kind in each of three towns, with world invariants checked after every step,
+  - a fuzz test: a random player takes 1,000 actions of every kind (including chats and the salon) in each of three towns, with world invariants checked after every step; a one-off 30 more towns also passed,
   - the whole loop via `FlowCheck`, pressing the real buttons: main menu, New game, Randomize, Into town (identical character), Menu (autosaves), Continue (back at the saved time). It backs up and restores the player's saved look and save file; it also screenshots the menu (`Docs/review/menu.png`).
-  - **a Windows player build** (`unity build . --target StandaloneWindows64 --output-path Builds/Windows/Game3.exe`). It builds, and `Game3.exe -batchmode -smoke -logFile smoke.log` plays a short day from the main menu into town (meet, talk, work, shop, sleep) and exits 0 with no errors (`PlayerSmokeTest`). Automated runs never write the player's save.
+  - the generator as a population: 10,000 characters in `Docs/review/generator-stats.md` (0 rule violations),
+  - **a Windows player build**, rebuilt and smoke-tested again after the latest features (`unity build . --target StandaloneWindows64 --output-path Builds/Windows/Game3.exe`). It builds, and `Game3.exe -batchmode -smoke -logFile smoke.log` plays a short day from the main menu into town (meet, talk, work, shop, sleep) and exits 0 with no errors (`PlayerSmokeTest`). Automated runs never write the player's save.
 - **Not verified:**
   - **Interactive use in the Editor GUI or the built player:** mouse dragging, typing, the feel of the sliders and buttons.
   - Anything on min-spec hardware.
