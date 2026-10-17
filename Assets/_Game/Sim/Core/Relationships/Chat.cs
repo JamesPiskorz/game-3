@@ -21,9 +21,14 @@ namespace Game.Sim.Relationships
         public string Text;
     }
 
-    /// <summary>A chat in progress: what the resident brought up, and the player's possible replies.</summary>
+    /// <summary>
+    /// A chat in progress: what the resident brought up, and the player's possible replies. A reply that lands
+    /// draws them out, and they say more (a second beat); anything else ends it.
+    /// </summary>
     public sealed class ChatScene
     {
+        public const int Beats = 2;
+
         public Resident With;
 
         /// <summary>The kind of opener ("interest", "day", "worry", "dream"), and the resident's line.</summary>
@@ -31,6 +36,15 @@ namespace Game.Sim.Relationships
         public string Line;
         public string Topic;
         public List<ChatReply> Replies = new List<ChatReply>();
+
+        /// <summary>Which beat the player is answering (0 for the opener), and how many replies have landed well.</summary>
+        public int Beat;
+        public int Good;
+
+        /// <summary>Styles that have landed in this chat; each counts once towards learning what they respond to.</summary>
+        public HashSet<ChatStyle> Landed = new HashSet<ChatStyle>();
+
+        /// <summary>True once the conversation is over.</summary>
         public bool Answered;
     }
 
@@ -75,11 +89,24 @@ namespace Game.Sim.Relationships
             ["dream"] = ("Wherever it is, it would suit you.", "Somewhere with free snacks, obviously.", "Why there? What draws you to it?"),
         };
 
-        public static List<ChatReply> RepliesFor(string opener, string topic) => new List<ChatReply>
+        /// <summary>Replies to what they say next, once the first reply has drawn them out.</summary>
+        static readonly Dictionary<string, (string Warm, string Playful, string Curious)> MoreReplies = new Dictionary<string, (string, string, string)>
         {
-            new ChatReply { Style = ChatStyle.Warm, Text = Replies[opener].Warm.Replace("{topic}", topic ?? "") },
-            new ChatReply { Style = ChatStyle.Playful, Text = Replies[opener].Playful.Replace("{topic}", topic ?? "") },
-            new ChatReply { Style = ChatStyle.Curious, Text = Replies[opener].Curious.Replace("{topic}", topic ?? "") },
+            ["interest"] = ("I could listen to you talk about {topic} all day.", "Okay, you've sold me. When's my first lesson?", "What's the best part of it, for you?"),
+            ["day"] = ("I'm glad it was me you talked to.", "Lucky for you, I'm an excellent listener. And very modest.", "Is it like that a lot?"),
+            ["worry"] = ("You are. Anyone can see how much you care.", "Want me to go and have words with whoever said that?", "Where's that coming from?"),
+            ["dream"] = ("I can picture you there. It fits.", "Only if I get to visit. Often.", "What would you do first, once you got there?"),
         };
+
+        public static List<ChatReply> RepliesFor(string opener, string topic, int beat = 0)
+        {
+            (string Warm, string Playful, string Curious) lines = beat == 0 ? Replies[opener] : MoreReplies[opener];
+            return new List<ChatReply>
+            {
+                new ChatReply { Style = ChatStyle.Warm, Text = lines.Warm.Replace("{topic}", topic ?? "") },
+                new ChatReply { Style = ChatStyle.Playful, Text = lines.Playful.Replace("{topic}", topic ?? "") },
+                new ChatReply { Style = ChatStyle.Curious, Text = lines.Curious.Replace("{topic}", topic ?? "") },
+            };
+        }
     }
 }

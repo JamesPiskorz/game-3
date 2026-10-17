@@ -59,6 +59,8 @@
 21. **The playable loop is `TownSession`** (pure C#). It covers travel, waiting, sleeping, selection, closing time and people leaving, and dates. Unity's `TownView` (UI Toolkit) and `TownStage` (3D) only draw it. This is the same pattern as `CreatorSession`.
 22. **Chats are choices scored by personality, not by a script.** The resident opens (a loved topic, their day, a worry, a daydream) and the player picks a warm, playful or curious reply. Each style's appeal is a formula over the Big Five plus the opener, and a reply is judged against the average of the three, so there is always a better and a worse answer but no fixed right one.
     - Worries need familiarity, so strangers don't confide.
+    - A reply that lands draws them out: they say more and the player answers again. A miss ends the chat. Two good replies in one chat leave them feeling heard, a small bonus to affection and trust.
+    - Chats speed the simulated attentive player's first partner from about 15 days to about 13; the gains were trimmed so listening helps without becoming a shortcut.
     - Two good replies of one style teach the player what that person responds to. It's saved, shown on the card and marked on later replies, the same "learn by playing, then see it written down" pattern as likes.
 
 ## Pacing (simulated, 24 residents, 60 days)
@@ -75,10 +77,10 @@ Partner may still be too quick for a sandbox. Retune it after real play sessions
 ## Consequences / next
 
 - **The town is a stage, not a space.** Each location is a blockout set showing up to six present residents. There's no walking or NavMesh yet (Phase 5 plans both). Residents teleport between places on the hour.
-- **Dialogue is still mostly single lines.** With about 4 lines per reaction and no back-to-back repeats it holds up for a session. Chats add one player choice per exchange; chaining several beats is the next step.
+- **Dialogue is still mostly single lines.** With about 4 lines per reaction and no back-to-back repeats it holds up for a session. Chats add a choice per exchange, up to two exchanges; follow-ups that depend on the reply are the next step.
 - **Expressions are limited by the stand-in face:** an ellipsoid mouth can open but can't curve into a smile. Real heads should drive blendshapes instead.
 - **Not built yet:**
   - NPCs dating and gossiping among themselves over time (the web is static apart from breakups).
   - Weather, and outfits changing by occasion beyond casual and date.
   - Jealousy when dating several people.
-- **Tests:** 117 sim tests (the town, profiles, schedules, weather, interactions, chats, pacing, dialogue, dates, the boutique, contacts, the social web, invitations, the day loop, saves, the session, a fuzz test and story tests) pass on .NET 8 and in Unity. The prototype is verified headless by `TownCapture`, which presses HUD buttons through a scripted visit and saves `Docs/review/town-*.png`.
+- **Tests:** 119 sim tests (the town, profiles, schedules, weather, interactions, chats, pacing, dialogue, dates, the boutique, contacts, the social web, invitations, the day loop, saves, the session, a fuzz test and story tests) pass on .NET 8 and in Unity. The prototype is verified headless by `TownCapture`, which presses HUD buttons through a scripted visit and saves `Docs/review/town-*.png`.

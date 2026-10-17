@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Game.Sim.Relationships;
 using Game.Sim.Residents;
@@ -27,6 +28,43 @@ namespace Game.Sim.Tests
             new ChatScene { With = resident, Opener = opener, Replies = ChatTaste.RepliesFor(opener, "music") };
 
         static int IndexOf(ChatScene chat, ChatStyle style) => chat.Replies.FindIndex(r => r.Style == style);
+
+        static int Best(ChatScene chat) => chat.Replies.IndexOf(chat.Replies
+            .OrderByDescending(r => ChatTaste.Preference(chat.With.Profile.Personality, r.Style, chat.Opener)).First());
+
+        static int Worst(ChatScene chat) => chat.Replies.IndexOf(chat.Replies
+            .OrderBy(r => ChatTaste.Preference(chat.With.Profile.Personality, r.Style, chat.Opener)).First());
+
+        [Test]
+        public void AGoodReplyDrawsThemOutAndTwoLeaveThemFeelingHeard()
+        {
+            (SimWorld world, Interactions act, Resident resident) = Familiar(Outgoing);
+            act.StartChat(resident, out ChatScene chat);
+            List<string> first = chat.Replies.Select(r => r.Text).ToList();
+            InteractionResult more = act.ChatReply(chat, Best(chat));
+            Assert.That(more.Reaction, Is.EqualTo("chat.react.good"));
+            Assert.That(more.FollowUpReaction, Is.EqualTo("chat.more." + chat.Opener));
+            Assert.That(chat.Answered, Is.False);
+            Assert.That(chat.Line, Is.EqualTo(more.FollowUp));
+            Assert.That(chat.Replies.Select(r => r.Text), Is.Not.EqualTo(first), "New replies for what they said next.");
+
+            InteractionResult heard = act.ChatReply(chat, Best(chat));
+            Assert.That(heard.FollowUpReaction, Is.EqualTo("chat.close.heard"));
+            Assert.That(chat.Answered);
+            Assert.That(heard.Trust, Is.GreaterThan(more.Trust), "Feeling heard builds trust.");
+            Assert.That(world.RelationshipWith(resident).ChatWins.Values.Sum(), Is.EqualTo(1), "One chat teaches one thing.");
+        }
+
+        [Test]
+        public void AReplyThatMissesEndsTheChat()
+        {
+            (SimWorld _, Interactions act, Resident resident) = Familiar(Outgoing);
+            act.StartChat(resident, out ChatScene chat);
+            InteractionResult answer = act.ChatReply(chat, Worst(chat));
+            Assert.That(answer.Reaction, Is.EqualTo("chat.react.bad"));
+            Assert.That(answer.FollowUp, Is.Null);
+            Assert.That(chat.Answered);
+        }
 
         [Test]
         public void WarmthComfortsAWorrierAndTeasingStings()
@@ -139,8 +177,9 @@ namespace Game.Sim.Tests
             Assert.That(session.StartChat(), Is.Not.Null);
             Assert.That(session.Chat, Is.Not.Null);
             Assert.That(session.Chat.With, Is.EqualTo(someone));
-            Assert.That(session.ChatReply(0), Is.Not.Null);
-            Assert.That(session.Chat, Is.Null);
+            for (int beat = 0; beat < ChatScene.Beats && session.Chat != null; beat++)
+                Assert.That(session.ChatReply(Best(session.Chat)), Is.Not.Null);
+            Assert.That(session.Chat, Is.Null, "Two beats at most.");
 
             Assert.That(session.ChatReply(0), Is.Null);
             Assert.That(session.Notice, Does.Contain("no conversation"));

@@ -8,7 +8,7 @@ namespace Game.Sim.Sandbox
     /// <summary>
     /// A plausible attentive player, for balancing and for checking that different towns tell different stories.
     /// Each day it works when money is short, visits a few places, says hi to new faces, spends time with whoever
-    /// it likes most (talking about what they love, giving fitting gifts, asking them out somewhere they'd enjoy),
+    /// it likes most (talking about what they love, chatting, giving fitting gifts, asking them out somewhere they'd enjoy),
     /// shops on Saturdays, and sleeps. It writes a diary of what happened.
     /// </summary>
     public sealed class AutoPlayer
@@ -112,6 +112,12 @@ namespace Game.Sim.Sandbox
                 Record(_session.Talk(topic));
             }
             if (_session.Selected == null) return;
+            if (rel.Stage >= Stage.Acquaintance)
+            {
+                Record(_session.StartChat());
+                while (_session.Chat != null) Record(_session.ChatReply(Reply(_session.Chat, rel)));
+            }
+            if (_session.Selected == null) return;
             if (rel.LastComplimentDay != World.Now.Day) Record(_session.Compliment());
 
             if (rel.Stage >= Stage.Acquaintance && rel.KnownLikes.Count > 0 && rel.LastGiftDay < World.Now.Day - 1 && _session.Selected != null)
@@ -133,6 +139,18 @@ namespace Game.Sim.Sandbox
                     _session.EndDate();
                 }
             }
+        }
+
+        /// <summary>
+        /// What an attentive player would say: the way they've seen work, comfort for a worry, otherwise a guess.
+        /// It can't see personality, only what the card tells it.
+        /// </summary>
+        int Reply(ChatScene chat, Relationship rel)
+        {
+            int known = chat.Replies.FindIndex(r => r.Style.ToString() == rel.KnownChatStyle);
+            if (known >= 0) return known;
+            if (chat.Opener == "worry") return chat.Replies.FindIndex(r => r.Style == ChatStyle.Warm);
+            return _rng.NextInt(chat.Replies.Count);
         }
 
         void Shop()

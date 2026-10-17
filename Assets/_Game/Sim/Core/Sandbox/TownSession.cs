@@ -433,7 +433,7 @@ namespace Game.Sim.Sandbox
         public InteractionResult StartChat()
         {
             ChatScene chat = null;
-            InteractionResult opened = Do(r => Act.StartChat(r, out chat));
+            InteractionResult opened = Do(r => Act.StartChat(r, out chat), chatting: true);
             if (opened != null && Selected != null)
             {
                 Chat = chat;
@@ -453,8 +453,10 @@ namespace Game.Sim.Sandbox
                 return null;
             }
             ChatScene chat = Chat;
-            Chat = null;
-            return Do(r => Act.ChatReply(chat, reply));
+            InteractionResult answer = Do(r => Act.ChatReply(chat, reply), chatting: true);
+            Chat = chat.Answered || Selected != chat.With ? null : chat; // a reply that lands draws them out, and the chat goes on
+            Raise();
+            return answer;
         }
         /// <summary>Gives a gift, which costs its price in coins.</summary>
         public InteractionResult Gift(string giftId)
@@ -565,10 +567,10 @@ namespace Game.Sim.Sandbox
             Learnt = round.Learnt ?? outcome.Learnt,
         };
 
-        InteractionResult Do(Func<Resident, InteractionResult> verb, bool keepTime = false)
+        InteractionResult Do(Func<Resident, InteractionResult> verb, bool keepTime = false, bool chatting = false)
         {
             Notice = null;
-            if (verb.Method.Name.IndexOf("Chat", StringComparison.Ordinal) < 0) Chat = null; // any other action moves the conversation on
+            if (!chatting) Chat = null; // any other action moves the conversation on
             if (Selected == null)
             {
                 Notice = "Pick someone to talk to first.";

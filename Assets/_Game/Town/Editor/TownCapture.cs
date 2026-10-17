@@ -30,7 +30,7 @@ namespace Game.Town
             "press:here-0", "press:act-greet", "shot:greet",
             "press:act-talk", "press:topic-{liked}", "shot:talk",
             "befriend", "press:act-gift", "press:gift-{gift}", "shot:gift",
-            "press:act-chat", "shot:chat", "press:chatopt-{chat}", "shot:chat-reply",
+            "press:act-chat", "shot:chat", "press:chatopt-{chat}", "shot:chat-reply", "press:chatopt-{chat}", "shot:chat-heard",
             "press:act-date", "press:dateplace-park", "shot:date",
             "press:dateopt-{best}", "shot:date-round", "press:dateopt-{best}", "press:dateopt-{best}", "shot:date-end",
             "press:act-end-date", "press:place-mall", "press:buy-0", "shot:boutique",

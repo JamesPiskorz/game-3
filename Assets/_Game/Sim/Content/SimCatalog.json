@@ -291,6 +291,36 @@
       { "tone": "bubbly", "text": "Quick, pick a dream holiday! I'll go first: everywhere!" },
       { "tone": "dry", "text": "Somewhere far away. That's my whole plan." }
     ],
+    "chat.more.interest": [
+      { "tone": "any", "text": "Honestly, {topic} is the thing that keeps me sane." },
+      { "tone": "shy", "text": "I don't usually tell people how much I love {topic}. It's nice to." },
+      { "tone": "bubbly", "text": "Okay, so here's the thing about {topic}: once you start, you can't stop!" },
+      { "tone": "dry", "text": "Fine. {topic} might be the best thing in my life. Don't spread it around." }
+    ],
+    "chat.more.day": [
+      { "tone": "any", "text": "Honestly, I think I just needed someone to talk to." },
+      { "tone": "shy", "text": "Sorry for going on. You're easy to talk to." },
+      { "tone": "bubbly", "text": "Ugh, okay, I feel better already. You're good for me!" },
+      { "tone": "dry", "text": "Anyway. That's more than I tell most people." }
+    ],
+    "chat.more.worry": [
+      { "tone": "any", "text": "It's just... I keep thinking I'm not good enough at what I do." },
+      { "tone": "shy", "text": "I keep worrying everyone's disappointed in me. Silly, right?" },
+      { "tone": "bubbly", "text": "I put on a brave face, but sometimes I feel like I'm faking all of it." },
+      { "tone": "dry", "text": "I suspect I'm bad at my job. And my life. Mostly my job." }
+    ],
+    "chat.more.dream": [
+      { "tone": "any", "text": "Somewhere by the sea, maybe. Somewhere I could start over." },
+      { "tone": "shy", "text": "A little house somewhere quiet. With a garden. Is that boring?" },
+      { "tone": "bubbly", "text": "Tokyo, then Lisbon, then a beach with nobody on it. Then home, maybe." },
+      { "tone": "dry", "text": "A cabin. No neighbours. Excellent coffee." }
+    ],
+    "chat.close.heard": [
+      { "tone": "any", "text": "I really like talking to you, you know." },
+      { "tone": "shy", "text": "I feel like you actually listen. Thank you." },
+      { "tone": "bubbly", "text": "Best chat I've had all week. Maybe all month!" },
+      { "tone": "dry", "text": "You're alright. Don't let it go to your head." }
+    ],
     "chat.react.good": [
       { "tone": "any", "text": "You always know what to say." },
       { "tone": "shy", "text": "...Thank you. That means a lot." },

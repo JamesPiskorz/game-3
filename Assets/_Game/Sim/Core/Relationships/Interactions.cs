@@ -417,6 +417,8 @@ namespace Game.Sim.Relationships
         /// <summary>
         /// The player's answer lands well when it's the kind this person warms to (see <see cref="ChatTaste"/>), badly
         /// when it's the opposite. Seeing one kind land well twice teaches the player what they respond to.
+        /// A good first reply draws them out: they say more, and the chat goes on to a second beat. Two good replies in
+        /// one chat leave them feeling heard, which counts for more than either alone.
         /// </summary>
         public InteractionResult ChatReply(ChatScene chat, int reply)
         {
@@ -433,12 +435,12 @@ namespace Game.Sim.Relationships
             switch (outcome)
             {
                 case "good":
-                    Add(ref rel.Affection, 3.5f * fresh);
+                    Add(ref rel.Affection, 2.5f * fresh);
                     Add(ref rel.Familiarity, 3f * fresh);
-                    Add(ref rel.Trust, chat.Opener == "worry" ? 3f : 1f);
+                    Add(ref rel.Trust, (chat.Opener == "worry" ? 3f : 1f) * fresh);
                     if (choice.Style == ChatStyle.Playful) Add(ref rel.Attraction, 2f);
                     string style = choice.Style.ToString();
-                    rel.ChatWins[style] = rel.ChatWins.TryGetValue(style, out int wins) ? wins + 1 : 1;
+                    if (chat.Landed.Add(choice.Style)) rel.ChatWins[style] = rel.ChatWins.TryGetValue(style, out int wins) ? wins + 1 : 1;
                     if (rel.ChatWins[style] >= 2 && rel.KnownChatStyle == null)
                     {
                         rel.KnownChatStyle = style;
@@ -455,8 +457,33 @@ namespace Game.Sim.Relationships
                     break;
             }
             rel.TalksToday++;
-            chat.Answered = true;
-            return Finish(resident, rel, rng, result, before, "chat.react." + outcome, ChatMinutes);
+            if (outcome == "good") chat.Good++;
+            bool more = outcome == "good" && chat.Beat + 1 < ChatScene.Beats;
+            bool heard = outcome == "good" && !more && chat.Good == ChatScene.Beats;
+            if (heard)
+            {
+                Add(ref rel.Affection, 1.5f * fresh);
+                Add(ref rel.Trust, 2f * fresh);
+            }
+            string topicName = chat.Topic == null ? "" : _world.Catalog.Topic(chat.Topic)?.Name ?? "";
+            InteractionResult answer = Finish(resident, rel, rng, result, before, "chat.react." + outcome, ChatMinutes);
+            string next = more ? "chat.more." + chat.Opener : heard ? "chat.close.heard" : null;
+            if (next != null)
+            {
+                answer.FollowUp = Say(resident, rel, rng, next, rel.Stage, Tokens(resident, ("topic", topicName)));
+                answer.FollowUpReaction = next;
+            }
+            if (more)
+            {
+                chat.Beat++;
+                chat.Line = answer.FollowUp;
+                chat.Replies = ChatTaste.RepliesFor(chat.Opener, topicName, chat.Beat);
+            }
+            else
+            {
+                chat.Answered = true;
+            }
+            return answer;
         }
 
         public static string StyleWords(ChatStyle style) => style switch
