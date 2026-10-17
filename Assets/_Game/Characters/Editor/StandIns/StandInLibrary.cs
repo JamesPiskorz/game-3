@@ -330,6 +330,41 @@ namespace Game.Characters.StandIns
                 Crown(m);
                 m.AddEllipsoid(new Vector3(0f, 1.715f, -0.11f), new Vector3(0.055f, 0.05f, 0.05f), None, false, "Head", Region1);
             });
+            yield return Hair("hair.back.afro_01", "hair.back", m =>
+            {
+                // A big rounded cloud around the head, open for the face, with bumps so the outline isn't a ball.
+                // The volume sits back from the face, open in a round arch around it (a level opening read as the
+                // brim of a helmet). The opening is cut as a ring around the pole, so its edge is smooth, then the
+                // shell is turned so the pole looks out of the face.
+                Vector3 centre = HeadCentre + new Vector3(0f, 0.03f, -0.035f);
+                var radii = new Vector3(0.162f, 0.156f, 0.156f);
+                Quaternion face = Quaternion.FromToRotation(Vector3.up, new Vector3(0f, -0.28f, 0.96f));
+                int start = m.VertexCount;
+                using (m.Coarse(latitudes: 24, longitudes: 36))
+                    m.AddEllipsoid(centre, radii, None, false, "Head", Region1, d => d.y < 0.72f && (face * d).y > -0.62f);
+                m.Rotate(start, centre, face);
+                using IDisposable medium = m.Coarse(latitudes: 8, longitudes: 12);
+                foreach (Vector3 direction in new[]
+                {
+                    new Vector3(0.7f, 0.7f, 0.1f), new Vector3(-0.7f, 0.7f, 0.1f), new Vector3(0f, 0.9f, -0.45f), new Vector3(0.3f, 0.95f, 0.25f),
+                    new Vector3(-0.3f, 0.95f, 0.25f), new Vector3(0.9f, 0.15f, -0.4f), new Vector3(-0.9f, 0.15f, -0.4f), new Vector3(0f, 0.3f, -0.95f),
+                    new Vector3(0.55f, 0.35f, -0.75f), new Vector3(-0.55f, 0.35f, -0.75f), new Vector3(0.95f, -0.25f, 0.05f), new Vector3(-0.95f, -0.25f, 0.05f),
+                })
+                    m.AddEllipsoid(centre + Vector3.Scale(direction.normalized, radii) * 0.86f, Vector3.one * 0.05f, None, false, "Head", Region1);
+            });
+            yield return Hair("hair.back.puffs_01", "hair.back", m =>
+            {
+                // Two round puffs high on the head, each a little cloud.
+                Crown(m);
+                using IDisposable medium = m.Coarse(latitudes: 8, longitudes: 12);
+                foreach (float x in new[] { -1f, 1f })
+                {
+                    Vector3 at = HeadCentre + new Vector3(x * 0.088f, 0.094f, -0.025f);
+                    m.AddEllipsoid(at, new Vector3(0.056f, 0.052f, 0.054f), None, false, "Head", Region1);
+                    foreach (Vector3 direction in new[] { new Vector3(x, 0.6f, 0.3f), new Vector3(x * 0.4f, 1f, -0.2f), new Vector3(x, 0.1f, -0.6f), new Vector3(x * 0.2f, 0.5f, 0.85f) })
+                        m.AddEllipsoid(at + direction.normalized * 0.042f, Vector3.one * 0.027f, None, false, "Head", Region1);
+                }
+            });
             yield return Hair("hair.front.blunt_01", "hair.front", m =>
                 m.AddEllipsoid(HeadCentre, new Vector3(HeadR + 0.019f, HeadR + 0.019f, HeadR + 0.019f), None, false, "Head", Region1,
                     d => d.z > 0.25f && d.y > 0.52f));

@@ -93,6 +93,9 @@ namespace Game.Characters.Generation
             int before = result.Hair.PieceIds.Count;
             result.Hair.PieceIds = result.Hair.PieceIds.Where(id => catalog.Part(id)?.Slot is string slot && (slot == Slots.HairBack || slot == Slots.HairFront)).ToList();
             if (result.Hair.PieceIds.Count < before) fixes.Add("hair pieces this build doesn't have");
+            List<PartEntry> backs = result.Hair.PieceIds.Select(catalog.Part).Where(p => p.Slot == Slots.HairBack).ToList();
+            if (result.Hair.PieceIds.RemoveAll(id => catalog.Part(id).Slot == Slots.HairFront && !CharacterGenerator.Compatible(catalog.Part(id), backs)) > 0)
+                fixes.Add("bangs the cut can't take");
             if (result.Hair.PieceIds.Count(id => catalog.Part(id).Slot == Slots.HairBack) != 1)
             {
                 result.Hair.PieceIds = fresh.Hair.PieceIds.ToList();

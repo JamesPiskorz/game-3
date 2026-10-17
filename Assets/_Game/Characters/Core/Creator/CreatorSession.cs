@@ -277,6 +277,11 @@ namespace Game.Characters.Creator
             {
                 dna.Hair.PieceIds.RemoveAll(piece => _catalog.Part(piece)?.Slot == slot);
                 if (id != null) dna.Hair.PieceIds.Insert(slot == Slots.HairBack ? 0 : dna.Hair.PieceIds.Count, id);
+                // A new cut takes off bangs it can't have (an afro has none).
+                if (slot == Slots.HairBack && id != null)
+                    dna.Hair.PieceIds.RemoveAll(piece => _catalog.Part(piece) is PartEntry front && front.Slot == Slots.HairFront
+                        && !CharacterGenerator.Compatible(front, new[] { _catalog.Part(id) }));
+                _generator.DropIncompatibleParts(dna); // and a hat or hair clip it can't carry, as at the salon
             }, out problem);
         }
 

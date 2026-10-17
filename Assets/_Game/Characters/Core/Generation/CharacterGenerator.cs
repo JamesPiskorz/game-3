@@ -176,7 +176,7 @@ namespace Game.Characters.Generation
         {
             Pcg32 rng = SeedStreams.For(seed, "hair");
             var worn = new List<PartEntry>();
-            PartEntry back = PickPart(rng, Slots.HairBack, archetype, null, dna.Body.Femininity, worn)
+            PartEntry back = PickPart(rng, Slots.HairBack, archetype, null, dna.Body.Femininity, worn, p => !p.Tags.Contains(HairTags.Textured))
                 ?? throw new InvalidOperationException("No hair.back part can be picked.");
             worn.Add(back);
             dna.Hair.PieceIds.Add(back.Id);
@@ -204,6 +204,18 @@ namespace Game.Characters.Generation
             {
                 dna.Hair.Tip = colour;
                 dna.Hair.Gradient = 0f;
+            }
+
+            // Textured styles (an afro, puffs) on a stream of their own, so adding them changed nobody else's hair.
+            Pcg32 textured = SeedStreams.For(seed, "hair.textured");
+            if (textured.Chance(archetype.TexturedHairChance))
+            {
+                PartEntry style = PickPart(textured, Slots.HairBack, archetype, null, dna.Body.Femininity, new List<PartEntry>(), p => p.Tags.Contains(HairTags.Textured));
+                if (style != null)
+                {
+                    dna.Hair.PieceIds[0] = style.Id;
+                    dna.Hair.PieceIds.RemoveAll(id => _catalog.Part(id) is PartEntry piece && piece.Slot == Slots.HairFront && !Compatible(piece, new[] { style }));
+                }
             }
         }
 
@@ -313,9 +325,9 @@ namespace Game.Characters.Generation
             return rng.PickWeighted(onePieces, p => PartWeight(p, archetype, context, femininity));
         }
 
-        PartEntry PickPart(Pcg32 rng, string slot, StyleArchetype archetype, OutfitContext context, float femininity, List<PartEntry> worn)
+        PartEntry PickPart(Pcg32 rng, string slot, StyleArchetype archetype, OutfitContext context, float femininity, List<PartEntry> worn, Func<PartEntry, bool> only = null)
         {
-            List<PartEntry> candidates = Candidates(slot, context, worn).ToList();
+            List<PartEntry> candidates = Candidates(slot, context, worn).Where(p => only == null || only(p)).ToList();
             return rng.PickWeighted(candidates, p => PartWeight(p, archetype, context, femininity));
         }
 

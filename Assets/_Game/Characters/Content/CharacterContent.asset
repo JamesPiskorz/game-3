@@ -60,6 +60,10 @@ MonoBehaviour:
     Prefab: {fileID: 2591411257994571824, guid: 4b89cafb9e404264799ef30c07f18e81, type: 3}
   - Id: hair.back.bun_01
     Prefab: {fileID: 8653512852195203677, guid: 72daaae3b3987bb4ba779b26f9c4d303, type: 3}
+  - Id: hair.back.afro_01
+    Prefab: {fileID: 1946399278932701350, guid: c360db2845f08fe45b75bee43ac7b123, type: 3}
+  - Id: hair.back.puffs_01
+    Prefab: {fileID: 4560683986853413219, guid: 1377672241d443b4ea7296324bf3dd7b, type: 3}
   - Id: hair.front.blunt_01
     Prefab: {fileID: 7959323058404227635, guid: 5536e869c8850764cbb9ef1bd0f52cd5, type: 3}
   - Id: hair.front.swept_01

@@ -60,6 +60,9 @@ namespace Game.Characters.Generation
             if (hair.Count(p => p.Slot == Slots.HairFront) > 1) errors.Add("Hair has more than one hair.front piece.");
             foreach (PartEntry piece in hair.Where(p => p.Slot != Slots.HairBack && p.Slot != Slots.HairFront))
                 errors.Add($"'{piece.Id}' is not a hair piece.");
+            foreach (PartEntry front in hair.Where(p => p.Slot == Slots.HairFront))
+                if (!CharacterGenerator.Compatible(front, hair.Where(p => p.Slot == Slots.HairBack).ToList()))
+                    errors.Add($"'{front.Id}' doesn't go with the cut.");
             CheckColour(errors, dna.Hair.Base, "hair base");
             CheckColour(errors, dna.Hair.Tip, "hair tip");
             CheckColour(errors, dna.Hair.Highlight, "hair highlight");

@@ -133,6 +133,16 @@ namespace Game.Characters.Content
     /// Face marks and makeup (FaceDna.Makeup). Freckles, a beauty mark and blush are small parts in "face." slots,
     /// worn whatever the outfit; lipstick is a colour for the lips.
     /// </summary>
+    /// <summary>Hair tags the generator and rules reason about.</summary>
+    public static class HairTags
+    {
+        /// <summary>Textured styles, drawn on a stream of their own (see CharacterGenerator).</summary>
+        public const string Textured = "textured";
+
+        /// <summary>Hair with so much volume that hats and hair accessories can't sit on it.</summary>
+        public const string Big = "big_hair";
+    }
+
     public static class Makeup
     {
         public const string Lipstick = "makeup.lipstick";
@@ -297,6 +307,9 @@ namespace Game.Characters.Content
         /// <summary>Where this style's lipstick colours come from (default <see cref="Makeup.LipPalette"/>).</summary>
         public string LipPalette;
         public float NoBangsChance = 0.25f;
+
+        /// <summary>How often hair is a textured style (an afro, puffs: hair.back pieces tagged "textured").</summary>
+        public float TexturedHairChance = 0.12f;
     }
 
     public sealed class OutfitContext

@@ -7,7 +7,7 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 | Area | State | Where |
 |---|---|---|
 | Character DNA | v1: versioned, deterministic JSON, share codes, migration scaffold, and repair for looks made with other content (removed parts, new sliders and contexts) | `Characters/Core/Dna` |
-| Generator | Archetypes, presets + noise, colour harmony, slot/tag rules, skin-contrast rule, population mode with families (siblings who look related), outer layers (a jacket or coat by choice, and a coat on rainy days), legwear where legs show, freckles, beauty marks, blush and lipstick by style and presentation, workout clothes for the gym, smart work clothes, reroll with locks | `Characters/Core/Generation`, `Content/Catalog.json` |
+| Generator | Archetypes, presets + noise, colour harmony, slot/tag rules, skin-contrast rule, population mode with families (siblings who look related), outer layers (a jacket or coat by choice, and a coat on rainy days), legwear where legs show, freckles, beauty marks, blush and lipstick by style and presentation, textured hairstyles (an afro, puffs) for about one in eight, workout clothes for the gym, smart work clothes, reroll with locks | `Characters/Core/Generation`, `Content/Catalog.json` |
 | Runtime assembly | Bone rebinding, part-only bone grafting, blendshape mirroring, region hiding, slot blocking | `Characters/Runtime/Modular` (decision 0001) |
 | Builder | DNA → character, idempotent, sliders/styles on bones, colours, patterns | `Characters/Runtime/Building` |
 | Toon shading | `Game/Characters/Toon`: ramp shading, hand-picked skin shades, outlines, recolour masks, patterns | `Characters/Shaders` (decision 0002) |
@@ -38,7 +38,7 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 | Stand-in content | Procedural body with simple face, 46 parts (15 hair, including a braid on its own spring chain; 31 clothing and accessories, including neckwear, outer layers, legwear, earrings, a crossbody bag and hair accessories), 9 face presets, 7 eye and 5 brow styles, 10 patterns, toon materials. **Placeholder art until Phase 1.** | `Characters/Editor/StandIns`, `Content/StandIn` |
 | Generator statistics | 10,000 characters measured as a population: style shares against catalog weights, presentation and skin-tone spread, fantasy hair and eyes, how often each part is worn in each context, patterns, rule violations (0) and time per character (about 0.3 ms). A test fails if any part goes unworn | `Generation/GeneratorStats.cs`, `Docs/review/generator-stats.md` |
 | Performance | Town benchmark; distance-based detail (`CharacterLod`) | decision 0004, `Docs/review/perf.md` |
-| Tests | 301 Unity EditMode tests (139 characters, 162 sim); the pure C# sets also run on .NET 8 | `Characters/Tests`, `Sim/Tests` |
+| Tests | 303 Unity EditMode tests (141 characters, 162 sim); the pure C# sets also run on .NET 8 | `Characters/Tests`, `Sim/Tests` |
 
 ## Try it
 
