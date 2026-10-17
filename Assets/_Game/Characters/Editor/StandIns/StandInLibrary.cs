@@ -507,12 +507,12 @@ namespace Game.Characters.StandIns
                 }
             });
             yield return Hair("hair.front.blunt_01", "hair.front", m =>
-                m.AddEllipsoid(HeadCentre, new Vector3(HeadR + 0.019f, HeadR + 0.019f, HeadR + 0.019f), None, false, "Head", Region1,
+                m.AddEllipsoid(HeadCentre, new Vector3(HeadR + 0.019f, HeadR + 0.019f, HeadR + 0.019f), None, false, "Head", Ring,
                     d => d.z > 0.25f && d.y > 0.52f));
             yield return Hair("hair.front.hime_01", "hair.front", m =>
             {
                 // A hime cut: blunt bangs, and a straight lock either side of the face cut level at the jaw.
-                m.AddEllipsoid(HeadCentre, new Vector3(HeadR + 0.019f, HeadR + 0.019f, HeadR + 0.019f), None, false, "Head", Region1,
+                m.AddEllipsoid(HeadCentre, new Vector3(HeadR + 0.019f, HeadR + 0.019f, HeadR + 0.019f), None, false, "Head", Ring,
                     d => d.z > 0.25f && d.y > 0.52f);
                 m.AddCurtain(1.7f, 1.545f, 0.128f, 0.131f, 116f, 142f, null, Gradient(0.6f));
                 m.AddCurtain(1.7f, 1.545f, 0.128f, 0.131f, -142f, -116f, null, Gradient(0.6f));
@@ -523,12 +523,12 @@ namespace Game.Characters.StandIns
                 // Where it rises above the crown's hairline, the crown fills in beneath.
                 int start = m.VertexCount;
                 using IDisposable fine = m.Coarse(latitudes: 24, longitudes: 36);
-                m.AddEllipsoid(HeadCentre, new Vector3(HeadR + 0.019f, HeadR + 0.019f, HeadR + 0.019f), None, false, "Head", Region1,
+                m.AddEllipsoid(HeadCentre, new Vector3(HeadR + 0.019f, HeadR + 0.019f, HeadR + 0.019f), None, false, "Head", Ring,
                     d => d.y > 0.48f && d.z > 0.2f);
                 m.Rotate(start, HeadCentre, Quaternion.Euler(0f, 0f, 17f));
             });
             yield return Hair("hair.front.parted_01", "hair.front", m =>
-                m.AddEllipsoid(HeadCentre, new Vector3(HeadR + 0.019f, HeadR + 0.019f, HeadR + 0.019f), None, false, "Head", Region1,
+                m.AddEllipsoid(HeadCentre, new Vector3(HeadR + 0.019f, HeadR + 0.019f, HeadR + 0.019f), None, false, "Head", Ring,
                     d => d.z > 0.22f && d.y > 0.46f && Mathf.Abs(d.x) > 0.09f));
             yield return Hair("hair.back.wavy_01", "hair.back", m =>
             {
@@ -590,7 +590,7 @@ namespace Game.Characters.StandIns
             });
             yield return Hair("hair.front.curtain_01", "hair.front", m =>
                 // Parted in the middle and longer at the sides, framing the face.
-                m.AddEllipsoid(HeadCentre, new Vector3(HeadR + 0.019f, HeadR + 0.019f, HeadR + 0.019f), None, false, "Head", Region1,
+                m.AddEllipsoid(HeadCentre, new Vector3(HeadR + 0.019f, HeadR + 0.019f, HeadR + 0.019f), None, false, "Head", Ring,
                     d => d.z > 0.12f && Mathf.Abs(d.x) > 0.07f && d.y > 0.64f - 0.6f * Mathf.Abs(d.x)));
 
             // ---------------- accessories (no body shapes reach the head)
@@ -1050,10 +1050,14 @@ namespace Game.Characters.StandIns
         // Shared crown: over the head, down the back to the nape, over the ears, with a high front hairline for bangs.
         // The hairline curves from the forehead down to the temples (a step there showed as a notch beside the bangs).
         static void Crown(StandInMesh mesh) =>
-            mesh.AddEllipsoid(HeadCentre, new Vector3(HeadR + 0.014f, HeadR + 0.016f, HeadR + 0.014f), None, false, "Head", Region1,
+            mesh.AddEllipsoid(HeadCentre, new Vector3(HeadR + 0.014f, HeadR + 0.016f, HeadR + 0.014f), None, false, "Head", Ring,
                 d => d.y > 0.2f + 0.35f * Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(0.1f, 0.55f, d.z)) || (d.z < 0.1f && d.y > -0.45f) || (Mathf.Abs(d.x) > 0.8f && d.y > -0.15f));
 
         static readonly MaskFunction RegionTwo = (along, around) => new Vector4(0f, 1f, 0f, 0f);
+
+        // The "angel ring": a band of the hair's highlight colour a little below the top of the head, on the crown and
+        // on the bangs over it. Along runs from the top of the sphere (0) to the bottom (1).
+        static readonly MaskFunction Ring = (along, around) => along > 0.16f && along < 0.27f ? new Vector4(0f, 0f, 1f, 0f) : new Vector4(1f, 0f, 0f, 0f);
 
         // Region 1 upper, region 2 for the sole (faces pointing down).
         static readonly MaskFunction Sole = (along, around) =>
