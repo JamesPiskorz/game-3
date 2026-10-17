@@ -317,6 +317,72 @@ namespace Game.Sim.Sandbox
             PatternColor = item.PatternColor,
         };
 
+        // ---------------------------------------------------------------- activities
+
+        /// <summary>Things to do here now (the place must be open, and not mid-date).</summary>
+        public List<ActivityEntry> Activities()
+        {
+            LocationEntry place = World.Catalog.Location(Location);
+            return place == null || DateWith != null || !IsOpen(Location) ? new List<ActivityEntry>() : place.Activities.ToList();
+        }
+
+        /// <summary>Gain from an activity: full at first, tapering off as the stat climbs.</summary>
+        public static float Gain(ActivityEntry activity, float current) => activity.Gain * Math.Max(0.15f, 1f - current / 120f);
+
+        /// <summary>Spends the time (and any coins) on an activity here, raising its stat.</summary>
+        public void DoActivity(string id)
+        {
+            Notice = null;
+            ActivityEntry activity = Activities().FirstOrDefault(a => a.Id == id);
+            if (activity == null)
+            {
+                Notice = "You can't do that here right now.";
+                Raise();
+                return;
+            }
+            if (World.Player.Money < activity.Cost)
+            {
+                Notice = $"That costs {activity.Cost} coins, and you have {World.Player.Money}.";
+                Raise();
+                return;
+            }
+            float before = World.Player.Stat(activity.Stat);
+            float after = Math.Min(100f, before + Gain(activity, before));
+            World.Player.Stats[activity.Stat] = after;
+            World.Player.Money -= activity.Cost;
+            _today.Spent += activity.Cost;
+            World.Advance(activity.Hours * 60);
+            Selected = null;
+            Last = null;
+            Notice = $"{activity.Name}: {activity.Stat} {before:0} \u2192 {after:0}.";
+            AfterTimePasses();
+            Raise();
+        }
+
+        // ---------------------------------------------------------------- hints
+
+        /// <summary>
+        /// One gentle tip for what to try next, from the situation (or null when the player seems to be finding their
+        /// way). Aimed at the first hour: meeting people, learning tastes, a first date, money, messages.
+        /// </summary>
+        public string Hint()
+        {
+            if (Date != null && !Date.Finished) return "Pick what to talk about. Topics they love make for a good date.";
+            if (Date != null) return "Say goodnight when you're ready.";
+            if (World.Invitations.Any(i => i.Pending && i.Day == World.Now.Day)) return "You have a message: someone wants to meet up today.";
+            bool metAnyone = World.Relationships.Any(r => r.Met);
+            if (AtHome && !metAnyone) return "Head out: pick a place under Go to. The numbers show how many people are there.";
+            if (Selected == null)
+                return Present().Count > 0 && !metAnyone ? "Pick someone under Here to say hi." : null;
+
+            Relationship rel = World.RelationshipWith(Selected);
+            if (!rel.Met) return "Say hi. Your outfit makes the first impression.";
+            if (rel.KnownLikes.Count == 0) return "Try Talk about…: you'll learn what they love from how they react.";
+            if (rel.Stage >= Stage.Friend && rel.Dates == 0) return "You're friends now. Ask them out somewhere they'd enjoy.";
+            if (rel.Stage < Stage.Friend && World.Player.Money < 15) return "Short on coins? Work a shift wherever people are employed.";
+            return null;
+        }
+
         // ---------------------------------------------------------------- contacts
 
         public List<Contact> Contacts() => Sandbox.Contacts.For(this);

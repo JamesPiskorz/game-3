@@ -69,6 +69,8 @@ namespace Game.Sim
             return errors;
         }
 
+        public static readonly string[] Stats = { "charm", "fitness", "smarts", "style" };
+
         /// <summary>Residents' homes aren't town locations; schedules use this ID for them.</summary>
         public const string Home = "home";
     }
@@ -81,7 +83,21 @@ namespace Game.Sim
         public int Opens;
         public int Closes = 24;
 
+        /// <summary>Things the player can do here to improve themselves.</summary>
+        public List<ActivityEntry> Activities = new List<ActivityEntry>();
+
         public bool IsOpen(int hour) => hour >= Opens && hour < Closes;
+    }
+
+    /// <summary>Something to do at a place: time (and maybe coins) spent for a stat.</summary>
+    public sealed class ActivityEntry
+    {
+        public string Id;
+        public string Name;
+        public string Stat;
+        public float Gain;
+        public int Hours = 1;
+        public int Cost;
     }
 
     public sealed class JobEntry
@@ -113,6 +129,9 @@ namespace Game.Sim
         public Personality Traits = new Personality();
         public Dictionary<string, float> Interests = new Dictionary<string, float>();
         public List<string> Hangouts = new List<string>();
+
+        /// <summary>Player stats this style admires (stat → weight, 1 = most), which sway first impressions.</summary>
+        public Dictionary<string, float> Admires = new Dictionary<string, float>();
     }
 
     public sealed class NamePool

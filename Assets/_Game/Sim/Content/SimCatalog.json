@@ -1,13 +1,13 @@
 {
   "locations": [
-    { "id": "cafe", "name": "Moonbean Café", "tags": ["food", "cozy", "social"], "opens": 7, "closes": 21 },
-    { "id": "park", "name": "Willow Park", "tags": ["nature", "outdoors", "romantic"], "opens": 0, "closes": 24 },
-    { "id": "campus", "name": "Harbour College", "tags": ["study"], "opens": 8, "closes": 18 },
+    { "id": "cafe", "name": "Moonbean Café", "tags": ["food", "cozy", "social"], "opens": 7, "closes": 21, "activities": [{ "id": "regulars", "name": "Chat with the regulars", "stat": "charm", "gain": 4, "hours": 1, "cost": 5 }] },
+    { "id": "park", "name": "Willow Park", "tags": ["nature", "outdoors", "romantic"], "opens": 0, "closes": 24, "activities": [{ "id": "jog", "name": "Go for a jog", "stat": "fitness", "gain": 4, "hours": 1 }] },
+    { "id": "campus", "name": "Harbour College", "tags": ["study"], "opens": 8, "closes": 18, "activities": [{ "id": "class", "name": "Sit in on a class", "stat": "smarts", "gain": 8, "hours": 3 }] },
     { "id": "office", "name": "Lantern Tower", "tags": ["work"], "opens": 8, "closes": 19 },
-    { "id": "gym", "name": "Pulse Gym", "tags": ["sports"], "opens": 6, "closes": 22 },
-    { "id": "mall", "name": "Arcade Lane", "tags": ["fashion", "games", "social"], "opens": 10, "closes": 21 },
-    { "id": "bar", "name": "The Night Owl", "tags": ["music", "social", "romantic"], "opens": 17, "closes": 24 },
-    { "id": "library", "name": "Ink & Willow Library", "tags": ["books", "quiet"], "opens": 9, "closes": 20 }
+    { "id": "gym", "name": "Pulse Gym", "tags": ["sports"], "opens": 6, "closes": 22, "activities": [{ "id": "workout", "name": "Work out", "stat": "fitness", "gain": 7, "hours": 2, "cost": 10 }] },
+    { "id": "mall", "name": "Arcade Lane", "tags": ["fashion", "games", "social"], "opens": 10, "closes": 21, "activities": [{ "id": "browse", "name": "Study the shop windows", "stat": "style", "gain": 5, "hours": 1 }] },
+    { "id": "bar", "name": "The Night Owl", "tags": ["music", "social", "romantic"], "opens": 17, "closes": 24, "activities": [{ "id": "mingle", "name": "Mingle", "stat": "charm", "gain": 7, "hours": 2, "cost": 15 }] },
+    { "id": "library", "name": "Ink & Willow Library", "tags": ["books", "quiet"], "opens": 9, "closes": 20, "activities": [{ "id": "read", "name": "Read up", "stat": "smarts", "gain": 6, "hours": 2 }] }
   ],
 
   "jobs": [
@@ -47,19 +47,19 @@
 
   "archetypes": {
     "casual":  { "traits": { "openness": 0.5,  "conscientiousness": 0.5,  "extraversion": 0.6,  "agreeableness": 0.65, "neuroticism": 0.4 },
-                 "interests": { "food": 2, "film": 2, "music": 1.5, "travel": 1.5, "pets": 1, "games": 1 }, "hangouts": ["cafe", "park", "mall"] },
+                 "interests": { "food": 2, "film": 2, "music": 1.5, "travel": 1.5, "pets": 1, "games": 1 }, "hangouts": ["cafe", "park", "mall"], "admires": { "charm": 1 } },
     "sporty":  { "traits": { "openness": 0.45, "conscientiousness": 0.6,  "extraversion": 0.75, "agreeableness": 0.55, "neuroticism": 0.3 },
-                 "interests": { "sports": 3, "nature": 2, "food": 1.5, "music": 1, "travel": 1 }, "hangouts": ["gym", "park"] },
+                 "interests": { "sports": 3, "nature": 2, "food": 1.5, "music": 1, "travel": 1 }, "hangouts": ["gym", "park"], "admires": { "fitness": 1, "charm": 0.4 } },
     "cute":    { "traits": { "openness": 0.55, "conscientiousness": 0.45, "extraversion": 0.7,  "agreeableness": 0.75, "neuroticism": 0.5 },
-                 "interests": { "fashion": 2, "pets": 2, "food": 2, "art": 1.5, "games": 1.5 }, "hangouts": ["cafe", "mall", "park"] },
+                 "interests": { "fashion": 2, "pets": 2, "food": 2, "art": 1.5, "games": 1.5 }, "hangouts": ["cafe", "mall", "park"], "admires": { "charm": 1, "style": 0.6 } },
     "gothic":  { "traits": { "openness": 0.75, "conscientiousness": 0.45, "extraversion": 0.3,  "agreeableness": 0.45, "neuroticism": 0.6 },
-                 "interests": { "music": 2.5, "art": 2, "books": 2, "film": 1.5 }, "hangouts": ["bar", "library", "park"] },
+                 "interests": { "music": 2.5, "art": 2, "books": 2, "film": 1.5 }, "hangouts": ["bar", "library", "park"], "admires": { "style": 1, "smarts": 0.6 } },
     "elegant": { "traits": { "openness": 0.6,  "conscientiousness": 0.75, "extraversion": 0.5,  "agreeableness": 0.55, "neuroticism": 0.4 },
-                 "interests": { "fashion": 2, "art": 2, "travel": 2, "books": 1, "food": 1 }, "hangouts": ["cafe", "mall", "bar"] },
+                 "interests": { "fashion": 2, "art": 2, "travel": 2, "books": 1, "food": 1 }, "hangouts": ["cafe", "mall", "bar"], "admires": { "style": 1, "smarts": 0.5 } },
     "street":  { "traits": { "openness": 0.65, "conscientiousness": 0.35, "extraversion": 0.7,  "agreeableness": 0.45, "neuroticism": 0.45 },
-                 "interests": { "music": 2.5, "fashion": 2, "games": 2, "sports": 1 }, "hangouts": ["mall", "bar", "park"] },
+                 "interests": { "music": 2.5, "fashion": 2, "games": 2, "sports": 1 }, "hangouts": ["mall", "bar", "park"], "admires": { "style": 1, "fitness": 0.5 } },
     "bookish": { "traits": { "openness": 0.8,  "conscientiousness": 0.65, "extraversion": 0.3,  "agreeableness": 0.6,  "neuroticism": 0.55 },
-                 "interests": { "books": 3, "tech": 1.5, "games": 1.5, "film": 1.5, "nature": 1 }, "hangouts": ["library", "cafe"] }
+                 "interests": { "books": 3, "tech": 1.5, "games": 1.5, "film": 1.5, "nature": 1 }, "hangouts": ["library", "cafe"], "admires": { "smarts": 1, "charm": 0.3 } }
   },
 
   "names": {

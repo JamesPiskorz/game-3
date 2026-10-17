@@ -19,11 +19,11 @@ namespace Game.Town
     public sealed class TownView
     {
         readonly TownSession _session;
-        readonly Label _clock, _place, _coins, _notice, _speaker, _line, _followUp, _learnt;
+        readonly Label _clock, _place, _coins, _notice, _hint, _speaker, _line, _followUp, _learnt;
         readonly VisualElement _dialogue, _deltas, _places, _here, _card, _clothes;
         readonly Button _work, _contactsButton, _messagesButton;
         bool _showMessages;
-        readonly Label _hereTitle;
+        readonly Label _hereTitle, _stats;
         readonly VisualElement _contacts;
         bool _showContacts;
         string _choices; // "talk", "gift" or "date": which picker is open under the actions
@@ -59,6 +59,7 @@ namespace Game.Town
             Add(top, Button("load", "Load", load));
             if (menu != null) Add(top, Button("menu", "Menu", menu));
             _notice = Add(main, new Label(), "notice");
+            _hint = Add(main, new Label(), "hint-bar");
             Add(main, new VisualElement(), "spacer");
             _dialogue = Add(main, new VisualElement(), "dialogue");
             _speaker = Add(_dialogue, new Label(), "speaker");
@@ -68,6 +69,7 @@ namespace Game.Town
             _learnt = Add(_dialogue, new Label(), "learnt");
 
             var panel = Add(root, new ScrollView(), "panel");
+            _stats = Add(panel, new Label(), "stats");
             Add(panel, new Label("Go to"), "section");
             _places = Add(panel, new VisualElement(), "chips");
             _contacts = Add(panel, new VisualElement(), "contacts");
@@ -86,9 +88,13 @@ namespace Game.Town
             _clock.text = world.Now + "   \u00B7   " + Forecast.Describe(world.Weather);
             _place.text = _session.LocationName(_session.Location) + (_session.DateWith != null ? $"  ·  on a date with {_session.DateWith.Profile.FirstName}" : "");
             _coins.text = $"{world.Player.Money} coins";
+            _stats.text = "You  ·  " + string.Join("  ·  ", SimCatalog.Stats.Select(stat => $"{Capitalise(stat)} {world.Player.Stat(stat):0}"));
             _work.style.display = _session.CanWork ? DisplayStyle.Flex : DisplayStyle.None;
             _notice.text = _session.Notice ?? "";
             _notice.style.display = _session.Notice == null ? DisplayStyle.None : DisplayStyle.Flex;
+            string hint = _session.Hint();
+            _hint.text = hint ?? "";
+            _hint.style.display = hint == null ? DisplayStyle.None : DisplayStyle.Flex;
 
             RefreshDialogue();
             RefreshPlaces(world);
@@ -158,10 +164,24 @@ namespace Game.Town
             }
         }
 
-        /// <summary>The boutique's stock at the mall, the wardrobe at home.</summary>
+        /// <summary>The boutique's stock at the mall, the wardrobe at home, and things to do wherever the player is.</summary>
         void RefreshClothes(SimWorld world)
         {
             _clothes.Clear();
+            List<ActivityEntry> activities = _session.Activities();
+            if (activities.Count > 0)
+            {
+                Add(_clothes, new Label("Things to do"), "section");
+                var row = Add(_clothes, new VisualElement(), "chips");
+                foreach (ActivityEntry activity in activities)
+                {
+                    float gain = TownSession.Gain(activity, world.Player.Stat(activity.Stat));
+                    string cost = activity.Cost > 0 ? $", {activity.Cost} coins" : "";
+                    Button b = Add(row, Button("activity-" + activity.Id, $"{activity.Name}  ·  +{gain:0} {activity.Stat}  ({activity.Hours}h{cost})",
+                        () => _session.DoActivity(activity.Id)), "chip");
+                    b.SetEnabled(world.Player.Money >= activity.Cost);
+                }
+            }
             List<ShopItem> shop = _session.Shop();
             if (shop.Count > 0)
             {
@@ -418,7 +438,10 @@ namespace Game.Town
         {
             List<string> styles = profile.StyleTaste.Where(t => t.Key != "date").OrderByDescending(t => t.Value).Take(2)
                 .Select(t => (world.Characters.Archetype(t.Key)?.Name ?? t.Key).ToLowerInvariant()).ToList();
-            return $"Goes for {string.Join(" and ", styles)} looks";
+            string hint = $"Goes for {string.Join(" and ", styles)} looks";
+            world.Catalog.Archetypes.TryGetValue(profile.Archetype ?? "", out ArchetypeTendencies tendencies);
+            string admired = tendencies?.Admires.OrderByDescending(a => a.Value).Select(a => a.Key).FirstOrDefault();
+            return admired == null ? hint : $"{hint}; admires {admired}";
         }
 
         static string StageName(Stage stage) => stage switch

@@ -40,6 +40,7 @@ namespace Game.Town
             "press:contacts", "shot:contacts",
             "close", "sleep-until-invited", "press:messages", "shot:messages",
             "press:messages", "rainy-day", "press:place-park", "shot:park-rain",
+            "press:place-library", "press:activity-read", "shot:library-read",
         };
 
         static int _frame, _step, _pause;

@@ -22,12 +22,14 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 | Contacts | Everyone you've met, with whereabouts hints that sharpen as you get to know them; click to go to them | `Sim/Core/Sandbox/Contacts.cs` |
 | Social web | Friendships and couples among residents, derived from the town seed. Taken residents turn you down unless smitten enough to leave their partner. Friends put in a good word | `Sim/Core/Social/SocialWeb.cs` |
 | Day loop | Priced gifts, an end-of-day summary, autosave on sleep, gentle decay for neglected friends | `Sim/Core/Sandbox/TownSession.cs`, `Relationships/Decay.cs` |
+| Player stats | Charm, fitness, smarts and style, raised by activities at each place (time and sometimes coins, with tapering gains). Each style admires certain stats, which feeds first impressions; charm improves compliments, and expertise boosts talk about loved topics | `TownSession.DoActivity`, `Interactions.Admiration` |
+| Hints | One gentle tip at a time for new players: head out, pick someone, say hi, learn their likes, ask them out | `TownSession.Hint` |
 | Weather | Sunny, cloudy or rainy each day, from the seed. Rain empties the park as people shelter indoors, greys the sky and falls on outdoor scenes | `Sim/Core/Weather.cs`, `SimWorld.WhereIs` |
 | Invitations | Close friends and partners message the player to meet later today, where their plans already take them; turning up starts a date, standing them up costs | `Sim/Core/Sandbox/Invitations.cs` |
 | Expressions | Seven facial expressions plus blinking on the face bones, plus idle breathing, sway, gaze and a procedural walk cycle (people walk in and out of town scenes as time passes). Both layer over the builder's pose; residents react and nod at each interaction | `Characters/Runtime/Expressions`, `Docs/review/expressions.png` |
 | Stand-in content | Procedural body with simple face, 31 parts (12 hair, 19 clothing and accessories), 9 face presets, 7 eye and 5 brow styles, 8 patterns, toon materials. **Placeholder art until Phase 1.** | `Characters/Editor/StandIns`, `Content/StandIn` |
 | Performance | Town benchmark; distance-based detail (`CharacterLod`) | decision 0004, `Docs/review/perf.md` |
-| Tests | 200 Unity EditMode tests (105 characters, 95 sim); the pure C# sets also run on .NET 8 | `Characters/Tests`, `Sim/Tests` |
+| Tests | 206 Unity EditMode tests (105 characters, 101 sim); the pure C# sets also run on .NET 8 | `Characters/Tests`, `Sim/Tests` |
 
 ## Try it
 
@@ -42,7 +44,8 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
   8. Residents have their own friends and partners; the card says who once you know them. Someone who's taken will turn you down, unless they're smitten enough to leave their partner for you.
   9. **Sleep** sums up the day and autosaves. Friends you neglect for more than three days start to cool off.
   10. **Menu** saves and returns to the main menu; **Continue** picks up where you left off.
-  11. Once someone's close, they'll send **Messages** inviting you out later that day. Click one to go there. In the evenings, people dress up for the bar, and for Friday and Saturday nights out.
+  11. **Things to do** at each place raise your stats; the card says what a resident admires.
+  12. Once someone's close, they'll send **Messages** inviting you out later that day. Click one to go there. In the evenings, people dress up for the bar, and for Friday and Saturday nights out.
   - Opening `Town/Town.unity` directly works too. It uses the look you last took into town, or a generated one.
 - **Review sheets:** the **Game → Characters → Review** menu has the generated lineup, the 96-character quality sheet, the skin ramp, the spring filmstrip, the town benchmark, the part sheet (every part on one model, front and back) and the expression sheet. **Game → Town → Build Town Scene** rebuilds the town scene.
 - **Regenerate stand-ins:** **Game → Characters → Content → Regenerate All Stand-in Content**.

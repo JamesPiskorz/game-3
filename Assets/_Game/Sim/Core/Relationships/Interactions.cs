@@ -225,7 +225,9 @@ namespace Game.Sim.Relationships
             {
                 key = "talk.love";
                 rel.LovedTopic = new Memory { Id = topicId, Day = Today };
-                Add(ref rel.Affection, (3f + 2f * rng.NextFloat()) * fresh);
+                // Knowing your stuff about something they love counts for more.
+                float expertise = StatFor(topicId) == null ? 0f : _world.Player.Stat(StatFor(topicId)) / 100f;
+                Add(ref rel.Affection, (3f + 2f * rng.NextFloat()) * fresh * (1f + 0.5f * expertise));
                 Add(ref rel.Familiarity, 3f * sociable * fresh);
                 Add(ref rel.Attraction, 0.5f * fresh);
                 if (rel.KnownLikes.Add(topicId)) result.Learnt = $"{profile.FirstName} loves {topic.Name}.";
@@ -267,8 +269,9 @@ namespace Game.Sim.Relationships
             {
                 key = "compliment.pleased";
                 float look = Math.Max(0f, Impression(resident));
-                Add(ref rel.Affection, 2f);
-                Add(ref rel.Attraction, 2f + 3f * look);
+                float charm = _world.Player.Stat("charm") / 100f;
+                Add(ref rel.Affection, 2f * (1f + charm));
+                Add(ref rel.Attraction, (2f + 3f * look) * (1f + 0.5f * charm));
 
                 // Dressed to their taste, they return the compliment.
                 PartEntry favourite = Favourite(resident);
@@ -556,8 +559,34 @@ namespace Game.Sim.Relationships
         }
 
         /// <summary>How the player's current outfit strikes this resident, -1..1.</summary>
-        public float Impression(Resident resident) => _world.Player.Dna == null ? 0f :
-            FirstImpression.Score(resident.Profile, _world.Player.Dna, _world.Player.Outfit, _world.Characters);
+        public float Impression(Resident resident)
+        {
+            float look = _world.Player.Dna == null ? 0f : FirstImpression.Score(resident.Profile, _world.Player.Dna, _world.Player.Outfit, _world.Characters);
+            return Math.Min(1f, look + Admiration(resident));
+        }
+
+        /// <summary>
+        /// How much the player's stats impress this resident, 0..0.35: their style admires certain qualities (sporty
+        /// types admire fitness, bookish ones smarts), weighted by how strong the player is in them.
+        /// </summary>
+        public float Admiration(Resident resident)
+        {
+            _world.Catalog.Archetypes.TryGetValue(resident.Profile.Archetype ?? "", out ArchetypeTendencies tendencies);
+            if (tendencies == null || tendencies.Admires.Count == 0) return 0f;
+            float total = tendencies.Admires.Sum(a => a.Value * _world.Player.Stat(a.Key) / 100f);
+            return 0.35f * total / tendencies.Admires.Values.Sum();
+        }
+
+        /// <summary>The stat that knowing a topic well depends on (sport: fitness, books: smarts, fashion: style), or null.</summary>
+        static string StatFor(string topic) => topic switch
+        {
+            "sports" => "fitness",
+            "books" => "smarts",
+            "tech" => "smarts",
+            "fashion" => "style",
+            "art" => "style",
+            _ => null,
+        };
 
         readonly struct Meters
         {

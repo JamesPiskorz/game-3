@@ -123,6 +123,20 @@ namespace Game.Sim.Tests
         }
 
         [Test]
+        public void HintsWalkANewPlayerThroughTheFirstSteps()
+        {
+            TownSession session = Saturday(11, SimCatalog.Home);
+            Assert.That(session.Hint(), Does.Contain("Go to"), "At home, knowing nobody: head out.");
+            session.Travel(Busiest(session));
+            Assert.That(session.Hint(), Does.Contain("Here"), "Somewhere busy: pick someone.");
+            Resident someone = session.Present().First();
+            session.Select(someone);
+            Assert.That(session.Hint(), Does.Contain("Say hi"));
+            session.Greet();
+            if (session.Selected != null) Assert.That(session.Hint(), Does.Contain("Talk about"));
+        }
+
+        [Test]
         public void ChangedFiresForEveryVerb()
         {
             TownSession session = Saturday(11, "park");

@@ -32,6 +32,14 @@ namespace Game.Sim
         /// <summary>Every piece of clothing they own, worn or not.</summary>
         public List<ItemDna> Wardrobe = new List<ItemDna>();
 
+        /// <summary>Charm, fitness, smarts and style, 0..100, raised by activities around town.</summary>
+        public SortedDictionary<string, float> Stats = new SortedDictionary<string, float>(System.StringComparer.Ordinal)
+        {
+            ["charm"] = 10f, ["fitness"] = 10f, ["smarts"] = 10f, ["style"] = 10f,
+        };
+
+        public float Stat(string id) => Stats.TryGetValue(id ?? "", out float value) ? value : 0f;
+
         /// <summary>Goes up whenever what they're wearing changes, so views know to redress them.</summary>
         public int LookVersion;
     }
