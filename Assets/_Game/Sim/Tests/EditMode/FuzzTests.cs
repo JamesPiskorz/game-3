@@ -28,7 +28,7 @@ namespace Game.Sim.Tests
 
             for (int step = 0; step < 1000; step++)
             {
-                int verb = rng.NextInt(22);
+                int verb = rng.NextInt(23);
                 string action = verb.ToString();
                 switch (verb)
                 {
@@ -75,6 +75,10 @@ namespace Game.Sim.Tests
                         session.Bangs(rng.Chance(0.25f) ? null : rng.Pick(bangs).Id);
                         break;
                     case 21: session.Dye(rng.Pick(Salon.Colours(world.Characters))); break;
+                    case 22:
+                        var spare = session.Giveable();
+                        if (spare.Count > 0) session.GiveClothes(rng.Pick(spare));
+                        break;
                 }
                 Invariants(session, $"seed {seed}, step {step}, verb {action}");
             }

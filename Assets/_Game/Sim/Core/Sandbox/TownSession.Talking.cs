@@ -58,6 +58,32 @@ namespace Game.Sim.Sandbox
             return answer;
         }
         /// <summary>Gives a gift, which costs its price in coins.</summary>
+        /// <summary>Pieces the player could give away: owned and not worn in any of their outfits.</summary>
+        public List<ItemDna> Giveable()
+        {
+            CharacterDna dna = World.Player.Dna;
+            if (dna == null) return new List<ItemDna>();
+            return World.Player.Wardrobe.Where(item => !dna.Outfits.SelectMany(o => o.Items).Any(worn => Same(worn, item))).ToList();
+        }
+
+        /// <summary>Gives the selected resident a piece from the wardrobe; it leaves the wardrobe if they take it.</summary>
+        public InteractionResult GiveClothes(ItemDna item)
+        {
+            if (Selected != null && !Giveable().Any(i => Same(i, item)))
+            {
+                Notice = "You can only give something you own and aren't wearing.";
+                Raise();
+                return null;
+            }
+            InteractionResult result = Do(r => Act.GiveClothes(r, item));
+            if (result != null && result.Reaction.StartsWith("gift.clothes"))
+            {
+                World.Player.Wardrobe.RemoveAll(owned => Same(owned, item));
+                Raise();
+            }
+            return result;
+        }
+
         public InteractionResult Gift(string giftId)
         {
             GiftEntry gift = World.Catalog.Gift(giftId);

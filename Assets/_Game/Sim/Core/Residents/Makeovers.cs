@@ -45,6 +45,7 @@ namespace Game.Sim.Residents
                 world.MakeoverWeek++;
                 ForWeek(world, generator, world.MakeoverWeek);
             }
+            ClothesGifts.Apply(world); // what the player gave them stays on through a change of clothes
         }
 
         static void ForWeek(SimWorld world, CharacterGenerator generator, int week)

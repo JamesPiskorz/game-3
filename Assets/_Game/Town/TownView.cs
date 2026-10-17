@@ -494,6 +494,14 @@ namespace Game.Town
                         Button b = Add(choices, Button("gift-" + gift.Id, $"{Capitalise(gift.Name)}  ·  {gift.Price}", () => _session.Gift(gift.Id)), "chip");
                         b.SetEnabled(world.Player.Money >= gift.Price);
                     }
+                    // Or something from the wardrobe: if it's their style, they'll wear it.
+                    List<ItemDna> spare = _session.Giveable();
+                    for (int i = 0; i < spare.Count; i++)
+                    {
+                        ItemDna item = spare[i];
+                        PartEntry part = world.Characters.Part(item.ItemId);
+                        Add(choices, Garment("giveitem-" + i, "Your " + (part?.Name ?? ContentCatalog.Humanize(item.ItemId)).ToLowerInvariant(), item, () => _session.GiveClothes(item)), "chip");
+                    }
                     break;
                 case "date":
                     foreach (LocationEntry place in world.Catalog.Locations.Where(l => l.IsOpen(world.Now.Hour)))

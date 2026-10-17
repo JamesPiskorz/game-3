@@ -69,6 +69,9 @@ namespace Game.Sim
         /// <summary>Residents' invitations to the player, newest last.</summary>
         public List<Sandbox.Invitation> Invitations = new List<Sandbox.Invitation>();
 
+        /// <summary>Clothes the player has given residents, which they wear (saved: see <see cref="ClothesGifts"/>).</summary>
+        public List<GiftedClothes> GiftedClothes = new List<GiftedClothes>();
+
         /// <summary>Friendships and couples among the residents.</summary>
         public SocialWeb Social = new SocialWeb();
 

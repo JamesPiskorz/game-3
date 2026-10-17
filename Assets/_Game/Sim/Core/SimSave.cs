@@ -36,6 +36,7 @@ namespace Game.Sim
         public List<Relationship> Relationships = new List<Relationship>();
 
         public List<Sandbox.Invitation> Invitations = new List<Sandbox.Invitation>();
+        public List<Residents.GiftedClothes> GiftedClothes = new List<Residents.GiftedClothes>();
 
         /// <summary>How the town's couples changed during play, replayed over the seeded web on load.</summary>
         public List<SocialEvent> SocialHistory = new List<SocialEvent>();
@@ -57,6 +58,7 @@ namespace Game.Sim
             Relationships = world.Relationships.ToList(),
             SocialHistory = world.Social.Events.ToList(),
             Invitations = world.Invitations.ToList(),
+            GiftedClothes = world.GiftedClothes.ToList(),
         };
 
         /// <summary>Rebuilds the town from the seed, then puts the saved state back.</summary>
@@ -87,7 +89,9 @@ namespace Game.Sim
                     throw new FormatException($"Save has a relationship with resident {relationship.Resident}, but the town has {world.Residents.Count}.");
                 world.Restore(relationship);
             }
+            world.GiftedClothes = GiftedClothes ?? new List<Residents.GiftedClothes>();
             Residents.Makeovers.CatchUp(world); // looks that changed since the town began, replayed from the seed
+            Residents.ClothesGifts.Apply(world); // and what the player gave them
             return world;
         }
 

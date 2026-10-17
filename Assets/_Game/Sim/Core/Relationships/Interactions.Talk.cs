@@ -103,6 +103,69 @@ namespace Game.Sim.Relationships
             return Finish(resident, rel, rng, result, before, key, ComplimentMinutes);
         }
 
+        /// <summary>
+        /// How much they must like a piece of clothing (their average over its two best-liked style tags) to love it,
+        /// or how little for it to miss. Over a town that measure runs from about 0.19 (20th percentile) to 0.77
+        /// (80th), so roughly a fifth of gifts land each way.
+        /// </summary>
+        public const float LovesClothesAt = 0.75f, MehClothesBelow = 0.2f;
+
+        /// <summary>
+        /// Gives the resident a piece of clothing. How it lands depends on their taste for its two best-liked style
+        /// tags. A piece they love and can wear goes straight into their everyday outfit.
+        /// </summary>
+        public InteractionResult GiveClothes(Resident resident, Game.Characters.Dna.ItemDna item)
+        {
+            PartEntry part = _world.Characters.Part(item.ItemId) ?? throw new ArgumentException($"Unknown item '{item.ItemId}'.", nameof(item));
+            (Relationship rel, Pcg32 rng, InteractionResult result, Meters before) = Begin(resident, InteractionKind.Gift);
+            ResidentProfile profile = resident.Profile;
+            string name = ItemName(part);
+            string key;
+            if (rel.LastGiftDay == Today)
+            {
+                key = "gift.again";
+                Add(ref rel.Affection, 1f);
+            }
+            else if (before.Stage == Stage.Stranger)
+            {
+                key = "gift.awkward";
+                Add(ref rel.Affection, -1f);
+            }
+            else
+            {
+                float taste = part.Tags.Where(t => _world.Characters.Archetypes.Any(a => a.TagWeights.ContainsKey(t))).Distinct()
+                    .Select(t => profile.StyleTaste.TryGetValue(t, out float v) ? v : 0f).OrderByDescending(v => v).Take(2).DefaultIfEmpty(0f).Average();
+                if (taste >= LovesClothesAt)
+                {
+                    key = "gift.clothes.love";
+                    Add(ref rel.Affection, 6f);
+                    Add(ref rel.Attraction, 2f);
+                    Add(ref rel.Trust, 2f);
+                    Game.Characters.Dna.CharacterDna dressed = ClothesGifts.Wearing(_world, resident, item);
+                    if (dressed != null)
+                    {
+                        resident.Dna = dressed;
+                        _world.GiftedClothes.Add(new GiftedClothes { Resident = resident.Index, Day = Today, Item = item });
+                        result.Learnt = $"{profile.FirstName} is wearing your {name}.";
+                    }
+                    else result.Learnt = $"{profile.FirstName} loves the {name}, but it doesn't go with the rest of {profile.Possessive} look.";
+                }
+                else if (taste < MehClothesBelow)
+                {
+                    key = "gift.clothes.meh";
+                    Add(ref rel.Affection, -1f);
+                    result.Learnt = $"The {name} isn't really {profile.FirstName}'s style.";
+                }
+                else
+                {
+                    key = "gift.clothes.ok";
+                    Add(ref rel.Affection, 2f);
+                }
+            }
+            rel.LastGiftDay = Today;
+            return Finish(resident, rel, rng, result, before, key, GiftMinutes, ("gift", "your " + name), ("item", name));
+        }
+
         public InteractionResult Gift(Resident resident, string giftId)
         {
             GiftEntry gift = _world.Catalog.Gift(giftId) ?? throw new ArgumentException($"Unknown gift '{giftId}'.", nameof(giftId));

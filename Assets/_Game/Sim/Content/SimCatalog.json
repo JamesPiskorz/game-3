@@ -354,6 +354,24 @@
       { "tone": "bubbly", "text": "I'm done pretending this is fine. We're over." },
       { "tone": "dry", "text": "We're finished. Say hi to {other} for me." }
     ],
+    "gift.clothes.love": [
+      { "tone": "any", "text": "For me? I love it! I'm wearing it right now." },
+      { "tone": "shy", "text": "You picked this out for me? ...It's perfect." },
+      { "tone": "bubbly", "text": "Oh my gosh, this is so me! You know me so well!" },
+      { "tone": "dry", "text": "Huh. You have good taste. In me, and in clothes." }
+    ],
+    "gift.clothes.ok": [
+      { "tone": "any", "text": "Oh, a {item}! Thank you, that's sweet." },
+      { "tone": "shy", "text": "Thank you... I'll find something to wear it with." },
+      { "tone": "bubbly", "text": "Ooh, clothes! Thank you!" },
+      { "tone": "dry", "text": "A {item}. Thanks." }
+    ],
+    "gift.clothes.meh": [
+      { "tone": "any", "text": "Oh. A {item}. It's... not really me, but thanks." },
+      { "tone": "shy", "text": "That's kind of you. I'm not sure I'd wear it, though." },
+      { "tone": "bubbly", "text": "Aw, thank you! It's, um, very... bold!" },
+      { "tone": "dry", "text": "This is for someone else, right?" }
+    ],
     "chat.open.interest": [
       { "tone": "any", "text": "Can I tell you about {topic}? I've been thinking about it all week." },
       { "tone": "shy", "text": "I, um... have you ever gotten really into {topic}? Because I have." },
