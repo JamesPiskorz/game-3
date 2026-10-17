@@ -1,4 +1,5 @@
 using System.Linq;
+using Game.Characters.Expressions;
 using Game.Characters.Review;
 using Game.Sim;
 using Game.Sim.Relationships;
@@ -46,6 +47,8 @@ namespace Game.Town
         {
             if (state != PlayModeStateChange.EnteredPlayMode) return;
             EditorApplication.playModeStateChanged -= OnPlayModeChanged;
+            Time.captureFramerate = 30; // fixed steps, so expressions and springs settle the same way every run
+            FaceExpression.Blinking = false;
             EditorApplication.update += Tick;
         }
 
@@ -95,6 +98,7 @@ namespace Game.Town
             switch (verb)
             {
                 case "shot":
+                    foreach (FaceExpression face in Object.FindObjectsByType<FaceExpression>(FindObjectsSortMode.None)) face.Snap();
                     screen.Stage.SnapCamera();
                     screen.Stage.Camera.Render();
                     Save(argument);
@@ -179,6 +183,8 @@ namespace Game.Town
         {
             EditorApplication.update -= Tick;
             SessionState.SetBool(PendingKey, false);
+            Time.captureFramerate = 0;
+            FaceExpression.Blinking = true;
             var settings = AssetDatabase.LoadAssetAtPath<PanelSettings>(TownSetup.PanelSettingsPath);
             if (settings != null) settings.targetTexture = null;
             EditorApplication.Exit(code);

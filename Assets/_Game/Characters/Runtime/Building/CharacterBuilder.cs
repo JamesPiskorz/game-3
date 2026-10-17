@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Game.Characters.Content;
 using Game.Characters.Dna;
+using Game.Characters.Expressions;
 using Game.Characters.Modular;
 using Game.Characters.Rendering;
 using Game.Characters.Springs;
@@ -32,6 +33,7 @@ namespace Game.Characters.Building
             character.name = dna.Style != null ? $"Character {dna.Seed:x} ({dna.Style})" : "Character";
             character.gameObject.AddComponent<RestPose>().Capture();
             character.gameObject.AddComponent<CharacterLod>();
+            character.gameObject.AddComponent<FaceExpression>();
             Apply(character, dna, context);
             return character;
         }
@@ -46,6 +48,7 @@ namespace Game.Characters.Building
             character.GetComponent<CharacterLod>()?.Refresh(); // new parts bring new materials and chains
             ApplyBodyColours(character, dna);
             ApplyPartColours(character, dna, outfit);
+            character.GetComponent<FaceExpression>()?.Rebase(); // face bones were just reset and re-posed
         }
 
         // ---------------------------------------------------------------- parts

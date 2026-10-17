@@ -3,6 +3,7 @@ using System.Linq;
 using Game.Characters.Building;
 using Game.Characters.Content;
 using Game.Characters.Dna;
+using Game.Characters.Expressions;
 using Game.Characters.Generation;
 using Game.Characters.Modular;
 using Game.Characters.Rendering;
@@ -140,6 +141,36 @@ namespace Game.Characters.Tests.Modular
         }
 
         // ---------------------------------------------------------------- helpers
+
+        [Test]
+        public void Expressions_MoveTheFaceWithoutCompoundingWithSliders()
+        {
+            CharacterDna dna = _generator.Generate(5);
+            ModularCharacter character = Build(dna, "casual");
+            var face = character.GetComponent<FaceExpression>();
+            Transform mouth = character.GetComponentsInChildren<Transform>().First(t => t.name == "Mouth");
+            Transform brow = character.GetComponentsInChildren<Transform>().First(t => t.name == "Brow.L");
+
+            face.Snap(); // neutral: takes the base the builder left
+            Vector3 restingMouth = mouth.localScale;
+            Vector3 restingBrow = brow.localPosition;
+
+            face.Show("surprised", 1f, float.PositiveInfinity);
+            face.Snap();
+            Vector3 surprisedMouth = mouth.localScale;
+            Assert.That(surprisedMouth.y, Is.GreaterThan(restingMouth.y * 2f), "A surprised mouth opens.");
+            Assert.That(brow.localPosition.y, Is.GreaterThan(restingBrow.y), "Surprise raises the brows.");
+
+            // Re-applying DNA mid-expression must give the same face, not stack the expression on itself.
+            _builder.Apply(character, dna, "date");
+            face.Snap();
+            Assert.That(Vector3.Distance(mouth.localScale, surprisedMouth), Is.LessThan(1e-5f));
+
+            face.Show("neutral");
+            face.Snap();
+            Assert.That(Vector3.Distance(mouth.localScale, restingMouth), Is.LessThan(1e-5f));
+            Assert.That(Vector3.Distance(brow.localPosition, restingBrow), Is.LessThan(1e-6f));
+        }
 
         ModularCharacter Build(CharacterDna dna, string context)
         {

@@ -2,8 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Game.Characters.Building;
 using Game.Characters.Dna;
+using Game.Characters.Expressions;
 using Game.Characters.Modular;
 using Game.Sim;
+using Game.Sim.Relationships;
 using Game.Sim.Sandbox;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -34,6 +36,7 @@ namespace Game.Town
         string _setId;
         GameObject _ring;
         Vector3 _cameraPosition, _cameraTarget;
+        InteractionResult _reacted;
 
         sealed class Shown
         {
@@ -73,6 +76,18 @@ namespace Game.Town
             }
 
             Arrange(shown, session.Selected, date);
+            React(session);
+        }
+
+        /// <summary>The speaker's face answers the latest interaction (the date's outcome, if it was a date).</summary>
+        void React(TownSession session)
+        {
+            if (session.Last == null || session.Last == _reacted || session.Speaker == null) return;
+            _reacted = session.Last;
+            if (!_residents.TryGetValue(session.Speaker.Index, out Shown speaker)) return;
+            string reaction = session.Last.FollowUpReaction ?? session.Last.Reaction;
+            (string expression, float strength) = ReactionFaces.For(reaction, session.Speaker.Profile.Tone);
+            speaker.Character.GetComponent<FaceExpression>()?.Show(expression, strength);
         }
 
         Shown Dress(Shown shown, CharacterDna dna, string outfit, string name)
@@ -96,7 +111,6 @@ namespace Game.Town
 
         void Arrange(List<Resident> shown, Resident selected, bool date)
         {
-            Vector3 player = date ? Screen(-0.55f, 0f, 0.55f) : Screen(-1.75f, 0f, 1.2f);
             Vector3 camera = Screen(0.75f, 1.65f, 7.2f);
             var positions = new Dictionary<int, Vector3>();
             for (int i = 0; i < shown.Count; i++)
@@ -104,6 +118,12 @@ namespace Game.Town
                 float offset = i - (shown.Count - 1) / 2f;
                 positions[shown[i].Index] = date ? Screen(0.55f, 0f, 0.3f) : Screen(0.6f + offset * 1.15f, 0f, -0.12f * offset * offset);
             }
+
+            // The player stands at the group's left, or steps up beside whoever they're talking to.
+            Vector3 player;
+            if (date) player = Screen(-0.55f, 0f, 0.55f);
+            else if (selected != null && positions.TryGetValue(selected.Index, out Vector3 partner)) player = partner + Screen(-0.95f, 0f, 0.8f);
+            else player = Screen(positions.Count == 0 ? -0.6f : positions.Values.Min(p => -p.x) - 1.1f, 0f, 0.9f);
 
             foreach (Resident resident in shown)
             {
