@@ -20,10 +20,12 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 | Boutique | Daily stock taken from generated outfits; buying, a wardrobe, outfit rules; money from shifts | `Sim/Core/Sandbox/Boutique.cs` |
 | Dates | Three-round scenes: pick topics or compliments; the outcome combines your choices with how well the place suits them | `Sim/Core/Relationships/DateScene.cs` |
 | Contacts | Everyone you've met, with whereabouts hints that sharpen as you get to know them; click to go to them | `Sim/Core/Sandbox/Contacts.cs` |
+| Social web | Friendships and couples among residents, derived from the town seed. Taken residents turn you down unless smitten enough to leave their partner. Friends put in a good word | `Sim/Core/Social/SocialWeb.cs` |
+| Day loop | Priced gifts, an end-of-day summary, autosave on sleep, gentle decay for neglected friends | `Sim/Core/Sandbox/TownSession.cs`, `Relationships/Decay.cs` |
 | Expressions | Seven facial expressions plus blinking on the face bones, plus idle breathing, sway and gaze. Both layer over the builder's pose; residents react and nod at each interaction | `Characters/Runtime/Expressions`, `Docs/review/expressions.png` |
 | Stand-in content | Procedural body with simple face, 31 parts (12 hair, 19 clothing and accessories), toon materials, patterns. **Placeholder art until Phase 1.** | `Characters/Editor/StandIns`, `Content/StandIn` |
 | Performance | Town benchmark; distance-based detail (`CharacterLod`) | decision 0004, `Docs/review/perf.md` |
-| Tests | 171 Unity EditMode tests (104 characters, 67 sim); the pure C# sets also run on .NET 8 | `Characters/Tests`, `Sim/Tests` |
+| Tests | 182 Unity EditMode tests (104 characters, 78 sim); the pure C# sets also run on .NET 8 | `Characters/Tests`, `Sim/Tests` |
 
 ## Try it
 
@@ -35,6 +37,8 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
   5. **Wait an hour** and **Sleep** move time. Places close, and people come and go with their schedules.
   6. **Work a shift** to earn coins. Spend them at the **Boutique** in Arcade Lane, and change clothes in the **Wardrobe** at home. Once you know someone a little, their card says which looks they go for.
   7. **Contacts** lists everyone you've met. Once you know someone well, it says where they are right now; click a contact to go to them.
+  8. Residents have their own friends and partners; the card says who once you know them. Someone who's taken will turn you down, unless they're smitten enough to leave their partner for you.
+  9. **Sleep** sums up the day and autosaves. Friends you neglect for more than three days start to cool off.
   - Opening `Town/Town.unity` directly works too. It uses the look you last took into town, or a generated one.
 - **Review sheets:** the **Game → Characters → Review** menu has the generated lineup, the 96-character quality sheet, the skin ramp, the spring filmstrip, the town benchmark, the part sheet (every part on one model, front and back) and the expression sheet. **Game → Town → Build Town Scene** rebuilds the town scene.
 - **Regenerate stand-ins:** **Game → Characters → Content → Regenerate All Stand-in Content**.
