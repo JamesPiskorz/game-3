@@ -188,7 +188,7 @@ Recolourable face colours are iris, brows, eye whites and lips (body regions 1â€
 
 - **Pieces:** a back piece (crown and length) plus a front piece (bangs). Any back can pair with any front, so bangs must not assume a particular back, unless the back blocks `hair.front` (an afro has no bangs).
 - **Textured styles:** back pieces tagged `textured` (the afro, puffs, locs) are drawn on their own seed stream at the archetype's `texturedHairChance` (default 12%), so adding one doesn't reshuffle anyone else's hair. Hair with real volume is tagged `big_hair`; hats and hair accessories stay off it.
-- **Clean edges:** an edge cut across a sphere's rings comes out as a staircase. Cut level (along the rings) and rotate the piece instead (`StandInMesh.Rotate`), as the swept bangs and the afro's face opening do.
+- **Clean edges:** an edge cut across a sphere's rings comes out as a staircase. Cut level (along the rings) and rotate the piece instead (`StandInMesh.Rotate`), as the swept bangs, each half of the curtain bangs and the afro's face opening do.
 - **Hats:** a back piece that a hat can sit over is tagged `hat_ok`. Volume above the crown (buns, curls) means it isn't.
 - **Tails:** ponytails, twin tails and side tails swing on spring chains. Model them straight down in rest pose.
 - **Hair worn in front:** plaits brought forward over the shoulders (the twin braids) don't swing. They ride the head at the top and the chest below, and sit clear of a coat, a little further out than the backpack straps. `Docs/review/hair-over-coat.png` (**Render Hair Over Coat Sheet**) puts every back piece over a hoodie and the coat to check it.

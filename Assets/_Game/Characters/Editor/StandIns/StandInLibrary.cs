@@ -615,9 +615,18 @@ namespace Game.Characters.StandIns
                 }
             });
             yield return Hair("hair.front.curtain_01", "hair.front", m =>
-                // Parted in the middle and longer at the sides, framing the face.
-                m.AddEllipsoid(HeadCentre, new Vector3(HeadR + 0.019f, HeadR + 0.019f, HeadR + 0.019f), None, false, "Head", Ring,
-                    d => d.z > 0.12f && Mathf.Abs(d.x) > 0.07f && d.y > 0.64f - 0.6f * Mathf.Abs(d.x)));
+            {
+                // Parted in the middle and longer at the sides, framing the face. Each half is cut level and rolled down
+                // towards its side, so the edge slopes cleanly instead of stepping across the rings.
+                foreach (float side in new[] { -1f, 1f })
+                {
+                    Quaternion roll = Quaternion.Euler(0f, 0f, side * -31f);
+                    int start = m.VertexCount;
+                    m.AddEllipsoid(HeadCentre, new Vector3(HeadR + 0.019f, HeadR + 0.019f, HeadR + 0.019f), None, false, "Head", Ring,
+                        d => { Vector3 r = roll * d; return r.z > 0.12f && side * r.x > 0.07f && d.y > 0.55f; });
+                    m.Rotate(start, HeadCentre, roll);
+                }
+            });
 
             // ---------------- accessories (no body shapes reach the head)
             yield return new Recipe
