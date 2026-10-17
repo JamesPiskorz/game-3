@@ -57,6 +57,7 @@ namespace Game.Town
             EditorApplication.playModeStateChanged -= OnPlayModeChanged;
             Time.captureFramerate = 30; // fixed steps, so expressions and springs settle the same way every run
             FaceExpression.Blinking = false;
+            TownScreen.SavingEnabled = false; // the visit sleeps through days; never touch the real save
             EditorApplication.update += Tick;
         }
 
@@ -205,6 +206,7 @@ namespace Game.Town
             SessionState.SetBool(PendingKey, false);
             Time.captureFramerate = 0;
             FaceExpression.Blinking = true;
+            TownScreen.SavingEnabled = true;
             var settings = AssetDatabase.LoadAssetAtPath<PanelSettings>(TownSetup.PanelSettingsPath);
             if (settings != null) settings.targetTexture = null;
             EditorApplication.Exit(code);

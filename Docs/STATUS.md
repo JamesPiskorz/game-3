@@ -16,7 +16,7 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 | Blender pipeline | Headless Blender tools: shared rig, weight and shape-key transfer, a validator, FBX export with sidecars; a Unity import post-processor turns them into parts | `Tools/Blender`, `Characters/Editor/Import` (decision 0005) |
 | Sim core | Residents derived from the character seed (name, pronouns, personality, interests, job, hangouts, taste), weekly schedules, relationships, interactions, first impressions from outfits, small saves | `Sim/Core`, `Sim/Content/SimCatalog.json` (decision 0006) |
 | Dialogue | 194 tone-flavoured lines over 47 reactions. Lines can be gated by stage, and no line repeats back to back. Residents bring up recent shared moments, pass on town news and good words, get jealous, and notice an outfit they love by name | `Sim/Core/Dialogue.cs`, `SimCatalog.json` |
-| Town prototype | `TownSession` loop and a playable scene: blockout sets per location, time-of-day light, residents built from DNA. The HUD lets you travel, talk, give gifts, ask people out, work shifts, shop, change clothes, and save/load | `Town/`, scene `Town/Town.unity` |
+| Town prototype | `TownSession` loop and a playable scene: blockout sets per location, time-of-day light, residents built from DNA. The HUD lets you travel, talk, give gifts, ask people out, work shifts, shop, change clothes, and save/load | `Town/`, scene `Town/Town.unity` (decision 0007: one stage per place, for now) |
 | Boutique | Daily stock taken from generated outfits; buying, a wardrobe, outfit rules; money from shifts | `Sim/Core/Sandbox/Boutique.cs` |
 | Dates | Three-round scenes: pick topics, a compliment or something the place offers to do together (dancing, feeding the ducks, the arcade...). The outcome combines your choices with how well the place suits them; the date that makes someone a partner ends with them asking to be together | `Sim/Core/Relationships/DateScene.cs` |
 | Contacts | Everyone you've met, with whereabouts hints that sharpen as you get to know them; click to go to them | `Sim/Core/Sandbox/Contacts.cs` |
@@ -62,9 +62,10 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
   - a month of play in three towns by an automated attentive player (`AutoPlayer`), written up as diaries in `Docs/review/stories.md` (**Game → Town → Write Story Report**). Each town tells a different story, and a test checks that,
   - a fuzz test: a random player takes 1,000 actions of every kind in each of three towns, with world invariants checked after every step,
   - the whole loop via `FlowCheck`, pressing the real buttons: main menu, New game, Randomize, Into town (identical character), Menu (autosaves), Continue (back at the saved time). It backs up and restores the player's saved look and save file; it also screenshots the menu (`Docs/review/menu.png`).
+  - **a Windows player build** (`unity build . --target StandaloneWindows64 --output-path Builds/Windows/Game3.exe`). It builds, and `Game3.exe -batchmode -smoke -logFile smoke.log` plays a short day from the main menu into town (meet, talk, work, shop, sleep) and exits 0 with no errors (`PlayerSmokeTest`). Automated runs never write the player's save.
 - **Not verified:**
-  - **Interactive use in the Editor GUI:** mouse dragging, typing, the feel of the sliders and buttons.
-  - Anything on min-spec hardware or in a player build.
+  - **Interactive use in the Editor GUI or the built player:** mouse dragging, typing, the feel of the sliders and buttons.
+  - Anything on min-spec hardware.
   - Real art. Everything visual is procedural stand-ins and blockout sets.
 
 ## For artists

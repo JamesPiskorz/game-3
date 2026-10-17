@@ -44,6 +44,9 @@ namespace Game.Town
         /// <summary>Set by the main menu's Continue: load the save as soon as the town starts.</summary>
         public static bool ContinueOnStart;
 
+        /// <summary>Off for automated runs (the player smoke test), so they never touch a real player's save.</summary>
+        public static bool SavingEnabled = true;
+
         void Start()
         {
             _characters = Content.LoadCatalog();
@@ -75,6 +78,7 @@ namespace Game.Town
 
         void Save()
         {
+            if (!SavingEnabled) return;
             File.WriteAllText(SavePath, SimSave.Capture(Session.World).ToJson());
             Session.Tell("Saved.");
         }
@@ -89,6 +93,7 @@ namespace Game.Town
         /// <summary>Every night, quietly. Load picks up the morning after.</summary>
         void Autosave()
         {
+            if (!SavingEnabled) return;
             try
             {
                 File.WriteAllText(SavePath, SimSave.Capture(Session.World).ToJson());

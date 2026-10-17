@@ -20,6 +20,7 @@ namespace Game.Town
         static void Begin()
         {
             if (!System.Environment.GetCommandLineArgs().Contains("-smoke")) return;
+            TownScreen.SavingEnabled = false; // never overwrite a real player's game
             var runner = new GameObject("Smoke test").AddComponent<Runner>();
             Object.DontDestroyOnLoad(runner.gameObject);
         }
