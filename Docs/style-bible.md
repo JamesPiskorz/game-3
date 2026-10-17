@@ -214,6 +214,8 @@ Recolourable face colours are iris, brows, eye whites and lips (body regions 1â€
 
 ## 9. Archetypes (current tags; [Art to decide] the looks)
 
+`Docs/review/archetype-sheet.png` shows eight characters generated in each style, one row per archetype: the starting point for deciding each look.
+
 | Archetype | Intent, as the systems use it |
 |---|---|
 | Casual | Everyday basics. Wide appeal; the default for neutral items. |
