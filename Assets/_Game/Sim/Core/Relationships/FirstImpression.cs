@@ -16,7 +16,6 @@ namespace Game.Sim.Relationships
         /// <summary>Taste below this reads as a poor match, above it as a good one.</summary>
         const float Indifferent = 0.3f;
 
-        /// <summary>The piece of the player's outfit this resident likes best, if they really like it (taste ≥ 0.6); else null.</summary>
         /// <summary>
         /// A face mark of the player's (freckles, a beauty mark, blush) whose style they like at least as much as a
         /// favourite piece of clothing needs, or null.
@@ -48,6 +47,24 @@ namespace Game.Sim.Relationships
             _ => (mark.Name ?? mark.Id).ToLowerInvariant(),
         };
 
+        /// <summary>
+        /// What of the player's catches a stranger's eye: their favourite piece of clothing or face mark, whichever style
+        /// they like more (the clothes on a tie), or null when nothing does. Nearly everyone who likes freckles likes some
+        /// piece of clothing too, so without the comparison the face would never get noticed.
+        /// </summary>
+        public static PartEntry Noticed(ResidentProfile resident, CharacterDna player, string outfitContext, ContentCatalog characters)
+        {
+            PartEntry piece = Favourite(resident, player, outfitContext, characters);
+            PartEntry mark = FavouriteMark(resident, player, characters);
+            if (mark == null || piece == null) return piece ?? mark;
+            return Taste(resident, mark) > Taste(resident, piece) ? mark : piece;
+        }
+
+        /// <summary>Their taste in a part's best-liked style tag (0 when they have none).</summary>
+        static float Taste(ResidentProfile resident, PartEntry part) =>
+            part.Tags.Select(tag => resident.StyleTaste.TryGetValue(tag, out float taste) ? taste : 0f).DefaultIfEmpty(0f).Max();
+
+        /// <summary>The piece of the player's outfit this resident likes best, if they really like it (taste ≥ 0.6); else null.</summary>
         public static PartEntry Favourite(ResidentProfile resident, CharacterDna player, string outfitContext, ContentCatalog characters)
         {
             OutfitDna outfit = player.Outfits.FirstOrDefault(o => o.Context == outfitContext) ?? player.Outfits.FirstOrDefault();

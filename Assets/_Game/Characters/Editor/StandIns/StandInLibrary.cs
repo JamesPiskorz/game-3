@@ -571,6 +571,32 @@ namespace Game.Characters.StandIns
                 }
                 m.AddEllipsoid(end + new Vector3(0f, 0.005f, 0f), new Vector3(0.016f, 0.012f, 0.016f), None, false, Braid[Braid.Length - 1].Name, RegionTwo);
             }, Braid);
+            yield return Hair("hair.back.twinbraids_01", "hair.back", m =>
+            {
+                // Two plaits from behind the ears, forward over the shoulders and down the front, clear of a coat, with
+                // ties in the tip colour. They ride the head at the top and the chest below (no springs).
+                Crown(m);
+                using IDisposable medium = m.Coarse(sides: 12, rings: 4, latitudes: 8, longitudes: 12);
+                foreach (float x in new[] { -1f, 1f })
+                {
+                    Vector3[] path =
+                    {
+                        new Vector3(x * 0.1f, 1.58f, -0.02f), new Vector3(x * 0.12f, 1.47f, 0.08f),
+                        new Vector3(x * 0.115f, 1.36f, 0.172f), new Vector3(x * 0.11f, 1.24f, 0.19f),
+                    };
+                    const int Lobes = 13;
+                    for (int i = 0; i < Lobes; i++)
+                    {
+                        float t = (i + 0.5f) / Lobes;
+                        float along = t * (path.Length - 1);
+                        int segment = Mathf.Min(path.Length - 2, (int)along);
+                        Vector3 at = Vector3.Lerp(path[segment], path[segment + 1], along - segment) + new Vector3((i % 2 == 0 ? 1f : -1f) * 0.007f, 0f, 0f);
+                        float r = Mathf.Lerp(0.024f, 0.015f, t);
+                        m.AddEllipsoid(at, new Vector3(r, r * 1.35f, r * 0.85f), None, false, t < 0.3f ? "Head" : "Chest", Region1);
+                    }
+                    m.AddEllipsoid(path[path.Length - 1] + new Vector3(0f, 0.004f, 0f), new Vector3(0.014f, 0.011f, 0.014f), None, false, "Chest", RegionTwo);
+                }
+            });
             yield return Hair("hair.back.spiky_01", "hair.back", m =>
             {
                 Crown(m);

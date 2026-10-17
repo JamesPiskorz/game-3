@@ -89,6 +89,7 @@
     { "id": "hair.back.sidetail_01", "name": "Side tail", "slot": "hair.back", "tags": ["cute", "casual", "street"], "lean": 0.6 },
     { "id": "hair.back.curly_01", "name": "Curly top", "slot": "hair.back", "tags": ["street", "cute", "casual"], "lean": -0.3 },
     { "id": "hair.back.braid_01", "name": "Braid", "slot": "hair.back", "tags": ["cute", "bookish", "elegant", "casual"], "lean": 0.5 },
+    { "id": "hair.back.twinbraids_01", "name": "Twin braids", "slot": "hair.back", "tags": ["cute", "bookish", "casual", "hat_ok"], "lean": 0.7 },
     { "id": "hair.back.spiky_01", "name": "Spiky", "slot": "hair.back", "tags": ["street", "sporty", "casual"], "lean": -0.5 },
     { "id": "hair.back.afro_01", "name": "Afro", "slot": "hair.back", "blocksSlots": ["hair.front"], "tags": ["street", "casual", "sporty", "cute", "textured", "big_hair"] },
     { "id": "hair.back.locs_01", "name": "Locs", "slot": "hair.back", "tags": ["street", "casual", "gothic", "textured", "hat_ok"], "lean": 0.1 },

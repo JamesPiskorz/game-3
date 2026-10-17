@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Game.Characters.Content;
 using Game.Characters.Dna;
 using Game.Characters.Generation;
 using Game.Characters.Rng;
@@ -104,7 +105,8 @@ namespace Game.Sim.Tests
                 for (ulong seed = 1; seed <= 20; seed++)
                 {
                     CharacterDna look = generator.Generate(seed, new GenerationRequest { Archetype = resident.Profile.Archetype });
-                    if (FirstImpression.Favourite(resident.Profile, look, "casual", town.Characters) == null) continue;
+                    PartEntry favourite = FirstImpression.Favourite(resident.Profile, look, "casual", town.Characters);
+                    if (favourite == null || FirstImpression.Noticed(resident.Profile, look, "casual", town.Characters) != favourite) continue;
                     if (FirstImpression.Score(resident.Profile, look, "casual", town.Characters) < Interactions.ImpressedAt) continue;
 
                     town.Player.Dna = look;

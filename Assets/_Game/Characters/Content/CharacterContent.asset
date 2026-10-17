@@ -94,6 +94,8 @@ MonoBehaviour:
     Prefab: {fileID: 1338564963674439775, guid: 159fe7d9f3cdc3e409acabaacf1595f6, type: 3}
   - Id: hair.back.braid_01
     Prefab: {fileID: 7816871408337892270, guid: 2aec6804fb405d948987a11e09d1dbe3, type: 3}
+  - Id: hair.back.twinbraids_01
+    Prefab: {fileID: 7769436719208266455, guid: 804acf5b8f59d4e4a8f191c9b0a797ab, type: 3}
   - Id: hair.back.spiky_01
     Prefab: {fileID: 62539349288868157, guid: 8dac4778f626c374eb6f8abc524d9399, type: 3}
   - Id: hair.front.curtain_01

@@ -29,13 +29,13 @@ namespace Game.Sim.Relationships
                     return Finish(resident, rel, rng, result, before, "greet.stranger.family", GreetMinutes,
                         ("sibling", fan.Profile.FirstName), ("relation", fan.Profile.SiblingWord));
                 }
-                PartEntry favourite = Favourite(resident);
-                if (favourite != null && Impression(resident) >= ImpressedAt)
-                    return Finish(resident, rel, rng, result, before, "greet.stranger.impressed", GreetMinutes, ("item", ItemName(favourite)));
-                // No piece of clothing stands out, but their freckles (or beauty mark, or blush) do.
-                PartEntry mark = _world.Player.Dna == null ? null : FirstImpression.FavouriteMark(resident.Profile, _world.Player.Dna, _world.Characters);
-                if (favourite == null && mark != null && Impression(resident) >= ImpressedAt)
-                    return Finish(resident, rel, rng, result, before, "greet.stranger.impressed.mark", GreetMinutes, ("feature", FirstImpression.FeatureName(mark)));
+                // A piece of clothing in their style stands out, or the player's freckles (or beauty mark, or blush) do.
+                PartEntry noticed = _world.Player.Dna == null ? null
+                    : FirstImpression.Noticed(resident.Profile, _world.Player.Dna, _world.Player.Outfit, _world.Characters);
+                if (noticed != null && Impression(resident) >= ImpressedAt)
+                    return Makeup.IsMark(noticed.Slot)
+                        ? Finish(resident, rel, rng, result, before, "greet.stranger.impressed.mark", GreetMinutes, ("feature", FirstImpression.FeatureName(noticed)))
+                        : Finish(resident, rel, rng, result, before, "greet.stranger.impressed", GreetMinutes, ("item", ItemName(noticed)));
                 return Finish(resident, rel, rng, result, before, "greet.stranger", GreetMinutes);
             }
 
