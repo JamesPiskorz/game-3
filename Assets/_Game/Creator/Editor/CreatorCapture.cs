@@ -22,7 +22,7 @@ namespace Game.Creator
         static readonly (string Button, string Shot)[] Steps =
         {
             ("tab-body", "body"), ("tab-face", "face"), ("scroll:tab-content", "face-marks"), ("tab-skin", "skin"), ("tab-hair", "hair"), ("tab-outfit", "outfit"),
-            ("randomize", "randomized"), ("context-date", "date"),
+            ("randomize", "randomized"), ("context-date", "date"), ("variations", "variations"),
         };
 
         static int _frame;

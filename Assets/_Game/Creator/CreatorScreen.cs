@@ -51,12 +51,36 @@ namespace Game.Creator
 
             VisualElement root = Document.rootVisualElement;
             if (Style != null) root.styleSheets.Add(Style);
+            _studio = new PortraitStudio(_builder, new Color(0.24f, 0.22f, 0.3f));
             new CreatorView(root, _session, focus => _faceView = focus == "face", degrees => _yaw += degrees, Play, expression =>
             {
                 _faceView = true;
                 _character.GetComponent<FaceExpression>()?.Show(expression, 1f, 2.5f);
-            });
+            }, Thumbnail);
             SnapCamera();
+        }
+
+        PortraitStudio _studio;
+        readonly RenderTexture[] _thumbnails = new RenderTexture[CreatorView.VariationCount];
+
+        /// <summary>A full-length picture of a candidate, in its slot's texture (reused from one batch to the next).</summary>
+        Texture Thumbnail(CharacterDna dna, int slot)
+        {
+            if (slot < 0 || slot >= _thumbnails.Length) return null;
+            _thumbnails[slot] ??= PortraitStudio.Target(128, 200);
+            _studio.Render(dna, _session.Context, _thumbnails[slot], PortraitStudio.Framing.Body);
+            return _thumbnails[slot];
+        }
+
+        void OnDestroy()
+        {
+            _studio?.Dispose();
+            foreach (RenderTexture texture in _thumbnails)
+                if (texture != null)
+                {
+                    texture.Release();
+                    Destroy(texture);
+                }
         }
 
         /// <summary>Scene the "Into town" button loads; it must be in the build's scene list.</summary>

@@ -12,7 +12,7 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 | Builder | DNA → character, idempotent, sliders/styles on bones, colours, patterns | `Characters/Runtime/Building` |
 | Toon shading | `Game/Characters/Toon`: ramp shading, hand-picked skin shades, outlines, recolour masks, patterns | `Characters/Shaders` (decision 0002) |
 | Spring bones | Verlet hair chains with colliders, synced with equipped parts | `Characters/Runtime/Springs` (decision 0003) |
-| Character creator | UI Toolkit screen over `CreatorSession`: tabs, sliders, swatches, a style choice for Randomize, locks, undo/redo, contexts, share codes, your name, how the look reads ("cute and casual"), expression preview, a Sibling button (a new person from the same family), freckles, beauty mark, blush and lipstick (with its colour), "Into town" | `Creator/`, scene `Creator/Creator.unity` |
+| Character creator | UI Toolkit screen over `CreatorSession`: tabs, sliders, swatches, a style choice for Randomize, locks, undo/redo, contexts, share codes, your name, how the look reads ("cute and casual"), expression preview, a Sibling button (a new person from the same family), freckles, beauty mark, blush and lipstick (with its colour), Variations (six full-length candidates Randomize could give, respecting locks and style; click one to take it), "Into town" | `Creator/`, scene `Creator/Creator.unity` |
 | Blender pipeline | Headless Blender tools: shared rig, weight and shape-key transfer, a validator, FBX export with sidecars; a Unity import post-processor turns them into parts | `Tools/Blender`, `Characters/Editor/Import` (decision 0005) |
 | Sim core | Residents derived from the character seed (name, pronouns, personality, interests, job, hangouts, taste), weekly schedules, relationships, interactions, first impressions from outfits, small saves | `Sim/Core`, `Sim/Content/SimCatalog.json` (decision 0006) |
 | Dialogue | 441 tone-flavoured lines over 114 reactions. Lines can be gated by stage, and no line repeats back to back. Residents bring up recent shared moments, pass on town news and good words, get jealous, and notice an outfit they love by name | `Sim/Core/Dialogue.cs`, `SimCatalog.json` |
@@ -38,7 +38,7 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 | Stand-in content | Procedural body with simple face, 46 parts (15 hair, including a braid on its own spring chain; 31 clothing and accessories, including neckwear, outer layers, legwear, earrings, a crossbody bag and hair accessories), 9 face presets, 7 eye and 5 brow styles, 10 patterns, toon materials. **Placeholder art until Phase 1.** | `Characters/Editor/StandIns`, `Content/StandIn` |
 | Generator statistics | 10,000 characters measured as a population: style shares against catalog weights, presentation and skin-tone spread, fantasy hair and eyes, how often each part is worn in each context, patterns, rule violations (0) and time per character (about 0.3 ms). A test fails if any part goes unworn | `Generation/GeneratorStats.cs`, `Docs/review/generator-stats.md` |
 | Performance | Town benchmark; distance-based detail (`CharacterLod`) | decision 0004, `Docs/review/perf.md` |
-| Tests | 305 Unity EditMode tests (141 characters, 164 sim); the pure C# sets also run on .NET 8 | `Characters/Tests`, `Sim/Tests` |
+| Tests | 306 Unity EditMode tests (142 characters, 164 sim); the pure C# sets also run on .NET 8 | `Characters/Tests`, `Sim/Tests` |
 
 ## Try it
 

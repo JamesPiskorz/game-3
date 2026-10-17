@@ -93,6 +93,31 @@ namespace Game.Characters.Creator
         /// chosen <see cref="Style"/> or any; with locks it keeps who they are and rerolls the rest (in the chosen
         /// style, if there is one).
         /// </summary>
+        /// <summary>
+        /// Characters Randomize could give right now (the chosen style, locked categories kept), to browse without
+        /// changing anything; <see cref="Adopt"/> takes one.
+        /// </summary>
+        public List<CharacterDna> Variations(int count)
+        {
+            var variations = new List<CharacterDna>();
+            for (int i = 0; i < count; i++)
+            {
+                ulong seed = NextSeed();
+                var request = new GenerationRequest { Archetype = Style };
+                DnaCategories free = DnaCategories.All & ~Locks;
+                variations.Add(Locks == DnaCategories.None ? _generator.Generate(seed, request)
+                    : free == DnaCategories.None ? Copy(Dna) : _generator.Reroll(Dna, free, seed, Style == null ? null : request));
+            }
+            return variations;
+        }
+
+        /// <summary>Makes <paramref name="candidate"/> (from <see cref="Variations"/>) the character, as one undo step.</summary>
+        public void Adopt(CharacterDna candidate)
+        {
+            if (candidate == null || DnaValidator.Validate(_catalog, candidate).Count > 0) return;
+            Commit(_ => Copy(candidate));
+        }
+
         public void Randomize()
         {
             if (Locks == DnaCategories.None)

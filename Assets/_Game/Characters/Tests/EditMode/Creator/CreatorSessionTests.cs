@@ -252,5 +252,27 @@ namespace Game.Characters.Tests.Creator
             _session.SetMark(Slots.FaceFreckles, null);
             Assert.That(_session.Mark(Slots.FaceFreckles), Is.Null);
         }
+
+        [Test]
+        public void Variations_AreBrowsedWithoutChangingAnything_AndOneCanBeAdopted()
+        {
+            _session.Style = "gothic";
+            _session.Locks = DnaCategories.Skin;
+            string before = Json(_session.Dna);
+            List<CharacterDna> variations = _session.Variations(6);
+            Assert.That(Json(_session.Dna), Is.EqualTo(before), "Browsing changes nothing.");
+            Assert.That(_session.CanUndo, Is.False);
+            Assert.That(variations.Select(Json).Distinct().Count(), Is.EqualTo(6));
+            foreach (CharacterDna v in variations)
+            {
+                Assert.That(v.Style, Is.EqualTo("gothic"));
+                Assert.That(v.Skin.Tone, Is.EqualTo(_session.Dna.Skin.Tone), "Locked skin is kept.");
+                Assert.That(DnaValidator.Validate(_catalog, v), Is.Empty);
+            }
+            _session.Adopt(variations[3]);
+            Assert.That(Json(_session.Dna), Is.EqualTo(Json(variations[3])));
+            _session.Undo();
+            Assert.That(Json(_session.Dna), Is.EqualTo(before));
+        }
     }
 }

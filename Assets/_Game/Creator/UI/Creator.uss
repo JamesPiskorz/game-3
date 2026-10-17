@@ -201,3 +201,21 @@ Button:disabled {
     color: rgb(170, 164, 184);
     margin-right: 8px;
 }
+
+.variations {
+    margin: 4px 0 8px 0;
+}
+
+.variation-grid {
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.variation {
+    width: 120px;
+    height: 188px;
+    margin: 0 8px 8px 0;
+    padding: 0;
+    border-radius: 10px;
+    -unity-background-scale-mode: scale-and-crop;
+}

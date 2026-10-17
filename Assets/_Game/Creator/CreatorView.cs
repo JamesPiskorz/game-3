@@ -51,11 +51,19 @@ namespace Game.Creator
 
         readonly Action _play;
         readonly Action<string> _express;
+        readonly Func<CharacterDna, int, UnityEngine.Texture> _thumbnail;
+        VisualElement _variations;
+        List<CharacterDna> _candidates;
+
+        public const int VariationCount = 6;
 
         /// <param name="play">Leaves the creator for the game with this look; null hides the button.</param>
         /// <param name="express">Shows a facial expression on the preview; null hides the buttons.</param>
-        public CreatorView(VisualElement root, CreatorSession session, Action<string> focus, Action<float> rotate, Action play = null, Action<string> express = null)
+        /// <param name="thumbnail">Renders a candidate into thumbnail slot n, for the Variations strip; null hides it.</param>
+        public CreatorView(VisualElement root, CreatorSession session, Action<string> focus, Action<float> rotate, Action play = null, Action<string> express = null,
+            Func<CharacterDna, int, UnityEngine.Texture> thumbnail = null)
         {
+            _thumbnail = thumbnail;
             _play = play;
             _express = express;
             _root = root;
@@ -66,6 +74,34 @@ namespace Game.Creator
             Build();
             session.Changed += Refresh;
             Refresh();
+        }
+
+        // ---------------------------------------------------------------- variations
+
+        void ToggleVariations()
+        {
+            bool show = _variations.style.display == DisplayStyle.None;
+            _variations.style.display = show ? DisplayStyle.Flex : DisplayStyle.None;
+            if (show) ShowVariations();
+        }
+
+        void ShowVariations()
+        {
+            _variations.Clear();
+            _candidates = _session.Variations(VariationCount);
+            var grid = new VisualElement();
+            grid.AddToClassList("variation-grid");
+            _variations.Add(grid);
+            for (int i = 0; i < _candidates.Count; i++)
+            {
+                CharacterDna candidate = _candidates[i];
+                var pick = new Button(() => _session.Adopt(candidate)) { name = "variation-" + i, text = "" };
+                pick.AddToClassList("variation");
+                if (_thumbnail(candidate, i) is UnityEngine.RenderTexture texture) pick.style.backgroundImage = Background.FromRenderTexture(texture);
+                pick.tooltip = candidate.Style ?? "";
+                grid.Add(pick);
+            }
+            _variations.Add(TextButton("More like this", "variations-more", ShowVariations));
         }
 
         // ---------------------------------------------------------------- layout
@@ -103,6 +139,16 @@ namespace Game.Creator
             actions.Add(_redo);
             if (_play != null) actions.Add(TextButton("Into town →", "play", _play, "primary"));
             panel.Add(actions);
+
+            // Variations: six characters Randomize could give, side by side; click one to take it.
+            if (_thumbnail != null)
+            {
+                actions.Insert(1, TextButton("Variations", "variations", ToggleVariations));
+                _variations = new VisualElement { name = "variations" };
+                _variations.AddToClassList("variations");
+                _variations.style.display = DisplayStyle.None;
+                panel.Add(_variations);
+            }
 
             // Which style Randomize aims for: choosing one randomizes straight away.
             var styles = Row("styles");

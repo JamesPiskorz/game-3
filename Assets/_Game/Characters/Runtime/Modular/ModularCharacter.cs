@@ -114,7 +114,12 @@ namespace Game.Characters.Modular
                 _binder.Forget(bone);
                 DestroySafely(bone.gameObject);
             }
-            if (equipped.Part != null) DestroySafely(equipped.Part.gameObject);
+            if (equipped.Part != null)
+            {
+                // Destroy waits for the end of the frame; hide it now, so a render later this frame doesn't show it.
+                equipped.Part.gameObject.SetActive(false);
+                DestroySafely(equipped.Part.gameObject);
+            }
             foreach (Material material in equipped.Materials)
                 DestroySafely(material);
             UpdateHiddenRegions();
