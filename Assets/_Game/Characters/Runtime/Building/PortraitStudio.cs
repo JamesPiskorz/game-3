@@ -11,7 +11,7 @@ using UnityEngine.Rendering;
 namespace Game.Characters.Building
 {
     /// <summary>
-    /// Renders characters into textures for UI: a hidden sitter in a studio far below the scene, re-dressed for each
+    /// Renders characters into textures for UI: hidden sitters in a studio far below the scene, re-dressed for each
     /// shot and rendered once by a camera that's otherwise off. With a sun given, it's swapped for neutral daylight for
     /// the shot, so pictures look the same whatever the scene's lighting (night in town, say).
     /// </summary>
@@ -32,7 +32,8 @@ namespace Game.Characters.Building
         readonly Light _sun;
         readonly GameObject _studio;
         readonly Camera _camera;
-        ModularCharacter _sitter;
+        ModularCharacter _sitter, _partner;
+        bool _warm;
 
         public PortraitStudio(CharacterBuilder builder, Color backdrop, Light sun = null)
         {
@@ -56,33 +57,14 @@ namespace Game.Characters.Building
         /// <summary>Renders <paramref name="dna"/> dressed for <paramref name="outfit"/> into <paramref name="target"/>.</summary>
         public void Render(CharacterDna dna, string outfit, RenderTexture target, Framing framing, string expression = "happy")
         {
-            if (_sitter == null)
-            {
-                _sitter = _builder.Build(dna, outfit, _studio.transform);
-                _sitter.name = "Sitter";
-                if (_sitter.GetComponent<IdleMotion>() is IdleMotion idle) idle.enabled = false; // a still pose
-            }
-            else
-            {
-                _builder.Apply(_sitter, dna, outfit);
-            }
-            foreach (SpringBoneChain chain in _sitter.GetComponents<SpringBoneChain>()) chain.enabled = false;
-            // Several shots can be taken in one frame: skin for each render, not once per frame, or new parts show stale.
-            foreach (SkinnedMeshRenderer renderer in _sitter.GetComponentsInChildren<SkinnedMeshRenderer>(true))
-                renderer.forceMatrixRecalculationPerRender = true;
-            _sitter.GetComponent<CharacterLod>()?.Apply(0f);
-            Poses.Relaxed(_sitter.transform);
-            if (_sitter.GetComponent<FaceExpression>() is FaceExpression face)
-            {
-                face.Show(expression, 0.45f, float.PositiveInfinity);
-                face.Snap();
-            }
+            Sit(ref _sitter, dna, outfit, "Sitter", Vector3.zero, 0f, expression);
+            if (_partner != null) _partner.gameObject.SetActive(false);
 
-            Transform head = _sitter.GetComponentsInChildren<Transform>().First(t => t.name == "Head");
+            Transform head = Head(_sitter);
             if (framing == Framing.Face)
             {
-                // From a little below eye level, the head with some room above for big hair.
-                // A tall picture needs to stand back further for the head to fit across.
+                // From a little below eye level, the head with some room above for big hair; a tall picture stands
+                // back further for the head to fit across.
                 float fit = Mathf.Max(1f, 0.85f * target.height / target.width);
                 Vector3 look = head.position + new Vector3(0f, 0.1f, 0f);
                 _camera.transform.position = look + new Vector3(0f, -0.02f, 1.12f * fit);
@@ -97,7 +79,58 @@ namespace Game.Characters.Building
                 _camera.transform.position = middle + new Vector3(0f, 0.05f, distance);
                 _camera.transform.LookAt(middle);
             }
+            Shoot(target);
+        }
 
+        /// <summary>Two people side by side, turned a little towards each other, from the waist up: a photo together.</summary>
+        public void RenderPair(CharacterDna left, CharacterDna right, string outfit, RenderTexture target)
+        {
+            // The camera looks back along -z, so +x is the left of the picture.
+            Sit(ref _sitter, left, outfit, "Sitter", new Vector3(0.3f, 0f, 0f), -14f, "delighted");
+            Sit(ref _partner, right, outfit, "Partner", new Vector3(-0.3f, 0f, 0f), 14f, "happy");
+            float headY = Mathf.Max(Head(_sitter).position.y, Head(_partner).position.y);
+            // Wide enough for both, from above their hair to about the waist.
+            float aspect = (float)target.width / target.height;
+            float halfWidth = 0.62f, halfHeight = Mathf.Max(0.42f, halfWidth / aspect);
+            Vector3 middle = new Vector3(_studio.transform.position.x, headY + 0.28f - halfHeight, _studio.transform.position.z);
+            float distance = halfHeight / Mathf.Tan(_camera.fieldOfView * 0.5f * Mathf.Deg2Rad);
+            _camera.transform.position = middle + new Vector3(0f, 0.04f, distance);
+            _camera.transform.LookAt(middle);
+            Shoot(target);
+        }
+
+        void Sit(ref ModularCharacter sitter, CharacterDna dna, string outfit, string name, Vector3 at, float turn, string expression)
+        {
+            if (sitter == null)
+            {
+                sitter = _builder.Build(dna, outfit, _studio.transform);
+                sitter.name = name;
+                if (sitter.GetComponent<IdleMotion>() is IdleMotion idle) idle.enabled = false; // a still pose
+            }
+            else
+            {
+                sitter.gameObject.SetActive(true);
+                _builder.Apply(sitter, dna, outfit);
+            }
+            sitter.transform.localPosition = at;
+            sitter.transform.localRotation = Quaternion.Euler(0f, turn, 0f);
+            foreach (SpringBoneChain chain in sitter.GetComponents<SpringBoneChain>()) chain.enabled = false;
+            // Several shots can be taken in one frame: skin for each render, not once per frame, or new parts show stale.
+            foreach (SkinnedMeshRenderer renderer in sitter.GetComponentsInChildren<SkinnedMeshRenderer>(true))
+                renderer.forceMatrixRecalculationPerRender = true;
+            sitter.GetComponent<CharacterLod>()?.Apply(0f);
+            Poses.Relaxed(sitter.transform);
+            if (sitter.GetComponent<FaceExpression>() is FaceExpression face)
+            {
+                face.Show(expression, 0.45f, float.PositiveInfinity);
+                face.Snap();
+            }
+        }
+
+        static Transform Head(ModularCharacter character) => character.GetComponentsInChildren<Transform>().First(t => t.name == "Head");
+
+        void Shoot(RenderTexture target)
+        {
             Color sunColour = default, ambient = RenderSettings.ambientLight;
             float intensity = 0f, shadows = 0f;
             Quaternion rotation = Quaternion.identity;
@@ -121,6 +154,12 @@ namespace Game.Characters.Building
                     RenderSettings.ambientProbe = flat;
                 }
                 _camera.targetTexture = target;
+                // The first render after startup can come out with placeholder shaders (black); throw one away.
+                if (!_warm)
+                {
+                    _camera.Render();
+                    _warm = true;
+                }
                 _camera.Render();
             }
             finally

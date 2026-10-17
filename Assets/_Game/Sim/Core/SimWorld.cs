@@ -72,6 +72,9 @@ namespace Game.Sim
         /// <summary>Clothes the player has given residents, which they wear (saved: see <see cref="ClothesGifts"/>).</summary>
         public List<GiftedClothes> GiftedClothes = new List<GiftedClothes>();
 
+        /// <summary>Keepsake photos from great dates, oldest first (saved).</summary>
+        public List<Relationships.Photo> Photos = new List<Relationships.Photo>();
+
         /// <summary>Friendships and couples among the residents.</summary>
         public SocialWeb Social = new SocialWeb();
 

@@ -66,7 +66,7 @@ namespace Game.Town
             if (Style != null) root.styleSheets.Add(Style);
             _portraits = new Portraits(new Game.Characters.Building.CharacterBuilder(Content), Stage.Sun);
             View = new TownView(root, Session, Save, Load, ToMenu, r => _portraits.For(r),
-                () => _portraits.ForPlayer(Session.World.Player.Dna, Session.World.Player.LookVersion));
+                () => _portraits.ForPlayer(Session.World.Player.Dna, Session.World.Player.LookVersion), p => _portraits.ForPhoto(p));
             if (ContinueOnStart)
             {
                 ContinueOnStart = false;

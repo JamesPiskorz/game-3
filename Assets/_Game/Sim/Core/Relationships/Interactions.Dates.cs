@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Game.Characters.Content;
+using Game.Characters.Dna;
 using Game.Characters.Rng;
 using Game.Sim.Residents;
 using Game.Sim.Social;
@@ -220,6 +221,14 @@ namespace Game.Sim.Relationships
                 if (key == "date.great") key = "date.partner";
             }
             scene.Outcome = key;
+            // A great date leaves a photo of the two of them, as they looked tonight.
+            if ((key == "date.great" || key == "date.partner") && _world.Player.Dna != null)
+                _world.Photos.Add(new Photo
+                {
+                    Resident = resident.Index, Day = Today, Location = location.Id,
+                    PlayerLook = DnaSerializer.ToJson(_world.Player.Dna, indented: false),
+                    TheirLook = DnaSerializer.ToJson(resident.Dna, indented: false),
+                });
             return Finish(resident, rel, rng, result, before, key, 0, ("location", location.Name));
         }
 

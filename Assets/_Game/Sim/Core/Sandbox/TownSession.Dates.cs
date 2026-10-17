@@ -130,6 +130,9 @@ namespace Game.Sim.Sandbox
         /// <summary>Messages from residents, newest first.</summary>
         public List<Invitation> Messages() => World.Invitations.AsEnumerable().Reverse().ToList();
 
+        /// <summary>Keepsake photos from great dates, newest first.</summary>
+        public List<Photo> Photos() => World.Photos.AsEnumerable().Reverse().ToList();
+
         /// <summary>Heads to where an invitation is, if it's still on and the place is open.</summary>
         public void Answer(Invitation invitation)
         {

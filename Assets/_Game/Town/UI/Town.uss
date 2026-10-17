@@ -482,3 +482,14 @@ Button.selected,
     color: rgb(190, 190, 205);
     margin-top: 6px;
 }
+
+.photo {
+    width: 360px;
+    height: 240px;
+    border-radius: 10px;
+    margin-top: 6px;
+}
+
+.photo-caption {
+    margin: 2px 0 10px 4px;
+}

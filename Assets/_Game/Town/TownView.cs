@@ -28,8 +28,9 @@ namespace Game.Town
         readonly Dictionary<int, Label> _bubbles = new Dictionary<int, Label>();
         readonly Label _clock, _place, _coins, _notice, _hint, _speaker, _line, _followUp, _learnt;
         readonly VisualElement _dialogue, _deltas, _places, _here, _card, _clothes;
-        readonly Button _work, _contactsButton, _messagesButton;
-        bool _showMessages;
+        readonly Button _work, _contactsButton, _messagesButton, _photosButton;
+        bool _showMessages, _showPhotos;
+        readonly Func<Photo, UnityEngine.Texture> _photo;
         readonly Label _hereTitle, _stats;
         readonly VisualElement _contacts;
         readonly ScrollView _panel;
@@ -38,8 +39,9 @@ namespace Game.Town
         Resident _choicesFor;
 
         public TownView(VisualElement root, TownSession session, Action save, Action load, Action menu = null, Func<Resident, UnityEngine.Texture> portrait = null,
-            Func<UnityEngine.Texture> playerPortrait = null)
+            Func<UnityEngine.Texture> playerPortrait = null, Func<Photo, UnityEngine.Texture> photo = null)
         {
+            _photo = photo;
             _session = session;
             _portrait = portrait;
             _playerPortrait = playerPortrait;
@@ -56,15 +58,22 @@ namespace Game.Town
             _messagesButton = Add(top, Button("messages", "Messages", () =>
             {
                 _showMessages = !_showMessages;
-                _showContacts = false;
+                _showContacts = _showPhotos = false;
                 Refresh();
             }));
             _contactsButton = Add(top, Button("contacts", "Contacts", () =>
             {
                 _showContacts = !_showContacts;
-                _showMessages = false;
+                _showMessages = _showPhotos = false;
                 Refresh();
             }));
+            _photosButton = Add(top, Button("photos", "Photos", () =>
+            {
+                _showPhotos = !_showPhotos;
+                _showContacts = _showMessages = false;
+                Refresh();
+            }));
+            _photosButton.style.display = photo == null ? DisplayStyle.None : DisplayStyle.Flex;
             Add(top, Button("wait", "Wait an hour", () => _session.Wait()));
             Add(top, Button("sleep", "Sleep", () => _session.Sleep()));
             Add(top, Button("save", "Save", save));
@@ -117,10 +126,12 @@ namespace Game.Town
             RefreshPlaces(world);
             RefreshContacts();
             if (_showMessages) RefreshMessages();
+            if (_showPhotos) RefreshPhotos();
+            _photosButton.EnableInClassList("selected", _showPhotos);
             int pending = _session.Messages().Count(m => m.Pending);
             _messagesButton.text = pending > 0 ? $"Messages ({pending})" : "Messages";
             _messagesButton.EnableInClassList("selected", _showMessages);
-            bool overlay = _showContacts || _showMessages;
+            bool overlay = _showContacts || _showMessages || _showPhotos;
             DisplayStyle normal = overlay ? DisplayStyle.None : DisplayStyle.Flex;
             _hereTitle.style.display = _here.style.display = _clothes.style.display = normal;
             if (overlay) _card.style.display = DisplayStyle.None;
@@ -208,11 +219,31 @@ namespace Game.Town
             }
         }
 
+        /// <summary>Photos from great dates, newest first, each with when and where.</summary>
+        void RefreshPhotos()
+        {
+            _contacts.Clear();
+            _contacts.style.display = DisplayStyle.Flex;
+            Add(_contacts, new Label("Photos"), "section");
+            List<Photo> photos = _session.Photos();
+            if (photos.Count == 0) Add(_contacts, new Label("No photos yet. A great date ends with one."), "hint");
+            foreach (Photo photo in photos)
+            {
+                if (_photo?.Invoke(photo) is UnityEngine.RenderTexture texture)
+                {
+                    var picture = Add(_contacts, new VisualElement(), "photo");
+                    picture.style.backgroundImage = Background.FromRenderTexture(texture);
+                }
+                string with = _session.World.Residents[photo.Resident].Profile.FirstName;
+                Add(_contacts, new Label($"Day {photo.Day + 1}  \u00B7  with {with} at {_session.LocationName(photo.Location)}"), "hint", "photo-caption");
+            }
+        }
+
         /// <summary>Everyone you've met, closest first, with what you know about where they are.</summary>
         void RefreshContacts()
         {
             _contactsButton.EnableInClassList("selected", _showContacts);
-            if (_showMessages) return;
+            if (_showMessages || _showPhotos) return;
             _contacts.Clear();
             _contacts.style.display = _showContacts ? DisplayStyle.Flex : DisplayStyle.None;
             if (!_showContacts) return;

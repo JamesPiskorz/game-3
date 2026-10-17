@@ -26,6 +26,19 @@ namespace Game.Town
 
         public Texture For(Resident resident) => For(resident.Index, resident.Dna, 0);
 
+        readonly Dictionary<Sim.Relationships.Photo, RenderTexture> _photos = new Dictionary<Sim.Relationships.Photo, RenderTexture>();
+
+        /// <summary>A date photo: the player and them, side by side, dressed as they were that night.</summary>
+        public Texture ForPhoto(Sim.Relationships.Photo photo)
+        {
+            if (_photos.TryGetValue(photo, out RenderTexture done)) return done;
+            if (photo.PlayerLook == null || photo.TheirLook == null) return null;
+            RenderTexture texture = PortraitStudio.Target(360, 240);
+            _studio.RenderPair(DnaSerializer.FromJson(photo.PlayerLook), DnaSerializer.FromJson(photo.TheirLook), Sim.Sandbox.TownSession.DateOutfit, texture);
+            _photos[photo] = texture;
+            return texture;
+        }
+
         /// <summary>The player's portrait; <paramref name="version"/> is their look version.</summary>
         public Texture ForPlayer(CharacterDna dna, int version) => dna == null ? null : For(PlayerKey, dna, version);
 
@@ -48,6 +61,12 @@ namespace Game.Town
                     UnityEngine.Object.Destroy(texture);
                 }
             _cache.Clear();
+            foreach (RenderTexture texture in _photos.Values)
+            {
+                texture.Release();
+                UnityEngine.Object.Destroy(texture);
+            }
+            _photos.Clear();
             _studio.Dispose();
         }
     }
