@@ -96,7 +96,7 @@
     { "id": "cloth.legwear.socks_01", "name": "Thigh-highs", "slot": "legwear", "tags": ["cute", "gothic", "street"], "regions": 2, "patternable": true, "requiresTags": ["bare_legs"], "lean": 0.4 },
     { "id": "acc.earrings.studs_01", "name": "Studs", "slot": "earrings", "tags": ["elegant", "cute", "bookish", "casual", "gothic"], "regions": 1 },
     { "id": "acc.earrings.hoops_01", "name": "Hoops", "slot": "earrings", "tags": ["street", "elegant", "gothic", "cute"], "regions": 1, "lean": 0.3 },
-    { "id": "acc.bag.crossbody_01", "name": "Crossbody bag", "slot": "bag", "tags": ["casual", "street", "bookish", "cute", "elegant"], "regions": 2, "contexts": ["casual", "date", "rain"] },
+    { "id": "acc.bag.crossbody_01", "name": "Crossbody bag", "slot": "bag", "tags": ["casual", "street", "bookish", "cute", "elegant"], "regions": 2, "contexts": ["casual", "date", "rain", "work"] },
     { "id": "acc.neck.scarf_01", "name": "Scarf", "slot": "neck", "tags": ["casual", "street", "bookish", "cute"], "regions": 2, "patternable": true, "contexts": ["casual", "rain"] },
     { "id": "acc.neck.necklace_01", "name": "Necklace", "slot": "neck", "tags": ["elegant", "gothic", "cute", "date"], "regions": 2, "lean": 0.4 },
     { "id": "acc.hat.cap_01", "name": "Cap", "slot": "hat", "tags": ["sporty", "street", "casual"], "regions": 2, "requiresTags": ["hat_ok"], "contexts": ["casual", "rain", "sport"] },
@@ -182,7 +182,8 @@
     { "id": "casual", "name": "Casual", "tagWeights": { "casual": 1.0 } },
     { "id": "date", "name": "Date", "tagWeights": { "date": 1.5, "elegant": 0.5 } },
     { "id": "rain", "name": "Rainy day", "tagWeights": { "casual": 1.0 }, "outer": true },
-    { "id": "sport", "name": "Workout", "tagWeights": { "sporty": 2.0 }, "onlyTags": ["sporty"] }
+    { "id": "sport", "name": "Workout", "tagWeights": { "sporty": 2.0 }, "onlyTags": ["sporty"] },
+    { "id": "work", "name": "Work", "tagWeights": { "elegant": 1.5, "bookish": 1.0 }, "onlyTags": ["elegant", "bookish"] }
   ],
 
   "hair": { "naturalPalette": "hair.natural", "fantasyPalette": "hair.fantasy" },

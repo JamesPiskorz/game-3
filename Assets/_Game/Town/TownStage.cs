@@ -75,7 +75,6 @@ namespace Game.Town
             Light(TownSets.For(session.Location), world.Now.Hour, world.Weather);
 
             bool date = session.DateWith != null;
-            string outfit = date ? TownSession.DateOutfit : world.OutfitAt(session.Location);
             _player = Dress(_player, world.Player.Dna, world.Player.Outfit ?? TownSession.DayOutfit, "Player", world.Player.LookVersion);
 
             List<Resident> present = Grouped(session.Present(), world);
@@ -104,6 +103,7 @@ namespace Game.Town
             foreach (Resident resident in shown)
             {
                 _residents.TryGetValue(resident.Index, out Shown existing);
+                string outfit = date ? TownSession.DateOutfit : world.OutfitFor(resident, session.Location);
                 _residents[resident.Index] = Dress(existing, resident.Dna, outfit, resident.Name);
                 if (existing == null) newcomers.Add(_residents[resident.Index]);
             }

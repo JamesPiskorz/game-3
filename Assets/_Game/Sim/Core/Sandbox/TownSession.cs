@@ -22,6 +22,7 @@ namespace Game.Sim.Sandbox
         public const string DayOutfit = "casual";
         public const string RainOutfit = "rain";
         public const string SportOutfit = "sport";
+        public const string WorkOutfit = "work";
         public const int ShiftHours = 4;
         public const int PayPerHour = 15;
         public const int ChangeMinutes = 5;

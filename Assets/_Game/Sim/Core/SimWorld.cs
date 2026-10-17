@@ -118,6 +118,20 @@ namespace Game.Sim
             return goingOut ? Sandbox.TownSession.DateOutfit : everyday;
         }
 
+        /// <summary>
+        /// What one resident wears here now: at their job during working hours, their work clothes (students aside,
+        /// and workout clothes at the gym); otherwise what everyone wears (<see cref="OutfitAt"/>).
+        /// </summary>
+        public string OutfitFor(Resident resident, string location)
+        {
+            string here = OutfitAt(location);
+            JobEntry job = Catalog.Job(resident.Profile.JobId ?? "");
+            bool working = job != null && job.Location == location && job.Id != "student" && job.Days.Contains(Now.DayOfWeek)
+                && Now.Hour >= job.Start && Now.Hour < job.End;
+            return working && here != Sandbox.TownSession.SportOutfit && Characters?.Context(Sandbox.TownSession.WorkOutfit) != null
+                ? Sandbox.TownSession.WorkOutfit : here;
+        }
+
         /// <summary>Residents at a location right now, in index order.</summary>
         public IEnumerable<Resident> At(string location) => Residents.Where(r => WhereIs(r) == location);
 

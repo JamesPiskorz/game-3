@@ -174,6 +174,36 @@ namespace Game.Sim.Tests
         }
 
         [Test]
+        public void PeopleAtWorkWearWorkClothes()
+        {
+            SimWorld town = Fixtures.Town(0x5EED, 24);
+            Resident worker = town.Residents.First(r => r.Profile.JobId != null && town.Catalog.Job(r.Profile.JobId).Location != "gym"
+                && r.Profile.JobId != "student" && town.Catalog.Job(r.Profile.JobId).Location != SimCatalog.Home);
+            var job = town.Catalog.Job(worker.Profile.JobId);
+            int day = Enumerable.Range(0, 7).First(d => job.Days.Contains(d));
+            town.Now = SimTime.At(day, job.Start);
+            Assert.That(town.OutfitFor(worker, job.Location), Is.EqualTo(Sandbox.TownSession.WorkOutfit), $"{worker} at work");
+            Assert.That(town.OutfitFor(worker, "library" == job.Location ? "cafe" : "library"), Is.Not.EqualTo(Sandbox.TownSession.WorkOutfit), "Not at work elsewhere.");
+            town.Now = SimTime.At(day, (job.End + 1) % 24);
+            Assert.That(town.OutfitFor(worker, job.Location), Is.Not.EqualTo(Sandbox.TownSession.WorkOutfit), "Not after hours.");
+
+            Resident trainer = town.Residents.FirstOrDefault(r => r.Profile.JobId != null && town.Catalog.Job(r.Profile.JobId).Location == "gym");
+            if (trainer != null)
+            {
+                var gym = town.Catalog.Job(trainer.Profile.JobId);
+                town.Now = SimTime.At(Enumerable.Range(0, 7).First(d => gym.Days.Contains(d)), gym.Start);
+                Assert.That(town.OutfitFor(trainer, "gym"), Is.EqualTo(Sandbox.TownSession.SportOutfit), "Trainers work in workout clothes.");
+            }
+            foreach (Resident r in town.Residents)
+                foreach (var item in r.Dna.Outfits.Single(o => o.Context == Sandbox.TownSession.WorkOutfit).Items)
+                {
+                    var part = town.Characters.Part(item.ItemId);
+                    Assert.That(part.Tags.Contains("elegant") || part.Tags.Contains("bookish") || part.Slot == Game.Characters.Content.Slots.Glasses
+                        || part.Slot == Game.Characters.Content.Slots.Earrings, $"{r}: {part.Id} at work");
+                }
+        }
+
+        [Test]
         public void AtTheGymEveryoneIsInWorkoutClothes()
         {
             SimWorld town = Fixtures.Town(0x5EED, 24);
