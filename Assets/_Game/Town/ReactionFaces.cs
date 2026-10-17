@@ -28,6 +28,11 @@ namespace Game.Town
                 case "compliment.pleased": return shy ? ("shy", 1f) : ("happy", 1f);
                 case "compliment.awkward": return ("surprised", 0.5f);
                 case "gift.love": return ("delighted", 1f);
+                case "greet.confess":
+                case "greet.confess.taken": return ("shy", 1f);
+                case "confess.yes": return shy ? ("shy", 1f) : ("delighted", 1f);
+                case "confess.yes.leaves": return ("shy", 0.7f);
+                case "confess.no": return ("sad", 0.7f);
                 case "gift.clothes.love": return shy ? ("shy", 1f) : ("delighted", 1f);
                 case "gift.clothes.ok": return ("happy", 0.6f);
                 case "gift.clothes.meh": return dry ? ("annoyed", 0.5f) : ("surprised", 0.5f);

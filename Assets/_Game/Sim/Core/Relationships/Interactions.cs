@@ -19,6 +19,7 @@ namespace Game.Sim.Relationships
         Chat,
         DateRound,
         DateEnd,
+        Confession,
     }
 
     /// <summary>What happened: the reaction, their line, and how the meters moved.</summary>

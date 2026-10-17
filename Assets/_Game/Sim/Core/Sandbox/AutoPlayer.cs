@@ -99,7 +99,7 @@ namespace Game.Sim.Sandbox
             foreach (Resident stranger in present.Where(r => World.Find(r.Index)?.Met != true).Take(2))
             {
                 _session.Select(stranger);
-                Record(_session.Greet());
+                Greet();
             }
 
             // Time with whoever they like most here.
@@ -109,7 +109,7 @@ namespace Game.Sim.Sandbox
             _session.Select(favourite);
             if (_session.Selected == null) return;
             Relationship rel = World.RelationshipWith(favourite);
-            if (rel.LastSeenDay != World.Now.Day) Record(_session.Greet());
+            if (rel.LastSeenDay != World.Now.Day) Greet();
 
             for (int i = 0; i < 2 && _session.Selected != null; i++)
             {
@@ -145,6 +145,13 @@ namespace Game.Sim.Sandbox
                     _session.EndDate();
                 }
             }
+        }
+
+        /// <summary>Hello, and a yes to anyone who confesses (unless the player already has a partner).</summary>
+        void Greet()
+        {
+            Record(_session.Greet());
+            if (_session.Confession != null) Record(_session.AnswerConfession(!Taken));
         }
 
         /// <summary>
@@ -221,6 +228,11 @@ namespace Game.Sim.Sandbox
                 case "greet.gossip": Note(day, $"{name} had heard good things about you from a friend."); break;
                 case "greet.cheated": Note(day, $"{name} heard about another of your dates."); break;
                 case "greet.breakup": Note(day, $"{name} broke up with you."); break;
+                case "greet.confess":
+                case "greet.confess.taken": Note(day, $"{name} confessed {who.Possessive} feelings."); break;
+                case "confess.yes": Note(day, $"Said yes to {name}: dating now."); break;
+                case "confess.yes.leaves": Note(day, $"Said yes to {name}, who is leaving {who.Possessive} partner."); break;
+                case "confess.no": Note(day, $"Let {name} down gently."); break;
                 case "greet.stranger.family": Note(day, $"{name}'s family had already told them all about you."); break;
                 case "greet.player.makeover.love": Note(day, $"{name} loved the new hair."); break;
                 case "greet.player.makeover.meh": Note(day, $"{name} wasn't sure about the new hair."); break;

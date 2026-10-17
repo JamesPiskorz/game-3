@@ -58,6 +58,18 @@ namespace Game.Sim.Relationships
 
             if (_previousSeen >= 0 && _previousSeen < Today)
             {
+                // A close friend who's fallen for the player says so (see Interactions.Confess).
+                if (WouldConfess(resident, rel))
+                {
+                    rel.ConfessedDay = Today;
+                    rel.ConfessionAnswered = false;
+                    int partner = _world.Social.PartnerOf(resident.Index);
+                    result.Learnt = $"{resident.Profile.FirstName} has feelings for you.";
+                    if (partner >= 0)
+                        return Finish(resident, rel, rng, result, before, "greet.confess.taken", GreetMinutes, ("partner", _world.Residents[partner].Profile.FirstName));
+                    return Finish(resident, rel, rng, result, before, "greet.confess", GreetMinutes);
+                }
+
                 // The player's new hair, if they knew the old: how it lands depends on their taste.
                 Makeover mine = _world.Player.LastMakeover;
                 if (mine != null && _previousSeen < mine.Day && rel.NoticedPlayerMakeoverDay < mine.Day && Today - mine.Day <= Makeovers.NewForDays)

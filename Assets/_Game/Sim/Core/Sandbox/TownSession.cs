@@ -255,6 +255,7 @@ namespace Game.Sim.Sandbox
             if (Date != null && !Date.Finished) return "Pick what to talk about. Topics they love make for a good date.";
             if (Date != null) return "Say goodnight when you're ready.";
             if (World.Invitations.Any(i => i.Pending && i.Day == World.Now.Day)) return "You have a message: someone wants to meet up today.";
+            if (Confession != null) return $"{Confession.With.Profile.FirstName} has feelings for you. Say yes to start dating, or let {Confession.With.Profile.Object} down gently.";
             if (Chat != null) return "Pick a reply. Warmth, teasing or curiosity: different people warm to different things.";
             bool metAnyone = World.Relationships.Any(r => r.Met);
             if (AtHome && !metAnyone) return "Head out: pick a place under Go to. The numbers show how many people are there.";
@@ -310,6 +311,7 @@ namespace Game.Sim.Sandbox
         {
             Notice = null;
             if (!chatting) Chat = null; // any other action moves the conversation on
+            Confession = null; // and leaves a confession unanswered (they'll find the courage again in a while)
             if (Selected == null)
             {
                 Notice = "Pick someone to talk to first.";
@@ -337,9 +339,11 @@ namespace Game.Sim.Sandbox
                 World.Player.Location = SimCatalog.Home;
             }
             if (Chat != null && Selected != Chat.With) Chat = null;
+            if (Confession != null && Selected != Confession.With) Confession = null;
             if (Selected != null && !Present().Contains(Selected))
             {
                 Chat = null;
+                Confession = null;
                 string where = World.WhereIs(Selected);
                 Notice = $"{Selected.Profile.FirstName} headed off" + (where == SimCatalog.Home ? " home." : $" to {LocationName(where)}.");
                 Selected = null;

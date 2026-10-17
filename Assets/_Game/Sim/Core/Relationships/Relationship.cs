@@ -80,6 +80,10 @@ namespace Game.Sim.Relationships
         /// <summary>The way of talking they respond to best, once the player has seen it work (null until then).</summary>
         public string KnownChatStyle;
 
+        /// <summary>The day they last told the player how they feel, and whether the player has answered.</summary>
+        public int ConfessedDay = -100;
+        public bool ConfessionAnswered;
+
         /// <summary>Questions asked today (by kind), so asking twice is noticed.</summary>
         public SortedSet<string> AskedToday = new SortedSet<string>(StringComparer.Ordinal);
         public int AskedDay = -1;

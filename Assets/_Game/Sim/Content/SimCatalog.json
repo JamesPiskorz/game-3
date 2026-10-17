@@ -354,6 +354,37 @@
       { "tone": "bubbly", "text": "I'm done pretending this is fine. We're over." },
       { "tone": "dry", "text": "We're finished. Say hi to {other} for me." }
     ],
+    "greet.confess": [
+      { "tone": "any", "text": "Can I tell you something? I like you, {player}. As more than a friend. Would you go out with me?" },
+      { "tone": "warm", "text": "I've wanted to say this for a while. I really like you. Would you be my... would you date me?" },
+      { "tone": "shy", "text": "I-I practised this... I like you. A lot. Would you go out with me? You don't have to answer right away. Actually, please do." },
+      { "tone": "bubbly", "text": "Okay, I'm just going to say it: I have the biggest crush on you! Go out with me?" },
+      { "tone": "dry", "text": "I'm bad at this, so I'll be quick. I like you. Date me?" }
+    ],
+    "greet.confess.taken": [
+      { "tone": "any", "text": "I'm with {partner}, I know. But it's you I think about. If you'd have me, I'd end it." },
+      { "tone": "shy", "text": "I shouldn't say this while I'm with {partner}... but I like you. I'd leave, if you wanted me to." },
+      { "tone": "dry", "text": "This is a terrible idea, and {partner} won't thank me. I like you. Say the word and I'll end it." }
+    ],
+    "confess.yes": [
+      { "tone": "any", "text": "Really? You mean it? ...I'm so happy." },
+      { "tone": "warm", "text": "I was so nervous. Thank you for saying yes." },
+      { "tone": "shy", "text": "Y-yes? Oh. Oh, wow. I'm going to remember this forever." },
+      { "tone": "bubbly", "text": "Yes?! Yes! I have to tell everyone! Actually, maybe not everyone." },
+      { "tone": "dry", "text": "Good. I'd have had to move towns otherwise." }
+    ],
+    "confess.yes.leaves": [
+      { "tone": "any", "text": "Then I'll talk to {partner} tonight. I'm sure about this. About you." },
+      { "tone": "shy", "text": "I'll tell {partner}... It'll be hard. But I want this." },
+      { "tone": "dry", "text": "Right. I'll go and have the worst conversation of my life with {partner}. Worth it." }
+    ],
+    "confess.no": [
+      { "tone": "any", "text": "Oh. Okay. Thank you for being honest with me. Friends, then." },
+      { "tone": "warm", "text": "I understand. I'm glad I said it, and I'm glad we're still friends." },
+      { "tone": "shy", "text": "I... right. Sorry. Can we pretend I didn't say anything? Please?" },
+      { "tone": "bubbly", "text": "Ah. Well! Worth a shot! Still friends? Still friends." },
+      { "tone": "dry", "text": "Noted. I'll just go and be quietly mortified over there." }
+    ],
     "gift.clothes.love": [
       { "tone": "any", "text": "For me? I love it! I'm wearing it right now." },
       { "tone": "shy", "text": "You picked this out for me? ...It's perfect." },

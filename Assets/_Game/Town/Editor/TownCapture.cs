@@ -22,7 +22,8 @@ namespace Game.Town
         const int Width = 1920, Height = 1080;
 
         // One command every few frames. "press:" presses a HUD button by name ({liked} and {gift} pick something the
-        // selected resident loves, {best} and {chat} the reply that suits them); "hour:" waits until that hour; "befriend" stands in for a week of visits;
+        // selected resident loves, {best} and {chat} the reply that suits them); "hour:" waits until that hour; "befriend" stands in for a week of visits
+        // ("smitten" for a few more);
         // "pause:" lets frames pass; "shot:" snaps everyone into place first, "live:" shoots them mid-motion.
         static readonly string[] Script =
         {
@@ -35,6 +36,7 @@ namespace Game.Town
             "press:dateopt-{best}", "shot:date-round", "press:dateopt-{best}", "press:dateopt-{best}", "shot:date-end",
             "press:act-end-date", "press:place-mall", "press:buy-0", "shot:boutique", "press:cut-{cut}", "shot:salon",
             "hour:20", "press:place-bar", "press:here-0", "shot:bar", "press:act-gift", "shot:give-picker", "press:giveitem-0", "shot:give-clothes",
+            "smitten", "press:act-greet", "shot:confess", "press:confess-yes", "shot:confess-yes",
             "hour:22", "press:place-park", "shot:park-night",
             "press:wait", "pause:75", "live:park-comings-and-goings",
             "press:place-home", "shot:wardrobe",
@@ -164,6 +166,16 @@ namespace Game.Town
                         known.Trust = Mathf.Max(known.Trust, 40f);
                     }
                     break;
+                case "smitten": // the selected resident has fallen for the player since yesterday, so the next hello is a confession
+                {
+                    Relationship smitten = screen.Session.World.RelationshipWith(screen.Session.Selected);
+                    smitten.Familiarity = Mathf.Max(smitten.Familiarity, 65f);
+                    smitten.Affection = 92f;
+                    smitten.Attraction = 90f;
+                    smitten.Trust = Mathf.Max(smitten.Trust, 40f);
+                    smitten.LastSeenDay = screen.Session.World.Now.Day - 1;
+                    break;
+                }
                 case "befriend":
                     Relationship rel = screen.Session.World.RelationshipWith(screen.Session.Selected);
                     rel.Familiarity = 45f;

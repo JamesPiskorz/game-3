@@ -15,12 +15,45 @@ namespace Game.Sim.Sandbox
         public void Select(Resident resident)
         {
             Notice = null;
-            if (resident != Selected) Chat = null;
+            if (resident != Selected)
+            {
+                Chat = null;
+                Confession = null;
+            }
             Selected = resident != null && Present().Contains(resident) ? resident : null;
             Raise();
         }
 
-        public InteractionResult Greet() => Do(r => Act.Greet(r));
+        public InteractionResult Greet()
+        {
+            InteractionResult result = Do(r => Act.Greet(r));
+            if (result != null && Speaker != null && Act.AwaitingAnswer(Speaker))
+            {
+                Confession = new Confession { With = Speaker, Day = World.Now.Day, Partner = World.Social.PartnerOf(Speaker.Index) };
+                Raise();
+            }
+            return result;
+        }
+
+        /// <summary>The selected resident has told the player how they feel and is waiting for an answer (or null).</summary>
+        public Confession Confession { get; private set; }
+
+        /// <summary>Answers the confession: yes starts dating them, no lets them down gently.</summary>
+        public InteractionResult AnswerConfession(bool yes)
+        {
+            Notice = null;
+            if (Confession == null || Selected != Confession.With || !Act.AwaitingAnswer(Confession.With))
+            {
+                Confession = null;
+                Notice = "Nobody's waiting on an answer.";
+                Raise();
+                return null;
+            }
+            InteractionResult answer = Do(r => Act.AnswerConfession(r, yes));
+            Confession = null;
+            Raise();
+            return answer;
+        }
         public InteractionResult Talk(string topic) => Do(r => Act.Talk(r, topic));
         public InteractionResult Compliment() => Do(r => Act.Compliment(r));
         public InteractionResult Ask(string question) => Do(r => Act.Ask(r, question));
@@ -57,7 +90,6 @@ namespace Game.Sim.Sandbox
             Raise();
             return answer;
         }
-        /// <summary>Gives a gift, which costs its price in coins.</summary>
         /// <summary>Pieces the player could give away: owned and not worn in any of their outfits.</summary>
         public List<ItemDna> Giveable()
         {
@@ -84,6 +116,7 @@ namespace Game.Sim.Sandbox
             return result;
         }
 
+        /// <summary>Gives a gift, which costs its price in coins.</summary>
         public InteractionResult Gift(string giftId)
         {
             GiftEntry gift = World.Catalog.Gift(giftId);

@@ -74,7 +74,7 @@ namespace Game.Town
             _deltas = Add(_dialogue, new VisualElement(), "deltas");
             _learnt = Add(_dialogue, new Label(), "learnt");
 
-            var panel = _panel = Add(root, new ScrollView(), "panel");
+            var panel = _panel = Add(root, new ScrollView(ScrollViewMode.Vertical) { horizontalScrollerVisibility = ScrollerVisibility.Hidden }, "panel");
             _stats = Add(panel, new Label(), "stats");
             Add(panel, new Label("Go to"), "section");
             _places = Add(panel, new VisualElement(), "chips");
@@ -450,6 +450,19 @@ namespace Game.Town
                 }
                 Button shown = last;
                 _panel.schedule.Execute(() => { if (shown.panel != null) _panel.ScrollTo(shown); });
+                return;
+            }
+
+            Confession confession = _session.Confession;
+            if (confession != null && confession.With == selected)
+            {
+                // They've told you how they feel: the answer stands in for the actions until you give it.
+                var answers = Add(_card, new VisualElement(), "chat-replies");
+                Add(answers, new Label("Your answer:"), "chat-prompt");
+                string yes = confession.Partner >= 0 ? $"Yes ({selected.Profile.Subject}'ll leave {world.Residents[confession.Partner].Profile.FirstName})" : "Yes, let's go out";
+                Add(answers, Button("confess-yes", yes, () => _session.AnswerConfession(true)), "chip", "chat-reply", "liked");
+                Button no = Add(answers, Button("confess-no", "Let's stay friends", () => _session.AnswerConfession(false)), "chip", "chat-reply");
+                _panel.schedule.Execute(() => { if (no.panel != null) _panel.ScrollTo(no); });
                 return;
             }
 

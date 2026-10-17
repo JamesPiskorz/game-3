@@ -82,6 +82,8 @@
 
 28. **Clothes are gifts too, and they get worn.** A piece from the player's wardrobe is judged by the resident's taste for its two best-liked style tags (over a town that runs from about 0.19 at the 20th percentile to 0.77 at the 80th; "loves it" is 0.75). A loved piece that fits their everyday outfit goes into it. Gifts are saved and re-applied after each week's makeovers and on load, so the player can see their taste on the people they court.
 
+29. **Residents ask the player out.** A close friend whose attraction is 75 or more confesses at the first hello of a day, and the answer is the player's: yes is dating, no costs a little affection and 15 attraction (but earns trust). Attraction among close friends who aren't dating runs high (the median is at the cap in AutoPlayer towns), so the gate is mostly being close; the AutoPlayer hears about 0.7 confessions per town in 45 days, and pacing didn't move (friend 4.7, first date 7.1, partner 12.8 days). Nobody confesses to someone with a partner, and a resident seeing someone else only confesses at the same levels that would make them leave for the player.
+
 ## Pacing (simulated, 24 residents, 60 days)
 
 The player visits one resident every evening with three talks and a compliment, plus a gift every other day.
