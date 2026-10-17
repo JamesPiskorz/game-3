@@ -70,6 +70,41 @@ namespace Game.Characters.Tests.Modular
         }
 
         [Test]
+        public void Equip_OnePieceDisplacesTopAndBottom_AndATopDisplacesTheOnePiece()
+        {
+            ModularCharacter character = CreateCharacter();
+            character.Equip(CreatePart("Shirt", "top", BodyRegions.UpperTorso, BodyShapes));
+            character.Equip(CreatePart("Shorts", "bottom", BodyRegions.Pelvis, BodyShapes));
+            CharacterPart dressTemplate = CreatePart("Dress", "onepiece", BodyRegions.UpperTorso | BodyRegions.Pelvis, BodyShapes);
+            dressTemplate.BlocksSlots = new[] { "top", "bottom" };
+
+            CharacterPart dress = character.Equip(dressTemplate);
+
+            Assert.That(character.GetPart("top") == null && character.GetPart("bottom") == null, "a dress should displace top and bottom");
+            Assert.That(character.GetPart("onepiece"), Is.SameAs(dress));
+
+            character.Equip(CreatePart("Tee", "top", BodyRegions.UpperTorso, BodyShapes));
+
+            Assert.That(character.GetPart("onepiece") == null, "a top should displace the dress");
+        }
+
+        [Test]
+        public void PartMaterials_AreInstances_ReleasedOnUnequip()
+        {
+            ModularCharacter character = CreateCharacter();
+            CharacterPart template = CreatePart("Shirt", "top", BodyRegions.UpperTorso, BodyShapes);
+            Material shared = Track(new Material(Shader.Find("Game/Characters/Toon")));
+            template.GetComponentInChildren<SkinnedMeshRenderer>().sharedMaterial = shared;
+
+            character.Equip(template);
+            Material instance = character.PartMaterials("top")[0];
+
+            Assert.That(instance, Is.Not.SameAs(shared));
+            character.Unequip("top");
+            Assert.That(instance == null, "unequipping should destroy the part's material instances");
+        }
+
+        [Test]
         public void SetShape_DrivesSameNamedShapes_OnBodyAndParts_IncludingPartsEquippedLater()
         {
             ModularCharacter character = CreateCharacter();

@@ -1,0 +1,61 @@
+using UnityEngine;
+
+namespace Game.Characters.Rendering
+{
+    /// <summary>Property IDs and setters for Game/Characters/Toon materials.</summary>
+    public static class ToonMaterial
+    {
+        public const string ShaderName = "Game/Characters/Toon";
+
+        public static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
+        public static readonly int BaseShade = Shader.PropertyToID("_BaseShade");
+        public static readonly int RimColor = Shader.PropertyToID("_RimColor");
+        public static readonly int ShadeTint = Shader.PropertyToID("_ShadeTint");
+        public static readonly int PatternMap = Shader.PropertyToID("_PatternMap");
+        public static readonly int PatternColor = Shader.PropertyToID("_PatternColor");
+        public static readonly int PatternRegions = Shader.PropertyToID("_PatternRegions");
+        public static readonly int PatternScale = Shader.PropertyToID("_PatternScale");
+        public static readonly int OutlineWidth = Shader.PropertyToID("_OutlineWidth");
+        public static readonly int HiddenRegions = Shader.PropertyToID("_HiddenRegions");
+        public static readonly int Cull = Shader.PropertyToID("_Cull");
+
+        static readonly int[] RegionColours =
+        {
+            Shader.PropertyToID("_Color1"),
+            Shader.PropertyToID("_Color2"),
+            Shader.PropertyToID("_Color3"),
+            Shader.PropertyToID("_Color4"),
+        };
+
+        public const string VertexColourMaskKeyword = "_MASK_VERTEX_COLOUR";
+
+        // The palette rim colour is a tint; the shader adds rim light, so it is scaled down.
+        const float SkinRimStrength = 0.3f;
+
+        public static void SetSkin(Material material, SkinTonePalette.Stop skin)
+        {
+            material.SetColor(BaseColor, skin.Base);
+            material.SetColor(BaseShade, skin.Shade);
+            material.SetColor(RimColor, skin.Rim * SkinRimStrength);
+        }
+
+        /// <summary>Sets recolour region <paramref name="region"/> (0-3, i.e. mask channel R-A).</summary>
+        public static void SetRegionColour(Material material, int region, Color colour) =>
+            material.SetColor(RegionColours[region], colour);
+
+        public static void SetPattern(Material material, Texture pattern, Color colour, float strength, float tilesPerMetre, Vector4 regions)
+        {
+            material.SetTexture(PatternMap, pattern);
+            colour.a = pattern == null ? 0f : strength;
+            material.SetColor(PatternColor, colour);
+            material.SetFloat(PatternScale, tilesPerMetre);
+            material.SetVector(PatternRegions, regions);
+        }
+
+        public static void ClearPattern(Material material)
+        {
+            material.SetTexture(PatternMap, null);
+            material.SetColor(PatternColor, new Color(1f, 1f, 1f, 0f));
+        }
+    }
+}

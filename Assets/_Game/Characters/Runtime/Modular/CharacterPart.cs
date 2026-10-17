@@ -12,6 +12,9 @@ namespace Game.Characters.Modular
         [Tooltip("Slot the part occupies, e.g. \"top\", \"bottom\", \"hair\". Equipping replaces whatever is in the slot.")]
         public string Slot;
 
+        [Tooltip("Other slots this part takes over, e.g. a dress blocks \"top\" and \"bottom\". Equipping either side removes the other.")]
+        public string[] BlocksSlots = System.Array.Empty<string>();
+
         [Tooltip("Body regions this part fully covers. Their skin is hidden while the part is worn.")]
         public BodyRegions CoveredRegions;
 

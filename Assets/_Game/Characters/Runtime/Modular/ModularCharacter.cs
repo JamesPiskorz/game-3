@@ -26,6 +26,7 @@ namespace Game.Characters.Modular
             public CharacterPart Part;
             public SkinnedMeshRenderer[] Renderers;
             public List<Transform> GraftedBones;
+            public List<Material> Materials;
         }
 
         public SkinnedMeshRenderer Body => _body;
@@ -40,29 +41,65 @@ namespace Game.Characters.Modular
 
         public CharacterPart GetPart(string slot) => _equipped.TryGetValue(slot, out Equipped equipped) ? equipped.Part : null;
 
-        /// <summary>Instantiates <paramref name="prefab"/> on this character, replacing the part in its slot.</summary>
+        /// <summary>The body's own material instance; recolour it freely.</summary>
+        public Material BodyMaterial
+        {
+            get
+            {
+                EnsureReady();
+                return _bodyMaterial;
+            }
+        }
+
+        /// <summary>Material instances owned by the part in <paramref name="slot"/>; recolour them freely.</summary>
+        public IReadOnlyList<Material> PartMaterials(string slot) =>
+            _equipped.TryGetValue(slot, out Equipped equipped) ? equipped.Materials : (IReadOnlyList<Material>)Array.Empty<Material>();
+
+        public IEnumerable<string> EquippedSlots => _equipped.Keys;
+
+        /// <summary>
+        /// Instantiates <paramref name="prefab"/> on this character, replacing the part in its slot and any part
+        /// either side blocks (a dress blocks top and bottom; a top displaces a dress).
+        /// </summary>
         public CharacterPart Equip(CharacterPart prefab)
         {
             EnsureReady();
-            Unequip(prefab.Slot);
+            var displaced = new List<string>();
+            foreach (KeyValuePair<string, Equipped> pair in _equipped)
+                if (pair.Key == prefab.Slot
+                    || Array.IndexOf(prefab.BlocksSlots, pair.Key) >= 0
+                    || Array.IndexOf(pair.Value.Part.BlocksSlots, prefab.Slot) >= 0)
+                    displaced.Add(pair.Key);
+            foreach (string slot in displaced)
+                Unequip(slot);
 
             CharacterPart part = Instantiate(prefab, transform);
             part.name = prefab.name;
             SkinnedMeshRenderer[] renderers = part.GetComponentsInChildren<SkinnedMeshRenderer>(true);
             var grafted = new List<Transform>();
+            var materials = new List<Material>();
             foreach (SkinnedMeshRenderer renderer in renderers)
             {
                 grafted.AddRange(_binder.Rebind(renderer));
                 if (part.FollowsBodyShapes) WarnAboutMissingShapes(part, renderer);
                 foreach (KeyValuePair<string, float> shape in _shapes)
                     SetWeight(renderer, shape.Key, shape.Value);
+
+                Material[] shared = renderer.sharedMaterials;
+                for (int i = 0; i < shared.Length; i++)
+                {
+                    if (shared[i] == null) continue;
+                    shared[i] = Instance(shared[i]);
+                    materials.Add(shared[i]);
+                }
+                renderer.sharedMaterials = shared;
             }
 
             // The renderers now use our skeleton, so the part's own copy is dead weight.
             Transform ownSkeleton = part.transform.Find(_skeletonRoot.name);
             if (ownSkeleton != null) DestroySafely(ownSkeleton.gameObject);
 
-            _equipped[prefab.Slot] = new Equipped { Part = part, Renderers = renderers, GraftedBones = grafted };
+            _equipped[prefab.Slot] = new Equipped { Part = part, Renderers = renderers, GraftedBones = grafted, Materials = materials };
             UpdateHiddenRegions();
             return part;
         }
@@ -78,6 +115,8 @@ namespace Game.Characters.Modular
                 DestroySafely(bone.gameObject);
             }
             if (equipped.Part != null) DestroySafely(equipped.Part.gameObject);
+            foreach (Material material in equipped.Materials)
+                DestroySafely(material);
             UpdateHiddenRegions();
         }
 
@@ -111,10 +150,13 @@ namespace Game.Characters.Modular
                 throw new InvalidOperationException($"{nameof(ModularCharacter)} on '{name}' needs a skeleton root and a body renderer.");
 
             _binder = new SkeletonBinder(_skeletonRoot);
-            // A material instance rather than a MaterialPropertyBlock, which would opt the body out of the SRP Batcher.
-            _bodyMaterial = new Material(_body.sharedMaterial) { name = _body.sharedMaterial.name + " (Instance)", hideFlags = HideFlags.DontSave };
+            _bodyMaterial = Instance(_body.sharedMaterial);
             _body.sharedMaterial = _bodyMaterial;
         }
+
+        // Per-character material instances rather than MaterialPropertyBlocks, which would opt renderers out of the SRP Batcher.
+        static Material Instance(Material template) =>
+            new Material(template) { name = template.name + " (Instance)", hideFlags = HideFlags.DontSave };
 
         void UpdateHiddenRegions()
         {
@@ -143,6 +185,9 @@ namespace Game.Characters.Modular
         void OnDestroy()
         {
             if (_bodyMaterial != null) DestroySafely(_bodyMaterial);
+            foreach (Equipped equipped in _equipped.Values)
+                foreach (Material material in equipped.Materials)
+                    if (material != null) DestroySafely(material);
         }
 
         static void DestroySafely(UnityEngine.Object obj)
