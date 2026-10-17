@@ -64,11 +64,29 @@ The body's vertex colour **R channel = region ID / 255**. Parts declare which re
 | `top`, `bottom` | Required unless a one-piece is worn. |
 | `onepiece` | Blocks `top` and `bottom`. |
 | `shoes` | Required. |
+| `outer` | Jackets and coats, over any top. Tops tagged `hooded` or `tailored` don't go under one. |
+| `legwear` | Tights and socks, right on the skin. Requires a `bare_legs` piece (skirts, dresses, shorts), so it's never hidden under trousers. |
 | `hat` | Requires hair tagged `hat_ok`. |
-| `glasses` | |
-| `hair.back`, `hair.front` | Hair is split into crown plus length, and bangs. |
+| `glasses`, `earrings` | Belong to the person: the same pair in every outfit. |
+| `neck`, `bag` | Scarves and necklaces; a crossbody bag. Per outfit. |
+| `hair.back`, `hair.front` | Hair is split into crown plus length, and bangs. Every piece is offered at the salon by its `name`. |
 
-One layer per slot for now, so there are no jackets over tops. Layering is a later system.
+### Layering (enforced by review, measured in metres off the body surface)
+
+Each layer sits further out than everything that can be worn under it:
+
+| Layer | Stand-in offset |
+|---|---|
+| Legwear | 0.003 to 0.004 |
+| Skirt and dress waistbands | 0.006 |
+| Tops, trousers, shorts, shoes | 0.012 to 0.022 (the hoodie is the bulkiest top) |
+| Boots | 0.016 |
+| Outer layers | 0.034 to 0.036 |
+| Things that lie on top of everything (a scarf's hanging end, a bag strap) | in front of an outer layer's surface |
+
+- An open-fronted jacket leaves its front out of the mesh, so the top shows through. Real jackets should do the same, not rely on the top poking through.
+- A coat's skirt must be wider than every skirt and dress down to its own hem. Longer skirts may show below it.
+- **Lesson from the stand-ins:** the scarf's hanging end poked through coats until it was moved out to lie over them.
 
 ### Budgets (enforced by the Blender validator)
 
@@ -116,10 +134,29 @@ IDs are `category.slot.name_variant`, for example `cloth.top.hoodie_01`, `hair.b
 | `lean` | âˆ’1 (masculine-coded) to +1 (feminine-coded). It **weights** picks and never forbids them. |
 | `regions`, `patternable` | Recolouring. |
 | `contexts` | Outfit contexts it may appear in (empty = any). |
+| `tags` with rules | `hat_ok` (hair a hat can sit on), `bare_legs` (legs show, so legwear can go with it), `hooded` and `tailored` (too bulky or structured to go under a coat). |
 | `requiresTags`, `excludesTags` | Compatibility rules, for example a hat needs `hat_ok` hair. |
 | `weight` | Relative pick frequency. |
 
-A test fails if any part, style or pattern never shows up in 3,000 generated characters, or if a garment appears in fewer than 0.5% of outfits.
+A test fails if any part, style or pattern never shows up in 3,000 generated characters, or if a garment appears in fewer than 0.5% of outfits. `Docs/review/generator-stats.md` shows how often every part is worn, per context, over 10,000 characters.
+
+### Outfit contexts
+
+Every character has an outfit per context, all generated in their style. The catalog defines them:
+
+| Context | Rule | Worn |
+|---|---|---|
+| `casual` | Everyday. | Most of the time. |
+| `date` | Weights `date` and `elegant` pieces. | On dates, and evenings out somewhere romantic or social. |
+| `rain` | `"outer": true`: a coat or jacket is picked first, and the outfit is built to go under it. | On rainy days. |
+| `sport` | `"onlyTags": ["sporty"]`. | At the gym. |
+| `work` | `"onlyTags": ["elegant", "bookish"]`. | At their job, during working hours. |
+
+A part limited to some contexts (`contexts`) stays out of the others, in the generator and in the player's wardrobe. The catalog check refuses a context whose rules leave a required slot with nothing to wear.
+
+### Per-archetype chances
+
+Each archetype sets how often optional pieces appear: `hatChance`, `glassesChance`, `neckChance`, `outerChance`, `legwearChance`, `earringChance`, `bagChance` and `patternChance`. They draw from separate random streams, so adding a slot or changing a chance doesn't reshuffle anyone's other choices.
 
 ## 4. Faces
 
@@ -185,9 +222,15 @@ Recolourable face colours are iris, brows, eye whites and lips (body regions 1â€
 | Street | Hoodies, caps, bold contrast. Into music, fashion and games. |
 | Bookish | Cardigan-adjacent: glasses, plaid, calm faces. Into books. |
 
+### What the systems ask of characters
+
+- **Families:** siblings share skin tone, natural hair and eye colour, and lean towards each other's face sliders, often from the same face preset. Presets need to blend well with one another (see `Docs/review/family-sheet.png`).
+- **Makeovers and the salon:** residents change haircut, colour or everyday clothes over the weeks, and the player can restyle their hair. Any hair piece must work with any colour, and a hat that a new cut can't take is taken off.
+- **First impressions** count hair and clothes by their style tags. A piece's tags are a gameplay statement, not only a filter.
+
 ## 10. Open questions for art
 
 - The target triangle budget per character, and whether to aim lower than the validator's per-part ceiling.
 - Whether faces should be fully texture-driven (decals for eyes and mouth) or feature-mesh-driven like the stand-in. This decides how expressions are authored.
-- Layering, such as jackets over tops: worth the cost in fit work and generator rules?
+- Layering is built (one outer layer over the top, legwear under everything). Should real coats cover more, such as hoods over jackets or layered skirts?
 - How far the fantasy hair and eye colours go, and per archetype.
