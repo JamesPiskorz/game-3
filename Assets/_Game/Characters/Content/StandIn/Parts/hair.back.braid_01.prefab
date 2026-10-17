@@ -785,6 +785,7 @@ MonoBehaviour:
   FollowsBodyShapes: 0
   SpringChains:
   - Hair.Braid.1
+  Small: 0
 --- !u!1 &4900060800017384733
 GameObject:
   m_ObjectHideFlags: 0

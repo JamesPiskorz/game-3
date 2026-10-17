@@ -25,6 +25,10 @@ namespace Game.Characters.Tests.Modular
             content.Reload();
             CharacterDna dna = new CharacterGenerator(content.LoadCatalog()).Generate(3);
             dna.Hair.PieceIds = new List<string> { "hair.back.ponytail_01" };
+            // Earrings, so there's a small part to test.
+            OutfitDna casual = dna.Outfits.First(o => o.Context == "casual");
+            casual.Items.RemoveAll(i => i.ItemId.StartsWith("acc.earrings"));
+            casual.Items.Add(new ItemDna { ItemId = "acc.earrings.hoops_01", RegionColors = { new HsvColor(0.12f, 0.5f, 0.9f) } });
             _character = new CharacterBuilder(content).Build(dna, "casual");
             _lod = _character.GetComponent<CharacterLod>();
         }
@@ -38,8 +42,23 @@ namespace Game.Characters.Tests.Modular
             _lod.Apply(3f);
 
             Assert.That(Materials().All(m => m.GetShaderPassEnabled("SRPDefaultUnlit")), Is.True);
-            Assert.That(Renderers().All(r => r.shadowCastingMode == ShadowCastingMode.On), Is.True);
+            Assert.That(Renderers().Where(r => !Small(r)).All(r => r.shadowCastingMode == ShadowCastingMode.On), Is.True);
             Assert.That(Chains().All(c => c.enabled), Is.True);
+        }
+
+        [Test]
+        public void SmallParts_CastNoShadowAndAreOutlinedOnlyCloseUp()
+        {
+            List<Renderer> small = Renderers().Where(Small).ToList();
+            Assert.That(small, Is.Not.Empty);
+            _lod.Apply(3f);
+            Assert.That(small.All(r => r.shadowCastingMode == ShadowCastingMode.Off), "Too small to need a shadow.");
+            Assert.That(small.SelectMany(r => r.sharedMaterials).All(m => m.GetShaderPassEnabled("SRPDefaultUnlit")), "Outlined in a close-up.");
+
+            _lod.Apply(_lod.SmallOutlineDistance + 3f);
+            Assert.That(small.SelectMany(r => r.sharedMaterials).Any(m => m.GetShaderPassEnabled("SRPDefaultUnlit")), Is.False, "Not at conversation distance.");
+            Assert.That(Renderers().Where(r => !Small(r)).SelectMany(r => r.sharedMaterials).All(m => m.GetShaderPassEnabled("SRPDefaultUnlit")),
+                "Everything else keeps its outline.");
         }
 
         [Test]
@@ -67,6 +86,7 @@ namespace Game.Characters.Tests.Modular
         }
 
         IEnumerable<Renderer> Renderers() => _character.GetComponentsInChildren<Renderer>();
+        static bool Small(Renderer renderer) => renderer.GetComponentInParent<CharacterPart>()?.Small == true;
         IEnumerable<Material> Materials() => Renderers().SelectMany(r => r.sharedMaterials).Where(m => m != null);
         IEnumerable<SpringBoneChain> Chains() => _character.GetComponents<SpringBoneChain>();
     }

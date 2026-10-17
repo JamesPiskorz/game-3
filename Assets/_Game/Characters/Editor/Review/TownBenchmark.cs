@@ -117,6 +117,13 @@ namespace Game.Characters.Review
             Light sun = UnityEngine.Object.FindAnyObjectByType<Light>();
 
             double renderMs = RenderMs();
+            // As in play: CharacterLod applied at each resident's distance (small parts lose shadows and, beyond a
+            // close-up, outlines). Then everything back on for the comparisons below.
+            foreach (ModularCharacter character in characters) character.GetComponent<CharacterLod>()?.Apply(Vector3.Distance(camera.transform.position, character.transform.position));
+            double nearLodMs = RenderMs();
+            foreach (SkinnedMeshRenderer renderer in skinned) renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+            foreach (Material material in materials) material.SetShaderPassEnabled("SRPDefaultUnlit", true);
+            foreach (ModularCharacter character in characters) character.GetComponent<CharacterLod>()?.Refresh();
             // What an identity bake would save: the same characters with every blendshape at zero.
             var weights = skinned.Select(r => Enumerable.Range(0, r.sharedMesh.blendShapeCount).Select(r.GetBlendShapeWeight).ToArray()).ToList();
             foreach (SkinnedMeshRenderer renderer in skinned)
@@ -150,6 +157,7 @@ namespace Game.Characters.Review
             report.AppendLine($"| Re-apply for another outfit context (median) | {Median(contextTimes):0.00} ms |");
             report.AppendLine($"| Spring bones, whole town, per 60 Hz frame | {springMsPerFrame:0.000} ms ({chains.Count} chains) |");
             report.AppendLine($"| Render the town, 1920×1080, CPU + GPU | {renderMs:0.00} ms |");
+            report.AppendLine($"| … the same view with CharacterLod, as in play | {nearLodMs:0.00} ms |");
             report.AppendLine($"| … the empty scene (camera, floorless) | {emptyMs:0.00} ms |");
             report.AppendLine($"| … with every blendshape at zero (an identity bake's ceiling) | {noShapesMs:0.00} ms |");
             report.AppendLine($"| … without the outline pass | {noOutlineMs:0.00} ms |");

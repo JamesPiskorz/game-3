@@ -719,6 +719,7 @@ MonoBehaviour:
   CoveredRegions: 30736
   FollowsBodyShapes: 1
   SpringChains: []
+  Small: 0
 --- !u!1 &5013684079778174791
 GameObject:
   m_ObjectHideFlags: 0

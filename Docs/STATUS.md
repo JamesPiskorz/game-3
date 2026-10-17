@@ -35,7 +35,7 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 | Stand-in content | Procedural body with simple face, 43 parts (15 hair, including a braid on its own spring chain; 28 clothing and accessories, including neckwear, outer layers, legwear, earrings and a crossbody bag), 9 face presets, 7 eye and 5 brow styles, 10 patterns, toon materials. **Placeholder art until Phase 1.** | `Characters/Editor/StandIns`, `Content/StandIn` |
 | Generator statistics | 10,000 characters measured as a population: style shares against catalog weights, presentation and skin-tone spread, fantasy hair and eyes, how often each part is worn in each context, patterns, rule violations (0) and time per character (about 0.3 ms). A test fails if any part goes unworn | `Generation/GeneratorStats.cs`, `Docs/review/generator-stats.md` |
 | Performance | Town benchmark; distance-based detail (`CharacterLod`) | decision 0004, `Docs/review/perf.md` |
-| Tests | 271 Unity EditMode tests (122 characters, 149 sim); the pure C# sets also run on .NET 8 | `Characters/Tests`, `Sim/Tests` |
+| Tests | 272 Unity EditMode tests (123 characters, 149 sim); the pure C# sets also run on .NET 8 | `Characters/Tests`, `Sim/Tests` |
 
 ## Try it
 
@@ -104,4 +104,4 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 3. **Richer conversations:** a chat is at most two exchanges over four kinds of opener. More openers, and a third beat that remembers the first, would make talking feel less like a menu.
 4. **The town as a space:** walkable locations with NavMesh. People already walk in and out of each scene, but the town itself is a set of stages.
 5. **Sound:** there's none yet. Music per place and time of day, plus UI sounds.
-6. **Performance:** merge each character into fewer renderers (decision 0004) before the town shows many more people at once. The current town renders in about 8 ms in the editor.
+6. **Performance:** render cost now follows renderer count (271 for 40 residents, about 9 ms in the editor). Merging each character's parts into fewer renderers, with merged materials, is the next lever (decision 0004).

@@ -23,5 +23,8 @@ namespace Game.Characters.Modular
 
         [Tooltip("First bones of chains that swing with spring physics (hair tails, skirt panels).")]
         public string[] SpringChains = System.Array.Empty<string>();
+
+        [Tooltip("A tiny detail (earrings, glasses, a necklace): it casts no shadow and is outlined only close up.")]
+        public bool Small;
     }
 }

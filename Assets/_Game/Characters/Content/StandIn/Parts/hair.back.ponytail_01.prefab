@@ -714,6 +714,7 @@ MonoBehaviour:
   FollowsBodyShapes: 0
   SpringChains:
   - Hair.Ponytail.1
+  Small: 0
 --- !u!1 &5855466698921441280
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,12 +15,15 @@ namespace Game.Characters.Rendering
         const float Hysteresis = 1f;
 
         public float OutlineDistance = 14f;
+
+        /// <summary>Small parts (<see cref="CharacterPart.Small"/>) keep their outline only this close, and never cast shadows.</summary>
+        public float SmallOutlineDistance = 5f;
         public float SpringDistance = 16f;
         public float ShadowDistance = 24f;
         [Tooltip("Camera to measure from; empty uses Camera.main.")]
         public Camera Camera;
 
-        bool _initialised, _outlines, _springs, _shadows;
+        bool _initialised, _outlines, _smallOutlines, _springs, _shadows;
 
         public bool Outlines => _outlines;
         public bool Springs => _springs;
@@ -38,19 +41,23 @@ namespace Game.Characters.Rendering
         public void Apply(float distance)
         {
             bool outlines = Within(distance, OutlineDistance, _outlines);
+            bool smallOutlines = Within(distance, SmallOutlineDistance, _smallOutlines);
             bool springs = Within(distance, SpringDistance, _springs);
             bool shadows = Within(distance, ShadowDistance, _shadows);
-            if (_initialised && outlines == _outlines && springs == _springs && shadows == _shadows) return;
+            if (_initialised && outlines == _outlines && smallOutlines == _smallOutlines && springs == _springs && shadows == _shadows) return;
 
             _initialised = true;
             _outlines = outlines;
+            _smallOutlines = smallOutlines;
             _springs = springs;
             _shadows = shadows;
             foreach (Renderer renderer in GetComponentsInChildren<Renderer>(true))
             {
-                renderer.shadowCastingMode = shadows ? ShadowCastingMode.On : ShadowCastingMode.Off;
+                // Tiny details don't need a shadow or, beyond a close-up, an outline: each is a draw for every pass.
+                bool small = renderer.GetComponentInParent<Modular.CharacterPart>()?.Small == true;
+                renderer.shadowCastingMode = shadows && !small ? ShadowCastingMode.On : ShadowCastingMode.Off;
                 foreach (Material material in renderer.sharedMaterials)
-                    if (material != null) material.SetShaderPassEnabled(OutlinePass, outlines);
+                    if (material != null) material.SetShaderPassEnabled(OutlinePass, small ? outlines && smallOutlines : outlines);
             }
             foreach (SpringBoneChain chain in GetComponents<SpringBoneChain>())
                 chain.enabled = springs;

@@ -847,6 +847,7 @@ MonoBehaviour:
   SpringChains:
   - Hair.TwinTail.L.1
   - Hair.TwinTail.R.1
+  Small: 0
 --- !u!1 &6536103982387613565
 GameObject:
   m_ObjectHideFlags: 0

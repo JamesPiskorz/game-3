@@ -1135,6 +1135,7 @@ MonoBehaviour:
   FollowsBodyShapes: 0
   SpringChains:
   - Hair.SideTail.1
+  Small: 0
 --- !u!1 &8625131509022956946
 GameObject:
   m_ObjectHideFlags: 0

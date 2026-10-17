@@ -39,6 +39,7 @@ namespace Game.Characters.StandIns
             public string Material;
             public StandInBone[] Bones = StandInSkeleton.Bones;
             public string[] SpringChains = Array.Empty<string>();
+            public bool Small;
             public Action<StandInMesh> Build;
         }
 
@@ -395,7 +396,7 @@ namespace Game.Characters.StandIns
             // ---------------- accessories (no body shapes reach the head)
             yield return new Recipe
             {
-                Id = "acc.glasses.round_01", Slot = "glasses", Material = "Accessory", FollowsBodyShapes = false,
+                Id = "acc.glasses.round_01", Slot = "glasses", Material = "Accessory", FollowsBodyShapes = false, Small = true,
                 Build = m =>
                 {
                     foreach (float x in new[] { -0.04f, 0.04f })
@@ -497,7 +498,7 @@ namespace Game.Characters.StandIns
             // ---------------- earrings: at the sides of the head, just below its middle (the stand-in head has no ears)
             yield return new Recipe
             {
-                Id = "acc.earrings.studs_01", Slot = "earrings", Material = "Accessory", FollowsBodyShapes = false,
+                Id = "acc.earrings.studs_01", Slot = "earrings", Material = "Accessory", FollowsBodyShapes = false, Small = true,
                 Build = m =>
                 {
                     using IDisposable coarse = m.Coarse();
@@ -507,7 +508,7 @@ namespace Game.Characters.StandIns
             };
             yield return new Recipe
             {
-                Id = "acc.earrings.hoops_01", Slot = "earrings", Material = "Accessory", FollowsBodyShapes = false,
+                Id = "acc.earrings.hoops_01", Slot = "earrings", Material = "Accessory", FollowsBodyShapes = false, Small = true,
                 Build = m =>
                 {
                     // A ring of beads hanging below each side, turned partly towards the front so it doesn't read edge-on.
@@ -569,7 +570,7 @@ namespace Game.Characters.StandIns
             };
             yield return new Recipe
             {
-                Id = "acc.neck.necklace_01", Slot = "neck", Material = "Accessory",
+                Id = "acc.neck.necklace_01", Slot = "neck", Material = "Accessory", Small = true,
                 Build = m =>
                 {
                     // A string of beads around the base of the neck, and a pendant resting on the chest.
@@ -677,6 +678,7 @@ namespace Game.Characters.StandIns
             part.CoveredRegions = recipe.Covers;
             part.FollowsBodyShapes = recipe.FollowsBodyShapes;
             part.SpringChains = recipe.SpringChains;
+            part.Small = recipe.Small;
             var bones = new Dictionary<string, Transform>();
             StandInSkeleton.Build(root.transform, recipe.Bones, bones);
             AddRenderer(root.transform, "Mesh", mesh, recipe.Bones, bones, material);

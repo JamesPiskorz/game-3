@@ -28,12 +28,13 @@
    - A context can allow only certain tags (`onlyTags`): the "Workout" context is sporty pieces only, and residents wear it at the gym. The catalog check makes sure every required slot has a piece it allows.
 5. **The population is measured, not only looked at.** `GeneratorStats` runs a batch and reports the distributions the plan's Phase 2 asks for, plus how often each part is worn in each context. `Docs/review/generator-stats.md` holds the 10,000-character report, and a test fails if any part is never worn. The first report showed twin tails at 3.8% of characters and hats at about 5% (they need hair that takes one): worth a look when real hair content arrives.
 6. **Coherence rules are found by review, then enforced by tests.** The 96-character quality sheet showed that clothing near the skin colour reads as bare skin. Torso and leg clothing now keeps a minimum distance from the skin. The rule is solved jointly with top/bottom contrast and covered by a 3,000-character sweep.
-7. **The builder is idempotent:**
+7. **Cost follows renderers, not vertices, at this scale.** Lowering the resolution of small stand-in details cut skinned vertices by a third with no change in render time. Small parts (`CharacterPart.Small`: glasses, earrings, a necklace) therefore cast no shadow and keep their outline only within 5 m. Merging each character's parts into fewer renderers is the next lever, and only pays off if materials merge too (colours in vertex data or an atlas).
+8. **The builder is idempotent:**
    - It captures a rest pose once and resets bound bones before applying sliders and styles.
    - It reconciles equipped parts with the DNA's outfit for a context.
    - The creator re-applies after every edit, at about 0.07 ms per edit.
-8. **The creator talks only to `CreatorSession`** (pure C#: undo/redo, locks, rules). The UI Toolkit view is built from the catalog, so new sliders, parts and presets need no UI work.
-9. **Far characters drop detail** (`CharacterLod`): first the outline pass, then spring bones, then shadows, with hysteresis.
+9. **The creator talks only to `CreatorSession`** (pure C#: undo/redo, locks, rules). The UI Toolkit view is built from the catalog, so new sliders, parts and presets need no UI work.
+10. **Far characters drop detail** (`CharacterLod`): first the outline pass, then spring bones, then shadows, with hysteresis.
 
 ## Measurements
 
@@ -47,6 +48,7 @@
 | Springs for the whole town | ~0.24 ms per frame |
 | Render the town at 1080p | ~8.2 ms: outline pass ~45% of character cost, shadows ~20%, blendshapes ~3% |
 | … with outer layers in everyday outfits (243 renderers) | ~8.4 ms |
+| … with tonight's accessories (271 renderers), full detail / with `CharacterLod` as in play | ~9.3 / ~8.9 ms |
 | Far view with `CharacterLod` | 7.3 → 3.75 ms |
 
 ## Consequences / next
