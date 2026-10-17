@@ -1,8 +1,8 @@
 # Generator statistics
 
-_2026-10-18 07:01 · AMD Ryzen 7 5700X 8-Core Processor · Unity 6000.6.6f1 (editor). Regenerate with **Game → Characters → Review → Write Generator Statistics**._
+_2026-10-18 07:14 · AMD Ryzen 7 5700X 8-Core Processor · Unity 6000.6.6f1 (editor). Regenerate with **Game → Characters → Review → Write Generator Statistics**._
 
-10,000 characters, 0.484 ms each to generate. Rule violations: **0**.
+10,000 characters, 0.475 ms each to generate. Rule violations: **0**.
 
 ## Styles
 
@@ -72,9 +72,10 @@ How many characters wear each part, per outfit context (hair: per character). **
 | hair.front.hime_01 | hair.front | 8.7% |  |  |  |  |  |
 | hair.front.parted_01 | hair.front | 14.9% |  |  |  |  |  |
 | hair.front.swept_01 | hair.front | 19.6% |  |  |  |  |  |
-| acc.hat.beanie_01 | hat |  | 1.7% | never | 2.1% | 2.1% | never |
-| acc.hat.beret_01 | hat |  | 0.7% | 4.1% | never | never | never |
-| acc.hat.cap_01 | hat |  | 1.5% | never | 2.0% | 2.1% | never |
+| acc.hat.beanie_01 | hat |  | 1.4% | never | 2.1% | 2.1% | never |
+| acc.hat.beret_01 | hat |  | 0.5% | 1.1% | never | never | never |
+| acc.hat.cap_01 | hat |  | 1.3% | never | 2.0% | 2.1% | never |
+| acc.hat.sunhat_01 | hat |  | 0.9% | 3.0% | never | never | never |
 | acc.hair.clip_01 | headpiece |  | 5.7% | 4.1% | 6.0% | never | 4.3% |
 | acc.hair.flower_01 | headpiece |  | 5.1% | 4.4% | 5.2% | never | 4.1% |
 | acc.hair.headband_01 | headpiece |  | 3.3% | 5.0% | 3.3% | 17.5% | 6.3% |
