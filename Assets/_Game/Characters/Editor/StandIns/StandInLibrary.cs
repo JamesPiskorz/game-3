@@ -581,8 +581,8 @@ namespace Game.Characters.StandIns
                 {
                     Vector3[] path =
                     {
-                        new Vector3(x * 0.1f, 1.58f, -0.02f), new Vector3(x * 0.12f, 1.47f, 0.08f),
-                        new Vector3(x * 0.115f, 1.36f, 0.172f), new Vector3(x * 0.11f, 1.24f, 0.19f),
+                        new Vector3(x * 0.1f, 1.58f, -0.02f), new Vector3(x * 0.125f, 1.47f, 0.09f),
+                        new Vector3(x * 0.12f, 1.36f, 0.197f), new Vector3(x * 0.115f, 1.24f, 0.215f),
                     };
                     const int Lobes = 13;
                     for (int i = 0; i < Lobes; i++)

@@ -58,6 +58,40 @@ namespace Game.Characters.Review
             Debug.Log($"[Review] Part sheet: {parts.Count} parts, front and back, in slot order: " + string.Join(", ", parts.Select(p => p.Id)));
         }
 
+        /// <summary>
+        /// Every back hairpiece over the bulkiest layering (a hoodie under the coat), chest up, front and three-quarter
+        /// (Docs/review/hair-over-coat.png): long hair and plaits worn in front must sit over the coat, not in it.
+        /// </summary>
+        [MenuItem("Game/Characters/Review/Render Hair Over Coat Sheet")]
+        public static void RenderHairOverCoat()
+        {
+            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            CharacterContent content = StandInContent.Load();
+            ContentCatalog catalog = content.LoadCatalog();
+            var builder = new CharacterBuilder(content);
+            CharacterDna model = new CharacterGenerator(catalog).Generate(11, new GenerationRequest { Archetype = "casual", FemininityMin = 0.45f, FemininityMax = 0.55f });
+            CharacterDna coated = Wearing(Wearing(model, catalog.Part("cloth.top.hoodie_01"), catalog), catalog.Part("cloth.outer.coat_01"), catalog);
+
+            List<PartEntry> backs = catalog.PartsInSlot(Slots.HairBack).OrderBy(p => p.Id, System.StringComparer.Ordinal).ToList();
+            Vector3[] positions = backs.Select((_, i) => new Vector3(i * 3f, 0f, 0f)).ToArray();
+            LightingRig.Day.Apply(positions);
+            Camera camera = Snapshot.CreateCamera(LightingRig.Day.Background);
+
+            var shots = new List<Texture2D>();
+            for (int i = 0; i < backs.Count; i++)
+            {
+                ModularCharacter character = builder.Build(Wearing(coated, backs[i], catalog), "casual");
+                character.transform.position = positions[i];
+                Poses.Relaxed(character.transform);
+                Vector3 target = positions[i] + new Vector3(0f, 1.4f, 0f);
+                shots.Add(Snapshot.Shoot(camera, target + new Vector3(0.2f, 0.05f, 2.2f), target, 220, 300));
+                shots.Add(Snapshot.Shoot(camera, target + new Vector3(1.9f, 0.05f, 1.1f), target, 220, 300));
+            }
+
+            Snapshot.Save(Snapshot.Grid(shots, 12, Color.black), GeneratedLineup.Folder + "/hair-over-coat.png");
+            Debug.Log($"[Review] Hair over coat: {backs.Count} back pieces: " + string.Join(", ", backs.Select(p => p.Id)));
+        }
+
         /// <summary>The model wearing <paramref name="part"/> in test colours, with whatever it needs to be a whole outfit.</summary>
         static CharacterDna Wearing(CharacterDna model, PartEntry part, ContentCatalog catalog)
         {
