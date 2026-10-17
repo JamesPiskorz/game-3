@@ -53,8 +53,13 @@ namespace Game.Town
             /// <summary>Walking off; removed on arrival.</summary>
             public bool Leaving;
 
+            /// <summary>Sits once they reach their spot (a seat).</summary>
+            public bool Seated;
+
             public Transform Head;
         }
+
+        List<Vector3> _seats = new List<Vector3>();
 
         /// <summary>Walking speed in metres per second.</summary>
         public float WalkSpeed = 1.3f;
@@ -142,6 +147,8 @@ namespace Game.Town
                 if (idle == null) continue;
                 idle.Walking = 0f;
                 idle.SnapWalking();
+                idle.Sitting = shown.Seated ? 1f : 0f;
+                idle.SnapSitting();
             }
             foreach (Shown leaver in _leaving) ModularCharacter.DestroySafely(leaver.Character.gameObject);
             _leaving.Clear();
@@ -155,7 +162,11 @@ namespace Game.Town
             to.y = 0f;
             bool moving = to.magnitude > 0.03f;
             var idle = shown.Character.GetComponent<IdleMotion>();
-            if (idle != null) idle.Walking = moving ? 1f : 0f;
+            if (idle != null)
+            {
+                idle.Walking = moving ? 1f : 0f;
+                idle.Sitting = !moving && shown.Seated ? 1f : 0f;
+            }
             float turn = 1f - Mathf.Exp(-8f * dt);
             if (moving)
             {
@@ -222,18 +233,35 @@ namespace Game.Town
         void Arrange(List<Resident> shown, Resident selected, bool date, SimWorld world)
         {
             Vector3 camera = Screen(0.75f, 1.65f, 7.2f);
-            var positions = new Dictionary<int, Vector3>();
-            for (int i = 0; i < shown.Count; i++)
+            bool Together(Resident a, Resident b) => world.Social.AreCouple(a.Index, b.Index) || world.Social.AreFriends(a.Index, b.Index);
+
+            // Where the place has seats, a few people sit: those on their own (not standing with a friend), not being
+            // talked to and not at work here, taken from the end of the line. Whoever the player turns to stands up.
+            var seats = new Dictionary<int, Vector3>();
+            if (!date)
             {
-                float offset = i - (shown.Count - 1) / 2f;
-                positions[shown[i].Index] = date ? Screen(0.55f, 0f, 0.3f) : Screen(0.6f + offset * 1.15f, 0f, -0.12f * offset * offset);
+                var free = new Queue<Vector3>(_seats.Select(seat => Screen(seat.x, 0f, seat.z)));
+                for (int i = shown.Count - 1; i >= 0 && free.Count > 0; i--)
+                {
+                    Resident r = shown[i];
+                    bool withSomeone = (i > 0 && Together(r, shown[i - 1])) || (i + 1 < shown.Count && Together(r, shown[i + 1]));
+                    if (r == selected || withSomeone || world.OutfitFor(r, _setId) == TownSession.WorkOutfit) continue;
+                    seats[r.Index] = free.Dequeue();
+                }
+            }
+            List<Resident> standing = shown.Where(r => !seats.ContainsKey(r.Index)).ToList();
+            var positions = new Dictionary<int, Vector3>(seats);
+            for (int i = 0; i < standing.Count; i++)
+            {
+                float offset = i - (standing.Count - 1) / 2f;
+                positions[standing[i].Index] = date ? Screen(0.55f, 0f, 0.3f) : Screen(0.6f + offset * 1.15f, 0f, -0.12f * offset * offset);
             }
 
             // The player stands at the group's left, or steps up beside whoever they're talking to.
             Vector3 player;
             if (date) player = Screen(-0.55f, 0f, 0.55f);
             else if (selected != null && positions.TryGetValue(selected.Index, out Vector3 partner)) player = partner + Screen(-0.95f, 0f, 0.8f);
-            else player = Screen(positions.Count == 0 ? -0.6f : positions.Values.Min(p => -p.x) - 1.1f, 0f, 0.9f);
+            else player = Screen(standing.Count == 0 ? -0.6f : standing.Min(r => -positions[r.Index].x) - 1.1f, 0f, 0.9f);
 
             for (int i = 0; i < shown.Count; i++)
             {
@@ -241,6 +269,12 @@ namespace Game.Town
                 Shown spot = _residents[resident.Index];
                 Vector3 at = positions[resident.Index];
                 spot.Target = at;
+                spot.Seated = seats.ContainsKey(resident.Index);
+                if (spot.Seated)
+                {
+                    spot.Facing = Flat(camera - at); // seated facing the room, over the table
+                    continue;
+                }
                 // Everyone half-turns to the camera; the selected resident turns to the player, and people standing
                 // with a friend or partner turn towards them as if mid-conversation.
                 Resident companion = null;
@@ -381,6 +415,7 @@ namespace Game.Town
             _setId = location;
 
             TownSets.Set set = TownSets.For(location);
+            _seats = set.Seats.ToList();
             Place(PrimitiveType.Cube, new Vector3(0f, -0.05f, -2f), new Vector3(30f, 0.1f, 24f), set.Floor);
             if (!set.Outdoor)
             {

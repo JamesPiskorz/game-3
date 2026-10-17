@@ -20,6 +20,16 @@ namespace Game.Town
             public bool Lamps;
             public readonly List<Prop> Props = new List<Prop>();
 
+            /// <summary>Where people can sit (screen terms), facing the room.</summary>
+            public readonly List<Vector3> Seats = new List<Vector3>();
+
+            /// <summary>A stool, and a seat on it.</summary>
+            public Set Seat(float x, float z, Color colour)
+            {
+                Seats.Add(new Vector3(x, 0f, z));
+                return Add(PrimitiveType.Cylinder, x, 0.22f, z, 0.42f, 0.22f, 0.42f, colour);
+            }
+
             public Set Add(PrimitiveType shape, float x, float y, float z, float sx, float sy, float sz, Color colour, float yaw = 0f)
             {
                 Props.Add(new Prop { Shape = shape, Position = new Vector3(x, y, z), Scale = new Vector3(sx, sy, sz), Colour = colour, Yaw = yaw });
@@ -66,8 +76,11 @@ namespace Game.Town
                .Add(PrimitiveType.Cube, 3.4f, 2.3f, -2.85f, 3.4f, 0.9f, 0.1f, C(70, 52, 44))           // menu board
                .Add(PrimitiveType.Cylinder, 2.6f, 1.25f, -2.2f, 0.18f, 0.1f, 0.18f, C(200, 80, 70))   // coffee machine-ish
                .Add(PrimitiveType.Cube, -3.6f, 1.6f, -2.9f, 1.6f, 1.2f, 0.05f, C(170, 210, 230));      // window
-            Table(set, -3.1f, 0.6f, C(240, 236, 228), C(60, 50, 46));
-            Table(set, 4.0f, 0.4f, C(240, 236, 228), C(60, 50, 46));
+            // Tables out at the sides, clear of where people stand and the player steps in; seats behind them, so
+            // whoever sits faces the room over a table.
+            Table(set, -4.4f, 0.6f, C(240, 236, 228), C(60, 50, 46));
+            Table(set, 5.3f, 0.4f, C(240, 236, 228), C(60, 50, 46));
+            set.Seat(-4.4f, -0.2f, C(90, 64, 50)).Seat(5.3f, -0.4f, C(90, 64, 50));
             return set;
         }
 
@@ -163,7 +176,9 @@ namespace Game.Town
                 for (int shelf = 0; shelf < 4; shelf++)
                     set.Add(PrimitiveType.Cube, x, 0.35f + shelf * 0.55f, -2.62f, 2f, 0.4f, 0.05f, Color.HSVToRGB((i * 0.27f + shelf * 0.11f) % 1f, 0.45f, 0.62f));
             }
-            Table(set, 3.8f, 0.8f, C(120, 84, 58), C(80, 56, 40));
+            // On the left: the HUD covers the right of the screen.
+            Table(set, -4.6f, 0.8f, C(120, 84, 58), C(80, 56, 40));
+            set.Seat(-4.6f, 0.0f, C(90, 60, 42));
             return set;
         }
 

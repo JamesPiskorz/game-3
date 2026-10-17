@@ -241,6 +241,21 @@ namespace Game.Characters.Tests.Modular
             idle.SnapWalking();
             idle.Pose(0.4f);
             Assert.That(Quaternion.Angle(thigh.localRotation, standing), Is.LessThan(1e-3f), "Standing still restores the legs.");
+
+            // Sitting lowers the hips onto a seat and folds the legs; standing up restores them.
+            Transform hips = character.GetComponentsInChildren<Transform>().First(t => t.name == "Hips");
+            float hipHeight = hips.position.y;
+            idle.Sitting = 1f;
+            idle.SnapSitting();
+            idle.Pose(0.4f);
+            Assert.That(hips.position.y, Is.LessThan(hipHeight - 0.3f), "Sitting drops the hips.");
+            Assert.That(Quaternion.Angle(thigh.localRotation, standing), Is.GreaterThan(60f), "and brings the thighs forward.");
+            Assert.That(foot.position.y, Is.LessThan(0.2f), "Feet stay near the floor.");
+            idle.Sitting = 0f;
+            idle.SnapSitting();
+            idle.Pose(0.4f);
+            Assert.That(hips.position.y, Is.EqualTo(hipHeight).Within(1e-4f));
+            Assert.That(Quaternion.Angle(thigh.localRotation, standing), Is.LessThan(1e-3f));
         }
 
         ModularCharacter Build(CharacterDna dna, string context)

@@ -20,6 +20,9 @@ namespace Game.Characters.Expressions
         /// <summary>Walk cycles per second, and the leg and arm swing in degrees.</summary>
         public float StepRate = 0.9f, LegSwing = 24f, KneeBend = 32f, ArmSwing = 16f, Bob = 0.018f;
 
+        /// <summary>Sitting: how far the hips drop (metres), how far the thighs come forward and the knees bend, and the hands come to the lap (degrees).</summary>
+        public float SitDrop = 0.42f, SitHip = 88f, SitKnee = 88f, SitArms = 28f;
+
         public const float NodSeconds = 0.5f;
         const float NodDegrees = 8f;
 
@@ -33,10 +36,16 @@ namespace Game.Characters.Expressions
         bool _hasBase;
         float _phase = -1f;
         float _nodStart = float.NegativeInfinity;
-        float _walk;
+        float _walk, _sit;
 
         /// <summary>How much the character is walking, 0 (standing) to 1; set by whatever moves them. Eased in and out.</summary>
         public float Walking { get; set; }
+
+        /// <summary>How much they're sitting, 0 to 1 (on a seat at hip height of about 0.5 m). Eased in and out.</summary>
+        public float Sitting { get; set; }
+
+        /// <summary>Jumps the sitting blend to <see cref="Sitting"/> (for screenshots and tests).</summary>
+        public void SnapSitting() => _sit = Sitting;
 
         public void Rebase() => _hasBase = false;
 
@@ -49,6 +58,7 @@ namespace Game.Characters.Expressions
         void LateUpdate()
         {
             _walk = Mathf.MoveTowards(_walk, Walking, Time.deltaTime * 4f);
+            _sit = Mathf.MoveTowards(_sit, Sitting, Time.deltaTime * 2.5f);
             Pose(Time.time);
         }
 
@@ -74,13 +84,14 @@ namespace Game.Characters.Expressions
             // are identity, so that's the parent's X axis). Negative swings the limb forward.
             float stride = t * 2f * Mathf.PI * StepRate;
             float swing = Mathf.Sin(stride) * _walk;
-            Limb(0, -LegSwing * swing);
-            Limb(1, LegSwing * swing);
-            Limb(2, KneeBend * Mathf.Max(0f, Mathf.Sin(stride + Mathf.PI / 2f)) * _walk);
-            Limb(3, KneeBend * Mathf.Max(0f, Mathf.Sin(stride - Mathf.PI / 2f)) * _walk);
-            Limb(4, ArmSwing * swing);
-            Limb(5, -ArmSwing * swing);
-            if (_hips != null) _hips.localPosition = _hipsBase + Vector3.up * (Bob * Mathf.Abs(Mathf.Cos(stride)) * _walk);
+            // Sitting folds the legs at hip and knee and lowers the hips onto the seat; the hands come forward.
+            Limb(0, -LegSwing * swing - SitHip * _sit);
+            Limb(1, LegSwing * swing - SitHip * _sit);
+            Limb(2, KneeBend * Mathf.Max(0f, Mathf.Sin(stride + Mathf.PI / 2f)) * _walk + SitKnee * _sit);
+            Limb(3, KneeBend * Mathf.Max(0f, Mathf.Sin(stride - Mathf.PI / 2f)) * _walk + SitKnee * _sit);
+            Limb(4, ArmSwing * swing - SitArms * _sit);
+            Limb(5, -ArmSwing * swing - SitArms * _sit);
+            if (_hips != null) _hips.localPosition = _hipsBase + Vector3.up * (Bob * Mathf.Abs(Mathf.Cos(stride)) * _walk - SitDrop * _sit);
         }
 
         void Limb(int i, float degrees)
