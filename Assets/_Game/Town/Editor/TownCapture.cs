@@ -35,6 +35,7 @@ namespace Game.Town
             "press:act-date", "press:dateplace-park", "shot:date",
             "press:dateopt-{best}", "shot:date-round", "press:dateopt-{best}", "press:dateopt-{best}", "shot:date-end",
             "press:act-end-date", "press:photos", "shot:photos", "press:photos", "press:place-mall", "press:buy-0", "shot:boutique", "press:cut-{cut}", "shot:salon", "press:lipstick-1", "press:blush-toggle", "scroll-panel", "shot:salon-makeup",
+            "press:here-0", "press:act-greet", "close", "coins:40", "press:act-booth", "press:photos", "shot:booth-photos", "press:photos",
             "hour:20", "press:place-bar", "press:here-0", "shot:bar", "press:act-gift", "shot:give-picker", "press:giveitem-0", "shot:give-clothes",
             "smitten", "press:act-greet", "shot:confess", "press:confess-yes", "shot:confess-yes",
             "hour:22", "press:place-park", "shot:park-night",
@@ -157,6 +158,10 @@ namespace Game.Town
                 case "sleep-until-invited":
                     for (int night = 0; night < 10 && screen.Session.World.Invitations.Count == 0; night++) screen.Session.Sleep();
                     break;
+                case "coins": // a top-up, so a later step can afford something
+                    screen.Session.World.Player.Money += int.Parse(argument);
+                    screen.View.Refresh();
+                    break;
                 case "close": // make the player close to everyone they've met, so invitations come
                     foreach (Game.Sim.Relationships.Relationship known in screen.Session.World.Relationships)
                     {
@@ -165,6 +170,7 @@ namespace Game.Town
                         known.Affection = Mathf.Max(known.Affection, 75f);
                         known.Trust = Mathf.Max(known.Trust, 40f);
                     }
+                    screen.View.Refresh();
                     break;
                 case "scroll-panel": // the side panel to its end, to show what's below the fold
                 {
