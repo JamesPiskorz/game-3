@@ -75,6 +75,8 @@
     - Anyone who knew the old look reacts once by their average taste across the new hair's style tags. It's an average, not the best tag, because nearly everyone likes something casual.
     - Measured over a town, that taste runs from about 0.14 (10th percentile) to 0.42 (90th). "Loves it" is 0.4 or more and "different" is below 0.2, so restyling for one person's taste is a real choice.
 
+26. **Seeing several people has a cost.** When a date ends, everyone else the player is dating hears about it ("the town talks"), and brings it up at their next greeting, hurt. A partner forgives once; the second time, or when trust falls below 25, they leave. Someone only dating leaves the third time. The AutoPlayer stays loyal once it has a partner, but juggles before then, so `Docs/review/stories.md` now has breakups in it.
+
 ## Pacing (simulated, 24 residents, 60 days)
 
 The player visits one resident every evening with three talks and a compliment, plus a gift every other day.
@@ -92,7 +94,7 @@ Partner may still be too quick for a sandbox. Retune it after real play sessions
 - **Dialogue is still mostly single lines.** With about 4 lines per reaction and no back-to-back repeats it holds up for a session. Chats add a choice per exchange, up to two exchanges; follow-ups that depend on the reply are the next step.
 - **Expressions are limited by the stand-in face:** an ellipsoid mouth can open but can't curve into a smile. Real heads should drive blendshapes instead.
 - **Not built yet:**
-  - NPCs dating and gossiping among themselves over time (the web is static apart from breakups).
-  - Weather, and outfits changing by occasion beyond casual and date.
-  - Jealousy when dating several people.
-- **Tests:** 139 sim tests (the town, families, makeovers, the salon, profiles, schedules, weather, interactions, chats, pacing, dialogue, dates, the boutique, contacts, the social web, invitations, the day loop, saves, the session, a fuzz test and story tests) pass on .NET 8 and in Unity. The prototype is verified headless by `TownCapture`, which presses HUD buttons through a scripted visit and saves `Docs/review/town-*.png`.
+  - Residents don't visibly do things together in a scene beyond standing near friends; the town's couples change weekly, but only off-screen.
+  - Nobody changes job or home, and ages don't advance.
+  - The player's outfit is always their own choice: they don't change for the rain or the gym automatically, as residents do.
+- **Tests:** 142 sim tests (the town, families, makeovers, the salon, faithfulness, profiles, schedules, weather, interactions, chats, pacing, dialogue, dates, the boutique, contacts, the social web, invitations, the day loop, saves, the session, a fuzz test and story tests) pass on .NET 8 and in Unity. The prototype is verified headless by `TownCapture`, which presses HUD buttons through a scripted visit and saves `Docs/review/town-*.png`.

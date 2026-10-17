@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using Game.Characters.Content;
+using Game.Characters.Dna;
 using Game.Characters.Rng;
 using Game.Sim.Relationships;
 
@@ -59,6 +61,7 @@ namespace Game.Sim.Sandbox
             Invitation invitation = World.Invitations.FirstOrDefault(i => i.Pending && i.Day == World.Now.Day && i.Hour < before
                 && World.Now.Hour < i.Hour + Invitations.WindowHours);
             if (invitation == null) return false;
+            if (Taken && World.Find(invitation.From)?.Partner != true) return false; // loyal: only their partner's invitations
             _session.Answer(invitation);
             if (_session.Date == null) return false;
             Record(_session.Last);
@@ -67,6 +70,9 @@ namespace Game.Sim.Sandbox
             _session.EndDate();
             return true;
         }
+
+        /// <summary>Once it has a partner, it stops dating anyone else.</summary>
+        bool Taken => World.Relationships.Any(r => r.Partner);
 
         void WorkSomewhere()
         {
@@ -126,7 +132,7 @@ namespace Game.Sim.Sandbox
                 if (gift != null) Record(_session.Gift(gift.Id));
             }
 
-            if (evening && rel.Stage >= Stage.Friend && _session.Selected != null)
+            if (evening && rel.Stage >= Stage.Friend && _session.Selected != null && (!Taken || rel.Partner))
             {
                 LocationEntry place = World.Catalog.Locations.Where(l => _session.IsOpen(l.Id))
                     .OrderByDescending(l => l.Tags.Count(rel.KnownLikes.Contains) + (l.Tags.Contains("romantic") ? 0.5f : 0f)).ThenBy(l => l.Id).FirstOrDefault();
@@ -163,9 +169,30 @@ namespace Game.Sim.Sandbox
             ShopItem pick = _session.Shop().Where(s => !_session.Owns(s.Item) && s.Price <= World.Player.Money)
                 .OrderByDescending(s => crush == null ? 0f : s.Part.Tags.Max(t => crush.Profile.StyleTaste.TryGetValue(t, out float v) ? v : 0f))
                 .ThenBy(s => s.Price).FirstOrDefault();
-            if (pick == null) return;
-            _session.Buy(pick);
-            Note(World.Now.Day, $"Bought the {pick.Name.ToLowerInvariant()}" + (crush == null ? "." : $" with {crush.Profile.FirstName}'s taste in mind."));
+            if (pick != null)
+            {
+                _session.Buy(pick);
+                Note(World.Now.Day, $"Bought the {pick.Name.ToLowerInvariant()}" + (crush == null ? "." : $" with {crush.Profile.FirstName}'s taste in mind."));
+            }
+            Restyle(crush);
+        }
+
+        /// <summary>A new cut at the salon next door when the current one isn't their crush's kind of thing.</summary>
+        void Restyle(Resident crush)
+        {
+            if (crush == null || !_session.AtSalon || World.Player.Money < Salon.CutPrice) return;
+            float Taste(CharacterDna dna) => FirstImpression.HairTaste(crush.Profile, dna, World.Characters);
+            if (Taste(World.Player.Dna) >= Interactions.LovesHairAt) return;
+            PartEntry best = Salon.Cuts(World.Characters).OrderByDescending(cut =>
+            {
+                CharacterDna trial = DnaSerializer.FromJson(DnaSerializer.ToJson(World.Player.Dna, indented: false));
+                trial.Hair.PieceIds = new List<string> { cut.Id };
+                return Taste(trial);
+            }).ThenBy(cut => cut.Id, System.StringComparer.Ordinal).First();
+            if (World.Player.Dna.Hair.PieceIds.Contains(best.Id)) return;
+            _session.Haircut(best.Id);
+            if (World.Player.LastMakeover?.Day == World.Now.Day)
+                Note(World.Now.Day, $"Got a new cut ({(best.Name ?? best.Id).ToLowerInvariant()}) with {crush.Profile.FirstName} in mind.");
         }
 
         void Record(InteractionResult result)
@@ -192,6 +219,14 @@ namespace Game.Sim.Sandbox
                 case "date.leaves": Note(day, $"{name} left {who.Possessive} partner to date you."); break;
                 case "greet.jealous": Note(day, $"{name} found out about another of your dates, and is hurt."); break;
                 case "greet.gossip": Note(day, $"{name} had heard good things about you from a friend."); break;
+                case "greet.cheated": Note(day, $"{name} heard about another of your dates."); break;
+                case "greet.breakup": Note(day, $"{name} broke up with you."); break;
+                case "greet.stranger.family": Note(day, $"{name}'s family had already told them all about you."); break;
+                case "greet.player.makeover.love": Note(day, $"{name} loved the new hair."); break;
+                case "greet.player.makeover.meh": Note(day, $"{name} wasn't sure about the new hair."); break;
+                case "compliment.makeover.haircut":
+                case "compliment.makeover.colour":
+                case "compliment.makeover.clothes": Note(day, $"Noticed {name}'s new look, which meant a lot."); break;
             }
         }
 

@@ -134,6 +134,27 @@ namespace Game.Sim.Relationships
                 return Finish(resident, rel, rng, result, before, "greet.stranger", GreetMinutes);
             }
 
+            // Someone they're seeing has heard about the player's date with someone else.
+            if (rel.Dating && rel.HeardAboutDatesWith.Count > 0)
+            {
+                string other = _world.Residents[rel.HeardAboutDatesWith.First()].Profile.FirstName;
+                rel.HeardAboutDatesWith.Clear();
+                rel.Hurt++;
+                Add(ref rel.Affection, rel.Partner ? -10f : -5f);
+                Add(ref rel.Trust, rel.Partner ? -12f : -6f);
+                Add(ref rel.Attraction, rel.Partner ? -3f : -1f);
+                bool leaving = rel.Partner ? rel.Hurt >= 2 || rel.Trust < BreakUpTrust : rel.Hurt >= 3;
+                if (leaving)
+                {
+                    rel.Partner = false;
+                    rel.Dating = false;
+                    result.Learnt = $"{resident.Profile.FirstName} has ended things with you.";
+                    return Finish(resident, rel, rng, result, before, "greet.breakup", GreetMinutes, ("other", other));
+                }
+                result.Learnt = $"{resident.Profile.FirstName} knows about your date with {other}.";
+                return Finish(resident, rel, rng, result, before, "greet.cheated", GreetMinutes, ("other", other));
+            }
+
             if (_previousSeen >= 0 && _previousSeen < Today)
             {
                 // The player's new hair, if they knew the old: how it lands depends on their taste.
@@ -436,6 +457,9 @@ namespace Game.Sim.Relationships
         }
 
         public const int ChatMinutes = 10;
+
+        /// <summary>A partner whose trust falls below this after hearing about another date leaves.</summary>
+        public const float BreakUpTrust = 25f;
 
         /// <summary>How much they must like a style for new hair to win them over, or how little for it to fall flat.</summary>
         public const float LovesHairAt = 0.4f, MehHairBelow = 0.2f;
@@ -778,6 +802,9 @@ namespace Game.Sim.Relationships
             }
             rel.Dates++;
             rel.Dating = true;
+            // The town talks: anyone else the player is seeing will hear about this date.
+            foreach (Relationship other in _world.Relationships.Where(r => r != rel && r.Dating))
+                other.HeardAboutDatesWith.Add(resident.Index);
             // A great date that tips them over the line ends with them asking to be together.
             if (!rel.Partner && rel.Dates >= 3 && rel.GreatDates >= 2 && rel.Affection >= 80f && rel.Trust >= 60f)
             {

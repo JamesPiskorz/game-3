@@ -342,6 +342,18 @@
       { "tone": "bubbly", "text": "New hair! That's... a choice! A bold one!" },
       { "tone": "dry", "text": "Hm. Your old hair was fine, you know." }
     ],
+    "greet.cheated": [
+      { "tone": "any", "text": "So. I heard you went out with {other}." },
+      { "tone": "shy", "text": "I... heard about you and {other}. Was I not enough?" },
+      { "tone": "bubbly", "text": "Funny story! Everyone's saying you went on a date with {other}. Funny, right?" },
+      { "tone": "dry", "text": "{other}. Really?" }
+    ],
+    "greet.breakup": [
+      { "tone": "any", "text": "I heard about {other}. I think we're done." },
+      { "tone": "shy", "text": "I can't keep doing this. I'm sorry. It's over." },
+      { "tone": "bubbly", "text": "I'm done pretending this is fine. We're over." },
+      { "tone": "dry", "text": "We're finished. Say hi to {other} for me." }
+    ],
     "chat.open.interest": [
       { "tone": "any", "text": "Can I tell you about {topic}? I've been thinking about it all week." },
       { "tone": "shy", "text": "I, um... have you ever gotten really into {topic}? Because I have." },

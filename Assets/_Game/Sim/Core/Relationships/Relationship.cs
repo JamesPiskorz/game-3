@@ -61,6 +61,12 @@ namespace Game.Sim.Relationships
         /// </summary>
         public Memory LovedTopic, LovedGift, GreatDate;
 
+        /// <summary>Residents the player has dated since this one last saw them, while dating this one too (the town talks).</summary>
+        public SortedSet<int> HeardAboutDatesWith = new SortedSet<int>();
+
+        /// <summary>How many times they've found out about someone else. A partner leaves the second time.</summary>
+        public int Hurt;
+
         /// <summary>The day of the makeover the player last mentioned or complimented, so each change counts once.</summary>
         public int MentionedMakeoverDay = -1;
         public int NoticedMakeoverDay = -1;
