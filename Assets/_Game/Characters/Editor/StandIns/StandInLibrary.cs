@@ -49,6 +49,7 @@ namespace Game.Characters.StandIns
         static readonly StandInBone[] TwinL = StandInSkeleton.Chain("Hair.TwinTail.L", "Head", new Vector3(-0.112f, 1.69f, -0.03f), new Vector3(-0.17f, 1.36f, -0.07f), 3);
         static readonly StandInBone[] SideTail = StandInSkeleton.Chain("Hair.SideTail", "Head", new Vector3(0.105f, 1.67f, -0.06f), new Vector3(0.17f, 1.34f, -0.05f), 3);
         static readonly StandInBone[] TwinR = StandInSkeleton.Chain("Hair.TwinTail.R", "Head", new Vector3(0.112f, 1.69f, -0.03f), new Vector3(0.17f, 1.36f, -0.07f), 3);
+        static readonly StandInBone[] Braid = StandInSkeleton.Chain("Hair.Braid", "Head", new Vector3(0f, 1.6f, -0.118f), new Vector3(0f, 1.14f, -0.17f), 4);
 
         public static IEnumerable<Recipe> Parts()
         {
@@ -350,6 +351,45 @@ namespace Game.Characters.StandIns
                 })
                     m.AddEllipsoid(HeadCentre + direction.normalized * (HeadR + 0.02f), new Vector3(0.032f, 0.042f, 0.032f), None, false, "Head", Region1);
             });
+
+            yield return Hair("hair.back.braid_01", "hair.back", m =>
+            {
+                Crown(m);
+                // A plait down the back: overlapping lobes that zigzag along the chain, each riding its own bone so
+                // the braid swings, and a tie in the tip colour.
+                Vector3 start = Braid[0].Position, end = new Vector3(0f, 1.1f, -0.172f);
+                const int Lobes = 11;
+                for (int i = 0; i < Lobes; i++)
+                {
+                    float t = (i + 0.5f) / Lobes;
+                    Vector3 at = Vector3.Lerp(start, end, t) + new Vector3((i % 2 == 0 ? 1f : -1f) * 0.009f, 0f, 0f);
+                    float r = Mathf.Lerp(0.03f, 0.017f, t);
+                    string bone = Braid[Mathf.Min(Braid.Length - 1, (int)(t * Braid.Length))].Name;
+                    m.AddEllipsoid(at, new Vector3(r, r * 1.35f, r * 0.85f), None, false, bone, Region1);
+                }
+                m.AddEllipsoid(end + new Vector3(0f, 0.005f, 0f), new Vector3(0.016f, 0.012f, 0.016f), None, false, Braid[Braid.Length - 1].Name, RegionTwo);
+            }, Braid);
+            yield return Hair("hair.back.spiky_01", "hair.back", m =>
+            {
+                Crown(m);
+                // Short spikes standing up and back from the crown. Ellipsoids are axis-aligned, so each spike is
+                // long along the axis it mostly points down.
+                foreach (Vector3 direction in new[]
+                {
+                    new Vector3(0f, 1f, 0.4f), new Vector3(0.3f, 1f, 0.15f), new Vector3(-0.3f, 1f, 0.15f), new Vector3(0.15f, 1f, -0.25f),
+                    new Vector3(-0.15f, 1f, -0.25f), new Vector3(0.45f, 0.85f, -0.35f), new Vector3(-0.45f, 0.85f, -0.35f),
+                    new Vector3(0.25f, 0.55f, -0.8f), new Vector3(-0.25f, 0.55f, -0.8f), new Vector3(0f, 0.3f, -1f),
+                })
+                {
+                    Vector3 d = direction.normalized;
+                    Vector3 radii = Mathf.Abs(d.y) >= Mathf.Abs(d.z) ? new Vector3(0.021f, 0.034f, 0.021f) : new Vector3(0.021f, 0.021f, 0.036f);
+                    m.AddEllipsoid(HeadCentre + d * (HeadR + 0.01f), radii, None, false, "Head", Gradient(0.5f));
+                }
+            });
+            yield return Hair("hair.front.curtain_01", "hair.front", m =>
+                // Parted in the middle and longer at the sides, framing the face.
+                m.AddEllipsoid(HeadCentre, new Vector3(HeadR + 0.019f, HeadR + 0.019f, HeadR + 0.019f), None, false, "Head", Region1,
+                    d => d.z > 0.12f && Mathf.Abs(d.x) > 0.07f && d.y > 0.64f - 0.6f * Mathf.Abs(d.x)));
 
             // ---------------- accessories (no body shapes reach the head)
             yield return new Recipe

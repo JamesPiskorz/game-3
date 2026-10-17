@@ -1,8 +1,8 @@
 # Generator statistics
 
-_2026-10-18 02:46 · AMD Ryzen 7 5700X 8-Core Processor · Unity 6000.6.6f1 (editor). Regenerate with **Game → Characters → Review → Write Generator Statistics**._
+_2026-10-18 02:55 · AMD Ryzen 7 5700X 8-Core Processor · Unity 6000.6.6f1 (editor). Regenerate with **Game → Characters → Review → Write Generator Statistics**._
 
-10,000 characters, 0.285 ms each to generate. Rule violations: **0**.
+10,000 characters, 0.277 ms each to generate. Rule violations: **0**.
 
 ## Styles
 
@@ -39,20 +39,23 @@ How many characters wear each part, per outfit context (hair: per character). **
 | cloth.bottom.shorts_01 | bottom |  | 18.1% | never | never | 49.9% |
 | cloth.bottom.skirt_01 | bottom |  | 9.0% | 15.6% | 10.8% | never |
 | acc.glasses.round_01 | glasses |  | 14.6% | 14.6% | 14.6% | 14.6% |
-| hair.back.bob_01 | hair.back | 15.4% |  |  |  |  |
-| hair.back.bun_01 | hair.back | 8.8% |  |  |  |  |
-| hair.back.crop_01 | hair.back | 14.8% |  |  |  |  |
-| hair.back.curly_01 | hair.back | 12.4% |  |  |  |  |
-| hair.back.long_01 | hair.back | 9.8% |  |  |  |  |
-| hair.back.ponytail_01 | hair.back | 12.4% |  |  |  |  |
-| hair.back.sidetail_01 | hair.back | 11.3% |  |  |  |  |
-| hair.back.twintails_01 | hair.back | 3.8% |  |  |  |  |
-| hair.back.wavy_01 | hair.back | 11.4% |  |  |  |  |
-| hair.front.blunt_01 | hair.front | 17.4% |  |  |  |  |
-| hair.front.parted_01 | hair.front | 23.3% |  |  |  |  |
-| hair.front.swept_01 | hair.front | 31.5% |  |  |  |  |
-| acc.hat.beanie_01 | hat |  | 2.6% | never | 2.8% | 2.9% |
-| acc.hat.cap_01 | hat |  | 2.5% | never | 2.7% | 2.7% |
+| hair.back.bob_01 | hair.back | 11.7% |  |  |  |  |
+| hair.back.braid_01 | hair.back | 12.2% |  |  |  |  |
+| hair.back.bun_01 | hair.back | 6.7% |  |  |  |  |
+| hair.back.crop_01 | hair.back | 10.6% |  |  |  |  |
+| hair.back.curly_01 | hair.back | 8.7% |  |  |  |  |
+| hair.back.long_01 | hair.back | 8.3% |  |  |  |  |
+| hair.back.ponytail_01 | hair.back | 9.4% |  |  |  |  |
+| hair.back.sidetail_01 | hair.back | 8.7% |  |  |  |  |
+| hair.back.spiky_01 | hair.back | 11.1% |  |  |  |  |
+| hair.back.twintails_01 | hair.back | 3.3% |  |  |  |  |
+| hair.back.wavy_01 | hair.back | 9.4% |  |  |  |  |
+| hair.front.blunt_01 | hair.front | 12.4% |  |  |  |  |
+| hair.front.curtain_01 | hair.front | 20.1% |  |  |  |  |
+| hair.front.parted_01 | hair.front | 17.7% |  |  |  |  |
+| hair.front.swept_01 | hair.front | 22.0% |  |  |  |  |
+| acc.hat.beanie_01 | hat |  | 2.1% | never | 2.1% | 2.2% |
+| acc.hat.cap_01 | hat |  | 1.9% | never | 2.0% | 2.1% |
 | cloth.legwear.socks_01 | legwear |  | 5.6% | 3.0% | 4.6% | never |
 | cloth.legwear.tights_01 | legwear |  | 8.5% | 12.3% | 7.9% | never |
 | acc.neck.necklace_01 | neck |  | 7.3% | 16.7% | 7.4% | never |
@@ -77,11 +80,11 @@ How many characters wear each part, per outfit context (hair: per character). **
 
 | Pattern | Items |
 |---|---|
-| Stripes | 1360 |
+| Stripes | 1361 |
 | Dots | 1100 |
-| Plaid | 1488 |
-| Check | 1325 |
-| Hearts | 608 |
-| Stars | 1434 |
-| Pinstripe | 1096 |
-| Floral | 1460 |
+| Plaid | 1492 |
+| Check | 1319 |
+| Hearts | 607 |
+| Stars | 1436 |
+| Pinstripe | 1100 |
+| Floral | 1457 |

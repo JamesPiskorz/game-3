@@ -82,9 +82,12 @@
     { "id": "hair.back.wavy_01", "name": "Long waves", "slot": "hair.back", "tags": ["elegant", "cute", "casual", "hat_ok"], "lean": 0.6 },
     { "id": "hair.back.sidetail_01", "name": "Side tail", "slot": "hair.back", "tags": ["cute", "casual", "street"], "lean": 0.6 },
     { "id": "hair.back.curly_01", "name": "Curly top", "slot": "hair.back", "tags": ["street", "cute", "casual"], "lean": -0.3 },
+    { "id": "hair.back.braid_01", "name": "Braid", "slot": "hair.back", "tags": ["cute", "bookish", "elegant", "casual"], "lean": 0.5 },
+    { "id": "hair.back.spiky_01", "name": "Spiky", "slot": "hair.back", "tags": ["street", "sporty", "casual"], "lean": -0.5 },
     { "id": "hair.front.blunt_01", "name": "Blunt bangs", "slot": "hair.front", "tags": ["cute", "gothic", "bookish"] },
     { "id": "hair.front.swept_01", "name": "Swept bangs", "slot": "hair.front", "tags": ["casual", "elegant", "street", "sporty"] },
     { "id": "hair.front.parted_01", "name": "Parted bangs", "slot": "hair.front", "tags": ["elegant", "bookish", "gothic", "casual"] },
+    { "id": "hair.front.curtain_01", "name": "Curtain bangs", "slot": "hair.front", "tags": ["cute", "elegant", "casual", "street"] },
 
     { "id": "acc.glasses.round_01", "name": "Round glasses", "slot": "glasses", "tags": ["bookish", "elegant", "casual"] },
     { "id": "cloth.outer.jacket_01", "name": "Jacket", "slot": "outer", "tags": ["casual", "street", "sporty", "bookish"], "regions": 2, "excludesTags": ["hooded", "tailored"] },

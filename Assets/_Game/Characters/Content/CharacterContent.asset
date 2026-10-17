@@ -72,6 +72,12 @@ MonoBehaviour:
     Prefab: {fileID: 5455858211276924821, guid: 0c7fe0948ff5d324c9d8676f755d1792, type: 3}
   - Id: hair.back.curly_01
     Prefab: {fileID: 1338564963674439775, guid: 159fe7d9f3cdc3e409acabaacf1595f6, type: 3}
+  - Id: hair.back.braid_01
+    Prefab: {fileID: 7816871408337892270, guid: 2aec6804fb405d948987a11e09d1dbe3, type: 3}
+  - Id: hair.back.spiky_01
+    Prefab: {fileID: 62539349288868157, guid: 8dac4778f626c374eb6f8abc524d9399, type: 3}
+  - Id: hair.front.curtain_01
+    Prefab: {fileID: 5130922686618225733, guid: 5fd3a72077b5d1e43a6a206862bd0615, type: 3}
   - Id: acc.glasses.round_01
     Prefab: {fileID: 6544146924403857493, guid: 3d90ec4651dad26408a0306ed54fcd95, type: 3}
   - Id: cloth.outer.jacket_01
