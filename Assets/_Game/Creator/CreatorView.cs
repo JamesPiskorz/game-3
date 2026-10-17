@@ -96,6 +96,7 @@ namespace Game.Creator
 
             var actions = Row("actions");
             actions.Add(TextButton("Randomize", "randomize", () => _session.Randomize(), "primary"));
+            actions.Add(TextButton("Sibling", "sibling", () => _session.Sibling()));
             _undo = TextButton("Undo", "undo", () => _session.Undo());
             _redo = TextButton("Redo", "redo", () => _session.Redo());
             actions.Add(_undo);

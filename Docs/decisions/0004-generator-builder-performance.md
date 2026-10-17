@@ -42,6 +42,7 @@
 | Re-apply after an edit | ~0.07 ms (outfit context switch ~0.3 ms) |
 | Springs for the whole town | ~0.24 ms per frame |
 | Render the town at 1080p | ~8.2 ms: outline pass ~45% of character cost, shadows ~20%, blendshapes ~3% |
+| … with outer layers in everyday outfits (243 renderers) | ~8.4 ms |
 | Far view with `CharacterLod` | 7.3 → 3.75 ms |
 
 ## Consequences / next

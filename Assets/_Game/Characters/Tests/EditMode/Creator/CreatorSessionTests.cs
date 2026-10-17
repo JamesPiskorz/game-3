@@ -113,6 +113,19 @@ namespace Game.Characters.Tests.Creator
         }
 
         [Test]
+        public void Sibling_IsSomeoneNewFromTheSameFamily()
+        {
+            CharacterDna original = _session.Dna;
+            string before = Json(original);
+            _session.Sibling();
+            Assert.That(Json(_session.Dna), Is.Not.EqualTo(before));
+            Assert.That(_session.Dna.Skin.Tone, Is.EqualTo(original.Skin.Tone).Within(FamilyResemblance.ToneSpread + 1e-4f));
+            Assert.That(DnaValidator.Validate(_catalog, _session.Dna), Is.Empty);
+            Assert.That(_session.Undo());
+            Assert.That(Json(_session.Dna), Is.EqualTo(before));
+        }
+
+        [Test]
         public void Randomize_IsRepeatableForTheSameSession()
         {
             var other = new CreatorSession(_generator, _generator.Generate(42), sessionSeed: 7);

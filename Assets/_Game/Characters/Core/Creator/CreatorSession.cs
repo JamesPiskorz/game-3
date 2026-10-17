@@ -95,6 +95,16 @@ namespace Game.Characters.Creator
             Commit(dna => dna == null ? null : _generator.Reroll(dna, free, seed));
         }
 
+        /// <summary>
+        /// A brother or sister of the current character: a new person who shares the family look (see
+        /// <see cref="FamilyResemblance"/>). They're someone else, so locks don't hold; undo brings the original back.
+        /// </summary>
+        public void Sibling()
+        {
+            ulong seed = NextSeed();
+            Commit(dna => dna == null ? null : _generator.GenerateRelative(dna, seed));
+        }
+
         public void SetContext(string context)
         {
             if (_catalog.Context(context) == null) throw new ArgumentException($"Unknown context '{context}'.");
