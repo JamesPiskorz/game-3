@@ -83,8 +83,8 @@ namespace Game.Sim.Relationships
         public const float GoodWordAffection = 45f;
 
         /// <summary>How smitten someone in a couple must be to leave their partner for the player.</summary>
-        public const float LeaveForYouAffection = 85f;
-        public const float LeaveForYouAttraction = 75f;
+        public const float LeaveForYouAffection = 90f;
+        public const float LeaveForYouAttraction = 80f;
 
         /// <summary>Affection an ex loses for the player who came between them.</summary>
         public const float ExResentment = 20f;

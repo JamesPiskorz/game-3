@@ -70,6 +70,13 @@ namespace Game.Sim.Tests
         }
 
         [Test]
+        public void FirstNamesAreUniqueInATypicalTown()
+        {
+            foreach (ulong seed in new[] { 1UL, 2UL, 0x5EEDUL })
+                Assert.That(Fixtures.Town(seed, TownGenerator.DefaultPopulation).Residents.Select(r => r.Profile.FirstName), Is.Unique, $"town {seed}");
+        }
+
+        [Test]
         public void ProfilesHaveThreeLovesAndOneOrTwoDislikes()
         {
             foreach (Resident resident in Fixtures.Town(3, 40).Residents)

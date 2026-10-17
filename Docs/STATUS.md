@@ -25,7 +25,7 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 | Expressions | Seven facial expressions plus blinking on the face bones, plus idle breathing, sway and gaze. Both layer over the builder's pose; residents react and nod at each interaction | `Characters/Runtime/Expressions`, `Docs/review/expressions.png` |
 | Stand-in content | Procedural body with simple face, 31 parts (12 hair, 19 clothing and accessories), 9 face presets, 7 eye and 5 brow styles, 8 patterns, toon materials. **Placeholder art until Phase 1.** | `Characters/Editor/StandIns`, `Content/StandIn` |
 | Performance | Town benchmark; distance-based detail (`CharacterLod`) | decision 0004, `Docs/review/perf.md` |
-| Tests | 183 Unity EditMode tests (105 characters, 78 sim); the pure C# sets also run on .NET 8 | `Characters/Tests`, `Sim/Tests` |
+| Tests | 193 Unity EditMode tests (105 characters, 88 sim); the pure C# sets also run on .NET 8 | `Characters/Tests`, `Sim/Tests` |
 
 ## Try it
 
@@ -53,6 +53,8 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
   - every review render (images in the repo),
   - the creator in Play mode via `CreatorCapture` (`Docs/review/creator-*.png`),
   - the town in Play mode via `TownCapture`: a scripted visit that presses the HUD's buttons (meet, talk, gift, date, the bar in the evening, the park at night), in `Docs/review/town-*.png`,
+  - a month of play in three towns by an automated attentive player (`AutoPlayer`), written up as diaries in `Docs/review/stories.md` (**Game → Town → Write Story Report**). Each town tells a different story, and a test checks that,
+  - a fuzz test: a random player takes 1,000 actions of every kind in each of three towns, with world invariants checked after every step,
   - the whole loop via `FlowCheck`, pressing the real buttons: main menu, New game, Randomize, Into town (identical character), Menu (autosaves), Continue (back at the saved time). It backs up and restores the player's saved look and save file; it also screenshots the menu (`Docs/review/menu.png`).
 - **Not verified:**
   - **Interactive use in the Editor GUI:** mouse dragging, typing, the feel of the sliders and buttons.

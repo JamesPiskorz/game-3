@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Game.Characters.Content;
 using Game.Characters.Dna;
 using Game.Characters.Generation;
@@ -34,6 +35,7 @@ namespace Game.Sim
             var profiles = new ProfileGenerator(_sim, _characters);
             var schedules = new ScheduleGenerator(_sim);
             var names = new HashSet<string>();
+            var firstNames = new HashSet<string>();
 
             // No job takes more than its share, so the café has staff and the shop isn't half the town.
             var jobs = new Dictionary<string, int>();
@@ -46,8 +48,13 @@ namespace Game.Sim
                 CharacterDna dna = people[i];
                 ResidentProfile profile = profiles.Generate(dna);
 
-                // Two residents sharing a full name would be confusing: reroll the family name until it's unique.
+                // Dialogue, the diary and the contact book use first names, so two Diegos in one town would be
+                // confusing: reroll from the same pool until the first name is free, then make the full name unique.
                 Pcg32 rename = SeedStreams.For(dna.Seed, "profile.rename");
+                List<string> pool = new[] { _sim.Names.Feminine, _sim.Names.Masculine, _sim.Names.Neutral }.First(p => p.Contains(profile.FirstName));
+                for (int tries = 0; firstNames.Contains(profile.FirstName) && tries < 50; tries++)
+                    profile.FirstName = rename.Pick(pool);
+                firstNames.Add(profile.FirstName);
                 for (int tries = 0; !names.Add(profile.Name) && tries < 50; tries++)
                     profile.FamilyName = rename.Pick(_sim.Names.Family);
 
