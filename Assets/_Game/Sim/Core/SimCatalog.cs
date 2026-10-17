@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
 namespace Game.Sim
@@ -44,6 +45,7 @@ namespace Game.Sim
             ObjectCreationHandling = ObjectCreationHandling.Replace,
             MissingMemberHandling = MissingMemberHandling.Error,
             Culture = CultureInfo.InvariantCulture,
+            Converters = { new StringEnumConverter(new CamelCaseNamingStrategy()) },
         };
 
         /// <summary>Content errors: dangling references. Empty when usable.</summary>
@@ -124,5 +126,14 @@ namespace Game.Sim
     {
         public string Tone = "any";
         public string Text;
+
+        /// <summary>Only said at this relationship stage or later (null: any).</summary>
+        public Relationships.Stage? MinStage;
+
+        /// <summary>Only said up to this stage (null: any).</summary>
+        public Relationships.Stage? MaxStage;
+
+        public bool Fits(string tone, Relationships.Stage stage) =>
+            (Tone == tone || Tone == Tones.Any) && (MinStage == null || stage >= MinStage) && (MaxStage == null || stage <= MaxStage);
     }
 }

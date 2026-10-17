@@ -72,85 +72,178 @@
   "dialogue": {
     "greet.stranger": [
       { "tone": "warm", "text": "Oh, hello! I don't think we've met. I'm {name}." },
+      { "tone": "warm", "text": "Hi there! You're new around here, aren't you? I'm {name}." },
       { "tone": "shy", "text": "Um... hi. I'm {name}." },
+      { "tone": "shy", "text": "Oh! Sorry, you startled me. I'm {name}... hi." },
       { "tone": "bubbly", "text": "Hey hey! New face! I'm {name}!" },
-      { "tone": "dry", "text": "{name}. And you are?" }
+      { "tone": "bubbly", "text": "Hi! I'm {name}! I know basically everyone here, so you're my new project." },
+      { "tone": "dry", "text": "{name}. And you are?" },
+      { "tone": "dry", "text": "Hi. {name}. I'd say I come here often, but you'd only use it against me." }
+    ],
+    "greet.stranger.impressed": [
+      { "tone": "warm", "text": "Hi! Sorry, I have to say it: I love your {item}. I'm {name}." },
+      { "tone": "shy", "text": "H-hi. I'm {name}. Your {item} is... really nice." },
+      { "tone": "bubbly", "text": "Okay, first: where did you get that {item}? Second: I'm {name}!" },
+      { "tone": "dry", "text": "{name}. That {item} is a good choice, by the way. Rare round here." }
     ],
     "greet.acquaintance": [
       { "tone": "warm", "text": "Nice to see you again, {player}." },
+      { "tone": "warm", "text": "{player}! How's your day going?" },
       { "tone": "shy", "text": "Oh, it's you. Hi, {player}." },
+      { "tone": "shy", "text": "Hi again, {player}. I was hoping... never mind. Hi." },
       { "tone": "bubbly", "text": "{player}! Fancy running into you here!" },
-      { "tone": "dry", "text": "Hey, {player}." }
+      { "tone": "bubbly", "text": "Hey, {player}! Twice in one week, people are going to talk!" },
+      { "tone": "dry", "text": "Hey, {player}." },
+      { "tone": "dry", "text": "You again. I'm starting to think you're following me, {player}." }
     ],
     "greet.friend": [
       { "tone": "any", "text": "{player}! I was hoping I'd see you today." },
-      { "tone": "dry", "text": "Oh good, someone worth talking to." }
+      { "tone": "warm", "text": "There's my favourite person to bump into. Hi, {player}!" },
+      { "tone": "shy", "text": "Hi, {player}. I'm glad it's you." },
+      { "tone": "bubbly", "text": "{player}! Okay, sit, I have so much to tell you." },
+      { "tone": "dry", "text": "Oh good, someone worth talking to." },
+      { "tone": "dry", "text": "{player}. You've improved my day by a measurable amount." }
     ],
     "greet.close": [
-      { "tone": "any", "text": "There you are. Come sit with me?" }
+      { "tone": "any", "text": "There you are. Come sit with me?" },
+      { "tone": "warm", "text": "{player}! I saved you a spot." },
+      { "tone": "shy", "text": "Hi... I always feel calmer when you're around, {player}." },
+      { "tone": "bubbly", "text": "My favourite human! Get over here!" },
+      { "tone": "dry", "text": "I was getting bored without you. Don't let it go to your head." }
     ],
     "greet.dating": [
       { "tone": "any", "text": "Hey, you. I missed you." },
-      { "tone": "shy", "text": "I... was thinking about you just now." }
+      { "tone": "warm", "text": "Hi, {player}. You look lovely today." },
+      { "tone": "shy", "text": "I... was thinking about you just now." },
+      { "tone": "bubbly", "text": "{player}! I was literally just about to message you!" },
+      { "tone": "dry", "text": "There you are. I was about to file a missing person report." },
+      { "tone": "any", "minStage": "partner", "text": "Hey, partner. Come here." }
+    ],
+    "greet.remember.date": [
+      { "tone": "any", "text": "I keep thinking about our date at {location}. Can we do that again soon?" },
+      { "tone": "shy", "text": "I had a really nice time at {location}... just so you know." },
+      { "tone": "bubbly", "text": "{location} was SO fun! I told everyone. Well, almost everyone." },
+      { "tone": "dry", "text": "{location} was good. Better than good. Don't make me say it twice." }
+    ],
+    "greet.remember.gift": [
+      { "tone": "any", "text": "Hey, {player}! I've been enjoying {gift} you gave me. Thank you again." },
+      { "tone": "shy", "text": "I put {gift} somewhere I can see it every day." },
+      { "tone": "bubbly", "text": "Guess who's been showing off {gift} to literally everyone? Me!" },
+      { "tone": "dry", "text": "{gift}. Still using it. You have good instincts." }
+    ],
+    "greet.remember.topic": [
+      { "tone": "any", "text": "Hi, {player}! I've been thinking about what we said about {topic}." },
+      { "tone": "warm", "text": "I can't stop thinking about our chat about {topic}. You made my day." },
+      { "tone": "shy", "text": "I... read up on {topic} after we talked. Is that weird?" },
+      { "tone": "bubbly", "text": "{player}! More {topic} talk today? Please say yes." },
+      { "tone": "dry", "text": "I've had better conversations about {topic}. Kidding. That was the best one." }
     ],
     "talk.love": [
       { "tone": "any", "text": "Oh, I could talk about {topic} all day!" },
+      { "tone": "warm", "text": "You like {topic} too? We're going to get along just fine." },
       { "tone": "shy", "text": "You like {topic} too? That's... really nice." },
-      { "tone": "dry", "text": "Finally, someone who gets {topic}." }
+      { "tone": "bubbly", "text": "{topic}?! Okay, you've unlocked the talkative version of me." },
+      { "tone": "dry", "text": "Finally, someone who gets {topic}." },
+      { "tone": "any", "minStage": "close", "text": "You always know just what to bring up. {topic} with you is the best." }
     ],
     "talk.neutral": [
       { "tone": "any", "text": "{topic}? Sure, I guess it's interesting." },
-      { "tone": "bubbly", "text": "Ooh, tell me more about {topic}!" }
+      { "tone": "warm", "text": "I don't know much about {topic}, but I like hearing you talk about it." },
+      { "tone": "shy", "text": "{topic}... I don't really know much about it. Sorry." },
+      { "tone": "bubbly", "text": "Ooh, tell me more about {topic}!" },
+      { "tone": "dry", "text": "{topic}. Fine. Convince me." }
     ],
     "talk.dislike": [
       { "tone": "any", "text": "Honestly, {topic} isn't really my thing." },
+      { "tone": "warm", "text": "Oh... {topic}? Maybe we could talk about something else?" },
+      { "tone": "shy", "text": "Um. I'm not really into {topic}..." },
+      { "tone": "bubbly", "text": "Hmm, {topic}? Pass! Next topic!" },
       { "tone": "dry", "text": "{topic}. Riveting." }
     ],
     "talk.bored": [
-      { "tone": "any", "text": "We already covered {topic} today, didn't we?" }
+      { "tone": "any", "text": "We already covered {topic} today, didn't we?" },
+      { "tone": "bubbly", "text": "{topic} again? You're sweet, but come on." },
+      { "tone": "dry", "text": "If you mention {topic} once more I'm charging admission." }
     ],
     "compliment.pleased": [
       { "tone": "any", "text": "You think so? Thank you!" },
+      { "tone": "warm", "text": "That's so sweet of you to say." },
       { "tone": "shy", "text": "Oh! That's... thank you." },
-      { "tone": "dry", "text": "Good eye." }
+      { "tone": "bubbly", "text": "Stop it! No, wait, keep going." },
+      { "tone": "dry", "text": "Good eye." },
+      { "tone": "any", "minStage": "dating", "text": "You always know how to make me smile." }
+    ],
+    "compliment.style": [
+      { "tone": "any", "text": "Thank you! And honestly, your {item} is great too." },
+      { "tone": "shy", "text": "Th-thanks... I like your {item}, by the way." },
+      { "tone": "bubbly", "text": "Thanks! Matching compliments: your {item} is amazing!" },
+      { "tone": "dry", "text": "Thanks. Your {item} isn't bad either." }
     ],
     "compliment.awkward": [
-      { "tone": "any", "text": "Uh, thanks... I guess." }
+      { "tone": "any", "text": "Uh, thanks... I guess." },
+      { "tone": "warm", "text": "That's kind, but... we only just met." },
+      { "tone": "shy", "text": "Oh. Um. Okay..." },
+      { "tone": "dry", "text": "Laying it on a bit thick, aren't we?" }
     ],
     "gift.love": [
       { "tone": "any", "text": "{gift}? For me? I love it!" },
-      { "tone": "shy", "text": "You remembered I'd like this... thank you." }
+      { "tone": "warm", "text": "You remembered! {gift} is perfect." },
+      { "tone": "shy", "text": "You remembered I'd like this... thank you." },
+      { "tone": "bubbly", "text": "No way! {gift}! You're the best!" },
+      { "tone": "dry", "text": "{gift}. Okay. You win this round." }
     ],
     "gift.ok": [
-      { "tone": "any", "text": "Oh, {gift}. That's kind of you." }
+      { "tone": "any", "text": "Oh, {gift}. That's kind of you." },
+      { "tone": "warm", "text": "{gift}! Thank you, that's thoughtful." },
+      { "tone": "shy", "text": "Oh... thank you. That's nice of you." },
+      { "tone": "dry", "text": "{gift}. Thanks. Genuinely." }
     ],
     "gift.dislike": [
       { "tone": "any", "text": "Oh. {gift}. Thanks..." },
+      { "tone": "warm", "text": "That's... very thoughtful. Thank you." },
+      { "tone": "shy", "text": "Oh. Um, thank you..." },
       { "tone": "dry", "text": "I'll find somewhere to put {gift}, I suppose." }
     ],
     "gift.again": [
       { "tone": "any", "text": "Another present? You're spoiling me." },
+      { "tone": "shy", "text": "Another one? You really don't have to..." },
       { "tone": "dry", "text": "Two in one day. Should I be worried?" }
     ],
     "gift.awkward": [
-      { "tone": "any", "text": "A present? We've only just met..." }
+      { "tone": "any", "text": "A present? We've only just met..." },
+      { "tone": "shy", "text": "For me? But you barely know me..." },
+      { "tone": "dry", "text": "Bit soon for presents, isn't it?" }
     ],
     "date.yes": [
       { "tone": "any", "text": "A date at {location}? I'd love that." },
+      { "tone": "warm", "text": "{location}? That sounds lovely. Let's go." },
       { "tone": "shy", "text": "Y-yes. I'd like that a lot." },
+      { "tone": "bubbly", "text": "Yes! Yes yes yes! {location}, here we come!" },
       { "tone": "dry", "text": "Fine. It's a date. Don't be late." }
     ],
     "date.no": [
-      { "tone": "any", "text": "That's sweet, but I don't think I feel that way." }
+      { "tone": "any", "text": "That's sweet, but I don't think I feel that way." },
+      { "tone": "warm", "text": "I really like you, {player}, just... not like that. Not yet, anyway." },
+      { "tone": "shy", "text": "I... I'm sorry. I'm not ready for that." },
+      { "tone": "dry", "text": "Let's stay friends for now." }
     ],
     "date.notyet": [
-      { "tone": "any", "text": "Maybe once we know each other a bit better?" }
+      { "tone": "any", "text": "Maybe once we know each other a bit better?" },
+      { "tone": "bubbly", "text": "Ooh, slow down, we've barely started!" },
+      { "tone": "dry", "text": "Ask me again after you've bought me a coffee. Or five." }
     ],
     "date.great": [
-      { "tone": "any", "text": "That was wonderful. {location} was perfect." }
+      { "tone": "any", "text": "That was wonderful. {location} was perfect." },
+      { "tone": "warm", "text": "Thank you for today. I didn't want it to end." },
+      { "tone": "shy", "text": "I had... the best time. Really." },
+      { "tone": "bubbly", "text": "Best. Date. Ever. I'm calling it." },
+      { "tone": "dry", "text": "That was... actually perfect. Don't tell anyone I said that." }
     ],
     "date.fine": [
-      { "tone": "any", "text": "That was nice. Thanks for today." }
+      { "tone": "any", "text": "That was nice. Thanks for today." },
+      { "tone": "warm", "text": "That was lovely. Maybe somewhere else next time?" },
+      { "tone": "shy", "text": "Thank you for taking me. It was nice." },
+      { "tone": "dry", "text": "Not bad. I'd do it again." }
     ]
   }
 }

@@ -55,6 +55,15 @@ namespace Game.Sim.Relationships
         public SortedSet<string> KnownLikes = new SortedSet<string>(StringComparer.Ordinal);
         public SortedSet<string> KnownDislikes = new SortedSet<string>(StringComparer.Ordinal);
 
+        /// <summary>
+        /// Recent moments worth bringing up when they next meet: the latest loved topic, loved gift and great date.
+        /// Each is mentioned once, then forgotten.
+        /// </summary>
+        public Memory LovedTopic, LovedGift, GreatDate;
+
+        /// <summary>Reaction key → the line said last time, so nobody repeats themselves back to back.</summary>
+        public SortedDictionary<string, string> LastLines = new SortedDictionary<string, string>(StringComparer.Ordinal);
+
         [JsonIgnore]
         public Stage Stage
         {
@@ -68,5 +77,12 @@ namespace Game.Sim.Relationships
                 return Stage.Acquaintance;
             }
         }
+    }
+
+    /// <summary>Something that happened between the player and a resident: what (a topic, gift or place ID) and when.</summary>
+    public sealed class Memory
+    {
+        public string Id;
+        public int Day;
     }
 }

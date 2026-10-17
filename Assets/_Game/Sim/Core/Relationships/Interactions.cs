@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Game.Characters.Content;
 using Game.Characters.Rng;
 using Game.Sim.Residents;
 
@@ -62,8 +63,15 @@ namespace Game.Sim.Relationships
         /// <summary>Affection and attraction, weighted 60:40, a resident needs to accept a first date.</summary>
         public const float DateThreshold = 55f;
 
+        /// <summary>How well an outfit has to land (impression, -1..1) for them to mention it.</summary>
+        public const float ImpressedAt = 0.5f;
+
+        /// <summary>How many days a shared moment stays fresh enough to bring up.</summary>
+        public const int MemoryDays = 3;
+
         readonly SimWorld _world;
         readonly Dialogue _dialogue;
+        int _previousSeen; // the day of the visit before this one, set by Begin
 
         public Interactions(SimWorld world)
         {
@@ -73,10 +81,28 @@ namespace Game.Sim.Relationships
 
         int Today => _world.Now.Day;
 
+        /// <summary>
+        /// Hello. Meeting someone while wearing something they love gets it noticed. Coming back on a later day, they
+        /// bring up the last good moment you shared: a great date, a gift they loved, a topic they lit up about.
+        /// </summary>
         public InteractionResult Greet(Resident resident)
         {
             (Relationship rel, Pcg32 rng, InteractionResult result, Meters before) = Begin(resident, InteractionKind.Greet);
-            string key = result.FirstMeeting ? "greet.stranger" : rel.Stage switch
+            if (result.FirstMeeting)
+            {
+                PartEntry favourite = Favourite(resident);
+                if (favourite != null && Impression(resident) >= ImpressedAt)
+                    return Finish(resident, rel, rng, result, before, "greet.stranger.impressed", GreetMinutes, ("item", ItemName(favourite)));
+                return Finish(resident, rel, rng, result, before, "greet.stranger", GreetMinutes);
+            }
+
+            if (_previousSeen >= 0 && _previousSeen < Today)
+            {
+                (string Key, (string, string) Token)? recalled = Recall(rel);
+                if (recalled != null) return Finish(resident, rel, rng, result, before, recalled.Value.Key, GreetMinutes, recalled.Value.Token);
+            }
+
+            string greeting = rel.Stage switch
             {
                 Stage.Stranger => "greet.acquaintance",
                 Stage.Acquaintance => "greet.acquaintance",
@@ -84,8 +110,36 @@ namespace Game.Sim.Relationships
                 Stage.Close => "greet.close",
                 _ => "greet.dating",
             };
-            return Finish(resident, rel, rng, result, before, key, GreetMinutes);
+            return Finish(resident, rel, rng, result, before, greeting, GreetMinutes);
         }
+
+        /// <summary>The most recent memory from the last few days, which is then used up.</summary>
+        (string Key, (string, string) Token)? Recall(Relationship rel)
+        {
+            Memory latest = new[] { rel.GreatDate, rel.LovedGift, rel.LovedTopic }
+                .Where(m => m != null && m.Day < Today && Today - m.Day <= MemoryDays)
+                .OrderByDescending(m => m.Day)
+                .FirstOrDefault();
+            if (latest == null) return null;
+
+            if (latest == rel.GreatDate)
+            {
+                rel.GreatDate = null;
+                return ("greet.remember.date", ("location", _world.Catalog.Location(latest.Id)?.Name ?? latest.Id));
+            }
+            if (latest == rel.LovedGift)
+            {
+                rel.LovedGift = null;
+                return ("greet.remember.gift", ("gift", _world.Catalog.Gift(latest.Id)?.Name ?? latest.Id));
+            }
+            rel.LovedTopic = null;
+            return ("greet.remember.topic", ("topic", _world.Catalog.Topic(latest.Id)?.Name ?? latest.Id));
+        }
+
+        PartEntry Favourite(Resident resident) => _world.Player.Dna == null ? null
+            : FirstImpression.Favourite(resident.Profile, _world.Player.Dna, _world.Player.Outfit, _world.Characters);
+
+        static string ItemName(PartEntry part) => (part.Name ?? ContentCatalog.Humanize(part.Id)).ToLowerInvariant();
 
         public InteractionResult Talk(Resident resident, string topicId)
         {
@@ -106,6 +160,7 @@ namespace Game.Sim.Relationships
             else if (interest >= ProfileGenerator.LikeThreshold)
             {
                 key = "talk.love";
+                rel.LovedTopic = new Memory { Id = topicId, Day = Today };
                 Add(ref rel.Affection, (3f + 2f * rng.NextFloat()) * fresh);
                 Add(ref rel.Familiarity, 3f * sociable * fresh);
                 Add(ref rel.Attraction, 0.5f * fresh);
@@ -150,6 +205,14 @@ namespace Game.Sim.Relationships
                 float look = Math.Max(0f, Impression(resident));
                 Add(ref rel.Affection, 2f);
                 Add(ref rel.Attraction, 2f + 3f * look);
+
+                // Dressed to their taste, they return the compliment.
+                PartEntry favourite = Favourite(resident);
+                if (favourite != null && look >= ImpressedAt)
+                {
+                    rel.LastComplimentDay = Today;
+                    return Finish(resident, rel, rng, result, before, "compliment.style", ComplimentMinutes, ("item", ItemName(favourite)));
+                }
             }
             rel.LastComplimentDay = Today;
             return Finish(resident, rel, rng, result, before, key, ComplimentMinutes);
@@ -180,6 +243,7 @@ namespace Game.Sim.Relationships
                 if (best >= ProfileGenerator.LikeThreshold)
                 {
                     key = "gift.love";
+                    rel.LovedGift = new Memory { Id = giftId, Day = Today };
                     Add(ref rel.Affection, 6f);
                     Add(ref rel.Trust, 2f);
                     Add(ref rel.Familiarity, 2f);
@@ -240,6 +304,7 @@ namespace Game.Sim.Relationships
                 Add(ref rel.Trust, 5f);
                 Add(ref rel.Familiarity, 6f);
                 rel.GreatDates++;
+                rel.GreatDate = new Memory { Id = locationId, Day = Today };
             }
             else
             {
@@ -253,7 +318,7 @@ namespace Game.Sim.Relationships
             if (rel.Dates >= 3 && rel.GreatDates >= 2 && rel.Affection >= 80f && rel.Trust >= 60f) rel.Partner = true;
 
             result.FollowUpReaction = great ? "date.great" : "date.fine";
-            result.FollowUp = _dialogue.Line(result.FollowUpReaction, profile.Tone, rng, Tokens(resident, place));
+            result.FollowUp = Say(resident, rel, rng, result.FollowUpReaction, before.Stage, Tokens(resident, place));
             return Finish(resident, rel, rng, result, before, "date.yes", DateMinutes, place);
         }
 
@@ -305,6 +370,7 @@ namespace Game.Sim.Relationships
                 Add(ref rel.Trust, 2f * steadiness);
                 Add(ref rel.Familiarity, 1f);
             }
+            _previousSeen = rel.LastSeenDay;
             if (rel.LastSeenDay != Today) rel.TalksToday = 0;
             rel.LastSeenDay = Today;
             return (rel, rng, result, before);
@@ -314,7 +380,7 @@ namespace Game.Sim.Relationships
             params (string Key, string Value)[] extra)
         {
             result.Reaction = key;
-            result.Line = _dialogue.Line(key, resident.Profile.Tone, rng, Tokens(resident, extra));
+            result.Line = Say(resident, rel, rng, key, before.Stage, Tokens(resident, extra));
             result.Familiarity = rel.Familiarity - before.Familiarity;
             result.Affection = rel.Affection - before.Affection;
             result.Attraction = rel.Attraction - before.Attraction;
@@ -322,6 +388,15 @@ namespace Game.Sim.Relationships
             result.After = rel.Stage;
             _world.Advance(minutes);
             return result;
+        }
+
+        /// <summary>A line for <paramref name="key"/>, never the same one as last time when there's a choice.</summary>
+        string Say(Resident resident, Relationship rel, Pcg32 rng, string key, Stage stage, Dictionary<string, string> tokens)
+        {
+            rel.LastLines.TryGetValue(key, out string last);
+            string template = _dialogue.Template(key, resident.Profile.Tone, stage, rng, last);
+            rel.LastLines[key] = template;
+            return Dialogue.Fill(template, tokens);
         }
 
         Dictionary<string, string> Tokens(Resident resident, params (string Key, string Value)[] extra)
