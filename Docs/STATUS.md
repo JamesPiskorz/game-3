@@ -2,6 +2,14 @@
 
 _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full plan and [decisions/](decisions/) for why things are the way they are._
 
+## New overnight (2026-10-18)
+
+- **Generation:** freckles, beauty marks, blush and lipstick by style; three textured hairstyles (afro, puffs, locs); square and cat-eye glasses; a turtleneck, a sweater, a cardigan, wide trousers, loafers and high-tops; eye and brow styles pushed apart, fuller builds that read, catch-lights; freckles run in families. New review sheets: face styles and body range.
+- **Creator:** face marks and lipstick in the Face tab; **Variations** shows six candidates at once.
+- **Town:** portraits in contacts, messages, the card and your stats line; confessions (residents ask you out); clothes as gifts that residents wear; a makeup counter at the salon; residents' makeup changes over the weeks.
+- **Menu:** the cast behind the menu keeps changing, with a caption of what the generator picked.
+- **Fixes:** swept bangs and the hairline no longer show a notch; the AutoPlayer actually shops; parts unequipped mid-frame no longer render.
+
 ## What exists
 
 | Area | State | Where |
@@ -35,7 +43,7 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 | Weather | Sunny, cloudy or rainy each day, from the seed. Rain empties the park as people shelter indoors, puts everyone in their rainy-day outfit with a coat, greys the sky and falls on outdoor scenes | `Sim/Core/Weather.cs`, `SimWorld.WhereIs` |
 | Invitations | Close friends and partners message the player to meet later today, where their plans already take them; turning up starts a date, standing them up costs | `Sim/Core/Sandbox/Invitations.cs` |
 | Expressions | Seven facial expressions plus blinking on the face bones (a mouth whose corners curve into smiles and frowns, anime blush hatching for shy and delighted faces, and closed "^ ^" eyes when delighted), plus idle breathing, sway, gaze and a procedural walk cycle (people walk in and out of town scenes as time passes). Both layer over the builder's pose; residents react and nod at each interaction | `Characters/Runtime/Expressions`, `Docs/review/expressions.png` |
-| Stand-in content | Procedural body with simple face, 46 parts (15 hair, including a braid on its own spring chain; 31 clothing and accessories, including neckwear, outer layers, legwear, earrings, a crossbody bag and hair accessories), 9 face presets, 7 eye and 5 brow styles, 10 patterns, toon materials. **Placeholder art until Phase 1.** | `Characters/Editor/StandIns`, `Content/StandIn` |
+| Stand-in content | Procedural body with simple face (catch-lights in the eyes), 61 parts (18 hair, including a braid on its own spring chain and three textured styles; 4 face marks; 39 clothing and accessories, including neckwear, outer layers, legwear, earrings, a crossbody bag, hair accessories and three kinds of glasses), 9 face presets, 7 eye and 5 brow styles, 10 patterns, toon materials. **Placeholder art until Phase 1.** | `Characters/Editor/StandIns`, `Content/StandIn` |
 | Generator statistics | 10,000 characters measured as a population: style shares against catalog weights, presentation and skin-tone spread, fantasy hair and eyes, how often each part is worn in each context, patterns, rule violations (0) and time per character (about 0.3 ms). A test fails if any part goes unworn | `Generation/GeneratorStats.cs`, `Docs/review/generator-stats.md` |
 | Performance | Town benchmark; distance-based detail (`CharacterLod`) | decision 0004, `Docs/review/perf.md` |
 | Tests | 306 Unity EditMode tests (142 characters, 164 sim); the pure C# sets also run on .NET 8 | `Characters/Tests`, `Sim/Tests` |
@@ -43,18 +51,18 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 ## Try it
 
 - **Play the slice:** open `Assets/_Game/Town/MainMenu.unity` (the first scene in the build) and press Play.
-  1. **New game** opens the creator. Make someone, or press Randomize.
+  1. **New game** opens the creator. Make someone, press Randomize, or press **Variations** to pick from six at a time.
   2. Press **Into town →**. The town scene opens with your character.
   3. Pick a place, pick someone under **Here**, then use **Say hi**, **Talk about…** and **Ask about…** (what they're into, their plans today, their friends). **Chat** lets them bring something up; pick a warm, playful or curious reply. The card lists what you've learned.
   4. Give gifts that match, and **Ask out…** once you're friends. A date is three rounds of choices: talk about what they love.
   5. **Wait an hour** and **Sleep** move time. Places close, and people come and go with their schedules.
-  6. **Work a shift** to earn coins. Spend them at the **Boutique** in Arcade Lane, or on a new cut or colour at the **Salon** next door, and change clothes in the **Wardrobe** at home. You dress for the occasion automatically, as residents do: a coat in the rain, workout clothes at the gym, dressed up for a night out. Once you know someone a little, their card says which looks they go for.
-  7. **Contacts** lists everyone you've met. Once you know someone well, it says where they are right now; click a contact to go to them.
+  6. **Work a shift** to earn coins. Spend them at the **Boutique** in Arcade Lane, or on a new cut, colour, lipstick or blush at the **Salon** next door, and change clothes in the **Wardrobe** at home. You dress for the occasion automatically, as residents do: a coat in the rain, workout clothes at the gym, dressed up for a night out. Once you know someone a little, their card says which looks they go for.
+  7. **Contacts** lists everyone you've met, with a portrait of each. Once you know someone well, it says where they are right now; click a contact to go to them.
   8. Residents have their own friends and partners; the card says who once you know them. Someone who's taken will turn you down, unless they're smitten enough to leave their partner for you.
   9. **Sleep** sums up the day and autosaves. Friends you neglect for more than three days start to cool off.
   10. **Menu** saves and returns to the main menu; **Continue** picks up where you left off.
   11. **Things to do** at each place raise your stats; the card says what a resident admires.
-  12. Once someone's close, they'll send **Messages** inviting you out later that day. Click one to go there. In the evenings, people dress up for the bar, and for Friday and Saturday nights out.
+  12. Once someone's close, they'll send **Messages** inviting you out later that day. Someone who's fallen for you may say so: answer yes or let them down gently. Click one to go there. In the evenings, people dress up for the bar, and for Friday and Saturday nights out.
   - Opening `Town/Town.unity` directly works too. It uses the look you last took into town, or a generated one.
 - **Review sheets:** the **Game → Characters → Review** menu has the generated lineup, the 96-character quality sheet, the skin ramp, the spring filmstrip, the town benchmark, the part sheet (every part on one model, front and back), the expression sheet, the face style sheet (every eye and brow style on the same faces), the body range sheet (every body slider at its extremes), the family sheet (six families of three), the archetype sheet (eight characters per style, one row each) and the generator statistics. **Game → Town → Render Makeover Sheet** shows residents before and after their makeovers. **Game → Town → Build Town Scene** rebuilds the town scene.
 - **Regenerate stand-ins:** **Game → Characters → Content → Regenerate All Stand-in Content**.
@@ -107,4 +115,4 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 3. **Richer conversations:** a chat is at most two exchanges over four kinds of opener. More openers, and a third beat that remembers the first, would make talking feel less like a menu.
 4. **The town as a space:** walkable locations with NavMesh. People already walk in and out of each scene, but the town itself is a set of stages.
 5. **Sound:** there's none yet. Music per place and time of day, plus UI sounds.
-6. **Performance:** render cost now follows renderer count (271 for 40 residents, about 9 ms in the editor). Merging each character's parts into fewer renderers, with merged materials, is the next lever (decision 0004).
+6. **Performance:** render cost now follows renderer count (294 for 40 residents with tonight's face marks, about 9.9 ms in the editor, 9.25 ms with distance detail as in play). Merging each character's parts into fewer renderers, with merged materials, is the next lever (decision 0004).
