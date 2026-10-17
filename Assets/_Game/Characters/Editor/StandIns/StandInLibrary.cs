@@ -1016,6 +1016,22 @@ namespace Game.Characters.StandIns
             };
             yield return new Recipe
             {
+                Id = "acc.hat.sunhat_01", Slot = "hat", Material = "Cloth", FollowsBodyShapes = false,
+                Build = m =>
+                {
+                    // A rounded crown with a band in the second colour, and a wide, soft brim, tipped back a little so the
+                    // face shows under it.
+                    Vector3 pivot = HeadCentre + new Vector3(0f, 0.08f, 0f);
+                    int start = m.VertexCount;
+                    m.AddEllipsoid(HeadCentre + new Vector3(0f, 0.052f, -0.004f), new Vector3(0.136f, 0.115f, 0.136f), None, false, "Head",
+                        (along, around) => along > 0.3f ? new Vector3(0f, 1f, 0f) : new Vector3(1f, 0f, 0f), d => d.y > 0.26f);
+                    using (m.Coarse(latitudes: 6, longitudes: 32))
+                        m.AddEllipsoid(HeadCentre + new Vector3(0f, 0.085f, 0f), new Vector3(0.22f, 0.008f, 0.22f), None, false, "Head", Region1);
+                    m.Rotate(start, pivot, Quaternion.Euler(-9f, 0f, 0f));
+                },
+            };
+            yield return new Recipe
+            {
                 Id = "acc.hat.beanie_01", Slot = "hat", Material = "Cloth", FollowsBodyShapes = false,
                 Build = m => m.AddEllipsoid(HeadCentre + new Vector3(0f, 0.012f, -0.004f), new Vector3(0.137f, 0.135f, 0.137f), None, false, "Head",
                     (along, around) => along > 0.36f ? new Vector3(0f, 1f, 0f) : new Vector3(1f, 0f, 0f), d => d.y > 0.12f),

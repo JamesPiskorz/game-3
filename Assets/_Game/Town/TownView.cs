@@ -128,6 +128,7 @@ namespace Game.Town
             if (_showMessages) RefreshMessages();
             if (_showPhotos) RefreshPhotos();
             _photosButton.EnableInClassList("selected", _showPhotos);
+            _photosButton.text = world.Photos.Count > 0 ? $"Photos ({world.Photos.Count})" : "Photos";
             int pending = _session.Messages().Count(m => m.Pending);
             _messagesButton.text = pending > 0 ? $"Messages ({pending})" : "Messages";
             _messagesButton.EnableInClassList("selected", _showMessages);

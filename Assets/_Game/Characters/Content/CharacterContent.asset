@@ -148,6 +148,8 @@ MonoBehaviour:
     Prefab: {fileID: 5760259430169544485, guid: 114cd5350f256ce4f96b20b8f0a81d66, type: 3}
   - Id: acc.hat.cap_01
     Prefab: {fileID: 1724795837697061746, guid: 1b0bb045c4776624f93c40ee30320e0d, type: 3}
+  - Id: acc.hat.sunhat_01
+    Prefab: {fileID: 1135573447098314248, guid: 60eefa1e08d91514fafde687733e854b, type: 3}
   - Id: acc.hat.beanie_01
     Prefab: {fileID: 6217756984660538669, guid: 0eef57ca19788214ab9b797ff4ede21e, type: 3}
   - Id: acc.hat.beret_01
