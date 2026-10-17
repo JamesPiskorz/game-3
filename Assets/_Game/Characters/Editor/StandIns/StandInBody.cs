@@ -57,6 +57,7 @@ namespace Game.Characters.StandIns
             }
             // Blush as anime hatching, three short strokes on each cheek in the brows' colour. Each stroke's ends sit
             // just under the curved cheek, so it's hidden until an expression pushes the lines out through the skin.
+            using (mesh.Coarse())
             foreach ((string side, float x) in new[] { (".L", -0.055f), (".R", 0.055f) })
                 for (int i = -1; i <= 1; i++)
                 {
@@ -72,6 +73,7 @@ namespace Game.Characters.StandIns
                 }
             // Smiling closed eyes: an arch of strokes over each eye, in the brows' colour, sitting just under the eye's
             // surface until the expression pushes it out (the eye itself shuts underneath).
+            using (mesh.Coarse())
             foreach ((string side, float x) in new[] { (".L", -0.04f), (".R", 0.04f) })
             {
                 Vector3 Over(float angle)

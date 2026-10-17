@@ -23,6 +23,27 @@ namespace Game.Characters.StandIns
         public const int Sides = 24;
         const int Rings = 12;
 
+        // The resolution in use: full by default, lower inside a Coarse() block.
+        int _sides = Sides, _rings = Rings, _latitudes = 16, _longitudes = 24;
+
+        /// <summary>
+        /// Lower resolution for small details (beads, studs, buttons, straps, face strokes) until disposed: they
+        /// don't need a hero mesh's vertex count, and there are many of them in a town.
+        /// </summary>
+        public IDisposable Coarse(int sides = 8, int rings = 2, int latitudes = 6, int longitudes = 10)
+        {
+            var previous = (_sides, _rings, _latitudes, _longitudes);
+            (_sides, _rings, _latitudes, _longitudes) = (sides, rings, latitudes, longitudes);
+            return new Restore(() => (_sides, _rings, _latitudes, _longitudes) = previous);
+        }
+
+        sealed class Restore : IDisposable
+        {
+            readonly Action _undo;
+            public Restore(Action undo) => _undo = undo;
+            public void Dispose() => _undo();
+        }
+
         readonly StandInBone[] _bones;
         readonly Dictionary<string, int> _boneIndex;
         readonly List<Vector3> _positions = new List<Vector3>();
@@ -212,16 +233,16 @@ namespace Game.Characters.StandIns
             BodyRegions painted = paintRegion ? tube.Region : None;
 
             int first = VertexCount;
-            for (int ring = 0; ring <= Rings; ring++)
+            for (int ring = 0; ring <= _rings; ring++)
             {
-                float t = ring / (float)Rings;
+                float t = ring / (float)_rings;
                 Vector3 centre = Vector3.Lerp(tube.Start, tube.End, t);
                 float radius = Mathf.Lerp(tube.R0, tube.R1, t);
                 BoneWeight weights = TubeWeights(tube, t);
                 float circumference = 2f * Mathf.PI * (radius + offset) * (tube.Width + tube.Depth) * 0.5f;
-                for (int side = 0; side <= Sides; side++) // the last column duplicates the first so UVs can wrap
+                for (int side = 0; side <= _sides; side++) // the last column duplicates the first so UVs can wrap
                 {
-                    float around = side / (float)Sides;
+                    float around = side / (float)_sides;
                     float angle = around * 2f * Mathf.PI;
                     float c = Mathf.Cos(angle), s = Mathf.Sin(angle);
                     Vector3 spoke = u * (c * tube.Width) + v * (s * tube.Depth);
@@ -232,10 +253,10 @@ namespace Game.Characters.StandIns
                 }
             }
 
-            Stitch(first, Sides + 1, Rings, ring => ring / (float)Rings, mask, tube.KeepAround);
+            Stitch(first, _sides + 1, _rings, ring => ring / (float)_rings, mask, tube.KeepAround);
 
             AddCap(tube, startCap, first, 0f, -axis, u, v, offset, collarRadius, painted, mask);
-            AddCap(tube, endCap, first + Rings * (Sides + 1), 1f, axis, u, v, offset, collarRadius, painted, mask);
+            AddCap(tube, endCap, first + _rings * (_sides + 1), 1f, axis, u, v, offset, collarRadius, painted, mask);
         }
 
         void AddCap(Tube tube, Cap cap, int ringStart, float t, Vector3 normal, Vector3 u, Vector3 v, float offset, float collarRadius, BodyRegions painted, MaskFunction mask)
@@ -246,27 +267,27 @@ namespace Game.Characters.StandIns
             BoneWeight weights = TubeWeights(tube, t);
             Vector4 capMask = mask(t, 0f);
             int rim = VertexCount;
-            for (int side = 0; side < Sides; side++)
+            for (int side = 0; side < _sides; side++)
                 AddVertex(_positions[ringStart + side], normal, _uvs[ringStart + side], painted, capMask, weights, _deltas[ringStart + side]);
 
             if (cap == Cap.Closed)
             {
                 int hub = AddVertex(centre, normal, Vector2.zero, painted, capMask, weights, null);
-                for (int side = 0; side < Sides; side++)
-                    AddTriangle(hub, rim + side, rim + (side + 1) % Sides);
+                for (int side = 0; side < _sides; side++)
+                    AddTriangle(hub, rim + side, rim + (side + 1) % _sides);
                 return;
             }
 
             int inner = VertexCount;
-            for (int side = 0; side < Sides; side++)
+            for (int side = 0; side < _sides; side++)
             {
-                float angle = side * 2f * Mathf.PI / Sides;
+                float angle = side * 2f * Mathf.PI / _sides;
                 AddVertex(centre + (u * Mathf.Cos(angle) + v * Mathf.Sin(angle)) * collarRadius, normal, Vector2.zero, painted, capMask, weights, null);
             }
-            for (int side = 0; side < Sides; side++)
+            for (int side = 0; side < _sides; side++)
             {
-                if (tube.KeepAround != null && !tube.KeepAround((side + 0.5f) / Sides)) continue;
-                int next = (side + 1) % Sides;
+                if (tube.KeepAround != null && !tube.KeepAround((side + 0.5f) / _sides)) continue;
+                int next = (side + 1) % _sides;
                 AddQuad(rim + side, rim + next, inner + next, inner + side);
             }
         }
@@ -277,7 +298,7 @@ namespace Game.Characters.StandIns
         /// </summary>
         public void AddEllipsoid(Vector3 centre, Vector3 radii, BodyRegions region, bool paintRegion, string bone, MaskFunction mask, Func<Vector3, bool> keep = null)
         {
-            const int Latitudes = 16, Longitudes = 24;
+            int Latitudes = _latitudes, Longitudes = _longitudes;
             BoneWeight weights = Weights((bone, 1f));
             BodyRegions painted = paintRegion ? region : None;
             int first = VertexCount;
@@ -295,7 +316,7 @@ namespace Game.Characters.StandIns
                 }
             }
 
-            const int Columns = Longitudes + 1;
+            int Columns = Longitudes + 1;
             for (int lat = 0; lat < Latitudes; lat++)
                 for (int lon = 0; lon < Longitudes; lon++)
                 {

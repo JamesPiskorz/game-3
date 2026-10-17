@@ -359,6 +359,7 @@ namespace Game.Characters.StandIns
                 // the braid swings, and a tie in the tip colour.
                 Vector3 start = Braid[0].Position, end = new Vector3(0f, 1.1f, -0.172f);
                 const int Lobes = 11;
+                using IDisposable medium = m.Coarse(sides: 12, rings: 4, latitudes: 8, longitudes: 12);
                 for (int i = 0; i < Lobes; i++)
                 {
                     float t = (i + 0.5f) / Lobes;
@@ -445,6 +446,7 @@ namespace Game.Characters.StandIns
                     m.AddSkirt(1.1f, 0.76f, 0.13f, 0.21f, 1.22f, 0.85f, thick, Trim(0.09f, false, true));
                     // Buttons down the front, laid on the coat like the blazer's lapels so body shapes carry them out too.
                     Tube torso = StandInBody.TubeFor(UpperTorso), belly = StandInBody.TubeFor(LowerTorso);
+                    using (m.Coarse())
                     foreach (float y in new[] { 1.38f, 1.28f, 1.18f, 1.09f })
                     {
                         Tube under = y >= torso.Start.y ? torso : belly;
@@ -498,6 +500,7 @@ namespace Game.Characters.StandIns
                 Id = "acc.earrings.studs_01", Slot = "earrings", Material = "Accessory", FollowsBodyShapes = false,
                 Build = m =>
                 {
+                    using IDisposable coarse = m.Coarse();
                     foreach (float side in new[] { -1f, 1f })
                         m.AddEllipsoid(new Vector3(side * 0.104f, 1.598f, 0.012f), Vector3.one * 0.0085f, None, false, "Head", Region1);
                 },
@@ -508,6 +511,7 @@ namespace Game.Characters.StandIns
                 Build = m =>
                 {
                     // A ring of beads hanging below each side, turned partly towards the front so it doesn't read edge-on.
+                    using IDisposable coarse = m.Coarse();
                     foreach (float side in new[] { -1f, 1f })
                     {
                         Vector3 centre = new Vector3(side * 0.108f, 1.57f, 0.01f);
@@ -531,6 +535,7 @@ namespace Game.Characters.StandIns
                     // clear of a coat front and back.
                     void Strap(Vector3[] path, string[] bones, BodyRegions[] regions)
                     {
+                        using IDisposable coarse = m.Coarse(sides: 8, rings: 3);
                         for (int i = 0; i < path.Length - 1; i++)
                             m.AddTube(new Tube { Region = regions[i], Start = path[i], End = path[i + 1], R0 = 0.009f, R1 = 0.009f, Width = 1f, Depth = 0.5f, Bone = bones[i], ShapeRadius = 0.12f },
                                 0f, Cap.Closed, Cap.Closed, RegionTwo, false);
@@ -568,6 +573,7 @@ namespace Game.Characters.StandIns
                 Build = m =>
                 {
                     // A string of beads around the base of the neck, and a pendant resting on the chest.
+                    using IDisposable coarse = m.Coarse();
                     for (int i = 0; i < 16; i++)
                     {
                         float a = i / 16f * 2f * Mathf.PI;
