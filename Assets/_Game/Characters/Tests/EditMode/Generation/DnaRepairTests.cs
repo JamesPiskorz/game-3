@@ -94,5 +94,40 @@ namespace Game.Characters.Tests.Generation
             Assert.That(DnaValidator.Validate(generator.Catalog, session.Dna), Is.Empty);
             Assert.That(session.Dna.Skin.Tone, Is.EqualTo(old.Skin.Tone), "Still the same person.");
         }
+        [Test]
+        public void AnyCorruptionRepairsToSomethingValid()
+        {
+            var generator = new CharacterGenerator(Catalogs.Project());
+            ContentCatalog catalog = generator.Catalog;
+            int startedOver = 0;
+            for (ulong seed = 0; seed < 400; seed++)
+            {
+                CharacterDna dna = generator.Generate(seed);
+                var rng = new Game.Characters.Rng.Pcg32(seed, 3);
+                for (int n = 0, damage = 1 + rng.NextInt(4); n < damage; n++)
+                {
+                    OutfitDna outfit = dna.Outfits.Count == 0 ? null : dna.Outfits[rng.NextInt(dna.Outfits.Count)];
+                    switch (rng.NextInt(12))
+                    {
+                        case 0: if (outfit != null && outfit.Items.Count > 0) outfit.Items.RemoveAt(rng.NextInt(outfit.Items.Count)); break;
+                        case 1: outfit?.Items.Add(new ItemDna { ItemId = "cloth.top.gone_" + n }); break;
+                        case 2: dna.Hair.PieceIds = new List<string> { "hair.front.swept_01" }; break;
+                        case 3: dna.Body.Sliders[dna.Body.Sliders.Keys.First()] = rng.Chance(0.5f) ? float.NaN : 40f; break;
+                        case 4: dna.Face.Sliders.Remove(dna.Face.Sliders.Keys.First()); break;
+                        case 5: dna.Face.PresetId = null; break;
+                        case 6: if (outfit != null) dna.Outfits.Remove(outfit); break;
+                        case 7: dna.Outfits.Add(new OutfitDna { Context = "beach" }); break;
+                        case 8: dna.Hair.Base = new HsvColor(float.NaN, 2f, -1f); break;
+                        case 9: if (outfit != null && outfit.Items.Count > 0) outfit.Items[0].RegionColors.Clear(); break;
+                        case 10: if (outfit != null && outfit.Items.Count > 0) outfit.Items[0].PatternId = "pattern.gone"; break;
+                        default: dna.Style = null; dna.Body.Femininity = 3f; break;
+                    }
+                }
+                CharacterDna repaired = DnaRepair.Repair(generator, dna, out List<string> fixes);
+                Assert.That(DnaValidator.Validate(catalog, repaired), Is.Empty, $"seed {seed}");
+                if (fixes.Any(f => f.StartsWith("everything else"))) startedOver++;
+            }
+            Assert.That(startedOver, Is.LessThan(4), "It keeps what it can, rather than starting over.");
+        }
     }
 }

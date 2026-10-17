@@ -66,6 +66,12 @@ namespace Game.Characters.Generation
             result.Face.LashStyleId = Known(catalog.LashStyles, result.Face.LashStyleId, fresh.Face.LashStyleId, "lash style", fixes);
             result.Skin.Tone = Clamp01(result.Skin.Tone);
             result.Skin.Undertone = Clamp01(result.Skin.Undertone);
+            result.Face.IrisLeft = Clamp(result.Face.IrisLeft);
+            result.Face.IrisRight = Clamp(result.Face.IrisRight);
+            result.Hair.Base = Clamp(result.Hair.Base);
+            result.Hair.Tip = Clamp(result.Hair.Tip);
+            result.Hair.Highlight = Clamp(result.Hair.Highlight);
+            result.Hair.Gradient = Clamp01(result.Hair.Gradient);
 
             // Hair: unknown pieces go; without a back piece, the fresh hairstyle (in their own colours).
             int before = result.Hair.PieceIds.Count;
@@ -141,7 +147,7 @@ namespace Game.Characters.Generation
             return fallback;
         }
 
-        static HsvColor Clamp(HsvColor c) => new HsvColor(c.H - (float)Math.Floor(c.H), Clamp01(c.S), Clamp01(c.V));
+        static HsvColor Clamp(HsvColor c) => new HsvColor(float.IsNaN(c.H) ? 0f : c.H - (float)Math.Floor(c.H), Clamp01(c.S), Clamp01(c.V));
         static float Clamp(float value, float min, float max) => float.IsNaN(value) ? (min + max) / 2f : value < min ? min : value > max ? max : value;
         static float Clamp01(float value) => Clamp(value, 0f, 1f);
     }
