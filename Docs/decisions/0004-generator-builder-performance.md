@@ -25,13 +25,14 @@
    - Details meant to lie on top (the scarf's hanging end) are deep enough that their front clears an outer layer while their back still meets a plain top. Review found the scarf poking through coats before that.
    - Legwear (tights, thigh-highs) sits right on the skin, under every bottom and boot, and requires a `bare_legs` piece (skirts, dresses, shorts) so it's never hidden under trousers. Changing into trousers in the wardrobe takes tights off rather than refusing the change.
    - A context can allow only certain tags (`onlyTags`): the "Workout" context is sporty pieces only, and residents wear it at the gym. The catalog check makes sure every required slot has a piece it allows.
-5. **Coherence rules are found by review, then enforced by tests.** The 96-character quality sheet showed that clothing near the skin colour reads as bare skin. Torso and leg clothing now keeps a minimum distance from the skin. The rule is solved jointly with top/bottom contrast and covered by a 3,000-character sweep.
-6. **The builder is idempotent:**
+5. **The population is measured, not only looked at.** `GeneratorStats` runs a batch and reports the distributions the plan's Phase 2 asks for, plus how often each part is worn in each context. `Docs/review/generator-stats.md` holds the 10,000-character report, and a test fails if any part is never worn. The first report showed twin tails at 3.8% of characters and hats at about 5% (they need hair that takes one): worth a look when real hair content arrives.
+6. **Coherence rules are found by review, then enforced by tests.** The 96-character quality sheet showed that clothing near the skin colour reads as bare skin. Torso and leg clothing now keeps a minimum distance from the skin. The rule is solved jointly with top/bottom contrast and covered by a 3,000-character sweep.
+7. **The builder is idempotent:**
    - It captures a rest pose once and resets bound bones before applying sliders and styles.
    - It reconciles equipped parts with the DNA's outfit for a context.
    - The creator re-applies after every edit, at about 0.07 ms per edit.
-7. **The creator talks only to `CreatorSession`** (pure C#: undo/redo, locks, rules). The UI Toolkit view is built from the catalog, so new sliders, parts and presets need no UI work.
-8. **Far characters drop detail** (`CharacterLod`): first the outline pass, then spring bones, then shadows, with hysteresis.
+8. **The creator talks only to `CreatorSession`** (pure C#: undo/redo, locks, rules). The UI Toolkit view is built from the catalog, so new sliders, parts and presets need no UI work.
+9. **Far characters drop detail** (`CharacterLod`): first the outline pass, then spring bones, then shadows, with hysteresis.
 
 ## Measurements
 

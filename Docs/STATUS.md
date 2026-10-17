@@ -33,8 +33,9 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 | Invitations | Close friends and partners message the player to meet later today, where their plans already take them; turning up starts a date, standing them up costs | `Sim/Core/Sandbox/Invitations.cs` |
 | Expressions | Seven facial expressions plus blinking on the face bones, plus idle breathing, sway, gaze and a procedural walk cycle (people walk in and out of town scenes as time passes). Both layer over the builder's pose; residents react and nod at each interaction | `Characters/Runtime/Expressions`, `Docs/review/expressions.png` |
 | Stand-in content | Procedural body with simple face, 37 parts (12 hair, 25 clothing and accessories, including neckwear, outer layers and legwear), 9 face presets, 7 eye and 5 brow styles, 8 patterns, toon materials. **Placeholder art until Phase 1.** | `Characters/Editor/StandIns`, `Content/StandIn` |
+| Generator statistics | 10,000 characters measured as a population: style shares against catalog weights, presentation and skin-tone spread, fantasy hair and eyes, how often each part is worn in each context, patterns, rule violations (0) and time per character (about 0.3 ms). A test fails if any part goes unworn | `Generation/GeneratorStats.cs`, `Docs/review/generator-stats.md` |
 | Performance | Town benchmark; distance-based detail (`CharacterLod`) | decision 0004, `Docs/review/perf.md` |
-| Tests | 256 Unity EditMode tests (117 characters, 139 sim); the pure C# sets also run on .NET 8 | `Characters/Tests`, `Sim/Tests` |
+| Tests | 261 Unity EditMode tests (122 characters, 139 sim); the pure C# sets also run on .NET 8 | `Characters/Tests`, `Sim/Tests` |
 
 ## Try it
 
@@ -52,7 +53,7 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
   11. **Things to do** at each place raise your stats; the card says what a resident admires.
   12. Once someone's close, they'll send **Messages** inviting you out later that day. Click one to go there. In the evenings, people dress up for the bar, and for Friday and Saturday nights out.
   - Opening `Town/Town.unity` directly works too. It uses the look you last took into town, or a generated one.
-- **Review sheets:** the **Game → Characters → Review** menu has the generated lineup, the 96-character quality sheet, the skin ramp, the spring filmstrip, the town benchmark, the part sheet (every part on one model, front and back), the expression sheet and the family sheet (six families of three). **Game → Town → Render Makeover Sheet** shows residents before and after their makeovers. **Game → Town → Build Town Scene** rebuilds the town scene.
+- **Review sheets:** the **Game → Characters → Review** menu has the generated lineup, the 96-character quality sheet, the skin ramp, the spring filmstrip, the town benchmark, the part sheet (every part on one model, front and back), the expression sheet, the family sheet (six families of three) and the generator statistics. **Game → Town → Render Makeover Sheet** shows residents before and after their makeovers. **Game → Town → Build Town Scene** rebuilds the town scene.
 - **Regenerate stand-ins:** **Game → Characters → Content → Regenerate All Stand-in Content**.
 - **Tests:** Window → General → Test Runner → EditMode, or headless:
   `unity test . --editor-version 6000.6.6f1 --mode EditMode`
