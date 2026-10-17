@@ -260,6 +260,18 @@ namespace Game.Creator
                 string id = slider.Id;
                 AddSlider("face." + id, slider.Name ?? ContentCatalog.Humanize(id), slider.Min, slider.Max, () => _session.FaceSlider(id), v => _session.SetFaceSlider(id, v));
             }
+
+            // Marks and makeup: freckles, a beauty mark, blush and lipstick.
+            foreach ((string slot, string label) in new[] { (Slots.FaceFreckles, "Freckles"), (Slots.FaceMole, "Beauty mark"), (Slots.FaceBlush, "Blush") })
+            {
+                var choices = new List<(string Id, string Name)> { (null, "None") };
+                choices.AddRange(_catalog.PartsInSlot(slot).Select(p => (p.Id, p.Name ?? ContentCatalog.Humanize(p.Id))));
+                AddDropdown("mark-" + slot, label, choices, () => _session.Mark(slot), id => _session.SetMark(slot, id));
+            }
+            List<HsvColor> lips = Palettes(Makeup.LipPalette, "makeup.lips.dark");
+            AddDropdown("lipstick", "Lipstick", new List<(string Id, string Name)> { (null, "None"), ("on", "Wearing it") },
+                () => _session.Lipstick.HasValue ? "on" : null, on => _session.SetLipstick(on == null ? (HsvColor?)null : _session.Lipstick ?? lips[0]));
+            AddSwatches("Lipstick colour", lips, () => _session.Lipstick ?? default, c => _session.SetLipstick(c), compact: true);
             AddReroll(DnaCategories.Face, "Reroll face");
         }
 

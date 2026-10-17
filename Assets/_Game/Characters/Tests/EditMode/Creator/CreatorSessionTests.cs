@@ -229,5 +229,28 @@ namespace Game.Characters.Tests.Creator
                 Assert.That(hits, Is.GreaterThanOrEqualTo(24), $"Only {hits} of 40 {archetype.Id} outfits read as {archetype.Id}.");
             }
         }
+
+        [Test]
+        public void FaceMarksAndLipstick_GoOnAndOff_AndUndo()
+        {
+            _session.SetMark(Slots.FaceFreckles, null);
+            _session.SetLipstick(null);
+            int before = _session.Dna.Face.Makeup.Count;
+            _session.SetMark(Slots.FaceFreckles, "face.mark.freckles_01");
+            _session.SetMark(Slots.FaceMole, "face.mark.mole_01");
+            _session.SetMark(Slots.FaceMole, "face.mark.mole_02");
+            _session.SetLipstick(new HsvColor(0.97f, 0.7f, 0.65f));
+            Assert.That(_session.Mark(Slots.FaceFreckles), Is.EqualTo("face.mark.freckles_01"));
+            Assert.That(_session.Mark(Slots.FaceMole), Is.EqualTo("face.mark.mole_02"), "One beauty mark at a time.");
+            Assert.That(_session.Lipstick, Is.Not.Null);
+            Assert.That(_session.Dna.Face.Makeup.Count, Is.EqualTo(before + 3));
+            Assert.That(DnaValidator.Validate(_catalog, _session.Dna), Is.Empty);
+            Assert.Throws<System.ArgumentException>(() => _session.SetMark(Slots.FaceMole, "face.mark.freckles_01"));
+
+            _session.Undo();
+            Assert.That(_session.Lipstick, Is.Null);
+            _session.SetMark(Slots.FaceFreckles, null);
+            Assert.That(_session.Mark(Slots.FaceFreckles), Is.Null);
+        }
     }
 }

@@ -220,6 +220,37 @@ namespace Game.Characters.Creator
             return dna;
         });
 
+        /// <summary>The face mark worn in a "face." slot (freckles, a beauty mark, blush), or null.</summary>
+        public string Mark(string slot) => Dna.Face.Makeup.FirstOrDefault(m => Makeup.SlotOf(_catalog, m.OverlayId) == slot)?.OverlayId;
+
+        /// <summary>Puts on the face mark <paramref name="id"/> in <paramref name="slot"/>, or takes it off (null).</summary>
+        public void SetMark(string slot, string id)
+        {
+            PartEntry part = id == null ? null : _catalog.Part(id);
+            if (id != null && part?.Slot != slot) throw new ArgumentException($"'{id}' isn't a mark for '{slot}'.");
+            Commit(dna =>
+            {
+                OverlayDna old = dna.Face.Makeup.FirstOrDefault(m => Makeup.SlotOf(_catalog, m.OverlayId) == slot);
+                dna.Face.Makeup.RemoveAll(m => Makeup.SlotOf(_catalog, m.OverlayId) == slot);
+                if (part == null) return dna;
+                HsvColor tint = old?.Tint ?? default;
+                ColourPalette blush = _catalog.Palette(Makeup.BlushPalette);
+                if (slot == Slots.FaceBlush && old == null && blush != null) tint = HsvColor.FromHex(blush.Colours[0].Hex);
+                dna.Face.Makeup.Add(new OverlayDna { OverlayId = id, Tint = tint, Opacity = 1f });
+                return dna;
+            });
+        }
+
+        /// <summary>The lipstick colour, or null without lipstick.</summary>
+        public HsvColor? Lipstick => Dna.Face.Makeup.FirstOrDefault(m => m.OverlayId == Makeup.Lipstick)?.Tint;
+
+        public void SetLipstick(HsvColor? colour) => Commit(dna =>
+        {
+            dna.Face.Makeup.RemoveAll(m => m.OverlayId == Makeup.Lipstick);
+            if (colour.HasValue) dna.Face.Makeup.Add(new OverlayDna { OverlayId = Makeup.Lipstick, Tint = colour.Value.Normalized(), Opacity = 1f });
+            return dna;
+        });
+
         public void SetSkin(float tone, float undertone) => Commit(dna =>
         {
             dna.Skin.Tone = Clamp(tone, 0f, 1f);

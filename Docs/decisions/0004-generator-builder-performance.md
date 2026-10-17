@@ -36,6 +36,7 @@
    - The creator re-applies after every edit, at about 0.07 ms per edit.
 10. **The creator talks only to `CreatorSession`** (pure C#: undo/redo, locks, rules). The UI Toolkit view is built from the catalog, so new sliders, parts and presets need no UI work.
 11. **Far characters drop detail** (`CharacterLod`): first the outline pass, then spring bones, then shadows, with hysteresis.
+12. **Face marks are parts, lipstick is a colour.** Freckles, beauty marks and blush are small parts in `face.` slots that the builder equips whatever the outfit, from the face DNA's makeup list; lipstick recolours the lips. That needed no change to the body mesh or a fifth face colour, and costs one small renderer per mark (about 0.35 per character). Marks are drawn on their own seed streams, so nobody's other features changed. About 14% of characters have freckles, 11% a beauty mark, 10% blush and 16% lipstick, led by their style.
 
 ## Measurements
 

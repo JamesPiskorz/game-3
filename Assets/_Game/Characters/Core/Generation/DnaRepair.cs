@@ -68,6 +68,22 @@ namespace Game.Characters.Generation
             result.Skin.Undertone = Clamp01(result.Skin.Undertone);
             result.Face.IrisLeft = Clamp(result.Face.IrisLeft);
             result.Face.IrisRight = Clamp(result.Face.IrisRight);
+
+            // Face marks and makeup: unknown ones go, and so does a second one for the same slot.
+            var markSlots = new HashSet<string>();
+            var marks = new List<OverlayDna>();
+            foreach (OverlayDna overlay in result.Face.Makeup ?? new List<OverlayDna>())
+            {
+                string slot = Makeup.SlotOf(catalog, overlay?.OverlayId);
+                if (slot == null || !markSlots.Add(slot))
+                {
+                    fixes.Add($"face mark '{overlay?.OverlayId}' removed");
+                    continue;
+                }
+                overlay.Tint = Clamp(overlay.Tint);
+                marks.Add(overlay);
+            }
+            result.Face.Makeup = marks;
             result.Hair.Base = Clamp(result.Hair.Base);
             result.Hair.Tip = Clamp(result.Hair.Tip);
             result.Hair.Highlight = Clamp(result.Hair.Highlight);

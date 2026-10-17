@@ -1,8 +1,8 @@
 # Generator statistics
 
-_2026-10-18 04:09 · AMD Ryzen 7 5700X 8-Core Processor · Unity 6000.6.6f1 (editor). Regenerate with **Game → Characters → Review → Write Generator Statistics**._
+_2026-10-18 04:46 · AMD Ryzen 7 5700X 8-Core Processor · Unity 6000.6.6f1 (editor). Regenerate with **Game → Characters → Review → Write Generator Statistics**._
 
-10,000 characters, 0.366 ms each to generate. Rule violations: **0**.
+10,000 characters, 0.376 ms each to generate. Rule violations: **0**.
 
 ## Styles
 
@@ -25,7 +25,7 @@ Share of characters in each tenth of the range (0 = most masculine / lightest).
 | Femininity | 12.2% | 20.4% | 10.8% | 3.6% | 2.4% | 2.7% | 3.5% | 11.2% | 20.8% | 12.5% |
 | Skin tone | 10.0% | 10.1% | 9.4% | 10.6% | 10.2% | 10.2% | 10.1% | 9.8% | 9.7% | 9.8% |
 
-Fantasy hair 13.7%, gradient tips 16.0%, fantasy eyes 6.3%, heterochromia 2.1%.
+Fantasy hair 13.7%, gradient tips 16.0%, fantasy eyes 6.3%, heterochromia 2.1%, lipstick 15.5%.
 
 ## Parts
 
@@ -41,6 +41,10 @@ How many characters wear each part, per outfit context (hair: per character). **
 | cloth.bottom.skirt_01 | bottom |  | 9.0% | 15.6% | 10.8% | never | 18.4% |
 | acc.earrings.hoops_01 | earrings |  | 12.0% | 12.0% | 12.0% | 12.0% | 12.0% |
 | acc.earrings.studs_01 | earrings |  | 14.3% | 14.3% | 14.3% | 14.3% | 14.3% |
+| face.makeup.blush_01 | face.blush | 10.4% |  |  |  |  |  |
+| face.mark.freckles_01 | face.freckles | 14.3% |  |  |  |  |  |
+| face.mark.mole_01 | face.mole | 5.9% |  |  |  |  |  |
+| face.mark.mole_02 | face.mole | 5.5% |  |  |  |  |  |
 | acc.glasses.round_01 | glasses |  | 14.6% | 14.6% | 14.6% | 14.6% | 14.6% |
 | hair.back.bob_01 | hair.back | 11.7% |  |  |  |  |  |
 | hair.back.braid_01 | hair.back | 12.2% |  |  |  |  |  |

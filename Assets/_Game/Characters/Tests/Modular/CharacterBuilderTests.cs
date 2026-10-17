@@ -62,6 +62,28 @@ namespace Game.Characters.Tests.Modular
         }
 
         [Test]
+        public void FaceMarks_StayOnWhateverTheOutfit_AndLipstickColoursTheLips()
+        {
+            CharacterDna dna = _generator.Generate(4);
+            dna.Face.Makeup = new List<OverlayDna>
+            {
+                new OverlayDna { OverlayId = "face.mark.freckles_01" },
+                new OverlayDna { OverlayId = Makeup.Lipstick, Tint = new HsvColor(0.98f, 0.8f, 0.7f) },
+            };
+            ModularCharacter character = Build(dna, "casual");
+            Assert.That(Worn(character), Does.Contain("face.mark.freckles_01"));
+            _builder.Apply(character, dna, "date");
+            Assert.That(Worn(character), Does.Contain("face.mark.freckles_01"), "Freckles aren't part of an outfit.");
+            Color lips = character.BodyMaterial.GetColor("_Color4");
+            Color expected = CharacterBuilder.ToColour(new HsvColor(0.98f, 0.8f, 0.7f));
+            Assert.That(Vector4.Distance(lips, expected), Is.LessThan(0.02f), "Lipstick is the lips' colour.");
+
+            dna.Face.Makeup.Clear();
+            _builder.Apply(character, dna, "date");
+            Assert.That(Worn(character), Has.None.StartsWith("face."));
+        }
+
+        [Test]
         public void Apply_ChangesOutfitWithTheContext()
         {
             CharacterDna dna = _generator.Generate(7);
@@ -269,7 +291,8 @@ namespace Game.Characters.Tests.Modular
             character.EquippedSlots.Select(slot => character.GetPart(slot).name);
 
         static IEnumerable<string> Expected(CharacterDna dna, string context) =>
-            dna.Hair.PieceIds.Concat(dna.Outfits.First(o => o.Context == context).Items.Select(i => i.ItemId));
+            dna.Hair.PieceIds.Concat(dna.Outfits.First(o => o.Context == context).Items.Select(i => i.ItemId))
+                .Concat(dna.Face.Makeup.Select(m => m.OverlayId).Where(id => id != Makeup.Lipstick));
 
         static List<(Vector3, Quaternion, Vector3)> Pose(ModularCharacter character) =>
             character.GetComponentsInChildren<Transform>().Select(t => (t.localPosition, t.localRotation, t.localScale)).ToList();

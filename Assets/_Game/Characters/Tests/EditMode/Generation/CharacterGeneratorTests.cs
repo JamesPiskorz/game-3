@@ -124,7 +124,7 @@ namespace Game.Characters.Tests.Generation
                 faces.Add(dna.Face.PresetId);
                 faces.Add(dna.Face.EyeStyleId);
                 faces.Add(dna.Face.BrowStyleId);
-                foreach (string id in dna.Hair.PieceIds) parts[id] = parts.TryGetValue(id, out int n) ? n + 1 : 1;
+                foreach (string id in dna.Hair.PieceIds.Concat(dna.Face.Makeup.Select(m => m.OverlayId))) parts[id] = parts.TryGetValue(id, out int n) ? n + 1 : 1;
                 foreach (OutfitDna outfit in dna.Outfits)
                 {
                     outfits++;
@@ -139,7 +139,7 @@ namespace Game.Characters.Tests.Generation
             foreach (PartEntry part in _catalog.Parts)
             {
                 Assert.That(parts.ContainsKey(part.Id), $"'{part.Id}' never appears.");
-                if (!part.Slot.StartsWith("hair.") && part.Slot != Slots.Glasses && part.Slot != Slots.Hat && part.Slot != Slots.Neck)
+                if (!part.Slot.StartsWith("hair.") && !Makeup.IsMark(part.Slot) && part.Slot != Slots.Glasses && part.Slot != Slots.Hat && part.Slot != Slots.Neck)
                     Assert.That(parts[part.Id], Is.GreaterThan(outfits / 200), $"'{part.Id}' is in under 0.5% of outfits.");
             }
             Assert.That(faces, Is.SupersetOf(_catalog.FacePresets.Select(p => p.Id)));

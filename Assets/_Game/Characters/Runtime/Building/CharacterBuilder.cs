@@ -58,7 +58,8 @@ namespace Game.Characters.Building
         void EquipParts(ModularCharacter character, CharacterDna dna, OutfitDna outfit)
         {
             var wanted = new Dictionary<string, string>(); // slot → part id
-            IEnumerable<string> ids = dna.Hair.PieceIds.Concat(outfit?.Items.Select(i => i.ItemId) ?? Enumerable.Empty<string>());
+            IEnumerable<string> ids = dna.Hair.PieceIds.Concat(outfit?.Items.Select(i => i.ItemId) ?? Enumerable.Empty<string>())
+                .Concat(Marks(dna).Select(m => m.Mark.OverlayId)); // freckles and the like, whatever the outfit
             foreach (string id in ids)
             {
                 PartEntry entry = _catalog.Part(id);
@@ -182,7 +183,35 @@ namespace Game.Characters.Building
             ToonMaterial.SetRegionColour(body, 0, ToColour(dna.Face.IrisLeft));
             ToonMaterial.SetRegionColour(body, 1, ToColour(dna.Hair.BrowOverride ?? BrowFromHair(dna.Hair.Base)));
             ToonMaterial.SetRegionColour(body, 2, new Color(0.97f, 0.96f, 0.95f));
-            ToonMaterial.SetRegionColour(body, 3, LipsFromSkin(skin.Shade));
+            OverlayDna lipstick = dna.Face.Makeup?.FirstOrDefault(m => m.OverlayId == Makeup.Lipstick);
+            ToonMaterial.SetRegionColour(body, 3, lipstick != null ? ToColour(lipstick.Tint) : LipsFromSkin(skin.Shade));
+
+            // Freckles and beauty marks take a deeper shade of the skin; blush has a colour of its own.
+            foreach ((OverlayDna mark, PartEntry part) in Marks(dna))
+            {
+                Color colour = part.Slot == Slots.FaceBlush
+                    ? Color.Lerp(skin.Base, ToColour(mark.Tint), 0.7f) // blush sits in the skin, so it's deeper on deeper skin
+                    : MarkFromSkin(skin.Shade, part.Slot == Slots.FaceMole ? 0.4f : 0.74f);
+                foreach (Material material in character.PartMaterials(part.Slot))
+                    ToonMaterial.SetRegionColour(material, 0, colour);
+            }
+        }
+
+        /// <summary>The DNA's face marks that are parts (freckles, beauty marks, blush), with their catalog entries.</summary>
+        IEnumerable<(OverlayDna Mark, PartEntry Part)> Marks(CharacterDna dna)
+        {
+            if (dna.Face.Makeup == null) yield break;
+            foreach (OverlayDna mark in dna.Face.Makeup)
+            {
+                PartEntry part = mark?.OverlayId == null ? null : _catalog.Part(mark.OverlayId);
+                if (part != null && Makeup.IsMark(part.Slot)) yield return (mark, part);
+            }
+        }
+
+        static Color MarkFromSkin(Color shade, float depth)
+        {
+            Color.RGBToHSV(shade, out float h, out float s, out float v);
+            return Color.HSVToRGB(Mathf.Repeat(h - 0.01f, 1f), Mathf.Clamp01(s + 0.18f), v * depth);
         }
 
         void ApplyPartColours(ModularCharacter character, CharacterDna dna, OutfitDna outfit)

@@ -46,6 +46,15 @@ namespace Game.Characters.StandIns
         static readonly Vector3 HeadCentre = StandInSkeleton.HeadCentre;
         const float HeadR = StandInSkeleton.HeadRadius;
 
+        /// <summary>A point on the face (x and height) on the head sphere, sunk <paramref name="depth"/> along its normal.</summary>
+        static Vector3 OnSkin(float x, float y, float depth)
+        {
+            float dy = y - HeadCentre.y;
+            float z = Mathf.Sqrt(Mathf.Max(0f, HeadR * HeadR - x * x - dy * dy));
+            Vector3 normal = new Vector3(x, dy, z) / HeadR;
+            return HeadCentre + normal * (HeadR - depth);
+        }
+
         static readonly StandInBone[] Ponytail = StandInSkeleton.Chain("Hair.Ponytail", "Head", new Vector3(0f, 1.69f, -0.112f), new Vector3(0f, 1.36f, -0.2f), 3);
         static readonly StandInBone[] TwinL = StandInSkeleton.Chain("Hair.TwinTail.L", "Head", new Vector3(-0.112f, 1.69f, -0.03f), new Vector3(-0.17f, 1.36f, -0.07f), 3);
         static readonly StandInBone[] SideTail = StandInSkeleton.Chain("Hair.SideTail", "Head", new Vector3(0.105f, 1.67f, -0.06f), new Vector3(0.17f, 1.34f, -0.05f), 3);
@@ -602,6 +611,45 @@ namespace Game.Characters.StandIns
                 },
             };
 
+            // ---------------- face marks: dots and patches on the skin, each just proud of the head sphere along its normal
+            yield return new Recipe
+            {
+                Id = "face.mark.freckles_01", Slot = "face.freckles", Material = "Mark", FollowsBodyShapes = false, Small = true,
+                Build = m =>
+                {
+                    // A scatter across both cheeks under the eyes, a little uneven so it doesn't look stamped.
+                    var dots = new (float x, float y)[]
+                    {
+                        (-0.028f, 1.619f), (-0.038f, 1.614f), (-0.049f, 1.619f), (-0.033f, 1.606f), (-0.045f, 1.607f), (-0.058f, 1.612f), (-0.021f, 1.610f),
+                        (0.029f, 1.618f), (0.040f, 1.613f), (0.050f, 1.620f), (0.034f, 1.607f), (0.047f, 1.605f), (0.057f, 1.613f), (0.020f, 1.611f),
+                    };
+                    using IDisposable coarse = m.Coarse(latitudes: 5, longitudes: 8);
+                    foreach ((float x, float y) in dots)
+                        m.AddEllipsoid(OnSkin(x, y, 0.0009f), Vector3.one * 0.0023f, None, false, "Head", Region1);
+                },
+            };
+            foreach ((string id, float x, float y) in new[] { ("face.mark.mole_01", -0.06f, 1.624f), ("face.mark.mole_02", 0.024f, 1.582f) })
+                yield return new Recipe
+                {
+                    Id = id, Slot = "face.mole", Material = "Mark", FollowsBodyShapes = false, Small = true,
+                    Build = m =>
+                    {
+                        using IDisposable coarse = m.Coarse(latitudes: 5, longitudes: 8);
+                        m.AddEllipsoid(OnSkin(x, y, 0.001f), Vector3.one * 0.0027f, None, false, "Head", Region1);
+                    },
+                };
+            yield return new Recipe
+            {
+                Id = "face.makeup.blush_01", Slot = "face.blush", Material = "Mark", FollowsBodyShapes = false, Small = true,
+                Build = m =>
+                {
+                    // A soft oval on each cheek, under where the shy hatching appears (which shows on top of it).
+                    using IDisposable coarse = m.Coarse(latitudes: 8, longitudes: 14);
+                    foreach (float x in new[] { -0.054f, 0.054f })
+                        m.AddEllipsoid(OnSkin(x, 1.611f, 0.0047f), new Vector3(0.0185f, 0.0105f, 0.006f), None, false, "Head", Region1);
+                },
+            };
+
             // ---------------- neckwear: details in front of the chest take its shape response (like the blazer's lapels)
             yield return new Recipe
             {
@@ -687,6 +735,8 @@ namespace Game.Characters.StandIns
                 ["Cloth"] = SaveMaterial("StandIn_Cloth", CullMode.Off, Color.white, new Color(0.7f, 0.66f, 0.74f), outline: 1.4f),
                 ["Hair"] = SaveMaterial("StandIn_Hair", CullMode.Off, Color.white, new Color(0.7f, 0.66f, 0.74f), outline: 1.2f),
                 ["Accessory"] = SaveMaterial("StandIn_Accessory", CullMode.Back, Color.white, new Color(0.7f, 0.66f, 0.74f), outline: 0.8f),
+                // Marks on the skin (freckles, blush) have no outline: a ring around every freckle would read as dirt.
+                ["Mark"] = SaveMaterial("StandIn_Mark", CullMode.Back, Color.white, new Color(0.85f, 0.8f, 0.82f), outline: 0f),
             };
 
             var body = new StandInMesh(StandInSkeleton.Bones);

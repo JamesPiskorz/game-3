@@ -21,7 +21,7 @@ namespace Game.Creator
         // Each step presses a button by name, as a player would, then screenshots the result.
         static readonly (string Button, string Shot)[] Steps =
         {
-            ("tab-body", "body"), ("tab-face", "face"), ("tab-skin", "skin"), ("tab-hair", "hair"), ("tab-outfit", "outfit"),
+            ("tab-body", "body"), ("tab-face", "face"), ("scroll:tab-content", "face-marks"), ("tab-skin", "skin"), ("tab-hair", "hair"), ("tab-outfit", "outfit"),
             ("randomize", "randomized"), ("context-date", "date"),
         };
 
@@ -84,11 +84,20 @@ namespace Game.Creator
                 return;
             }
 
-            Button button = screen.Document.rootVisualElement.Q<Button>(Steps[_tab].Button);
-            using (NavigationSubmitEvent submit = NavigationSubmitEvent.GetPooled())
+            string step = Steps[_tab].Button;
+            if (step.StartsWith("scroll:")) // scroll a panel to its end, to show what's below the fold
             {
-                submit.target = button;
-                button.SendEvent(submit);
+                Scroller scroller = screen.Document.rootVisualElement.Q<ScrollView>(step.Substring("scroll:".Length)).verticalScroller;
+                scroller.value = scroller.highValue;
+            }
+            else
+            {
+                Button button = screen.Document.rootVisualElement.Q<Button>(step);
+                using (NavigationSubmitEvent submit = NavigationSubmitEvent.GetPooled())
+                {
+                    submit.target = button;
+                    button.SendEvent(submit);
+                }
             }
             screen.SnapCamera();
             _tab++;

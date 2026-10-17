@@ -97,6 +97,10 @@
     { "id": "acc.earrings.studs_01", "name": "Studs", "slot": "earrings", "tags": ["elegant", "cute", "bookish", "casual", "gothic"], "regions": 1 },
     { "id": "acc.earrings.hoops_01", "name": "Hoops", "slot": "earrings", "tags": ["street", "elegant", "gothic", "cute"], "regions": 1, "lean": 0.3 },
     { "id": "acc.bag.crossbody_01", "name": "Crossbody bag", "slot": "bag", "tags": ["casual", "street", "bookish", "cute", "elegant"], "regions": 2, "contexts": ["casual", "date", "rain", "work"] },
+    { "id": "face.mark.freckles_01", "name": "Freckles", "slot": "face.freckles", "tags": ["casual", "sporty", "cute", "bookish"], "regions": 1 },
+    { "id": "face.mark.mole_01", "name": "Beauty mark by the eye", "slot": "face.mole", "tags": ["elegant", "gothic", "casual"], "regions": 1 },
+    { "id": "face.mark.mole_02", "name": "Beauty mark by the lips", "slot": "face.mole", "tags": ["elegant", "gothic", "street"], "regions": 1 },
+    { "id": "face.makeup.blush_01", "name": "Blush", "slot": "face.blush", "tags": ["cute", "elegant", "casual"], "regions": 1 },
     { "id": "acc.hair.ribbon_01", "name": "Ribbon", "slot": "headpiece", "tags": ["cute", "gothic", "elegant"], "regions": 2, "lean": 0.6, "excludesTags": ["hat"] },
     { "id": "acc.hair.headband_01", "name": "Headband", "slot": "headpiece", "tags": ["elegant", "cute", "sporty", "bookish"], "regions": 1, "lean": 0.3, "excludesTags": ["hat"] },
     { "id": "acc.hair.clip_01", "name": "Hair clip", "slot": "headpiece", "tags": ["casual", "street", "cute", "bookish"], "regions": 1, "lean": 0.2, "excludesTags": ["hat"] },
@@ -128,6 +132,9 @@
     { "id": "hair.fantasy", "colours": [
       { "hex": "#F29BB8" }, { "hex": "#B79BE0" }, { "hex": "#5F8FD9" }, { "hex": "#7FD6B9" },
       { "hex": "#D8DCE6" }, { "hex": "#C8323C" }, { "hex": "#2F9CA0" }, { "hex": "#7A4FB0" } ] },
+    { "id": "makeup.lips", "colours": [{"hex": "#C24A64", "weight": 2}, {"hex": "#B11E2F", "weight": 1.5}, {"hex": "#DD6650", "weight": 1}, {"hex": "#8C2648", "weight": 1}, {"hex": "#B5726A", "weight": 1.5}, {"hex": "#E07A9A", "weight": 1.5}] },
+    { "id": "makeup.lips.dark", "colours": [{"hex": "#4E1E3C", "weight": 2}, {"hex": "#231A22", "weight": 1.5}, {"hex": "#6E1B3A", "weight": 1.5}, {"hex": "#8C1C2C", "weight": 1}] },
+    { "id": "makeup.blush", "colours": [{"hex": "#F29AAE", "weight": 2}, {"hex": "#F4AC94", "weight": 1}, {"hex": "#EE8AA6", "weight": 1}] },
     { "id": "eyes.natural", "colours": [
       { "hex": "#3B2418", "weight": 4 }, { "hex": "#5A3820", "weight": 3 }, { "hex": "#7A5A2E", "weight": 1.5 },
       { "hex": "#B07A30", "weight": 0.8 }, { "hex": "#4E7A4A", "weight": 1 }, { "hex": "#3E6E9E", "weight": 1.2 },
@@ -168,19 +175,19 @@
 
   "archetypes": [
     { "id": "casual", "name": "Casual", "weight": 1.4, "outfitPalette": "outfit.casual", "tagWeights": { "casual": 3, "street": 0.6, "sporty": 0.6, "bookish": 0.4 },
-      "patternChance": 0.2, "fantasyHairChance": 0.08, "gradientChance": 0.1, "glassesChance": 0.12, "neckChance": 0.1, "outerChance": 0.12, "legwearChance": 0.1, "earringChance": 0.15, "bagChance": 0.15, "hairAccessoryChance": 0.1, "hatChance": 0.12, "noBangsChance": 0.3 },
+      "patternChance": 0.2, "fantasyHairChance": 0.08, "gradientChance": 0.1, "glassesChance": 0.12, "neckChance": 0.1, "outerChance": 0.12, "legwearChance": 0.1, "earringChance": 0.15, "bagChance": 0.15, "hairAccessoryChance": 0.1, "faceChances": { "face.freckles": 0.15, "face.mole": 0.08, "face.blush": 0.12, "makeup.lipstick": 0.15 }, "hatChance": 0.12, "noBangsChance": 0.3 },
     { "id": "sporty", "name": "Sporty", "weight": 1.0, "outfitPalette": "outfit.sporty", "tagWeights": { "sporty": 3, "casual": 0.8, "street": 0.5 },
-      "patternChance": 0.15, "fantasyHairChance": 0.08, "gradientChance": 0.1, "glassesChance": 0.04, "neckChance": 0.04, "outerChance": 0.1, "legwearChance": 0.04, "earringChance": 0.08, "bagChance": 0.05, "hairAccessoryChance": 0.08, "hatChance": 0.15, "noBangsChance": 0.4 },
+      "patternChance": 0.15, "fantasyHairChance": 0.08, "gradientChance": 0.1, "glassesChance": 0.04, "neckChance": 0.04, "outerChance": 0.1, "legwearChance": 0.04, "earringChance": 0.08, "bagChance": 0.05, "hairAccessoryChance": 0.08, "faceChances": { "face.freckles": 0.22, "face.mole": 0.05, "face.blush": 0.08, "makeup.lipstick": 0.05 }, "hatChance": 0.15, "noBangsChance": 0.4 },
     { "id": "cute", "name": "Cute", "weight": 1.0, "outfitPalette": "outfit.cute", "tagWeights": { "cute": 3, "casual": 0.6, "date": 0.4 },
-      "patternChance": 0.35, "fantasyHairChance": 0.3, "fantasyEyeChance": 0.08, "gradientChance": 0.3, "glassesChance": 0.08, "neckChance": 0.22, "outerChance": 0.06, "legwearChance": 0.4, "earringChance": 0.3, "bagChance": 0.2, "hairAccessoryChance": 0.4, "hatChance": 0.08, "noBangsChance": 0.15 },
+      "patternChance": 0.35, "fantasyHairChance": 0.3, "fantasyEyeChance": 0.08, "gradientChance": 0.3, "glassesChance": 0.08, "neckChance": 0.22, "outerChance": 0.06, "legwearChance": 0.4, "earringChance": 0.3, "bagChance": 0.2, "hairAccessoryChance": 0.4, "faceChances": { "face.freckles": 0.22, "face.mole": 0.05, "face.blush": 0.45, "makeup.lipstick": 0.3 }, "hatChance": 0.08, "noBangsChance": 0.15 },
     { "id": "gothic", "name": "Gothic", "weight": 0.7, "outfitPalette": "outfit.gothic", "tagWeights": { "gothic": 3, "elegant": 0.8 },
-      "patternChance": 0.15, "fantasyHairChance": 0.3, "fantasyEyeChance": 0.12, "gradientChance": 0.25, "glassesChance": 0.08, "neckChance": 0.32, "outerChance": 0.25, "legwearChance": 0.5, "earringChance": 0.4, "bagChance": 0.15, "hairAccessoryChance": 0.25, "hatChance": 0.05, "noBangsChance": 0.15 },
+      "patternChance": 0.15, "fantasyHairChance": 0.3, "fantasyEyeChance": 0.12, "gradientChance": 0.25, "glassesChance": 0.08, "neckChance": 0.32, "outerChance": 0.25, "legwearChance": 0.5, "earringChance": 0.4, "bagChance": 0.15, "hairAccessoryChance": 0.25, "faceChances": { "face.freckles": 0.05, "face.mole": 0.2, "face.blush": 0.05, "makeup.lipstick": 0.6 }, "lipPalette": "makeup.lips.dark", "hatChance": 0.05, "noBangsChance": 0.15 },
     { "id": "elegant", "name": "Elegant", "weight": 0.9, "outfitPalette": "outfit.elegant", "tagWeights": { "elegant": 3, "date": 0.6, "bookish": 0.4 },
-      "patternChance": 0.1, "fantasyHairChance": 0.06, "gradientChance": 0.08, "glassesChance": 0.15, "neckChance": 0.3, "outerChance": 0.12, "legwearChance": 0.3, "earringChance": 0.45, "bagChance": 0.2, "hairAccessoryChance": 0.22, "hatChance": 0.03, "noBangsChance": 0.35 },
+      "patternChance": 0.1, "fantasyHairChance": 0.06, "gradientChance": 0.08, "glassesChance": 0.15, "neckChance": 0.3, "outerChance": 0.12, "legwearChance": 0.3, "earringChance": 0.45, "bagChance": 0.2, "hairAccessoryChance": 0.22, "faceChances": { "face.freckles": 0.06, "face.mole": 0.25, "face.blush": 0.3, "makeup.lipstick": 0.55 }, "hatChance": 0.03, "noBangsChance": 0.35 },
     { "id": "street", "name": "Street", "weight": 1.0, "outfitPalette": "outfit.street", "tagWeights": { "street": 3, "sporty": 0.6, "casual": 0.6 },
-      "patternChance": 0.2, "fantasyHairChance": 0.2, "gradientChance": 0.25, "glassesChance": 0.08, "neckChance": 0.18, "outerChance": 0.3, "legwearChance": 0.18, "earringChance": 0.35, "bagChance": 0.22, "hairAccessoryChance": 0.15, "hatChance": 0.3, "noBangsChance": 0.3 },
+      "patternChance": 0.2, "fantasyHairChance": 0.2, "gradientChance": 0.25, "glassesChance": 0.08, "neckChance": 0.18, "outerChance": 0.3, "legwearChance": 0.18, "earringChance": 0.35, "bagChance": 0.22, "hairAccessoryChance": 0.15, "faceChances": { "face.freckles": 0.12, "face.mole": 0.1, "face.blush": 0.05, "makeup.lipstick": 0.25 }, "hatChance": 0.3, "noBangsChance": 0.3 },
     { "id": "bookish", "name": "Bookish", "weight": 0.8, "outfitPalette": "outfit.bookish", "tagWeights": { "bookish": 3, "elegant": 0.5, "casual": 0.5 },
-      "patternChance": 0.3, "fantasyHairChance": 0.05, "gradientChance": 0.05, "glassesChance": 0.55, "neckChance": 0.15, "outerChance": 0.18, "legwearChance": 0.22, "earringChance": 0.2, "bagChance": 0.3, "hairAccessoryChance": 0.15, "hatChance": 0.04, "noBangsChance": 0.25 }
+      "patternChance": 0.3, "fantasyHairChance": 0.05, "gradientChance": 0.05, "glassesChance": 0.55, "neckChance": 0.15, "outerChance": 0.18, "legwearChance": 0.22, "earringChance": 0.2, "bagChance": 0.3, "hairAccessoryChance": 0.15, "faceChances": { "face.freckles": 0.2, "face.mole": 0.08, "face.blush": 0.15, "makeup.lipstick": 0.12 }, "hatChance": 0.04, "noBangsChance": 0.25 }
   ],
 
   "contexts": [

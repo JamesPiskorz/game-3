@@ -100,6 +100,14 @@ MonoBehaviour:
     Prefab: {fileID: 303654082147080991, guid: c6e6275873cdda54284adc7a53f83db1, type: 3}
   - Id: acc.hair.clip_01
     Prefab: {fileID: 4246647170815998884, guid: d121770859136e24c99a371e746ac3a2, type: 3}
+  - Id: face.mark.freckles_01
+    Prefab: {fileID: 176342469222160567, guid: 0f21c69ec3d0b8f41b5ad19d68402d12, type: 3}
+  - Id: face.mark.mole_01
+    Prefab: {fileID: 1853330797608786671, guid: 0810c3d2f8e612a4cb1686dbcd4e7e59, type: 3}
+  - Id: face.mark.mole_02
+    Prefab: {fileID: 3454375213154999637, guid: 8e88e75dc11ab2444aced64a2969b588, type: 3}
+  - Id: face.makeup.blush_01
+    Prefab: {fileID: 6710823338187473974, guid: f99748fbe6536c14ca287727187ae885, type: 3}
   - Id: acc.neck.scarf_01
     Prefab: {fileID: 8500610744588557661, guid: baeac3713eacea4468a07a59e2dedf49, type: 3}
   - Id: acc.neck.necklace_01

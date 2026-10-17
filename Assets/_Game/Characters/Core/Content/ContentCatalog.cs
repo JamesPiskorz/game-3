@@ -70,7 +70,13 @@ namespace Game.Characters.Content
                 foreach (string slider in preset.Values.Keys)
                     if (FaceSliders.All(s => s.Id != slider)) errors.Add($"Face preset '{preset.Id}' sets unknown slider '{slider}'.");
             foreach (StyleArchetype archetype in Archetypes)
+            {
                 if (Palette(archetype.OutfitPalette) == null) errors.Add($"Archetype '{archetype.Id}' uses unknown palette '{archetype.OutfitPalette}'.");
+                if (archetype.LipPalette != null && Palette(archetype.LipPalette) == null) errors.Add($"Archetype '{archetype.Id}' uses unknown lip palette '{archetype.LipPalette}'.");
+                foreach (string mark in archetype.FaceChances.Keys)
+                    if (mark != Makeup.Lipstick && !PartsInSlot(mark).Any()) errors.Add($"Archetype '{archetype.Id}' has a chance for '{mark}', which has no parts.");
+            }
+            if (Archetypes.Any(a => a.FaceChances.ContainsKey(Makeup.Lipstick)) && Palette(Makeup.LipPalette) == null) errors.Add($"Lipstick needs the '{Makeup.LipPalette}' palette.");
             foreach (string palette in new[] { Hair.NaturalPalette, Hair.FantasyPalette, Eyes.NaturalPalette, Eyes.FantasyPalette, Skin.ReferencePalette })
                 if (Palette(palette) == null) errors.Add($"Unknown palette '{palette}'.");
             foreach (ColourPalette palette in Palettes)
@@ -117,7 +123,33 @@ namespace Game.Characters.Content
         public const string Bag = "bag";
         public const string HairAccessory = "headpiece"; // not "hair.…": that prefix means a hair piece
         public const string HairBack = "hair.back";
+        public const string FaceFreckles = "face.freckles";
+        public const string FaceMole = "face.mole";
+        public const string FaceBlush = "face.blush";
         public const string HairFront = "hair.front";
+    }
+
+    /// <summary>
+    /// Face marks and makeup (FaceDna.Makeup). Freckles, a beauty mark and blush are small parts in "face." slots,
+    /// worn whatever the outfit; lipstick is a colour for the lips.
+    /// </summary>
+    public static class Makeup
+    {
+        public const string Lipstick = "makeup.lipstick";
+        public const string LipPalette = "makeup.lips";
+        public const string BlushPalette = "makeup.blush";
+
+        public static readonly string[] MarkSlots = { Slots.FaceFreckles, Slots.FaceMole, Slots.FaceBlush };
+
+        public static bool IsMark(string slot) => slot != null && slot.StartsWith("face.", StringComparison.Ordinal);
+
+        /// <summary>The slot an overlay fills ("face.freckles", or "makeup.lipstick"), or null if the catalog doesn't know it.</summary>
+        public static string SlotOf(ContentCatalog catalog, string overlayId)
+        {
+            if (overlayId == Lipstick) return Lipstick;
+            string slot = overlayId == null ? null : catalog.Part(overlayId)?.Slot;
+            return IsMark(slot) ? slot : null;
+        }
     }
 
     /// <summary>How body presentation (BodyDna.Femininity) is distributed: two clusters plus an androgynous middle.</summary>
@@ -258,6 +290,12 @@ namespace Game.Characters.Content
         public float BagChance = 0.1f;
         public float HairAccessoryChance = 0.1f;
         public float HatChance = 0.1f;
+
+        /// <summary>Chances of face marks and makeup, by slot ("face.freckles", "face.mole", "face.blush") and "makeup.lipstick".</summary>
+        public Dictionary<string, float> FaceChances = new Dictionary<string, float>();
+
+        /// <summary>Where this style's lipstick colours come from (default <see cref="Makeup.LipPalette"/>).</summary>
+        public string LipPalette;
         public float NoBangsChance = 0.25f;
     }
 

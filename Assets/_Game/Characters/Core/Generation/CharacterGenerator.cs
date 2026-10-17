@@ -42,6 +42,7 @@ namespace Game.Characters.Generation
             GenerateSkin(dna, seed, request);
             GenerateHair(dna, archetype, seed, request);
             GenerateOutfits(dna, archetype, seed, request);
+            GenerateMarks(dna, archetype, seed);
             return dna;
         }
 
@@ -131,6 +132,34 @@ namespace Game.Characters.Generation
             dna.Face.IrisRight = rng.Chance(_catalog.Eyes.HeterochromiaChance)
                 ? Colours.Jitter(rng, Colours.Pick(rng, eyes.Colours), 0.01f, 0.05f, 0.05f)
                 : dna.Face.IrisLeft;
+        }
+
+        /// <summary>
+        /// Freckles, a beauty mark, blush and lipstick, each on a stream of its own so adding them changed nobody's other
+        /// features. Freckles and beauty marks are anyone's; blush and lipstick follow the style and lean feminine.
+        /// </summary>
+        void GenerateMarks(CharacterDna dna, StyleArchetype archetype, ulong seed)
+        {
+            dna.Face.Makeup = new List<OverlayDna>();
+            float makeup = 0.2f + 0.8f * dna.Body.Femininity;
+            foreach (string slot in Makeup.MarkSlots)
+            {
+                Pcg32 rng = SeedStreams.For(seed, "face.mark." + slot);
+                archetype.FaceChances.TryGetValue(slot, out float chance);
+                if (slot == Slots.FaceBlush) chance *= makeup;
+                if (!rng.Chance(chance)) continue;
+                PartEntry part = rng.PickWeighted(_catalog.PartsInSlot(slot).ToList(), p => p.Weight * Affinity.Of(archetype, p.Tags));
+                if (part == null) continue;
+                ColourPalette blush = slot == Slots.FaceBlush ? _catalog.Palette(Makeup.BlushPalette) : null;
+                HsvColor tint = blush != null ? Colours.Jitter(rng, Colours.Pick(rng, blush.Colours), 0.01f, 0.05f, 0.05f) : default;
+                dna.Face.Makeup.Add(new OverlayDna { OverlayId = part.Id, Tint = tint, Opacity = 1f });
+            }
+
+            Pcg32 lips = SeedStreams.For(seed, "face.lipstick");
+            archetype.FaceChances.TryGetValue(Makeup.Lipstick, out float lipstick);
+            ColourPalette palette = _catalog.Palette(archetype.LipPalette ?? Makeup.LipPalette) ?? _catalog.Palette(Makeup.LipPalette);
+            if (palette != null && lips.Chance(lipstick * makeup))
+                dna.Face.Makeup.Add(new OverlayDna { OverlayId = Makeup.Lipstick, Tint = Colours.Jitter(lips, Colours.Pick(lips, palette.Colours), 0.01f, 0.04f, 0.04f), Opacity = 1f });
         }
 
         void GenerateSkin(CharacterDna dna, ulong seed, GenerationRequest request)

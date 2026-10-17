@@ -39,6 +39,18 @@ namespace Game.Characters.Generation
             CheckStyle(errors, catalog.LashStyles, dna.Face.LashStyleId, "lash style");
             CheckColour(errors, dna.Face.IrisLeft, "left iris");
             CheckColour(errors, dna.Face.IrisRight, "right iris");
+            if (dna.Face.Makeup == null) errors.Add("The makeup list is missing.");
+            else
+            {
+                var marks = new HashSet<string>();
+                foreach (OverlayDna overlay in dna.Face.Makeup)
+                {
+                    string slot = Makeup.SlotOf(catalog, overlay?.OverlayId);
+                    if (slot == null) errors.Add($"Unknown face mark or makeup '{overlay?.OverlayId}'.");
+                    else if (!marks.Add(slot)) errors.Add($"Two face marks for '{slot}'.");
+                    if (overlay != null) CheckColour(errors, overlay.Tint, $"'{overlay.OverlayId}' tint");
+                }
+            }
 
             if (!InRange(dna.Skin.Tone, 0f, 1f)) errors.Add($"Skin tone {dna.Skin.Tone} is outside 0..1.");
             if (!InRange(dna.Skin.Undertone, 0f, 1f)) errors.Add($"Undertone {dna.Skin.Undertone} is outside 0..1.");

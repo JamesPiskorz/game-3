@@ -25,7 +25,7 @@ namespace Game.Characters.Generation
         public SortedDictionary<string, int> Styles = new SortedDictionary<string, int>(StringComparer.Ordinal);
         public int[] Femininity = new int[10];
         public int[] SkinTone = new int[10];
-        public int FantasyHair, FantasyEyes, Heterochromia, GradientHair;
+        public int FantasyHair, FantasyEyes, Heterochromia, GradientHair, Lipstick;
 
         /// <summary>Part ID → how many characters wear it, per outfit context (hair counts once per character).</summary>
         public SortedDictionary<string, SortedDictionary<string, int>> PartUse = new SortedDictionary<string, SortedDictionary<string, int>>(StringComparer.Ordinal);
@@ -67,7 +67,10 @@ namespace Game.Characters.Generation
                 if (dna.Hair.Gradient > 0f) stats.GradientHair++;
                 if (!Natural(naturalEyes, dna.Face.IrisLeft)) stats.FantasyEyes++;
                 if (HsvColor.Distance(dna.Face.IrisLeft, dna.Face.IrisRight) > 1e-4f) stats.Heterochromia++;
+                if (dna.Face.Makeup.Any(m => m.OverlayId == Makeup.Lipstick)) stats.Lipstick++;
                 foreach (string piece in dna.Hair.PieceIds) Use(piece, "hair");
+                foreach (OverlayDna mark in dna.Face.Makeup)
+                    if (catalog.Part(mark.OverlayId) != null) Use(mark.OverlayId, "hair"); // worn whatever the outfit, like hair
                 foreach (OutfitDna outfit in dna.Outfits)
                     foreach (ItemDna item in outfit.Items)
                     {
@@ -110,7 +113,7 @@ namespace Game.Characters.Generation
             md.AppendLine("| Femininity | " + string.Join(" | ", Femininity.Select(Pct)) + " |");
             md.AppendLine("| Skin tone | " + string.Join(" | ", SkinTone.Select(Pct)) + " |");
             md.AppendLine();
-            md.AppendLine($"Fantasy hair {Pct(FantasyHair)}, gradient tips {Pct(GradientHair)}, fantasy eyes {Pct(FantasyEyes)}, heterochromia {Pct(Heterochromia)}.");
+            md.AppendLine($"Fantasy hair {Pct(FantasyHair)}, gradient tips {Pct(GradientHair)}, fantasy eyes {Pct(FantasyEyes)}, heterochromia {Pct(Heterochromia)}, lipstick {Pct(Lipstick)}.");
             md.AppendLine();
 
             md.AppendLine("## Parts").AppendLine();
@@ -123,7 +126,7 @@ namespace Game.Characters.Generation
                 PartUse.TryGetValue(part.Id, out SortedDictionary<string, int> byContext);
                 string Cell(string context)
                 {
-                    bool hair = part.Slot.StartsWith("hair", StringComparison.Ordinal);
+                    bool hair = part.Slot.StartsWith("hair", StringComparison.Ordinal) || Makeup.IsMark(part.Slot);
                     if (hair != (context == "hair")) return "";
                     int n = byContext != null && byContext.TryGetValue(context, out int v) ? v : 0;
                     return n == 0 ? "never" : Pct(n);

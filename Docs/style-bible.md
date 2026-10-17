@@ -70,6 +70,7 @@ The body's vertex colour **R channel = region ID / 255**. Parts declare which re
 | `glasses`, `earrings` | Belong to the person: the same pair in every outfit. |
 | `neck`, `bag` | Scarves and necklaces; a crossbody bag. Per outfit. |
 | `headpiece` | Ribbons, headbands and hair clips, sitting just outside the hair. Not with a hat (hats carry a `hat` tag). Not named `hair.…`: that prefix means a hair piece. |
+| `face.freckles`, `face.mole`, `face.blush` | Marks on the skin, worn whatever the outfit (stored in the face DNA's makeup list, not in outfits): freckles across the cheeks, a beauty mark by the eye or the lips, a blush oval on each cheek. They sit just proud of the head along its normal, have no outline, and take their colour from the builder: freckles and beauty marks are a deeper shade of the skin, blush is its own colour blended 70% over the skin. |
 | `hair.back`, `hair.front` | Hair is split into crown plus length, and bangs. Every piece is offered at the salon by its `name`. |
 
 ### Layering (enforced by review, measured in metres off the body surface)
@@ -157,7 +158,7 @@ A part limited to some contexts (`contexts`) stays out of the others, in the gen
 
 ### Per-archetype chances
 
-Each archetype sets how often optional pieces appear: `hatChance`, `glassesChance`, `neckChance`, `outerChance`, `legwearChance`, `earringChance`, `bagChance` and `patternChance`. They draw from separate random streams, so adding a slot or changing a chance doesn't reshuffle anyone's other choices.
+Each archetype sets how often optional pieces appear: `hatChance`, `glassesChance`, `neckChance`, `outerChance`, `legwearChance`, `earringChance`, `bagChance` and `patternChance`. `faceChances` sets freckles, beauty marks, blush and lipstick per style (blush and lipstick are scaled by presentation, from 20% at the masculine end to 100% at the feminine end), and `lipPalette` picks the lipstick colours (gothic uses `makeup.lips.dark`). They draw from separate random streams, so adding a slot or changing a chance doesn't reshuffle anyone's other choices.
 
 ## 4. Faces
 
@@ -174,9 +175,9 @@ Each archetype sets how often optional pieces appear: `hatChance`, `glassesChanc
 - **Proposal:** real heads ship these as blendshapes named `expr.happy`, `expr.delighted`, `expr.shy`, `expr.sad`, `expr.annoyed`, `expr.surprised`, `expr.blink.L` and `expr.blink.R`, each modelled at full strength.
 - A curved mouth matters most. The stand-in fakes one with three mouth pieces whose corners turn (`Mouth.L`, `Mouth.R`), and that alone made happy and sad read at town distance. A real head should curve properly.
 
-Recolourable face colours are iris, brows, eye whites and lips (body regions 1–4). Makeup and freckles are a planned overlay layer.
+Recolourable face colours are iris, brows, eye whites and lips (body regions 1–4). Lipstick recolours the lips; freckles, beauty marks and blush are small parts in `face.` slots (see Slots). On real heads these could become texture overlays instead; the DNA stores them as overlay IDs with a tint either way.
 
-- **Blush** on the stand-in is anime hatching, three strokes per cheek in the brow colour, pushed out through the skin by expressions (`Blush.L`, `Blush.R`). A pink flush would need a fifth face colour; [Art to decide] which style the game uses.
+- **Blush** on the stand-in is anime hatching, three strokes per cheek in the brow colour, pushed out through the skin by expressions (`Blush.L`, `Blush.R`). Blush as makeup is a separate pink oval (`face.makeup.blush_01`), and the hatching shows on top of it. [Art to decide] whether real heads keep both.
 
 ## 5. Hair
 
