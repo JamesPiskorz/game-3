@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Game.Sim.Residents;
 
 namespace Game.Sim.Relationships
 {
@@ -7,6 +8,9 @@ namespace Game.Sim.Relationships
     {
         Topic,
         Compliment,
+
+        /// <summary>Something to do together that the place offers.</summary>
+        Activity,
     }
 
     /// <summary>One thing the player can do in a round of a date.</summary>
@@ -14,6 +18,7 @@ namespace Game.Sim.Relationships
     {
         public DateOptionKind Kind;
         public string Topic;
+        public DateActivityEntry Activity;
         public string Label;
     }
 
@@ -44,6 +49,16 @@ namespace Game.Sim.Relationships
         public IReadOnlyCollection<string> TopicsRaised => Talked;
 
         internal readonly HashSet<string> Talked = new HashSet<string>();
+        internal readonly HashSet<string> ActivitiesDone = new HashSet<string>();
+
+        /// <summary>How much the date would enjoy an activity: their strongest feeling about its topics.</summary>
+        public float ActivityValue(DateActivityEntry activity)
+        {
+            if (activity.Topics.Count == 0) return 0f;
+            float best = activity.Topics.Max(t => With.Profile.Interest(t));
+            float worst = activity.Topics.Min(t => With.Profile.Interest(t));
+            return best >= ProfileGenerator.LikeThreshold ? best : worst <= -ProfileGenerator.LikeThreshold ? worst : best;
+        }
         internal bool Complimented;
 
         /// <summary>The pick an attentive player would make: something they love, else a first compliment, else the least bad topic.</summary>
@@ -54,9 +69,12 @@ namespace Game.Sim.Relationships
             for (int i = 0; i < Options.Count; i++)
             {
                 DateOption option = Options[i];
-                float value = option.Kind == DateOptionKind.Compliment
-                    ? (Complimented ? -0.2f : 0.6f)
-                    : Talked.Contains(option.Topic) ? -0.5f : With.Profile.Interest(option.Topic);
+                float value = option.Kind switch
+                {
+                    DateOptionKind.Compliment => Complimented ? -0.2f : 0.6f,
+                    DateOptionKind.Activity => ActivitiesDone.Contains(option.Activity.Id) ? -0.5f : ActivityValue(option.Activity) * 1.2f,
+                    _ => Talked.Contains(option.Topic) ? -0.5f : With.Profile.Interest(option.Topic),
+                };
                 if (value > bestValue)
                 {
                     bestValue = value;

@@ -33,6 +33,10 @@ namespace Game.Town
                 case "date.no": return ("sad", 0.6f);
                 case "date.notyet": return ("shy", 0.6f);
                 case "date.great": return ("delighted", 1f);
+                case "date.partner": return shy ? ("shy", 1f) : ("delighted", 1f);
+                case "date.activity.love": return dry ? ("happy", 0.9f) : ("delighted", 1f);
+                case "date.activity.ok": return ("happy", 0.5f);
+                case "date.activity.dislike": return ("annoyed", 0.5f);
                 case "date.fine": return ("happy", 0.7f);
                 case "date.awkward": return ("sad", 0.5f);
                 case "date.talk.love": return dry ? ("happy", 0.9f) : ("delighted", 1f);

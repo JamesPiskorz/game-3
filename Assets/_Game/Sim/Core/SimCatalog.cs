@@ -86,7 +86,18 @@ namespace Game.Sim
         /// <summary>Things the player can do here to improve themselves.</summary>
         public List<ActivityEntry> Activities = new List<ActivityEntry>();
 
+        /// <summary>Things to do together on a date here; they land by the date's interest in their topics.</summary>
+        public List<DateActivityEntry> DateActivities = new List<DateActivityEntry>();
+
         public bool IsOpen(int hour) => hour >= Opens && hour < Closes;
+    }
+
+    /// <summary>Something to do together on a date at a place.</summary>
+    public sealed class DateActivityEntry
+    {
+        public string Id;
+        public string Name;
+        public List<string> Topics = new List<string>();
     }
 
     /// <summary>Something to do at a place: time (and maybe coins) spent for a stat.</summary>

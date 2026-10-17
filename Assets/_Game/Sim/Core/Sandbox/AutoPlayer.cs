@@ -163,6 +163,7 @@ namespace Game.Sim.Sandbox
             switch (outcome)
             {
                 case "date.great": Note(day, $"A great date with {name}."); break;
+                case "date.partner": Note(day, $"A great date with {name}, who asked to be together. Partners now."); break;
                 case "date.fine": Note(day, $"A fine date with {name}."); break;
                 case "date.awkward": Note(day, $"An awkward date with {name}."); break;
             }

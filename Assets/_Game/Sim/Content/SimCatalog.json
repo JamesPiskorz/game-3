@@ -1,13 +1,13 @@
 {
   "locations": [
-    { "id": "cafe", "name": "Moonbean Café", "tags": ["food", "cozy", "social"], "opens": 7, "closes": 21, "activities": [{ "id": "regulars", "name": "Chat with the regulars", "stat": "charm", "gain": 4, "hours": 1, "cost": 5 }] },
-    { "id": "park", "name": "Willow Park", "tags": ["nature", "outdoors", "romantic"], "opens": 0, "closes": 24, "activities": [{ "id": "jog", "name": "Go for a jog", "stat": "fitness", "gain": 4, "hours": 1 }] },
-    { "id": "campus", "name": "Harbour College", "tags": ["study"], "opens": 8, "closes": 18, "activities": [{ "id": "class", "name": "Sit in on a class", "stat": "smarts", "gain": 8, "hours": 3 }] },
+    { "id": "cafe", "name": "Moonbean Café", "tags": ["food", "cozy", "social"], "opens": 7, "closes": 21, "activities": [{ "id": "regulars", "name": "Chat with the regulars", "stat": "charm", "gain": 4, "hours": 1, "cost": 5 }], "dateActivities": [{ "id": "dessert", "name": "Share a dessert", "topics": ["food"] }, { "id": "crossword", "name": "Do the crossword together", "topics": ["books"] }] },
+    { "id": "park", "name": "Willow Park", "tags": ["nature", "outdoors", "romantic"], "opens": 0, "closes": 24, "activities": [{ "id": "jog", "name": "Go for a jog", "stat": "fitness", "gain": 4, "hours": 1 }], "dateActivities": [{ "id": "ducks", "name": "Feed the ducks", "topics": ["pets", "nature"] }, { "id": "clouds", "name": "Lie on the grass, watch the clouds", "topics": ["nature", "art"] }] },
+    { "id": "campus", "name": "Harbour College", "tags": ["study"], "opens": 8, "closes": 18, "activities": [{ "id": "class", "name": "Sit in on a class", "stat": "smarts", "gain": 8, "hours": 3 }], "dateActivities": [{ "id": "lecture", "name": "Sneak into a lecture", "topics": ["books", "tech"] }] },
     { "id": "office", "name": "Lantern Tower", "tags": ["work"], "opens": 8, "closes": 19 },
-    { "id": "gym", "name": "Pulse Gym", "tags": ["sports"], "opens": 6, "closes": 22, "activities": [{ "id": "workout", "name": "Work out", "stat": "fitness", "gain": 7, "hours": 2, "cost": 10 }] },
-    { "id": "mall", "name": "Arcade Lane", "tags": ["fashion", "games", "social"], "opens": 10, "closes": 21, "activities": [{ "id": "browse", "name": "Study the shop windows", "stat": "style", "gain": 5, "hours": 1 }] },
-    { "id": "bar", "name": "The Night Owl", "tags": ["music", "social", "romantic"], "opens": 17, "closes": 24, "activities": [{ "id": "mingle", "name": "Mingle", "stat": "charm", "gain": 7, "hours": 2, "cost": 15 }] },
-    { "id": "library", "name": "Ink & Willow Library", "tags": ["books", "quiet"], "opens": 9, "closes": 20, "activities": [{ "id": "read", "name": "Read up", "stat": "smarts", "gain": 6, "hours": 2 }] }
+    { "id": "gym", "name": "Pulse Gym", "tags": ["sports"], "opens": 6, "closes": 22, "activities": [{ "id": "workout", "name": "Work out", "stat": "fitness", "gain": 7, "hours": 2, "cost": 10 }], "dateActivities": [{ "id": "spar", "name": "Spar a little", "topics": ["sports"] }] },
+    { "id": "mall", "name": "Arcade Lane", "tags": ["fashion", "games", "social"], "opens": 10, "closes": 21, "activities": [{ "id": "browse", "name": "Study the shop windows", "stat": "style", "gain": 5, "hours": 1 }], "dateActivities": [{ "id": "tryon", "name": "Try on silly outfits", "topics": ["fashion"] }, { "id": "arcade", "name": "Play at the arcade", "topics": ["games"] }] },
+    { "id": "bar", "name": "The Night Owl", "tags": ["music", "social", "romantic"], "opens": 17, "closes": 24, "activities": [{ "id": "mingle", "name": "Mingle", "stat": "charm", "gain": 7, "hours": 2, "cost": 15 }], "dateActivities": [{ "id": "dance", "name": "Dance", "topics": ["music"] }, { "id": "karaoke", "name": "Sing karaoke", "topics": ["music", "film"] }] },
+    { "id": "library", "name": "Ink & Willow Library", "tags": ["books", "quiet"], "opens": 9, "closes": 20, "activities": [{ "id": "read", "name": "Read up", "stat": "smarts", "gain": 6, "hours": 2 }], "dateActivities": [{ "id": "readaloud", "name": "Read to each other", "topics": ["books"] }, { "id": "artbooks", "name": "Browse the art books", "topics": ["art", "travel"] }] }
   ],
 
   "jobs": [
@@ -321,6 +321,29 @@
       { "tone": "any", "text": "Well... that was a date. Thanks, I guess." },
       { "tone": "shy", "text": "Sorry, I think I was just nervous..." },
       { "tone": "dry", "text": "That was... a learning experience." }
+    ],
+    "date.activity.love": [
+      { "tone": "any", "text": "This is perfect. I'm having so much fun!" },
+      { "tone": "shy", "text": "I really... love this. Thank you for suggesting it." },
+      { "tone": "bubbly", "text": "Best idea ever! Again, again!" },
+      { "tone": "dry", "text": "Fine, I admit it. This is great." }
+    ],
+    "date.activity.ok": [
+      { "tone": "any", "text": "That was nice." },
+      { "tone": "bubbly", "text": "Ha, okay, that was fun!" },
+      { "tone": "dry", "text": "Not bad." }
+    ],
+    "date.activity.dislike": [
+      { "tone": "any", "text": "Not really my thing, but okay." },
+      { "tone": "shy", "text": "I'm not very good at this..." },
+      { "tone": "dry", "text": "Let's never do that again." }
+    ],
+    "date.partner": [
+      { "tone": "any", "text": "I don't want to see anyone else. Just you. Is that... okay?" },
+      { "tone": "warm", "text": "Today made something clear: I want us to be together. Properly." },
+      { "tone": "shy", "text": "Can I say something? I... I'd like to be yours. Only yours." },
+      { "tone": "bubbly", "text": "Okay, I'm saying it: be my partner! Officially! Please?" },
+      { "tone": "dry", "text": "Let's stop pretending this is casual. You're it for me." }
     ],
     "date.great": [
       { "tone": "any", "text": "That was wonderful. {location} was perfect." },

@@ -436,7 +436,15 @@ namespace Game.Sim.Relationships
             string key;
             float score;
             var tokens = new List<(string, string)> { ("location", scene.Place.Name) };
-            if (choice.Kind == DateOptionKind.Compliment)
+            if (choice.Kind == DateOptionKind.Activity)
+            {
+                float value = scene.ActivitiesDone.Contains(choice.Activity.Id) ? -0.5f : scene.ActivityValue(choice.Activity);
+                key = value >= ProfileGenerator.LikeThreshold ? "date.activity.love" : value <= -ProfileGenerator.LikeThreshold ? "date.activity.dislike" : "date.activity.ok";
+                score = value >= ProfileGenerator.LikeThreshold ? 1.2f : value <= -ProfileGenerator.LikeThreshold ? -0.8f : 0.4f;
+                if (value >= ProfileGenerator.LikeThreshold) Add(ref rel.Attraction, 1.5f);
+                scene.ActivitiesDone.Add(choice.Activity.Id);
+            }
+            else if (choice.Kind == DateOptionKind.Compliment)
             {
                 key = scene.Complimented ? "date.compliment.again" : "date.compliment";
                 score = scene.Complimented ? -0.2f : 0.6f;
@@ -524,7 +532,12 @@ namespace Game.Sim.Relationships
             }
             rel.Dates++;
             rel.Dating = true;
-            if (rel.Dates >= 3 && rel.GreatDates >= 2 && rel.Affection >= 80f && rel.Trust >= 60f) rel.Partner = true;
+            // A great date that tips them over the line ends with them asking to be together.
+            if (!rel.Partner && rel.Dates >= 3 && rel.GreatDates >= 2 && rel.Affection >= 80f && rel.Trust >= 60f)
+            {
+                rel.Partner = true;
+                if (key == "date.great") key = "date.partner";
+            }
             scene.Outcome = key;
             return Finish(resident, rel, rng, result, before, key, 0, ("location", location.Name));
         }
@@ -550,6 +563,14 @@ namespace Game.Sim.Relationships
 
             var options = picked.Select(t => new DateOption { Kind = DateOptionKind.Topic, Topic = t.Id, Label = "Talk about " + t.Name }).ToList();
             options.Add(new DateOption { Kind = DateOptionKind.Compliment, Label = "Pay a compliment" });
+
+            // Something to do together, if the place offers anything new: it takes a topic's slot.
+            List<DateActivityEntry> fresh2 = scene.Place.DateActivities.Where(a => !scene.ActivitiesDone.Contains(a.Id)).ToList();
+            if (fresh2.Count > 0)
+            {
+                DateActivityEntry activity = rng.Pick(fresh2);
+                options[options.Count - 2] = new DateOption { Kind = DateOptionKind.Activity, Activity = activity, Label = activity.Name };
+            }
             for (int i = options.Count - 1; i > 0; i--)
             {
                 int j = rng.NextInt(i + 1);

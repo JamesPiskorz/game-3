@@ -7,7 +7,7 @@ namespace Game.Sim.Tests
 {
     public class DateSceneTests
     {
-        static readonly string[] Outcomes = { "date.great", "date.fine", "date.awkward" };
+        static readonly string[] Outcomes = { "date.great", "date.fine", "date.awkward", "date.partner" };
 
         static void Fond(Relationship rel)
         {
@@ -31,13 +31,33 @@ namespace Game.Sim.Tests
             {
                 Assert.That(scene.Options.Count(o => o.Kind == DateOptionKind.Compliment), Is.EqualTo(1));
                 var topics = scene.Options.Where(o => o.Kind == DateOptionKind.Topic).Select(o => o.Topic).ToList();
-                Assert.That(topics.Count, Is.EqualTo(3));
+                int activities = scene.Options.Count(o => o.Kind == DateOptionKind.Activity);
+                Assert.That(activities, Is.InRange(0, 1));
+                Assert.That(topics.Count, Is.EqualTo(3 - activities), "An activity takes one topic's place.");
                 Assert.That(topics, Is.Unique);
                 Assert.That(topics, Has.None.Matches<string>(t => scene.TopicsRaised.Contains(t)), "Topics already raised on this date aren't offered again.");
                 act.DateChoose(scene, scene.Options.FindIndex(o => o.Kind == DateOptionKind.Topic));
             }
             Assert.That(act.FinishDate(scene).Reaction, Does.StartWith("date."));
             Assert.That(world.RelationshipWith(resident).Dates, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void ThePlaceOffersThingsToDoTogether()
+        {
+            (SimWorld world, Resident resident) = Fixtures.OneResident(p => p.Interests["pets"] = 0.9f);
+            Fond(world.RelationshipWith(resident));
+            var act = new Interactions(world);
+            act.Invite(resident, "park", out DateScene scene);
+            DateOption activity = scene.Options.FirstOrDefault(o => o.Kind == DateOptionKind.Activity);
+            Assert.That(activity, Is.Not.Null, "The park has things to do together.");
+
+            // Feeding the ducks is for pet lovers; if that's on offer, it's the best pick and lands as a love.
+            if (activity.Activity.Id == "ducks")
+            {
+                Assert.That(scene.Options[scene.BestOption()], Is.SameAs(activity));
+                Assert.That(act.DateChoose(scene, scene.Options.IndexOf(activity)).Reaction, Is.EqualTo("date.activity.love"));
+            }
         }
 
         [Test]
