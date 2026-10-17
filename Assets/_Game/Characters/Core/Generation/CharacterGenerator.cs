@@ -245,6 +245,10 @@ namespace Game.Characters.Generation
                 Pcg32 bag = SeedStreams.For(seed, "outfit.bag." + contextId);
                 if (bag.Chance(archetype.BagChance))
                     Wear(PickPart(bag, Slots.Bag, archetype, context, femininity, worn));
+                // A ribbon, headband or clip in the hair (not under a hat), on a stream of its own.
+                Pcg32 clip = SeedStreams.For(seed, "outfit.hair.accessory." + contextId);
+                if (clip.Chance(archetype.HairAccessoryChance))
+                    Wear(PickPart(clip, Slots.HairAccessory, archetype, context, femininity, worn));
 
                 var outfit = new OutfitDna { Context = contextId };
                 OutfitColourer.Colour(rng, _catalog, archetype, palette, items, outfit, SkinColour(dna.Skin.Tone));

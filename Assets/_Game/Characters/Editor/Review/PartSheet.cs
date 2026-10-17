@@ -47,7 +47,7 @@ namespace Game.Characters.Review
                 character.transform.position = positions[i];
                 Poses.Relaxed(character.transform);
                 Vector3 origin = positions[i];
-                bool head = parts[i].Slot.StartsWith("hair") || parts[i].Slot == Slots.Hat || parts[i].Slot == Slots.Glasses || parts[i].Slot == Slots.Earrings;
+                bool head = parts[i].Slot.StartsWith("hair") || parts[i].Slot == Slots.Hat || parts[i].Slot == Slots.Glasses || parts[i].Slot == Slots.Earrings || parts[i].Slot == Slots.HairAccessory;
                 Vector3 target = origin + (head ? new Vector3(0f, 1.62f, 0f) : new Vector3(0f, 0.93f, 0f));
                 float distance = head ? 0.9f : 3.7f;
                 shots.Add(Snapshot.Shoot(camera, target + new Vector3(0.15f * distance, 0.05f, distance), target, 220, 300));

@@ -69,6 +69,7 @@ The body's vertex colour **R channel = region ID / 255**. Parts declare which re
 | `hat` | Requires hair tagged `hat_ok`. |
 | `glasses`, `earrings` | Belong to the person: the same pair in every outfit. |
 | `neck`, `bag` | Scarves and necklaces; a crossbody bag. Per outfit. |
+| `headpiece` | Ribbons, headbands and hair clips, sitting just outside the hair. Not with a hat (hats carry a `hat` tag). Not named `hair.…`: that prefix means a hair piece. |
 | `hair.back`, `hair.front` | Hair is split into crown plus length, and bangs. Every piece is offered at the salon by its `name`. |
 
 ### Layering (enforced by review, measured in metres off the body surface)

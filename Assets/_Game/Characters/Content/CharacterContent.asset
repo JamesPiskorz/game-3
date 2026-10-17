@@ -94,6 +94,12 @@ MonoBehaviour:
     Prefab: {fileID: 1281848115193972831, guid: 3f252c8244e462c4f96f89bbe1379891, type: 3}
   - Id: acc.bag.crossbody_01
     Prefab: {fileID: 9003043143852746377, guid: ef0be5631540f9b40a424443b8c9d79b, type: 3}
+  - Id: acc.hair.ribbon_01
+    Prefab: {fileID: 8320588166037561651, guid: f84247f38ceebc2449a0172c0fea311c, type: 3}
+  - Id: acc.hair.headband_01
+    Prefab: {fileID: 303654082147080991, guid: c6e6275873cdda54284adc7a53f83db1, type: 3}
+  - Id: acc.hair.clip_01
+    Prefab: {fileID: 4246647170815998884, guid: d121770859136e24c99a371e746ac3a2, type: 3}
   - Id: acc.neck.scarf_01
     Prefab: {fileID: 8500610744588557661, guid: baeac3713eacea4468a07a59e2dedf49, type: 3}
   - Id: acc.neck.necklace_01

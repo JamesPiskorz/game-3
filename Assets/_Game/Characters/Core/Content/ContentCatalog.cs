@@ -115,6 +115,7 @@ namespace Game.Characters.Content
         public const string Legwear = "legwear";
         public const string Earrings = "earrings";
         public const string Bag = "bag";
+        public const string HairAccessory = "headpiece"; // not "hair.…": that prefix means a hair piece
         public const string HairBack = "hair.back";
         public const string HairFront = "hair.front";
     }
@@ -255,6 +256,7 @@ namespace Game.Characters.Content
         /// <summary>Earrings belong to the person, like glasses: the same pair in every outfit.</summary>
         public float EarringChance = 0.15f;
         public float BagChance = 0.1f;
+        public float HairAccessoryChance = 0.1f;
         public float HatChance = 0.1f;
         public float NoBangsChance = 0.25f;
     }

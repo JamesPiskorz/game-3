@@ -1,8 +1,8 @@
 # Generator statistics
 
-_2026-10-18 03:13 · AMD Ryzen 7 5700X 8-Core Processor · Unity 6000.6.6f1 (editor). Regenerate with **Game → Characters → Review → Write Generator Statistics**._
+_2026-10-18 04:09 · AMD Ryzen 7 5700X 8-Core Processor · Unity 6000.6.6f1 (editor). Regenerate with **Game → Characters → Review → Write Generator Statistics**._
 
-10,000 characters, 0.356 ms each to generate. Rule violations: **0**.
+10,000 characters, 0.366 ms each to generate. Rule violations: **0**.
 
 ## Styles
 
@@ -59,6 +59,9 @@ How many characters wear each part, per outfit context (hair: per character). **
 | hair.front.swept_01 | hair.front | 22.0% |  |  |  |  |  |
 | acc.hat.beanie_01 | hat |  | 2.1% | never | 2.1% | 2.2% | never |
 | acc.hat.cap_01 | hat |  | 1.9% | never | 2.0% | 2.1% | never |
+| acc.hair.clip_01 | headpiece |  | 8.8% | 5.8% | 8.8% | never | 5.8% |
+| acc.hair.headband_01 | headpiece |  | 4.4% | 7.1% | 4.9% | 18.2% | 8.2% |
+| acc.hair.ribbon_01 | headpiece |  | 4.7% | 5.7% | 4.5% | never | 5.1% |
 | cloth.legwear.socks_01 | legwear |  | 5.6% | 3.0% | 4.6% | never | never |
 | cloth.legwear.tights_01 | legwear |  | 8.5% | 12.3% | 7.9% | never | 14.2% |
 | acc.neck.necklace_01 | neck |  | 7.3% | 16.7% | 7.4% | never | 17.4% |
@@ -79,7 +82,7 @@ How many characters wear each part, per outfit context (hair: per character). **
 
 ## Patterns
 
-6.4% of worn items are patterned.
+6.1% of worn items are patterned.
 
 | Pattern | Items |
 |---|---|

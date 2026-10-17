@@ -552,6 +552,56 @@ namespace Game.Characters.StandIns
                 },
             };
 
+            // ---------------- hair accessories: just outside the hair (the crown sits at HeadR + 0.016)
+            yield return new Recipe
+            {
+                Id = "acc.hair.ribbon_01", Slot = "headpiece", Material = "Cloth", FollowsBodyShapes = false,
+                Build = m =>
+                {
+                    // A bow on the side of the head: two loops and a knot in the second colour, plus short tails.
+                    Vector3 at = HeadCentre + new Vector3(0.062f, 0.1f, 0.03f); // high on one side, where it shows from the front
+                    using IDisposable medium = m.Coarse(sides: 10, rings: 3, latitudes: 8, longitudes: 12);
+                    m.AddEllipsoid(at + new Vector3(-0.026f, 0.014f, 0f), new Vector3(0.03f, 0.019f, 0.013f), None, false, "Head", Region1);
+                    m.AddEllipsoid(at + new Vector3(0.028f, 0.004f, 0f), new Vector3(0.03f, 0.019f, 0.013f), None, false, "Head", Region1);
+                    m.AddEllipsoid(at + new Vector3(0f, 0.009f, 0.005f), new Vector3(0.013f, 0.013f, 0.013f), None, false, "Head", RegionTwo);
+                    m.AddTube(new Tube { Region = None, Start = at + new Vector3(0f, 0f, 0.004f), End = at + new Vector3(0.012f, -0.04f, 0.012f), R0 = 0.007f, R1 = 0.005f, Width = 1.6f, Depth = 0.5f, Bone = "Head" },
+                        0f, Cap.Closed, Cap.Closed, Region1, false, withShapes: false);
+                },
+            };
+            yield return new Recipe
+            {
+                Id = "acc.hair.headband_01", Slot = "headpiece", Material = "Cloth", FollowsBodyShapes = false,
+                Build = m =>
+                {
+                    // A band over the top of the head from ear to ear, just behind the hairline.
+                    const int Segments = 10;
+                    float r = HeadR + 0.024f;
+                    using IDisposable coarse = m.Coarse(sides: 8, rings: 2);
+                    for (int i = 0; i < Segments; i++)
+                    {
+                        float a0 = Mathf.Lerp(-0.42f, 0.42f, i / (float)Segments) * Mathf.PI, a1 = Mathf.Lerp(-0.42f, 0.42f, (i + 1) / (float)Segments) * Mathf.PI;
+                        Vector3 Point(float a) => HeadCentre + new Vector3(Mathf.Sin(a) * r, Mathf.Cos(a) * r, 0.02f);
+                        m.AddTube(new Tube { Region = None, Start = Point(a0), End = Point(a1), R0 = 0.007f, R1 = 0.007f, Width = 1f, Depth = 2.2f, Bone = "Head" },
+                            0f, Cap.Closed, Cap.Closed, Region1, false, withShapes: false);
+                    }
+                },
+            };
+            yield return new Recipe
+            {
+                Id = "acc.hair.clip_01", Slot = "headpiece", Material = "Accessory", FollowsBodyShapes = false, Small = true,
+                Build = m =>
+                {
+                    // Two little bars pinning the bangs above one eye.
+                    using IDisposable coarse = m.Coarse(sides: 8, rings: 2);
+                    foreach (float dy in new[] { 0f, 0.012f })
+                    {
+                        Vector3 start = HeadCentre + new Vector3(-0.065f, 0.068f + dy, 0.082f), end = start + new Vector3(0.026f, 0.01f, 0.006f);
+                        m.AddTube(new Tube { Region = None, Start = start, End = end, R0 = 0.0035f, R1 = 0.0035f, Bone = "Head" },
+                            0f, Cap.Closed, Cap.Closed, Region1, false, withShapes: false);
+                    }
+                },
+            };
+
             // ---------------- neckwear: details in front of the chest take its shape response (like the blazer's lapels)
             yield return new Recipe
             {
