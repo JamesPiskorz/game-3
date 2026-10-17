@@ -38,6 +38,7 @@ namespace Game.Characters.StandIns
             public bool FollowsBodyShapes = true;
             public string Material;
             public StandInBone[] Bones = StandInSkeleton.Bones;
+            public string[] SpringChains = Array.Empty<string>();
             public Action<StandInMesh> Build;
         }
 
@@ -223,6 +224,7 @@ namespace Game.Characters.StandIns
         {
             Id = id, Slot = slot, Material = "Hair", FollowsBodyShapes = false,
             Bones = extraBones.Length == 0 ? StandInSkeleton.Bones : StandInSkeleton.With(extraBones),
+            SpringChains = extraBones.Select(chain => chain[0].Name).ToArray(), // every extra chain swings
             Build = build,
         };
 
@@ -290,6 +292,7 @@ namespace Game.Characters.StandIns
             part.BlocksSlots = recipe.Blocks;
             part.CoveredRegions = recipe.Covers;
             part.FollowsBodyShapes = recipe.FollowsBodyShapes;
+            part.SpringChains = recipe.SpringChains;
             var bones = new Dictionary<string, Transform>();
             StandInSkeleton.Build(root.transform, recipe.Bones, bones);
             AddRenderer(root.transform, "Mesh", mesh, recipe.Bones, bones, material);

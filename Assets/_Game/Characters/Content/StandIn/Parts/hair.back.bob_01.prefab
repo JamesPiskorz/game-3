@@ -869,6 +869,7 @@ MonoBehaviour:
   BlocksSlots: []
   CoveredRegions: 0
   FollowsBodyShapes: 0
+  SpringChains: []
 --- !u!1 &8671515409501966904
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,6 +4,7 @@ using System.Linq;
 using Game.Characters.Content;
 using Game.Characters.Modular;
 using Game.Characters.Rendering;
+using Game.Characters.Springs;
 using UnityEngine;
 
 namespace Game.Characters.Building
@@ -22,6 +23,9 @@ namespace Game.Characters.Building
         public List<PatternBinding> Patterns = new List<PatternBinding>();
         public List<SliderBinding> Sliders = new List<SliderBinding>();
         public List<StyleBinding> Styles = new List<StyleBinding>();
+
+        [Tooltip("Spheres on the body that spring-bone hair and cloth can't pass through.")]
+        public List<SpringColliderBinding> SpringColliders = new List<SpringColliderBinding>();
 
         ContentCatalog _catalog;
 

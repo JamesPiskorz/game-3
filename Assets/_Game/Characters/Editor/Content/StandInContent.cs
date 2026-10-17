@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Game.Characters.Building;
 using Game.Characters.Modular;
+using Game.Characters.Springs;
 using Game.Characters.StandIns;
 using UnityEditor;
 using UnityEngine;
@@ -49,6 +50,15 @@ namespace Game.Characters.ContentAuthoring
 
             content.Sliders = Sliders();
             content.Styles = Styles();
+            content.SpringColliders = new List<SpringColliderBinding>
+            {
+                // The skull, not the hair: tail roots sit just outside it.
+                new SpringColliderBinding { Bone = "Head", Offset = new Vector3(0f, 0.1f, 0f), Radius = 0.108f },
+                new SpringColliderBinding { Bone = "Neck", Offset = new Vector3(0f, 0.04f, 0f), Radius = 0.06f },
+                new SpringColliderBinding { Bone = "Chest", Offset = new Vector3(0f, 0.12f, -0.02f), Radius = 0.13f },
+                new SpringColliderBinding { Bone = "Chest", Offset = new Vector3(-0.12f, 0.14f, 0f), Radius = 0.07f },
+                new SpringColliderBinding { Bone = "Chest", Offset = new Vector3(0.12f, 0.14f, 0f), Radius = 0.07f },
+            };
 
             if (created) AssetDatabase.CreateAsset(content, Path);
             EditorUtility.SetDirty(content);

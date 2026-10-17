@@ -718,6 +718,9 @@ MonoBehaviour:
   BlocksSlots: []
   CoveredRegions: 0
   FollowsBodyShapes: 0
+  SpringChains:
+  - Hair.TwinTail.L.1
+  - Hair.TwinTail.R.1
 --- !u!1 &6536103982387613565
 GameObject:
   m_ObjectHideFlags: 0

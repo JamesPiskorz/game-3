@@ -20,5 +20,8 @@ namespace Game.Characters.Modular
 
         [Tooltip("Whether the part must carry every body blendshape. Clear it for parts on areas body shapes never move (hair, hats).")]
         public bool FollowsBodyShapes = true;
+
+        [Tooltip("First bones of chains that swing with spring physics (hair tails, skirt panels).")]
+        public string[] SpringChains = System.Array.Empty<string>();
     }
 }

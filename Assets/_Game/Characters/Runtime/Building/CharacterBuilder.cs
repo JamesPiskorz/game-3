@@ -5,6 +5,7 @@ using Game.Characters.Content;
 using Game.Characters.Dna;
 using Game.Characters.Modular;
 using Game.Characters.Rendering;
+using Game.Characters.Springs;
 using UnityEngine;
 
 namespace Game.Characters.Building
@@ -40,6 +41,7 @@ namespace Game.Characters.Building
             OutfitDna outfit = dna.Outfits.FirstOrDefault(o => o.Context == context) ?? dna.Outfits.FirstOrDefault();
             EquipParts(character, dna, outfit);
             ApplyShapesAndBones(character, dna);
+            SpringBoneRig.Sync(character, _content.SpringColliders);
             ApplyBodyColours(character, dna);
             ApplyPartColours(character, dna, outfit);
         }
