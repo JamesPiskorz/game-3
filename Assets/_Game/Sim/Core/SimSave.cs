@@ -4,6 +4,7 @@ using System.Linq;
 using Game.Characters.Content;
 using Game.Characters.Dna;
 using Game.Sim.Relationships;
+using Game.Sim.Social;
 using Newtonsoft.Json;
 
 namespace Game.Sim
@@ -32,6 +33,9 @@ namespace Game.Sim
         public List<ItemDna> PlayerWardrobe = new List<ItemDna>();
         public List<Relationship> Relationships = new List<Relationship>();
 
+        /// <summary>Residents who left their partner during play.</summary>
+        public List<int> BrokeUp = new List<int>();
+
         public static SimSave Capture(SimWorld world) => new SimSave
         {
             WorldSeed = world.Seed,
@@ -45,6 +49,7 @@ namespace Game.Sim
             PlayerMoney = world.Player.Money,
             PlayerWardrobe = world.Player.Wardrobe.ToList(),
             Relationships = world.Relationships.ToList(),
+            BrokeUp = world.Social.BrokeUp.ToList(),
         };
 
         /// <summary>Rebuilds the town from the seed, then puts the saved state back.</summary>
@@ -64,6 +69,7 @@ namespace Game.Sim
                 Money = PlayerMoney,
                 Wardrobe = PlayerWardrobe ?? new List<ItemDna>(),
             };
+            world.Social = SocialWeb.Build(world.Residents, WorldSeed, BrokeUp);
             foreach (Relationship relationship in Relationships)
             {
                 if (relationship.Resident < 0 || relationship.Resident >= world.Residents.Count)

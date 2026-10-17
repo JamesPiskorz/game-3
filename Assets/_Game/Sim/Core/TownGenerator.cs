@@ -5,6 +5,7 @@ using Game.Characters.Dna;
 using Game.Characters.Generation;
 using Game.Characters.Rng;
 using Game.Sim.Residents;
+using Game.Sim.Social;
 
 namespace Game.Sim
 {
@@ -56,6 +57,7 @@ namespace Game.Sim
 
                 world.Residents.Add(new Resident { Index = i, Dna = dna, Profile = profile, Schedule = schedules.Generate(dna.Seed, profile) });
             }
+            world.Social = SocialWeb.Build(world.Residents, worldSeed);
             return world;
         }
     }

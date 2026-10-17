@@ -74,6 +74,16 @@ namespace Game.Sim.Relationships
         /// <summary>Affection and attraction, weighted 60:40, a resident needs to accept a first date.</summary>
         public const float DateThreshold = 55f;
 
+        /// <summary>How fond of the player a friend must be to put in a good word.</summary>
+        public const float GoodWordAffection = 45f;
+
+        /// <summary>How smitten someone in a couple must be to leave their partner for the player.</summary>
+        public const float LeaveForYouAffection = 85f;
+        public const float LeaveForYouAttraction = 75f;
+
+        /// <summary>Affection an ex loses for the player who came between them.</summary>
+        public const float ExResentment = 20f;
+
         /// <summary>How well an outfit has to land (impression, -1..1) for them to mention it.</summary>
         public const float ImpressedAt = 0.5f;
 
@@ -111,6 +121,16 @@ namespace Game.Sim.Relationships
             {
                 (string Key, (string, string) Token)? recalled = Recall(rel);
                 if (recalled != null) return Finish(resident, rel, rng, result, before, recalled.Value.Key, GreetMinutes, recalled.Value.Token);
+
+                // Word gets around: a friend of theirs who's fond of the player has put in a good word.
+                foreach (int friend in _world.Social.FriendsOf(resident.Index))
+                {
+                    Relationship theirs = _world.Find(friend);
+                    if (theirs == null || !theirs.Met || theirs.Affection < GoodWordAffection || !rel.HeardFrom.Add(friend)) continue;
+                    Add(ref rel.Affection, 2f);
+                    Add(ref rel.Familiarity, 2f);
+                    return Finish(resident, rel, rng, result, before, "greet.gossip", GreetMinutes, ("friend", _world.Residents[friend].Profile.FirstName));
+                }
             }
 
             string greeting = rel.Stage switch
@@ -296,6 +316,25 @@ namespace Game.Sim.Relationships
             {
                 if (before.Stage < Stage.Friend) Add(ref rel.Affection, -1f);
                 return Finish(resident, rel, rng, result, before, "date.notyet", GreetMinutes, place);
+            }
+
+            // Someone already seeing a resident turns the player down, unless the player is who they really want.
+            int partner = _world.Social.PartnerOf(resident.Index);
+            string answer = "date.yes";
+            if (partner >= 0 && !rel.Dating)
+            {
+                var partnerName = ("partner", _world.Residents[partner].Profile.FirstName);
+                if (rel.Affection < LeaveForYouAffection || rel.Attraction < LeaveForYouAttraction)
+                    return Finish(resident, rel, rng, result, before, "date.taken", GreetMinutes, place, partnerName);
+
+                _world.Social.BreakUp(resident.Index);
+                Relationship ex = _world.Find(partner);
+                if (ex != null && ex.Met) ex.Affection = Clamp(ex.Affection - ExResentment);
+                result.Learnt = $"{resident.Profile.FirstName} is leaving {partnerName.Item2} for you.";
+                answer = "date.leaves";
+                scene = new DateScene { With = resident, Place = location };
+                scene.Options = DateOptions(scene, rng);
+                return Finish(resident, rel, rng, result, before, answer, DateStartMinutes, place, partnerName);
             }
 
             float willing = rel.Affection * 0.6f + rel.Attraction * 0.4f + rng.NextNormal() * 4f;

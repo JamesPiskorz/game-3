@@ -92,7 +92,7 @@ namespace Game.Sim.Tests
         {
             TownSession session = Saturday(14, "park");
             session.Travel(Busiest(session));
-            Resident partner = session.Present()[0];
+            Resident partner = session.Present().First(r => session.World.Social.PartnerOf(r.Index) < 0);
             Relationship rel = session.World.RelationshipWith(partner);
             rel.Met = true;
             rel.Familiarity = 70f;

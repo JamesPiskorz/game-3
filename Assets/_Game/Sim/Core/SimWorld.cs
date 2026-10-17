@@ -4,6 +4,7 @@ using Game.Characters.Content;
 using Game.Characters.Dna;
 using Game.Sim.Relationships;
 using Game.Sim.Residents;
+using Game.Sim.Social;
 
 namespace Game.Sim
 {
@@ -48,6 +49,9 @@ namespace Game.Sim
         public SimTime Now = SimTime.At(0, 9);
         public PlayerCharacter Player = new PlayerCharacter();
 
+        /// <summary>Friendships and couples among the residents.</summary>
+        public SocialWeb Social = new SocialWeb();
+
         /// <summary>Interactions so far: part of every interaction's random seed, so replays from a save match.</summary>
         public long Actions;
 
@@ -57,6 +61,9 @@ namespace Game.Sim
 
         /// <summary>Residents at a location right now, in index order.</summary>
         public IEnumerable<Resident> At(string location) => Residents.Where(r => r.Schedule.At(Now) == location);
+
+        /// <summary>The relationship with resident <paramref name="index"/> if the player has one, else null (doesn't create one).</summary>
+        public Relationship Find(int index) => _relationships.TryGetValue(index, out Relationship relationship) ? relationship : null;
 
         public Relationship RelationshipWith(Resident resident)
         {

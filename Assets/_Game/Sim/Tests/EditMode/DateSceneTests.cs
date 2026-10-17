@@ -48,7 +48,7 @@ namespace Game.Sim.Tests
                 SimWorld world = Fixtures.Town(0xDA7E, 30);
                 var act = new Interactions(world);
                 int great = 0;
-                foreach (Resident resident in world.Residents)
+                foreach (Resident resident in world.Residents.Where(r => world.Social.PartnerOf(r.Index) < 0))
                 {
                     Fond(world.RelationshipWith(resident));
                     act.Invite(resident, "park", out DateScene scene);
@@ -66,7 +66,7 @@ namespace Game.Sim.Tests
             }
 
             int attentiveGreat = Great(true), carelessGreat = Great(false);
-            Assert.That(attentiveGreat, Is.GreaterThan(carelessGreat + 5), $"attentive {attentiveGreat}/30, careless {carelessGreat}/30");
+            Assert.That(attentiveGreat, Is.GreaterThan(carelessGreat + 4), $"attentive {attentiveGreat}, careless {carelessGreat} (of the single residents)");
         }
 
         [Test]
@@ -76,7 +76,7 @@ namespace Game.Sim.Tests
             world.Now = SimTime.At(5, 14);
             world.Player.Location = "park";
             var session = new TownSession(world);
-            Resident partner = session.Present().FirstOrDefault() ?? world.Residents.First(r => r.Schedule.At(world.Now) != SimCatalog.Home);
+            Resident partner = world.Residents.First(r => r.Schedule.At(world.Now) != SimCatalog.Home && world.Social.PartnerOf(r.Index) < 0);
             session.Travel(world.WhereIs(partner));
             Fond(world.RelationshipWith(partner));
             session.Select(partner);
@@ -103,7 +103,7 @@ namespace Game.Sim.Tests
         {
             SimWorld world = Fixtures.Town(0x5EED, 24);
             world.Now = SimTime.At(5, 14);
-            Resident partner = world.Residents.First(r => r.Schedule.At(world.Now) != SimCatalog.Home);
+            Resident partner = world.Residents.First(r => r.Schedule.At(world.Now) != SimCatalog.Home && world.Social.PartnerOf(r.Index) < 0);
             world.Player.Location = world.WhereIs(partner);
             var session = new TownSession(world);
             Fond(world.RelationshipWith(partner));

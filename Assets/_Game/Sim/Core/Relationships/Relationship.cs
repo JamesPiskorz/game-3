@@ -61,6 +61,9 @@ namespace Game.Sim.Relationships
         /// </summary>
         public Memory LovedTopic, LovedGift, GreatDate;
 
+        /// <summary>Friends of theirs who've spoken well of the player to them (each only counts once).</summary>
+        public SortedSet<int> HeardFrom = new SortedSet<int>();
+
         /// <summary>Reaction key → the line said last time, so nobody repeats themselves back to back.</summary>
         public SortedDictionary<string, string> LastLines = new SortedDictionary<string, string>(StringComparer.Ordinal);
 

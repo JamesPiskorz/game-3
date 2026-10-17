@@ -29,7 +29,7 @@ namespace Game.Sim.Tests
             string[] reactions =
             {
                 "greet.stranger", "greet.stranger.impressed", "greet.acquaintance", "greet.friend", "greet.close", "greet.dating",
-                "greet.remember.date", "greet.remember.gift", "greet.remember.topic",
+                "greet.remember.date", "greet.remember.gift", "greet.remember.topic", "greet.gossip", "date.taken", "date.leaves",
                 "talk.love", "talk.neutral", "talk.dislike", "talk.bored", "compliment.pleased", "compliment.style", "compliment.awkward",
                 "gift.love", "gift.ok", "gift.dislike", "gift.awkward", "gift.again",
                 "date.yes", "date.no", "date.notyet", "date.great", "date.fine", "date.awkward",

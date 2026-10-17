@@ -52,6 +52,11 @@
     border-color: rgba(255, 255, 255, 0.35);
 }
 
+.known.life {
+    color: rgb(170, 214, 255);
+    margin-bottom: 6px;
+}
+
 .known.style {
     color: rgb(200, 180, 255);
     margin-bottom: 6px;

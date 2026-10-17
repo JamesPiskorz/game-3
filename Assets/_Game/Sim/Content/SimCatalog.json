@@ -138,6 +138,12 @@
       { "tone": "bubbly", "text": "{player}! More {topic} talk today? Please say yes." },
       { "tone": "dry", "text": "I've had better conversations about {topic}. Kidding. That was the best one." }
     ],
+    "greet.gossip": [
+      { "tone": "any", "text": "{friend} won't stop saying nice things about you, you know." },
+      { "tone": "shy", "text": "{friend} told me you're really kind..." },
+      { "tone": "bubbly", "text": "{friend} says you're amazing, and {friend} is never wrong!" },
+      { "tone": "dry", "text": "{friend} vouches for you. That's rare." }
+    ],
     "talk.love": [
       { "tone": "any", "text": "Oh, I could talk about {topic} all day!" },
       { "tone": "warm", "text": "You like {topic} too? We're going to get along just fine." },
@@ -220,6 +226,16 @@
       { "tone": "shy", "text": "Y-yes. I'd like that a lot." },
       { "tone": "bubbly", "text": "Yes! Yes yes yes! {location}, here we come!" },
       { "tone": "dry", "text": "Fine. It's a date. Don't be late." }
+    ],
+    "date.taken": [
+      { "tone": "any", "text": "That's sweet, but I'm seeing {partner}." },
+      { "tone": "shy", "text": "I... I'm with {partner}. I'm sorry." },
+      { "tone": "dry", "text": "{partner} might have something to say about that." }
+    ],
+    "date.leaves": [
+      { "tone": "any", "text": "I can't keep pretending. I'll talk to {partner}... Yes. Let's go." },
+      { "tone": "shy", "text": "I've felt this for a while. I'll tell {partner}. Yes." },
+      { "tone": "dry", "text": "I'm going to regret telling {partner}. But yes." }
     ],
     "date.no": [
       { "tone": "any", "text": "That's sweet, but I don't think I feel that way." },

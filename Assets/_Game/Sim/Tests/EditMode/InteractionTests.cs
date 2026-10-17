@@ -230,7 +230,7 @@ namespace Game.Sim.Tests
                 var rng = new Game.Characters.Rng.Pcg32(1, 1);
                 var daysTaken = new int[world.Residents.Count];
                 for (int day = 0; day < 40; day++)
-                    foreach (Resident resident in world.Residents)
+                    foreach (Resident resident in world.Residents.Where(r => world.Social.PartnerOf(r.Index) < 0))
                     {
                         Relationship rel = world.RelationshipWith(resident);
                         if (rel.Dating) continue;
@@ -251,7 +251,7 @@ namespace Game.Sim.Tests
                         }
                         if (rel.Stage >= Stage.Friend && act.AskOnDate(resident, "park").Reaction == "date.yes") daysTaken[resident.Index] = day + 1;
                     }
-                return (float)daysTaken.Select(d => d == 0 ? 40 : d).Average();
+                return (float)world.Residents.Where(r => world.Social.PartnerOf(r.Index) < 0).Select(r => daysTaken[r.Index] == 0 ? 40 : daysTaken[r.Index]).Average();
             }
 
             float attentive = DaysToDating(true), random = DaysToDating(false);

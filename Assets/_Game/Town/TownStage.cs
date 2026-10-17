@@ -60,7 +60,7 @@ namespace Game.Town
             string outfit = date ? TownSession.DateOutfit : TownSession.DayOutfit;
             _player = Dress(_player, world.Player.Dna, world.Player.Outfit ?? TownSession.DayOutfit, "Player", world.Player.LookVersion);
 
-            List<Resident> present = session.Present();
+            List<Resident> present = Grouped(session.Present(), world);
             List<Resident> shown = present.Take(MaxShown).ToList();
             if (session.Selected != null && !shown.Contains(session.Selected))
                 shown[shown.Count - 1] = session.Selected;
@@ -76,8 +76,26 @@ namespace Game.Town
                 _residents[resident.Index] = Dress(existing, resident.Dna, outfit, resident.Name);
             }
 
-            Arrange(shown, session.Selected, date);
+            Arrange(shown, session.Selected, date, world);
             React(session);
+        }
+
+        /// <summary>Couples and friends stand together: each resident is followed by whoever they're with.</summary>
+        static List<Resident> Grouped(List<Resident> present, SimWorld world)
+        {
+            var ordered = new List<Resident>();
+            foreach (Resident resident in present)
+            {
+                if (ordered.Contains(resident)) continue;
+                ordered.Add(resident);
+                foreach (Resident other in present)
+                    if (!ordered.Contains(other) && (world.Social.AreCouple(resident.Index, other.Index) || world.Social.AreFriends(resident.Index, other.Index)))
+                    {
+                        ordered.Add(other);
+                        break;
+                    }
+            }
+            return ordered;
         }
 
         /// <summary>The speaker's face answers the latest interaction (the date's outcome, if it was a date).</summary>
@@ -112,7 +130,7 @@ namespace Game.Town
             return shown;
         }
 
-        void Arrange(List<Resident> shown, Resident selected, bool date)
+        void Arrange(List<Resident> shown, Resident selected, bool date, SimWorld world)
         {
             Vector3 camera = Screen(0.75f, 1.65f, 7.2f);
             var positions = new Dictionary<int, Vector3>();
@@ -128,13 +146,22 @@ namespace Game.Town
             else if (selected != null && positions.TryGetValue(selected.Index, out Vector3 partner)) player = partner + Screen(-0.95f, 0f, 0.8f);
             else player = Screen(positions.Count == 0 ? -0.6f : positions.Values.Min(p => -p.x) - 1.1f, 0f, 0.9f);
 
-            foreach (Resident resident in shown)
+            for (int i = 0; i < shown.Count; i++)
             {
+                Resident resident = shown[i];
                 Transform body = _residents[resident.Index].Character.transform;
                 Vector3 at = positions[resident.Index];
                 body.localPosition = at;
-                // Everyone half-turns to the camera; the selected resident turns to the player.
-                Vector3 facing = resident == selected ? (player - at) + (camera - at) * 0.4f : (player - at) * 0.4f + (camera - at);
+                // Everyone half-turns to the camera; the selected resident turns to the player, and people standing
+                // with a friend or partner turn towards them as if mid-conversation.
+                Resident companion = null;
+                foreach (int j in new[] { i - 1, i + 1 })
+                    if (j >= 0 && j < shown.Count && shown[j] != selected
+                        && (world.Social.AreCouple(resident.Index, shown[j].Index) || world.Social.AreFriends(resident.Index, shown[j].Index)))
+                        companion = shown[j];
+                Vector3 facing = resident == selected ? (player - at) + (camera - at) * 0.4f
+                    : companion != null ? (positions[companion.Index] - at) * 2f + (camera - at) * 0.35f
+                    : (player - at) * 0.4f + (camera - at);
                 body.localRotation = Flat(facing);
             }
 

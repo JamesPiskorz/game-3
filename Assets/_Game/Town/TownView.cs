@@ -256,6 +256,7 @@ namespace Game.Town
             Add(_card, new Label($"{profile.Subject}/{profile.Object}  ·  {profile.Age}  ·  {job}"), "card-sub");
             Add(_card, new Label(rel.Met ? StageName(rel.Stage) : "You haven't met yet"), "stage");
             if (rel.Familiarity >= StyleHintFamiliarity) Add(_card, new Label(StyleHint(profile, world)), "known", "style");
+            if (rel.Familiarity >= LifeFamiliarity) Add(_card, new Label(Life(selected, world)), "known", "life");
 
             Meter("Affection", rel.Affection, "affection");
             Meter("Attraction", rel.Attraction, "attraction");
@@ -355,6 +356,20 @@ namespace Game.Town
             });
             if (_choices == choices) button.AddToClassList("selected");
             return button;
+        }
+
+        /// <summary>Knowing someone a bit better, you hear about their friends and whether they're seeing anyone.</summary>
+        const float LifeFamiliarity = 25f;
+
+        static string Life(Resident resident, SimWorld world)
+        {
+            var parts = new List<string>();
+            List<string> friends = world.Social.FriendsOf(resident.Index).Select(i => world.Residents[i].Profile.FirstName).ToList();
+            if (friends.Count > 0) parts.Add("Friends with " + (friends.Count == 1 ? friends[0] : string.Join(", ", friends.Take(friends.Count - 1)) + " and " + friends.Last()));
+            int partner = world.Social.PartnerOf(resident.Index);
+            parts.Add(partner >= 0 ? $"seeing {world.Residents[partner].Profile.FirstName}" : "single");
+            string text = string.Join("; ", parts);
+            return char.ToUpperInvariant(text[0]) + text.Substring(1);
         }
 
         /// <summary>Once you know someone a little, you can tell what looks they go for.</summary>
