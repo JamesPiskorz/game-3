@@ -26,6 +26,11 @@ namespace Game.Characters.ContentAuthoring
             ("pattern.floral_01", (u, v) => Mathf.Max(
                 Polar(u, v, (r, a) => r < 0.27f * (0.45f + 0.55f * Mathf.Abs(Mathf.Cos(2.5f * a)))),
                 Polar(u, v, (r, a) => r < 0.07f) * 0.5f)),
+            // Denim: a fine diagonal twill, half strength so it reads as texture rather than stripes.
+            ("pattern.denim_01", (u, v) => Band(Mathf.Repeat((u + v) * 6f, 1f), 0.5f, 0.16f) * 0.4f),
+            // Knit: soft vertical ribs, with a chevron of stitches down each.
+            ("pattern.knit_01", (u, v) => 0.22f * (0.5f + 0.5f * Mathf.Cos(u * 4f * Mathf.PI))
+                + 0.32f * Band(Mathf.Repeat(v * 6f + Mathf.Abs(Mathf.Repeat(u * 2f, 1f) - 0.5f) * 1.2f, 1f), 0.5f, 0.13f)),
         };
 
         public static Texture2D Load(string id) => AssetDatabase.LoadAssetAtPath<Texture2D>($"{Folder}/{id}.png");

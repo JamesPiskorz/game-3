@@ -111,7 +111,9 @@
     { "id": "pattern.hearts_01", "name": "Hearts", "tags": ["cute", "date"], "minScale": 7, "maxScale": 12 },
     { "id": "pattern.stars_01", "name": "Stars", "tags": ["cute", "street", "casual"], "minScale": 7, "maxScale": 12 },
     { "id": "pattern.pinstripe_01", "name": "Pinstripe", "tags": ["elegant", "bookish", "gothic"], "minScale": 10, "maxScale": 16 },
-    { "id": "pattern.floral_01", "name": "Floral", "tags": ["cute", "elegant", "casual", "date"], "minScale": 6, "maxScale": 10 }
+    { "id": "pattern.floral_01", "name": "Floral", "tags": ["cute", "elegant", "casual", "date"], "minScale": 6, "maxScale": 10 },
+    { "id": "pattern.denim_01", "name": "Denim", "tags": ["casual", "street"], "minScale": 10, "maxScale": 16 },
+    { "id": "pattern.knit_01", "name": "Knit", "tags": ["cute", "bookish", "casual"], "minScale": 7, "maxScale": 11 }
   ],
 
   "palettes": [
