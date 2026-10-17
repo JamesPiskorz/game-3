@@ -57,11 +57,15 @@ namespace Game.Characters.Rendering
                 bool small = renderer.GetComponentInParent<Modular.CharacterPart>()?.Small == true;
                 renderer.shadowCastingMode = shadows && !small ? ShadowCastingMode.On : ShadowCastingMode.Off;
                 foreach (Material material in renderer.sharedMaterials)
-                    if (material != null) material.SetShaderPassEnabled(OutlinePass, small ? outlines && smallOutlines : outlines);
+                    if (material != null)
+                        material.SetShaderPassEnabled(OutlinePass, HasOutline(material) && (small ? outlines && smallOutlines : outlines));
             }
             foreach (SpringBoneChain chain in GetComponents<SpringBoneChain>())
                 chain.enabled = springs;
         }
+
+        /// <summary>Marks on the skin have no outline at all (width 0): drawing the pass would only cost a draw call.</summary>
+        static bool HasOutline(Material material) => !material.HasFloat(ToonMaterial.OutlineWidth) || material.GetFloat(ToonMaterial.OutlineWidth) > 0f;
 
         // Switch off past the threshold, back on only once clearly inside it.
         bool Within(float distance, float threshold, bool current) =>

@@ -816,6 +816,7 @@ namespace Game.Characters.StandIns
             material.SetColor(ToonMaterial.BaseShade, shade);
             material.SetFloat(ToonMaterial.Cull, (float)cull);
             material.SetFloat(ToonMaterial.OutlineWidth, outline);
+            if (outline <= 0f) material.SetShaderPassEnabled("SRPDefaultUnlit", false); // no outline, so no outline draw
             ToonMaterial.SetRegionColour(material, 0, new Color(0.55f, 0.6f, 0.75f));
             ToonMaterial.SetRegionColour(material, 1, new Color(0.25f, 0.22f, 0.2f));
             ToonMaterial.SetRegionColour(material, 2, Color.white);

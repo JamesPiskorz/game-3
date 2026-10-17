@@ -36,7 +36,7 @@
    - The creator re-applies after every edit, at about 0.07 ms per edit.
 10. **The creator talks only to `CreatorSession`** (pure C#: undo/redo, locks, rules). The UI Toolkit view is built from the catalog, so new sliders, parts and presets need no UI work.
 11. **Far characters drop detail** (`CharacterLod`): first the outline pass, then spring bones, then shadows, with hysteresis.
-12. **Face marks are parts, lipstick is a colour.** Freckles, beauty marks and blush are small parts in `face.` slots that the builder equips whatever the outfit, from the face DNA's makeup list; lipstick recolours the lips. That needed no change to the body mesh or a fifth face colour, and costs one small renderer per mark (about 0.35 per character). Marks are drawn on their own seed streams, so nobody's other features changed. About 14% of characters have freckles, 11% a beauty mark, 10% blush and 16% lipstick, led by their style.
+12. **Face marks are parts, lipstick is a colour.** Freckles, beauty marks and blush are small parts in `face.` slots that the builder equips whatever the outfit, from the face DNA's makeup list; lipstick recolours the lips. That needed no change to the body mesh or a fifth face colour, and costs one small renderer per mark: 23 more in the 40-character benchmark, about 0.35 ms as in play once marks skip the outline pass (a zero-width outline still cost a draw). Marks are drawn on their own seed streams, so nobody's other features changed. About 14% of characters have freckles, 11% a beauty mark, 10% blush and 16% lipstick, led by their style.
 
 ## Measurements
 
@@ -51,6 +51,7 @@
 | Render the town at 1080p | ~8.2 ms: outline pass ~45% of character cost, shadows ~20%, blendshapes ~3% |
 | … with outer layers in everyday outfits (243 renderers) | ~8.4 ms |
 | … with tonight's accessories (271 renderers), full detail / with `CharacterLod` as in play | ~9.3 / ~8.9 ms |
+| … with face marks (294 renderers; marks skip the outline pass), full detail / as in play | ~9.9 / ~9.25 ms |
 | Far view with `CharacterLod` | 7.3 → 3.75 ms |
 
 ## Consequences / next
