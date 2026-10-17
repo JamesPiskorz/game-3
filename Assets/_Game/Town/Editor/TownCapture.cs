@@ -31,8 +31,10 @@ namespace Game.Town
             "press:act-talk", "press:topic-{liked}", "shot:talk",
             "befriend", "press:act-gift", "press:gift-{gift}", "shot:gift",
             "press:act-date", "press:dateplace-park", "shot:date",
-            "press:act-end-date", "hour:20", "press:place-bar", "press:here-0", "shot:bar",
+            "press:act-end-date", "press:place-mall", "press:buy-0", "shot:boutique",
+            "hour:20", "press:place-bar", "press:here-0", "shot:bar",
             "hour:22", "press:place-park", "shot:park-night",
+            "press:place-home", "shot:wardrobe",
         };
 
         static int _frame, _step;

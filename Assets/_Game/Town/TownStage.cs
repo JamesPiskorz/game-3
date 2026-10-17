@@ -43,6 +43,7 @@ namespace Game.Town
             public ModularCharacter Character;
             public string Outfit;
             public CharacterDna Dna;
+            public int Version;
         }
 
         /// <summary>Positions are authored in screen terms (x right, z away from camera); the camera looks down -Z, so screen-right is world -X.</summary>
@@ -57,7 +58,7 @@ namespace Game.Town
 
             bool date = session.DateWith != null;
             string outfit = date ? TownSession.DateOutfit : TownSession.DayOutfit;
-            _player = Dress(_player, world.Player.Dna, world.Player.Outfit ?? TownSession.DayOutfit, "Player");
+            _player = Dress(_player, world.Player.Dna, world.Player.Outfit ?? TownSession.DayOutfit, "Player", world.Player.LookVersion);
 
             List<Resident> present = session.Present();
             List<Resident> shown = present.Take(MaxShown).ToList();
@@ -90,9 +91,9 @@ namespace Game.Town
             speaker.Character.GetComponent<FaceExpression>()?.Show(expression, strength);
         }
 
-        Shown Dress(Shown shown, CharacterDna dna, string outfit, string name)
+        Shown Dress(Shown shown, CharacterDna dna, string outfit, string name, int version = 0)
         {
-            if (shown != null && shown.Dna == dna && shown.Outfit == outfit) return shown;
+            if (shown != null && shown.Dna == dna && shown.Outfit == outfit && shown.Version == version) return shown;
             if (shown == null)
             {
                 ModularCharacter character = _builder.Build(dna, outfit, transform);
@@ -105,6 +106,7 @@ namespace Game.Town
             }
             shown.Dna = dna;
             shown.Outfit = outfit;
+            shown.Version = version;
             Poses.Relaxed(shown.Character.transform);
             return shown;
         }

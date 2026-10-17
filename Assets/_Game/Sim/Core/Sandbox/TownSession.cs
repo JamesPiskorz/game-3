@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Game.Characters.Content;
+using Game.Characters.Dna;
+using Game.Characters.Generation;
 using Game.Sim.Relationships;
 
 namespace Game.Sim.Sandbox
@@ -16,6 +19,9 @@ namespace Game.Sim.Sandbox
         public const int TravelMinutes = 20;
         public const string DateOutfit = "date";
         public const string DayOutfit = "casual";
+        public const int ShiftHours = 4;
+        public const int PayPerHour = 15;
+        public const int ChangeMinutes = 5;
 
         public SimWorld World { get; private set; }
         public Interactions Act { get; private set; }
@@ -48,6 +54,10 @@ namespace Game.Sim.Sandbox
         public void Load(SimWorld world)
         {
             World = world;
+            // Everyone starts out owning what they're wearing.
+            if (world.Player.Dna != null && world.Player.Wardrobe.Count == 0)
+                foreach (ItemDna item in world.Player.Dna.Outfits.SelectMany(o => o.Items))
+                    if (!world.Player.Wardrobe.Any(owned => Same(owned, item))) world.Player.Wardrobe.Add(Copy(item));
             Act = new Interactions(world);
             Selected = DateWith = Speaker = null;
             Last = null;
@@ -93,6 +103,157 @@ namespace Game.Sim.Sandbox
             Notice = "A new day: " + World.Now + ".";
             Raise();
         }
+
+        // ---------------------------------------------------------------- work and clothes
+
+        /// <summary>Anywhere that employs people can give the player a shift, while it's open.</summary>
+        public bool CanWork => DateWith == null && !AtHome && IsOpen(Location) && World.Catalog.Jobs.Any(j => j.Location == Location);
+
+        /// <summary>Works up to <see cref="ShiftHours"/> hours here (less if it closes first), paid by the hour.</summary>
+        public void Work()
+        {
+            Notice = null;
+            if (!CanWork)
+            {
+                Notice = "There's no work for you here right now.";
+                Raise();
+                return;
+            }
+            LocationEntry place = World.Catalog.Location(Location);
+            int hours = Math.Max(1, Math.Min(ShiftHours, place.Closes - World.Now.Hour));
+            World.Advance(hours * 60);
+            World.Player.Money += hours * PayPerHour;
+            Selected = null;
+            Last = null;
+            Notice = $"You worked {hours} hours at {place.Name}: +{hours * PayPerHour} coins.";
+            AfterTimePasses();
+            Raise();
+        }
+
+        /// <summary>Today's stock, if the player is at the boutique while it's open.</summary>
+        public List<ShopItem> Shop() =>
+            Location == Boutique.Location && IsOpen(Location) && DateWith == null ? Boutique.Stock(World, World.Now.Day) : new List<ShopItem>();
+
+        public bool Owns(ItemDna item) => World.Player.Wardrobe.Any(owned => Same(owned, item));
+
+        /// <summary>Buys a piece and puts it on.</summary>
+        public void Buy(ShopItem item)
+        {
+            Notice = null;
+            PlayerCharacter player = World.Player;
+            if (Owns(item.Item)) Notice = $"You already have that {item.Name.ToLowerInvariant()}.";
+            else if (player.Money < item.Price) Notice = $"That's {item.Price} coins, and you have {player.Money}.";
+            else
+            {
+                player.Money -= item.Price;
+                player.Wardrobe.Add(Copy(item.Item));
+                Notice = $"You bought the {item.Name.ToLowerInvariant()}.";
+                Wear(item.Item, quiet: true);
+            }
+            Raise();
+        }
+
+        /// <summary>The wardrobe pieces the player could change into now (owned, not already on).</summary>
+        public List<ItemDna> Changeable()
+        {
+            OutfitDna outfit = CurrentOutfit();
+            return World.Player.Wardrobe.Where(item => outfit == null || !outfit.Items.Any(worn => Same(worn, item))).ToList();
+        }
+
+        /// <summary>
+        /// Puts on a piece the player owns, in the outfit they're wearing now. Whatever it replaces or covers comes
+        /// off (a dress replaces top and bottom); a top or bottom without its partner pulls one from the wardrobe.
+        /// Fails, and changes nothing, if it doesn't go with their hair or the rest of the outfit.
+        /// </summary>
+        public bool Wear(ItemDna item, bool quiet = false)
+        {
+            if (!quiet) Notice = null;
+            OutfitDna outfit = CurrentOutfit();
+            PartEntry part = World.Characters.Part(item.ItemId);
+            if (outfit == null || part == null || !Owns(item))
+            {
+                if (!quiet) Notice = "You don't have that.";
+                Raise();
+                return false;
+            }
+
+            List<ItemDna> next = outfit.Items.Where(worn =>
+            {
+                PartEntry other = World.Characters.Part(worn.ItemId);
+                return other != null && other.Slot != part.Slot && !part.BlocksSlots.Contains(other.Slot) && !other.BlocksSlots.Contains(part.Slot);
+            }).ToList();
+            next.Add(Copy(item));
+            FillRequiredSlots(next);
+
+            if (!Wearable(next, out string problem))
+            {
+                Notice = problem;
+                Raise();
+                return false;
+            }
+            outfit.Items = next;
+            World.Player.LookVersion++;
+            World.Advance(ChangeMinutes);
+            if (!quiet) Notice = $"You change into the {(part.Name ?? ContentCatalog.Humanize(part.Id)).ToLowerInvariant()}.";
+            Raise();
+            return true;
+        }
+
+        OutfitDna CurrentOutfit()
+        {
+            CharacterDna dna = World.Player.Dna;
+            if (dna == null) return null;
+            return dna.Outfits.FirstOrDefault(o => o.Context == World.Player.Outfit) ?? dna.Outfits.FirstOrDefault();
+        }
+
+        /// <summary>Without a one-piece, a top and a bottom are needed: take them from the wardrobe if missing.</summary>
+        void FillRequiredSlots(List<ItemDna> items)
+        {
+            string SlotOf(ItemDna i) => World.Characters.Part(i.ItemId)?.Slot;
+            if (items.Any(i => SlotOf(i) == Slots.OnePiece)) return;
+            foreach (string slot in new[] { Slots.Top, Slots.Bottom })
+            {
+                if (items.Any(i => SlotOf(i) == slot)) continue;
+                ItemDna spare = World.Player.Wardrobe.FirstOrDefault(i => SlotOf(i) == slot);
+                if (spare != null) items.Add(Copy(spare));
+            }
+        }
+
+        bool Wearable(List<ItemDna> items, out string problem)
+        {
+            problem = null;
+            string SlotOf(ItemDna i) => World.Characters.Part(i.ItemId)?.Slot;
+            bool dressed = items.Any(i => SlotOf(i) == Slots.OnePiece) || (items.Any(i => SlotOf(i) == Slots.Top) && items.Any(i => SlotOf(i) == Slots.Bottom));
+            if (!dressed)
+            {
+                problem = "You'd need something to wear with that.";
+                return false;
+            }
+            List<PartEntry> hair = World.Player.Dna.Hair.PieceIds.Select(World.Characters.Part).Where(p => p != null).ToList();
+            List<PartEntry> parts = items.Select(i => World.Characters.Part(i.ItemId)).ToList();
+            foreach (PartEntry part in parts)
+            {
+                List<PartEntry> others = hair.Concat(parts.Where(p => p != part)).ToList();
+                if (CharacterGenerator.Compatible(part, others)) continue;
+                string name = (part.Name ?? ContentCatalog.Humanize(part.Id)).ToLowerInvariant();
+                problem = part.RequiresTags.Count > 0 ? $"The {name} doesn't work with your hair." : $"The {name} doesn't go with the rest of your outfit.";
+                return false;
+            }
+            return true;
+        }
+
+        static bool Same(ItemDna a, ItemDna b) =>
+            a.ItemId == b.ItemId && a.PatternId == b.PatternId && a.RegionColors.Count == b.RegionColors.Count
+            && a.RegionColors.Zip(b.RegionColors, (x, y) => HsvColor.Distance(x, y) < 1e-3f).All(same => same);
+
+        static ItemDna Copy(ItemDna item) => new ItemDna
+        {
+            ItemId = item.ItemId,
+            RegionColors = item.RegionColors.ToList(),
+            PatternId = item.PatternId,
+            PatternScale = item.PatternScale,
+            PatternColor = item.PatternColor,
+        };
 
         /// <summary>Shows a message from outside the sim ("Game saved").</summary>
         public void Tell(string message)

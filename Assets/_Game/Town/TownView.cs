@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Game.Characters.Content;
+using Game.Characters.Dna;
 using Game.Sim;
 using Game.Sim.Relationships;
+using Game.Sim.Residents;
 using Game.Sim.Sandbox;
 using UnityEngine.UIElements;
 
@@ -16,8 +19,9 @@ namespace Game.Town
     public sealed class TownView
     {
         readonly TownSession _session;
-        readonly Label _clock, _place, _notice, _speaker, _line, _followUp, _learnt;
-        readonly VisualElement _dialogue, _deltas, _places, _here, _card;
+        readonly Label _clock, _place, _coins, _notice, _speaker, _line, _followUp, _learnt;
+        readonly VisualElement _dialogue, _deltas, _places, _here, _card, _clothes;
+        readonly Button _work;
         string _choices; // "talk", "gift" or "date": which picker is open under the actions
         Resident _choicesFor;
 
@@ -30,7 +34,9 @@ namespace Game.Town
             var top = Add(main, new VisualElement(), "topbar");
             _clock = Add(top, new Label(), "clock");
             _place = Add(top, new Label(), "place");
+            _coins = Add(top, new Label(), "coins");
             Add(top, new VisualElement(), "spacer");
+            _work = Add(top, Button("work", "Work a shift", () => _session.Work()));
             Add(top, Button("wait", "Wait an hour", () => _session.Wait()));
             Add(top, Button("sleep", "Sleep", () => _session.Sleep()));
             Add(top, Button("save", "Save", save));
@@ -49,6 +55,7 @@ namespace Game.Town
             _places = Add(panel, new VisualElement(), "chips");
             Add(panel, new Label("Here"), "section");
             _here = Add(panel, new VisualElement(), "here");
+            _clothes = Add(panel, new VisualElement(), "clothes");
             _card = Add(panel, new VisualElement(), "card");
 
             session.Changed += Refresh;
@@ -60,13 +67,72 @@ namespace Game.Town
             SimWorld world = _session.World;
             _clock.text = world.Now.ToString();
             _place.text = _session.LocationName(_session.Location) + (_session.DateWith != null ? $"  ·  on a date with {_session.DateWith.Profile.FirstName}" : "");
+            _coins.text = $"{world.Player.Money} coins";
+            _work.style.display = _session.CanWork ? DisplayStyle.Flex : DisplayStyle.None;
             _notice.text = _session.Notice ?? "";
             _notice.style.display = _session.Notice == null ? DisplayStyle.None : DisplayStyle.Flex;
 
             RefreshDialogue();
             RefreshPlaces(world);
             RefreshHere();
+            RefreshClothes(world);
             RefreshCard(world);
+        }
+
+        /// <summary>The boutique's stock at the mall, the wardrobe at home.</summary>
+        void RefreshClothes(SimWorld world)
+        {
+            _clothes.Clear();
+            List<ShopItem> shop = _session.Shop();
+            if (shop.Count > 0)
+            {
+                Add(_clothes, new Label("Boutique"), "section");
+                var stock = Add(_clothes, new VisualElement(), "chips");
+                for (int i = 0; i < shop.Count; i++)
+                {
+                    ShopItem item = shop[i];
+                    bool owned = _session.Owns(item.Item);
+                    string style = world.Characters.Archetype(item.Style)?.Name ?? item.Style;
+                    string label = $"{item.Name}  \u00B7  {style}  \u00B7  {(owned ? "owned" : item.Price.ToString())}";
+                    Button button = Add(stock, Garment("buy-" + i, label, item.Item, () => _session.Buy(item)), "chip");
+                    button.SetEnabled(!owned && world.Player.Money >= item.Price);
+                }
+            }
+            if (_session.AtHome && _session.DateWith == null)
+            {
+                List<ItemDna> wardrobe = _session.Changeable();
+                Add(_clothes, new Label("Wardrobe"), "section");
+                if (wardrobe.Count == 0) Add(_clothes, new Label("Everything you own is on. The boutique at Arcade Lane has more."), "hint");
+                var row = Add(_clothes, new VisualElement(), "chips");
+                for (int i = 0; i < wardrobe.Count; i++)
+                {
+                    ItemDna item = wardrobe[i];
+                    PartEntry part = world.Characters.Part(item.ItemId);
+                    Add(row, Garment("wear-" + i, part?.Name ?? ContentCatalog.Humanize(item.ItemId), item, () => _session.Wear(item)), "chip");
+                }
+            }
+        }
+
+        /// <summary>A button showing a piece of clothing: a dot of its main colour, then its label.</summary>
+        static Button Garment(string name, string text, ItemDna item, Action clicked)
+        {
+            Button button = Button(name, "", clicked);
+            button.AddToClassList("garment");
+            button.Add(Swatch(item));
+            button.Add(new Label(text));
+            return button;
+        }
+
+        static VisualElement Swatch(ItemDna item)
+        {
+            var swatch = new VisualElement();
+            swatch.AddToClassList("swatch");
+            if (item.RegionColors.Count > 0)
+            {
+                HsvColor c = item.RegionColors[0];
+                swatch.style.backgroundColor = UnityEngine.Color.HSVToRGB(c.H - (float)Math.Floor(c.H), Math.Max(0f, Math.Min(1f, c.S)), Math.Max(0f, Math.Min(1f, c.V)));
+            }
+            return swatch;
         }
 
         void RefreshDialogue()
@@ -144,6 +210,7 @@ namespace Game.Town
             string job = world.Catalog.Job(profile.JobId)?.Name ?? "";
             Add(_card, new Label($"{profile.Subject}/{profile.Object}  ·  {profile.Age}  ·  {job}"), "card-sub");
             Add(_card, new Label(rel.Met ? StageName(rel.Stage) : "You haven't met yet"), "stage");
+            if (rel.Familiarity >= StyleHintFamiliarity) Add(_card, new Label(StyleHint(profile, world)), "known", "style");
 
             Meter("Affection", rel.Affection, "affection");
             Meter("Attraction", rel.Attraction, "attraction");
@@ -212,6 +279,16 @@ namespace Game.Town
             });
             if (_choices == choices) button.AddToClassList("selected");
             return button;
+        }
+
+        /// <summary>Once you know someone a little, you can tell what looks they go for.</summary>
+        const float StyleHintFamiliarity = 20f;
+
+        static string StyleHint(ResidentProfile profile, SimWorld world)
+        {
+            List<string> styles = profile.StyleTaste.Where(t => t.Key != "date").OrderByDescending(t => t.Value).Take(2)
+                .Select(t => (world.Characters.Archetype(t.Key)?.Name ?? t.Key).ToLowerInvariant()).ToList();
+            return $"Goes for {string.Join(" and ", styles)} looks";
         }
 
         static string StageName(Stage stage) => stage switch

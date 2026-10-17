@@ -21,7 +21,8 @@
 }
 
 .clock,
-.place {
+.place,
+.coins {
     background-color: rgba(24, 22, 32, 0.85);
     border-radius: 10px;
     padding: 8px 14px;
@@ -31,6 +32,29 @@
 
 .place {
     color: rgb(255, 196, 214);
+}
+
+.coins {
+    color: rgb(255, 214, 120);
+}
+
+.garment {
+    flex-direction: row;
+    align-items: center;
+}
+
+.swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 7px;
+    margin-right: 6px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.35);
+}
+
+.known.style {
+    color: rgb(200, 180, 255);
+    margin-bottom: 6px;
 }
 
 .notice {

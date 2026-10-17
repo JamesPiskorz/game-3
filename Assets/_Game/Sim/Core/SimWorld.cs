@@ -26,6 +26,13 @@ namespace Game.Sim
         /// <summary>Which of their outfits they're wearing (an outfit context ID).</summary>
         public string Outfit = "casual";
         public string Location = "park";
+        public int Money = 150;
+
+        /// <summary>Every piece of clothing they own, worn or not.</summary>
+        public List<ItemDna> Wardrobe = new List<ItemDna>();
+
+        /// <summary>Goes up whenever what they're wearing changes, so views know to redress them.</summary>
+        public int LookVersion;
     }
 
     /// <summary>

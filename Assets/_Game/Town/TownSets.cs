@@ -134,8 +134,8 @@ namespace Game.Town
                    .Add(PrimitiveType.Cube, x, 1.2f, -2.82f, 2.6f, 1.8f, 0.05f, C(190, 220, 236))
                    .Add(PrimitiveType.Cube, x, 2.55f, -2.6f, 3.4f, 0.12f, 0.8f, awnings[i]);
             }
-            set.Add(PrimitiveType.Cylinder, 3.6f, 0.4f, 0.6f, 1.2f, 0.4f, 1.2f, C(200, 196, 190))          // planter
-               .Add(PrimitiveType.Sphere, 3.6f, 1.1f, 0.6f, 1f, 0.9f, 1f, C(100, 160, 96));
+            set.Add(PrimitiveType.Cylinder, 5.6f, 0.4f, -1.6f, 1.2f, 0.4f, 1.2f, C(200, 196, 190))         // planter
+               .Add(PrimitiveType.Sphere, 5.6f, 1.1f, -1.6f, 1f, 0.9f, 1f, C(100, 160, 96));
             return set;
         }
 

@@ -28,6 +28,8 @@ namespace Game.Sim
         public string PlayerDna;
         public string PlayerOutfit;
         public string PlayerLocation;
+        public int PlayerMoney;
+        public List<ItemDna> PlayerWardrobe = new List<ItemDna>();
         public List<Relationship> Relationships = new List<Relationship>();
 
         public static SimSave Capture(SimWorld world) => new SimSave
@@ -40,6 +42,8 @@ namespace Game.Sim
             PlayerDna = world.Player.Dna == null ? null : DnaSerializer.ToShareCode(world.Player.Dna),
             PlayerOutfit = world.Player.Outfit,
             PlayerLocation = world.Player.Location,
+            PlayerMoney = world.Player.Money,
+            PlayerWardrobe = world.Player.Wardrobe.ToList(),
             Relationships = world.Relationships.ToList(),
         };
 
@@ -57,6 +61,8 @@ namespace Game.Sim
                 Dna = PlayerDna == null ? null : DnaSerializer.FromShareCode(PlayerDna),
                 Outfit = PlayerOutfit,
                 Location = PlayerLocation,
+                Money = PlayerMoney,
+                Wardrobe = PlayerWardrobe ?? new List<ItemDna>(),
             };
             foreach (Relationship relationship in Relationships)
             {
