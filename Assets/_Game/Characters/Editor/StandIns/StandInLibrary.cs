@@ -46,6 +46,14 @@ namespace Game.Characters.StandIns
         static readonly Vector3 HeadCentre = StandInSkeleton.HeadCentre;
         const float HeadR = StandInSkeleton.HeadRadius;
 
+        /// <summary>The bridge over the nose and the arms back to the ears, shared by the glasses.</summary>
+        static void GlassesBridgeAndArms(StandInMesh m, float hinge)
+        {
+            m.AddTube(new Tube { Region = None, Start = new Vector3(-0.016f, 1.66f, 0.113f), End = new Vector3(0.016f, 1.66f, 0.113f), R0 = 0.0025f, R1 = 0.0025f, Bone = "Head" }, 0f, Cap.Closed, Cap.Closed, Region1, false, withShapes: false);
+            foreach (float x in new[] { -hinge, hinge })
+                m.AddTube(new Tube { Region = None, Start = new Vector3(x, 1.66f, 0.108f), End = new Vector3(x * 1.69f, 1.655f, -0.005f), R0 = 0.0025f, R1 = 0.0025f, Bone = "Head" }, 0f, Cap.Closed, Cap.Closed, Region1, false, withShapes: false);
+        }
+
         /// <summary>A point on the face (x and height) on the head sphere, sunk <paramref name="depth"/> along its normal.</summary>
         static Vector3 OnSkin(float x, float y, float depth)
         {
@@ -510,6 +518,41 @@ namespace Game.Characters.StandIns
                     m.AddTube(new Tube { Region = None, Start = new Vector3(-0.016f, 1.66f, 0.113f), End = new Vector3(0.016f, 1.66f, 0.113f), R0 = 0.0025f, R1 = 0.0025f, Bone = "Head" }, 0f, Cap.Closed, Cap.Closed, Region1, false, withShapes: false);
                     foreach (float x in new[] { -0.064f, 0.064f })
                         m.AddTube(new Tube { Region = None, Start = new Vector3(x, 1.66f, 0.108f), End = new Vector3(x * 1.72f, 1.655f, -0.005f), R0 = 0.0025f, R1 = 0.0025f, Bone = "Head" }, 0f, Cap.Closed, Cap.Closed, Region1, false, withShapes: false);
+                },
+            };
+            yield return new Recipe
+            {
+                Id = "acc.glasses.square_01", Slot = "glasses", Material = "Accessory", FollowsBodyShapes = false, Small = true,
+                Build = m =>
+                {
+                    // Rectangular rims, each four bars round a lens, with the same bridge and arms as the round pair.
+                    foreach (float x in new[] { -0.04f, 0.04f })
+                    {
+                        Vector3 c = new Vector3(x, 1.655f, 0.112f);
+                        Vector3[] corners = { c + new Vector3(-0.025f, 0.016f, 0f), c + new Vector3(0.025f, 0.016f, 0f), c + new Vector3(0.025f, -0.014f, 0f), c + new Vector3(-0.025f, -0.014f, 0f) };
+                        for (int i = 0; i < 4; i++)
+                            m.AddTube(new Tube { Region = None, Start = corners[i], End = corners[(i + 1) % 4], R0 = 0.0028f, R1 = 0.0028f, Bone = "Head" }, 0f, Cap.Closed, Cap.Closed, Region1, false, withShapes: false);
+                    }
+                    GlassesBridgeAndArms(m, 0.065f);
+                },
+            };
+            yield return new Recipe
+            {
+                Id = "acc.glasses.cateye_01", Slot = "glasses", Material = "Accessory", FollowsBodyShapes = false, Small = true,
+                Build = m =>
+                {
+                    // Wide rims with their outer corners swept up: each lens's rim is cut level, then tilted.
+                    foreach (float x in new[] { -0.04f, 0.04f })
+                    {
+                        Vector3 c = new Vector3(x, 1.656f, 0.112f);
+                        int start = m.VertexCount;
+                        m.AddEllipsoid(c, new Vector3(0.027f, 0.017f, 0.0045f), None, false, "Head", Region1, d => Mathf.Abs(d.z) < 0.55f);
+                        m.Rotate(start, c, Quaternion.Euler(0f, 0f, x < 0f ? -12f : 12f));
+                        Vector3 wing = c + new Vector3(Mathf.Sign(x) * 0.025f, 0.01f, 0f);
+                        m.AddTube(new Tube { Region = None, Start = wing - new Vector3(Mathf.Sign(x) * 0.006f, 0.004f, 0f), End = wing + new Vector3(Mathf.Sign(x) * 0.006f, 0.005f, 0f), R0 = 0.0035f, R1 = 0.0018f, Bone = "Head" },
+                            0f, Cap.Closed, Cap.Closed, Region1, false, withShapes: false);
+                    }
+                    GlassesBridgeAndArms(m, 0.066f);
                 },
             };
             // ---------------- outer layers: over any top, so thicker than all of them (the hoodie is Cloth * 1.8)

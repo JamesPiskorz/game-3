@@ -95,6 +95,8 @@
     { "id": "hair.front.curtain_01", "name": "Curtain bangs", "slot": "hair.front", "tags": ["cute", "elegant", "casual", "street"] },
 
     { "id": "acc.glasses.round_01", "name": "Round glasses", "slot": "glasses", "tags": ["bookish", "elegant", "casual"] },
+    { "id": "acc.glasses.square_01", "name": "Square glasses", "slot": "glasses", "tags": ["bookish", "street", "casual"] },
+    { "id": "acc.glasses.cateye_01", "name": "Cat-eye glasses", "slot": "glasses", "tags": ["elegant", "gothic", "cute"], "lean": 0.4 },
     { "id": "cloth.outer.jacket_01", "name": "Jacket", "slot": "outer", "tags": ["casual", "street", "sporty", "bookish"], "regions": 2, "excludesTags": ["hooded", "tailored"] },
     { "id": "cloth.outer.coat_01", "name": "Coat", "slot": "outer", "tags": ["elegant", "gothic", "bookish", "cute", "casual"], "regions": 2, "excludesTags": ["hooded", "tailored"] },
     { "id": "cloth.legwear.tights_01", "name": "Tights", "slot": "legwear", "tags": ["gothic", "elegant", "cute", "bookish", "date"], "regions": 1, "patternable": true, "requiresTags": ["bare_legs"] },
