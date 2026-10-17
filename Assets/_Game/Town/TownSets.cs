@@ -23,11 +23,11 @@ namespace Game.Town
             /// <summary>Where people can sit (screen terms), facing the room.</summary>
             public readonly List<Vector3> Seats = new List<Vector3>();
 
-            /// <summary>A stool, and a seat on it.</summary>
-            public Set Seat(float x, float z, Color colour)
+            /// <summary>A seat at chair height, on a stool of its own unless it's on a bench already there.</summary>
+            public Set Seat(float x, float z, Color colour, bool stool = true)
             {
                 Seats.Add(new Vector3(x, 0f, z));
-                return Add(PrimitiveType.Cylinder, x, 0.22f, z, 0.42f, 0.22f, 0.42f, colour);
+                return stool ? Add(PrimitiveType.Cylinder, x, 0.22f, z, 0.42f, 0.22f, 0.42f, colour) : this;
             }
 
             public Set Add(PrimitiveType shape, float x, float y, float z, float sx, float sy, float sz, Color colour, float yaw = 0f)
@@ -96,9 +96,11 @@ namespace Game.Town
             Tree(4.6f, -3.2f, 1.4f);
             Tree(-1.2f, -5.5f, 1.5f);
             Tree(2.0f, -6.5f, 1.3f);
-            set.Add(PrimitiveType.Cube, 3.6f, 0.45f, -1.2f, 1.8f, 0.08f, 0.5f, C(150, 100, 70), -15f)    // bench
-               .Add(PrimitiveType.Cube, 3.6f, 0.22f, -1.2f, 1.6f, 0.44f, 0.08f, C(70, 70, 76), -15f)
+            // A bench on the left (the HUD covers the right), with room for two.
+            set.Add(PrimitiveType.Cube, -3.2f, 0.45f, -1.3f, 1.8f, 0.08f, 0.5f, C(150, 100, 70))         // bench
+               .Add(PrimitiveType.Cube, -3.2f, 0.22f, -1.3f, 1.6f, 0.44f, 0.08f, C(70, 70, 76))
                .Add(PrimitiveType.Cylinder, 0f, 0.005f, 0.2f, 3.4f, 0.005f, 9f, C(196, 180, 150));      // path
+            set.Seat(-3.65f, -1.3f, default, stool: false).Seat(-2.75f, -1.3f, default, stool: false);
             return set;
         }
 

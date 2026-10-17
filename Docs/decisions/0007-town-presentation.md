@@ -19,7 +19,7 @@ The town is **a set of stages**, one per location, rather than a continuous spac
   - Newcomers walk in from the nearest side, and leavers walk off. The player steps up beside whoever they pick.
   - A procedural walk cycle and idle motion (`IdleMotion`) stand in for animation.
   - Arriving somewhere new shows the scene as it is, without walking.
-  - Places with seats (the café, the library) seat a few people behind their tables, facing the room: those on their own, not being talked to and not at work there. Whoever the player turns to stands up. Sitting is another `IdleMotion` blend (hips down, legs folded, hands to the lap). Tables sit on the left, since the HUD covers the right.
+  - Places with seats (the café, the library, the park bench) seat a few people behind their tables, facing the room: those on their own, not being talked to and not at work there. Whoever the player turns to stands up. Sitting is another `IdleMotion` blend (hips down, legs folded, hands to the lap). Tables sit on the left, since the HUD covers the right.
 - **The view is a projection of the session:** `TownSession` (pure C#) owns the rules, and `TownView` and `TownStage` only draw it. Captures press the same buttons a player would.
 
 ## Consequences
