@@ -90,6 +90,9 @@ namespace Game.Characters.Content
             if (Archetypes.Count == 0) errors.Add("No archetypes.");
             if (FacePresets.Count == 0) errors.Add("No face presets.");
             if (Contexts.Count == 0) errors.Add("No outfit contexts.");
+            foreach (OutfitContext context in Contexts.Where(c => c.Outer))
+                if (!PartsInSlot(Slots.Outer).Any(p => p.Contexts.Count == 0 || p.Contexts.Contains(context.Id)))
+                    errors.Add($"Context '{context.Id}' needs an outer layer, but no outer part fits it.");
             return errors;
         }
     }
@@ -104,6 +107,7 @@ namespace Game.Characters.Content
         public const string Hat = "hat";
         public const string Glasses = "glasses";
         public const string Neck = "neck";
+        public const string Outer = "outer";
         public const string HairBack = "hair.back";
         public const string HairFront = "hair.front";
     }
@@ -234,6 +238,9 @@ namespace Game.Characters.Content
         public float GradientChance = 0.15f;
         public float GlassesChance = 0.1f;
         public float NeckChance = 0.1f;
+
+        /// <summary>The chance an outfit adds an outer layer (jacket, coat) by choice; contexts can require one.</summary>
+        public float OuterChance = 0.1f;
         public float HatChance = 0.1f;
         public float NoBangsChance = 0.25f;
     }
@@ -244,6 +251,9 @@ namespace Game.Characters.Content
         public string Name;
         public Dictionary<string, float> TagWeights = new Dictionary<string, float>();
         public bool Shoes = true;
+
+        /// <summary>Every outfit for this context has an outer layer (a rainy day's coat).</summary>
+        public bool Outer;
     }
 
     public sealed class HairRules

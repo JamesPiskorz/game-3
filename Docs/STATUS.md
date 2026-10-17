@@ -7,7 +7,7 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 | Area | State | Where |
 |---|---|---|
 | Character DNA | v1: versioned, deterministic JSON, share codes, migration scaffold | `Characters/Core/Dna` |
-| Generator | Archetypes, presets + noise, colour harmony, slot/tag rules, skin-contrast rule, population mode with families (siblings who look related), reroll with locks | `Characters/Core/Generation`, `Content/Catalog.json` |
+| Generator | Archetypes, presets + noise, colour harmony, slot/tag rules, skin-contrast rule, population mode with families (siblings who look related), outer layers (a jacket or coat by choice, and a coat on rainy days), reroll with locks | `Characters/Core/Generation`, `Content/Catalog.json` |
 | Runtime assembly | Bone rebinding, part-only bone grafting, blendshape mirroring, region hiding, slot blocking | `Characters/Runtime/Modular` (decision 0001) |
 | Builder | DNA → character, idempotent, sliders/styles on bones, colours, patterns | `Characters/Runtime/Building` |
 | Toon shading | `Game/Characters/Toon`: ramp shading, hand-picked skin shades, outlines, recolour masks, patterns | `Characters/Shaders` (decision 0002) |
@@ -27,12 +27,12 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 | Chat | A resident starts a conversation (something they love, their day, a worry once they know you, a daydream) and the player answers warmly, playfully or with a question. A reply that lands draws them out for a second exchange, and two in a row leave them feeling heard. What lands depends on personality: warmth comforts a worrier, teasing suits the outgoing and stings the anxious. Once one way works twice, the card says what they respond to and marks that reply | `Sim/Core/Relationships/Chat.cs`, `Interactions.StartChat` |
 | Barks | A few residents at each place say something out loud each hour (the weather, their work, a night out, their partner, a love of theirs), shown as speech bubbles over their heads | `Sim/Core/Sandbox/Barks.cs` |
 | Hints | One gentle tip at a time for new players: head out, pick someone, say hi, learn their likes, ask them out | `TownSession.Hint` |
-| Weather | Sunny, cloudy or rainy each day, from the seed. Rain empties the park as people shelter indoors, greys the sky and falls on outdoor scenes | `Sim/Core/Weather.cs`, `SimWorld.WhereIs` |
+| Weather | Sunny, cloudy or rainy each day, from the seed. Rain empties the park as people shelter indoors, puts everyone in their rainy-day outfit with a coat, greys the sky and falls on outdoor scenes | `Sim/Core/Weather.cs`, `SimWorld.WhereIs` |
 | Invitations | Close friends and partners message the player to meet later today, where their plans already take them; turning up starts a date, standing them up costs | `Sim/Core/Sandbox/Invitations.cs` |
 | Expressions | Seven facial expressions plus blinking on the face bones, plus idle breathing, sway, gaze and a procedural walk cycle (people walk in and out of town scenes as time passes). Both layer over the builder's pose; residents react and nod at each interaction | `Characters/Runtime/Expressions`, `Docs/review/expressions.png` |
-| Stand-in content | Procedural body with simple face, 33 parts (12 hair, 21 clothing and accessories, including neckwear), 9 face presets, 7 eye and 5 brow styles, 8 patterns, toon materials. **Placeholder art until Phase 1.** | `Characters/Editor/StandIns`, `Content/StandIn` |
+| Stand-in content | Procedural body with simple face, 35 parts (12 hair, 23 clothing and accessories, including neckwear and outer layers), 9 face presets, 7 eye and 5 brow styles, 8 patterns, toon materials. **Placeholder art until Phase 1.** | `Characters/Editor/StandIns`, `Content/StandIn` |
 | Performance | Town benchmark; distance-based detail (`CharacterLod`) | decision 0004, `Docs/review/perf.md` |
-| Tests | 235 Unity EditMode tests (110 characters, 125 sim); the pure C# sets also run on .NET 8 | `Characters/Tests`, `Sim/Tests` |
+| Tests | 239 Unity EditMode tests (113 characters, 126 sim); the pure C# sets also run on .NET 8 | `Characters/Tests`, `Sim/Tests` |
 
 ## Try it
 

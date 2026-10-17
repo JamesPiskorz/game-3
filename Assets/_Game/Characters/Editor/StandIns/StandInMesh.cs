@@ -79,6 +79,12 @@ namespace Game.Characters.StandIns
             /// </summary>
             public float ShapeRadius;
 
+            /// <summary>
+            /// Which parts of the way round to keep (0..1 around the tube; for upright tubes 0.25 faces forward). Null
+            /// keeps all of it; leaving out the front makes an open jacket.
+            /// </summary>
+            public Func<float, bool> KeepAround;
+
             public Tube Clone() => (Tube)MemberwiseClone();
         }
 
@@ -105,7 +111,7 @@ namespace Game.Characters.StandIns
         /// Joins rows of vertices (rings) into quads. Where the mask steps between two rings (a trim or hem), that
         /// band gets its own copies of both rings in the band's colour, so the edge stays crisp instead of smearing.
         /// </summary>
-        void Stitch(int first, int columns, int bands, Func<int, float> along, MaskFunction mask)
+        void Stitch(int first, int columns, int bands, Func<int, float> along, MaskFunction mask, Func<float, bool> keepAround = null)
         {
             for (int band = 0; band < bands; band++)
             {
@@ -118,7 +124,8 @@ namespace Game.Characters.StandIns
                     upper = Duplicate(upper, columns, middle, mask);
                 }
                 for (int column = 0; column < columns - 1; column++)
-                    AddQuad(lower + column, lower + column + 1, upper + column + 1, upper + column);
+                    if (keepAround == null || keepAround((column + 0.5f) / (columns - 1)))
+                        AddQuad(lower + column, lower + column + 1, upper + column + 1, upper + column);
             }
         }
 
@@ -225,7 +232,7 @@ namespace Game.Characters.StandIns
                 }
             }
 
-            Stitch(first, Sides + 1, Rings, ring => ring / (float)Rings, mask);
+            Stitch(first, Sides + 1, Rings, ring => ring / (float)Rings, mask, tube.KeepAround);
 
             AddCap(tube, startCap, first, 0f, -axis, u, v, offset, collarRadius, painted, mask);
             AddCap(tube, endCap, first + Rings * (Sides + 1), 1f, axis, u, v, offset, collarRadius, painted, mask);
@@ -258,6 +265,7 @@ namespace Game.Characters.StandIns
             }
             for (int side = 0; side < Sides; side++)
             {
+                if (tube.KeepAround != null && !tube.KeepAround((side + 0.5f) / Sides)) continue;
                 int next = (side + 1) % Sides;
                 AddQuad(rim + side, rim + next, inner + next, inner + side);
             }

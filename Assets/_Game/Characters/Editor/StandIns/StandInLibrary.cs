@@ -364,6 +364,63 @@ namespace Game.Characters.StandIns
                         m.AddTube(new Tube { Region = None, Start = new Vector3(x, 1.66f, 0.108f), End = new Vector3(x * 1.72f, 1.655f, -0.005f), R0 = 0.0025f, R1 = 0.0025f, Bone = "Head" }, 0f, Cap.Closed, Cap.Closed, Region1, false, withShapes: false);
                 },
             };
+            // ---------------- outer layers: over any top, so thicker than all of them (the hoodie is Cloth * 1.8)
+            yield return new Recipe
+            {
+                Id = "cloth.outer.jacket_01", Slot = "outer", Material = "Cloth",
+                Covers = UpperTorso | LowerTorso | UpperArmL | UpperArmR | ForearmL | ForearmR,
+                Build = m =>
+                {
+                    const float thick = Cloth * 2.8f;
+                    // Open down the front, so the top shows through: the columns facing forward are left out.
+                    Func<float, bool> open = around => Mathf.Abs(around - 0.25f) > 0.06f;
+                    Tube chest = StandInBody.TubeFor(UpperTorso);
+                    chest.KeepAround = open;
+                    Tube waist = StandInBody.TubeFor(LowerTorso);
+                    waist.KeepAround = open;
+                    m.AddTube(chest, thick, Cap.Open, Cap.Collar, Region1, false, collarRadius: 0.085f);
+                    m.AddTube(waist, thick, Cap.Open, Cap.Open, Trim(0.14f, true, false), false);
+                    // A collar standing round the back of the neck, in the trim colour.
+                    Tube collar = StandInBody.TubeFor(Neck);
+                    collar.End = Vector3.Lerp(collar.Start, collar.End, 0.45f);
+                    collar.KeepAround = around => Mathf.Abs(around - 0.25f) > 0.12f;
+                    m.AddTube(collar, 0.03f, Cap.Open, Cap.Open, RegionTwo, false);
+                    foreach (BodyRegions arm in new[] { UpperArmL, UpperArmR })
+                        m.AddTube(StandInBody.TubeFor(arm), thick, Cap.Open, Cap.Open, Region1, false);
+                    foreach (BodyRegions forearm in new[] { ForearmL, ForearmR })
+                        m.AddTube(StandInBody.TubeFor(forearm), thick, Cap.Open, Cap.Open, Trim(0.16f, false, true), false);
+                },
+            };
+            yield return new Recipe
+            {
+                Id = "cloth.outer.coat_01", Slot = "outer", Material = "Cloth",
+                Covers = UpperTorso | LowerTorso | UpperArmL | UpperArmR | ForearmL | ForearmR,
+                Build = m =>
+                {
+                    const float thick = Cloth * 3f;
+                    m.AddTube(StandInBody.TubeFor(UpperTorso), thick, Cap.Open, Cap.Collar, Region1, false, collarRadius: 0.08f);
+                    m.AddTube(StandInBody.TubeFor(LowerTorso), thick, Cap.Open, Cap.Open, Region1, false);
+                    // The coat's skirt flares over the hips and whatever's under it (wider than every skirt and dress
+                    // down to its hem), to mid-thigh, with a hem band.
+                    m.AddSkirt(1.1f, 0.76f, 0.13f, 0.21f, 1.22f, 0.85f, thick, Trim(0.09f, false, true));
+                    // Buttons down the front, laid on the coat like the blazer's lapels so body shapes carry them out too.
+                    Tube torso = StandInBody.TubeFor(UpperTorso), belly = StandInBody.TubeFor(LowerTorso);
+                    foreach (float y in new[] { 1.38f, 1.28f, 1.18f, 1.09f })
+                    {
+                        Tube under = y >= torso.Start.y ? torso : belly;
+                        float t = Mathf.InverseLerp(under.Start.y, under.End.y, y);
+                        float z = Mathf.Lerp(under.R0, under.R1, t) * under.Depth + thick + 0.002f;
+                        m.AddTube(new Tube { Region = under.Region, Start = new Vector3(0f, y + 0.008f, z), End = new Vector3(0f, y - 0.008f, z),
+                                R0 = 0.011f, R1 = 0.011f, Width = 1f, Depth = 0.45f, Bone = under.Bone, ShapeRadius = 0.11f },
+                            0f, Cap.Closed, Cap.Closed, RegionTwo, false);
+                    }
+                    foreach (BodyRegions arm in new[] { UpperArmL, UpperArmR })
+                        m.AddTube(StandInBody.TubeFor(arm), thick, Cap.Open, Cap.Open, Region1, false);
+                    foreach (BodyRegions forearm in new[] { ForearmL, ForearmR })
+                        m.AddTube(StandInBody.TubeFor(forearm), thick, Cap.Open, Cap.Open, Trim(0.14f, false, true), false);
+                },
+            };
+
             // ---------------- neckwear: details in front of the chest take its shape response (like the blazer's lapels)
             yield return new Recipe
             {
@@ -373,8 +430,10 @@ namespace Game.Characters.StandIns
                     Tube wrap = StandInBody.TubeFor(Neck);
                     wrap.End = Vector3.Lerp(wrap.Start, wrap.End, 0.75f);
                     m.AddTube(wrap, 0.042f, Cap.Collar, Cap.Collar, (along, around) => Mathf.Repeat(along * 3f, 1f) > 0.6f ? new Vector4(0f, 1f, 0f, 0f) : new Vector4(1f, 0f, 0f, 0f), false);
-                    m.AddTube(new Tube { Region = UpperTorso, Start = new Vector3(0.055f, 1.46f, 0.095f), End = new Vector3(0.085f, 1.2f, 0.122f),
-                            R0 = 0.04f, R1 = 0.036f, Width = 1f, Depth = 0.28f, Bone = "Chest", ShapeRadius = 0.1f },
+                    // The hanging end lies over whatever's worn, a coat included: deep enough that its front clears
+                    // an outer layer while its back meets a plain top.
+                    m.AddTube(new Tube { Region = UpperTorso, Start = new Vector3(0.055f, 1.455f, 0.125f), End = new Vector3(0.085f, 1.2f, 0.142f),
+                            R0 = 0.04f, R1 = 0.036f, Width = 1f, Depth = 0.55f, Bone = "Chest", ShapeRadius = 0.1f },
                         0f, Cap.Closed, Cap.Closed, (along, around) => along > 0.85f ? new Vector4(0f, 1f, 0f, 0f) : new Vector4(1f, 0f, 0f, 0f), false);
                 },
             };

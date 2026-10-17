@@ -206,6 +206,11 @@ namespace Game.Characters.Generation
                     items.Add(part);
                 }
 
+                // The outer layer draws from its own stream, so adding it changed no one's existing outfit. Where the
+                // context calls for one (a rainy day) it's chosen first, and the rest of the outfit is what goes under it.
+                Pcg32 outer = SeedStreams.For(seed, "outfit.outer." + contextId);
+                if (context.Outer) Wear(PickPart(outer, Slots.Outer, archetype, context, femininity, worn));
+
                 PartEntry onePiece = ChooseOnePiece(rng, archetype, context, femininity, worn);
                 if (onePiece != null) Wear(onePiece);
                 else
@@ -223,6 +228,8 @@ namespace Game.Characters.Generation
                 Pcg32 neck = SeedStreams.For(seed, "outfit.neck." + contextId);
                 if (neck.Chance(archetype.NeckChance))
                     Wear(PickPart(neck, Slots.Neck, archetype, context, femininity, worn));
+                if (!context.Outer && outer.Chance(archetype.OuterChance))
+                    Wear(PickPart(outer, Slots.Outer, archetype, context, femininity, worn));
 
                 var outfit = new OutfitDna { Context = contextId };
                 OutfitColourer.Colour(rng, _catalog, archetype, palette, items, outfit, SkinColour(dna.Skin.Tone));

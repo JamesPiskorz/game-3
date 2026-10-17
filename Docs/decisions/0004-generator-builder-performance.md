@@ -17,13 +17,19 @@
    - Every slider and category draws from its own seed stream (PCG32 seeded from SplitMix64 and FNV-1a).
    - Normal noise uses Irwin–Hall rather than Box–Muller, so the arithmetic is the same on every runtime.
    - The same tests pass on CoreCLR and Mono.
-4. **Coherence rules are found by review, then enforced by tests.** The 96-character quality sheet showed that clothing near the skin colour reads as bare skin. Torso and leg clothing now keeps a minimum distance from the skin. The rule is solved jointly with top/bottom contrast and covered by a 3,000-character sweep.
-5. **The builder is idempotent:**
+4. **Outer layers (`outer` slot) go over everything on the torso** (PLAN.md §3.6.4).
+   - Layering is by thickness: every outer stand-in sits further out than any top. Open fronts leave columns out of the torso tubes (`Tube.KeepAround`), so the top shows through a jacket.
+   - Bulky tops are kept out from under a coat by tags (`hooded`, `tailored`) through the existing excludes rule.
+   - Outfits add one by an archetype's `outerChance`. A context can require one: the `rain` context ("Rainy day") picks the coat first and builds the rest of the outfit to go under it.
+   - Draws come from their own streams, so existing outfits only gained layers and nobody's clothes changed.
+   - Details meant to lie on top (the scarf's hanging end) are deep enough that their front clears an outer layer while their back still meets a plain top. Review found the scarf poking through coats before that.
+5. **Coherence rules are found by review, then enforced by tests.** The 96-character quality sheet showed that clothing near the skin colour reads as bare skin. Torso and leg clothing now keeps a minimum distance from the skin. The rule is solved jointly with top/bottom contrast and covered by a 3,000-character sweep.
+6. **The builder is idempotent:**
    - It captures a rest pose once and resets bound bones before applying sliders and styles.
    - It reconciles equipped parts with the DNA's outfit for a context.
    - The creator re-applies after every edit, at about 0.07 ms per edit.
-6. **The creator talks only to `CreatorSession`** (pure C#: undo/redo, locks, rules). The UI Toolkit view is built from the catalog, so new sliders, parts and presets need no UI work.
-7. **Far characters drop detail** (`CharacterLod`): first the outline pass, then spring bones, then shadows, with hysteresis.
+7. **The creator talks only to `CreatorSession`** (pure C#: undo/redo, locks, rules). The UI Toolkit view is built from the catalog, so new sliders, parts and presets need no UI work.
+8. **Far characters drop detail** (`CharacterLod`): first the outline pass, then spring bones, then shadows, with hysteresis.
 
 ## Measurements
 

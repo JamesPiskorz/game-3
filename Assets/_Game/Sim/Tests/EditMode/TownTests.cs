@@ -172,6 +172,25 @@ namespace Game.Sim.Tests
         }
 
         [Test]
+        public void OnRainyDaysPeopleWearTheirCoats()
+        {
+            SimWorld town = Fixtures.Town(0x5EED, 24);
+            int rainy = Enumerable.Range(0, 60).First(d => Forecast.For(town.Seed, d) == Weather.Rainy);
+            int dry = Enumerable.Range(0, 60).First(d => Forecast.For(town.Seed, d) == Weather.Sunny);
+            town.Now = SimTime.At(rainy, 11);
+            Assert.That(town.OutfitAt("cafe"), Is.EqualTo(Sandbox.TownSession.RainOutfit));
+            foreach (Resident r in town.Residents)
+            {
+                var rain = r.Dna.Outfits.Single(o => o.Context == Sandbox.TownSession.RainOutfit);
+                Assert.That(rain.Items.Any(i => town.Characters.Part(i.ItemId).Slot == Game.Characters.Content.Slots.Outer), $"{r} has a coat for the rain");
+            }
+            town.Now = SimTime.At(dry, 11);
+            Assert.That(town.OutfitAt("cafe"), Is.EqualTo(Sandbox.TownSession.DayOutfit));
+            town.Now = SimTime.At(rainy, 20);
+            Assert.That(town.OutfitAt("bar"), Is.EqualTo(Sandbox.TownSession.DateOutfit), "Going out, they dress up whatever the weather.");
+        }
+
+        [Test]
         public void RainKeepsPeopleOutOfThePark()
         {
             SimWorld town = Fixtures.Town(0x5EED, 40);

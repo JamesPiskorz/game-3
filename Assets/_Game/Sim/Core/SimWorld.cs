@@ -95,15 +95,18 @@ namespace Game.Sim
 
         /// <summary>
         /// What residents wear out right now: their going-out (date) outfit for evenings somewhere romantic, and for
-        /// Friday and Saturday nights anywhere social; everyday clothes otherwise.
+        /// Friday and Saturday nights anywhere social; on a rainy day, the outfit with their coat; everyday clothes
+        /// otherwise.
         /// </summary>
         public string OutfitAt(string location)
         {
             LocationEntry place = Catalog.Location(location);
-            if (place == null || Now.Hour < 18) return Sandbox.TownSession.DayOutfit;
+            string everyday = Weather == Weather.Rainy && Characters?.Context(Sandbox.TownSession.RainOutfit) != null
+                ? Sandbox.TownSession.RainOutfit : Sandbox.TownSession.DayOutfit;
+            if (place == null || Now.Hour < 18) return everyday;
             bool weekendNight = Now.DayOfWeek == 4 || Now.DayOfWeek == 5;
             bool goingOut = place.Tags.Contains("romantic") || (weekendNight && place.Tags.Contains("social"));
-            return goingOut ? Sandbox.TownSession.DateOutfit : Sandbox.TownSession.DayOutfit;
+            return goingOut ? Sandbox.TownSession.DateOutfit : everyday;
         }
 
         /// <summary>Residents at a location right now, in index order.</summary>

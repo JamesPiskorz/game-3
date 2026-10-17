@@ -19,6 +19,7 @@ namespace Game.Sim.Sandbox
         public const int TravelMinutes = 20;
         public const string DateOutfit = "date";
         public const string DayOutfit = "casual";
+        public const string RainOutfit = "rain";
         public const int ShiftHours = 4;
         public const int PayPerHour = 15;
         public const int ChangeMinutes = 5;
