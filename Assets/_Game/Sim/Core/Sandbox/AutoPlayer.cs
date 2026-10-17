@@ -134,6 +134,13 @@ namespace Game.Sim.Sandbox
             if (_session.Selected == null) return;
             if (rel.LastComplimentDay != World.Now.Day) Record(_session.Compliment());
 
+            // With their partner at Arcade Lane, now and then a strip of photos from the booth.
+            if (rel.Partner && _session.CanUseBooth && World.Player.Money >= TownSession.BoothPrice + 20 && _rng.Chance(0.5f))
+            {
+                _session.PhotoBooth();
+                Note(World.Now.Day, $"Took booth photos with {favourite.Profile.FirstName}.");
+            }
+
             // The present bought for them, if it's still spare and still fits their look.
             if (rel.Stage >= Stage.Friend && rel.LastGiftDay < World.Now.Day - 1 && _session.Selected != null)
             {
