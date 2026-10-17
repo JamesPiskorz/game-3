@@ -18,6 +18,9 @@ namespace Game.Characters.Dna
         /// <summary>The seed this character was generated from. Provenance only: rebuilding never re-runs the generator.</summary>
         public ulong Seed;
 
+        /// <summary>The style archetype the character was generated with (provenance; the sim can read it too). Null if hand-made.</summary>
+        public string Style;
+
         public BodyDna Body = new BodyDna();
         public FaceDna Face = new FaceDna();
         public SkinDna Skin = new SkinDna();
@@ -104,5 +107,6 @@ namespace Game.Characters.Dna
         /// <summary>Pattern for the item's pattern regions; null for plain.</summary>
         public string PatternId;
         public float PatternScale = 1f;
+        public HsvColor? PatternColor;
     }
 }

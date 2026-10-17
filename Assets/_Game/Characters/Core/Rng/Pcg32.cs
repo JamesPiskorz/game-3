@@ -65,5 +65,31 @@ namespace Game.Characters.Rng
         public bool Chance(float probability) => NextFloat() < probability;
 
         public T Pick<T>(IReadOnlyList<T> items) => items[NextInt(items.Count)];
+
+        /// <summary>
+        /// Approximately standard-normal, bounded to ±2√3 (Irwin–Hall, sum of four uniforms). Uses only addition and
+        /// multiplication, so it stays bit-identical across runtimes, which Box–Muller's log/cos would not.
+        /// </summary>
+        public float NextNormal() => (NextFloat() + NextFloat() + NextFloat() + NextFloat() - 2f) * 1.7320508f;
+
+        /// <summary>Picks an item with probability proportional to <paramref name="weight"/>; default when every weight is zero.</summary>
+        public T PickWeighted<T>(IReadOnlyList<T> items, Func<T, float> weight)
+        {
+            float total = 0f;
+            for (int i = 0; i < items.Count; i++) total += Math.Max(0f, weight(items[i]));
+            if (total <= 0f) return default;
+
+            float target = NextFloat() * total;
+            for (int i = 0; i < items.Count; i++)
+            {
+                float w = Math.Max(0f, weight(items[i]));
+                if (w <= 0f) continue;
+                if (target < w) return items[i];
+                target -= w;
+            }
+            for (int i = items.Count - 1; i >= 0; i--) // rounding left a sliver: take the last positive one
+                if (weight(items[i]) > 0f) return items[i];
+            return default;
+        }
     }
 }
