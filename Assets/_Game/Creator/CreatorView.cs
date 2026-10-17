@@ -104,6 +104,31 @@ namespace Game.Creator
             if (_play != null) actions.Add(TextButton("Into town →", "play", _play, "primary"));
             panel.Add(actions);
 
+            // Which style Randomize aims for: choosing one randomizes straight away.
+            var styles = Row("styles");
+            styles.Add(new Label("Style:") { name = "styles-label" });
+            var chips = new List<Button>();
+            void Choose(string style)
+            {
+                _session.Style = style;
+                for (int i = 0; i < chips.Count; i++)
+                    chips[i].EnableInClassList("primary", (i == 0 ? null : _catalog.Archetypes[i - 1].Id) == style);
+                _session.Randomize();
+            }
+            chips.Add(TextButton("Any", "style-any", () => Choose(null)));
+            foreach (StyleArchetype archetype in _catalog.Archetypes)
+            {
+                string id = archetype.Id;
+                chips.Add(TextButton(archetype.Name ?? id, "style-" + id, () => Choose(id)));
+            }
+            chips[0].AddToClassList("primary");
+            foreach (Button chip in chips)
+            {
+                chip.AddToClassList("style-chip");
+                styles.Add(chip);
+            }
+            panel.Add(styles);
+
             var locks = Row("locks");
             locks.Add(new Label("Keep when randomizing:") { name = "locks-label" });
             foreach ((string id, string label, DnaCategories category) in Tabs)

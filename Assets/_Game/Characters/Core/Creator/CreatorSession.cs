@@ -41,6 +41,9 @@ namespace Game.Characters.Creator
         /// <summary>Categories that Randomize leaves alone.</summary>
         public DnaCategories Locks { get; set; }
 
+        /// <summary>The style Randomize aims for: an archetype ID, or null for any (by the catalog's weights).</summary>
+        public string Style { get; set; }
+
         /// <summary>The outfit context being shown and edited.</summary>
         public string Context { get; private set; }
 
@@ -84,15 +87,30 @@ namespace Game.Characters.Creator
 
         // ---------------------------------------------------------------- whole-character operations
 
-        /// <summary>Rerolls everything not locked.</summary>
-        public void Randomize() => Reroll(DnaCategories.All);
+        /// <summary>
+        /// Rerolls everything not locked. With nothing locked it's a whole new person, presentation included, in the
+        /// chosen <see cref="Style"/> or any; with locks it keeps who they are and rerolls the rest (in the chosen
+        /// style, if there is one).
+        /// </summary>
+        public void Randomize()
+        {
+            if (Locks == DnaCategories.None)
+            {
+                ulong fresh = NextSeed();
+                var request = new GenerationRequest { Archetype = Style };
+                Commit(_ => _generator.Generate(fresh, request));
+                return;
+            }
+            Reroll(DnaCategories.All);
+        }
 
         public void Reroll(DnaCategories categories)
         {
             DnaCategories free = categories & ~Locks;
             if (free == DnaCategories.None) return;
             ulong seed = NextSeed();
-            Commit(dna => dna == null ? null : _generator.Reroll(dna, free, seed));
+            GenerationRequest request = Style == null ? null : new GenerationRequest { Archetype = Style };
+            Commit(dna => dna == null ? null : _generator.Reroll(dna, free, seed, request));
         }
 
         /// <summary>

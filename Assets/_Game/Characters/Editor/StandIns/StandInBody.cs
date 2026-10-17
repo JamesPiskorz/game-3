@@ -65,7 +65,7 @@ namespace Game.Characters.StandIns
                     {
                         float dx = px, dy = py - head.y;
                         float z = Mathf.Sqrt(Mathf.Max(0f, StandInSkeleton.HeadRadius * StandInSkeleton.HeadRadius - dx * dx - dy * dy));
-                        return new Vector3(px, py, head.z + z - 0.0042f);
+                        return new Vector3(px, py, head.z + z - 0.0062f); // deep enough that the outline's shell stays under the skin too
                     }
                     float cx = x + i * 0.0085f;
                     mesh.AddTube(new Tube { Region = Head, Start = Under(cx + 0.0028f, 1.606f), End = Under(cx - 0.0028f, 1.618f), R0 = 0.0017f, R1 = 0.0017f, Bone = "Blush" + side },
@@ -81,7 +81,7 @@ namespace Game.Characters.StandIns
                     float px = x + Mathf.Cos(angle) * 0.017f, py = 1.648f + Mathf.Sin(angle) * 0.012f;
                     float dx = px, dy = py - head.y;
                     float z = Mathf.Sqrt(Mathf.Max(0f, StandInSkeleton.HeadRadius * StandInSkeleton.HeadRadius - dx * dx - dy * dy));
-                    return new Vector3(px, py, head.z + z - 0.0045f);
+                    return new Vector3(px, py, head.z + z - 0.0065f);
                 }
                 const int Strokes = 5;
                 for (int i = 0; i < Strokes; i++)

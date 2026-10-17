@@ -53,7 +53,8 @@ namespace Game.Characters.Generation
         public CharacterDna Reroll(CharacterDna current, DnaCategories reroll, ulong seed, GenerationRequest request = null)
         {
             GenerationRequest keepIdentity = (request ?? GenerationRequest.Any).Clone();
-            keepIdentity.Archetype = current.Style != null && _catalog.Archetype(current.Style) != null ? current.Style : keepIdentity.Archetype;
+            // Keep their style unless the request asks for another.
+            if (keepIdentity.Archetype == null && current.Style != null && _catalog.Archetype(current.Style) != null) keepIdentity.Archetype = current.Style;
             keepIdentity.FemininityMin = keepIdentity.FemininityMax = current.Body.Femininity;
             CharacterDna fresh = Generate(seed, keepIdentity);
 
@@ -64,6 +65,7 @@ namespace Game.Characters.Generation
             if ((reroll & DnaCategories.Hair) != 0) result.Hair = fresh.Hair;
             if ((reroll & DnaCategories.Outfits) != 0) result.Outfits = fresh.Outfits;
             if (reroll == DnaCategories.All) result.Seed = seed;
+            if (request?.Archetype != null) result.Style = fresh.Style;
 
             DropIncompatibleParts(result);
             return result;

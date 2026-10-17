@@ -126,6 +126,37 @@ namespace Game.Characters.Tests.Creator
         }
 
         [Test]
+        public void Randomize_WithNothingLocked_MakesSomeoneNewInAnyStyle()
+        {
+            var styles = new HashSet<string>();
+            var presentation = new List<float>();
+            for (int i = 0; i < 16; i++)
+            {
+                _session.Randomize();
+                styles.Add(_session.Dna.Style);
+                presentation.Add(_session.Dna.Body.Femininity);
+            }
+            Assert.That(styles.Count, Is.GreaterThanOrEqualTo(3), "Different styles, not the first one forever.");
+            Assert.That(presentation.Max() - presentation.Min(), Is.GreaterThan(0.4f), "Presentation varies too.");
+        }
+
+        [Test]
+        public void Randomize_InAChosenStyle_EvenWithLocks()
+        {
+            _session.Style = "gothic";
+            _session.Randomize();
+            Assert.That(_session.Dna.Style, Is.EqualTo("gothic"));
+
+            _session.Style = "sporty";
+            _session.Locks = DnaCategories.Hair;
+            string hair = Newtonsoft.Json.JsonConvert.SerializeObject(_session.Dna.Hair);
+            _session.Randomize();
+            Assert.That(_session.Dna.Style, Is.EqualTo("sporty"));
+            Assert.That(Newtonsoft.Json.JsonConvert.SerializeObject(_session.Dna.Hair), Is.EqualTo(hair), "Locked hair stays.");
+            Assert.That(DnaValidator.Validate(_catalog, _session.Dna), Is.Empty);
+        }
+
+        [Test]
         public void Randomize_IsRepeatableForTheSameSession()
         {
             var other = new CreatorSession(_generator, _generator.Generate(42), sessionSeed: 7);

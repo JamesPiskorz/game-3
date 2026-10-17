@@ -62,7 +62,7 @@ namespace Game.Characters.Expressions
         public static readonly IReadOnlyDictionary<string, FacePose> Poses = new Dictionary<string, FacePose>
         {
             ["neutral"] = default,
-            ["happy"] = new FacePose { BrowRaise = 0.002f, EyeOpen = -0.25f, MouthWidth = 0.25f, MouthOpen = 0.6f, MouthRaise = 0.001f, MouthCurve = 22f, Blush = 0.3f },
+            ["happy"] = new FacePose { BrowRaise = 0.002f, EyeOpen = -0.25f, MouthWidth = 0.25f, MouthOpen = 0.6f, MouthRaise = 0.001f, MouthCurve = 22f },
             ["delighted"] = new FacePose { BrowRaise = 0.004f, EyeOpen = -0.6f, MouthWidth = 0.35f, MouthOpen = 2.2f, MouthRaise = 0.0015f, MouthCurve = 26f, Blush = 0.6f, EyeSmile = 1f },
             ["shy"] = new FacePose { BrowRaise = 0.001f, BrowTilt = 18f, EyeOpen = -0.15f, EyeLook = 10f, MouthWidth = -0.3f, MouthCurve = 12f, Blush = 1f },
             ["sad"] = new FacePose { BrowRaise = -0.001f, BrowTilt = 28f, EyeOpen = -0.2f, EyeLook = 6f, MouthWidth = -0.2f, MouthOpen = -0.3f, MouthRaise = -0.0015f, MouthCurve = -24f },
@@ -81,10 +81,10 @@ namespace Game.Characters.Expressions
         public string EyeSmileLeft = "EyeSmile.L", EyeSmileRight = "EyeSmile.R";
 
         /// <summary>How far smiling eyes push their arcs out, in metres.</summary>
-        public float EyeSmileDepth = 0.0095f;
+        public float EyeSmileDepth = 0.0115f;
 
         /// <summary>How far a full blush pushes the lines out through the skin, in metres.</summary>
-        public float BlushDepth = 0.0075f;
+        public float BlushDepth = 0.0095f;
 
         /// <summary>How quickly the face moves towards its target, per second.</summary>
         public float Speed = 12f;
