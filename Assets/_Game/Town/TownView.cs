@@ -194,6 +194,11 @@ namespace Game.Town
                 if (Math.Abs(amount) < 0.05f) return;
                 Add(_deltas, new Label($"{(amount > 0 ? "+" : "−")}{Math.Abs(amount):0.#} {meter}"), "delta", amount > 0 ? "up" : "down");
             }
+            if (last.Impression is float impression)
+            {
+                string verdict = impression >= 0.6f ? "great" : impression >= 0.2f ? "good" : impression >= -0.2f ? "okay" : "lukewarm";
+                Add(_deltas, new Label("First impression: " + verdict), "delta", impression >= 0.2f ? "up" : "down");
+            }
             Delta("affection", last.Affection);
             Delta("attraction", last.Attraction);
             Delta("familiarity", last.Familiarity);

@@ -172,6 +172,32 @@ namespace Game.Characters.Tests.Modular
             Assert.That(Vector3.Distance(brow.localPosition, restingBrow), Is.LessThan(1e-6f));
         }
 
+        [Test]
+        public void IdleMotion_IsRepeatableKeepsFeetPlantedAndSurvivesReapply()
+        {
+            CharacterDna dna = _generator.Generate(9);
+            ModularCharacter character = Build(dna, "casual");
+            Poses.Relaxed(character.transform);
+            var idle = character.GetComponent<IdleMotion>();
+            Transform head = character.GetComponentsInChildren<Transform>().First(t => t.name == "Head");
+            Transform foot = character.GetComponentsInChildren<Transform>().First(t => t.name == "Foot.L");
+
+            idle.Pose(1.3f);
+            Quaternion first = head.localRotation;
+            Vector3 footFirst = foot.position;
+            idle.Pose(2.9f);
+            Assert.That(Quaternion.Angle(head.localRotation, first), Is.GreaterThan(0.1f), "The head moves over time.");
+            Assert.That(Vector3.Distance(foot.position, footFirst), Is.LessThan(1e-5f), "Feet stay planted.");
+
+            idle.Pose(1.3f);
+            Assert.That(Quaternion.Angle(head.localRotation, first), Is.LessThan(1e-3f), "Same time, same pose: nothing accumulates.");
+
+            _builder.Apply(character, dna, "date");
+            Poses.Relaxed(character.transform);
+            idle.Pose(1.3f);
+            Assert.That(Quaternion.Angle(head.localRotation, first), Is.LessThan(1e-3f), "Re-applying DNA doesn't shift the motion.");
+        }
+
         ModularCharacter Build(CharacterDna dna, string context)
         {
             ModularCharacter character = _builder.Build(dna, context);

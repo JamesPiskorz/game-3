@@ -89,6 +89,7 @@ namespace Game.Town
             string reaction = session.Last.FollowUpReaction ?? session.Last.Reaction;
             (string expression, float strength) = ReactionFaces.For(reaction, session.Speaker.Profile.Tone);
             speaker.Character.GetComponent<FaceExpression>()?.Show(expression, strength);
+            speaker.Character.GetComponent<IdleMotion>()?.Nod();
         }
 
         Shown Dress(Shown shown, CharacterDna dna, string outfit, string name, int version = 0)

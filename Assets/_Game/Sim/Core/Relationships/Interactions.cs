@@ -33,6 +33,9 @@ namespace Game.Sim.Relationships
         public Stage Before;
         public Stage After;
         public bool FirstMeeting;
+
+        /// <summary>On a first meeting, how the player's look struck them (-1..1); else null.</summary>
+        public float? Impression;
         public float Familiarity;
         public float Affection;
         public float Attraction;
@@ -497,15 +500,22 @@ namespace Game.Sim.Relationships
             _world.Actions++;
 
             var result = new InteractionResult { Kind = kind, Before = rel.Stage };
-            var before = new Meters(rel);
 
+            // A first meeting sets the starting spark from the player's look. That's reported as the impression,
+            // not as meter changes, so the deltas show only what the interaction itself did.
             if (!rel.Met)
             {
                 rel.Met = true;
                 result.FirstMeeting = true;
                 float impression = Impression(resident);
+                result.Impression = impression;
                 rel.Attraction = Clamp(20f + 25f * impression + rng.NextNormal() * 3f);
                 rel.Affection = Clamp(5f + 5f * impression);
+            }
+            var before = new Meters(rel);
+
+            if (result.FirstMeeting)
+            {
                 Add(ref rel.Familiarity, 4f);
             }
             else if (rel.LastSeenDay != Today)

@@ -34,6 +34,7 @@ namespace Game.Characters.Building
             character.gameObject.AddComponent<RestPose>().Capture();
             character.gameObject.AddComponent<CharacterLod>();
             character.gameObject.AddComponent<FaceExpression>();
+            character.gameObject.AddComponent<IdleMotion>();
             Apply(character, dna, context);
             return character;
         }
@@ -48,7 +49,8 @@ namespace Game.Characters.Building
             character.GetComponent<CharacterLod>()?.Refresh(); // new parts bring new materials and chains
             ApplyBodyColours(character, dna);
             ApplyPartColours(character, dna, outfit);
-            character.GetComponent<FaceExpression>()?.Rebase(); // face bones were just reset and re-posed
+            character.GetComponent<FaceExpression>()?.Rebase(); // bones were just reset and re-posed
+            character.GetComponent<IdleMotion>()?.Rebase();
         }
 
         // ---------------------------------------------------------------- parts
