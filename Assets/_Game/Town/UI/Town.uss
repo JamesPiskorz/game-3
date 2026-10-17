@@ -334,6 +334,26 @@ Button.selected,
     white-space: normal;
 }
 
+.menu-caption {
+    position: absolute;
+    right: 60px;
+    bottom: 120px;
+    width: 1120px;
+    -unity-text-align: middle-center;
+    font-size: 18px;
+    color: rgb(236, 226, 244);
+    -unity-font-style: italic;
+    white-space: normal;
+}
+
+.menu-shuffle {
+    position: absolute;
+    right: 60px;
+    bottom: 60px;
+    font-size: 15px;
+    padding: 6px 14px;
+}
+
 .menu-button {
     font-size: 22px;
     padding: 12px 18px;

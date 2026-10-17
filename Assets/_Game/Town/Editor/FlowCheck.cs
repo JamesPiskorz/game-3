@@ -95,7 +95,14 @@ namespace Game.Town
                         return;
                     }
                     Camera.main.Render();
-                    PanelShot.Save(_scene, _ui, "Docs/review/menu.png");
+                    if (menu.Swaps == 0)
+                    {
+                        PanelShot.Save(_scene, _ui, "Docs/review/menu.png");
+                        menu.Swap(); // and once someone new has stepped in
+                        _waitFrom = _frame;
+                        return;
+                    }
+                    PanelShot.Save(_scene, _ui, "Docs/review/menu-new-face.png");
                     Camera.main.targetTexture = null;
                     menu.Document.panelSettings.targetTexture = null;
                     Next(Press(menu.Document, "new-game"));
