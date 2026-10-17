@@ -28,7 +28,7 @@ namespace Game.Sim.Tests
 
             for (int step = 0; step < 1000; step++)
             {
-                int verb = rng.NextInt(23);
+                int verb = rng.NextInt(27);
                 string action = verb.ToString();
                 switch (verb)
                 {
@@ -79,6 +79,22 @@ namespace Game.Sim.Tests
                         var spare = session.Giveable();
                         if (spare.Count > 0) session.GiveClothes(rng.Pick(spare));
                         break;
+                    case 23: session.AnswerConfession(rng.Chance(0.5f)); break;
+                    case 24: session.Lipstick(rng.Chance(0.3f) ? (Game.Characters.Dna.HsvColor?)null : rng.Pick(Salon.Lipsticks(world.Characters))); break;
+                    case 25: session.Blush(rng.Chance(0.6f)); break;
+                    case 26:
+                        // Now and then, someone here has quietly fallen for the player since yesterday, so confessions come up.
+                        if (session.Selected != null && rng.Chance(0.15f))
+                        {
+                            Relationship smitten = world.RelationshipWith(session.Selected);
+                            smitten.Met = true;
+                            smitten.Familiarity = System.Math.Max(smitten.Familiarity, 65f);
+                            smitten.Affection = System.Math.Max(smitten.Affection, 80f);
+                            smitten.Attraction = System.Math.Max(smitten.Attraction, 85f);
+                            smitten.Trust = System.Math.Max(smitten.Trust, 40f);
+                            smitten.LastSeenDay = world.Now.Day - 1;
+                        }
+                        break;
                 }
                 Invariants(session, $"seed {seed}, step {step}, verb {action}");
             }
@@ -110,6 +126,10 @@ namespace Game.Sim.Tests
                 if (partner < 0) continue;
                 Assert.That(world.Social.PartnerOf(partner), Is.EqualTo(i), where);
             }
+
+            // Residents stay valid through makeovers and gifts (checked for whoever's selected, to keep it quick).
+            if (session.Selected != null) Assert.That(DnaValidator.Validate(world.Characters, session.Selected.Dna), Is.Empty, where);
+            if (session.Confession != null) Assert.That(session.Confession.With, Is.EqualTo(session.Selected), where);
 
             // Whoever's selected is actually here.
             if (session.Selected != null) Assert.That(session.Present(), Does.Contain(session.Selected), where);
