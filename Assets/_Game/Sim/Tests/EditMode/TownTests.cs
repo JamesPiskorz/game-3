@@ -28,7 +28,7 @@ namespace Game.Sim.Tests
             SimCatalog sim = Fixtures.Sim();
             string[] reactions =
             {
-                "greet.stranger", "greet.stranger.impressed", "greet.acquaintance", "greet.friend", "greet.close", "greet.dating",
+                "greet.stranger", "greet.stranger.impressed", "greet.stranger.impressed.mark", "greet.acquaintance", "greet.friend", "greet.close", "greet.dating",
                 "greet.remember.date", "greet.remember.gift", "greet.remember.topic", "greet.gossip", "date.taken", "date.leaves", "greet.jealous",
                 "invite", "invite.met", "greet.stranger.family", "greet.makeover.haircut", "greet.makeover.colour", "greet.makeover.clothes", "greet.makeover.makeup", "compliment.makeover.makeup", "bark.makeover.makeup", "greet.player.makeover.love",
                 "greet.player.makeover.nice", "greet.player.makeover.meh", "greet.cheated", "greet.breakup", "gift.clothes.love", "gift.clothes.ok", "gift.clothes.meh",

@@ -86,6 +86,12 @@
       { "tone": "bubbly", "text": "Okay, first: where did you get that {item}? Second: I'm {name}!" },
       { "tone": "dry", "text": "{name}. That {item} is a good choice, by the way. Rare round here." }
     ],
+    "greet.stranger.impressed.mark": [
+      { "tone": "any", "text": "Hi! Sorry, I just have to say it: your {feature}. So cute. I'm {name}." },
+      { "tone": "shy", "text": "H-hi, I'm {name}. I like your {feature}... sorry, is that weird to say?" },
+      { "tone": "bubbly", "text": "Hi hi! Oh my gosh, your {feature}! Adorable! I'm {name}!" },
+      { "tone": "dry", "text": "{name}. Nice {feature}. That's not a line, I mean it." }
+    ],
     "greet.acquaintance": [
       { "tone": "warm", "text": "Nice to see you again, {player}." },
       { "tone": "warm", "text": "{player}! How's your day going?" },

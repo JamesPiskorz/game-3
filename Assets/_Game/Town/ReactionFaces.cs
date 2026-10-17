@@ -82,6 +82,7 @@ namespace Game.Town
                 case "compliment.makeover.clothes":
                 case "compliment.makeover.makeup": return shy ? ("shy", 1f) : ("delighted", 1f);
                 case "greet.stranger.family": return shy ? ("shy", 1f) : ("delighted", 0.8f);
+                case "greet.stranger.impressed.mark":
                 case "greet.stranger.impressed": return shy ? ("shy", 0.9f) : ("delighted", 0.7f);
                 case "compliment.style": return shy ? ("shy", 1f) : ("happy", 1f);
                 case "ask.likes":

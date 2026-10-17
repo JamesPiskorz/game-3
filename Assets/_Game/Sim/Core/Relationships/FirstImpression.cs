@@ -17,6 +17,37 @@ namespace Game.Sim.Relationships
         const float Indifferent = 0.3f;
 
         /// <summary>The piece of the player's outfit this resident likes best, if they really like it (taste ≥ 0.6); else null.</summary>
+        /// <summary>
+        /// A face mark of the player's (freckles, a beauty mark, blush) whose style they like at least as much as a
+        /// favourite piece of clothing needs, or null.
+        /// </summary>
+        public static PartEntry FavouriteMark(ResidentProfile resident, CharacterDna player, ContentCatalog characters)
+        {
+            PartEntry favourite = null;
+            float best = 0.6f;
+            foreach (OverlayDna mark in player.Face.Makeup ?? new System.Collections.Generic.List<OverlayDna>())
+            {
+                PartEntry part = mark?.OverlayId == null ? null : characters.Part(mark.OverlayId);
+                if (part == null || !Makeup.IsMark(part.Slot)) continue;
+                foreach (string tag in part.Tags)
+                    if (resident.StyleTaste.TryGetValue(tag, out float taste) && taste >= best)
+                    {
+                        best = taste;
+                        favourite = part;
+                    }
+            }
+            return favourite;
+        }
+
+        /// <summary>What a face mark is called in conversation: "freckles", "beauty mark", "blush".</summary>
+        public static string FeatureName(PartEntry mark) => mark.Slot switch
+        {
+            Slots.FaceFreckles => "freckles",
+            Slots.FaceMole => "beauty mark",
+            Slots.FaceBlush => "blush",
+            _ => (mark.Name ?? mark.Id).ToLowerInvariant(),
+        };
+
         public static PartEntry Favourite(ResidentProfile resident, CharacterDna player, string outfitContext, ContentCatalog characters)
         {
             OutfitDna outfit = player.Outfits.FirstOrDefault(o => o.Context == outfitContext) ?? player.Outfits.FirstOrDefault();

@@ -32,6 +32,10 @@ namespace Game.Sim.Relationships
                 PartEntry favourite = Favourite(resident);
                 if (favourite != null && Impression(resident) >= ImpressedAt)
                     return Finish(resident, rel, rng, result, before, "greet.stranger.impressed", GreetMinutes, ("item", ItemName(favourite)));
+                // No piece of clothing stands out, but their freckles (or beauty mark, or blush) do.
+                PartEntry mark = _world.Player.Dna == null ? null : FirstImpression.FavouriteMark(resident.Profile, _world.Player.Dna, _world.Characters);
+                if (favourite == null && mark != null && Impression(resident) >= ImpressedAt)
+                    return Finish(resident, rel, rng, result, before, "greet.stranger.impressed.mark", GreetMinutes, ("feature", FirstImpression.FeatureName(mark)));
                 return Finish(resident, rel, rng, result, before, "greet.stranger", GreetMinutes);
             }
 
