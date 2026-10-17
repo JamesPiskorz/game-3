@@ -36,9 +36,12 @@ namespace Game.Sim.Tests
             Assert.That(again.Residents.Select(r => Json(r.Dna)), Is.EqualTo(after.Residents.Select(r => Json(r.Dna))));
         }
 
+        int _makeup;
+
         [Test]
         public void EachKindChangesOnlyWhatItSays()
         {
+            _makeup = 0;
             SimWorld before = Fixtures.Town(0x5EED, 24);
             SimWorld town = Fixtures.Town(0x5EED, 24);
             // Week by week, so each change is compared with the look just before it.
@@ -60,6 +63,12 @@ namespace Game.Sim.Tests
                             Assert.That(r.Dna.Hair.PieceIds, Is.EqualTo(was.Hair.PieceIds), "Same cut, new colour.");
                             Assert.That(HsvColor.Distance(r.Dna.Hair.Base, was.Hair.Base), Is.GreaterThanOrEqualTo(0.15f));
                             break;
+                        case MakeoverKind.Makeup:
+                            Assert.That(Newtonsoft.Json.JsonConvert.SerializeObject(r.Dna.Face.Makeup), Is.Not.EqualTo(Newtonsoft.Json.JsonConvert.SerializeObject(was.Face.Makeup)));
+                            Assert.That(r.Dna.Hair.PieceIds, Is.EqualTo(was.Hair.PieceIds), "Only the makeup changes.");
+                            Assert.That(Json(r.Dna.Outfits.Single(o => o.Context == TownSession.DayOutfit)), Is.EqualTo(Json(was.Outfits.Single(o => o.Context == TownSession.DayOutfit))));
+                            _makeup++;
+                            break;
                         default:
                             Assert.That(Json(r.Dna.Outfits.Single(o => o.Context == TownSession.DayOutfit)),
                                 Is.Not.EqualTo(Json(was.Outfits.Single(o => o.Context == TownSession.DayOutfit))));
@@ -71,6 +80,7 @@ namespace Game.Sim.Tests
                     Assert.That(Game.Characters.Generation.DnaValidator.Validate(town.Characters, r.Dna), Is.Empty);
                 }
             }
+            Assert.That(_makeup, Is.GreaterThan(0), "Over twenty weeks someone tries a new lipstick.");
         }
 
         [Test]

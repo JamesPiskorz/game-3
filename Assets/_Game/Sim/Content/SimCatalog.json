@@ -291,6 +291,18 @@
       { "tone": "bubbly", "text": "Shopping spree! Everything's new! Well, nearly everything!" },
       { "tone": "dry", "text": "New clothes. I'm told it's a thing people do." }
     ],
+    "greet.makeover.makeup": [
+      { "tone": "any", "text": "Hi! I'm trying something new with my makeup. Too much?" },
+      { "tone": "shy", "text": "Hi... don't look too closely, I'm trying a new lipstick." },
+      { "tone": "bubbly", "text": "New lip colour! Do you see it? You see it." },
+      { "tone": "dry", "text": "Yes, it's a different lipstick. I'm allowed." }
+    ],
+    "compliment.makeover.makeup": [
+      { "tone": "any", "text": "You noticed! I wasn't sure about the colour, but now I am." },
+      { "tone": "shy", "text": "Oh... thank you. I almost wiped it off this morning." },
+      { "tone": "bubbly", "text": "Right?! It's my new favourite!" },
+      { "tone": "dry", "text": "Good eye. Most people don't notice." }
+    ],
     "compliment.makeover.haircut": [
       { "tone": "any", "text": "You like it? I was so nervous about it!" },
       { "tone": "shy", "text": "Really? ...Thank you. I was worried it was too much." },
@@ -308,6 +320,11 @@
       { "tone": "shy", "text": "Oh! You noticed. Thank you." },
       { "tone": "bubbly", "text": "Thank you thank you! I knew they were the right ones!" },
       { "tone": "dry", "text": "Worth every coin, then." }
+    ],
+    "bark.makeover.makeup": [
+      { "tone": "any", "text": "New lipstick. Trying it out." },
+      { "tone": "bubbly", "text": "I love this colour!" },
+      { "tone": "dry", "text": "It's just lipstick, stop staring." }
     ],
     "bark.makeover.haircut": [
       { "tone": "any", "text": "Still not used to this haircut." },

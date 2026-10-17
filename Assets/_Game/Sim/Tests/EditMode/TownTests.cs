@@ -30,7 +30,7 @@ namespace Game.Sim.Tests
             {
                 "greet.stranger", "greet.stranger.impressed", "greet.acquaintance", "greet.friend", "greet.close", "greet.dating",
                 "greet.remember.date", "greet.remember.gift", "greet.remember.topic", "greet.gossip", "date.taken", "date.leaves", "greet.jealous",
-                "invite", "invite.met", "greet.stranger.family", "greet.makeover.haircut", "greet.makeover.colour", "greet.makeover.clothes", "greet.player.makeover.love",
+                "invite", "invite.met", "greet.stranger.family", "greet.makeover.haircut", "greet.makeover.colour", "greet.makeover.clothes", "greet.makeover.makeup", "compliment.makeover.makeup", "bark.makeover.makeup", "greet.player.makeover.love",
                 "greet.player.makeover.nice", "greet.player.makeover.meh", "greet.cheated", "greet.breakup", "gift.clothes.love", "gift.clothes.ok", "gift.clothes.meh",
                 "greet.player.makeup.love", "greet.player.makeup.nice", "greet.player.makeup.meh", "greet.confess", "greet.confess.taken", "confess.yes", "confess.yes.leaves", "confess.no",
                 "compliment.makeover.haircut", "compliment.makeover.colour", "compliment.makeover.clothes", "bark.makeover.haircut", "bark.makeover.colour", "bark.makeover.clothes", "chat.open.interest", "chat.open.day", "chat.open.worry", "chat.open.dream",

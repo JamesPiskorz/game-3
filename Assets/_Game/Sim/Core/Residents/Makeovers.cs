@@ -13,7 +13,7 @@ namespace Game.Sim.Residents
         Colour,
         Clothes,
 
-        /// <summary>Lipstick or blush (only the player, at the salon).</summary>
+        /// <summary>Lipstick put on, changed or taken off (the player's at the salon: lipstick or blush).</summary>
         Makeup,
     }
 
@@ -33,6 +33,12 @@ namespace Game.Sim.Residents
     public static class Makeovers
     {
         public const float WeeklyChance = 0.12f;
+
+        /// <summary>
+        /// Weekly chance that someone whose style wears lipstick (at least <see cref="MakeupStyleAt"/> of the time) puts it
+        /// on, changes the shade or takes it off, in a week with no other change.
+        /// </summary>
+        public const float MakeupChance = 0.06f, MakeupStyleAt = 0.12f;
 
         /// <summary>How long a change counts as new.</summary>
         public const int NewForDays = 7;
@@ -56,8 +62,19 @@ namespace Game.Sim.Residents
             int day = week * 7;
             foreach (Resident resident in world.Residents)
             {
-                Pcg32 rng = SeedStreams.For(StableHash.SplitMix64(world.Seed ^ StableHash.SplitMix64((ulong)week)) ^ resident.Dna.Seed, "makeover");
-                if (!rng.Chance(WeeklyChance)) continue;
+                ulong weekSeed = StableHash.SplitMix64(world.Seed ^ StableHash.SplitMix64((ulong)week)) ^ resident.Dna.Seed;
+                Pcg32 rng = SeedStreams.For(weekSeed, "makeover");
+                if (!rng.Chance(WeeklyChance))
+                {
+                    // Makeup on a stream of its own, so the other changes replay as they always have.
+                    CharacterDna made = ChangeMakeup(world.Characters, resident.Dna, SeedStreams.For(weekSeed, "makeover.makeup"));
+                    if (made != null)
+                    {
+                        resident.Dna = made;
+                        resident.LastMakeover = new Makeover { Day = day, Kind = MakeoverKind.Makeup };
+                    }
+                    continue;
+                }
                 MakeoverKind kind = rng.PickWeighted(new[] { MakeoverKind.Haircut, MakeoverKind.Colour, MakeoverKind.Clothes },
                     k => k == MakeoverKind.Haircut ? 0.4f : k == MakeoverKind.Colour ? 0.25f : 0.35f);
                 for (int attempt = 0; attempt < 4; attempt++)
@@ -111,6 +128,24 @@ namespace Game.Sim.Residents
                     return dressed;
                 }
             }
+        }
+
+        /// <summary>New lipstick, a new shade or none, in their style's colours; null if nothing changes this week.</summary>
+        static CharacterDna ChangeMakeup(Game.Characters.Content.ContentCatalog catalog, CharacterDna dna, Pcg32 rng)
+        {
+            Game.Characters.Content.StyleArchetype style = dna.Style == null ? null : catalog.Archetype(dna.Style);
+            if (style == null || !style.FaceChances.TryGetValue(Game.Characters.Content.Makeup.Lipstick, out float wears) || wears < MakeupStyleAt) return null;
+            if (!rng.Chance(MakeupChance)) return null;
+            Game.Characters.Content.ColourPalette palette = catalog.Palette(style.LipPalette ?? Game.Characters.Content.Makeup.LipPalette);
+            if (palette == null || palette.Colours.Count == 0) return null;
+            CharacterDna made = Clone(dna);
+            OverlayDna lips = made.Face.Makeup.FirstOrDefault(m => m.OverlayId == Game.Characters.Content.Makeup.Lipstick);
+            made.Face.Makeup.RemoveAll(m => m.OverlayId == Game.Characters.Content.Makeup.Lipstick);
+            if (lips != null && rng.Chance(0.4f)) return made; // took it off
+            HsvColor shade = HsvColor.FromHex(rng.Pick(palette.Colours).Hex);
+            if (lips != null && HsvColor.Distance(lips.Tint, shade) < 0.05f) return null;
+            made.Face.Makeup.Add(new OverlayDna { OverlayId = Game.Characters.Content.Makeup.Lipstick, Tint = shade, Opacity = 1f });
+            return made;
         }
 
         /// <summary>
