@@ -28,7 +28,7 @@ namespace Game.Sim.Tests
 
             for (int step = 0; step < 1000; step++)
             {
-                int verb = rng.NextInt(19);
+                int verb = rng.NextInt(22);
                 string action = verb.ToString();
                 switch (verb)
                 {
@@ -69,6 +69,12 @@ namespace Game.Sim.Tests
                         break;
                     case 17: session.StartChat(); break;
                     case 18: session.ChatReply(rng.NextInt(3)); break;
+                    case 19: session.Haircut(rng.Pick(Salon.Cuts(world.Characters)).Id); break;
+                    case 20:
+                        var bangs = Salon.Bangs(world.Characters);
+                        session.Bangs(rng.Chance(0.25f) ? null : rng.Pick(bangs).Id);
+                        break;
+                    case 21: session.Dye(rng.Pick(Salon.Colours(world.Characters))); break;
                 }
                 Invariants(session, $"seed {seed}, step {step}, verb {action}");
             }
@@ -86,11 +92,12 @@ namespace Game.Sim.Tests
                 foreach (float meter in new[] { rel.Familiarity, rel.Affection, rel.Attraction, rel.Trust })
                     Assert.That(meter, Is.InRange(0f, 100f), where);
 
-            // The outfit is always wearable.
+            // The outfit is always wearable, with the hair the player has now.
             var outfit = world.Player.Dna.Outfits.First(o => o.Context == world.Player.Outfit);
             var slots = outfit.Items.Select(i => world.Characters.Part(i.ItemId).Slot).ToList();
             Assert.That(slots, Is.Unique, where);
             Assert.That(slots.Contains(Slots.OnePiece) || (slots.Contains(Slots.Top) && slots.Contains(Slots.Bottom)), where);
+            Assert.That(DnaValidator.Validate(world.Characters, world.Player.Dna), Is.Empty, where);
 
             // Couples are pairs, and nobody dating the player is also with someone else.
             for (int i = 0; i < world.Residents.Count; i++)
