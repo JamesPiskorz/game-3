@@ -242,6 +242,38 @@ namespace Game.Characters.StandIns
                 },
             };
 
+            yield return new Recipe
+            {
+                Id = "cloth.shoes.loafers_01", Slot = "shoes", Material = "Cloth",
+                Covers = FootL | FootR,
+                Build = m =>
+                {
+                    // A low, close shoe with a strap across the instep in the sole's colour.
+                    foreach ((BodyRegions foot, string bone, float x) in new[] { (FootL, "Foot.L", -0.09f), (FootR, "Foot.R", 0.09f) })
+                    {
+                        m.AddTube(StandInBody.TubeFor(foot), 0.01f, Cap.Closed, Cap.Closed, Sole, false);
+                        m.AddTube(new Tube { Region = None, Start = new Vector3(x - 0.034f, 0.074f, 0.075f), End = new Vector3(x + 0.034f, 0.074f, 0.075f), R0 = 0.007f, R1 = 0.007f, Depth = 0.6f, Bone = bone },
+                            0f, Cap.Closed, Cap.Closed, RegionTwo, false, withShapes: false);
+                    }
+                },
+            };
+            yield return new Recipe
+            {
+                Id = "cloth.shoes.hightops_01", Slot = "shoes", Material = "Cloth",
+                Covers = FootL | FootR,
+                Build = m =>
+                {
+                    // Sneakers with a padded collar up round the ankle (the calf above still shows, so it isn't covered).
+                    foreach ((BodyRegions foot, BodyRegions calf) in new[] { (FootL, CalfL), (FootR, CalfR) })
+                    {
+                        m.AddTube(StandInBody.TubeFor(foot), 0.013f, Cap.Closed, Cap.Closed, Sole, false);
+                        Tube ankle = StandInBody.TubeFor(calf);
+                        ankle.Start = Vector3.Lerp(ankle.End, ankle.Start, 0.24f);
+                        m.AddTube(ankle, 0.017f, Cap.Collar, Cap.Open, Trim(0.25f, true, false), false, collarRadius: 0.05f);
+                    }
+                },
+            };
+
             // ---------------- more tops
             yield return new Recipe
             {

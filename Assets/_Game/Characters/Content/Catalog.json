@@ -75,6 +75,8 @@
     { "id": "cloth.shoes.sneakers_01", "name": "Sneakers", "slot": "shoes", "tags": ["casual", "sporty", "street", "cute"], "regions": 2 },
     { "id": "cloth.shoes.boots_01", "name": "Boots", "slot": "shoes", "tags": ["gothic", "street", "elegant", "bookish", "date"], "regions": 2 },
     { "id": "cloth.shoes.sandals_01", "name": "Sandals", "slot": "shoes", "tags": ["casual", "cute"], "regions": 2, "contexts": ["casual"] },
+    { "id": "cloth.shoes.loafers_01", "name": "Loafers", "slot": "shoes", "tags": ["elegant", "bookish", "date", "gothic"], "regions": 2 },
+    { "id": "cloth.shoes.hightops_01", "name": "High-tops", "slot": "shoes", "tags": ["street", "sporty", "casual"], "regions": 2 },
 
     { "id": "hair.back.crop_01", "name": "Crop", "slot": "hair.back", "tags": ["sporty", "casual", "street", "hat_ok"], "lean": -0.6 },
     { "id": "hair.back.bob_01", "name": "Bob", "slot": "hair.back", "tags": ["cute", "bookish", "elegant", "casual", "hat_ok"], "lean": 0.3 },

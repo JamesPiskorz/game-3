@@ -40,6 +40,10 @@ MonoBehaviour:
     Prefab: {fileID: 5075321708317143307, guid: 299df16ed85662449910a8c5afdb1ea4, type: 3}
   - Id: cloth.shoes.boots_01
     Prefab: {fileID: 8791237670371142460, guid: 7bbf44245b3655343895820597142832, type: 3}
+  - Id: cloth.shoes.loafers_01
+    Prefab: {fileID: 7492567865834770003, guid: ade4dc2e4b0f7bd4bbe14a278184b86b, type: 3}
+  - Id: cloth.shoes.hightops_01
+    Prefab: {fileID: 1524708048721073131, guid: 10a00a2677c9a6441a5f5156e01880b0, type: 3}
   - Id: cloth.top.hoodie_01
     Prefab: {fileID: 3828409449901050023, guid: fb4346953bd29d7468d244944f53aa5c, type: 3}
   - Id: cloth.top.blouse_01
