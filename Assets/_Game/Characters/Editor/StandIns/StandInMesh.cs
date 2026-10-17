@@ -217,8 +217,15 @@ namespace Game.Characters.StandIns
         public static Vector3[] ShapeDeltas(BodyRegions region, float t, Vector3 normal, float surfaceRadius)
         {
             var deltas = new Vector3[BodyShapes.Length];
+            // Weight: fuller everywhere fleshy (a 22% radius change didn't read at town distance), and a little more
+            // in front at the belly. Clothing takes the same response from its own radius, so it stays outside.
             if ((Fleshy & region) != 0)
-                deltas[0] = normal * (surfaceRadius * 0.22f);
+                deltas[0] = normal * (surfaceRadius * 0.4f);
+            if (region == UpperTorso || region == Pelvis)
+            {
+                float front = Mathf.Max(0f, normal.z);
+                deltas[0] += normal * (0.022f * front * front * Mathf.Sin(Mathf.PI * Mathf.Clamp01(t)));
+            }
             if (region == UpperTorso)
             {
                 float front = Mathf.Max(0f, normal.z);

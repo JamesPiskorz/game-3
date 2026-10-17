@@ -2,7 +2,7 @@
   "presentation": { "feminineShare": 0.46, "masculineShare": 0.44, "feminineCentre": 0.85, "masculineCentre": 0.15, "spread": 0.08 },
 
   "bodySliders": [
-    { "id": "body.weight", "name": "Weight", "min": 0.0, "max": 1.0, "meanMasculine": 0.25, "meanFeminine": 0.25, "spread": 0.22 },
+    { "id": "body.weight", "name": "Weight", "min": 0.0, "max": 1.0, "meanMasculine": 0.25, "meanFeminine": 0.25, "spread": 0.28 },
     { "id": "body.chest", "name": "Chest", "min": 0.0, "max": 1.0, "meanMasculine": 0.05, "meanFeminine": 0.5, "spread": 0.2 },
     { "id": "body.hips", "name": "Hips", "min": 0.0, "max": 1.0, "meanMasculine": 0.1, "meanFeminine": 0.55, "spread": 0.2 },
     { "id": "body.height", "name": "Height", "min": -1.0, "max": 1.0, "meanMasculine": 0.35, "meanFeminine": -0.25, "spread": 0.35 },
