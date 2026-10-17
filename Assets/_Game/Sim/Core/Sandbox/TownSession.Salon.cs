@@ -29,7 +29,20 @@ namespace Game.Sim.Sandbox
         });
 
         /// <summary>New bangs, or none (<paramref name="frontId"/> null).</summary>
-        public void Bangs(string frontId) => Restyle(Salon.BangsPrice, MakeoverKind.Haircut, frontId == null ? "look without bangs" : "set of bangs", dna =>
+        public void Bangs(string frontId)
+        {
+            List<PartEntry> cut = World.Player.Dna?.Hair.PieceIds.Select(World.Characters.Part).Where(p => p != null && p.Slot == Slots.HairBack).ToList();
+            PartEntry wanted = frontId == null ? null : World.Characters.Part(frontId);
+            if (AtSalon && wanted != null && cut != null && !CharacterGenerator.Compatible(wanted, cut))
+            {
+                Notice = $"{wanted.Name} don't go with your {cut.FirstOrDefault()?.Name?.ToLowerInvariant() ?? "cut"}.";
+                Raise();
+                return;
+            }
+            RestyleBangs(frontId);
+        }
+
+        void RestyleBangs(string frontId) => Restyle(Salon.BangsPrice, MakeoverKind.Haircut, frontId == null ? "look without bangs" : "set of bangs", dna =>
         {
             List<PartEntry> back = dna.Hair.PieceIds.Select(World.Characters.Part).Where(p => p != null && p.Slot == Slots.HairBack).ToList();
             PartEntry front = frontId == null ? null : World.Characters.Part(frontId);

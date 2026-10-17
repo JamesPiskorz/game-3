@@ -65,7 +65,8 @@ namespace Game.Town
             VisualElement root = Document.rootVisualElement;
             if (Style != null) root.styleSheets.Add(Style);
             _portraits = new Portraits(new Game.Characters.Building.CharacterBuilder(Content), Stage.Sun);
-            View = new TownView(root, Session, Save, Load, ToMenu, r => _portraits.For(r));
+            View = new TownView(root, Session, Save, Load, ToMenu, r => _portraits.For(r),
+                () => _portraits.ForPlayer(Session.World.Player.Dna, Session.World.Player.LookVersion));
             if (ContinueOnStart)
             {
                 ContinueOnStart = false;

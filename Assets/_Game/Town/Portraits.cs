@@ -29,7 +29,10 @@ namespace Game.Town
         readonly Light _sun;
         readonly GameObject _studio;
         readonly Camera _camera;
-        readonly Dictionary<int, (CharacterDna Dna, RenderTexture Texture)> _cache = new Dictionary<int, (CharacterDna, RenderTexture)>();
+        readonly Dictionary<int, (CharacterDna Dna, int Version, RenderTexture Texture)> _cache = new Dictionary<int, (CharacterDna, int, RenderTexture)>();
+
+        /// <summary>The cache key for the player's own portrait.</summary>
+        const int PlayerKey = -1;
         ModularCharacter _sitter;
 
         public Portraits(CharacterBuilder builder, Light sun)
@@ -49,13 +52,18 @@ namespace Game.Town
         }
 
         /// <summary>The resident's portrait, rendering it if it's new or their look has changed.</summary>
-        public Texture For(Resident resident)
+        public Texture For(Resident resident) => For(resident.Index, resident.Dna, 0);
+
+        /// <summary>The player's portrait; <paramref name="version"/> is their look version, which edits in place bump.</summary>
+        public Texture ForPlayer(CharacterDna dna, int version) => dna == null ? null : For(PlayerKey, dna, version);
+
+        Texture For(int key, CharacterDna dna, int version)
         {
-            if (_cache.TryGetValue(resident.Index, out var cached) && cached.Dna == resident.Dna) return cached.Texture;
+            if (_cache.TryGetValue(key, out var cached) && cached.Dna == dna && cached.Version == version) return cached.Texture;
             if (cached.Texture != null) cached.Texture.Release();
             RenderTexture texture = cached.Texture ?? new RenderTexture(Size, Size, 24, RenderTextureFormat.ARGB32, RenderTextureReadWrite.sRGB) { antiAliasing = 4, hideFlags = HideFlags.DontSave };
-            Render(resident.Dna, texture);
-            _cache[resident.Index] = (resident.Dna, texture);
+            Render(dna, texture);
+            _cache[key] = (dna, version, texture);
             return texture;
         }
 
@@ -119,7 +127,7 @@ namespace Game.Town
 
         public void Dispose()
         {
-            foreach ((CharacterDna _, RenderTexture texture) in _cache.Values)
+            foreach ((CharacterDna _, int _, RenderTexture texture) in _cache.Values)
                 if (texture != null) { texture.Release(); UnityEngine.Object.Destroy(texture); }
             _cache.Clear();
             if (_studio != null) UnityEngine.Object.Destroy(_studio);

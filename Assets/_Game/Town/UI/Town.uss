@@ -314,6 +314,19 @@ Button.selected,
     flex-shrink: 0;
 }
 
+.you-row {
+    flex-direction: row;
+    align-items: center;
+}
+
+.you-portrait {
+    width: 34px;
+    height: 34px;
+    border-radius: 17px;
+    margin: 0 8px 6px 0;
+    flex-shrink: 0;
+}
+
 .card-heading {
     flex-direction: row;
     align-items: center;

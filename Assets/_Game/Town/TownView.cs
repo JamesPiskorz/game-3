@@ -21,6 +21,8 @@ namespace Game.Town
     {
         readonly TownSession _session;
         readonly Func<Resident, UnityEngine.Texture> _portrait;
+        readonly Func<UnityEngine.Texture> _playerPortrait;
+        readonly VisualElement _you;
         readonly VisualElement _root;
         VisualElement _bubbleLayer;
         readonly Dictionary<int, Label> _bubbles = new Dictionary<int, Label>();
@@ -35,10 +37,12 @@ namespace Game.Town
         string _choices; // "talk", "gift" or "date": which picker is open under the actions
         Resident _choicesFor;
 
-        public TownView(VisualElement root, TownSession session, Action save, Action load, Action menu = null, Func<Resident, UnityEngine.Texture> portrait = null)
+        public TownView(VisualElement root, TownSession session, Action save, Action load, Action menu = null, Func<Resident, UnityEngine.Texture> portrait = null,
+            Func<UnityEngine.Texture> playerPortrait = null)
         {
             _session = session;
             _portrait = portrait;
+            _playerPortrait = playerPortrait;
             root.AddToClassList("town");
             _root = root;
 
@@ -77,7 +81,9 @@ namespace Game.Town
             _learnt = Add(_dialogue, new Label(), "learnt");
 
             var panel = _panel = Add(root, new ScrollView(ScrollViewMode.Vertical) { horizontalScrollerVisibility = ScrollerVisibility.Hidden }, "panel");
-            _stats = Add(panel, new Label(), "stats");
+            var you = Add(panel, new VisualElement(), "you-row");
+            _you = Add(you, new VisualElement(), "you-portrait");
+            _stats = Add(you, new Label(), "stats");
             Add(panel, new Label("Go to"), "section");
             _places = Add(panel, new VisualElement(), "chips");
             _contacts = Add(panel, new VisualElement(), "contacts");
@@ -96,6 +102,8 @@ namespace Game.Town
             _clock.text = world.Now + "   \u00B7   " + Forecast.Describe(world.Weather);
             _place.text = _session.LocationName(_session.Location) + (_session.DateWith != null ? $"  ·  on a date with {_session.DateWith.Profile.FirstName}" : "");
             _coins.text = $"{world.Player.Money} coins";
+            if (_playerPortrait?.Invoke() is UnityEngine.RenderTexture mine) _you.style.backgroundImage = Background.FromRenderTexture(mine);
+            _you.style.display = _playerPortrait == null ? DisplayStyle.None : DisplayStyle.Flex;
             _stats.text = "You  ·  " + string.Join("  ·  ", SimCatalog.Stats.Select(stat => $"{Capitalise(stat)} {world.Player.Stat(stat):0}"));
             _work.style.display = _session.CanWork ? DisplayStyle.Flex : DisplayStyle.None;
             _notice.text = _session.Notice ?? "";
@@ -186,7 +194,9 @@ namespace Game.Town
             {
                 Invitation message = messages[i];
                 Resident from = _session.World.Residents[message.From];
-                var row = Add(_contacts, new VisualElement(), "contact");
+                var line = Add(_contacts, new VisualElement(), "contact-line");
+                Portrait(line, from, "portrait");
+                var row = Add(line, new VisualElement(), "contact");
                 string status = message.Kept ? "you met up" : message.Missed ? "missed" : $"day {message.Day + 1}, {message.Hour}:00 at {_session.LocationName(message.Location)}";
                 Button button = Add(row, Button("message-" + i, $"{from.Profile.FirstName}   \u00B7   {status}", () =>
                 {

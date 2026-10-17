@@ -109,6 +109,18 @@ namespace Game.Sim.Tests
         }
 
         [Test]
+        public void AnAfroTakesTheBangsOffAndTheSalonSaysWhyItWontAddThem()
+        {
+            TownSession session = AtTheSalon(out SimWorld world);
+            session.Haircut("hair.back.afro_01");
+            Assert.That(world.Player.Dna.Hair.PieceIds, Is.EqualTo(new[] { "hair.back.afro_01" }));
+            int money = world.Player.Money;
+            session.Bangs("hair.front.blunt_01");
+            Assert.That(session.Notice, Does.Contain("don't go with your afro"));
+            Assert.That(world.Player.Money, Is.EqualTo(money));
+        }
+
+        [Test]
         public void LipstickAndBlushCostLittleAndComeOffFree()
         {
             TownSession session = AtTheSalon(out SimWorld world);
