@@ -414,3 +414,10 @@ Button.selected,
 .dye:disabled {
     opacity: 0.4;
 }
+
+.chip-heading {
+    width: 100%;
+    font-size: 12px;
+    color: rgb(190, 190, 205);
+    margin-top: 6px;
+}

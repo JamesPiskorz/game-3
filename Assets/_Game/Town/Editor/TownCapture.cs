@@ -34,7 +34,7 @@ namespace Game.Town
             "press:act-date", "press:dateplace-park", "shot:date",
             "press:dateopt-{best}", "shot:date-round", "press:dateopt-{best}", "press:dateopt-{best}", "shot:date-end",
             "press:act-end-date", "press:place-mall", "press:buy-0", "shot:boutique", "press:cut-{cut}", "shot:salon",
-            "hour:20", "press:place-bar", "press:here-0", "shot:bar",
+            "hour:20", "press:place-bar", "press:here-0", "shot:bar", "press:act-gift", "shot:give-picker", "press:giveitem-0", "shot:give-clothes",
             "hour:22", "press:place-park", "shot:park-night",
             "press:wait", "pause:75", "live:park-comings-and-goings",
             "press:place-home", "shot:wardrobe",

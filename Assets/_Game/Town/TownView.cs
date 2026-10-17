@@ -496,6 +496,7 @@ namespace Game.Town
                     }
                     // Or something from the wardrobe: if it's their style, they'll wear it.
                     List<ItemDna> spare = _session.Giveable();
+                    if (spare.Count > 0) Add(choices, new Label("From your wardrobe (they'll wear it if it's their style):"), "chip-heading");
                     for (int i = 0; i < spare.Count; i++)
                     {
                         ItemDna item = spare[i];
