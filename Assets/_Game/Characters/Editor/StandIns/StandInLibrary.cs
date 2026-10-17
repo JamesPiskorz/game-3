@@ -229,7 +229,7 @@ namespace Game.Characters.StandIns
         // Shared crown: over the head, down the back to the nape, over the ears, with a high front hairline for bangs.
         static void Crown(StandInMesh mesh) =>
             mesh.AddEllipsoid(HeadCentre, new Vector3(HeadR + 0.014f, HeadR + 0.016f, HeadR + 0.014f), None, false, "Head", Region1,
-                d => (d.z <= 0.3f && d.y > 0.2f) || (d.z > 0.3f && d.y > 0.62f) || (d.z < 0.1f && d.y > -0.45f) || (Mathf.Abs(d.x) > 0.8f && d.y > -0.15f));
+                d => (d.z <= 0.3f && d.y > 0.2f) || (d.z > 0.3f && d.y > 0.55f) || (d.z < 0.1f && d.y > -0.45f) || (Mathf.Abs(d.x) > 0.8f && d.y > -0.15f));
 
         // Region 1 upper, region 2 for the sole (faces pointing down).
         static readonly MaskFunction Sole = (along, around) =>
@@ -254,14 +254,14 @@ namespace Game.Characters.StandIns
 
             var body = new StandInMesh(StandInSkeleton.Bones);
             StandInBody.Build(body);
-            Mesh bodyMesh = SaveAsset(body.Build("StandInBody", withShapes: true), $"{MeshFolder}/StandInBody.asset");
+            Mesh bodyMesh = SaveMesh(body, "StandInBody", withShapes: true);
             SaveBody(bodyMesh, materials["Skin"]);
 
             foreach (Recipe recipe in Parts())
             {
                 var mesh = new StandInMesh(recipe.Bones);
                 recipe.Build(mesh);
-                Mesh asset = SaveAsset(mesh.Build(recipe.Id, recipe.FollowsBodyShapes), $"{MeshFolder}/{recipe.Id}.asset");
+                Mesh asset = SaveMesh(mesh, recipe.Id, recipe.FollowsBodyShapes);
                 SavePart(recipe, asset, materials[recipe.Material]);
             }
 
@@ -323,6 +323,17 @@ namespace Game.Characters.StandIns
             ToonMaterial.SetRegionColour(material, 1, new Color(0.25f, 0.22f, 0.2f));
             ToonMaterial.SetRegionColour(material, 2, Color.white);
             return SaveAsset(material, $"{MaterialFolder}/{name}.mat");
+        }
+
+        // Meshes are rebuilt in place through the Mesh API: CopySerialized over a mesh whose vertex layout changed crashes the editor.
+        static Mesh SaveMesh(StandInMesh builder, string name, bool withShapes)
+        {
+            string path = $"{MeshFolder}/{name}.asset";
+            var existing = AssetDatabase.LoadAssetAtPath<Mesh>(path);
+            Mesh mesh = builder.Build(name, withShapes, existing);
+            if (existing == null) AssetDatabase.CreateAsset(mesh, path);
+            else EditorUtility.SetDirty(existing);
+            return mesh;
         }
 
         /// <summary>Creates the asset, or overwrites an existing one in place so its GUID (and references to it) survive.</summary>

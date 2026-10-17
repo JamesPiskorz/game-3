@@ -43,11 +43,11 @@ bool ToonIsHidden(uint region)
 }
 
 // Recolour weights for regions 1-4. Authored content uses _MaskMap (RGBA); procedural stand-ins
-// put regions 1-3 in vertex colour GBA instead.
-half4 ToonMask(float2 uv, half4 vertexColour)
+// put regions 1-3 in vertex colour GBA and region 4 in UV1.x instead.
+half4 ToonMask(float2 uv, float2 uv1, half4 vertexColour)
 {
 #if defined(_MASK_VERTEX_COLOUR)
-    return half4(vertexColour.g, vertexColour.b, vertexColour.a, 0.0);
+    return half4(vertexColour.g, vertexColour.b, vertexColour.a, uv1.x);
 #else
     return SAMPLE_TEXTURE2D(_MaskMap, sampler_MaskMap, uv);
 #endif
@@ -56,10 +56,10 @@ half4 ToonMask(float2 uv, half4 vertexColour)
 // Lit and shaded albedo at a surface point: grayscale-authored texture × region colours, then the pattern.
 // The unmasked base region shades to _BaseShade (hand-picked, e.g. from the skin palette);
 // recoloured regions shade to their colour × _ShadeTint.
-void ToonAlbedo(float2 uv, half4 vertexColour, out half3 lit, out half3 shade)
+void ToonAlbedo(float2 uv, float2 uv1, half4 vertexColour, out half3 lit, out half3 shade)
 {
     half3 texel = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, TRANSFORM_TEX(uv, _BaseMap)).rgb;
-    half4 mask = saturate(ToonMask(uv, vertexColour));
+    half4 mask = saturate(ToonMask(uv, uv1, vertexColour));
     half baseWeight = saturate(1.0 - mask.r - mask.g - mask.b - mask.a);
     half3 regions = _Color1.rgb * mask.r + _Color2.rgb * mask.g + _Color3.rgb * mask.b + _Color4.rgb * mask.a;
 

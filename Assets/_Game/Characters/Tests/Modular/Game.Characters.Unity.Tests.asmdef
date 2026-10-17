@@ -2,6 +2,7 @@
     "name": "Game.Characters.Unity.Tests",
     "rootNamespace": "Game.Characters.Tests",
     "references": [
+        "Game.Characters",
         "Game.Characters.Unity",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner"

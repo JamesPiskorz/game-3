@@ -28,6 +28,7 @@ namespace Game.Characters.StandIns
         readonly List<Vector3> _positions = new List<Vector3>();
         readonly List<Vector3> _normals = new List<Vector3>();
         readonly List<Vector2> _uvs = new List<Vector2>();
+        readonly List<Vector2> _uv1 = new List<Vector2>();
         readonly List<Color32> _colours = new List<Color32>();
         readonly List<BoneWeight> _weights = new List<BoneWeight>();
         readonly List<Vector3[]> _deltas = new List<Vector3[]>();
@@ -41,21 +42,24 @@ namespace Game.Characters.StandIns
 
         public StandInBone[] Bones => _bones;
 
-        /// <summary>Recolour weights for regions 1-3 (green, blue, alpha); whatever is left is the base region.</summary>
-        public delegate Vector3 MaskFunction(float along, float around);
+        /// <summary>
+        /// Recolour weights for regions 1-4: x, y, z go to vertex colour green, blue, alpha; w goes to UV1.x.
+        /// Whatever is left over is the base region.
+        /// </summary>
+        public delegate Vector4 MaskFunction(float along, float around);
 
-        public static readonly MaskFunction BaseOnly = (along, around) => Vector3.zero;
-        public static readonly MaskFunction Region1 = (along, around) => new Vector3(1f, 0f, 0f);
+        public static readonly MaskFunction BaseOnly = (along, around) => Vector4.zero;
+        public static readonly MaskFunction Region1 = (along, around) => new Vector4(1f, 0f, 0f, 0f);
 
         /// <summary>Region 1 everywhere, region 2 within <paramref name="width"/> of the chosen ends (cuffs, hems, collars).</summary>
         public static MaskFunction Trim(float width, bool atStart, bool atEnd) => (along, around) =>
-            (atStart && along < width) || (atEnd && along > 1f - width) ? new Vector3(0f, 1f, 0f) : new Vector3(1f, 0f, 0f);
+            (atStart && along < width) || (atEnd && along > 1f - width) ? new Vector4(0f, 1f, 0f, 0f) : new Vector4(1f, 0f, 0f, 0f);
 
         /// <summary>Region 1 fading to region 2 along the piece (hair tips).</summary>
         public static MaskFunction Gradient(float start) => (along, around) =>
         {
             float tip = Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(start, 1f, along));
-            return new Vector3(1f - tip, tip, 0f);
+            return new Vector4(1f - tip, tip, 0f, 0f);
         };
 
         public sealed class Tube
@@ -76,16 +80,51 @@ namespace Game.Characters.StandIns
 
         public int VertexCount => _positions.Count;
 
-        int AddVertex(Vector3 position, Vector3 normal, Vector2 uv, BodyRegions region, Vector3 mask, BoneWeight weights, Vector3[] deltas)
+        int AddVertex(Vector3 position, Vector3 normal, Vector2 uv, BodyRegions region, Vector4 mask, BoneWeight weights, Vector3[] deltas) =>
+            AddVertex(position, normal, uv, region == None ? (byte)0 : (byte)BodyRegionIds.IdOf(region), mask, weights, deltas);
+
+        int AddVertex(Vector3 position, Vector3 normal, Vector2 uv, byte regionId, Vector4 mask, BoneWeight weights, Vector3[] deltas)
         {
             _positions.Add(position);
             _normals.Add(normal);
             _uvs.Add(uv);
-            byte regionId = region == None ? (byte)0 : (byte)BodyRegionIds.IdOf(region);
+            _uv1.Add(new Vector2(Mathf.Clamp01(mask.w), 0f));
             _colours.Add(new Color32(regionId, ToByte(mask.x), ToByte(mask.y), ToByte(mask.z)));
             _weights.Add(weights);
             _deltas.Add(deltas);
             return _positions.Count - 1;
+        }
+
+        /// <summary>
+        /// Joins rows of vertices (rings) into quads. Where the mask steps between two rings (a trim or hem), that
+        /// band gets its own copies of both rings in the band's colour, so the edge stays crisp instead of smearing.
+        /// </summary>
+        void Stitch(int first, int columns, int bands, Func<int, float> along, MaskFunction mask)
+        {
+            for (int band = 0; band < bands; band++)
+            {
+                int lower = first + band * columns, upper = lower + columns;
+                Vector4 a = mask(along(band), 0f), b = mask(along(band + 1), 0f);
+                if (Mathf.Max(Mathf.Abs(a.x - b.x), Mathf.Abs(a.y - b.y), Mathf.Abs(a.z - b.z), Mathf.Abs(a.w - b.w)) > 0.5f)
+                {
+                    float middle = (along(band) + along(band + 1)) * 0.5f;
+                    lower = Duplicate(lower, columns, middle, mask);
+                    upper = Duplicate(upper, columns, middle, mask);
+                }
+                for (int column = 0; column < columns - 1; column++)
+                    AddQuad(lower + column, lower + column + 1, upper + column + 1, upper + column);
+            }
+        }
+
+        int Duplicate(int start, int columns, float along, MaskFunction mask)
+        {
+            int first = VertexCount;
+            for (int column = 0; column < columns; column++)
+            {
+                int i = start + column;
+                AddVertex(_positions[i], _normals[i], _uvs[i], _colours[i].r, mask(along, column / (columns - 1f)), _weights[i], _deltas[i]);
+            }
+            return first;
         }
 
         static byte ToByte(float value) => (byte)Mathf.RoundToInt(Mathf.Clamp01(value) * 255f);
@@ -180,16 +219,10 @@ namespace Game.Characters.StandIns
                 }
             }
 
-            const int Columns = Sides + 1;
-            for (int ring = 0; ring < Rings; ring++)
-                for (int side = 0; side < Sides; side++)
-                {
-                    int a = first + ring * Columns + side;
-                    AddQuad(a, a + 1, a + 1 + Columns, a + Columns);
-                }
+            Stitch(first, Sides + 1, Rings, ring => ring / (float)Rings, mask);
 
             AddCap(tube, startCap, first, 0f, -axis, u, v, offset, collarRadius, painted, mask);
-            AddCap(tube, endCap, first + Rings * Columns, 1f, axis, u, v, offset, collarRadius, painted, mask);
+            AddCap(tube, endCap, first + Rings * (Sides + 1), 1f, axis, u, v, offset, collarRadius, painted, mask);
         }
 
         void AddCap(Tube tube, Cap cap, int ringStart, float t, Vector3 normal, Vector3 u, Vector3 v, float offset, float collarRadius, BodyRegions painted, MaskFunction mask)
@@ -198,7 +231,7 @@ namespace Game.Characters.StandIns
 
             Vector3 centre = Vector3.Lerp(tube.Start, tube.End, t) + normal * offset;
             BoneWeight weights = TubeWeights(tube, t);
-            Vector3 capMask = mask(t, 0f);
+            Vector4 capMask = mask(t, 0f);
             int rim = VertexCount;
             for (int side = 0; side < Sides; side++)
                 AddVertex(_positions[ringStart + side], normal, _uvs[ringStart + side], painted, capMask, weights, _deltas[ringStart + side]);
@@ -253,11 +286,14 @@ namespace Game.Characters.StandIns
                 for (int lon = 0; lon < Longitudes; lon++)
                 {
                     int a = first + lat * Columns + lon;
-                    Vector3 middle = ((_positions[a] + _positions[a + 1 + Columns]) * 0.5f - centre).normalized;
+                    // Keep-tests use directions on the unit sphere, so squashed ellipsoids (lenses) cut where expected.
+                    Vector3 middle = (Vector3.Scale(_positions[a] - centre, Inverse(radii)) + Vector3.Scale(_positions[a + 1 + Columns] - centre, Inverse(radii))).normalized;
                     if (keep == null || keep(middle))
                         AddQuad(a, a + 1, a + 1 + Columns, a + Columns);
                 }
         }
+
+        static Vector3 Inverse(Vector3 v) => new Vector3(1f / v.x, 1f / v.y, 1f / v.z);
 
         /// <summary>
         /// A vertical partial cylinder around the head axis (hair curtains), from <paramref name="top"/> down to
@@ -284,12 +320,7 @@ namespace Game.Characters.StandIns
                     AddVertex(position, normal, new Vector2(around * radius * Mathf.Abs(toDegrees - fromDegrees) * Mathf.Deg2Rad, t * length), None, mask(t, around), weights, null);
                 }
             }
-            for (int ring = 0; ring < Rings; ring++)
-                for (int column = 0; column < Columns; column++)
-                {
-                    int a = first + ring * (Columns + 1) + column;
-                    AddQuad(a, a + 1, a + 2 + Columns, a + 1 + Columns);
-                }
+            Stitch(first, Columns + 1, Rings, ring => ring / (float)Rings, mask);
         }
 
         /// <summary>
@@ -340,21 +371,20 @@ namespace Game.Characters.StandIns
                     AddVertex(position, normal, new Vector2(around * 2f * Mathf.PI * radius, t * length), None, mask(t, around), weights, deltas);
                 }
             }
-            const int Columns = Sides + 1;
-            for (int ring = 0; ring < Rings; ring++)
-                for (int side = 0; side < Sides; side++)
-                {
-                    int a = first + ring * Columns + side;
-                    AddQuad(a, a + 1, a + 1 + Columns, a + Columns);
-                }
+            Stitch(first, Sides + 1, Rings, ring => ring / (float)Rings, mask);
         }
 
-        public Mesh Build(string name, bool withShapes)
+        /// <summary>Builds a new mesh, or rebuilds <paramref name="into"/> in place (keeping an existing asset's GUID).</summary>
+        public Mesh Build(string name, bool withShapes, Mesh into = null)
         {
-            var mesh = new Mesh { name = name };
+            Mesh mesh = into != null ? into : new Mesh();
+            mesh.Clear();
+            mesh.ClearBlendShapes();
+            mesh.name = name;
             mesh.SetVertices(_positions);
             mesh.SetNormals(_normals);
             mesh.SetUVs(0, _uvs);
+            mesh.SetUVs(1, _uv1);
             mesh.SetColors(_colours);
             mesh.boneWeights = _weights.ToArray();
             // Rest bones have identity rotation and every mesh sits at the character's origin.

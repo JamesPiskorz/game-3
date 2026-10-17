@@ -69,6 +69,7 @@ Shader "Game/Characters/Toon"
                 float4 positionOS : POSITION;
                 float3 normalOS : NORMAL;
                 float2 uv : TEXCOORD0;
+                float2 uv1 : TEXCOORD1;
                 half4 color : COLOR;
             };
 
@@ -77,7 +78,7 @@ Shader "Game/Characters/Toon"
                 float4 positionCS : SV_POSITION;
                 float3 positionWS : TEXCOORD0;
                 float3 normalWS : TEXCOORD1;
-                float2 uv : TEXCOORD2;
+                float4 uv : TEXCOORD2; // xy = UV0, zw = UV1
                 half4 color : TEXCOORD3;
                 nointerpolation uint region : TEXCOORD4;
                 half fogFactor : TEXCOORD5;
@@ -90,7 +91,7 @@ Shader "Game/Characters/Toon"
                 output.positionCS = positions.positionCS;
                 output.positionWS = positions.positionWS;
                 output.normalWS = TransformObjectToWorldNormal(input.normalOS);
-                output.uv = input.uv;
+                output.uv = float4(input.uv, input.uv1);
                 output.color = input.color;
                 output.region = ToonRegionId(input.color);
                 output.fogFactor = ComputeFogFactor(positions.positionCS.z);
@@ -109,7 +110,7 @@ Shader "Game/Characters/Toon"
                 if (ToonIsHidden(input.region)) discard;
 
                 half3 lit, shade;
-                ToonAlbedo(input.uv, input.color, lit, shade);
+                ToonAlbedo(input.uv.xy, input.uv.zw, input.color, lit, shade);
 
                 float3 normalWS = normalize(input.normalWS) * (isFrontFace ? 1.0 : -1.0);
                 float3 viewWS = GetWorldSpaceNormalizeViewDir(input.positionWS);
@@ -169,6 +170,7 @@ Shader "Game/Characters/Toon"
                 float4 positionOS : POSITION;
                 float3 normalOS : NORMAL;
                 float2 uv : TEXCOORD0;
+                float2 uv1 : TEXCOORD1;
                 float4 smoothNormalOS : TANGENT;
                 half4 color : COLOR;
             };
@@ -176,7 +178,7 @@ Shader "Game/Characters/Toon"
             struct Varyings
             {
                 float4 positionCS : SV_POSITION;
-                float2 uv : TEXCOORD0;
+                float4 uv : TEXCOORD0; // xy = UV0, zw = UV1
                 half4 color : TEXCOORD1;
                 nointerpolation uint region : TEXCOORD2;
                 half fogFactor : TEXCOORD3;
@@ -193,7 +195,7 @@ Shader "Game/Characters/Toon"
                 positionCS.xy += direction * (pixels * 2.0 / _ScreenParams.xy) * positionCS.w;
 
                 output.positionCS = positionCS;
-                output.uv = input.uv;
+                output.uv = float4(input.uv, input.uv1);
                 output.color = input.color;
                 output.region = ToonRegionId(input.color);
                 output.fogFactor = ComputeFogFactor(positionCS.z);
@@ -204,7 +206,7 @@ Shader "Game/Characters/Toon"
             {
                 if (ToonIsHidden(input.region)) discard;
                 half3 lit, shade;
-                ToonAlbedo(input.uv, input.color, lit, shade);
+                ToonAlbedo(input.uv.xy, input.uv.zw, input.color, lit, shade);
                 return half4(MixFog(shade * _OutlineColor.rgb, input.fogFactor), 1.0);
             }
             ENDHLSL

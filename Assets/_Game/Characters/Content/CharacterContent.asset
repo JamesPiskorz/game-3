@@ -1,0 +1,252 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b714e2e407fe2054781d7ec1d3286767, type: 3}
+  m_Name: CharacterContent
+  m_EditorClassIdentifier: Game.Characters.Unity::Game.Characters.Building.CharacterContent
+  Catalog: {fileID: 4900000, guid: 4ae48fe29ac34954c9bfe2676216c179, type: 3}
+  BodyPrefab: {fileID: 3910402858141879519, guid: a45ad29545118e14986eff4510e74f07, type: 3}
+  SkinPalette: {fileID: 11400000, guid: 249c629ddf8b62543bb9d085776fc466, type: 2}
+  Parts:
+  - Id: cloth.top.tshirt_01
+    Prefab: {fileID: 2968823560916605412, guid: e5769668e51e7f5488f80f096eaeff94, type: 3}
+  - Id: cloth.top.longsleeve_01
+    Prefab: {fileID: 6912819541786655825, guid: 0bd8041afe7e89344ab01120db6725cd, type: 3}
+  - Id: cloth.top.tank_01
+    Prefab: {fileID: 1542133794885559159, guid: 728fb9b2d1d810c488811183d130a92f, type: 3}
+  - Id: cloth.bottom.shorts_01
+    Prefab: {fileID: 5051435760212608752, guid: 14d1620320f8ceb47b5ed0d705443698, type: 3}
+  - Id: cloth.bottom.pants_01
+    Prefab: {fileID: 6388049972754282527, guid: 91dfe56a9bc4b5a49bab8df070e87c1b, type: 3}
+  - Id: cloth.bottom.skirt_01
+    Prefab: {fileID: 1274628939109051085, guid: 2a8f2c3ed88b50246ad65ed171e7f3c8, type: 3}
+  - Id: cloth.onepiece.dress_01
+    Prefab: {fileID: 2748832726179701078, guid: a3ad9b661e2dd0541821e53553d93570, type: 3}
+  - Id: cloth.shoes.sneakers_01
+    Prefab: {fileID: 5075321708317143307, guid: 299df16ed85662449910a8c5afdb1ea4, type: 3}
+  - Id: cloth.shoes.boots_01
+    Prefab: {fileID: 8791237670371142460, guid: 7bbf44245b3655343895820597142832, type: 3}
+  - Id: hair.back.crop_01
+    Prefab: {fileID: 6935511194035738336, guid: fd7661973b5c9f543801fd11b0b4bb6b, type: 3}
+  - Id: hair.back.bob_01
+    Prefab: {fileID: 1974013798882929223, guid: 0f0f223a4912091409ea8499edce1f14, type: 3}
+  - Id: hair.back.long_01
+    Prefab: {fileID: 6846020324285796675, guid: a7fc2e2662a0fe649b6cfe8fed5ff65a, type: 3}
+  - Id: hair.back.ponytail_01
+    Prefab: {fileID: 4453831398247458302, guid: e1c49c40cd292bb48a6f74934f50a3a6, type: 3}
+  - Id: hair.back.twintails_01
+    Prefab: {fileID: 2591411257994571824, guid: 4b89cafb9e404264799ef30c07f18e81, type: 3}
+  - Id: hair.back.bun_01
+    Prefab: {fileID: 8653512852195203677, guid: 72daaae3b3987bb4ba779b26f9c4d303, type: 3}
+  - Id: hair.front.blunt_01
+    Prefab: {fileID: 7959323058404227635, guid: 5536e869c8850764cbb9ef1bd0f52cd5, type: 3}
+  - Id: hair.front.swept_01
+    Prefab: {fileID: 2656334698948099300, guid: 3be6643afcb4ad2428024fb309a48394, type: 3}
+  - Id: acc.glasses.round_01
+    Prefab: {fileID: 6544146924403857493, guid: 3d90ec4651dad26408a0306ed54fcd95, type: 3}
+  - Id: acc.hat.beanie_01
+    Prefab: {fileID: 6217756984660538669, guid: 0eef57ca19788214ab9b797ff4ede21e, type: 3}
+  Patterns:
+  - Id: pattern.stripes_01
+    Texture: {fileID: 2800000, guid: 581ceba358bb34e46b6efc8984b13110, type: 3}
+  - Id: pattern.dots_01
+    Texture: {fileID: 2800000, guid: b69b12cc671029742aafdfe3b99c7985, type: 3}
+  - Id: pattern.plaid_01
+    Texture: {fileID: 2800000, guid: fc3499da5ac26a945a2a08e8f6dda014, type: 3}
+  - Id: pattern.check_01
+    Texture: {fileID: 2800000, guid: ce8d553dcfd36404eaf4ce58c8621097, type: 3}
+  Sliders:
+  - Id: body.weight
+    Kind: 0
+    Target: body.weight
+    MirrorBone: 
+    InputMin: 0
+    InputMax: 1
+    AtMin: {x: 0, y: 0, z: 0}
+    AtMax: {x: 1, y: 0, z: 0}
+  - Id: body.chest
+    Kind: 0
+    Target: body.chest
+    MirrorBone: 
+    InputMin: 0
+    InputMax: 1
+    AtMin: {x: 0, y: 0, z: 0}
+    AtMax: {x: 1, y: 0, z: 0}
+  - Id: body.hips
+    Kind: 0
+    Target: body.hips
+    MirrorBone: 
+    InputMin: 0
+    InputMax: 1
+    AtMin: {x: 0, y: 0, z: 0}
+    AtMax: {x: 1, y: 0, z: 0}
+  - Id: body.height
+    Kind: 1
+    Target: Armature
+    MirrorBone: 
+    InputMin: -1
+    InputMax: 1
+    AtMin: {x: 0.92, y: 0.92, z: 0.92}
+    AtMax: {x: 1.07, y: 1.07, z: 1.07}
+  - Id: body.shoulders
+    Kind: 2
+    Target: UpperArm.R
+    MirrorBone: UpperArm.L
+    InputMin: -1
+    InputMax: 1
+    AtMin: {x: -0.018, y: 0, z: 0}
+    AtMax: {x: 0.026, y: 0, z: 0}
+  - Id: body.legs
+    Kind: 2
+    Target: LowerLeg.R
+    MirrorBone: LowerLeg.L
+    InputMin: -1
+    InputMax: 1
+    AtMin: {x: 0, y: 0.035, z: 0}
+    AtMax: {x: 0, y: -0.045, z: 0}
+  - Id: body.legs
+    Kind: 2
+    Target: Hips
+    MirrorBone: 
+    InputMin: -1
+    InputMax: 1
+    AtMin: {x: 0, y: -0.035, z: 0}
+    AtMax: {x: 0, y: 0.045, z: 0}
+  - Id: body.head
+    Kind: 1
+    Target: Head
+    MirrorBone: 
+    InputMin: -1
+    InputMax: 1
+    AtMin: {x: 0.88, y: 0.88, z: 0.88}
+    AtMax: {x: 1.12, y: 1.12, z: 1.12}
+  - Id: eye.scale
+    Kind: 1
+    Target: Eye.R
+    MirrorBone: Eye.L
+    InputMin: -1
+    InputMax: 1
+    AtMin: {x: 0.78, y: 0.78, z: 0.78}
+    AtMax: {x: 1.22, y: 1.22, z: 1.22}
+  - Id: eye.height
+    Kind: 2
+    Target: Eye.R
+    MirrorBone: Eye.L
+    InputMin: -1
+    InputMax: 1
+    AtMin: {x: 0, y: -0.008, z: 0}
+    AtMax: {x: 0, y: 0.008, z: 0}
+  - Id: eye.spacing
+    Kind: 2
+    Target: Eye.R
+    MirrorBone: Eye.L
+    InputMin: -1
+    InputMax: 1
+    AtMin: {x: -0.006, y: 0, z: 0}
+    AtMax: {x: 0.008, y: 0, z: 0}
+  - Id: eye.tilt
+    Kind: 3
+    Target: Eye.R
+    MirrorBone: Eye.L
+    InputMin: -1
+    InputMax: 1
+    AtMin: {x: 0, y: 0, z: -14}
+    AtMax: {x: 0, y: 0, z: 14}
+  - Id: brow.height
+    Kind: 2
+    Target: Brow.R
+    MirrorBone: Brow.L
+    InputMin: -1
+    InputMax: 1
+    AtMin: {x: 0, y: -0.006, z: 0}
+    AtMax: {x: 0, y: 0.009, z: 0}
+  - Id: brow.tilt
+    Kind: 3
+    Target: Brow.R
+    MirrorBone: Brow.L
+    InputMin: -1
+    InputMax: 1
+    AtMin: {x: 0, y: 0, z: -16}
+    AtMax: {x: 0, y: 0, z: 16}
+  - Id: mouth.width
+    Kind: 1
+    Target: Mouth
+    MirrorBone: 
+    InputMin: -1
+    InputMax: 1
+    AtMin: {x: 0.7, y: 1, z: 1}
+    AtMax: {x: 1.35, y: 1, z: 1}
+  - Id: mouth.height
+    Kind: 2
+    Target: Mouth
+    MirrorBone: 
+    InputMin: -1
+    InputMax: 1
+    AtMin: {x: 0, y: -0.006, z: 0}
+    AtMax: {x: 0, y: 0.006, z: 0}
+  - Id: nose.size
+    Kind: 1
+    Target: Nose
+    MirrorBone: 
+    InputMin: -1
+    InputMax: 1
+    AtMin: {x: 0.72, y: 0.72, z: 0.72}
+    AtMax: {x: 1.3, y: 1.3, z: 1.3}
+  Styles:
+  - Id: eye.style.round
+    Tweaks:
+    - Bone: Eye.R
+      MirrorBone: Eye.L
+      Position: {x: 0, y: 0, z: 0}
+      Scale: {x: 1.06, y: 0.98, z: 1}
+      Euler: {x: 0, y: 0, z: 0}
+  - Id: eye.style.tall
+    Tweaks:
+    - Bone: Eye.R
+      MirrorBone: Eye.L
+      Position: {x: 0, y: 0, z: 0}
+      Scale: {x: 0.94, y: 1.14, z: 1}
+      Euler: {x: 0, y: 0, z: 0}
+  - Id: eye.style.narrow
+    Tweaks:
+    - Bone: Eye.R
+      MirrorBone: Eye.L
+      Position: {x: 0, y: 0, z: 0}
+      Scale: {x: 1.06, y: 0.74, z: 1}
+      Euler: {x: 0, y: 0, z: 0}
+  - Id: eye.style.droopy
+    Tweaks:
+    - Bone: Eye.R
+      MirrorBone: Eye.L
+      Position: {x: 0, y: 0, z: 0}
+      Scale: {x: 1, y: 0.9, z: 1}
+      Euler: {x: 0, y: 0, z: -9}
+  - Id: brow.style.thin
+    Tweaks:
+    - Bone: Brow.R
+      MirrorBone: Brow.L
+      Position: {x: 0, y: 0, z: 0}
+      Scale: {x: 1, y: 0.65, z: 1}
+      Euler: {x: 0, y: 0, z: 0}
+  - Id: brow.style.thick
+    Tweaks:
+    - Bone: Brow.R
+      MirrorBone: Brow.L
+      Position: {x: 0, y: 0, z: 0}
+      Scale: {x: 1.06, y: 1.6, z: 1.2}
+      Euler: {x: 0, y: 0, z: 0}
+  - Id: brow.style.soft
+    Tweaks:
+    - Bone: Brow.R
+      MirrorBone: Brow.L
+      Position: {x: 0, y: 0, z: 0}
+      Scale: {x: 0.94, y: 1, z: 1}
+      Euler: {x: 0, y: 0, z: -6}

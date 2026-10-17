@@ -8,7 +8,7 @@ namespace Game.Characters.StandIns
 {
     /// <summary>
     /// The stand-in body: a capsule mannequin with a simple face. Skin is the base region; recolour regions carry
-    /// the face colours: 1 = iris, 2 = brows and mouth, 3 = eye whites.
+    /// the face colours: 1 = iris, 2 = brows, 3 = eye whites, 4 = lips.
     /// </summary>
     public static class StandInBody
     {
@@ -38,6 +38,7 @@ namespace Game.Characters.StandIns
         static readonly MaskFunction Iris = (along, around) => new Vector3(1f, 0f, 0f);
         static readonly MaskFunction Dark = (along, around) => new Vector3(0f, 1f, 0f);
         static readonly MaskFunction White = (along, around) => new Vector3(0f, 0f, 1f);
+        static readonly MaskFunction Lips = (along, around) => new Vector4(0f, 0f, 0f, 1f);
 
         public static void Build(StandInMesh mesh)
         {
@@ -54,7 +55,7 @@ namespace Game.Characters.StandIns
                 mesh.AddEllipsoid(eye + new Vector3(0f, -0.002f, 0.004f), new Vector3(0.012f, 0.018f, 0.004f), Head, true, "Eye" + side, Iris);
                 mesh.AddEllipsoid(Bone("Brow" + side), new Vector3(0.019f, 0.0045f, 0.004f), Head, true, "Brow" + side, Dark);
             }
-            mesh.AddEllipsoid(Bone("Mouth"), new Vector3(0.016f, 0.003f, 0.004f), Head, true, "Mouth", Dark);
+            mesh.AddEllipsoid(Bone("Mouth"), new Vector3(0.016f, 0.003f, 0.004f), Head, true, "Mouth", Lips);
         }
 
         static Vector3 Bone(string name) => StandInSkeleton.Position(StandInSkeleton.Bones, name);
