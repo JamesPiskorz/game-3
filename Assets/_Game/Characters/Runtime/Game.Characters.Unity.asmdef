@@ -1,0 +1,16 @@
+{
+    "name": "Game.Characters.Unity",
+    "rootNamespace": "Game.Characters",
+    "references": [
+        "Game.Characters"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

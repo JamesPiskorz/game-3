@@ -1,0 +1,71 @@
+# Unity generated
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Mm]emoryCaptures/
+/[Rr]ecordings/
+.utmp/
+*.log
+
+# Blender backups (sources live in ArtSource/, tracked via LFS)
+*.blend1
+*.blend1.meta
+
+# IDE / solution files (Unity regenerates these)
+.vs/
+.vscode/
+.idea/
+.consulo/
+ExportedObj/
+*.csproj
+*.unityproj
+*.sln
+*.slnx
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.DotSettings.user
+/[Aa]ssets/Plugins/Editor/JetBrains*
+
+# Debug symbols' meta files
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+
+# Crash reports / runtime junk
+sysinfo.txt
+mono_crash.*
+crashlytics-build.properties
+
+# Build outputs
+*.apk
+*.aab
+*.app
+*.unitypackage
+*.unitypackage.meta
+
+# Test runner scenes
+/[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+
+# Addressables build output
+/ServerData
+/[Aa]ssets/StreamingAssets/aa*
+/[Aa]ssets/AddressableAssetsData/link.xml*
+/[Aa]ssets/Addressables_Temp*
+/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
+
+# OS
+.DS_Store
+Thumbs.db
