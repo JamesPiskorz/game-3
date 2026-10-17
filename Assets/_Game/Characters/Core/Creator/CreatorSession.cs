@@ -52,6 +52,36 @@ namespace Game.Characters.Creator
 
         public OutfitDna Outfit => Dna.Outfits.FirstOrDefault(o => o.Context == Context);
 
+        /// <summary>
+        /// The styles the current outfit reads as, strongest first (at most two). Each piece votes for the styles it's
+        /// tagged with (a piece that suits everything says little, so its vote is split) and for the styles whose
+        /// palette its main colour comes from. Residents who like those styles notice, so the creator can say who a
+        /// look will appeal to.
+        /// </summary>
+        public List<string> StyleReads()
+        {
+            var scores = new Dictionary<string, float>();
+            foreach (ItemDna item in Outfit?.Items ?? new List<ItemDna>())
+            {
+                PartEntry part = Catalog.Part(item.ItemId);
+                if (part == null) continue;
+                List<StyleArchetype> tagged = Catalog.Archetypes.Where(a => part.Tags.Contains(a.Id)).ToList();
+                foreach (StyleArchetype archetype in Catalog.Archetypes)
+                {
+                    float score = tagged.Contains(archetype) ? 1f / tagged.Count : 0f;
+                    ColourPalette palette = Catalog.Palette(archetype.OutfitPalette);
+                    if (palette != null && item.RegionColors.Count > 0)
+                    {
+                        float nearest = palette.Colours.Where(c => !c.Neutral).Select(c => HsvColor.Distance(HsvColor.FromHex(c.Hex), item.RegionColors[0])).DefaultIfEmpty(1f).Min();
+                        score += 0.6f * Math.Max(0f, 1f - nearest / 0.25f);
+                    }
+                    scores[archetype.Id] = (scores.TryGetValue(archetype.Id, out float total) ? total : 0f) + score;
+                }
+            }
+            return scores.Where(s => s.Value > 0f).OrderByDescending(s => s.Value).ThenBy(s => s.Key, StringComparer.Ordinal)
+                .Take(2).Select(s => s.Key).ToList();
+        }
+
         // ---------------------------------------------------------------- whole-character operations
 
         /// <summary>Rerolls everything not locked.</summary>

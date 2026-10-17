@@ -45,16 +45,19 @@ namespace Game.Creator
         ScrollView _content;
         Button _undo, _redo;
         TextField _shareCode;
-        Label _status;
+        Label _status, _styleRead;
         string _tab = "body";
         string _structure;
 
         readonly Action _play;
+        readonly Action<string> _express;
 
         /// <param name="play">Leaves the creator for the game with this look; null hides the button.</param>
-        public CreatorView(VisualElement root, CreatorSession session, Action<string> focus, Action<float> rotate, Action play = null)
+        /// <param name="express">Shows a facial expression on the preview; null hides the buttons.</param>
+        public CreatorView(VisualElement root, CreatorSession session, Action<string> focus, Action<float> rotate, Action play = null, Action<string> express = null)
         {
             _play = play;
+            _express = express;
             _root = root;
             _session = session;
             _catalog = session.Catalog;
@@ -148,6 +151,9 @@ namespace Game.Creator
                 else ShowStatus("Loaded.", error: false);
             }));
             footer.Add(share);
+            _styleRead = new Label { name = "style-read" };
+            _styleRead.AddToClassList("status");
+            footer.Add(_styleRead);
             _status = new Label { name = "status" };
             _status.AddToClassList("status");
             footer.Add(_status);
@@ -168,6 +174,9 @@ namespace Game.Creator
             views.AddToClassList("views");
             views.Add(TextButton("Full body", "view-body", () => _focus("body"), "chip"));
             views.Add(TextButton("Face", "view-face", () => _focus("face"), "chip"));
+            if (_express != null)
+                foreach ((string id, string label) in new[] { ("happy", "Smile"), ("shy", "Shy"), ("surprised", "Surprised"), ("sad", "Sad") })
+                    views.Add(TextButton(label, "expr-" + id, () => _express(id), "chip"));
             preview.Add(views);
             _root.Add(preview);
 
@@ -383,6 +392,10 @@ namespace Game.Creator
             foreach (KeyValuePair<string, Button> pair in _contextButtons)
                 pair.Value.EnableInClassList("selected", pair.Key == _session.Context);
             _shareCode.SetValueWithoutNotify(_session.ShareCode);
+
+            List<string> reads = _session.StyleReads();
+            _styleRead.text = reads.Count == 0 ? "" :
+                $"This look reads as {string.Join(" and ", reads.Select(r => (_catalog.Archetype(r)?.Name ?? r).ToLowerInvariant()))}: people into that style will notice.";
         }
 
         // What decides a tab's layout: the items worn (outfit tab) and context.

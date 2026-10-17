@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Game.Characters.Content;
 using Game.Characters.Creator;
@@ -165,5 +166,24 @@ namespace Game.Characters.Tests.Creator
         }
 
         static string Json(CharacterDna dna) => DnaSerializer.ToJson(dna, indented: false);
+
+        [Test]
+        public void StyleRead_NamesTheStylesTheOutfitCarries()
+        {
+            var generator = new CharacterGenerator(Catalogs.Project());
+            // Each style's generated outfits should mostly be read as that style (measured: 27-39 of 40 per style).
+            foreach (StyleArchetype archetype in generator.Catalog.Archetypes)
+            {
+                int hits = 0;
+                for (ulong seed = 0; seed < 40; seed++)
+                {
+                    CharacterDna dna = generator.Generate(seed, new GenerationRequest { Archetype = archetype.Id });
+                    List<string> reads = new CreatorSession(generator, dna, seed).StyleReads();
+                    Assert.That(reads.Count, Is.InRange(0, 2));
+                    if (reads.Contains(archetype.Id)) hits++;
+                }
+                Assert.That(hits, Is.GreaterThanOrEqualTo(24), $"Only {hits} of 40 {archetype.Id} outfits read as {archetype.Id}.");
+            }
+        }
     }
 }

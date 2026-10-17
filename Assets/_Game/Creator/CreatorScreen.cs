@@ -1,6 +1,7 @@
 using Game.Characters.Building;
 using Game.Characters.Creator;
 using Game.Characters.Dna;
+using Game.Characters.Expressions;
 using Game.Characters.Generation;
 using Game.Characters.Modular;
 using UnityEngine;
@@ -50,7 +51,11 @@ namespace Game.Creator
 
             VisualElement root = Document.rootVisualElement;
             if (Style != null) root.styleSheets.Add(Style);
-            new CreatorView(root, _session, focus => _faceView = focus == "face", degrees => _yaw += degrees, Play);
+            new CreatorView(root, _session, focus => _faceView = focus == "face", degrees => _yaw += degrees, Play, expression =>
+            {
+                _faceView = true;
+                _character.GetComponent<FaceExpression>()?.Show(expression, 1f, 2.5f);
+            });
             SnapCamera();
         }
 
