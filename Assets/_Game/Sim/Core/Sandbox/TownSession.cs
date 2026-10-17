@@ -497,14 +497,24 @@ namespace Game.Sim.Sandbox
             if (Date != null && !Date.Finished) return "Pick what to talk about. Topics they love make for a good date.";
             if (Date != null) return "Say goodnight when you're ready.";
             if (World.Invitations.Any(i => i.Pending && i.Day == World.Now.Day)) return "You have a message: someone wants to meet up today.";
+            if (Chat != null) return "Pick a reply. Warmth, teasing or curiosity: different people warm to different things.";
             bool metAnyone = World.Relationships.Any(r => r.Met);
             if (AtHome && !metAnyone) return "Head out: pick a place under Go to. The numbers show how many people are there.";
             if (Selected == null)
-                return Present().Count > 0 && !metAnyone ? "Pick someone under Here to say hi." : null;
+            {
+                if (Present().Count > 0 && !metAnyone) return "Pick someone under Here to say hi.";
+                if (AtSalon && World.Player.LastMakeover == null && World.Player.Money >= Salon.CutPrice)
+                    return "The salon here can change your hair. People who know you will notice, for better or worse.";
+                return null;
+            }
 
             Relationship rel = World.RelationshipWith(Selected);
             if (!rel.Met) return "Say hi. Your outfit makes the first impression.";
+            if (Game.Sim.Residents.Makeovers.Noticeable(World, Selected, rel, rel.LastSeenDay == World.Now.Day ? -1 : rel.LastSeenDay) != null)
+                return "Something's different about them. A compliment now would mean a lot.";
             if (rel.KnownLikes.Count == 0) return "Try Talk about…: you'll learn what they love from how they react.";
+            if (rel.ChatWins.Count == 0 && rel.Stage >= Stage.Acquaintance && rel.TalksToday == 0)
+                return "Try Chat: let them bring something up, and see which replies land.";
             if (rel.Stage >= Stage.Friend && rel.Dates == 0) return "You're friends now. Ask them out somewhere they'd enjoy.";
             if (rel.Stage < Stage.Friend && World.Player.Money < 15) return "Short on coins? Work a shift wherever people are employed.";
             return null;
