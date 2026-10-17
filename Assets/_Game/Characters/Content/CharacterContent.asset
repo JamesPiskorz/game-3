@@ -140,6 +140,8 @@ MonoBehaviour:
     Prefab: {fileID: 8500610744588557661, guid: baeac3713eacea4468a07a59e2dedf49, type: 3}
   - Id: acc.neck.necklace_01
     Prefab: {fileID: 3904257491430544553, guid: 267a93e9e1655114baaf9008caf399d6, type: 3}
+  - Id: acc.neck.choker_01
+    Prefab: {fileID: 5760259430169544485, guid: 114cd5350f256ce4f96b20b8f0a81d66, type: 3}
   - Id: acc.hat.cap_01
     Prefab: {fileID: 1724795837697061746, guid: 1b0bb045c4776624f93c40ee30320e0d, type: 3}
   - Id: acc.hat.beanie_01

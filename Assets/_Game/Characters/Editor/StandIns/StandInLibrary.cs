@@ -962,6 +962,18 @@ namespace Game.Characters.StandIns
             };
             yield return new Recipe
             {
+                Id = "acc.neck.choker_01", Slot = "neck", Material = "Accessory", Small = true,
+                Build = m =>
+                {
+                    // A band snug round the neck with a small charm at the front in the second colour.
+                    m.AddTube(new Tube { Region = None, Start = new Vector3(0f, 1.493f, 0f), End = new Vector3(0f, 1.521f, 0f), R0 = 0.0535f, R1 = 0.0525f, Bone = "Neck" },
+                        0f, Cap.Open, Cap.Open, Region1, false, withShapes: false);
+                    using IDisposable coarse = m.Coarse();
+                    m.AddEllipsoid(new Vector3(0f, 1.49f, 0.057f), new Vector3(0.0065f, 0.0075f, 0.004f), None, false, "Neck", RegionTwo);
+                },
+            };
+            yield return new Recipe
+            {
                 Id = "acc.hat.cap_01", Slot = "hat", Material = "Cloth", FollowsBodyShapes = false,
                 Build = m =>
                 {
