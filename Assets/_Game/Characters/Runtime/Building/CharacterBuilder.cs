@@ -31,6 +31,7 @@ namespace Game.Characters.Building
             ModularCharacter character = UnityEngine.Object.Instantiate(_content.BodyPrefab, parent);
             character.name = dna.Style != null ? $"Character {dna.Seed:x} ({dna.Style})" : "Character";
             character.gameObject.AddComponent<RestPose>().Capture();
+            character.gameObject.AddComponent<CharacterLod>();
             Apply(character, dna, context);
             return character;
         }
@@ -42,6 +43,7 @@ namespace Game.Characters.Building
             EquipParts(character, dna, outfit);
             ApplyShapesAndBones(character, dna);
             SpringBoneRig.Sync(character, _content.SpringColliders);
+            character.GetComponent<CharacterLod>()?.Refresh(); // new parts bring new materials and chains
             ApplyBodyColours(character, dna);
             ApplyPartColours(character, dna, outfit);
         }
