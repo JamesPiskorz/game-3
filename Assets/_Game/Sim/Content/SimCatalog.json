@@ -273,6 +273,57 @@
       { "tone": "bubbly", "text": "It's you! My {relation} {sibling} will not stop talking about you!" },
       { "tone": "dry", "text": "So you're the famous friend. My {relation} {sibling} wasn't exaggerating." }
     ],
+    "greet.makeover.haircut": [
+      { "tone": "any", "text": "Hey! Notice anything? I got my hair cut." },
+      { "tone": "shy", "text": "Hi... I got a haircut. Is it weird?" },
+      { "tone": "bubbly", "text": "New hair! New me! Do you love it? Be honest. Love it." },
+      { "tone": "dry", "text": "Yes, I got a haircut. Yes, on purpose." }
+    ],
+    "greet.makeover.colour": [
+      { "tone": "any", "text": "Hi! So... I dyed my hair. What do you think?" },
+      { "tone": "shy", "text": "Oh, hi. I tried a new hair colour. I'm still getting used to it." },
+      { "tone": "bubbly", "text": "Look, look! New colour! I couldn't resist!" },
+      { "tone": "dry", "text": "Before you say anything: it's called a change." }
+    ],
+    "greet.makeover.clothes": [
+      { "tone": "any", "text": "Hi! I finally treated myself to some new clothes." },
+      { "tone": "shy", "text": "Hi. I, um, bought some new things. Do they look okay?" },
+      { "tone": "bubbly", "text": "Shopping spree! Everything's new! Well, nearly everything!" },
+      { "tone": "dry", "text": "New clothes. I'm told it's a thing people do." }
+    ],
+    "compliment.makeover.haircut": [
+      { "tone": "any", "text": "You like it? I was so nervous about it!" },
+      { "tone": "shy", "text": "Really? ...Thank you. I was worried it was too much." },
+      { "tone": "bubbly", "text": "You noticed! Okay, you're officially my favourite person." },
+      { "tone": "dry", "text": "Finally, someone with taste noticed." }
+    ],
+    "compliment.makeover.colour": [
+      { "tone": "any", "text": "Thank you! I wasn't sure it suited me." },
+      { "tone": "shy", "text": "You think so? That's... that makes me really happy." },
+      { "tone": "bubbly", "text": "Right?! I feel like a whole new person!" },
+      { "tone": "dry", "text": "Good. I was this close to dyeing it back." }
+    ],
+    "compliment.makeover.clothes": [
+      { "tone": "any", "text": "Thanks! I spent ages choosing." },
+      { "tone": "shy", "text": "Oh! You noticed. Thank you." },
+      { "tone": "bubbly", "text": "Thank you thank you! I knew they were the right ones!" },
+      { "tone": "dry", "text": "Worth every coin, then." }
+    ],
+    "bark.makeover.haircut": [
+      { "tone": "any", "text": "Still not used to this haircut." },
+      { "tone": "bubbly", "text": "New hair, new me!" },
+      { "tone": "dry", "text": "Fresh haircut. Feels breezy." }
+    ],
+    "bark.makeover.colour": [
+      { "tone": "any", "text": "I keep catching my reflection. New colour!" },
+      { "tone": "shy", "text": "Is everyone looking at my hair?" },
+      { "tone": "bubbly", "text": "I love this colour so much!" }
+    ],
+    "bark.makeover.clothes": [
+      { "tone": "any", "text": "First day in the new clothes." },
+      { "tone": "bubbly", "text": "New outfit day is the best day!" },
+      { "tone": "dry", "text": "The new clothes are growing on me." }
+    ],
     "chat.open.interest": [
       { "tone": "any", "text": "Can I tell you about {topic}? I've been thinking about it all week." },
       { "tone": "shy", "text": "I, um... have you ever gotten really into {topic}? Because I have." },

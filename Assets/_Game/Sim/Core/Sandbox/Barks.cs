@@ -46,6 +46,8 @@ namespace Game.Sim.Sandbox
                 tokens["partner"] = world.Residents[partner].Profile.FirstName;
                 options.Add("bark.couple");
             }
+            if (resident.LastMakeover != null && world.Now.Day - resident.LastMakeover.Day <= 2)
+                options.Add("bark.makeover." + Makeovers.Key(resident.LastMakeover.Kind));
             Weather weather = world.Weather;
             bool outdoors = place != null && place.Tags.Contains("outdoors");
             if (weather == Weather.Rainy) options.Add(outdoors ? "bark.rain.out" : "bark.rain");

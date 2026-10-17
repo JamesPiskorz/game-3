@@ -64,6 +64,7 @@ namespace Game.Sim.Sandbox
                 foreach (ItemDna item in world.Player.Dna.Outfits.SelectMany(o => o.Items))
                     if (!world.Player.Wardrobe.Any(owned => Same(owned, item))) world.Player.Wardrobe.Add(Copy(item));
             Act = new Interactions(world);
+            Game.Sim.Residents.Makeovers.CatchUp(world);
             Selected = DateWith = Speaker = null;
             Date = null;
             Last = null;
@@ -600,6 +601,7 @@ namespace Game.Sim.Sandbox
         /// <summary>Places close and people move on with their day.</summary>
         void AfterTimePasses()
         {
+            Game.Sim.Residents.Makeovers.CatchUp(World);
             if (DateWith != null) return;
             if (!IsOpen(Location))
             {

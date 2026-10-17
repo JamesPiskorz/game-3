@@ -367,6 +367,8 @@ namespace Game.Town
             Add(_card, new Label(rel.Met ? StageName(rel.Stage) : "You haven't met yet"), "stage");
             if (rel.Familiarity >= StyleHintFamiliarity) Add(_card, new Label(StyleHint(profile, world)), "known", "style");
             if (rel.Familiarity >= LifeFamiliarity || rel.KnowsTheirLife) Add(_card, new Label(Life(selected, world)), "known", "life");
+            Makeover change = Makeovers.Noticeable(world, selected, rel, rel.LastSeenDay == world.Now.Day ? -1 : rel.LastSeenDay);
+            if (change != null) Add(_card, new Label($"Something's different: {Makeovers.Describe(change.Kind)}."), "known", "makeover");
 
             Meter("Affection", rel.Affection, "affection");
             Meter("Attraction", rel.Attraction, "attraction");

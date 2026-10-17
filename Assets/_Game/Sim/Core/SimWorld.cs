@@ -18,6 +18,9 @@ namespace Game.Sim
         /// <summary>The index of their family's first member: their own index unless they have a sibling in town.</summary>
         public int Family;
 
+        /// <summary>Their latest change of look (see <see cref="Makeovers"/>), or null.</summary>
+        public Makeover LastMakeover;
+
         public string Name => Profile.Name;
         public override string ToString() => $"#{Index} {Name}";
     }
@@ -114,6 +117,9 @@ namespace Game.Sim
 
         /// <summary>The relationship with resident <paramref name="index"/> if the player has one, else null (doesn't create one).</summary>
         public Relationship Find(int index) => _relationships.TryGetValue(index, out Relationship relationship) ? relationship : null;
+
+        /// <summary>The last week whose makeovers have been applied (they're replayed from the seed, not saved).</summary>
+        public int MakeoverWeek;
 
         /// <summary>Their brothers and sisters in town.</summary>
         public IEnumerable<Resident> SiblingsOf(Resident resident) =>

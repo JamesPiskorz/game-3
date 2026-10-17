@@ -84,6 +84,7 @@ namespace Game.Sim
                     throw new FormatException($"Save has a relationship with resident {relationship.Resident}, but the town has {world.Residents.Count}.");
                 world.Restore(relationship);
             }
+            Residents.Makeovers.CatchUp(world); // looks that changed since the town began, replayed from the seed
             return world;
         }
 

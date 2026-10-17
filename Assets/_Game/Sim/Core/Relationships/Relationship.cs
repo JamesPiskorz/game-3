@@ -61,6 +61,10 @@ namespace Game.Sim.Relationships
         /// </summary>
         public Memory LovedTopic, LovedGift, GreatDate;
 
+        /// <summary>The day of the makeover the player last mentioned or complimented, so each change counts once.</summary>
+        public int MentionedMakeoverDay = -1;
+        public int NoticedMakeoverDay = -1;
+
         /// <summary>Chat replies that landed well, by style; two of a kind and the player has learnt what they like.</summary>
         public SortedDictionary<string, int> ChatWins = new SortedDictionary<string, int>(StringComparer.Ordinal);
 

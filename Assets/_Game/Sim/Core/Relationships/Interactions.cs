@@ -136,6 +136,14 @@ namespace Game.Sim.Relationships
 
             if (_previousSeen >= 0 && _previousSeen < Today)
             {
+                // A new look since the player last saw them: they bring it up (and a compliment now counts double).
+                Makeover change = Makeovers.Noticeable(_world, resident, rel, _previousSeen);
+                if (change != null && rel.MentionedMakeoverDay < change.Day)
+                {
+                    rel.MentionedMakeoverDay = change.Day;
+                    return Finish(resident, rel, rng, result, before, "greet.makeover." + Makeovers.Key(change.Kind), GreetMinutes);
+                }
+
                 (string Key, (string, string) Token)? recalled = Recall(rel);
                 if (recalled != null) return Finish(resident, rel, rng, result, before, recalled.Value.Key, GreetMinutes, recalled.Value.Token);
 
@@ -283,6 +291,18 @@ namespace Game.Sim.Relationships
                 float charm = _world.Player.Stat("charm") / 100f;
                 Add(ref rel.Affection, 2f * (1f + charm));
                 Add(ref rel.Attraction, (2f + 3f * look) * (1f + 0.5f * charm));
+
+                // Noticing a new look while it's new means a lot.
+                Makeover change = Makeovers.Noticeable(_world, resident, rel, _previousSeen);
+                if (change != null)
+                {
+                    rel.NoticedMakeoverDay = change.Day;
+                    Add(ref rel.Affection, 4f * (1f + charm));
+                    Add(ref rel.Attraction, 2f);
+                    rel.LastComplimentDay = Today;
+                    result.Learnt = $"{resident.Profile.FirstName} was hoping someone would notice {resident.Profile.Possessive} {Makeovers.Describe(change.Kind).Replace("a new ", "new ")}.";
+                    return Finish(resident, rel, rng, result, before, "compliment.makeover." + Makeovers.Key(change.Kind), ComplimentMinutes);
+                }
 
                 // Dressed to their taste, they return the compliment.
                 PartEntry favourite = Favourite(resident);
