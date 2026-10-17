@@ -139,7 +139,7 @@ namespace Game.Characters.Tests.Generation
             foreach (PartEntry part in _catalog.Parts)
             {
                 Assert.That(parts.ContainsKey(part.Id), $"'{part.Id}' never appears.");
-                if (!part.Slot.StartsWith("hair.") && part.Slot != Slots.Glasses && part.Slot != Slots.Hat)
+                if (!part.Slot.StartsWith("hair.") && part.Slot != Slots.Glasses && part.Slot != Slots.Hat && part.Slot != Slots.Neck)
                     Assert.That(parts[part.Id], Is.GreaterThan(outfits / 200), $"'{part.Id}' is in under 0.5% of outfits.");
             }
             Assert.That(faces, Is.SupersetOf(_catalog.FacePresets.Select(p => p.Id)));

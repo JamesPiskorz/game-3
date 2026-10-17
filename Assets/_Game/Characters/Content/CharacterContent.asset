@@ -74,6 +74,10 @@ MonoBehaviour:
     Prefab: {fileID: 1338564963674439775, guid: 159fe7d9f3cdc3e409acabaacf1595f6, type: 3}
   - Id: acc.glasses.round_01
     Prefab: {fileID: 6544146924403857493, guid: 3d90ec4651dad26408a0306ed54fcd95, type: 3}
+  - Id: acc.neck.scarf_01
+    Prefab: {fileID: 8500610744588557661, guid: baeac3713eacea4468a07a59e2dedf49, type: 3}
+  - Id: acc.neck.necklace_01
+    Prefab: {fileID: 3904257491430544553, guid: 267a93e9e1655114baaf9008caf399d6, type: 3}
   - Id: acc.hat.cap_01
     Prefab: {fileID: 1724795837697061746, guid: 1b0bb045c4776624f93c40ee30320e0d, type: 3}
   - Id: acc.hat.beanie_01

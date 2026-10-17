@@ -364,6 +364,37 @@ namespace Game.Characters.StandIns
                         m.AddTube(new Tube { Region = None, Start = new Vector3(x, 1.66f, 0.108f), End = new Vector3(x * 1.72f, 1.655f, -0.005f), R0 = 0.0025f, R1 = 0.0025f, Bone = "Head" }, 0f, Cap.Closed, Cap.Closed, Region1, false, withShapes: false);
                 },
             };
+            // ---------------- neckwear: details in front of the chest take its shape response (like the blazer's lapels)
+            yield return new Recipe
+            {
+                Id = "acc.neck.scarf_01", Slot = "neck", Material = "Cloth",
+                Build = m =>
+                {
+                    Tube wrap = StandInBody.TubeFor(Neck);
+                    wrap.End = Vector3.Lerp(wrap.Start, wrap.End, 0.75f);
+                    m.AddTube(wrap, 0.042f, Cap.Collar, Cap.Collar, (along, around) => Mathf.Repeat(along * 3f, 1f) > 0.6f ? new Vector4(0f, 1f, 0f, 0f) : new Vector4(1f, 0f, 0f, 0f), false);
+                    m.AddTube(new Tube { Region = UpperTorso, Start = new Vector3(0.055f, 1.46f, 0.095f), End = new Vector3(0.085f, 1.2f, 0.122f),
+                            R0 = 0.04f, R1 = 0.036f, Width = 1f, Depth = 0.28f, Bone = "Chest", ShapeRadius = 0.1f },
+                        0f, Cap.Closed, Cap.Closed, (along, around) => along > 0.85f ? new Vector4(0f, 1f, 0f, 0f) : new Vector4(1f, 0f, 0f, 0f), false);
+                },
+            };
+            yield return new Recipe
+            {
+                Id = "acc.neck.necklace_01", Slot = "neck", Material = "Accessory",
+                Build = m =>
+                {
+                    // A string of beads around the base of the neck, and a pendant resting on the chest.
+                    for (int i = 0; i < 16; i++)
+                    {
+                        float a = i / 16f * 2f * Mathf.PI;
+                        var at = new Vector3(Mathf.Cos(a) * 0.056f, 1.48f - 0.03f * Mathf.Max(0f, Mathf.Sin(a)), Mathf.Sin(a) * 0.056f);
+                        m.AddEllipsoid(at, Vector3.one * 0.0095f, None, false, "Neck", Region1);
+                    }
+                    m.AddTube(new Tube { Region = UpperTorso, Start = new Vector3(0f, 1.425f, 0.1f), End = new Vector3(0f, 1.39f, 0.112f),
+                            R0 = 0.013f, R1 = 0.017f, Width = 1f, Depth = 0.5f, Bone = "Chest", ShapeRadius = 0.1f },
+                        0f, Cap.Closed, Cap.Closed, RegionTwo, false);
+                },
+            };
             yield return new Recipe
             {
                 Id = "acc.hat.cap_01", Slot = "hat", Material = "Cloth", FollowsBodyShapes = false,

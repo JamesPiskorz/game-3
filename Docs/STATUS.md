@@ -28,7 +28,7 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 | Weather | Sunny, cloudy or rainy each day, from the seed. Rain empties the park as people shelter indoors, greys the sky and falls on outdoor scenes | `Sim/Core/Weather.cs`, `SimWorld.WhereIs` |
 | Invitations | Close friends and partners message the player to meet later today, where their plans already take them; turning up starts a date, standing them up costs | `Sim/Core/Sandbox/Invitations.cs` |
 | Expressions | Seven facial expressions plus blinking on the face bones, plus idle breathing, sway, gaze and a procedural walk cycle (people walk in and out of town scenes as time passes). Both layer over the builder's pose; residents react and nod at each interaction | `Characters/Runtime/Expressions`, `Docs/review/expressions.png` |
-| Stand-in content | Procedural body with simple face, 31 parts (12 hair, 19 clothing and accessories), 9 face presets, 7 eye and 5 brow styles, 8 patterns, toon materials. **Placeholder art until Phase 1.** | `Characters/Editor/StandIns`, `Content/StandIn` |
+| Stand-in content | Procedural body with simple face, 33 parts (12 hair, 21 clothing and accessories, including neckwear), 9 face presets, 7 eye and 5 brow styles, 8 patterns, toon materials. **Placeholder art until Phase 1.** | `Characters/Editor/StandIns`, `Content/StandIn` |
 | Performance | Town benchmark; distance-based detail (`CharacterLod`) | decision 0004, `Docs/review/perf.md` |
 | Tests | 216 Unity EditMode tests (106 characters, 110 sim); the pure C# sets also run on .NET 8 | `Characters/Tests`, `Sim/Tests` |
 

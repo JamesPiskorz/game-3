@@ -29,7 +29,7 @@ namespace Game.Creator
 
         static readonly (string Slot, bool Optional)[] OutfitSlots =
         {
-            (Slots.Top, false), (Slots.Bottom, false), (Slots.OnePiece, true), (Slots.Shoes, false), (Slots.Hat, true), (Slots.Glasses, true),
+            (Slots.Top, false), (Slots.Bottom, false), (Slots.OnePiece, true), (Slots.Shoes, false), (Slots.Hat, true), (Slots.Glasses, true), (Slots.Neck, true),
         };
 
         static readonly string[] RegionNames = { "Main", "Trim", "Detail", "Accent" };

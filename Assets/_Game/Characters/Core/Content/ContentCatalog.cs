@@ -103,6 +103,7 @@ namespace Game.Characters.Content
         public const string Shoes = "shoes";
         public const string Hat = "hat";
         public const string Glasses = "glasses";
+        public const string Neck = "neck";
         public const string HairBack = "hair.back";
         public const string HairFront = "hair.front";
     }
@@ -232,6 +233,7 @@ namespace Game.Characters.Content
         public float FantasyEyeChance = 0.05f;
         public float GradientChance = 0.15f;
         public float GlassesChance = 0.1f;
+        public float NeckChance = 0.1f;
         public float HatChance = 0.1f;
         public float NoBangsChance = 0.25f;
     }

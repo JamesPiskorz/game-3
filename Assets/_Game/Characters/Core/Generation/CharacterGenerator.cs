@@ -219,6 +219,10 @@ namespace Game.Characters.Generation
                     Wear(PickPart(rng, Slots.Hat, archetype, context, femininity, worn));
                 if (glasses != null && Compatible(glasses, worn))
                     Wear(glasses);
+                // Neckwear draws from its own stream, so adding it changed no one's existing outfit.
+                Pcg32 neck = SeedStreams.For(seed, "outfit.neck." + contextId);
+                if (neck.Chance(archetype.NeckChance))
+                    Wear(PickPart(neck, Slots.Neck, archetype, context, femininity, worn));
 
                 var outfit = new OutfitDna { Context = contextId };
                 OutfitColourer.Colour(rng, _catalog, archetype, palette, items, outfit, SkinColour(dna.Skin.Tone));
