@@ -352,6 +352,26 @@ namespace Game.Characters.StandIns
                 })
                     m.AddEllipsoid(centre + Vector3.Scale(direction.normalized, radii) * 0.86f, Vector3.one * 0.05f, None, false, "Head", Region1);
             });
+            yield return Hair("hair.back.locs_01", "hair.back", m =>
+            {
+                // Locs: rope-like strands from the crown to the shoulders, round the back and sides, in two staggered
+                // layers so they read as a full head of hair, each a little different in length and splay, with tips in
+                // the tip colour.
+                Crown(m);
+                using IDisposable coarse = m.Coarse(sides: 7, rings: 5);
+                foreach ((int strands, float spread, float lift, float inner, float outer) in new[] { (15, 100f, 0.02f, 0.004f, 0.03f), (14, 93f, 0.004f, 0.016f, 0.062f) })
+                    for (int i = 0; i < strands; i++)
+                    {
+                        float angle = Mathf.Lerp(-spread, spread, i / (strands - 1f)) * Mathf.Deg2Rad;
+                        float wobble = Mathf.Sin(i * 2.39f + strands);
+                        var outward = new Vector3(Mathf.Sin(angle), 0f, -Mathf.Cos(angle));
+                        // Each starts inside the crown and comes out through it, so no strand shows a cut-off top.
+                        Vector3 start = new Vector3(0f, 1.7f + lift + 0.006f * wobble, 0f) + outward * (0.094f + inner);
+                        Vector3 end = new Vector3(0f, 1.33f + 0.04f * wobble - 0.05f * Mathf.Cos(angle), 0f) + outward * (HeadR + outer + 0.01f * wobble);
+                        m.AddTube(new Tube { Region = None, Start = start, End = end, R0 = 0.0135f, R1 = 0.012f, Bone = "Head", ChildBone = "Chest", ChildBlendStart = 0.55f, ChildBlendMax = 0.6f },
+                            0f, Cap.Closed, Cap.Closed, Gradient(0.6f), false, withShapes: false);
+                    }
+            });
             yield return Hair("hair.back.puffs_01", "hair.back", m =>
             {
                 // Two round puffs high on the head, each a little cloud.

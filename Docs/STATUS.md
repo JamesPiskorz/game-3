@@ -7,7 +7,7 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 | Area | State | Where |
 |---|---|---|
 | Character DNA | v1: versioned, deterministic JSON, share codes, migration scaffold, and repair for looks made with other content (removed parts, new sliders and contexts) | `Characters/Core/Dna` |
-| Generator | Archetypes, presets + noise, colour harmony, slot/tag rules, skin-contrast rule, population mode with families (siblings who look related), outer layers (a jacket or coat by choice, and a coat on rainy days), legwear where legs show, freckles, beauty marks, blush and lipstick by style and presentation, textured hairstyles (an afro, puffs) for about one in eight, workout clothes for the gym, smart work clothes, reroll with locks | `Characters/Core/Generation`, `Content/Catalog.json` |
+| Generator | Archetypes, presets + noise, colour harmony, slot/tag rules, skin-contrast rule, population mode with families (siblings who look related), outer layers (a jacket or coat by choice, and a coat on rainy days), legwear where legs show, freckles, beauty marks, blush and lipstick by style and presentation, textured hairstyles (an afro, puffs, locs) for about one in eight, workout clothes for the gym, smart work clothes, reroll with locks | `Characters/Core/Generation`, `Content/Catalog.json` |
 | Runtime assembly | Bone rebinding, part-only bone grafting, blendshape mirroring, region hiding, slot blocking | `Characters/Runtime/Modular` (decision 0001) |
 | Builder | DNA → character, idempotent, sliders/styles on bones, colours, patterns | `Characters/Runtime/Building` |
 | Toon shading | `Game/Characters/Toon`: ramp shading, hand-picked skin shades, outlines, recolour masks, patterns | `Characters/Shaders` (decision 0002) |

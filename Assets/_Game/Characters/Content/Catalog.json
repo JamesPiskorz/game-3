@@ -85,6 +85,7 @@
     { "id": "hair.back.braid_01", "name": "Braid", "slot": "hair.back", "tags": ["cute", "bookish", "elegant", "casual"], "lean": 0.5 },
     { "id": "hair.back.spiky_01", "name": "Spiky", "slot": "hair.back", "tags": ["street", "sporty", "casual"], "lean": -0.5 },
     { "id": "hair.back.afro_01", "name": "Afro", "slot": "hair.back", "blocksSlots": ["hair.front"], "tags": ["street", "casual", "sporty", "cute", "textured", "big_hair"] },
+    { "id": "hair.back.locs_01", "name": "Locs", "slot": "hair.back", "tags": ["street", "casual", "gothic", "textured", "hat_ok"], "lean": 0.1 },
     { "id": "hair.back.puffs_01", "name": "Puffs", "slot": "hair.back", "tags": ["cute", "street", "casual", "textured"], "lean": 0.6 },
     { "id": "hair.front.blunt_01", "name": "Blunt bangs", "slot": "hair.front", "tags": ["cute", "gothic", "bookish"] },
     { "id": "hair.front.swept_01", "name": "Swept bangs", "slot": "hair.front", "tags": ["casual", "elegant", "street", "sporty"] },
