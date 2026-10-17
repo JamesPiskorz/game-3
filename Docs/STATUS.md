@@ -15,10 +15,13 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 | Character creator | UI Toolkit screen over `CreatorSession`: tabs, sliders, swatches, locks, undo/redo, contexts, share codes, "Into town" | `Creator/`, scene `Creator/Creator.unity` |
 | Blender pipeline | Headless Blender tools: shared rig, weight and shape-key transfer, a validator, FBX export with sidecars; a Unity import post-processor turns them into parts | `Tools/Blender`, `Characters/Editor/Import` (decision 0005) |
 | Sim core | Residents derived from the character seed (name, pronouns, personality, interests, job, hangouts, taste), weekly schedules, relationships, interactions, first impressions from outfits, small saves | `Sim/Core`, `Sim/Content/SimCatalog.json` (decision 0006) |
-| Town prototype | `TownSession` loop and a playable scene: blockout sets per location, time-of-day light, residents built from DNA, a HUD to travel, talk, give gifts and ask people out, save/load | `Town/`, scene `Town/Town.unity` |
+| Dialogue | 123 tone-flavoured lines over 26 reactions. Lines can be gated by stage, and no line repeats back to back. Residents bring up recent shared moments and notice an outfit they love by name | `Sim/Core/Dialogue.cs`, `SimCatalog.json` |
+| Town prototype | `TownSession` loop and a playable scene: blockout sets per location, time-of-day light, residents built from DNA. The HUD lets you travel, talk, give gifts, ask people out, work shifts, shop, change clothes, and save/load | `Town/`, scene `Town/Town.unity` |
+| Boutique | Daily stock taken from generated outfits; buying, a wardrobe, outfit rules; money from shifts | `Sim/Core/Sandbox/Boutique.cs` |
+| Expressions | Seven facial expressions plus blinking on the face bones, layered over the builder's sliders; residents react to each interaction | `Characters/Runtime/Expressions`, `Docs/review/expressions.png` |
 | Stand-in content | Procedural body with simple face, 19 parts, toon materials, patterns. **Placeholder art until Phase 1.** | `Characters/Editor/StandIns`, `Content/StandIn` |
 | Performance | Town benchmark; distance-based detail (`CharacterLod`) | decision 0004, `Docs/review/perf.md` |
-| Tests | 144 Unity EditMode tests (102 characters, 42 sim); the pure C# sets also run on .NET 8 | `Characters/Tests`, `Sim/Tests` |
+| Tests | 162 Unity EditMode tests (103 characters, 59 sim); the pure C# sets also run on .NET 8 | `Characters/Tests`, `Sim/Tests` |
 
 ## Try it
 
@@ -28,6 +31,7 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
   3. Pick a place, pick someone under **Here**, then use **Say hi** and **Talk about…**. The card lists what you've learned they love.
   4. Give gifts that match, and **Ask out…** once you're friends.
   5. **Wait an hour** and **Sleep** move time. Places close, and people come and go with their schedules.
+  6. **Work a shift** to earn coins. Spend them at the **Boutique** in Arcade Lane, and change clothes in the **Wardrobe** at home. Once you know someone a little, their card says which looks they go for.
   - Opening `Town/Town.unity` directly works too. It uses the look you last took into town, or a generated one.
 - **Review sheets:** the **Game → Characters → Review** menu has the generated lineup, the 96-character quality sheet, the skin ramp, the spring filmstrip and the town benchmark. **Game → Town → Build Town Scene** rebuilds the town scene.
 - **Regenerate stand-ins:** **Game → Characters → Content → Regenerate All Stand-in Content**.
@@ -64,7 +68,7 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 ## Suggested next steps
 
 1. **Play it by hand:** an hour in the editor to tune pacing and find UI friction that headless captures can't.
-2. **Dialogue depth:** more lines per reaction, lines by stage, and callbacks to shared memories. Repetition is the slice's biggest weakness.
-3. **First real art:** base body and head per the style bible, then swap it in for the stand-ins.
+2. **First real art:** base body and head per the style bible, then swap it in for the stand-ins. The stand-in face can't smile; a real head with blendshapes needs its own expression driver.
+3. **More to do in town:** activities on dates, NPC-to-NPC relationships and gossip, and relationship decay.
 4. **The town as a space:** walkable locations with NavMesh, and residents arriving and leaving instead of popping in.
 5. **Performance:** merge each character into fewer renderers (decision 0004), before the town shows more than six people at once.

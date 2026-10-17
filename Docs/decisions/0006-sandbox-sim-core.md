@@ -23,7 +23,18 @@
    - Compliments land better when you're dressed to their taste.
    - A date puts both characters in their date outfits.
 7. **Pacing is a tested design goal,** not just tuning. `ListeningPaysOff` checks that an attentive player gets a first date clearly sooner than one chatting at random, and within days rather than one visit or a season. Talks the same day have diminishing returns (1, 2/3, 1/2...), so visiting daily beats camping.
-8. **The playable loop is `TownSession`** (pure C#). It covers travel, waiting, sleeping, selection, closing time and people leaving, and dates. Unity's `TownView` (UI Toolkit) and `TownStage` (3D) only draw it. This is the same pattern as `CreatorSession`.
+8. **Dialogue is templated, but it remembers.**
+   - Lines carry a tone and can carry a stage range.
+   - Each relationship keeps the last line used per reaction, so lines never repeat back to back.
+   - The latest great date, loved gift and loved topic are kept for three days. The first greeting on a new day brings one up, once.
+   - Meeting someone in an outfit they love gets the piece named ("I love your sneakers"). A compliment while you're dressed to their taste is returned the same way.
+9. **The boutique sells from the character generator.**
+   - Each day's stock comes from outfits generated in random archetypes' styles, so every piece arrives in colours chosen to work together.
+   - Buying puts the piece on. The wardrobe keeps outfits wearable (a dress replaces top and bottom; a top pulls a bottom back from the wardrobe) and applies the generator's tag rules.
+   - Money comes from hourly shifts, which cost the time that could go to socialising.
+   - A test checks the point of all this: shopping for someone's style raises their first impression.
+10. **Expressions are a character-layer feature** (`FaceExpression`). They are symmetric offsets on the stand-in's feature bones, layered over the builder's base and rebased after every Apply. The game maps reactions to faces by tone.
+11. **The playable loop is `TownSession`** (pure C#). It covers travel, waiting, sleeping, selection, closing time and people leaving, and dates. Unity's `TownView` (UI Toolkit) and `TownStage` (3D) only draw it. This is the same pattern as `CreatorSession`.
 
 ## Pacing (simulated, 24 residents, 60 days)
 
@@ -39,10 +50,11 @@ Partner may still be too quick for a sandbox. Retune it after real play sessions
 ## Consequences / next
 
 - **The town is a stage, not a space.** Each location is a blockout set showing up to six present residents. There's no walking or NavMesh yet (Phase 5 plans both). Residents teleport between places on the hour.
-- **Dialogue is one line per reaction,** chosen by tone. It works, but it repeats quickly. Next steps are more lines per key, lines conditioned on stage, and memory callbacks ("How was the café yesterday?").
+- **Dialogue still runs on single lines.** With about 5 lines per reaction and no back-to-back repeats it holds up for a session. Multi-line exchanges and conversation choices are the next step.
+- **Expressions are limited by the stand-in face:** an ellipsoid mouth can open but can't curve into a smile. Real heads should drive blendshapes instead.
 - **Not built yet:**
   - NPC-to-NPC relationships, gossip and rivals.
   - Shops that sell from the character catalog.
   - Weather, and outfits changing by occasion beyond casual and date.
   - Relationship decay.
-- **Tests:** 42 sim tests (the town, profiles, schedules, interactions, pacing, saves and the session) pass on .NET 8 and in Unity. The prototype is verified headless by `TownCapture`, which presses HUD buttons through a scripted visit and saves `Docs/review/town-*.png`.
+- **Tests:** 59 sim tests (the town, profiles, schedules, interactions, pacing, dialogue, the boutique, saves and the session) pass on .NET 8 and in Unity. The prototype is verified headless by `TownCapture`, which presses HUD buttons through a scripted visit and saves `Docs/review/town-*.png`.
