@@ -1,0 +1,9 @@
+{
+  "kind": "part",
+  "slot": "top",
+  "covers": [
+    "UpperTorso",
+    "LowerTorso"
+  ],
+  "followsBodyShapes": true
+}

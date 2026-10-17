@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -6,19 +7,48 @@ namespace Game.Characters.Building
     /// <summary>Simple bone poses for previews and review renders (stand-in skeleton names) until animation exists.</summary>
     public static class Poses
     {
-        /// <summary>Arms down with a slight bend, so characters can stand close together in a lineup.</summary>
+        /// <summary>
+        /// Arms down with a slight bend, so characters can stand close together in a lineup. Call with the skeleton at
+        /// rest. Each bend is given in the character's frame relative to the parent's bend, so it poses any rig with
+        /// these bone names the same way, whatever its bones' own axes (Blender exports keep Blender's bone roll).
+        /// </summary>
         public static void Relaxed(Transform character)
         {
-            Rotate(character, "UpperArm.L", new Vector3(0f, 8f, 72f));
-            Rotate(character, "UpperArm.R", new Vector3(0f, -8f, -72f));
-            Rotate(character, "LowerArm.L", new Vector3(0f, 12f, 0f));
-            Rotate(character, "LowerArm.R", new Vector3(0f, -12f, 0f));
+            var pose = new Pose(character);
+            pose.Bend("UpperArm.L", new Vector3(0f, 8f, 72f));
+            pose.Bend("UpperArm.R", new Vector3(0f, -8f, -72f));
+            pose.Bend("LowerArm.L", new Vector3(0f, 12f, 0f));
+            pose.Bend("LowerArm.R", new Vector3(0f, -12f, 0f));
         }
 
-        static void Rotate(Transform character, string bone, Vector3 euler)
+        sealed class Pose
         {
-            Transform transform = character.GetComponentsInChildren<Transform>(true).FirstOrDefault(t => t.name == bone);
-            if (transform != null) transform.localRotation = Quaternion.Euler(euler);
+            readonly Quaternion _root;
+            readonly Dictionary<string, Transform> _bones = new Dictionary<string, Transform>();
+            readonly Dictionary<Transform, Quaternion> _rest = new Dictionary<Transform, Quaternion>();
+
+            public Pose(Transform character)
+            {
+                _root = character.rotation;
+                foreach (Transform bone in character.GetComponentsInChildren<Transform>(true))
+                {
+                    if (!_bones.ContainsKey(bone.name)) _bones[bone.name] = bone;
+                    _rest[bone] = bone.rotation;
+                }
+            }
+
+            // The rotation a bone has gained since rest, expressed in the character's frame.
+            Quaternion Delta(Transform bone) =>
+                bone == null || !_rest.ContainsKey(bone)
+                    ? Quaternion.identity
+                    : Quaternion.Inverse(_root) * bone.rotation * Quaternion.Inverse(_rest[bone]) * _root;
+
+            public void Bend(string name, Vector3 euler)
+            {
+                if (!_bones.TryGetValue(name, out Transform bone)) return;
+                Quaternion delta = Delta(bone.parent) * Quaternion.Euler(euler);
+                bone.rotation = _root * delta * Quaternion.Inverse(_root) * _rest[bone];
+            }
         }
     }
 }
