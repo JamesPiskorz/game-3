@@ -115,4 +115,4 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 3. **Richer conversations:** a chat is at most two exchanges over four kinds of opener. More openers, and a third beat that remembers the first, would make talking feel less like a menu.
 4. **The town as a space:** walkable locations with NavMesh. People already walk in and out of each scene, but the town itself is a set of stages.
 5. **Sound:** there's none yet. Music per place and time of day, plus UI sounds.
-6. **Performance:** render cost now follows renderer count (294 for 40 residents with tonight's face marks, about 9.9 ms in the editor, 9.25 ms with distance detail as in play). Merging each character's parts into fewer renderers, with merged materials, is the next lever (decision 0004).
+6. **Performance:** render cost now follows renderer count (about 290 for 40 residents with tonight's face marks, about 10 ms in the editor; see `Docs/review/perf.md`). Merging each character's parts into fewer renderers, with merged materials, is the next lever (decision 0004).
