@@ -1,8 +1,8 @@
 # Generator statistics
 
-_2026-10-18 06:28 · AMD Ryzen 7 5700X 8-Core Processor · Unity 6000.6.6f1 (editor). Regenerate with **Game → Characters → Review → Write Generator Statistics**._
+_2026-10-18 06:40 · AMD Ryzen 7 5700X 8-Core Processor · Unity 6000.6.6f1 (editor). Regenerate with **Game → Characters → Review → Write Generator Statistics**._
 
-10,000 characters, 0.475 ms each to generate. Rule violations: **0**.
+10,000 characters, 0.483 ms each to generate. Rule violations: **0**.
 
 ## Styles
 
@@ -34,7 +34,8 @@ How many characters wear each part, per outfit context (hair: per character). **
 
 | Part | Slot | hair | casual | date | rain | sport | work |
 |---|---|---|---|---|---|---|---|
-| acc.bag.crossbody_01 | bag |  | 17.6% | 18.0% | 17.3% | never | 18.1% |
+| acc.bag.backpack_01 | bag |  | 7.5% | never | 7.5% | 17.9% | never |
+| acc.bag.crossbody_01 | bag |  | 10.1% | 18.0% | 9.8% | never | 18.1% |
 | cloth.bottom.joggers_01 | bottom |  | 15.0% | never | never | 50.1% | never |
 | cloth.bottom.longskirt_01 | bottom |  | 6.7% | 11.0% | 7.9% | never | 12.7% |
 | cloth.bottom.pants_01 | bottom |  | 22.2% | 31.4% | 37.5% | never | 34.9% |
@@ -66,10 +67,11 @@ How many characters wear each part, per outfit context (hair: per character). **
 | hair.back.spiky_01 | hair.back | 9.9% |  |  |  |  |  |
 | hair.back.twintails_01 | hair.back | 2.9% |  |  |  |  |  |
 | hair.back.wavy_01 | hair.back | 8.2% |  |  |  |  |  |
-| hair.front.blunt_01 | hair.front | 11.9% |  |  |  |  |  |
-| hair.front.curtain_01 | hair.front | 19.4% |  |  |  |  |  |
-| hair.front.parted_01 | hair.front | 17.2% |  |  |  |  |  |
-| hair.front.swept_01 | hair.front | 20.8% |  |  |  |  |  |
+| hair.front.blunt_01 | hair.front | 9.2% |  |  |  |  |  |
+| hair.front.curtain_01 | hair.front | 16.9% |  |  |  |  |  |
+| hair.front.hime_01 | hair.front | 8.7% |  |  |  |  |  |
+| hair.front.parted_01 | hair.front | 14.9% |  |  |  |  |  |
+| hair.front.swept_01 | hair.front | 19.6% |  |  |  |  |  |
 | acc.hat.beanie_01 | hat |  | 1.7% | never | 2.1% | 2.1% | never |
 | acc.hat.beret_01 | hat |  | 0.7% | 4.1% | never | never | never |
 | acc.hat.cap_01 | hat |  | 1.5% | never | 2.0% | 2.1% | never |
@@ -103,7 +105,7 @@ How many characters wear each part, per outfit context (hair: per character). **
 
 ## Patterns
 
-6.2% of worn items are patterned.
+6.1% of worn items are patterned.
 
 | Pattern | Items |
 |---|---|
