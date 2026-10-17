@@ -46,8 +46,12 @@
     - A friend who's fond of the player puts in a good word, once.
     - This is the start of stories that differ by seed. Gossip, rivals and NPC dates come next.
 13. **The day has a shape.** Gifts cost coins and shifts earn them. Sleeping sums up the day and autosaves. Friends left alone for more than three days cool by 1.5 affection a day; someone dating the player says they miss them.
-14. **Expressions and idle motion are character-layer features** (`FaceExpression`, `IdleMotion`). They are symmetric offsets on the stand-in's feature bones, layered over the builder's base and rebased after every Apply. The game maps reactions to faces by tone.
-15. **The playable loop is `TownSession`** (pure C#). It covers travel, waiting, sleeping, selection, closing time and people leaving, and dates. Unity's `TownView` (UI Toolkit) and `TownStage` (3D) only draw it. This is the same pattern as `CreatorSession`.
+14. **The town reaches out.** Each morning, close friends and partners may invite the player to meet later that day, somewhere their own plans already take them. Turning up starts a date with no asking; standing them up costs 6 affection and 4 trust. This gives the player plans to keep, not just people to find.
+15. **Weather is derived, not saved.** Each day's weather comes from the seed (20% rain, 30% cloud). Rain moves people from outdoor plans to an open indoor favourite or home. That's applied in `SimWorld.WhereIs`, the single source of truth for whereabouts, which presence, contacts and invitations all use.
+16. **Evenings out look different.** Residents wear their date outfit for evenings somewhere romantic, and for Friday and Saturday nights anywhere social.
+17. **Robustness and balance are tested by play.** A fuzz test drives the session with a random player and checks world invariants after every step; it found a real bug on its first run. `AutoPlayer` plays a plausible attentive month. The story tests and `Docs/review/stories.md` check that it goes somewhere and that towns differ.
+18. **Expressions and idle motion are character-layer features** (`FaceExpression`, `IdleMotion`). They are symmetric offsets on the stand-in's feature bones, layered over the builder's base and rebased after every Apply. The game maps reactions to faces by tone.
+19. **The playable loop is `TownSession`** (pure C#). It covers travel, waiting, sleeping, selection, closing time and people leaving, and dates. Unity's `TownView` (UI Toolkit) and `TownStage` (3D) only draw it. This is the same pattern as `CreatorSession`.
 
 ## Pacing (simulated, 24 residents, 60 days)
 
@@ -69,4 +73,4 @@ Partner may still be too quick for a sandbox. Retune it after real play sessions
   - NPCs dating and gossiping among themselves over time (the web is static apart from breakups).
   - Weather, and outfits changing by occasion beyond casual and date.
   - Jealousy when dating several people.
-- **Tests:** 78 sim tests (the town, profiles, schedules, interactions, pacing, dialogue, dates, the boutique, contacts, the social web, the day loop, saves and the session) pass on .NET 8 and in Unity. The prototype is verified headless by `TownCapture`, which presses HUD buttons through a scripted visit and saves `Docs/review/town-*.png`.
+- **Tests:** 95 sim tests (the town, profiles, schedules, weather, interactions, pacing, dialogue, dates, the boutique, contacts, the social web, invitations, the day loop, saves, the session, a fuzz test and story tests) pass on .NET 8 and in Unity. The prototype is verified headless by `TownCapture`, which presses HUD buttons through a scripted visit and saves `Docs/review/town-*.png`.

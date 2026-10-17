@@ -41,6 +41,7 @@ namespace Game.Sim.Sandbox
             foreach (int hour in new[] { 11, 15, 19 })
             {
                 if (World.Now.Hour >= hour + 2) continue;
+                if (KeepInvitation(before: hour + 4)) continue;
                 if (World.Now.Hour < hour) _session.Wait((hour - World.Now.Hour) * 60 - World.Now.Minute);
                 string place = PickPlace();
                 if (place == null) continue;
@@ -50,6 +51,21 @@ namespace Game.Sim.Sandbox
 
             _session.Sleep();
             Note(day, _session.Notice);
+        }
+
+        /// <summary>Answers today's invitation if it falls before <paramref name="before"/>: goes, and enjoys the date.</summary>
+        bool KeepInvitation(int before)
+        {
+            Invitation invitation = World.Invitations.FirstOrDefault(i => i.Pending && i.Day == World.Now.Day && i.Hour < before
+                && World.Now.Hour < i.Hour + Invitations.WindowHours);
+            if (invitation == null) return false;
+            _session.Answer(invitation);
+            if (_session.Date == null) return false;
+            Record(_session.Last);
+            Note(World.Now.Day, $"Met {World.Residents[invitation.From].Profile.FirstName} at {_session.LocationName(invitation.Location)}, as invited.");
+            while (!_session.Date.Finished) Record(_session.DateChoose(_session.Date.BestOption()));
+            _session.EndDate();
+            return true;
         }
 
         void WorkSomewhere()
