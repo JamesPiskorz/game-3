@@ -244,8 +244,8 @@ namespace Game.Sim.Sandbox
             string outcome = result.FollowUpReaction ?? result.Reaction;
             switch (outcome)
             {
-                case "date.great": Note(day, $"A great date with {name}."); break;
-                case "date.partner": Note(day, $"A great date with {name}, who asked to be together. Partners now."); break;
+                case "date.great": Note(day, $"A great date with {name}, and a photo to remember it."); break;
+                case "date.partner": Note(day, $"A great date with {name}, who asked to be together. Partners now, and a photo of the night."); break;
                 case "date.fine": Note(day, $"A fine date with {name}."); break;
                 case "date.awkward": Note(day, $"An awkward date with {name}."); break;
             }
