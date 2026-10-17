@@ -640,6 +640,29 @@ namespace Game.Characters.StandIns
             };
             yield return new Recipe
             {
+                Id = "cloth.outer.cardigan_01", Slot = "outer", Material = "Cloth",
+                Covers = UpperTorso | LowerTorso | UpperArmL | UpperArmR | ForearmL | ForearmR,
+                Build = m =>
+                {
+                    // A soft knit, open wider at the front than the jacket and without a collar, edged in the trim
+                    // colour down the opening, round the hem and at the cuffs. Just inside the jacket's layer.
+                    const float thick = Cloth * 2.6f;
+                    Func<float, bool> open = around => Mathf.Abs(around - 0.25f) > 0.085f;
+                    MaskFunction edged = (along, around) => Mathf.Abs(around - 0.25f) < 0.12f ? new Vector4(0f, 1f, 0f, 0f) : new Vector4(1f, 0f, 0f, 0f);
+                    Tube chest = StandInBody.TubeFor(UpperTorso);
+                    chest.KeepAround = open;
+                    Tube waist = StandInBody.TubeFor(LowerTorso);
+                    waist.KeepAround = open;
+                    m.AddTube(chest, thick, Cap.Open, Cap.Collar, edged, false, collarRadius: 0.08f);
+                    m.AddTube(waist, thick, Cap.Open, Cap.Open, (along, around) => along < 0.18f ? new Vector4(0f, 1f, 0f, 0f) : edged(along, around), false);
+                    foreach (BodyRegions arm in new[] { UpperArmL, UpperArmR })
+                        m.AddTube(StandInBody.TubeFor(arm), thick, Cap.Open, Cap.Open, Region1, false);
+                    foreach (BodyRegions forearm in new[] { ForearmL, ForearmR })
+                        m.AddTube(StandInBody.TubeFor(forearm), thick, Cap.Open, Cap.Open, Trim(0.2f, false, true), false);
+                },
+            };
+            yield return new Recipe
+            {
                 Id = "cloth.outer.coat_01", Slot = "outer", Material = "Cloth",
                 Covers = UpperTorso | LowerTorso | UpperArmL | UpperArmR | ForearmL | ForearmR,
                 Build = m =>
