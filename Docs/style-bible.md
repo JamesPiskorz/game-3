@@ -191,6 +191,7 @@ Recolourable face colours are iris, brows, eye whites and lips (body regions 1â€
 - **Clean edges:** an edge cut across a sphere's rings comes out as a staircase. Cut level (along the rings) and rotate the piece instead (`StandInMesh.Rotate`), as the swept bangs and the afro's face opening do.
 - **Hats:** a back piece that a hat can sit over is tagged `hat_ok`. Volume above the crown (buns, curls) means it isn't.
 - **Tails:** ponytails, twin tails and side tails swing on spring chains. Model them straight down in rest pose.
+- **Hair worn in front:** plaits brought forward over the shoulders (the twin braids) don't swing. They ride the head at the top and the chest below, and need to sit clear of a coat, as the backpack straps do. (The stand-in is about as far out as the straps; it hasn't been checked on a coat yet.)
 - **Colours:** a base colour, a gradient to a tip colour (region 2 near the ends), and a highlight (region 3), which the stand-ins paint as an "angel ring": a band a little below the top of the crown and across the bangs. The generator mostly picks natural palettes, with fantasy colours by archetype.
 
 ## 6. Colour

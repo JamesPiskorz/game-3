@@ -1,8 +1,8 @@
 # Generator statistics
 
-_2026-10-18 07:14 · AMD Ryzen 7 5700X 8-Core Processor · Unity 6000.6.6f1 (editor). Regenerate with **Game → Characters → Review → Write Generator Statistics**._
+_2026-10-18 07:28 · AMD Ryzen 7 5700X 8-Core Processor · Unity 6000.6.6f1 (editor). Regenerate with **Game → Characters → Review → Write Generator Statistics**._
 
-10,000 characters, 0.475 ms each to generate. Rule violations: **0**.
+10,000 characters, 0.484 ms each to generate. Rule violations: **0**.
 
 ## Styles
 
@@ -54,31 +54,32 @@ How many characters wear each part, per outfit context (hair: per character). **
 | acc.glasses.round_01 | glasses |  | 6.0% | 6.0% | 6.0% | 6.0% | 6.0% |
 | acc.glasses.square_01 | glasses |  | 6.2% | 6.2% | 6.2% | 6.2% | 6.2% |
 | hair.back.afro_01 | hair.back | 4.1% |  |  |  |  |  |
-| hair.back.bob_01 | hair.back | 10.2% |  |  |  |  |  |
-| hair.back.braid_01 | hair.back | 10.8% |  |  |  |  |  |
-| hair.back.bun_01 | hair.back | 5.9% |  |  |  |  |  |
-| hair.back.crop_01 | hair.back | 9.3% |  |  |  |  |  |
-| hair.back.curly_01 | hair.back | 7.8% |  |  |  |  |  |
+| hair.back.bob_01 | hair.back | 9.1% |  |  |  |  |  |
+| hair.back.braid_01 | hair.back | 9.7% |  |  |  |  |  |
+| hair.back.bun_01 | hair.back | 5.3% |  |  |  |  |  |
+| hair.back.crop_01 | hair.back | 8.8% |  |  |  |  |  |
+| hair.back.curly_01 | hair.back | 7.0% |  |  |  |  |  |
 | hair.back.locs_01 | hair.back | 4.1% |  |  |  |  |  |
 | hair.back.long_01 | hair.back | 7.2% |  |  |  |  |  |
-| hair.back.ponytail_01 | hair.back | 8.2% |  |  |  |  |  |
+| hair.back.ponytail_01 | hair.back | 7.6% |  |  |  |  |  |
 | hair.back.puffs_01 | hair.back | 3.8% |  |  |  |  |  |
-| hair.back.sidetail_01 | hair.back | 7.7% |  |  |  |  |  |
-| hair.back.spiky_01 | hair.back | 9.9% |  |  |  |  |  |
-| hair.back.twintails_01 | hair.back | 2.9% |  |  |  |  |  |
-| hair.back.wavy_01 | hair.back | 8.2% |  |  |  |  |  |
+| hair.back.sidetail_01 | hair.back | 7.5% |  |  |  |  |  |
+| hair.back.spiky_01 | hair.back | 9.3% |  |  |  |  |  |
+| hair.back.twinbraids_01 | hair.back | 6.7% |  |  |  |  |  |
+| hair.back.twintails_01 | hair.back | 2.8% |  |  |  |  |  |
+| hair.back.wavy_01 | hair.back | 7.2% |  |  |  |  |  |
 | hair.front.blunt_01 | hair.front | 9.2% |  |  |  |  |  |
 | hair.front.curtain_01 | hair.front | 16.9% |  |  |  |  |  |
 | hair.front.hime_01 | hair.front | 8.7% |  |  |  |  |  |
 | hair.front.parted_01 | hair.front | 14.9% |  |  |  |  |  |
 | hair.front.swept_01 | hair.front | 19.6% |  |  |  |  |  |
-| acc.hat.beanie_01 | hat |  | 1.4% | never | 2.1% | 2.1% | never |
-| acc.hat.beret_01 | hat |  | 0.5% | 1.1% | never | never | never |
-| acc.hat.cap_01 | hat |  | 1.3% | never | 2.0% | 2.1% | never |
-| acc.hat.sunhat_01 | hat |  | 0.9% | 3.0% | never | never | never |
-| acc.hair.clip_01 | headpiece |  | 5.7% | 4.1% | 6.0% | never | 4.3% |
-| acc.hair.flower_01 | headpiece |  | 5.1% | 4.4% | 5.2% | never | 4.1% |
-| acc.hair.headband_01 | headpiece |  | 3.3% | 5.0% | 3.3% | 17.5% | 6.3% |
+| acc.hat.beanie_01 | hat |  | 1.5% | never | 2.3% | 2.3% | never |
+| acc.hat.beret_01 | hat |  | 0.5% | 1.2% | never | never | never |
+| acc.hat.cap_01 | hat |  | 1.5% | never | 2.2% | 2.1% | never |
+| acc.hat.sunhat_01 | hat |  | 1.0% | 3.2% | never | never | never |
+| acc.hair.clip_01 | headpiece |  | 5.7% | 4.0% | 5.9% | never | 4.3% |
+| acc.hair.flower_01 | headpiece |  | 5.1% | 4.3% | 5.2% | never | 4.1% |
+| acc.hair.headband_01 | headpiece |  | 3.2% | 5.0% | 3.4% | 17.5% | 6.3% |
 | acc.hair.ribbon_01 | headpiece |  | 3.1% | 4.0% | 2.9% | never | 3.7% |
 | cloth.legwear.socks_01 | legwear |  | 5.7% | 2.9% | 5.3% | never | never |
 | cloth.legwear.tights_01 | legwear |  | 8.3% | 11.6% | 7.9% | never | 13.5% |
@@ -110,15 +111,15 @@ How many characters wear each part, per outfit context (hair: per character). **
 
 | Pattern | Items |
 |---|---|
-| Stripes | 1094 |
-| Dots | 964 |
-| Plaid | 1199 |
-| Check | 1228 |
-| Hearts | 635 |
-| Stars | 1265 |
+| Stripes | 1093 |
+| Dots | 960 |
+| Plaid | 1201 |
+| Check | 1226 |
+| Hearts | 628 |
+| Stars | 1270 |
 | Pinstripe | 900 |
-| Floral | 1351 |
-| Denim | 785 |
-| Knit | 1362 |
-| Argyle | 1068 |
-| Chevron | 1091 |
+| Floral | 1360 |
+| Denim | 786 |
+| Knit | 1356 |
+| Argyle | 1070 |
+| Chevron | 1086 |
