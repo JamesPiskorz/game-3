@@ -289,6 +289,8 @@ Transform:
   - {fileID: 9143335831955935263}
   - {fileID: 6062394701456406678}
   - {fileID: 5412105589818960097}
+  - {fileID: 2992265344780966403}
+  - {fileID: 4613064062871064275}
   - {fileID: 4713012440340352643}
   m_Father: {fileID: 5855141432018305699}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -487,6 +489,8 @@ SkinnedMeshRenderer:
   - {fileID: 3608465106821140536}
   - {fileID: 6062394701456406678}
   - {fileID: 5412105589818960097}
+  - {fileID: 2992265344780966403}
+  - {fileID: 4613064062871064275}
   - {fileID: 1790532709705507849}
   - {fileID: 4427549718458461193}
   - {fileID: 927052217656033314}
@@ -891,6 +895,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 9143335831955935263}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7254339451870333643
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4613064062871064275}
+  m_Layer: 0
+  m_Name: EyeSmile.R
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4613064062871064275
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7254339451870333643}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.04, y: 0.11199999, z: 0.097}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1638859540412101887}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7292516572385556790
 GameObject:
   m_ObjectHideFlags: 0
@@ -922,6 +957,37 @@ Transform:
   m_Children:
   - {fileID: 309045166186412794}
   m_Father: {fileID: 8120551964388206329}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7631085083167897605
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2992265344780966403}
+  m_Layer: 0
+  m_Name: EyeSmile.L
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2992265344780966403
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7631085083167897605}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.04, y: 0.11199999, z: 0.097}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1638859540412101887}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8256434504919353228
 GameObject:

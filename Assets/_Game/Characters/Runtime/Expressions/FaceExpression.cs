@@ -32,6 +32,8 @@ namespace Game.Characters.Expressions
         public float MouthCurve;
         /// <summary>0..1 how flushed the cheeks are.</summary>
         public float Blush;
+        /// <summary>0..1 eyes closed in a smile (^ ^): shuts the eyes and brings out the arcs over them.</summary>
+        public float EyeSmile;
 
         public static FacePose Lerp(FacePose a, FacePose b, float t) => new FacePose
         {
@@ -45,6 +47,7 @@ namespace Game.Characters.Expressions
             MouthRaise = Mathf.Lerp(a.MouthRaise, b.MouthRaise, t),
             MouthCurve = Mathf.Lerp(a.MouthCurve, b.MouthCurve, t),
             Blush = Mathf.Lerp(a.Blush, b.Blush, t),
+            EyeSmile = Mathf.Lerp(a.EyeSmile, b.EyeSmile, t),
         };
     }
 
@@ -60,7 +63,7 @@ namespace Game.Characters.Expressions
         {
             ["neutral"] = default,
             ["happy"] = new FacePose { BrowRaise = 0.002f, EyeOpen = -0.25f, MouthWidth = 0.25f, MouthOpen = 0.6f, MouthRaise = 0.001f, MouthCurve = 22f, Blush = 0.3f },
-            ["delighted"] = new FacePose { BrowRaise = 0.004f, EyeOpen = -0.6f, MouthWidth = 0.35f, MouthOpen = 2.2f, MouthRaise = 0.0015f, MouthCurve = 26f, Blush = 0.6f },
+            ["delighted"] = new FacePose { BrowRaise = 0.004f, EyeOpen = -0.6f, MouthWidth = 0.35f, MouthOpen = 2.2f, MouthRaise = 0.0015f, MouthCurve = 26f, Blush = 0.6f, EyeSmile = 1f },
             ["shy"] = new FacePose { BrowRaise = 0.001f, BrowTilt = 18f, EyeOpen = -0.15f, EyeLook = 10f, MouthWidth = -0.3f, MouthCurve = 12f, Blush = 1f },
             ["sad"] = new FacePose { BrowRaise = -0.001f, BrowTilt = 28f, EyeOpen = -0.2f, EyeLook = 6f, MouthWidth = -0.2f, MouthOpen = -0.3f, MouthRaise = -0.0015f, MouthCurve = -24f },
             ["annoyed"] = new FacePose { BrowRaise = -0.003f, BrowTilt = -24f, BrowIn = 0.003f, EyeOpen = -0.3f, MouthWidth = -0.1f, MouthOpen = -0.4f, MouthCurve = -12f },
@@ -75,6 +78,10 @@ namespace Game.Characters.Expressions
         public string Mouth = "Mouth";
         public string MouthLeft = "Mouth.L", MouthRight = "Mouth.R";
         public string BlushLeft = "Blush.L", BlushRight = "Blush.R";
+        public string EyeSmileLeft = "EyeSmile.L", EyeSmileRight = "EyeSmile.R";
+
+        /// <summary>How far smiling eyes push their arcs out, in metres.</summary>
+        public float EyeSmileDepth = 0.0095f;
 
         /// <summary>How far a full blush pushes the lines out through the skin, in metres.</summary>
         public float BlushDepth = 0.0075f;
@@ -91,7 +98,7 @@ namespace Game.Characters.Expressions
         }
 
         readonly List<Base> _bases = new List<Base>();
-        Base? _eyeL, _eyeR, _browL, _browR, _mouth, _mouthL, _mouthR, _blushL, _blushR;
+        Base? _eyeL, _eyeR, _browL, _browR, _mouth, _mouthL, _mouthR, _blushL, _blushR, _smileL, _smileR;
         bool _hasBase;
         FacePose _current, _target;
         string _expression = "neutral";
@@ -136,7 +143,7 @@ namespace Game.Characters.Expressions
 
             FacePose pose = _current;
             float blink = Blink();
-            pose.EyeOpen = Mathf.Lerp(pose.EyeOpen, -0.92f, blink);
+            pose.EyeOpen = Mathf.Lerp(pose.EyeOpen, -0.92f, Mathf.Max(blink, pose.EyeSmile));
 
             Pose(_browL, new Vector3(pose.BrowIn, pose.BrowRaise, 0f), new Vector3(0f, 0f, pose.BrowTilt), Vector3.one);
             Pose(_browR, new Vector3(-pose.BrowIn, pose.BrowRaise, 0f), new Vector3(0f, 0f, -pose.BrowTilt), Vector3.one);
@@ -154,6 +161,9 @@ namespace Game.Characters.Expressions
             var flush = new Vector3(0f, 0f, pose.Blush * BlushDepth);
             Pose(_blushL, flush, Vector3.zero, Vector3.one);
             Pose(_blushR, flush, Vector3.zero, Vector3.one);
+            var arcs = new Vector3(0f, 0f, pose.EyeSmile * EyeSmileDepth);
+            Pose(_smileL, arcs, Vector3.zero, Vector3.one);
+            Pose(_smileR, arcs, Vector3.zero, Vector3.one);
         }
 
         static void Pose(Base? feature, Vector3 offset, Vector3 euler, Vector3 scale)
@@ -189,6 +199,8 @@ namespace Game.Characters.Expressions
             _mouthR = Take(MouthRight);
             _blushL = Take(BlushLeft);
             _blushR = Take(BlushRight);
+            _smileL = Take(EyeSmileLeft);
+            _smileR = Take(EyeSmileRight);
             _hasBase = true;
         }
 

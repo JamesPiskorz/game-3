@@ -70,6 +70,26 @@ namespace Game.Characters.StandIns
                     mesh.AddTube(new Tube { Region = Head, Start = Under(cx + 0.0028f, 1.606f), End = Under(cx - 0.0028f, 1.618f), R0 = 0.0017f, R1 = 0.0017f, Bone = "Blush" + side },
                         0f, Cap.Closed, Cap.Closed, Dark, true, withShapes: false);
                 }
+            // Smiling closed eyes: an arch of strokes over each eye, in the brows' colour, sitting just under the eye's
+            // surface until the expression pushes it out (the eye itself shuts underneath).
+            foreach ((string side, float x) in new[] { (".L", -0.04f), (".R", 0.04f) })
+            {
+                Vector3 Over(float angle)
+                {
+                    float px = x + Mathf.Cos(angle) * 0.017f, py = 1.648f + Mathf.Sin(angle) * 0.012f;
+                    float dx = px, dy = py - head.y;
+                    float z = Mathf.Sqrt(Mathf.Max(0f, StandInSkeleton.HeadRadius * StandInSkeleton.HeadRadius - dx * dx - dy * dy));
+                    return new Vector3(px, py, head.z + z - 0.0045f);
+                }
+                const int Strokes = 5;
+                for (int i = 0; i < Strokes; i++)
+                {
+                    float a0 = Mathf.Lerp(Mathf.PI * 0.08f, Mathf.PI * 0.92f, i / (float)Strokes);
+                    float a1 = Mathf.Lerp(Mathf.PI * 0.08f, Mathf.PI * 0.92f, (i + 1) / (float)Strokes);
+                    mesh.AddTube(new Tube { Region = Head, Start = Over(a0), End = Over(a1), R0 = 0.0021f, R1 = 0.0021f, Bone = "EyeSmile" + side },
+                        0f, Cap.Closed, Cap.Closed, Dark, true, withShapes: false);
+                }
+            }
             // A centre piece and two corner pieces: the corners turn up for a smile and down for a frown.
             mesh.AddEllipsoid(Bone("Mouth"), new Vector3(0.0095f, 0.003f, 0.004f), Head, true, "Mouth", Lips);
             foreach ((string side, float x) in new[] { (".L", -1f), (".R", 1f) })

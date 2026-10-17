@@ -47,6 +47,9 @@ namespace Game.Characters.StandIns
             // Blush lines rest just under the cheeks' skin; expressions push them out.
             new StandInBone("Blush.L", "Head", new Vector3(-0.055f, 1.612f, 0.092f)),
             new StandInBone("Blush.R", "Head", new Vector3(0.055f, 1.612f, 0.092f)),
+            // Closed, smiling eyes (^ ^): arcs over each eye, hidden until an expression brings them out.
+            new StandInBone("EyeSmile.L", "Head", new Vector3(-0.04f, 1.652f, 0.097f)),
+            new StandInBone("EyeSmile.R", "Head", new Vector3(0.04f, 1.652f, 0.097f)),
             new StandInBone("UpperArm.L", "Chest", new Vector3(-0.16f, 1.4f, 0f)),
             new StandInBone("LowerArm.L", "UpperArm.L", new Vector3(-0.44f, 1.4f, 0f)),
             new StandInBone("Hand.L", "LowerArm.L", new Vector3(-0.69f, 1.4f, 0f)),

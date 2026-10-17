@@ -188,9 +188,19 @@ namespace Game.Characters.Tests.Modular
             face.Snap();
             Assert.That(blush.localPosition.z, Is.GreaterThan(hidden + 0.005f), "A shy face blushes.");
 
+            // Delight closes the eyes into arcs.
+            Transform arc = character.GetComponentsInChildren<Transform>().First(t => t.name == "EyeSmile.L");
+            Transform eye = character.GetComponentsInChildren<Transform>().First(t => t.name == "Eye.L");
+            float arcAtRest = arc.localPosition.z;
+            face.Show("delighted", 1f, float.PositiveInfinity);
+            face.Snap();
+            Assert.That(arc.localPosition.z, Is.GreaterThan(arcAtRest + 0.005f), "Delight brings out the closed-eye arcs.");
+            Assert.That(eye.localScale.y, Is.LessThan(0.2f), "and shuts the eyes beneath them.");
+
             face.Show("neutral");
             face.Snap();
             Assert.That(blush.localPosition.z, Is.EqualTo(hidden).Within(1e-6f));
+            Assert.That(arc.localPosition.z, Is.EqualTo(arcAtRest).Within(1e-6f));
             Assert.That(Vector3.Distance(mouth.localScale, restingMouth), Is.LessThan(1e-5f));
             Assert.That(Vector3.Distance(brow.localPosition, restingBrow), Is.LessThan(1e-6f));
         }
