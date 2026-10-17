@@ -100,7 +100,7 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 ## Suggested next steps
 
 1. **Play it by hand:** an hour in the editor to tune pacing and find UI friction that headless captures can't. `Docs/review/stories.md` suggests a partner in two to three weeks of attentive play.
-2. **First real art:** base body and head per the style bible, then swap it in for the stand-ins. The stand-in face can't smile; a real head with blendshapes needs its own expression driver.
+2. **First real art:** base body and head per the style bible, then swap it in for the stand-ins. The stand-in mouth curves with corner bones; a real head with blendshapes needs its own expression driver.
 3. **Richer conversations:** a chat is at most two exchanges over four kinds of opener. More openers, and a third beat that remembers the first, would make talking feel less like a menu.
 4. **The town as a space:** walkable locations with NavMesh. People already walk in and out of each scene, but the town itself is a set of stages.
 5. **Sound:** there's none yet. Music per place and time of day, plus UI sounds.

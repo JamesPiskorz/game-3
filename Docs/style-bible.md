@@ -171,7 +171,7 @@ Each archetype sets how often optional pieces appear: `hatChance`, `glassesChanc
 **Expressions:** the game uses seven expressions plus a blink, layered on top of the face sliders: `neutral`, `happy`, `delighted`, `shy`, `sad`, `annoyed`, `surprised` (see `Docs/review/expressions.png`).
 
 - **Proposal:** real heads ship these as blendshapes named `expr.happy`, `expr.delighted`, `expr.shy`, `expr.sad`, `expr.annoyed`, `expr.surprised`, `expr.blink.L` and `expr.blink.R`, each modelled at full strength.
-- A curved mouth matters most: the stand-in can't smile.
+- A curved mouth matters most. The stand-in fakes one with three mouth pieces whose corners turn (`Mouth.L`, `Mouth.R`), and that alone made happy and sad read at town distance. A real head should curve properly.
 
 Recolourable face colours are iris, brows, eye whites and lips (body regions 1–4). Makeup and freckles are a planned overlay layer.
 

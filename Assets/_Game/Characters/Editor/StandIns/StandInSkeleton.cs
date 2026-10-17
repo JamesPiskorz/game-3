@@ -41,6 +41,9 @@ namespace Game.Characters.StandIns
             new StandInBone("Brow.R", "Head", new Vector3(0.042f, 1.695f, 0.087f)),
             new StandInBone("Nose", "Head", new Vector3(0f, 1.625f, 0.106f)),
             new StandInBone("Mouth", "Head", new Vector3(0f, 1.59f, 0.1f)),
+            // The mouth's corners pivot at the inner ends of the side pieces, so turning them curves the mouth.
+            new StandInBone("Mouth.L", "Mouth", new Vector3(-0.008f, 1.59f, 0.1f)),
+            new StandInBone("Mouth.R", "Mouth", new Vector3(0.008f, 1.59f, 0.1f)),
             new StandInBone("UpperArm.L", "Chest", new Vector3(-0.16f, 1.4f, 0f)),
             new StandInBone("LowerArm.L", "UpperArm.L", new Vector3(-0.44f, 1.4f, 0f)),
             new StandInBone("Hand.L", "LowerArm.L", new Vector3(-0.69f, 1.4f, 0f)),

@@ -28,6 +28,8 @@ namespace Game.Characters.Expressions
         public float MouthOpen;
         /// <summary>Metres up (corners lifting reads as a smile even on a simple mouth).</summary>
         public float MouthRaise;
+        /// <summary>Degrees the mouth's corners turn: positive curves up into a smile, negative down into a frown.</summary>
+        public float MouthCurve;
 
         public static FacePose Lerp(FacePose a, FacePose b, float t) => new FacePose
         {
@@ -39,6 +41,7 @@ namespace Game.Characters.Expressions
             MouthWidth = Mathf.Lerp(a.MouthWidth, b.MouthWidth, t),
             MouthOpen = Mathf.Lerp(a.MouthOpen, b.MouthOpen, t),
             MouthRaise = Mathf.Lerp(a.MouthRaise, b.MouthRaise, t),
+            MouthCurve = Mathf.Lerp(a.MouthCurve, b.MouthCurve, t),
         };
     }
 
@@ -53,11 +56,11 @@ namespace Game.Characters.Expressions
         public static readonly IReadOnlyDictionary<string, FacePose> Poses = new Dictionary<string, FacePose>
         {
             ["neutral"] = default,
-            ["happy"] = new FacePose { BrowRaise = 0.002f, EyeOpen = -0.25f, MouthWidth = 0.25f, MouthOpen = 1f, MouthRaise = 0.001f },
-            ["delighted"] = new FacePose { BrowRaise = 0.004f, EyeOpen = -0.6f, MouthWidth = 0.35f, MouthOpen = 2.2f, MouthRaise = 0.0015f },
-            ["shy"] = new FacePose { BrowRaise = 0.001f, BrowTilt = 18f, EyeOpen = -0.15f, EyeLook = 10f, MouthWidth = -0.3f },
-            ["sad"] = new FacePose { BrowRaise = -0.001f, BrowTilt = 28f, EyeOpen = -0.2f, EyeLook = 6f, MouthWidth = -0.2f, MouthOpen = -0.3f, MouthRaise = -0.0015f },
-            ["annoyed"] = new FacePose { BrowRaise = -0.003f, BrowTilt = -24f, BrowIn = 0.003f, EyeOpen = -0.3f, MouthWidth = -0.1f, MouthOpen = -0.4f },
+            ["happy"] = new FacePose { BrowRaise = 0.002f, EyeOpen = -0.25f, MouthWidth = 0.25f, MouthOpen = 0.6f, MouthRaise = 0.001f, MouthCurve = 22f },
+            ["delighted"] = new FacePose { BrowRaise = 0.004f, EyeOpen = -0.6f, MouthWidth = 0.35f, MouthOpen = 2.2f, MouthRaise = 0.0015f, MouthCurve = 26f },
+            ["shy"] = new FacePose { BrowRaise = 0.001f, BrowTilt = 18f, EyeOpen = -0.15f, EyeLook = 10f, MouthWidth = -0.3f, MouthCurve = 12f },
+            ["sad"] = new FacePose { BrowRaise = -0.001f, BrowTilt = 28f, EyeOpen = -0.2f, EyeLook = 6f, MouthWidth = -0.2f, MouthOpen = -0.3f, MouthRaise = -0.0015f, MouthCurve = -24f },
+            ["annoyed"] = new FacePose { BrowRaise = -0.003f, BrowTilt = -24f, BrowIn = 0.003f, EyeOpen = -0.3f, MouthWidth = -0.1f, MouthOpen = -0.4f, MouthCurve = -12f },
             ["surprised"] = new FacePose { BrowRaise = 0.006f, EyeOpen = 0.2f, MouthWidth = -0.35f, MouthOpen = 3f },
         };
 
@@ -67,6 +70,7 @@ namespace Game.Characters.Expressions
         public string EyeLeft = "Eye.L", EyeRight = "Eye.R";
         public string BrowLeft = "Brow.L", BrowRight = "Brow.R";
         public string Mouth = "Mouth";
+        public string MouthLeft = "Mouth.L", MouthRight = "Mouth.R";
 
         /// <summary>How quickly the face moves towards its target, per second.</summary>
         public float Speed = 12f;
@@ -80,7 +84,7 @@ namespace Game.Characters.Expressions
         }
 
         readonly List<Base> _bases = new List<Base>();
-        Base? _eyeL, _eyeR, _browL, _browR, _mouth;
+        Base? _eyeL, _eyeR, _browL, _browR, _mouth, _mouthL, _mouthR;
         bool _hasBase;
         FacePose _current, _target;
         string _expression = "neutral";
@@ -134,6 +138,12 @@ namespace Game.Characters.Expressions
             Pose(_eyeR, Vector3.zero, new Vector3(pose.EyeLook, 0f, 0f), eyeScale);
             Pose(_mouth, new Vector3(0f, pose.MouthRaise, 0f), Vector3.zero,
                 new Vector3(Mathf.Max(0.2f, 1f + pose.MouthWidth), Mathf.Max(0.2f, 1f + pose.MouthOpen), 1f));
+            // The left corner's outer end is towards -x, so lifting it turns the other way from the right's. A narrow,
+            // open mouth (surprise) tucks the corners away so the middle makes a round "o".
+            float pucker = Mathf.Clamp01(-pose.MouthWidth / 0.35f) * Mathf.Clamp01(pose.MouthOpen / 3f);
+            Vector3 corner = Vector3.one * Mathf.Lerp(1f, 0.3f, pucker);
+            Pose(_mouthL, Vector3.zero, new Vector3(0f, 0f, -pose.MouthCurve), corner);
+            Pose(_mouthR, Vector3.zero, new Vector3(0f, 0f, pose.MouthCurve), corner);
         }
 
         static void Pose(Base? feature, Vector3 offset, Vector3 euler, Vector3 scale)
@@ -165,6 +175,8 @@ namespace Game.Characters.Expressions
             _browL = Take(BrowLeft);
             _browR = Take(BrowRight);
             _mouth = Take(Mouth);
+            _mouthL = Take(MouthLeft);
+            _mouthR = Take(MouthRight);
             _hasBase = true;
         }
 

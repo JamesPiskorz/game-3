@@ -55,7 +55,10 @@ namespace Game.Characters.StandIns
                 mesh.AddEllipsoid(eye + new Vector3(0f, -0.002f, 0.004f), new Vector3(0.012f, 0.018f, 0.004f), Head, true, "Eye" + side, Iris);
                 mesh.AddEllipsoid(Bone("Brow" + side), new Vector3(0.019f, 0.0045f, 0.004f), Head, true, "Brow" + side, Dark);
             }
-            mesh.AddEllipsoid(Bone("Mouth"), new Vector3(0.016f, 0.003f, 0.004f), Head, true, "Mouth", Lips);
+            // A centre piece and two corner pieces: the corners turn up for a smile and down for a frown.
+            mesh.AddEllipsoid(Bone("Mouth"), new Vector3(0.0095f, 0.003f, 0.004f), Head, true, "Mouth", Lips);
+            foreach ((string side, float x) in new[] { (".L", -1f), (".R", 1f) })
+                mesh.AddEllipsoid(Bone("Mouth") + new Vector3(x * 0.0135f, 0f, -0.0005f), new Vector3(0.0072f, 0.0027f, 0.0038f), Head, true, "Mouth" + side, Lips);
         }
 
         static Vector3 Bone(string name) => StandInSkeleton.Position(StandInSkeleton.Bones, name);

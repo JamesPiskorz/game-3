@@ -95,7 +95,7 @@ Partner may still be too quick for a sandbox. Retune it after real play sessions
 
 - **The town is a stage, not a space.** Each location is a blockout set showing up to six present residents. There's no walking or NavMesh yet (Phase 5 plans both). Residents teleport between places on the hour.
 - **Dialogue is still mostly single lines.** With about 4 lines per reaction and no back-to-back repeats it holds up for a session. Chats add a choice per exchange, up to two exchanges, and what they say next answers the style of the player's reply.
-- **Expressions are limited by the stand-in face:** an ellipsoid mouth can open but can't curve into a smile. Real heads should drive blendshapes instead.
+- **Expressions are limited by the stand-in face:** its mouth is three pieces whose corners turn, which is enough for smiles and frowns but not for shapes like a pout. Real heads should drive blendshapes instead.
 - **Not built yet:**
   - Residents don't visibly do things together in a scene beyond standing near friends; the town's couples change weekly, but only off-screen.
   - Nobody changes job or home, and ages don't advance.

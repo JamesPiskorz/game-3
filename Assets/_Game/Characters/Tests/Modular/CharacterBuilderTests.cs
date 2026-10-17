@@ -166,6 +166,19 @@ namespace Game.Characters.Tests.Modular
             face.Snap();
             Assert.That(Vector3.Distance(mouth.localScale, surprisedMouth), Is.LessThan(1e-5f));
 
+            // The corners curve: up for happy, down for sad.
+            Transform corner = character.GetComponentsInChildren<Transform>().First(t => t.name == "Mouth.L");
+            Vector3 tip = new Vector3(-0.012f, 0f, 0f);
+            face.Show("neutral");
+            face.Snap();
+            float resting = corner.TransformPoint(tip).y;
+            face.Show("happy", 1f, float.PositiveInfinity);
+            face.Snap();
+            Assert.That(corner.TransformPoint(tip).y, Is.GreaterThan(resting + 0.002f), "A smile lifts the corners.");
+            face.Show("sad", 1f, float.PositiveInfinity);
+            face.Snap();
+            Assert.That(corner.TransformPoint(tip).y, Is.LessThan(resting - 0.002f), "Sadness turns them down.");
+
             face.Show("neutral");
             face.Snap();
             Assert.That(Vector3.Distance(mouth.localScale, restingMouth), Is.LessThan(1e-5f));
