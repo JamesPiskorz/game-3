@@ -402,6 +402,78 @@
       { "tone": "bubbly", "text": "Tokyo, then Lisbon, then a beach with nobody on it. Then home, maybe." },
       { "tone": "dry", "text": "A cabin. No neighbours. Excellent coffee." }
     ],
+    "chat.more.interest.warm": [
+      { "tone": "any", "text": "You're sweet. Honestly, {topic} is the thing that keeps me sane." },
+      { "tone": "shy", "text": "That's... really nice of you to say. I don't usually get to talk about {topic}." },
+      { "tone": "bubbly", "text": "You're the best! Okay, so {topic} is basically my whole personality." },
+      { "tone": "dry", "text": "Flattery works. Fine: {topic} might be the best thing in my life." }
+    ],
+    "chat.more.interest.playful": [
+      { "tone": "any", "text": "Excuse me, it's even cooler. Let me prove it to you sometime." },
+      { "tone": "shy", "text": "It is! Well. I think so. Maybe I could show you?" },
+      { "tone": "bubbly", "text": "Cooler! Way cooler! I'll take you, you'll see!" },
+      { "tone": "dry", "text": "Is it? Bold of you. I'll make you eat those words." }
+    ],
+    "chat.more.interest.curious": [
+      { "tone": "any", "text": "It started when I was a kid, and I just never stopped." },
+      { "tone": "shy", "text": "Oh, um. A friend showed me once, and I got hooked." },
+      { "tone": "bubbly", "text": "Okay, story time! It all started with a very bad afternoon..." },
+      { "tone": "dry", "text": "Long story. Short version: boredom, then obsession." }
+    ],
+    "chat.more.day.warm": [
+      { "tone": "any", "text": "Yeah. I'd like that. You're easy to be around." },
+      { "tone": "shy", "text": "...Okay. Thanks. I think I needed that." },
+      { "tone": "bubbly", "text": "Yes please! You're a lifesaver." },
+      { "tone": "dry", "text": "Sitting down sounds acceptable." }
+    ],
+    "chat.more.day.playful": [
+      { "tone": "any", "text": "Ha! Not even a little. Everyone bosses me around." },
+      { "tone": "shy", "text": "Ha... no. Nobody listens to me." },
+      { "tone": "bubbly", "text": "I wish! I'd make everyone take a dance break." },
+      { "tone": "dry", "text": "Tragically, no. One day." }
+    ],
+    "chat.more.day.curious": [
+      { "tone": "any", "text": "Everything at once, you know? I think I just needed someone to listen." },
+      { "tone": "shy", "text": "Just... lots of little things. Thanks for asking, though." },
+      { "tone": "bubbly", "text": "Where do I start? Okay. So. First, the coffee machine..." },
+      { "tone": "dry", "text": "Meetings. Then more meetings. Then I came here." }
+    ],
+    "chat.more.worry.warm": [
+      { "tone": "any", "text": "Thank you. It's just... I keep thinking I'm not good enough at what I do." },
+      { "tone": "shy", "text": "Thank you. I keep worrying everyone's disappointed in me." },
+      { "tone": "bubbly", "text": "Okay. Okay. I put on a brave face, but sometimes I feel like I'm faking it." },
+      { "tone": "dry", "text": "...Fine. I suspect I'm bad at my job. There, I said it." }
+    ],
+    "chat.more.worry.playful": [
+      { "tone": "any", "text": "Ha. Okay, that helped a little. It's work stuff. It's always work stuff." },
+      { "tone": "shy", "text": "That's... actually kind of funny. Thanks." },
+      { "tone": "bubbly", "text": "Ha! Okay, you got me. It's work. It's always work." },
+      { "tone": "dry", "text": "Cute. Fine, it's work." }
+    ],
+    "chat.more.worry.curious": [
+      { "tone": "any", "text": "Maybe. It's work. I keep thinking I'm not good enough at it." },
+      { "tone": "shy", "text": "I don't know. I just feel like I'm letting people down." },
+      { "tone": "bubbly", "text": "Can you fix being terrible at everything? Kidding. Mostly." },
+      { "tone": "dry", "text": "Unless you can do my job for me, probably not. But thanks." }
+    ],
+    "chat.more.dream.warm": [
+      { "tone": "any", "text": "You think so? Somewhere by the sea, maybe. Somewhere I could start over." },
+      { "tone": "shy", "text": "Really? I've always wanted a little house somewhere quiet." },
+      { "tone": "bubbly", "text": "Aww! Okay, it's a beach. With nobody on it. And a hammock!" },
+      { "tone": "dry", "text": "It would. A cabin, no neighbours, excellent coffee." }
+    ],
+    "chat.more.dream.playful": [
+      { "tone": "any", "text": "Free snacks are non-negotiable, obviously. And somewhere by the sea." },
+      { "tone": "shy", "text": "Ha, and a garden. A quiet garden. With snacks." },
+      { "tone": "bubbly", "text": "Snacks AND a beach! You get me!" },
+      { "tone": "dry", "text": "Obviously. Also no meetings. Ever." }
+    ],
+    "chat.more.dream.curious": [
+      { "tone": "any", "text": "I think I want somewhere nobody knows me. A fresh start." },
+      { "tone": "shy", "text": "Quiet, mostly. Somewhere I can just be myself." },
+      { "tone": "bubbly", "text": "The sea! I've never even seen it properly, can you believe it?" },
+      { "tone": "dry", "text": "Silence. I'd pay good money for silence." }
+    ],
     "chat.close.heard": [
       { "tone": "any", "text": "I really like talking to you, you know." },
       { "tone": "shy", "text": "I feel like you actually listen. Thank you." },

@@ -540,7 +540,9 @@ namespace Game.Sim.Relationships
             }
             string topicName = chat.Topic == null ? "" : _world.Catalog.Topic(chat.Topic)?.Name ?? "";
             InteractionResult answer = Finish(resident, rel, rng, result, before, "chat.react." + outcome, ChatMinutes);
-            string next = more ? "chat.more." + chat.Opener : heard ? "chat.close.heard" : null;
+            // What they say next answers how the player replied, where there are lines for it.
+            string styled = $"chat.more.{chat.Opener}.{choice.Style.ToString().ToLowerInvariant()}";
+            string next = more ? (_world.Catalog.Dialogue.ContainsKey(styled) ? styled : "chat.more." + chat.Opener) : heard ? "chat.close.heard" : null;
             if (next != null)
             {
                 answer.FollowUp = Say(resident, rel, rng, next, rel.Stage, Tokens(resident, ("topic", topicName)));

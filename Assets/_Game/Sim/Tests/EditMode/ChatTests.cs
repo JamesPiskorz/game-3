@@ -43,7 +43,7 @@ namespace Game.Sim.Tests
             List<string> first = chat.Replies.Select(r => r.Text).ToList();
             InteractionResult more = act.ChatReply(chat, Best(chat));
             Assert.That(more.Reaction, Is.EqualTo("chat.react.good"));
-            Assert.That(more.FollowUpReaction, Is.EqualTo("chat.more." + chat.Opener));
+            Assert.That(more.FollowUpReaction, Does.StartWith("chat.more." + chat.Opener + "."), "What they say next answers the style of the reply.");
             Assert.That(chat.Answered, Is.False);
             Assert.That(chat.Line, Is.EqualTo(more.FollowUp));
             Assert.That(chat.Replies.Select(r => r.Text), Is.Not.EqualTo(first), "New replies for what they said next.");

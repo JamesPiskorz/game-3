@@ -11,6 +11,9 @@ namespace Game.Town
         public static (string Expression, float Strength) For(string reaction, string tone)
         {
             bool shy = tone == Tones.Shy, dry = tone == Tones.Dry;
+            // A follow-up that answers the player's style of reply looks like the follow-up it varies.
+            if (reaction != null && reaction.StartsWith("chat.more.") && reaction.Split('.').Length == 4)
+                reaction = reaction.Substring(0, reaction.LastIndexOf('.'));
             switch (reaction)
             {
                 case "greet.stranger": return shy ? ("shy", 0.8f) : dry ? ("happy", 0.25f) : ("happy", 0.7f);
