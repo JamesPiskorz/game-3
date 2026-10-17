@@ -49,6 +49,9 @@ namespace Game.Sim
         public SimTime Now = SimTime.At(0, 9);
         public PlayerCharacter Player = new PlayerCharacter();
 
+        /// <summary>Residents' invitations to the player, newest last.</summary>
+        public List<Sandbox.Invitation> Invitations = new List<Sandbox.Invitation>();
+
         /// <summary>Friendships and couples among the residents.</summary>
         public SocialWeb Social = new SocialWeb();
 
@@ -58,6 +61,19 @@ namespace Game.Sim
         readonly Dictionary<int, Relationship> _relationships = new Dictionary<int, Relationship>();
 
         public string WhereIs(Resident resident) => resident.Schedule.At(Now);
+
+        /// <summary>
+        /// What residents wear out right now: their going-out (date) outfit for evenings somewhere romantic, and for
+        /// Friday and Saturday nights anywhere social; everyday clothes otherwise.
+        /// </summary>
+        public string OutfitAt(string location)
+        {
+            LocationEntry place = Catalog.Location(location);
+            if (place == null || Now.Hour < 18) return Sandbox.TownSession.DayOutfit;
+            bool weekendNight = Now.DayOfWeek == 4 || Now.DayOfWeek == 5;
+            bool goingOut = place.Tags.Contains("romantic") || (weekendNight && place.Tags.Contains("social"));
+            return goingOut ? Sandbox.TownSession.DateOutfit : Sandbox.TownSession.DayOutfit;
+        }
 
         /// <summary>Residents at a location right now, in index order.</summary>
         public IEnumerable<Resident> At(string location) => Residents.Where(r => r.Schedule.At(Now) == location);

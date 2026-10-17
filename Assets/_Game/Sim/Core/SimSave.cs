@@ -33,6 +33,8 @@ namespace Game.Sim
         public List<ItemDna> PlayerWardrobe = new List<ItemDna>();
         public List<Relationship> Relationships = new List<Relationship>();
 
+        public List<Sandbox.Invitation> Invitations = new List<Sandbox.Invitation>();
+
         /// <summary>How the town's couples changed during play, replayed over the seeded web on load.</summary>
         public List<SocialEvent> SocialHistory = new List<SocialEvent>();
 
@@ -50,6 +52,7 @@ namespace Game.Sim
             PlayerWardrobe = world.Player.Wardrobe.ToList(),
             Relationships = world.Relationships.ToList(),
             SocialHistory = world.Social.Events.ToList(),
+            Invitations = world.Invitations.ToList(),
         };
 
         /// <summary>Rebuilds the town from the seed, then puts the saved state back.</summary>
@@ -70,6 +73,7 @@ namespace Game.Sim
                 Wardrobe = PlayerWardrobe ?? new List<ItemDna>(),
             };
             world.Social = SocialWeb.Build(world.Residents, WorldSeed, SocialHistory);
+            world.Invitations = Invitations ?? new List<Sandbox.Invitation>();
             foreach (Relationship relationship in Relationships)
             {
                 if (relationship.Resident < 0 || relationship.Resident >= world.Residents.Count)

@@ -72,7 +72,7 @@ namespace Game.Town
             Light(TownSets.For(session.Location), world.Now.Hour);
 
             bool date = session.DateWith != null;
-            string outfit = date ? TownSession.DateOutfit : TownSession.DayOutfit;
+            string outfit = date ? TownSession.DateOutfit : world.OutfitAt(session.Location);
             _player = Dress(_player, world.Player.Dna, world.Player.Outfit ?? TownSession.DayOutfit, "Player", world.Player.LookVersion);
 
             List<Resident> present = Grouped(session.Present(), world);

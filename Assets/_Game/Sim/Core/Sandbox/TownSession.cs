@@ -57,6 +57,7 @@ namespace Game.Sim.Sandbox
         public void Load(SimWorld world)
         {
             World = world;
+            _dialogue = new Dialogue(world.Catalog);
             // Everyone starts out owning what they're wearing.
             if (world.Player.Dna != null && world.Player.Wardrobe.Count == 0)
                 foreach (ItemDna item in world.Player.Dna.Outfits.SelectMany(o => o.Items))
@@ -91,6 +92,7 @@ namespace Game.Sim.Sandbox
 
         public void Wait(int minutes = 60)
         {
+            if (minutes < 0) minutes = 0; // time only goes forward
             Notice = null;
             EndDateQuietly();
             World.Advance(minutes);
@@ -107,13 +109,17 @@ namespace Game.Sim.Sandbox
             EndDateQuietly();
             string summary = _today.Summary();
             World.Sleep();
+            List<Invitation> stoodUp = Invitations.Expire(World);
             List<Resident> missing = Decay.NewDay(World);
             string news = World.Now.DayOfWeek == 0 ? WeekNews() : "";
+            List<Invitation> invited = Invitations.NewDay(World, _dialogue);
             _today = new DayLog();
             Selected = null;
             Last = null;
             Notice = (summary.Length > 0 ? summary + " " : "") + "A new day: " + World.Now + "."
-                + string.Concat(missing.Select(r => $" {r.Profile.FirstName} misses you.")) + news;
+                + string.Concat(stoodUp.Select(i => $" You stood {World.Residents[i.From].Profile.FirstName} up."))
+                + string.Concat(missing.Select(r => $" {r.Profile.FirstName} misses you.")) + news
+                + (invited.Count == 0 ? "" : invited.Count == 1 ? $" A message from {World.Residents[invited[0].From].Profile.FirstName}." : $" {invited.Count} new messages.");
             Slept?.Invoke();
             Raise();
         }
@@ -155,6 +161,7 @@ namespace Game.Sim.Sandbox
         }
 
         DayLog _today = new DayLog();
+        Dialogue _dialogue;
 
         // ---------------------------------------------------------------- work and clothes
 
@@ -498,6 +505,45 @@ namespace Game.Sim.Sandbox
                 Notice = $"{Selected.Profile.FirstName} headed off" + (where == SimCatalog.Home ? " home." : $" to {LocationName(where)}.");
                 Selected = null;
             }
+            foreach (Invitation missed in Invitations.Expire(World))
+                Notice = $"You missed meeting {World.Residents[missed.From].Profile.FirstName} at {LocationName(missed.Location)}.";
+            KeepInvitation();
+        }
+
+        /// <summary>The player is where a resident asked to meet, when they asked: the date begins.</summary>
+        void KeepInvitation()
+        {
+            Invitation due = Invitations.Due(World, Location);
+            if (due == null) return;
+            Resident host = World.Residents[due.From];
+            if (World.WhereIs(host) != Location) return;
+            due.Kept = true;
+            InteractionResult hello = Act.MeetUp(host, Location, out DateScene scene);
+            DateWith = host;
+            Date = scene;
+            Selected = host;
+            World.Player.Outfit = DateOutfit;
+            Last = hello;
+            Speaker = host;
+            Notice = $"{host.Profile.FirstName} was waiting for you.";
+        }
+
+        /// <summary>Messages from residents, newest first.</summary>
+        public List<Invitation> Messages() => World.Invitations.AsEnumerable().Reverse().ToList();
+
+        /// <summary>Heads to where an invitation is, if it's still on and the place is open.</summary>
+        public void Answer(Invitation invitation)
+        {
+            Notice = null;
+            if (!invitation.Pending)
+            {
+                Notice = invitation.Kept ? "You already met up." : "That's passed.";
+                Raise();
+                return;
+            }
+            int early = (invitation.Hour - World.Now.Hour) * 60 - World.Now.Minute - TravelMinutes;
+            if (invitation.Day == World.Now.Day && early > 0) Wait(early); // arrive on the hour, not before
+            Travel(invitation.Location);
         }
 
         void Raise() => Changed?.Invoke();

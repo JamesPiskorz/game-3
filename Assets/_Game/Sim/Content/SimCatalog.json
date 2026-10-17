@@ -170,6 +170,19 @@
       { "tone": "shy", "text": "{friend} told me about you two... I thought we had something." },
       { "tone": "dry", "text": "{friend}, really? You could have told me yourself." }
     ],
+    "invite": [
+      { "tone": "any", "text": "I'll be at {location} around {time}. Come find me?" },
+      { "tone": "warm", "text": "Are you free later? I'll be at {location} from {time}. It'd be lovely to see you." },
+      { "tone": "shy", "text": "Um, I'll be at {location} at {time}... if you wanted to come. No pressure." },
+      { "tone": "bubbly", "text": "{location}, {time}, you and me! Say yes!" },
+      { "tone": "dry", "text": "{location}, {time}. Don't make me wait." }
+    ],
+    "invite.met": [
+      { "tone": "any", "text": "You came! I was hoping you would." },
+      { "tone": "shy", "text": "You're here... I'm really glad." },
+      { "tone": "bubbly", "text": "Yay, you made it! Okay, I have plans for us." },
+      { "tone": "dry", "text": "Right on time. I'm impressed." }
+    ],
     "talk.love": [
       { "tone": "any", "text": "Oh, I could talk about {topic} all day!" },
       { "tone": "warm", "text": "You like {topic} too? We're going to get along just fine." },

@@ -38,6 +38,7 @@ namespace Game.Town
             "press:wait", "pause:75", "live:park-comings-and-goings",
             "press:place-home", "shot:wardrobe",
             "press:contacts", "shot:contacts",
+            "close", "sleep-until-invited", "press:messages", "shot:messages",
         };
 
         static int _frame, _step, _pause;
@@ -129,6 +130,18 @@ namespace Game.Town
                     SimWorld world = screen.Session.World;
                     int minutes = (hour * 60 - (world.Now.Hour * 60 + world.Now.Minute) + 24 * 60) % (24 * 60);
                     screen.Session.Wait(minutes);
+                    break;
+                case "sleep-until-invited":
+                    for (int night = 0; night < 10 && screen.Session.World.Invitations.Count == 0; night++) screen.Session.Sleep();
+                    break;
+                case "close": // make the player close to everyone they've met, so invitations come
+                    foreach (Game.Sim.Relationships.Relationship known in screen.Session.World.Relationships)
+                    {
+                        if (!known.Met) continue;
+                        known.Familiarity = Mathf.Max(known.Familiarity, 65f);
+                        known.Affection = Mathf.Max(known.Affection, 75f);
+                        known.Trust = Mathf.Max(known.Trust, 40f);
+                    }
                     break;
                 case "befriend":
                     Relationship rel = screen.Session.World.RelationshipWith(screen.Session.Selected);

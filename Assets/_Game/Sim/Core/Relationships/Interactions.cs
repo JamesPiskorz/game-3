@@ -384,6 +384,20 @@ namespace Game.Sim.Relationships
         }
 
         /// <summary>
+        /// The player turns up where a resident invited them: no asking needed, the date starts. Returned in
+        /// <paramref name="scene"/>, like <see cref="Invite"/>'s yes.
+        /// </summary>
+        public InteractionResult MeetUp(Resident resident, string locationId, out DateScene scene)
+        {
+            LocationEntry location = _world.Catalog.Location(locationId) ?? throw new ArgumentException($"Unknown location '{locationId}'.", nameof(locationId));
+            (Relationship rel, Pcg32 rng, InteractionResult result, Meters before) = Begin(resident, InteractionKind.AskOnDate);
+            Add(ref rel.Trust, 2f);
+            scene = new DateScene { With = resident, Place = location };
+            scene.Options = DateOptions(scene, rng);
+            return Finish(resident, rel, rng, result, before, "invite.met", 0, ("location", location.Name));
+        }
+
+        /// <summary>
         /// Asks someone out and, on a yes, plays the whole date choosing as an attentive player would. The result is
         /// the answer, with how the date went as its follow-up and every meter change of the evening.
         /// </summary>

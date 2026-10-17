@@ -21,7 +21,8 @@ namespace Game.Town
         readonly TownSession _session;
         readonly Label _clock, _place, _coins, _notice, _speaker, _line, _followUp, _learnt;
         readonly VisualElement _dialogue, _deltas, _places, _here, _card, _clothes;
-        readonly Button _work, _contactsButton;
+        readonly Button _work, _contactsButton, _messagesButton;
+        bool _showMessages;
         readonly Label _hereTitle;
         readonly VisualElement _contacts;
         bool _showContacts;
@@ -40,9 +41,16 @@ namespace Game.Town
             _coins = Add(top, new Label(), "coins");
             Add(top, new VisualElement(), "spacer");
             _work = Add(top, Button("work", "Work a shift", () => _session.Work()));
+            _messagesButton = Add(top, Button("messages", "Messages", () =>
+            {
+                _showMessages = !_showMessages;
+                _showContacts = false;
+                Refresh();
+            }));
             _contactsButton = Add(top, Button("contacts", "Contacts", () =>
             {
                 _showContacts = !_showContacts;
+                _showMessages = false;
                 Refresh();
             }));
             Add(top, Button("wait", "Wait an hour", () => _session.Wait()));
@@ -85,20 +93,50 @@ namespace Game.Town
             RefreshDialogue();
             RefreshPlaces(world);
             RefreshContacts();
-            DisplayStyle normal = _showContacts ? DisplayStyle.None : DisplayStyle.Flex;
+            if (_showMessages) RefreshMessages();
+            int pending = _session.Messages().Count(m => m.Pending);
+            _messagesButton.text = pending > 0 ? $"Messages ({pending})" : "Messages";
+            _messagesButton.EnableInClassList("selected", _showMessages);
+            bool overlay = _showContacts || _showMessages;
+            DisplayStyle normal = overlay ? DisplayStyle.None : DisplayStyle.Flex;
             _hereTitle.style.display = _here.style.display = _clothes.style.display = normal;
-            if (_showContacts) _card.style.display = DisplayStyle.None;
-            if (_showContacts) return;
+            if (overlay) _card.style.display = DisplayStyle.None;
+            if (overlay) return;
             RefreshHere();
             RefreshClothes(world);
             RefreshCard(world);
         }
 
+        /// <summary>Invitations from residents, newest first; a pending one can be answered by going there.</summary>
+        void RefreshMessages()
+        {
+            _contacts.Clear();
+            _contacts.style.display = DisplayStyle.Flex;
+            Add(_contacts, new Label("Messages"), "section");
+            List<Invitation> messages = _session.Messages();
+            if (messages.Count == 0) Add(_contacts, new Label("No messages yet. Get close to someone and they'll start inviting you out."), "hint");
+            for (int i = 0; i < messages.Count; i++)
+            {
+                Invitation message = messages[i];
+                Resident from = _session.World.Residents[message.From];
+                var row = Add(_contacts, new VisualElement(), "contact");
+                string status = message.Kept ? "you met up" : message.Missed ? "missed" : $"day {message.Day + 1}, {message.Hour}:00 at {_session.LocationName(message.Location)}";
+                Button button = Add(row, Button("message-" + i, $"{from.Profile.FirstName}   \u00B7   {status}", () =>
+                {
+                    _showMessages = false;
+                    _session.Answer(message);
+                }), "person");
+                button.SetEnabled(message.Pending && _session.DateWith == null);
+                Add(row, new Label("\u201C" + message.Message + "\u201D"), "hint", "contact-hint");
+            }
+        }
+
         /// <summary>Everyone you've met, closest first, with what you know about where they are.</summary>
         void RefreshContacts()
         {
-            _contacts.Clear();
             _contactsButton.EnableInClassList("selected", _showContacts);
+            if (_showMessages) return;
+            _contacts.Clear();
             _contacts.style.display = _showContacts ? DisplayStyle.Flex : DisplayStyle.None;
             if (!_showContacts) return;
 

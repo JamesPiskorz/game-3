@@ -30,7 +30,7 @@ namespace Game.Sim.Tests
             {
                 "greet.stranger", "greet.stranger.impressed", "greet.acquaintance", "greet.friend", "greet.close", "greet.dating",
                 "greet.remember.date", "greet.remember.gift", "greet.remember.topic", "greet.gossip", "date.taken", "date.leaves", "greet.jealous",
-                "greet.news.together", "greet.news.apart", "greet.news.mine.together", "greet.news.mine.apart",
+                "invite", "invite.met", "greet.news.together", "greet.news.apart", "greet.news.mine.together", "greet.news.mine.apart",
                 "talk.love", "talk.neutral", "talk.dislike", "talk.bored", "compliment.pleased", "compliment.style", "compliment.awkward",
                 "gift.love", "gift.ok", "gift.dislike", "gift.awkward", "gift.again",
                 "date.yes", "date.no", "date.notyet", "date.great", "date.fine", "date.awkward",
@@ -155,6 +155,21 @@ namespace Game.Sim.Tests
             int out_ = town.Residents.Count(r => town.WhereIs(r) != SimCatalog.Home);
             Assert.That(out_, Is.GreaterThan(town.Residents.Count / 4), "A Saturday evening should have plenty of people out.");
             Assert.That(town.Catalog.Locations.Count(l => town.At(l.Id).Any()), Is.GreaterThanOrEqualTo(3));
+        }
+
+        [Test]
+        public void PeopleDressUpForAnEveningOut()
+        {
+            SimWorld town = Fixtures.Town(1, 1);
+            town.Now = SimTime.At(2, 14);
+            Assert.That(town.OutfitAt("bar"), Is.EqualTo("casual"), "Afternoons are casual.");
+            town.Now = SimTime.At(2, 20);
+            Assert.That(town.OutfitAt("bar"), Is.EqualTo("date"), "The bar in the evening.");
+            Assert.That(town.OutfitAt("library"), Is.EqualTo("casual"));
+            Assert.That(town.OutfitAt("cafe"), Is.EqualTo("casual"), "A social place on a weeknight.");
+            town.Now = SimTime.At(5, 19);
+            Assert.That(town.OutfitAt("cafe"), Is.EqualTo("date"), "A social place on Saturday night.");
+            Assert.That(town.OutfitAt(SimCatalog.Home), Is.EqualTo("casual"));
         }
 
         [Test]
