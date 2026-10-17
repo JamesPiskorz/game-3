@@ -358,3 +358,24 @@ Button.selected,
     color: rgb(170, 214, 255);
     margin: 0 0 6px 2px;
 }
+
+.bubble-layer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.bubble {
+    position: absolute;
+    translate: -50% -100%;
+    max-width: 280px;
+    padding: 6px 12px;
+    border-radius: 12px;
+    background-color: rgba(255, 255, 255, 0.93);
+    color: rgb(40, 34, 52);
+    font-size: 15px;
+    white-space: normal;
+    -unity-text-align: middle-center;
+}

@@ -52,6 +52,8 @@ namespace Game.Town
 
             /// <summary>Walking off; removed on arrival.</summary>
             public bool Leaving;
+
+            public Transform Head;
         }
 
         /// <summary>Walking speed in metres per second.</summary>
@@ -116,6 +118,14 @@ namespace Game.Town
             }
             if (arrived) SnapCharacters();
             React(session);
+        }
+
+        /// <summary>World position just above resident <paramref name="index"/>'s head, if they're on stage.</summary>
+        public Vector3? HeadPosition(int index)
+        {
+            if (!_residents.TryGetValue(index, out Shown shown) || shown.Character == null) return null;
+            if (shown.Head == null) shown.Head = shown.Character.GetComponentsInChildren<Transform>().FirstOrDefault(t => t.name == "Head");
+            return shown.Head == null ? (Vector3?)null : shown.Head.position + Vector3.up * 0.3f;
         }
 
         /// <summary>A point out of view on the side of the stage nearest <paramref name="from"/>.</summary>

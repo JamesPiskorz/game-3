@@ -359,6 +359,10 @@ namespace Game.Sim.Sandbox
             Raise();
         }
 
+        /// <summary>Who's saying what out loud here this hour (not the person the player is talking to).</summary>
+        public List<(Resident Resident, string Line)> Overheard() =>
+            DateWith != null || AtHome ? new List<(Resident, string)>() : Barks.At(World, Location, Present(), Selected);
+
         // ---------------------------------------------------------------- hints
 
         /// <summary>

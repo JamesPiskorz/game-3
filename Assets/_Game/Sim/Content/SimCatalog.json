@@ -229,6 +229,44 @@
       { "tone": "any", "text": "You asked me that already today!" },
       { "tone": "dry", "text": "Same answer as an hour ago." }
     ],
+    "bark.couple": [
+      { "tone": "any", "text": "{partner}, try this, it's amazing." },
+      { "tone": "shy", "text": "{partner}... you're sweet, you know that?" },
+      { "tone": "bubbly", "text": "{partner}! Look, look, look!" },
+      { "tone": "dry", "text": "{partner}, stop stealing my fries." }
+    ],
+    "bark.rain": [
+      { "tone": "any", "text": "Ugh, this rain. Glad to be inside." },
+      { "tone": "bubbly", "text": "Rainy days are cosy days!" },
+      { "tone": "dry", "text": "Rain again. Wonderful." }
+    ],
+    "bark.rain.out": [
+      { "tone": "any", "text": "Should have brought an umbrella..." },
+      { "tone": "dry", "text": "I'm only out here because I'm stubborn." }
+    ],
+    "bark.sunny": [
+      { "tone": "any", "text": "What a gorgeous day." },
+      { "tone": "bubbly", "text": "Sunshine! Finally!" },
+      { "tone": "shy", "text": "It's nice out today..." },
+      { "tone": "dry", "text": "Too bright. Fine. It's nice." }
+    ],
+    "bark.work": [
+      { "tone": "any", "text": "Busy day at {location}." },
+      { "tone": "bubbly", "text": "I love it here. Mostly. Some days." },
+      { "tone": "dry", "text": "Three more hours. Not that I'm counting." }
+    ],
+    "bark.night": [
+      { "tone": "any", "text": "One more song, then home." },
+      { "tone": "bubbly", "text": "Who's up for staying out late?" },
+      { "tone": "shy", "text": "It's getting loud in here..." },
+      { "tone": "dry", "text": "I said I'd be home by ten. Ha." }
+    ],
+    "bark.interest": [
+      { "tone": "any", "text": "I could really go for some {topic} right now." },
+      { "tone": "shy", "text": "I wonder if anyone here likes {topic}..." },
+      { "tone": "bubbly", "text": "Has anyone seen anything good about {topic} lately?" },
+      { "tone": "dry", "text": "Nobody here appreciates {topic}." }
+    ],
     "talk.love": [
       { "tone": "any", "text": "Oh, I could talk about {topic} all day!" },
       { "tone": "warm", "text": "You like {topic} too? We're going to get along just fine." },

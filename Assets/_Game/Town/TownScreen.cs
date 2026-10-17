@@ -74,6 +74,11 @@ namespace Game.Town
             Stage.SnapCamera();
         }
 
+        void LateUpdate()
+        {
+            if (View != null && Stage != null) View.PlaceBubbles(Stage.HeadPosition, Stage.Camera);
+        }
+
         CharacterDna PlayerDna() => PlayerLook.TryLoad(out CharacterDna dna) ? dna : new CharacterGenerator(_characters).Generate(PlayerSeed);
 
         void Save()

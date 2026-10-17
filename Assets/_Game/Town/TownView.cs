@@ -19,6 +19,9 @@ namespace Game.Town
     public sealed class TownView
     {
         readonly TownSession _session;
+        readonly VisualElement _root;
+        VisualElement _bubbleLayer;
+        readonly Dictionary<int, Label> _bubbles = new Dictionary<int, Label>();
         readonly Label _clock, _place, _coins, _notice, _hint, _speaker, _line, _followUp, _learnt;
         readonly VisualElement _dialogue, _deltas, _places, _here, _card, _clothes;
         readonly Button _work, _contactsButton, _messagesButton;
@@ -33,6 +36,7 @@ namespace Game.Town
         {
             _session = session;
             root.AddToClassList("town");
+            _root = root;
 
             var main = Add(root, new VisualElement(), "main");
             var top = Add(main, new VisualElement(), "topbar");
@@ -97,6 +101,7 @@ namespace Game.Town
             _hint.style.display = hint == null ? DisplayStyle.None : DisplayStyle.Flex;
 
             RefreshDialogue();
+            RefreshBubbles();
             RefreshPlaces(world);
             RefreshContacts();
             if (_showMessages) RefreshMessages();
@@ -111,6 +116,51 @@ namespace Game.Town
             RefreshHere();
             RefreshClothes(world);
             RefreshCard(world);
+        }
+
+        /// <summary>The side panel's width plus its margins (see Town.uss), which bubbles stay clear of.</summary>
+        const float PanelWidth = 500f;
+
+        /// <summary>Speech bubbles for what people nearby are saying out loud this hour.</summary>
+        void RefreshBubbles()
+        {
+            if (_bubbleLayer == null)
+            {
+                _bubbleLayer = new VisualElement { pickingMode = PickingMode.Ignore };
+                _bubbleLayer.AddToClassList("bubble-layer");
+                _root.Add(_bubbleLayer);
+            }
+            foreach (Label bubble in _bubbles.Values) bubble.RemoveFromHierarchy();
+            _bubbles.Clear();
+            foreach ((Resident resident, string line) in _session.Overheard())
+            {
+                var bubble = new Label(line) { pickingMode = PickingMode.Ignore };
+                bubble.AddToClassList("bubble");
+                bubble.style.display = DisplayStyle.None; // until placed over a head
+                _bubbleLayer.Add(bubble);
+                _bubbles[resident.Index] = bubble;
+            }
+        }
+
+        /// <summary>Keeps each bubble over its speaker's head; called every frame, since people and the camera move.</summary>
+        public void PlaceBubbles(Func<int, UnityEngine.Vector3?> head, UnityEngine.Camera camera)
+        {
+            if (_bubbleLayer?.panel == null) return;
+            foreach (KeyValuePair<int, Label> pair in _bubbles)
+            {
+                UnityEngine.Vector3? world = head(pair.Key);
+                UnityEngine.Vector3 viewport = world.HasValue ? camera.WorldToViewportPoint(world.Value) : default;
+                bool visible = world.HasValue && viewport.z > 0f;
+                pair.Value.style.display = visible ? DisplayStyle.Flex : DisplayStyle.None;
+                if (!visible) continue;
+                // Viewport to panel by proportion: right whether the camera draws to the screen or to a texture.
+                UnityEngine.Rect area = _bubbleLayer.layout;
+                // Keep the whole bubble in the open part of the screen, left of the side panel.
+                float half = float.IsNaN(pair.Value.resolvedStyle.width) ? 120f : pair.Value.resolvedStyle.width / 2f;
+                float right = area.width - PanelWidth - half;
+                pair.Value.style.left = UnityEngine.Mathf.Clamp(viewport.x * area.width, half + 12f, UnityEngine.Mathf.Max(half + 12f, right));
+                pair.Value.style.top = (1f - viewport.y) * area.height;
+            }
         }
 
         /// <summary>Invitations from residents, newest first; a pending one can be answered by going there.</summary>
