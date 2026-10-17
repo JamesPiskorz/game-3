@@ -4,6 +4,7 @@ using System.Linq;
 using Game.Characters.Content;
 using Game.Characters.Rng;
 using Game.Sim.Residents;
+using Game.Sim.Social;
 
 namespace Game.Sim.Relationships
 {
@@ -74,6 +75,10 @@ namespace Game.Sim.Relationships
         /// <summary>Affection and attraction, weighted 60:40, a resident needs to accept a first date.</summary>
         public const float DateThreshold = 55f;
 
+        /// <summary>What finding out the player is also dating their friend costs.</summary>
+        public const float JealousyAffection = 6f;
+        public const float JealousyTrust = 5f;
+
         /// <summary>How fond of the player a friend must be to put in a good word.</summary>
         public const float GoodWordAffection = 45f;
 
@@ -121,6 +126,34 @@ namespace Game.Sim.Relationships
             {
                 (string Key, (string, string) Token)? recalled = Recall(rel);
                 if (recalled != null) return Finish(resident, rel, rng, result, before, recalled.Value.Key, GreetMinutes, recalled.Value.Token);
+
+                // Jealousy: the player is dating them and also dating one of their friends.
+                if (rel.Dating)
+                    foreach (int friend in _world.Social.FriendsOf(resident.Index))
+                    {
+                        Relationship rival = _world.Find(friend);
+                        if (rival == null || !rival.Dating || !rel.JealousOf.Add(friend)) continue;
+                        Add(ref rel.Affection, -JealousyAffection);
+                        Add(ref rel.Trust, -JealousyTrust);
+                        return Finish(resident, rel, rng, result, before, "greet.jealous", GreetMinutes, ("friend", _world.Residents[friend].Profile.FirstName));
+                    }
+
+                // News: a change among their friends (or themselves) in the last few days.
+                foreach (SocialEvent e in _world.Social.Events.Reverse())
+                {
+                    if (Today - e.Day > MemoryDays) break;
+                    if (e.Kind == SocialEventKind.LeftForPlayer) continue;
+                    bool close = e.A == resident.Index || e.B == resident.Index
+                        || _world.Social.AreFriends(resident.Index, e.A) || _world.Social.AreFriends(resident.Index, e.B);
+                    int id = _world.Social.Events.ToList().IndexOf(e);
+                    if (!close || !rel.HeardNews.Add(id)) continue;
+                    string a = _world.Residents[e.A].Profile.FirstName, b = _world.Residents[e.B].Profile.FirstName;
+                    bool self = e.A == resident.Index || e.B == resident.Index;
+                    string other = e.A == resident.Index ? b : a;
+                    string key = e.Kind == SocialEventKind.Together ? (self ? "greet.news.mine.together" : "greet.news.together")
+                        : (self ? "greet.news.mine.apart" : "greet.news.apart");
+                    return Finish(resident, rel, rng, result, before, key, GreetMinutes, ("a", a), ("b", b), ("other", other));
+                }
 
                 // Word gets around: a friend of theirs who's fond of the player has put in a good word.
                 foreach (int friend in _world.Social.FriendsOf(resident.Index))
@@ -327,7 +360,7 @@ namespace Game.Sim.Relationships
                 if (rel.Affection < LeaveForYouAffection || rel.Attraction < LeaveForYouAttraction)
                     return Finish(resident, rel, rng, result, before, "date.taken", GreetMinutes, place, partnerName);
 
-                _world.Social.BreakUp(resident.Index);
+                _world.Social.LeaveForPlayer(resident.Index, Today);
                 Relationship ex = _world.Find(partner);
                 if (ex != null && ex.Met) ex.Affection = Clamp(ex.Affection - ExResentment);
                 result.Learnt = $"{resident.Profile.FirstName} is leaving {partnerName.Item2} for you.";

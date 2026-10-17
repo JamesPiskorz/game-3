@@ -91,6 +91,87 @@ namespace Game.Sim.Tests
             Assert.That(loaded.Social.PartnerOf(taken.Index), Is.EqualTo(-1), "Breakups are saved.");
         }
 
+        static void Weeks(SimWorld world, int weeks)
+        {
+            for (int w = 1; w <= weeks; w++)
+                world.Social.NewWeek(w * 7, world.Seed, i => world.Find(i)?.Dating == true);
+        }
+
+        [Test]
+        public void CouplesComeAndGoOverTheWeeks()
+        {
+            SimWorld town = Fixtures.Town(0x5EED, 24);
+            Resident yours = town.Residents.First(r => town.Social.PartnerOf(r.Index) < 0);
+            town.RelationshipWith(yours).Dating = true;
+            Weeks(town, 16);
+
+            Assert.That(town.Social.Events.Any(e => e.Kind == SocialEventKind.Together), "Some singles get together in four months.");
+            for (int i = 0; i < 24; i++)
+            {
+                int partner = town.Social.PartnerOf(i);
+                if (partner >= 0) Assert.That(town.Social.PartnerOf(partner), Is.EqualTo(i));
+            }
+            Assert.That(town.Social.PartnerOf(yours.Index), Is.EqualTo(-1), "Someone dating the player isn't paired off by the town.");
+        }
+
+        [Test]
+        public void TheTownsHistoryIsSaved()
+        {
+            SimWorld town = Fixtures.Town(0x5EED, 24);
+            Weeks(town, 16);
+            SimWorld loaded = SimSave.FromJson(SimSave.Capture(town).ToJson()).Restore(Fixtures.Sim(), Fixtures.Characters());
+            for (int i = 0; i < 24; i++)
+                Assert.That(loaded.Social.PartnerOf(i), Is.EqualTo(town.Social.PartnerOf(i)), $"resident {i}");
+        }
+
+        [Test]
+        public void NewsReachesTheirFriends()
+        {
+            SimWorld town = Fixtures.Town(0x5EED, 24);
+            var act = new Interactions(town);
+            foreach (Resident r in town.Residents) act.Greet(r); // meet everyone on day 0
+            town.Sleep();
+            for (int week = 1; week <= 30 && !town.Social.Events.Any(e => e.Kind == SocialEventKind.Together); week++)
+            {
+                town.Now = SimTime.At(week * 7, 9);
+                town.Social.NewWeek(town.Now.Day, town.Seed, i => false);
+            }
+            SocialEvent news = town.Social.Events.First(e => e.Kind == SocialEventKind.Together);
+            Resident listener = town.Residents.FirstOrDefault(r => r.Index != news.A && r.Index != news.B
+                && (town.Social.AreFriends(r.Index, news.A) || town.Social.AreFriends(r.Index, news.B)));
+            Assume.That(listener, Is.Not.Null);
+
+            town.Now = SimTime.At(news.Day, 10);
+            InteractionResult hello = act.Greet(listener);
+            Assert.That(hello.Reaction, Is.EqualTo("greet.news.together"));
+            Assert.That(hello.Line, Does.Contain(town.Residents[news.A].Profile.FirstName));
+        }
+
+        [Test]
+        public void DatingTwoFriendsCausesJealousyOnce()
+        {
+            SimWorld town = Fixtures.Town(0x5EED, 24);
+            Resident a = town.Residents.First(r => town.Social.FriendsOf(r.Index).Count > 0);
+            Resident b = town.Residents[town.Social.FriendsOf(a.Index).First()];
+            foreach (Resident r in new[] { a, b })
+            {
+                Relationship rel = town.RelationshipWith(r);
+                rel.Met = true;
+                rel.Dating = true;
+                rel.Familiarity = rel.Affection = rel.Trust = 60f;
+                rel.LastSeenDay = 0;
+            }
+            town.Now = SimTime.At(1, 10);
+            var act = new Interactions(town);
+            InteractionResult hello = act.Greet(a);
+            Assert.That(hello.Reaction, Is.EqualTo("greet.jealous"));
+            Assert.That(hello.Line, Does.Contain(b.Profile.FirstName));
+            Assert.That(hello.Affection, Is.LessThan(0f));
+
+            town.Now = SimTime.At(2, 10);
+            Assert.That(act.Greet(a).Reaction, Is.Not.EqualTo("greet.jealous"));
+        }
+
         [Test]
         public void FriendsPutInAGoodWordOnce()
         {

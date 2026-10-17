@@ -61,6 +61,12 @@ namespace Game.Sim.Relationships
         /// </summary>
         public Memory LovedTopic, LovedGift, GreatDate;
 
+        /// <summary>Friends of theirs the player is also dating, already found out about.</summary>
+        public SortedSet<int> JealousOf = new SortedSet<int>();
+
+        /// <summary>Town news (social event indices) they've already told the player.</summary>
+        public SortedSet<int> HeardNews = new SortedSet<int>();
+
         /// <summary>Friends of theirs who've spoken well of the player to them (each only counts once).</summary>
         public SortedSet<int> HeardFrom = new SortedSet<int>();
 

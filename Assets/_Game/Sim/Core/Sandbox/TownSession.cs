@@ -108,13 +108,28 @@ namespace Game.Sim.Sandbox
             string summary = _today.Summary();
             World.Sleep();
             List<Resident> missing = Decay.NewDay(World);
+            string news = World.Now.DayOfWeek == 0 ? WeekNews() : "";
             _today = new DayLog();
             Selected = null;
             Last = null;
             Notice = (summary.Length > 0 ? summary + " " : "") + "A new day: " + World.Now + "."
-                + string.Concat(missing.Select(r => $" {r.Profile.FirstName} misses you."));
+                + string.Concat(missing.Select(r => $" {r.Profile.FirstName} misses you.")) + news;
             Slept?.Invoke();
             Raise();
+        }
+
+        /// <summary>A new week: the town's couples move on. Only news about people the player has met is worth telling.</summary>
+        string WeekNews()
+        {
+            List<Social.SocialEvent> events = World.Social.NewWeek(World.Now.Day, World.Seed, i => World.Find(i)?.Dating == true);
+            var told = new List<string>();
+            foreach (Social.SocialEvent e in events)
+            {
+                if (World.Find(e.A)?.Met != true && World.Find(e.B)?.Met != true) continue;
+                string a = World.Residents[e.A].Profile.FirstName, b = World.Residents[e.B].Profile.FirstName;
+                told.Add(e.Kind == Social.SocialEventKind.Together ? $"{a} and {b} are a couple now." : $"{a} and {b} have split up.");
+            }
+            return told.Count == 0 ? "" : " Word around town: " + string.Join(" ", told);
         }
 
         /// <summary>After every sleep, once the new day has begun.</summary>

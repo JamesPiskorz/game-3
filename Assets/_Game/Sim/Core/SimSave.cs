@@ -33,8 +33,8 @@ namespace Game.Sim
         public List<ItemDna> PlayerWardrobe = new List<ItemDna>();
         public List<Relationship> Relationships = new List<Relationship>();
 
-        /// <summary>Residents who left their partner during play.</summary>
-        public List<int> BrokeUp = new List<int>();
+        /// <summary>How the town's couples changed during play, replayed over the seeded web on load.</summary>
+        public List<SocialEvent> SocialHistory = new List<SocialEvent>();
 
         public static SimSave Capture(SimWorld world) => new SimSave
         {
@@ -49,7 +49,7 @@ namespace Game.Sim
             PlayerMoney = world.Player.Money,
             PlayerWardrobe = world.Player.Wardrobe.ToList(),
             Relationships = world.Relationships.ToList(),
-            BrokeUp = world.Social.BrokeUp.ToList(),
+            SocialHistory = world.Social.Events.ToList(),
         };
 
         /// <summary>Rebuilds the town from the seed, then puts the saved state back.</summary>
@@ -69,7 +69,7 @@ namespace Game.Sim
                 Money = PlayerMoney,
                 Wardrobe = PlayerWardrobe ?? new List<ItemDna>(),
             };
-            world.Social = SocialWeb.Build(world.Residents, WorldSeed, BrokeUp);
+            world.Social = SocialWeb.Build(world.Residents, WorldSeed, SocialHistory);
             foreach (Relationship relationship in Relationships)
             {
                 if (relationship.Resident < 0 || relationship.Resident >= world.Residents.Count)

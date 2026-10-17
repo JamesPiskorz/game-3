@@ -144,6 +144,32 @@
       { "tone": "bubbly", "text": "{friend} says you're amazing, and {friend} is never wrong!" },
       { "tone": "dry", "text": "{friend} vouches for you. That's rare." }
     ],
+    "greet.news.together": [
+      { "tone": "any", "text": "Did you hear? {a} and {b} are together now!" },
+      { "tone": "shy", "text": "Um, so... {a} and {b} are a couple. Isn't that sweet?" },
+      { "tone": "bubbly", "text": "Big news! {a} and {b}! Together! I called it!" },
+      { "tone": "dry", "text": "{a} and {b} finally worked it out. About time." }
+    ],
+    "greet.news.apart": [
+      { "tone": "any", "text": "Have you heard? {a} and {b} split up." },
+      { "tone": "shy", "text": "{a} and {b} broke up... I feel bad for them." },
+      { "tone": "dry", "text": "{a} and {b} called it quits. Saw that coming." }
+    ],
+    "greet.news.mine.together": [
+      { "tone": "any", "text": "I have news: I'm seeing {other} now!" },
+      { "tone": "shy", "text": "Can I tell you something? {other} and I are... together." },
+      { "tone": "dry", "text": "{other} and I are a thing now. Try to act surprised." }
+    ],
+    "greet.news.mine.apart": [
+      { "tone": "any", "text": "{other} and I broke up. I'm... okay. Mostly." },
+      { "tone": "shy", "text": "{other} and I aren't together any more..." },
+      { "tone": "dry", "text": "{other} and I are done. It's fine. It's fine." }
+    ],
+    "greet.jealous": [
+      { "tone": "any", "text": "So I hear you've been seeing {friend} too." },
+      { "tone": "shy", "text": "{friend} told me about you two... I thought we had something." },
+      { "tone": "dry", "text": "{friend}, really? You could have told me yourself." }
+    ],
     "talk.love": [
       { "tone": "any", "text": "Oh, I could talk about {topic} all day!" },
       { "tone": "warm", "text": "You like {topic} too? We're going to get along just fine." },

@@ -41,6 +41,19 @@ namespace Game.Town
                 case "date.repeat": return ("surprised", 0.4f);
                 case "date.compliment": return shy ? ("shy", 1f) : ("happy", 0.9f);
                 case "date.compliment.again": return ("annoyed", 0.3f);
+                case "greet.gossip": return shy ? ("shy", 0.8f) : ("happy", 0.8f);
+                case "greet.jealous": return dry ? ("annoyed", 0.9f) : ("sad", 0.8f);
+                case "greet.news.together": return ("surprised", 0.6f);
+                case "greet.news.apart": return ("sad", 0.5f);
+                case "greet.news.mine.together": return shy ? ("shy", 1f) : ("delighted", 0.9f);
+                case "greet.news.mine.apart": return ("sad", 0.8f);
+                case "greet.remember.date":
+                case "greet.remember.gift":
+                case "greet.remember.topic": return shy ? ("shy", 0.8f) : ("happy", 0.9f);
+                case "greet.stranger.impressed": return shy ? ("shy", 0.9f) : ("delighted", 0.7f);
+                case "compliment.style": return shy ? ("shy", 1f) : ("happy", 1f);
+                case "date.taken": return ("shy", 0.5f);
+                case "date.leaves": return shy ? ("shy", 1f) : ("delighted", 0.8f);
                 default: return ("neutral", 0f);
             }
         }
