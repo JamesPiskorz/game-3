@@ -37,6 +37,7 @@ namespace Game.Characters.Import
             public string[] blocks = Array.Empty<string>();
             public string[] springChains = Array.Empty<string>();
             public bool followsBodyShapes = true;
+            public bool small;
         }
 
         void OnPreprocessModel()
@@ -98,6 +99,7 @@ namespace Game.Characters.Import
             part.BlocksSlots = sidecar.blocks ?? Array.Empty<string>();
             part.SpringChains = sidecar.springChains ?? Array.Empty<string>();
             part.FollowsBodyShapes = sidecar.followsBodyShapes;
+            part.Small = sidecar.small;
             foreach (string region in sidecar.covers ?? Array.Empty<string>())
             {
                 if (Enum.TryParse(region, out BodyRegions parsed)) part.CoveredRegions |= parsed;

@@ -204,7 +204,7 @@ Recolourable face colours are iris, brows, eye whites and lips (body regions 1�
 2. **Weights and shape keys:** transfer from the body with the tool, using a bone mask where needed (a scarf follows Neck, Chest and Head only).
 3. **Recolour mask:** paint the `Col` attribute or author a mask texture. Lay out UVs in metres if the part is patternable.
 4. **Validate** (the script exits non-zero on problems).
-5. **Export** the FBX plus a `<id>.character.json` sidecar (`kind`, `slot`, `covers`, `blocks`, `springChains`, `followsBodyShapes`) into `Content/Imported/`. The importer turns it into a part prefab.
+5. **Export** the FBX plus a `<id>.character.json` sidecar (`kind`, `slot`, `covers`, `blocks`, `springChains`, `followsBodyShapes`, and `small` for tiny details that should cast no shadow and lose their outline beyond a close-up) into `Content/Imported/`. The importer turns it into a part prefab.
 6. **Catalog:** add the entry (§3).
 7. **Review** in Unity:
    - **Game → Characters → Review → Render Part Sheet**
