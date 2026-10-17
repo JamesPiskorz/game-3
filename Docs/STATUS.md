@@ -35,7 +35,7 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 | Stand-in content | Procedural body with simple face, 40 parts (15 hair, including a braid on its own spring chain; 25 clothing and accessories, including neckwear, outer layers and legwear), 9 face presets, 7 eye and 5 brow styles, 8 patterns, toon materials. **Placeholder art until Phase 1.** | `Characters/Editor/StandIns`, `Content/StandIn` |
 | Generator statistics | 10,000 characters measured as a population: style shares against catalog weights, presentation and skin-tone spread, fantasy hair and eyes, how often each part is worn in each context, patterns, rule violations (0) and time per character (about 0.3 ms). A test fails if any part goes unworn | `Generation/GeneratorStats.cs`, `Docs/review/generator-stats.md` |
 | Performance | Town benchmark; distance-based detail (`CharacterLod`) | decision 0004, `Docs/review/perf.md` |
-| Tests | 264 Unity EditMode tests (122 characters, 142 sim); the pure C# sets also run on .NET 8 | `Characters/Tests`, `Sim/Tests` |
+| Tests | 267 Unity EditMode tests (122 characters, 145 sim); the pure C# sets also run on .NET 8 | `Characters/Tests`, `Sim/Tests` |
 
 ## Try it
 
@@ -45,7 +45,7 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
   3. Pick a place, pick someone under **Here**, then use **Say hi**, **Talk about…** and **Ask about…** (what they're into, their plans today, their friends). **Chat** lets them bring something up; pick a warm, playful or curious reply. The card lists what you've learned.
   4. Give gifts that match, and **Ask out…** once you're friends. A date is three rounds of choices: talk about what they love.
   5. **Wait an hour** and **Sleep** move time. Places close, and people come and go with their schedules.
-  6. **Work a shift** to earn coins. Spend them at the **Boutique** in Arcade Lane, or on a new cut or colour at the **Salon** next door, and change clothes in the **Wardrobe** at home. Once you know someone a little, their card says which looks they go for.
+  6. **Work a shift** to earn coins. Spend them at the **Boutique** in Arcade Lane, or on a new cut or colour at the **Salon** next door, and change clothes in the **Wardrobe** at home. You dress for the occasion automatically, as residents do: a coat in the rain, workout clothes at the gym, dressed up for a night out. Once you know someone a little, their card says which looks they go for.
   7. **Contacts** lists everyone you've met. Once you know someone well, it says where they are right now; click a contact to go to them.
   8. Residents have their own friends and partners; the card says who once you know them. Someone who's taken will turn you down, unless they're smitten enough to leave their partner for you.
   9. **Sleep** sums up the day and autosaves. Friends you neglect for more than three days start to cool off.

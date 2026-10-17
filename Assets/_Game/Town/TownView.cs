@@ -260,7 +260,8 @@ namespace Game.Town
             if (_session.AtHome && _session.DateWith == null)
             {
                 List<ItemDna> wardrobe = _session.Changeable();
-                Add(_clothes, new Label("Wardrobe"), "section");
+                string dressedFor = world.Characters.Context(world.Player.Outfit)?.Name ?? world.Player.Outfit;
+                Add(_clothes, new Label($"Wardrobe  \u00B7  your {dressedFor.ToLowerInvariant()} outfit"), "section");
                 if (wardrobe.Count == 0) Add(_clothes, new Label("Everything you own is on. The boutique at Arcade Lane has more."), "hint");
                 var row = Add(_clothes, new VisualElement(), "chips");
                 for (int i = 0; i < wardrobe.Count; i++)

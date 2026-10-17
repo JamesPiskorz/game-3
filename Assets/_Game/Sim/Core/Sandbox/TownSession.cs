@@ -67,6 +67,7 @@ namespace Game.Sim.Sandbox
                     if (!world.Player.Wardrobe.Any(owned => Same(owned, item))) world.Player.Wardrobe.Add(Copy(item));
             Act = new Interactions(world);
             Game.Sim.Residents.Makeovers.CatchUp(world);
+            DressForEveryContext();
             Selected = DateWith = Speaker = null;
             Date = null;
             Last = null;
@@ -213,7 +214,8 @@ namespace Game.Sim.Sandbox
                 _today.Spent += item.Price;
                 player.Wardrobe.Add(Copy(item.Item));
                 Notice = $"You bought the {item.Name.ToLowerInvariant()}.";
-                Wear(item.Item, quiet: true);
+                if (Suits(item.Item)) Wear(item.Item, quiet: true);
+                else Notice += " It's in your wardrobe for another day.";
             }
             Raise();
         }
@@ -285,11 +287,24 @@ namespace Game.Sim.Sandbox
             Raise();
         }
 
-        /// <summary>The wardrobe pieces the player could change into now (owned, not already on).</summary>
+        /// <summary>The wardrobe pieces the player could change into now (owned, not already on, and right for the outfit).</summary>
         public List<ItemDna> Changeable()
         {
             OutfitDna outfit = CurrentOutfit();
-            return World.Player.Wardrobe.Where(item => outfit == null || !outfit.Items.Any(worn => Same(worn, item))).ToList();
+            return World.Player.Wardrobe.Where(item => (outfit == null || !outfit.Items.Any(worn => Same(worn, item))) && Suits(item)).ToList();
+        }
+
+        /// <summary>
+        /// Whether a piece belongs in the outfit being worn, by the same rules the generator follows: a part limited to
+        /// some contexts stays out of the others (no tank top for a rainy day), and the workout outfit is sporty only.
+        /// </summary>
+        public bool Suits(ItemDna item)
+        {
+            PartEntry part = World.Characters.Part(item.ItemId);
+            OutfitContext context = World.Characters.Context(CurrentOutfit()?.Context ?? World.Player.Outfit);
+            if (part == null || context == null) return part != null;
+            return (part.Contexts.Count == 0 || part.Contexts.Contains(context.Id))
+                && (context.OnlyTags.Count == 0 || part.Tags.Any(context.OnlyTags.Contains));
         }
 
         /// <summary>
@@ -305,6 +320,13 @@ namespace Game.Sim.Sandbox
             if (outfit == null || part == null || !Owns(item))
             {
                 if (!quiet) Notice = "You don't have that.";
+                Raise();
+                return false;
+            }
+            if (!Suits(item))
+            {
+                string dressedFor = World.Characters.Context(outfit.Context)?.Name ?? outfit.Context;
+                Notice = $"The {(part.Name ?? ContentCatalog.Humanize(part.Id)).ToLowerInvariant()} isn't for your {dressedFor.ToLowerInvariant()} outfit.";
                 Raise();
                 return false;
             }
@@ -376,7 +398,7 @@ namespace Game.Sim.Sandbox
             foreach (string slot in new[] { Slots.Top, Slots.Bottom })
             {
                 if (items.Any(i => SlotOf(i) == slot)) continue;
-                ItemDna spare = World.Player.Wardrobe.FirstOrDefault(i => SlotOf(i) == slot);
+                ItemDna spare = World.Player.Wardrobe.FirstOrDefault(i => SlotOf(i) == slot && Suits(i));
                 if (spare != null) items.Add(Copy(spare));
             }
         }
@@ -694,6 +716,7 @@ namespace Game.Sim.Sandbox
             DateWith = null;
             Date = null;
             World.Player.Outfit = DayOutfit;
+            DressForTheOccasion();
         }
 
         /// <summary>Places close and people move on with their day.</summary>
@@ -717,6 +740,42 @@ namespace Game.Sim.Sandbox
             foreach (Invitation missed in Invitations.Expire(World))
                 Notice = $"You missed meeting {World.Residents[missed.From].Profile.FirstName} at {LocationName(missed.Location)}.";
             KeepInvitation();
+            if (DateWith == null) DressForTheOccasion();
+        }
+
+        /// <summary>
+        /// The player dresses by the same rule as everyone else (<see cref="SimWorld.OutfitAt"/>): the coat outfit on a
+        /// rainy day, workout clothes at the gym, dressed up for a night out. The wardrobe edits whichever is on.
+        /// </summary>
+        void DressForTheOccasion()
+        {
+            CharacterDna dna = World.Player.Dna;
+            if (dna == null) return;
+            string occasion = World.OutfitAt(Location);
+            if (occasion == World.Player.Outfit || dna.Outfits.All(o => o.Context != occasion)) return;
+            World.Player.Outfit = occasion;
+            World.Player.LookVersion++;
+        }
+
+        /// <summary>
+        /// A look made before some outfit contexts existed (an old save, a share code) gets the missing ones, generated
+        /// in its own style, and owns what's in them.
+        /// </summary>
+        void DressForEveryContext()
+        {
+            CharacterDna dna = World.Player.Dna;
+            if (dna == null) return;
+            List<OutfitContext> missing = World.Characters.Contexts.Where(c => dna.Outfits.All(o => o.Context != c.Id)).ToList();
+            if (missing.Count == 0) return;
+            CharacterDna dressed = new CharacterGenerator(World.Characters).Reroll(dna, DnaCategories.Outfits, dna.Seed ^ 0xD8E55UL);
+            foreach (OutfitContext context in missing)
+            {
+                OutfitDna outfit = dressed.Outfits.FirstOrDefault(o => o.Context == context.Id);
+                if (outfit == null) continue;
+                dna.Outfits.Add(outfit);
+                foreach (ItemDna item in outfit.Items)
+                    if (!World.Player.Wardrobe.Any(owned => Same(owned, item))) World.Player.Wardrobe.Add(Copy(item));
+            }
         }
 
         /// <summary>The player is where a resident asked to meet, when they asked: the date begins.</summary>
