@@ -826,6 +826,31 @@ namespace Game.Characters.StandIns
                 },
             };
 
+            yield return new Recipe
+            {
+                Id = "acc.bag.backpack_01", Slot = "bag", Material = "Cloth",
+                Build = m =>
+                {
+                    // A soft pack on the back with a flap and a front pocket in the second colour, and a strap over each
+                    // shoulder down to the chest, clear of a coat like the crossbody strap.
+                    m.AddEllipsoid(new Vector3(0f, 1.26f, -0.215f), new Vector3(0.12f, 0.15f, 0.06f), None, false, "Chest", Region1);
+                    m.AddEllipsoid(new Vector3(0f, 1.36f, -0.245f), new Vector3(0.112f, 0.06f, 0.032f), None, false, "Chest", RegionTwo);
+                    m.AddEllipsoid(new Vector3(0f, 1.17f, -0.272f), new Vector3(0.08f, 0.05f, 0.02f), None, false, "Chest", RegionTwo);
+                    using IDisposable coarse = m.Coarse(sides: 8, rings: 3);
+                    foreach (float x in new[] { -1f, 1f })
+                    {
+                        Vector3[] path =
+                        {
+                            new Vector3(x * 0.07f, 1.38f, -0.17f), new Vector3(x * 0.08f, 1.48f, -0.07f), new Vector3(x * 0.085f, 1.498f, 0.03f),
+                            new Vector3(x * 0.09f, 1.44f, 0.15f), new Vector3(x * 0.095f, 1.3f, 0.168f),
+                        };
+                        for (int i = 0; i < path.Length - 1; i++)
+                            m.AddTube(new Tube { Region = UpperTorso, Start = path[i], End = path[i + 1], R0 = 0.0065f, R1 = 0.0065f, Width = 1f, Depth = 0.5f, Bone = "Chest", ShapeRadius = 0.12f },
+                                0f, Cap.Closed, Cap.Closed, RegionTwo, false);
+                    }
+                },
+            };
+
             // ---------------- hair accessories: just outside the hair (the crown sits at HeadR + 0.016)
             yield return new Recipe
             {

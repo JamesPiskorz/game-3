@@ -122,6 +122,8 @@ MonoBehaviour:
     Prefab: {fileID: 2350300193533967996, guid: cc1256a247bade942a2d8c17fb30109f, type: 3}
   - Id: acc.bag.crossbody_01
     Prefab: {fileID: 9003043143852746377, guid: ef0be5631540f9b40a424443b8c9d79b, type: 3}
+  - Id: acc.bag.backpack_01
+    Prefab: {fileID: 7787706610768953336, guid: 0293f3a5288a2d74eb4bed0653793b8f, type: 3}
   - Id: acc.hair.ribbon_01
     Prefab: {fileID: 8320588166037561651, guid: f84247f38ceebc2449a0172c0fea311c, type: 3}
   - Id: acc.hair.headband_01

@@ -111,6 +111,7 @@
     { "id": "acc.earrings.hoops_01", "name": "Hoops", "slot": "earrings", "tags": ["street", "elegant", "gothic", "cute"], "regions": 1, "lean": 0.3 },
     { "id": "acc.earrings.drops_01", "name": "Drop earrings", "slot": "earrings", "tags": ["elegant", "gothic", "cute"], "regions": 1, "lean": 0.5 },
     { "id": "acc.bag.crossbody_01", "name": "Crossbody bag", "slot": "bag", "tags": ["casual", "street", "bookish", "cute", "elegant"], "regions": 2, "contexts": ["casual", "date", "rain", "work"] },
+    { "id": "acc.bag.backpack_01", "name": "Backpack", "slot": "bag", "tags": ["street", "sporty", "casual", "bookish", "cute"], "regions": 2, "contexts": ["casual", "rain", "sport"] },
     { "id": "face.mark.freckles_01", "name": "Freckles", "slot": "face.freckles", "tags": ["casual", "sporty", "cute", "bookish"], "regions": 1 },
     { "id": "face.mark.mole_01", "name": "Beauty mark by the eye", "slot": "face.mole", "tags": ["elegant", "gothic", "casual"], "regions": 1 },
     { "id": "face.mark.mole_02", "name": "Beauty mark by the lips", "slot": "face.mole", "tags": ["elegant", "gothic", "street"], "regions": 1 },
