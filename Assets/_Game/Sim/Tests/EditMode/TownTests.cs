@@ -1,0 +1,166 @@
+using System.Collections.Generic;
+using System.Linq;
+using Game.Sim.Residents;
+using NUnit.Framework;
+
+namespace Game.Sim.Tests
+{
+    public class TownTests
+    {
+        [Test]
+        public void ProjectSimCatalogIsValid()
+        {
+            List<string> errors = Fixtures.Sim().Validate();
+            Assert.That(errors, Is.Empty, string.Join("\n", errors));
+        }
+
+        [Test]
+        public void EveryCharacterArchetypeHasSimTendencies()
+        {
+            SimCatalog sim = Fixtures.Sim();
+            foreach (var archetype in Fixtures.Characters().Archetypes)
+                Assert.That(sim.Archetypes.ContainsKey(archetype.Id), $"No personality or interests for archetype '{archetype.Id}'.");
+        }
+
+        [Test]
+        public void EveryReactionHasDialogue()
+        {
+            SimCatalog sim = Fixtures.Sim();
+            string[] reactions =
+            {
+                "greet.stranger", "greet.acquaintance", "greet.friend", "greet.close", "greet.dating",
+                "talk.love", "talk.neutral", "talk.dislike", "talk.bored", "compliment.pleased", "compliment.awkward",
+                "gift.love", "gift.ok", "gift.dislike", "gift.awkward", "gift.again",
+                "date.yes", "date.no", "date.notyet", "date.great", "date.fine",
+            };
+            foreach (string key in reactions)
+                Assert.That(sim.Dialogue.TryGetValue(key, out var lines) && lines.Count > 0, $"No lines for '{key}'.");
+        }
+
+        [Test]
+        public void SameSeedMakesTheSameTown()
+        {
+            SimWorld a = Fixtures.Town(42), b = Fixtures.Town(42);
+            for (int i = 0; i < a.Residents.Count; i++)
+            {
+                Assert.That(b.Residents[i].Name, Is.EqualTo(a.Residents[i].Name));
+                Assert.That(b.Residents[i].Profile.JobId, Is.EqualTo(a.Residents[i].Profile.JobId));
+                for (int day = 0; day < 7; day++)
+                    for (int hour = 0; hour < 24; hour++)
+                        Assert.That(b.Residents[i].Schedule.At(day, hour), Is.EqualTo(a.Residents[i].Schedule.At(day, hour)));
+            }
+        }
+
+        [Test]
+        public void DifferentSeedsMakeDifferentTowns()
+        {
+            var a = Fixtures.Town(1).Residents.Select(r => r.Name);
+            var b = Fixtures.Town(2).Residents.Select(r => r.Name);
+            Assert.That(a, Is.Not.EqualTo(b));
+        }
+
+        [Test]
+        public void FullNamesAreUnique()
+        {
+            SimWorld town = Fixtures.Town(7, 60);
+            Assert.That(town.Residents.Select(r => r.Name), Is.Unique);
+        }
+
+        [Test]
+        public void ProfilesHaveThreeLovesAndOneOrTwoDislikes()
+        {
+            foreach (Resident resident in Fixtures.Town(3, 40).Residents)
+            {
+                ResidentProfile p = resident.Profile;
+                Assert.That(p.Interests.Count(i => i.Value >= ProfileGenerator.LikeThreshold), Is.EqualTo(ProfileGenerator.Likes), resident.ToString());
+                Assert.That(p.Interests.Count(i => i.Value <= -ProfileGenerator.LikeThreshold), Is.InRange(1, 2), resident.ToString());
+                Assert.That(p.Age, Is.InRange(ProfileGenerator.MinAge, ProfileGenerator.MaxAge));
+                Assert.That(p.Hangouts, Is.Not.Empty);
+                Assert.That(p.JobId, Is.Not.Null);
+                Assert.That(p.StyleTaste.Values.Max(), Is.EqualTo(1f).Within(1e-5f));
+            }
+        }
+
+        [Test]
+        public void ArchetypesShapePersonality()
+        {
+            List<Resident> residents = Fixtures.Town(11, 150).Residents;
+            float Mean(string archetype) => residents.Where(r => r.Profile.Archetype == archetype).Average(r => r.Profile.Personality.Extraversion);
+            Assert.That(Mean("sporty"), Is.GreaterThan(Mean("bookish") + 0.2f), "Sporty residents should be more outgoing than bookish ones.");
+        }
+
+        [Test]
+        public void PresentationTiltsNamesWithoutDecidingThem()
+        {
+            SimCatalog sim = Fixtures.Sim();
+            List<Resident> residents = Fixtures.Town(5, 200).Residents;
+            List<Resident> feminine = residents.Where(r => r.Dna.Body.Femininity >= 0.65f).ToList();
+            float share = feminine.Count(r => sim.Names.Feminine.Contains(r.Profile.FirstName)) / (float)feminine.Count;
+            Assert.That(share, Is.InRange(0.7f, 0.97f));
+            Assert.That(residents.Any(r => r.Profile.Pronouns == Pronouns.They), "Some residents should use they/them.");
+        }
+
+        [Test]
+        public void EveryoneIsHomeAtThreeInTheMorning()
+        {
+            foreach (Resident resident in Fixtures.Town(9, 60).Residents)
+                for (int day = 0; day < 7; day++)
+                    Assert.That(resident.Schedule.At(day, 3), Is.EqualTo(SimCatalog.Home), $"{resident} on day {day}");
+        }
+
+        [Test]
+        public void WorkersAreAtWorkDuringTheirShifts()
+        {
+            SimCatalog sim = Fixtures.Sim();
+            foreach (Resident resident in Fixtures.Town(9, 60).Residents)
+            {
+                JobEntry job = sim.Job(resident.Profile.JobId);
+                foreach (int day in job.Days)
+                    for (int hour = job.Start; hour < job.End; hour++)
+                        Assert.That(resident.Schedule.At(day, hour), Is.EqualTo(job.Location), $"{resident} ({job.Id}) day {day} {hour}:00");
+            }
+        }
+
+        [Test]
+        public void NobodyIsSomewhereClosed()
+        {
+            SimCatalog sim = Fixtures.Sim();
+            foreach (Resident resident in Fixtures.Town(13, 60).Residents)
+                for (int day = 0; day < 7; day++)
+                    for (int hour = 0; hour < 24; hour++)
+                    {
+                        string place = resident.Schedule.At(day, hour);
+                        if (place == SimCatalog.Home) continue;
+                        LocationEntry location = sim.Location(place);
+                        bool works = sim.Job(resident.Profile.JobId).Location == place;
+                        Assert.That(works || location.IsOpen(hour), $"{resident} at {place} on day {day} at {hour}:00, which is closed.");
+                    }
+        }
+
+        [Test]
+        public void TheTownIsLivelyInTheEvening()
+        {
+            SimWorld town = Fixtures.Town(21, 40);
+            town.Now = SimTime.At(5, 19); // Saturday evening
+            int out_ = town.Residents.Count(r => town.WhereIs(r) != SimCatalog.Home);
+            Assert.That(out_, Is.GreaterThan(town.Residents.Count / 4), "A Saturday evening should have plenty of people out.");
+            Assert.That(town.Catalog.Locations.Count(l => town.At(l.Id).Any()), Is.GreaterThanOrEqualTo(3));
+        }
+
+        [Test]
+        public void ClockKnowsDaysAndAdvancesToHours()
+        {
+            var time = SimTime.At(6, 23, 30);
+            Assert.That(time.DayOfWeek, Is.EqualTo(6));
+            Assert.That(time.IsWeekend);
+            Assert.That(time.Plus(30).DayOfWeek, Is.EqualTo(0));
+            Assert.That(time.Plus(30).Day, Is.EqualTo(7));
+
+            SimWorld world = Fixtures.Town(1, 1);
+            world.Now = SimTime.At(2, 10);
+            world.AdvanceTo(9);
+            Assert.That(world.Now.Day, Is.EqualTo(3));
+            Assert.That(world.Now.Hour, Is.EqualTo(9));
+        }
+    }
+}

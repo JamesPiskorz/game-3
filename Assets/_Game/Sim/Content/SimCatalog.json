@@ -1,0 +1,156 @@
+{
+  "locations": [
+    { "id": "cafe", "name": "Moonbean Café", "tags": ["food", "cozy", "social"], "opens": 7, "closes": 21 },
+    { "id": "park", "name": "Willow Park", "tags": ["nature", "outdoors", "romantic"], "opens": 0, "closes": 24 },
+    { "id": "campus", "name": "Harbour College", "tags": ["study"], "opens": 8, "closes": 18 },
+    { "id": "office", "name": "Lantern Tower", "tags": ["work"], "opens": 8, "closes": 19 },
+    { "id": "gym", "name": "Pulse Gym", "tags": ["sports"], "opens": 6, "closes": 22 },
+    { "id": "mall", "name": "Arcade Lane", "tags": ["fashion", "games", "social"], "opens": 10, "closes": 21 },
+    { "id": "bar", "name": "The Night Owl", "tags": ["music", "social", "romantic"], "opens": 17, "closes": 24 },
+    { "id": "library", "name": "Ink & Willow Library", "tags": ["books", "quiet"], "opens": 9, "closes": 20 }
+  ],
+
+  "jobs": [
+    { "id": "barista", "name": "Barista", "location": "cafe", "start": 7, "end": 15, "days": [0, 1, 2, 3, 5] },
+    { "id": "student", "name": "Student", "location": "campus", "start": 9, "end": 15, "days": [0, 1, 2, 3, 4] },
+    { "id": "office", "name": "Designer", "location": "office", "start": 9, "end": 17, "days": [0, 1, 2, 3, 4] },
+    { "id": "trainer", "name": "Personal trainer", "location": "gym", "start": 6, "end": 14, "days": [0, 1, 2, 4, 5] },
+    { "id": "shop", "name": "Shop assistant", "location": "mall", "start": 10, "end": 18, "days": [1, 2, 3, 4, 5] },
+    { "id": "bartender", "name": "Bartender", "location": "bar", "start": 17, "end": 24, "days": [2, 3, 4, 5, 6] },
+    { "id": "librarian", "name": "Librarian", "location": "library", "start": 9, "end": 17, "days": [0, 1, 2, 3, 4] },
+    { "id": "freelancer", "name": "Freelance illustrator", "location": "home", "start": 10, "end": 16, "days": [0, 1, 2, 3] }
+  ],
+
+  "topics": [
+    { "id": "music", "name": "music" }, { "id": "sports", "name": "sport" }, { "id": "books", "name": "books" },
+    { "id": "games", "name": "games" }, { "id": "fashion", "name": "fashion" }, { "id": "food", "name": "food" },
+    { "id": "art", "name": "art" }, { "id": "nature", "name": "the outdoors" }, { "id": "tech", "name": "tech" },
+    { "id": "film", "name": "films" }, { "id": "travel", "name": "travel" }, { "id": "pets", "name": "pets" }
+  ],
+
+  "gifts": [
+    { "id": "flowers", "name": "a bunch of flowers", "topics": ["nature", "art"] },
+    { "id": "sweets", "name": "a box of sweets", "topics": ["food"] },
+    { "id": "novel", "name": "a novel", "topics": ["books"] },
+    { "id": "game", "name": "a new game", "topics": ["games", "tech"] },
+    { "id": "record", "name": "a vinyl record", "topics": ["music"] },
+    { "id": "sports_bottle", "name": "a sports bottle", "topics": ["sports"] },
+    { "id": "sketchbook", "name": "a sketchbook", "topics": ["art"] },
+    { "id": "plush", "name": "a plush toy", "topics": ["pets", "games"] },
+    { "id": "coffee", "name": "fancy coffee beans", "topics": ["food"] },
+    { "id": "plant", "name": "a little houseplant", "topics": ["nature"] },
+    { "id": "scarf", "name": "a silk scarf", "topics": ["fashion"] },
+    { "id": "gadget", "name": "a clever gadget", "topics": ["tech"] },
+    { "id": "tickets", "name": "two film tickets", "topics": ["film"] },
+    { "id": "guidebook", "name": "a travel guide", "topics": ["travel"] }
+  ],
+
+  "archetypes": {
+    "casual":  { "traits": { "openness": 0.5,  "conscientiousness": 0.5,  "extraversion": 0.6,  "agreeableness": 0.65, "neuroticism": 0.4 },
+                 "interests": { "food": 2, "film": 2, "music": 1.5, "travel": 1.5, "pets": 1, "games": 1 }, "hangouts": ["cafe", "park", "mall"] },
+    "sporty":  { "traits": { "openness": 0.45, "conscientiousness": 0.6,  "extraversion": 0.75, "agreeableness": 0.55, "neuroticism": 0.3 },
+                 "interests": { "sports": 3, "nature": 2, "food": 1.5, "music": 1, "travel": 1 }, "hangouts": ["gym", "park"] },
+    "cute":    { "traits": { "openness": 0.55, "conscientiousness": 0.45, "extraversion": 0.7,  "agreeableness": 0.75, "neuroticism": 0.5 },
+                 "interests": { "fashion": 2, "pets": 2, "food": 2, "art": 1.5, "games": 1.5 }, "hangouts": ["cafe", "mall", "park"] },
+    "gothic":  { "traits": { "openness": 0.75, "conscientiousness": 0.45, "extraversion": 0.3,  "agreeableness": 0.45, "neuroticism": 0.6 },
+                 "interests": { "music": 2.5, "art": 2, "books": 2, "film": 1.5 }, "hangouts": ["bar", "library", "park"] },
+    "elegant": { "traits": { "openness": 0.6,  "conscientiousness": 0.75, "extraversion": 0.5,  "agreeableness": 0.55, "neuroticism": 0.4 },
+                 "interests": { "fashion": 2, "art": 2, "travel": 2, "books": 1, "food": 1 }, "hangouts": ["cafe", "mall", "bar"] },
+    "street":  { "traits": { "openness": 0.65, "conscientiousness": 0.35, "extraversion": 0.7,  "agreeableness": 0.45, "neuroticism": 0.45 },
+                 "interests": { "music": 2.5, "fashion": 2, "games": 2, "sports": 1 }, "hangouts": ["mall", "bar", "park"] },
+    "bookish": { "traits": { "openness": 0.8,  "conscientiousness": 0.65, "extraversion": 0.3,  "agreeableness": 0.6,  "neuroticism": 0.55 },
+                 "interests": { "books": 3, "tech": 1.5, "games": 1.5, "film": 1.5, "nature": 1 }, "hangouts": ["library", "cafe"] }
+  },
+
+  "names": {
+    "feminine": ["Aiko", "Amara", "Beatriz", "Chloe", "Daria", "Elena", "Farah", "Hana", "Imani", "Ines", "Jia", "Kalani", "Lucia", "Maya", "Mei", "Nadia", "Noor", "Priya", "Rosa", "Sakura", "Sofia", "Tala", "Yara", "Zoe"],
+    "masculine": ["Ade", "Aarav", "Bastian", "Caleb", "Diego", "Elias", "Emeka", "Haruto", "Ibrahim", "Jun", "Kofi", "Leon", "Mateo", "Nico", "Omar", "Ravi", "Santiago", "Tariq", "Theo", "Yusuf", "Zane"],
+    "neutral": ["Alex", "Ari", "Avery", "Blake", "Charlie", "Eden", "Ezra", "Jamie", "Jules", "Kai", "Morgan", "Noa", "Quinn", "Remy", "Riley", "Rowan", "Sam", "Sasha", "Skyler", "Tatum"],
+    "family": ["Abe", "Adeyemi", "Bauer", "Castillo", "Chen", "Costa", "Dubois", "Eriksen", "Fernandes", "Garcia", "Haddad", "Ito", "Jensen", "Kaur", "Kim", "Kowalski", "Lee", "Mensah", "Moreau", "Nakamura", "Novak", "Okafor", "Park", "Patel", "Rossi", "Santos", "Silva", "Tanaka", "Vargas", "Walsh", "Yilmaz", "Zhang"]
+  },
+
+  "dialogue": {
+    "greet.stranger": [
+      { "tone": "warm", "text": "Oh, hello! I don't think we've met. I'm {name}." },
+      { "tone": "shy", "text": "Um... hi. I'm {name}." },
+      { "tone": "bubbly", "text": "Hey hey! New face! I'm {name}!" },
+      { "tone": "dry", "text": "{name}. And you are?" }
+    ],
+    "greet.acquaintance": [
+      { "tone": "warm", "text": "Nice to see you again, {player}." },
+      { "tone": "shy", "text": "Oh, it's you. Hi, {player}." },
+      { "tone": "bubbly", "text": "{player}! Fancy running into you here!" },
+      { "tone": "dry", "text": "Hey, {player}." }
+    ],
+    "greet.friend": [
+      { "tone": "any", "text": "{player}! I was hoping I'd see you today." },
+      { "tone": "dry", "text": "Oh good, someone worth talking to." }
+    ],
+    "greet.close": [
+      { "tone": "any", "text": "There you are. Come sit with me?" }
+    ],
+    "greet.dating": [
+      { "tone": "any", "text": "Hey, you. I missed you." },
+      { "tone": "shy", "text": "I... was thinking about you just now." }
+    ],
+    "talk.love": [
+      { "tone": "any", "text": "Oh, I could talk about {topic} all day!" },
+      { "tone": "shy", "text": "You like {topic} too? That's... really nice." },
+      { "tone": "dry", "text": "Finally, someone who gets {topic}." }
+    ],
+    "talk.neutral": [
+      { "tone": "any", "text": "{topic}? Sure, I guess it's interesting." },
+      { "tone": "bubbly", "text": "Ooh, tell me more about {topic}!" }
+    ],
+    "talk.dislike": [
+      { "tone": "any", "text": "Honestly, {topic} isn't really my thing." },
+      { "tone": "dry", "text": "{topic}. Riveting." }
+    ],
+    "talk.bored": [
+      { "tone": "any", "text": "We already covered {topic} today, didn't we?" }
+    ],
+    "compliment.pleased": [
+      { "tone": "any", "text": "You think so? Thank you!" },
+      { "tone": "shy", "text": "Oh! That's... thank you." },
+      { "tone": "dry", "text": "Good eye." }
+    ],
+    "compliment.awkward": [
+      { "tone": "any", "text": "Uh, thanks... I guess." }
+    ],
+    "gift.love": [
+      { "tone": "any", "text": "{gift}? For me? I love it!" },
+      { "tone": "shy", "text": "You remembered I'd like this... thank you." }
+    ],
+    "gift.ok": [
+      { "tone": "any", "text": "Oh, {gift}. That's kind of you." }
+    ],
+    "gift.dislike": [
+      { "tone": "any", "text": "Oh. {gift}. Thanks..." },
+      { "tone": "dry", "text": "I'll find somewhere to put {gift}, I suppose." }
+    ],
+    "gift.again": [
+      { "tone": "any", "text": "Another present? You're spoiling me." },
+      { "tone": "dry", "text": "Two in one day. Should I be worried?" }
+    ],
+    "gift.awkward": [
+      { "tone": "any", "text": "A present? We've only just met..." }
+    ],
+    "date.yes": [
+      { "tone": "any", "text": "A date at {location}? I'd love that." },
+      { "tone": "shy", "text": "Y-yes. I'd like that a lot." },
+      { "tone": "dry", "text": "Fine. It's a date. Don't be late." }
+    ],
+    "date.no": [
+      { "tone": "any", "text": "That's sweet, but I don't think I feel that way." }
+    ],
+    "date.notyet": [
+      { "tone": "any", "text": "Maybe once we know each other a bit better?" }
+    ],
+    "date.great": [
+      { "tone": "any", "text": "That was wonderful. {location} was perfect." }
+    ],
+    "date.fine": [
+      { "tone": "any", "text": "That was nice. Thanks for today." }
+    ]
+  }
+}
