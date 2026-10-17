@@ -195,6 +195,28 @@ namespace Game.Characters.StandIns
             };
             yield return new Recipe
             {
+                Id = "cloth.bottom.pinafore_01", Slot = "bottom", Material = "Cloth",
+                Covers = Pelvis,
+                Build = m =>
+                {
+                    // A skirt with a bib up the front, worn over any top: the bib sits outside the bulkiest top (the
+                    // hoodie, Cloth * 1.8) and inside every outer layer. (Shoulder straps disappeared into the tops'
+                    // shoulders at stand-in resolution, so there are none; real art should have them.)
+                    const float bib = Cloth * 2.2f;
+                    m.AddTube(StandInBody.TubeFor(Pelvis), Cloth * 0.5f, Cap.Closed, Cap.Open, new MaskFunction((a, b) => new Vector3(0f, 0f, 1f)), false);
+                    m.AddSkirt(1.07f, 0.66f, 0.135f, 0.2f, 1.22f, 0.85f, Cloth, Trim(0.08f, false, true));
+                    Func<float, bool> front = around => Mathf.Abs(around - 0.25f) < 0.085f;
+                    Tube waist = StandInBody.TubeFor(LowerTorso);
+                    waist.KeepAround = front;
+                    m.AddTube(waist, bib, Cap.Open, Cap.Open, Region1, false);
+                    Tube chest = StandInBody.TubeFor(UpperTorso);
+                    chest.End = Vector3.Lerp(chest.Start, chest.End, 0.45f);
+                    chest.KeepAround = front;
+                    m.AddTube(chest, bib, Cap.Open, Cap.Open, Trim(0.2f, false, true), false);
+                },
+            };
+            yield return new Recipe
+            {
                 Id = "cloth.bottom.skirt_01", Slot = "bottom", Material = "Cloth",
                 Covers = Pelvis,
                 Build = m =>
@@ -753,6 +775,22 @@ namespace Game.Characters.StandIns
                     }
                 },
             };
+            yield return new Recipe
+            {
+                Id = "acc.earrings.drops_01", Slot = "earrings", Material = "Accessory", FollowsBodyShapes = false, Small = true,
+                Build = m =>
+                {
+                    // Two small links and a teardrop hanging from each lobe.
+                    using IDisposable coarse = m.Coarse();
+                    foreach (float side in new[] { -1f, 1f })
+                    {
+                        Vector3 lobe = new Vector3(side * 0.108f, 1.588f, 0.012f);
+                        m.AddEllipsoid(lobe + new Vector3(0f, -0.007f, 0f), Vector3.one * 0.0035f, None, false, "Head", Region1);
+                        m.AddEllipsoid(lobe + new Vector3(0f, -0.015f, 0f), Vector3.one * 0.0035f, None, false, "Head", Region1);
+                        m.AddEllipsoid(lobe + new Vector3(0f, -0.031f, 0f), new Vector3(0.0068f, 0.0115f, 0.0068f), None, false, "Head", Region1);
+                    }
+                },
+            };
 
             // ---------------- bag: the strap lies over any outer layer, and the bag rests at the front of the hip
             yield return new Recipe
@@ -827,6 +865,25 @@ namespace Game.Characters.StandIns
                         m.AddTube(new Tube { Region = None, Start = start, End = end, R0 = 0.0035f, R1 = 0.0035f, Bone = "Head" },
                             0f, Cap.Closed, Cap.Closed, Region1, false, withShapes: false);
                     }
+                },
+            };
+            yield return new Recipe
+            {
+                Id = "acc.hair.flower_01", Slot = "headpiece", Material = "Accessory", FollowsBodyShapes = false, Small = true,
+                Build = m =>
+                {
+                    // Five petals round a centre in the second colour, just outside the hair above one temple.
+                    Vector3 outward = new Vector3(-0.62f, 0.62f, 0.48f).normalized;
+                    Vector3 centre = HeadCentre + outward * (HeadR + 0.03f);
+                    Vector3 u = Vector3.Cross(outward, Vector3.forward).normalized, v = Vector3.Cross(outward, u);
+                    using IDisposable coarse = m.Coarse(latitudes: 6, longitudes: 10);
+                    for (int i = 0; i < 5; i++)
+                    {
+                        float a = i / 5f * 2f * Mathf.PI;
+                        Vector3 dir = u * Mathf.Cos(a) + v * Mathf.Sin(a);
+                        m.AddEllipsoid(centre + dir * 0.012f, new Vector3(0.0085f, 0.0085f, 0.0085f), None, false, "Head", Region1);
+                    }
+                    m.AddEllipsoid(centre + outward * 0.004f, Vector3.one * 0.0065f, None, false, "Head", RegionTwo);
                 },
             };
 

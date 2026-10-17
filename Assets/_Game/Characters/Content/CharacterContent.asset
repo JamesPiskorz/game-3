@@ -32,6 +32,8 @@ MonoBehaviour:
     Prefab: {fileID: 6388049972754282527, guid: 91dfe56a9bc4b5a49bab8df070e87c1b, type: 3}
   - Id: cloth.bottom.wide_01
     Prefab: {fileID: 2716031033637107069, guid: e30ae2628c602494996dd261f85881d2, type: 3}
+  - Id: cloth.bottom.pinafore_01
+    Prefab: {fileID: 5744341097222427959, guid: 06e1eae28577a77498fe1e140ac0fd73, type: 3}
   - Id: cloth.bottom.skirt_01
     Prefab: {fileID: 1274628939109051085, guid: 2a8f2c3ed88b50246ad65ed171e7f3c8, type: 3}
   - Id: cloth.onepiece.dress_01
@@ -114,6 +116,8 @@ MonoBehaviour:
     Prefab: {fileID: 2004407080549605190, guid: 6ba649999ab9b3e43af6addd0d37ee94, type: 3}
   - Id: acc.earrings.hoops_01
     Prefab: {fileID: 1281848115193972831, guid: 3f252c8244e462c4f96f89bbe1379891, type: 3}
+  - Id: acc.earrings.drops_01
+    Prefab: {fileID: 2350300193533967996, guid: cc1256a247bade942a2d8c17fb30109f, type: 3}
   - Id: acc.bag.crossbody_01
     Prefab: {fileID: 9003043143852746377, guid: ef0be5631540f9b40a424443b8c9d79b, type: 3}
   - Id: acc.hair.ribbon_01
@@ -122,6 +126,8 @@ MonoBehaviour:
     Prefab: {fileID: 303654082147080991, guid: c6e6275873cdda54284adc7a53f83db1, type: 3}
   - Id: acc.hair.clip_01
     Prefab: {fileID: 4246647170815998884, guid: d121770859136e24c99a371e746ac3a2, type: 3}
+  - Id: acc.hair.flower_01
+    Prefab: {fileID: 2307010595733426010, guid: 9365c433d8ba2b34d909ca4d5c8837d1, type: 3}
   - Id: face.mark.freckles_01
     Prefab: {fileID: 176342469222160567, guid: 0f21c69ec3d0b8f41b5ad19d68402d12, type: 3}
   - Id: face.mark.mole_01
