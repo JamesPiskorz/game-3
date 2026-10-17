@@ -27,6 +27,7 @@ namespace Game.Characters.Building
         }
 
         static readonly Vector3 StudioPosition = new Vector3(0f, -500f, 0f);
+        static int _studios; // each studio gets its own spot, so one never shows in another's pictures
 
         readonly CharacterBuilder _builder;
         readonly Light _sun;
@@ -39,8 +40,10 @@ namespace Game.Characters.Building
         {
             _builder = builder;
             _sun = sun;
-            _studio = new GameObject("Portrait studio") { hideFlags = HideFlags.DontSave };
-            _studio.transform.position = StudioPosition;
+            // A plain scene object, so it goes with its scene (a DontSave object would outlive it and walk into the next
+            // scene's pictures).
+            _studio = new GameObject("Portrait studio");
+            _studio.transform.position = StudioPosition + new Vector3(20f * _studios++, 0f, 0f);
             _camera = new GameObject("Portrait camera").AddComponent<Camera>();
             _camera.transform.SetParent(_studio.transform, false);
             _camera.enabled = false; // rendered by hand

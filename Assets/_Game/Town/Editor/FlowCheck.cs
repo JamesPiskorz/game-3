@@ -31,6 +31,7 @@ namespace Game.Town
         const int Width = 1920, Height = 1080;
 
         static int _frame, _step, _waitFrom;
+        static bool _photoShot;
         static string _expectedLook;
         static long _savedMinutes;
         static RenderTexture _ui, _scene;
@@ -141,6 +142,13 @@ namespace Game.Town
                         return;
                     }
                     town.Session.Wait(90); // so a continue at the start time can't pass by accident
+                    // A keepsake to come back to: the menu should show it under Continue.
+                    Resident with = town.Session.World.Residents[0];
+                    town.Session.World.Photos.Add(new Game.Sim.Relationships.Photo
+                    {
+                        Resident = 0, Day = town.Session.World.Now.Day, Location = "park", Name = with.Profile.FirstName, Place = "Willow Park",
+                        PlayerLook = DnaSerializer.ToJson(town.Session.World.Player.Dna, indented: false), TheirLook = DnaSerializer.ToJson(with.Dna, indented: false),
+                    });
                     _savedMinutes = town.Session.World.Now.Minutes;
                     Debug.Log($"[FlowCheck] Town opened with the creator's character; leaving at {town.Session.World.Now}.");
                     Next(Press(town.Document, "menu"));
@@ -155,6 +163,27 @@ namespace Game.Town
                     {
                         Fail("Continue isn't available after leaving town.");
                         return;
+                    }
+                    if (menu.Document.rootVisualElement.Q("last-photo") == null)
+                    {
+                        Fail("The menu doesn't show the saved game's latest photo.");
+                        return;
+                    }
+                    // Screenshot it once, after a frame's layout with the targets back on.
+                    if (!_photoShot)
+                    {
+                        if (menu.Document.panelSettings.targetTexture == null)
+                        {
+                            menu.Document.panelSettings.targetTexture = _ui;
+                            Camera.main.targetTexture = _scene;
+                            _waitFrom = _frame;
+                            return;
+                        }
+                        Camera.main.Render();
+                        PanelShot.Save(_scene, _ui, "Docs/review/menu-photo.png");
+                        Camera.main.targetTexture = null;
+                        menu.Document.panelSettings.targetTexture = null;
+                        _photoShot = true;
                     }
                     Next(Press(menu.Document, "continue"));
                     break;
