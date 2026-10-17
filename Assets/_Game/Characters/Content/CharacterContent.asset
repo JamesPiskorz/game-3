@@ -293,71 +293,71 @@ MonoBehaviour:
     - Bone: Eye.R
       MirrorBone: Eye.L
       Position: {x: 0, y: 0, z: 0}
-      Scale: {x: 0.94, y: 1.14, z: 1}
+      Scale: {x: 0.92, y: 1.2, z: 1}
       Euler: {x: 0, y: 0, z: 0}
   - Id: eye.style.narrow
     Tweaks:
     - Bone: Eye.R
       MirrorBone: Eye.L
       Position: {x: 0, y: 0, z: 0}
-      Scale: {x: 1.06, y: 0.74, z: 1}
+      Scale: {x: 1.08, y: 0.64, z: 1}
       Euler: {x: 0, y: 0, z: 0}
   - Id: eye.style.droopy
     Tweaks:
     - Bone: Eye.R
       MirrorBone: Eye.L
       Position: {x: 0, y: 0, z: 0}
-      Scale: {x: 1, y: 0.9, z: 1}
-      Euler: {x: 0, y: 0, z: -9}
+      Scale: {x: 1.02, y: 0.86, z: 1}
+      Euler: {x: 0, y: 0, z: -14}
   - Id: brow.style.thin
     Tweaks:
     - Bone: Brow.R
       MirrorBone: Brow.L
       Position: {x: 0, y: 0, z: 0}
-      Scale: {x: 1, y: 0.65, z: 1}
+      Scale: {x: 1, y: 0.5, z: 1}
       Euler: {x: 0, y: 0, z: 0}
   - Id: brow.style.thick
     Tweaks:
     - Bone: Brow.R
       MirrorBone: Brow.L
       Position: {x: 0, y: 0, z: 0}
-      Scale: {x: 1.06, y: 1.6, z: 1.2}
+      Scale: {x: 1.08, y: 1.85, z: 1.25}
       Euler: {x: 0, y: 0, z: 0}
   - Id: brow.style.soft
     Tweaks:
     - Bone: Brow.R
       MirrorBone: Brow.L
       Position: {x: 0, y: 0, z: 0}
-      Scale: {x: 0.94, y: 1, z: 1}
-      Euler: {x: 0, y: 0, z: -6}
+      Scale: {x: 0.9, y: 1, z: 1}
+      Euler: {x: 0, y: 0, z: -10}
   - Id: eye.style.cat
     Tweaks:
     - Bone: Eye.R
       MirrorBone: Eye.L
       Position: {x: 0, y: 0, z: 0}
-      Scale: {x: 1.04, y: 0.84, z: 1}
-      Euler: {x: 0, y: 0, z: 11}
+      Scale: {x: 1.06, y: 0.78, z: 1}
+      Euler: {x: 0, y: 0, z: 16}
   - Id: eye.style.big
     Tweaks:
     - Bone: Eye.R
       MirrorBone: Eye.L
       Position: {x: 0, y: 0, z: 0}
-      Scale: {x: 1.14, y: 1.12, z: 1}
+      Scale: {x: 1.2, y: 1.18, z: 1}
       Euler: {x: 0, y: 0, z: 0}
   - Id: eye.style.almond
     Tweaks:
     - Bone: Eye.R
       MirrorBone: Eye.L
       Position: {x: 0, y: 0, z: 0}
-      Scale: {x: 1.1, y: 0.86, z: 1}
-      Euler: {x: 0, y: 0, z: 4}
+      Scale: {x: 1.14, y: 0.82, z: 1}
+      Euler: {x: 0, y: 0, z: 6}
   - Id: brow.style.arched
     Tweaks:
     - Bone: Brow.R
       MirrorBone: Brow.L
       Position: {x: 0, y: 0, z: 0}
-      Scale: {x: 1.05, y: 0.85, z: 1}
-      Euler: {x: 0, y: 0, z: 9}
+      Scale: {x: 1.05, y: 0.8, z: 1}
+      Euler: {x: 0, y: 0, z: 14}
   - Id: brow.style.straight
     Tweaks:
     - Bone: Brow.R

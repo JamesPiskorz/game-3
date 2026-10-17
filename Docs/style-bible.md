@@ -165,6 +165,8 @@ Each archetype sets how often optional pieces appear: `hatChance`, `glassesChanc
 - **Features:** eyes, brows, nose and mouth are separate features. On the stand-in they're rigid shapes on the face bones; the face sliders (eye scale, height, spacing and tilt; brow height and tilt; mouth width and height; nose size) and the eye and brow **styles** move and scale those bones.
 - **Generation:** generated faces are designed **presets** plus small noise.
 
+**Styles must read at a glance.** `Docs/review/face-styles.png` shows every eye style, then every brow style, on the same three faces. The stand-in styles were pushed apart until each column is recognisable (narrow eyes 64% height, tall 120%, cat and droopy tilted 16° and −14°, thick brows 185%, thin 50%); real eye and brow shapes should be at least as distinct.
+
 **[Art to decide]:** the face design itself. Plan on:
 - 6–10 presets,
 - 5–8 eye shapes,

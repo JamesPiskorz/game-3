@@ -96,16 +96,16 @@ namespace Game.Characters.ContentAuthoring
         static List<StyleBinding> Styles() => new List<StyleBinding>
         {
             Style("eye.style.round", "Eye.R", "Eye.L", scale: new Vector3(1.06f, 0.98f, 1f)),
-            Style("eye.style.tall", "Eye.R", "Eye.L", scale: new Vector3(0.94f, 1.14f, 1f)),
-            Style("eye.style.narrow", "Eye.R", "Eye.L", scale: new Vector3(1.06f, 0.74f, 1f)),
-            Style("eye.style.droopy", "Eye.R", "Eye.L", scale: new Vector3(1f, 0.9f, 1f), euler: new Vector3(0f, 0f, -9f)),
-            Style("brow.style.thin", "Brow.R", "Brow.L", scale: new Vector3(1f, 0.65f, 1f)),
-            Style("brow.style.thick", "Brow.R", "Brow.L", scale: new Vector3(1.06f, 1.6f, 1.2f)),
-            Style("brow.style.soft", "Brow.R", "Brow.L", scale: new Vector3(0.94f, 1f, 1f), euler: new Vector3(0f, 0f, -6f)),
-            Style("eye.style.cat", "Eye.R", "Eye.L", scale: new Vector3(1.04f, 0.84f, 1f), euler: new Vector3(0f, 0f, 11f)),
-            Style("eye.style.big", "Eye.R", "Eye.L", scale: new Vector3(1.14f, 1.12f, 1f)),
-            Style("eye.style.almond", "Eye.R", "Eye.L", scale: new Vector3(1.1f, 0.86f, 1f), euler: new Vector3(0f, 0f, 4f)),
-            Style("brow.style.arched", "Brow.R", "Brow.L", scale: new Vector3(1.05f, 0.85f, 1f), euler: new Vector3(0f, 0f, 9f)),
+            Style("eye.style.tall", "Eye.R", "Eye.L", scale: new Vector3(0.92f, 1.2f, 1f)),
+            Style("eye.style.narrow", "Eye.R", "Eye.L", scale: new Vector3(1.08f, 0.64f, 1f)),
+            Style("eye.style.droopy", "Eye.R", "Eye.L", scale: new Vector3(1.02f, 0.86f, 1f), euler: new Vector3(0f, 0f, -14f)),
+            Style("brow.style.thin", "Brow.R", "Brow.L", scale: new Vector3(1f, 0.5f, 1f)),
+            Style("brow.style.thick", "Brow.R", "Brow.L", scale: new Vector3(1.08f, 1.85f, 1.25f)),
+            Style("brow.style.soft", "Brow.R", "Brow.L", scale: new Vector3(0.9f, 1f, 1f), euler: new Vector3(0f, 0f, -10f)),
+            Style("eye.style.cat", "Eye.R", "Eye.L", scale: new Vector3(1.06f, 0.78f, 1f), euler: new Vector3(0f, 0f, 16f)),
+            Style("eye.style.big", "Eye.R", "Eye.L", scale: new Vector3(1.2f, 1.18f, 1f)),
+            Style("eye.style.almond", "Eye.R", "Eye.L", scale: new Vector3(1.14f, 0.82f, 1f), euler: new Vector3(0f, 0f, 6f)),
+            Style("brow.style.arched", "Brow.R", "Brow.L", scale: new Vector3(1.05f, 0.8f, 1f), euler: new Vector3(0f, 0f, 14f)),
             Style("brow.style.straight", "Brow.R", "Brow.L", scale: new Vector3(1.14f, 1.25f, 1.1f), euler: new Vector3(0f, 0f, -2f)),
         };
 
