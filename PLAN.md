@@ -2,7 +2,7 @@
 
 _Draft v1 · 2026-10-17 · Engine: Unity 6 (URP) · Look: 3D stylized/anime · Art: in-house, small team_
 
-> **Progress:** Phase 0 is done apart from the style bible and Spike C (UMA). Phase 2's generator, creator and quality gate are done on procedural stand-in content. See [Docs/STATUS.md](Docs/STATUS.md) and the decision records in [Docs/decisions](Docs/decisions/).
+> **Progress:** Phase 0 is done apart from the style bible and Spike C (UMA). Phase 2's generator, creator and quality gate are done on procedural stand-in content. The Blender → Unity part pipeline works end to end (Spike E). Phase 5 has started: the sim core and a playable town prototype (create a character, go into town, meet residents, go on a date) run on stand-ins. See [Docs/STATUS.md](Docs/STATUS.md) and the decision records in [Docs/decisions](Docs/decisions/).
 
 ---
 
