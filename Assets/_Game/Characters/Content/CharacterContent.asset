@@ -88,6 +88,12 @@ MonoBehaviour:
     Prefab: {fileID: 2213277655113302920, guid: 7a60aa277fb7f2a4fb224d8b484f34d6, type: 3}
   - Id: cloth.legwear.socks_01
     Prefab: {fileID: 6492877069657280053, guid: d1799e5ded9968c4e94dcce6f7d35573, type: 3}
+  - Id: acc.earrings.studs_01
+    Prefab: {fileID: 2004407080549605190, guid: 6ba649999ab9b3e43af6addd0d37ee94, type: 3}
+  - Id: acc.earrings.hoops_01
+    Prefab: {fileID: 1281848115193972831, guid: 3f252c8244e462c4f96f89bbe1379891, type: 3}
+  - Id: acc.bag.crossbody_01
+    Prefab: {fileID: 9003043143852746377, guid: ef0be5631540f9b40a424443b8c9d79b, type: 3}
   - Id: acc.neck.scarf_01
     Prefab: {fileID: 8500610744588557661, guid: baeac3713eacea4468a07a59e2dedf49, type: 3}
   - Id: acc.neck.necklace_01

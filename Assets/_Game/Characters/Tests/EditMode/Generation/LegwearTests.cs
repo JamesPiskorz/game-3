@@ -53,7 +53,7 @@ namespace Game.Characters.Tests.Generation
             {
                 OutfitDna sport = _generator.Generate(seed).Outfits.Single(o => o.Context == "sport");
                 foreach (PartEntry part in Parts(sport))
-                    Assert.That(part.Tags.Contains("sporty") || part.Slot == Slots.Glasses, $"seed {seed}: {part.Id}");
+                    Assert.That(part.Tags.Contains("sporty") || part.Slot == Slots.Glasses || part.Slot == Slots.Earrings, $"seed {seed}: {part.Id}");
             }
         }
     }

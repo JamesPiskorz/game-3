@@ -492,6 +492,60 @@ namespace Game.Characters.StandIns
                 },
             };
 
+            // ---------------- earrings: at the sides of the head, just below its middle (the stand-in head has no ears)
+            yield return new Recipe
+            {
+                Id = "acc.earrings.studs_01", Slot = "earrings", Material = "Accessory", FollowsBodyShapes = false,
+                Build = m =>
+                {
+                    foreach (float side in new[] { -1f, 1f })
+                        m.AddEllipsoid(new Vector3(side * 0.104f, 1.598f, 0.012f), Vector3.one * 0.0085f, None, false, "Head", Region1);
+                },
+            };
+            yield return new Recipe
+            {
+                Id = "acc.earrings.hoops_01", Slot = "earrings", Material = "Accessory", FollowsBodyShapes = false,
+                Build = m =>
+                {
+                    // A ring of beads hanging below each side, turned partly towards the front so it doesn't read edge-on.
+                    foreach (float side in new[] { -1f, 1f })
+                    {
+                        Vector3 centre = new Vector3(side * 0.108f, 1.57f, 0.01f);
+                        Vector3 across = new Vector3(side * 0.45f, 0f, 0.89f).normalized;
+                        for (int i = 0; i < 12; i++)
+                        {
+                            float a = i / 12f * 2f * Mathf.PI;
+                            m.AddEllipsoid(centre + (Vector3.up * Mathf.Cos(a) + across * Mathf.Sin(a)) * 0.02f, Vector3.one * 0.0045f, None, false, "Head", Region1);
+                        }
+                    }
+                },
+            };
+
+            // ---------------- bag: the strap lies over any outer layer, and the bag rests at the front of the hip
+            yield return new Recipe
+            {
+                Id = "acc.bag.crossbody_01", Slot = "bag", Material = "Cloth",
+                Build = m =>
+                {
+                    // The strap loops over the left shoulder, across the chest and the back, to the bag at the right hip,
+                    // clear of a coat front and back.
+                    void Strap(Vector3[] path, string[] bones, BodyRegions[] regions)
+                    {
+                        for (int i = 0; i < path.Length - 1; i++)
+                            m.AddTube(new Tube { Region = regions[i], Start = path[i], End = path[i + 1], R0 = 0.009f, R1 = 0.009f, Width = 1f, Depth = 0.5f, Bone = bones[i], ShapeRadius = 0.12f },
+                                0f, Cap.Closed, Cap.Closed, RegionTwo, false);
+                    }
+                    Strap(new[] { new Vector3(-0.1f, 1.47f, 0.02f), new Vector3(-0.07f, 1.43f, 0.15f), new Vector3(0.03f, 1.27f, 0.168f), new Vector3(0.11f, 1.1f, 0.17f) },
+                        new[] { "Chest", "Chest", "Chest", "Spine" }, new[] { UpperTorso, UpperTorso, UpperTorso, LowerTorso });
+                    Strap(new[] { new Vector3(-0.1f, 1.47f, 0.02f), new Vector3(-0.08f, 1.42f, -0.15f), new Vector3(0.04f, 1.25f, -0.16f), new Vector3(0.16f, 1.08f, -0.14f),
+                            new Vector3(0.215f, 1.06f, 0.02f), new Vector3(0.19f, 1.05f, 0.16f) },
+                        new[] { "Chest", "Chest", "Chest", "Spine", "Spine" }, new[] { UpperTorso, UpperTorso, UpperTorso, LowerTorso, LowerTorso });
+                    // The bag: a soft box with a flap in the second colour.
+                    m.AddEllipsoid(new Vector3(0.12f, 1.04f, 0.195f), new Vector3(0.075f, 0.06f, 0.026f), None, false, "Hips", Region1);
+                    m.AddEllipsoid(new Vector3(0.12f, 1.068f, 0.214f), new Vector3(0.074f, 0.032f, 0.012f), None, false, "Hips", RegionTwo);
+                },
+            };
+
             // ---------------- neckwear: details in front of the chest take its shape response (like the blazer's lapels)
             yield return new Recipe
             {

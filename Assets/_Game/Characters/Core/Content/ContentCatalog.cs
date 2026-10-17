@@ -113,6 +113,8 @@ namespace Game.Characters.Content
         public const string Neck = "neck";
         public const string Outer = "outer";
         public const string Legwear = "legwear";
+        public const string Earrings = "earrings";
+        public const string Bag = "bag";
         public const string HairBack = "hair.back";
         public const string HairFront = "hair.front";
     }
@@ -249,6 +251,10 @@ namespace Game.Characters.Content
 
         /// <summary>The chance of tights or socks with legs that show (anything tagged bare_legs).</summary>
         public float LegwearChance = 0.1f;
+
+        /// <summary>Earrings belong to the person, like glasses: the same pair in every outfit.</summary>
+        public float EarringChance = 0.15f;
+        public float BagChance = 0.1f;
         public float HatChance = 0.1f;
         public float NoBangsChance = 0.25f;
     }

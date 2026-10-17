@@ -1,8 +1,8 @@
 # Generator statistics
 
-_2026-10-18 02:55 · AMD Ryzen 7 5700X 8-Core Processor · Unity 6000.6.6f1 (editor). Regenerate with **Game → Characters → Review → Write Generator Statistics**._
+_2026-10-18 03:07 · AMD Ryzen 7 5700X 8-Core Processor · Unity 6000.6.6f1 (editor). Regenerate with **Game → Characters → Review → Write Generator Statistics**._
 
-10,000 characters, 0.277 ms each to generate. Rule violations: **0**.
+10,000 characters, 0.301 ms each to generate. Rule violations: **0**.
 
 ## Styles
 
@@ -33,11 +33,14 @@ How many characters wear each part, per outfit context (hair: per character). **
 
 | Part | Slot | hair | casual | date | rain | sport |
 |---|---|---|---|---|---|---|
+| acc.bag.crossbody_01 | bag |  | 17.6% | 18.0% | 17.3% | never |
 | cloth.bottom.joggers_01 | bottom |  | 17.7% | never | never | 50.1% |
 | cloth.bottom.longskirt_01 | bottom |  | 8.7% | 14.3% | 11.3% | never |
 | cloth.bottom.pants_01 | bottom |  | 27.2% | 46.2% | 58.3% | never |
 | cloth.bottom.shorts_01 | bottom |  | 18.1% | never | never | 49.9% |
 | cloth.bottom.skirt_01 | bottom |  | 9.0% | 15.6% | 10.8% | never |
+| acc.earrings.hoops_01 | earrings |  | 12.0% | 12.0% | 12.0% | 12.0% |
+| acc.earrings.studs_01 | earrings |  | 14.3% | 14.3% | 14.3% | 14.3% |
 | acc.glasses.round_01 | glasses |  | 14.6% | 14.6% | 14.6% | 14.6% |
 | hair.back.bob_01 | hair.back | 11.7% |  |  |  |  |
 | hair.back.braid_01 | hair.back | 12.2% |  |  |  |  |
@@ -76,15 +79,15 @@ How many characters wear each part, per outfit context (hair: per character). **
 
 ## Patterns
 
-6.9% of worn items are patterned.
+6.2% of worn items are patterned.
 
 | Pattern | Items |
 |---|---|
-| Stripes | 1361 |
-| Dots | 1100 |
-| Plaid | 1492 |
-| Check | 1319 |
-| Hearts | 607 |
-| Stars | 1436 |
-| Pinstripe | 1100 |
-| Floral | 1457 |
+| Stripes | 1368 |
+| Dots | 1117 |
+| Plaid | 1494 |
+| Check | 1304 |
+| Hearts | 606 |
+| Stars | 1450 |
+| Pinstripe | 1109 |
+| Floral | 1441 |

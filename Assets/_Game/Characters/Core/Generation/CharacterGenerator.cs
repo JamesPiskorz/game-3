@@ -190,6 +190,10 @@ namespace Game.Characters.Generation
                 ? PickPart(accessories, Slots.Glasses, archetype, null, femininity, hair)
                 : null;
             HsvColor glassesColour = Colours.Jitter(accessories, Colours.Pick(accessories, palette.Colours.Where(c => c.Neutral).DefaultIfEmpty(palette.Colours[0]).ToList()), 0.01f, 0.05f, 0.05f);
+            // So are earrings, in gold or silver; their own stream, so nobody else's look changed.
+            Pcg32 ears = SeedStreams.For(seed, "earrings");
+            PartEntry earrings = ears.Chance(archetype.EarringChance) ? PickPart(ears, Slots.Earrings, archetype, null, femininity, hair) : null;
+            HsvColor metal = ears.Chance(0.5f) ? new HsvColor(0.12f, 0.55f, 0.88f) : new HsvColor(0.6f, 0.04f, 0.82f);
 
             IEnumerable<string> contexts = request.Contexts ?? _catalog.Contexts.Select(c => c.Id);
             foreach (string contextId in contexts)
@@ -224,6 +228,8 @@ namespace Game.Characters.Generation
                     Wear(PickPart(rng, Slots.Hat, archetype, context, femininity, worn));
                 if (glasses != null && Compatible(glasses, worn))
                     Wear(glasses);
+                if (earrings != null && Compatible(earrings, worn))
+                    Wear(earrings);
                 // Neckwear draws from its own stream, so adding it changed no one's existing outfit.
                 Pcg32 neck = SeedStreams.For(seed, "outfit.neck." + contextId);
                 if (neck.Chance(archetype.NeckChance))
@@ -234,11 +240,16 @@ namespace Game.Characters.Generation
                 Pcg32 legs = SeedStreams.For(seed, "outfit.legwear." + contextId);
                 if (legs.Chance(archetype.LegwearChance))
                     Wear(PickPart(legs, Slots.Legwear, archetype, context, femininity, worn));
+                Pcg32 bag = SeedStreams.For(seed, "outfit.bag." + contextId);
+                if (bag.Chance(archetype.BagChance))
+                    Wear(PickPart(bag, Slots.Bag, archetype, context, femininity, worn));
 
                 var outfit = new OutfitDna { Context = contextId };
                 OutfitColourer.Colour(rng, _catalog, archetype, palette, items, outfit, SkinColour(dna.Skin.Tone));
                 foreach (ItemDna item in outfit.Items.Where(i => i.ItemId == glasses?.Id))
                     item.RegionColors[0] = glassesColour;
+                foreach (ItemDna item in outfit.Items.Where(i => i.ItemId == earrings?.Id))
+                    item.RegionColors[0] = metal;
                 dna.Outfits.Add(outfit);
             }
         }

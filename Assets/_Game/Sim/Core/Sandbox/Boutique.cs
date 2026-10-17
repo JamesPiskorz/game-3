@@ -28,7 +28,7 @@ namespace Game.Sim.Sandbox
         public const string Location = "mall";
         public const int StockSize = 6;
 
-        static readonly string[] ClothingSlots = { Slots.Top, Slots.Bottom, Slots.OnePiece, Slots.Shoes, Slots.Hat, Slots.Glasses, Slots.Neck, Slots.Outer, Slots.Legwear };
+        static readonly string[] ClothingSlots = { Slots.Top, Slots.Bottom, Slots.OnePiece, Slots.Shoes, Slots.Hat, Slots.Glasses, Slots.Neck, Slots.Outer, Slots.Legwear, Slots.Earrings, Slots.Bag };
 
         /// <summary>Today's stock: the same for everyone in this town on this day.</summary>
         public static List<ShopItem> Stock(SimWorld world, int day)
@@ -66,6 +66,8 @@ namespace Game.Sim.Sandbox
                 Slots.Neck => 30,
                 Slots.Outer => 80,
                 Slots.Legwear => 25,
+                Slots.Earrings => 30,
+                Slots.Bag => 45,
                 _ => 30,
             };
             return price + 5 * (part.Regions - 1) + (part.Patternable ? 5 : 0);

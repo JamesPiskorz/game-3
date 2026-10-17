@@ -185,7 +185,7 @@ namespace Game.Sim.Tests
                 foreach (var item in sport.Items)
                 {
                     var part = town.Characters.Part(item.ItemId);
-                    Assert.That(part.Tags.Contains("sporty") || part.Slot == Game.Characters.Content.Slots.Glasses, $"{r}: {part.Id} at the gym");
+                    Assert.That(part.Tags.Contains("sporty") || part.Slot == Game.Characters.Content.Slots.Glasses || part.Slot == Game.Characters.Content.Slots.Earrings, $"{r}: {part.Id} at the gym");
                 }
             }
         }
