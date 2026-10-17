@@ -20,6 +20,10 @@ MonoBehaviour:
     Prefab: {fileID: 2968823560916605412, guid: e5769668e51e7f5488f80f096eaeff94, type: 3}
   - Id: cloth.top.longsleeve_01
     Prefab: {fileID: 6912819541786655825, guid: 0bd8041afe7e89344ab01120db6725cd, type: 3}
+  - Id: cloth.top.turtleneck_01
+    Prefab: {fileID: 1779150312045255621, guid: 069a368d7456b2b448f474e817383e9a, type: 3}
+  - Id: cloth.top.sweater_01
+    Prefab: {fileID: 1952678628572205737, guid: 9f2e08b33fbe75b44935f6ea0fb3adaa, type: 3}
   - Id: cloth.top.tank_01
     Prefab: {fileID: 1542133794885559159, guid: 728fb9b2d1d810c488811183d130a92f, type: 3}
   - Id: cloth.bottom.shorts_01

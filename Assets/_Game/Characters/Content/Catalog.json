@@ -62,6 +62,8 @@
     { "id": "cloth.top.hoodie_01", "name": "Hoodie", "slot": "top", "tags": ["casual", "street", "sporty", "hooded"], "regions": 2, "contexts": ["casual", "sport"] },
     { "id": "cloth.top.blouse_01", "name": "Blouse", "slot": "top", "tags": ["cute", "elegant", "bookish", "date"], "regions": 2, "patternable": true, "lean": 0.6 },
     { "id": "cloth.top.blazer_01", "name": "Blazer", "slot": "top", "tags": ["elegant", "bookish", "gothic", "date", "tailored"], "regions": 2, "lean": -0.2 },
+    { "id": "cloth.top.turtleneck_01", "name": "Turtleneck", "slot": "top", "tags": ["elegant", "gothic", "bookish", "date"], "regions": 2, "lean": 0.1 },
+    { "id": "cloth.top.sweater_01", "name": "Sweater", "slot": "top", "tags": ["cute", "casual", "bookish"], "regions": 2, "patternable": true, "lean": 0.2 },
     { "id": "cloth.bottom.shorts_01", "name": "Shorts", "slot": "bottom", "tags": ["casual", "sporty", "street", "bare_legs"], "regions": 2, "contexts": ["casual", "sport"] },
     { "id": "cloth.bottom.pants_01", "name": "Trousers", "slot": "bottom", "tags": ["casual", "elegant", "bookish", "gothic", "street", "date"], "regions": 2, "lean": -0.2 },
     { "id": "cloth.bottom.skirt_01", "name": "Skirt", "slot": "bottom", "tags": ["cute", "elegant", "gothic", "bookish", "date", "bare_legs"], "regions": 3, "patternable": true, "lean": 0.7 },

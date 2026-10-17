@@ -92,6 +92,41 @@ namespace Game.Characters.StandIns
             };
             yield return new Recipe
             {
+                Id = "cloth.top.turtleneck_01", Slot = "top", Material = "Cloth",
+                Covers = UpperTorso | LowerTorso | UpperArmL | UpperArmR | ForearmL | ForearmR,
+                Build = m =>
+                {
+                    m.AddTube(StandInBody.TubeFor(UpperTorso), Cloth, Cap.Open, Cap.Collar, Region1, false, collarRadius: 0.06f);
+                    m.AddTube(StandInBody.TubeFor(LowerTorso), Cloth, Cap.Open, Cap.Open, Region1, false);
+                    foreach (BodyRegions arm in new[] { UpperArmL, UpperArmR })
+                        m.AddTube(StandInBody.TubeFor(arm), Cloth, Cap.Open, Cap.Open, Region1, false);
+                    foreach (BodyRegions forearm in new[] { ForearmL, ForearmR })
+                        m.AddTube(StandInBody.TubeFor(forearm), Cloth, Cap.Open, Cap.Open, Trim(0.16f, false, true), false);
+                    // The rolled neck: up the neck to just under the chin, the fold in the second colour. The neck's skin
+                    // above it still shows, so it covers nothing and sits clear of the skin.
+                    Tube neck = StandInBody.TubeFor(Neck);
+                    neck.End = new Vector3(0f, 1.515f, 0f);
+                    m.AddTube(neck, Cloth * 1.6f, Cap.Open, Cap.Open, Trim(0.3f, false, true), false);
+                },
+            };
+            yield return new Recipe
+            {
+                Id = "cloth.top.sweater_01", Slot = "top", Material = "Cloth",
+                Covers = UpperTorso | LowerTorso | UpperArmL | UpperArmR | ForearmL | ForearmR,
+                Build = m =>
+                {
+                    // Chunky: as far out as the hoodie (outer layers clear it), with deep ribbed cuffs and hem.
+                    const float thick = Cloth * 1.8f;
+                    m.AddTube(StandInBody.TubeFor(UpperTorso), thick, Cap.Open, Cap.Collar, Trim(0.1f, false, true), false, collarRadius: 0.07f);
+                    m.AddTube(StandInBody.TubeFor(LowerTorso), thick, Cap.Open, Cap.Open, Trim(0.3f, true, false), false);
+                    foreach (BodyRegions arm in new[] { UpperArmL, UpperArmR })
+                        m.AddTube(StandInBody.TubeFor(arm), thick, Cap.Open, Cap.Open, Region1, false);
+                    foreach (BodyRegions forearm in new[] { ForearmL, ForearmR })
+                        m.AddTube(StandInBody.TubeFor(forearm), thick, Cap.Open, Cap.Open, Trim(0.28f, false, true), false);
+                },
+            };
+            yield return new Recipe
+            {
                 Id = "cloth.top.tank_01", Slot = "top", Material = "Cloth",
                 Covers = UpperTorso | LowerTorso,
                 Build = m =>
