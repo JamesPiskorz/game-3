@@ -64,5 +64,18 @@ namespace Game.Sim.Tests
             Assert.That(rain.Items.All(i => session.Owns(i)), "They own what's in it.");
             Assert.That(DnaValidator.Validate(world.Characters, world.Player.Dna), Is.Empty);
         }
+
+        [Test]
+        public void AnOutOfDateLookIsRepairedOnLoad()
+        {
+            SimWorld world = Fixtures.Town(0x5EED, 24);
+            CharacterDna old = new CharacterGenerator(world.Characters).Generate(77);
+            old.Hair.PieceIds = new System.Collections.Generic.List<string> { "hair.back.gone_01" };
+            old.Outfits[0].Items.Add(new ItemDna { ItemId = "cloth.top.gone_01" });
+            world.Player.Dna = old;
+            var session = new TownSession(world);
+            Assert.That(DnaValidator.Validate(world.Characters, world.Player.Dna), Is.Empty);
+            Assert.That(world.Player.Dna.Outfits.SelectMany(o => o.Items).All(i => session.Owns(i)), "and they own what they're wearing.");
+        }
     }
 }

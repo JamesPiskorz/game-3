@@ -174,7 +174,7 @@ namespace Game.Creator
             share.Add(TextButton("Load", "load", () =>
             {
                 if (!_session.TryLoad(_shareCode.value, out string problem)) ShowStatus(problem, error: true);
-                else ShowStatus("Loaded.", error: false);
+                else ShowStatus(problem ?? "Loaded.", error: false);
             }));
             footer.Add(share);
             _styleRead = new Label { name = "style-read" };

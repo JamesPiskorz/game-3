@@ -62,8 +62,10 @@ namespace Game.Sim.Sandbox
         {
             World = world;
             _dialogue = new Dialogue(world.Catalog);
-            // Everyone starts out owning what they're wearing.
-            if (world.Player.Dna != null && world.Player.Wardrobe.Count == 0)
+            // A look saved with other content (parts since removed, new sliders) is brought up to date first.
+            if (world.Player.Dna != null) world.Player.Dna = DnaRepair.Repair(new CharacterGenerator(world.Characters), world.Player.Dna, out _);
+            // Everyone owns what they're wearing (from the start, and whatever a repair dressed them in).
+            if (world.Player.Dna != null)
                 foreach (ItemDna item in world.Player.Dna.Outfits.SelectMany(o => o.Items))
                     if (!world.Player.Wardrobe.Any(owned => Same(owned, item))) world.Player.Wardrobe.Add(Copy(item));
             Act = new Interactions(world);

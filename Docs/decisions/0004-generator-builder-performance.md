@@ -27,14 +27,15 @@
    - Earrings belong to the person, like glasses (the same pair in every outfit, gold or silver). A crossbody bag is per outfit; its strap loops over the shoulder, across the chest and the back, and stays clear of a coat front and back.
    - A context can allow only certain tags (`onlyTags`): the "Workout" context is sporty pieces only, and residents wear it at the gym. The catalog check makes sure every required slot has a piece it allows.
 5. **The population is measured, not only looked at.** `GeneratorStats` runs a batch and reports the distributions the plan's Phase 2 asks for, plus how often each part is worn in each context. `Docs/review/generator-stats.md` holds the 10,000-character report, and a test fails if any part is never worn. The first report showed twin tails at 3.8% of characters and hats at about 5% (they need hair that takes one): worth a look when real hair content arrives.
-6. **Coherence rules are found by review, then enforced by tests.** The 96-character quality sheet showed that clothing near the skin colour reads as bare skin. Torso and leg clothing now keeps a minimum distance from the skin. The rule is solved jointly with top/bottom contrast and covered by a 3,000-character sweep.
-7. **Cost follows renderers, not vertices, at this scale.** Lowering the resolution of small stand-in details cut skinned vertices by a third with no change in render time. Small parts (`CharacterPart.Small`: glasses, earrings, a necklace) therefore cast no shadow and keep their outline only within 5 m. Merging each character's parts into fewer renderers is the next lever, and only pays off if materials merge too (colours in vertex data or an atlas).
-8. **The builder is idempotent:**
+6. **Looks survive content changes.** `DnaRepair` brings a character made with other content up to date: unknown parts, presets and styles are replaced from a fresh generation of the same seed in the same style and presentation, new sliders and outfit contexts are filled in, ranges are clamped, and if the result still isn't valid the fresh character is used. The creator's Load and the town's loading of the player's look repair instead of refusing, and the creator says what changed.
+7. **Coherence rules are found by review, then enforced by tests.** The 96-character quality sheet showed that clothing near the skin colour reads as bare skin. Torso and leg clothing now keeps a minimum distance from the skin. The rule is solved jointly with top/bottom contrast and covered by a 3,000-character sweep.
+8. **Cost follows renderers, not vertices, at this scale.** Lowering the resolution of small stand-in details cut skinned vertices by a third with no change in render time. Small parts (`CharacterPart.Small`: glasses, earrings, a necklace) therefore cast no shadow and keep their outline only within 5 m. Merging each character's parts into fewer renderers is the next lever, and only pays off if materials merge too (colours in vertex data or an atlas).
+9. **The builder is idempotent:**
    - It captures a rest pose once and resets bound bones before applying sliders and styles.
    - It reconciles equipped parts with the DNA's outfit for a context.
    - The creator re-applies after every edit, at about 0.07 ms per edit.
-9. **The creator talks only to `CreatorSession`** (pure C#: undo/redo, locks, rules). The UI Toolkit view is built from the catalog, so new sliders, parts and presets need no UI work.
-10. **Far characters drop detail** (`CharacterLod`): first the outline pass, then spring bones, then shadows, with hysteresis.
+10. **The creator talks only to `CreatorSession`** (pure C#: undo/redo, locks, rules). The UI Toolkit view is built from the catalog, so new sliders, parts and presets need no UI work.
+11. **Far characters drop detail** (`CharacterLod`): first the outline pass, then spring bones, then shadows, with hysteresis.
 
 ## Measurements
 

@@ -31,7 +31,8 @@ namespace Game.Characters.Creator
             _generator = generator;
             _catalog = generator.Catalog;
             _sessionSeed = sessionSeed;
-            Dna = start != null ? Copy(start) : generator.Generate(NextSeed());
+            // A look made with other content (an old save) is brought up to date rather than refused.
+            Dna = start != null ? DnaRepair.Repair(generator, Copy(start), out _) : generator.Generate(NextSeed());
             Context = Dna.Outfits.FirstOrDefault()?.Context ?? _catalog.Contexts[0].Id;
         }
 
@@ -152,15 +153,11 @@ namespace Game.Characters.Creator
                 problem = e.Message;
                 return false;
             }
-            List<string> errors = DnaValidator.Validate(_catalog, loaded);
-            if (errors.Count > 0)
-            {
-                problem = "That character uses content this build doesn't have: " + errors[0];
-                return false;
-            }
-            Commit(_ => loaded);
+            // Made with other content? Keep what still fits and bring the rest up to date, rather than refusing it.
+            CharacterDna repaired = DnaRepair.Repair(_generator, loaded, out List<string> fixes);
+            Commit(_ => repaired);
             if (Outfit == null) Context = Dna.Outfits[0].Context;
-            problem = null;
+            problem = fixes.Count == 0 ? null : "Loaded. Brought up to date: " + string.Join(", ", fixes.Distinct()) + ".";
             return true;
         }
 
