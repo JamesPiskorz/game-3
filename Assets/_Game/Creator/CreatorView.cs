@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Game.Characters.Building;
 using Game.Characters.Content;
 using Game.Characters.Creator;
 using Game.Characters.Dna;
@@ -78,6 +79,17 @@ namespace Game.Creator
             var title = new Label("Create a character");
             title.AddToClassList("title");
             panel.Add(title);
+
+            if (_play != null)
+            {
+                var naming = Row("naming");
+                naming.Add(new Label("Your name:") { name = "name-label" });
+                var name = new TextField { name = "player-name", value = PlayerLook.Name ?? "", maxLength = PlayerLook.MaxNameLength };
+                name.AddToClassList("share-code");
+                name.RegisterValueChangedCallback(e => PlayerLook.Name = e.newValue);
+                naming.Add(name);
+                panel.Add(naming);
+            }
 
             var actions = Row("actions");
             actions.Add(TextButton("Randomize", "randomize", () => _session.Randomize(), "primary"));

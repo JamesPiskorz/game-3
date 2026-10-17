@@ -196,3 +196,8 @@ Button:disabled {
 .unity-base-popup-field__arrow {
     -unity-background-image-tint-color: rgb(200, 194, 214);
 }
+
+#name-label {
+    color: rgb(170, 164, 184);
+    margin-right: 8px;
+}

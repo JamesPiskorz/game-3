@@ -51,7 +51,7 @@ namespace Game.Town
 
             SimWorld world = new TownGenerator(_sim, _characters).Create(WorldSeed, Population);
             world.Now = SimTime.At(StartDay, StartHour);
-            world.Player.Name = PlayerName;
+            world.Player.Name = PlayerLook.Name ?? PlayerName;
             world.Player.Location = StartLocation;
             world.Player.Dna = PlayerDna();
 

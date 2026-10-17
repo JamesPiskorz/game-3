@@ -11,6 +11,26 @@ namespace Game.Characters.Building
     public static class PlayerLook
     {
         public const string Key = "Game.PlayerDna";
+        public const string NameKey = "Game.PlayerName";
+        public const int MaxNameLength = 16;
+
+        /// <summary>The name residents call the player by; null until one is chosen.</summary>
+        public static string Name
+        {
+            get
+            {
+                string name = PlayerPrefs.GetString(NameKey, "").Trim();
+                return name.Length == 0 ? null : name;
+            }
+            set
+            {
+                string name = (value ?? "").Trim();
+                if (name.Length > MaxNameLength) name = name.Substring(0, MaxNameLength);
+                if (name.Length == 0) PlayerPrefs.DeleteKey(NameKey);
+                else PlayerPrefs.SetString(NameKey, name);
+                PlayerPrefs.Save();
+            }
+        }
 
         public static void Save(CharacterDna dna)
         {

@@ -13,7 +13,8 @@ namespace Game.Town
     /// <summary>
     /// End-to-end check of the whole game loop, headless, pressing the real buttons. It goes:
     /// 1. main menu, then New game;
-    /// 2. the creator, then Randomize and Into town (the town's player must be exactly the creator's character);
+    /// 2. the creator: type a name, Randomize, Into town (the town's player must be exactly the creator's
+    ///    character, called by that name);
     /// 3. Menu, which autosaves;
     /// 4. Continue (the town must come back at the saved time, with the same player).
     /// It screenshots the menu to Docs/review/menu.png. The player's saved look and save file are backed up and
@@ -26,6 +27,7 @@ namespace Game.Town
         const string PendingKey = "Game.Town.FlowCheck.Pending";
         const string LookBackupKey = "Game.Town.FlowCheck.Look";
         const string SaveBackupKey = "Game.Town.FlowCheck.Save";
+        const string NameBackupKey = "Game.Town.FlowCheck.Name";
         const int Width = 1920, Height = 1080;
 
         static int _frame, _step, _waitFrom;
@@ -43,6 +45,7 @@ namespace Game.Town
             TownSetup.BuildScene();
             TownSetup.BuildMenuScene();
             SessionState.SetString(LookBackupKey, PlayerPrefs.GetString(PlayerLook.Key, ""));
+            SessionState.SetString(NameBackupKey, PlayerPrefs.GetString(PlayerLook.NameKey, ""));
             SessionState.SetString(SaveBackupKey, File.Exists(TownScreen.SavePath) ? File.ReadAllText(TownScreen.SavePath) : "");
             PlayerPrefs.DeleteKey(PlayerLook.Key);
             if (File.Exists(TownScreen.SavePath)) File.Delete(TownScreen.SavePath);
@@ -103,6 +106,13 @@ namespace Game.Town
                     var creator = Object.FindAnyObjectByType<CreatorScreen>();
                     if (creator == null || creator.Session == null) return;
                     var document = creator.GetComponent<UIDocument>();
+                    TextField name = document.rootVisualElement.Q<TextField>("player-name");
+                    if (name == null)
+                    {
+                        Fail("The creator has no name field.");
+                        return;
+                    }
+                    name.value = "Robin";
                     if (!Press(document, "randomize")) return;
                     _expectedLook = creator.Session.ShareCode;
                     Next(Press(document, "play"));
@@ -116,6 +126,11 @@ namespace Game.Town
                     if (look != _expectedLook)
                     {
                         Fail("The town's player isn't the creator's character.");
+                        return;
+                    }
+                    if (town.Session.World.Player.Name != "Robin")
+                    {
+                        Fail($"The town calls the player '{town.Session.World.Player.Name}', not the name typed in the creator.");
                         return;
                     }
                     town.Session.Wait(90); // so a continue at the start time can't pass by accident
@@ -188,6 +203,9 @@ namespace Game.Town
             string look = SessionState.GetString(LookBackupKey, "");
             if (look.Length > 0) PlayerPrefs.SetString(PlayerLook.Key, look);
             else PlayerPrefs.DeleteKey(PlayerLook.Key);
+            string name = SessionState.GetString(NameBackupKey, "");
+            if (name.Length > 0) PlayerPrefs.SetString(PlayerLook.NameKey, name);
+            else PlayerPrefs.DeleteKey(PlayerLook.NameKey);
             PlayerPrefs.Save();
             string save = SessionState.GetString(SaveBackupKey, "");
             if (save.Length > 0) File.WriteAllText(TownScreen.SavePath, save);
