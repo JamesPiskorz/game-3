@@ -33,8 +33,14 @@
    - Buying puts the piece on. The wardrobe keeps outfits wearable (a dress replaces top and bottom; a top pulls a bottom back from the wardrobe) and applies the generator's tag rules.
    - Money comes from hourly shifts, which cost the time that could go to socialising.
    - A test checks the point of all this: shopping for someone's style raises their first impression.
-10. **Expressions are a character-layer feature** (`FaceExpression`). They are symmetric offsets on the stand-in's feature bones, layered over the builder's base and rebased after every Apply. The game maps reactions to faces by tone.
-11. **The playable loop is `TownSession`** (pure C#). It covers travel, waiting, sleeping, selection, closing time and people leaving, and dates. Unity's `TownView` (UI Toolkit) and `TownStage` (3D) only draw it. This is the same pattern as `CreatorSession`.
+10. **Dates are short scenes** (`DateScene`).
+    - Each of three rounds offers three topics not yet raised (usually one they love) and a compliment.
+    - The outcome is the rounds' average plus how well the place suits them: great, fine or awkward.
+    - `AskOnDate` still plays a whole date in one call, choosing as an attentive player would, for tests and simulations.
+    - A test checks that attentive choices give clearly more great dates than careless ones.
+11. **Whereabouts are knowledge.** The contact book reveals someone's favourite haunt at familiarity 15 and where they are right now at 30, so schedules become something to learn rather than a guessing game.
+12. **Expressions and idle motion are character-layer features** (`FaceExpression`, `IdleMotion`). They are symmetric offsets on the stand-in's feature bones, layered over the builder's base and rebased after every Apply. The game maps reactions to faces by tone.
+13. **The playable loop is `TownSession`** (pure C#). It covers travel, waiting, sleeping, selection, closing time and people leaving, and dates. Unity's `TownView` (UI Toolkit) and `TownStage` (3D) only draw it. This is the same pattern as `CreatorSession`.
 
 ## Pacing (simulated, 24 residents, 60 days)
 
@@ -57,4 +63,4 @@ Partner may still be too quick for a sandbox. Retune it after real play sessions
   - Shops that sell from the character catalog.
   - Weather, and outfits changing by occasion beyond casual and date.
   - Relationship decay.
-- **Tests:** 59 sim tests (the town, profiles, schedules, interactions, pacing, dialogue, the boutique, saves and the session) pass on .NET 8 and in Unity. The prototype is verified headless by `TownCapture`, which presses HUD buttons through a scripted visit and saves `Docs/review/town-*.png`.
+- **Tests:** 67 sim tests (the town, profiles, schedules, interactions, pacing, dialogue, dates, the boutique, contacts, saves and the session) pass on .NET 8 and in Unity. The prototype is verified headless by `TownCapture`, which presses HUD buttons through a scripted visit and saves `Docs/review/town-*.png`.

@@ -18,10 +18,12 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 | Dialogue | 123 tone-flavoured lines over 26 reactions. Lines can be gated by stage, and no line repeats back to back. Residents bring up recent shared moments and notice an outfit they love by name | `Sim/Core/Dialogue.cs`, `SimCatalog.json` |
 | Town prototype | `TownSession` loop and a playable scene: blockout sets per location, time-of-day light, residents built from DNA. The HUD lets you travel, talk, give gifts, ask people out, work shifts, shop, change clothes, and save/load | `Town/`, scene `Town/Town.unity` |
 | Boutique | Daily stock taken from generated outfits; buying, a wardrobe, outfit rules; money from shifts | `Sim/Core/Sandbox/Boutique.cs` |
-| Expressions | Seven facial expressions plus blinking on the face bones, layered over the builder's sliders; residents react to each interaction | `Characters/Runtime/Expressions`, `Docs/review/expressions.png` |
+| Dates | Three-round scenes: pick topics or compliments; the outcome combines your choices with how well the place suits them | `Sim/Core/Relationships/DateScene.cs` |
+| Contacts | Everyone you've met, with whereabouts hints that sharpen as you get to know them; click to go to them | `Sim/Core/Sandbox/Contacts.cs` |
+| Expressions | Seven facial expressions plus blinking on the face bones, plus idle breathing, sway and gaze. Both layer over the builder's pose; residents react and nod at each interaction | `Characters/Runtime/Expressions`, `Docs/review/expressions.png` |
 | Stand-in content | Procedural body with simple face, 19 parts, toon materials, patterns. **Placeholder art until Phase 1.** | `Characters/Editor/StandIns`, `Content/StandIn` |
 | Performance | Town benchmark; distance-based detail (`CharacterLod`) | decision 0004, `Docs/review/perf.md` |
-| Tests | 162 Unity EditMode tests (103 characters, 59 sim); the pure C# sets also run on .NET 8 | `Characters/Tests`, `Sim/Tests` |
+| Tests | 171 Unity EditMode tests (104 characters, 67 sim); the pure C# sets also run on .NET 8 | `Characters/Tests`, `Sim/Tests` |
 
 ## Try it
 
@@ -29,9 +31,10 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
   1. Make someone, or press Randomize.
   2. Press **Into town →**. The town scene opens with your character.
   3. Pick a place, pick someone under **Here**, then use **Say hi** and **Talk about…**. The card lists what you've learned they love.
-  4. Give gifts that match, and **Ask out…** once you're friends.
+  4. Give gifts that match, and **Ask out…** once you're friends. A date is three rounds of choices: talk about what they love.
   5. **Wait an hour** and **Sleep** move time. Places close, and people come and go with their schedules.
   6. **Work a shift** to earn coins. Spend them at the **Boutique** in Arcade Lane, and change clothes in the **Wardrobe** at home. Once you know someone a little, their card says which looks they go for.
+  7. **Contacts** lists everyone you've met. Once you know someone well, it says where they are right now; click a contact to go to them.
   - Opening `Town/Town.unity` directly works too. It uses the look you last took into town, or a generated one.
 - **Review sheets:** the **Game → Characters → Review** menu has the generated lineup, the 96-character quality sheet, the skin ramp, the spring filmstrip and the town benchmark. **Game → Town → Build Town Scene** rebuilds the town scene.
 - **Regenerate stand-ins:** **Game → Characters → Content → Regenerate All Stand-in Content**.
