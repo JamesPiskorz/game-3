@@ -1,0 +1,260 @@
+.town {
+    flex-grow: 1;
+    flex-direction: row;
+    font-size: 16px;
+    color: rgb(236, 232, 240);
+}
+
+.main {
+    flex-grow: 1;
+    padding: 18px;
+}
+
+.spacer {
+    flex-grow: 1;
+}
+
+.topbar {
+    flex-direction: row;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.clock,
+.place {
+    background-color: rgba(24, 22, 32, 0.85);
+    border-radius: 10px;
+    padding: 8px 14px;
+    margin-right: 8px;
+    -unity-font-style: bold;
+}
+
+.place {
+    color: rgb(255, 196, 214);
+}
+
+.notice {
+    align-self: flex-start;
+    margin-top: 10px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    background-color: rgba(60, 48, 24, 0.9);
+    color: rgb(255, 224, 160);
+    white-space: normal;
+}
+
+.dialogue {
+    flex-shrink: 0;
+    max-width: 900px;
+    padding: 16px 20px;
+    background-color: rgba(24, 22, 32, 0.92);
+    border-radius: 14px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.speaker {
+    font-size: 15px;
+    -unity-font-style: bold;
+    color: rgb(255, 160, 196);
+    margin-bottom: 4px;
+}
+
+.line {
+    font-size: 21px;
+    white-space: normal;
+}
+
+.follow-up {
+    margin-top: 6px;
+    color: rgb(220, 214, 236);
+}
+
+.deltas {
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.delta {
+    font-size: 13px;
+    padding: 3px 9px;
+    margin-right: 6px;
+    border-radius: 10px;
+    background-color: rgb(54, 50, 68);
+}
+
+.delta.up {
+    color: rgb(150, 230, 170);
+}
+
+.delta.down {
+    color: rgb(255, 150, 150);
+}
+
+.delta.stage {
+    background-color: rgb(216, 98, 142);
+    color: rgb(255, 255, 255);
+    -unity-font-style: bold;
+}
+
+.learnt {
+    margin-top: 8px;
+    color: rgb(255, 214, 120);
+    -unity-font-style: italic;
+}
+
+.panel {
+    width: 470px;
+    margin: 18px 18px 18px 0;
+    padding: 14px 16px;
+    background-color: rgba(24, 22, 32, 0.9);
+    border-radius: 14px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.section {
+    font-size: 13px;
+    color: rgb(170, 164, 184);
+    -unity-font-style: bold;
+    margin: 6px 0 6px 2px;
+}
+
+.chips {
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+Button {
+    margin: 2px 6px 4px 0;
+    padding: 5px 12px;
+    border-radius: 8px;
+    border-width: 0;
+    background-color: rgb(54, 50, 68);
+    color: rgb(236, 232, 240);
+}
+
+Button:hover {
+    background-color: rgb(72, 66, 92);
+}
+
+Button:disabled {
+    opacity: 0.35;
+}
+
+Button.selected,
+.primary {
+    background-color: rgb(216, 98, 142);
+    -unity-font-style: bold;
+}
+
+.chip {
+    font-size: 14px;
+}
+
+.chip.liked {
+    border-width: 2px;
+    border-color: rgb(150, 230, 170);
+}
+
+.chip.disliked {
+    opacity: 0.6;
+}
+
+.person {
+    -unity-text-align: middle-left;
+    margin-right: 0;
+}
+
+.hint {
+    color: rgb(170, 164, 184);
+    white-space: normal;
+    margin: 4px 0;
+}
+
+.card {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.card-name {
+    font-size: 22px;
+    -unity-font-style: bold;
+}
+
+.card-sub {
+    color: rgb(200, 194, 214);
+    margin-bottom: 4px;
+}
+
+.stage {
+    align-self: flex-start;
+    padding: 2px 10px;
+    margin: 4px 0 10px 0;
+    border-radius: 10px;
+    background-color: rgb(80, 52, 70);
+    color: rgb(255, 196, 214);
+    -unity-font-style: bold;
+}
+
+.meter {
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.meter-label {
+    width: 96px;
+    font-size: 14px;
+    color: rgb(200, 194, 214);
+}
+
+.meter-bar {
+    flex-grow: 1;
+    height: 10px;
+    border-radius: 5px;
+    background-color: rgb(44, 41, 58);
+    overflow: hidden;
+}
+
+.meter-fill {
+    height: 100%;
+    border-radius: 5px;
+}
+
+.meter-fill.affection { background-color: rgb(236, 110, 150); }
+.meter-fill.attraction { background-color: rgb(250, 160, 90); }
+.meter-fill.familiarity { background-color: rgb(110, 180, 236); }
+.meter-fill.trust { background-color: rgb(130, 210, 150); }
+
+.meter-value {
+    width: 34px;
+    -unity-text-align: middle-right;
+    font-size: 13px;
+}
+
+.known {
+    margin-top: 4px;
+    white-space: normal;
+}
+
+.known.liked {
+    color: rgb(150, 230, 170);
+}
+
+.known.disliked {
+    color: rgb(255, 160, 160);
+}
+
+.actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 12px;
+}
+
+.choices {
+    margin-top: 6px;
+}

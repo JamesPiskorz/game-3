@@ -48,8 +48,12 @@ namespace Game.Creator
         string _tab = "body";
         string _structure;
 
-        public CreatorView(VisualElement root, CreatorSession session, Action<string> focus, Action<float> rotate)
+        readonly Action _play;
+
+        /// <param name="play">Leaves the creator for the game with this look; null hides the button.</param>
+        public CreatorView(VisualElement root, CreatorSession session, Action<string> focus, Action<float> rotate, Action play = null)
         {
+            _play = play;
             _root = root;
             _session = session;
             _catalog = session.Catalog;
@@ -81,6 +85,7 @@ namespace Game.Creator
             _redo = TextButton("Redo", "redo", () => _session.Redo());
             actions.Add(_undo);
             actions.Add(_redo);
+            if (_play != null) actions.Add(TextButton("Into town →", "play", _play, "primary"));
             panel.Add(actions);
 
             var locks = Row("locks");

@@ -1,0 +1,18 @@
+{
+    "name": "Game.Town",
+    "rootNamespace": "Game.Town",
+    "references": [
+        "Game.Characters",
+        "Game.Characters.Unity",
+        "Game.Sim"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

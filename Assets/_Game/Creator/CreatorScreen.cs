@@ -1,8 +1,10 @@
 using Game.Characters.Building;
 using Game.Characters.Creator;
+using Game.Characters.Dna;
 using Game.Characters.Generation;
 using Game.Characters.Modular;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 namespace Game.Creator
@@ -38,7 +40,9 @@ namespace Game.Creator
         void Start()
         {
             var generator = new CharacterGenerator(Content.LoadCatalog());
-            _session = new CreatorSession(generator, generator.Generate(StartSeed), StartSeed);
+            // Pick up where the player left off, if they've made a character before.
+            CharacterDna start = PlayerLook.TryLoad(out CharacterDna saved) ? saved : generator.Generate(StartSeed);
+            _session = new CreatorSession(generator, start, start.Seed);
             _builder = new CharacterBuilder(Content);
             _character = _builder.Build(_session.Dna, _session.Context, Stage);
             Poses.Relaxed(_character.transform);
@@ -46,8 +50,17 @@ namespace Game.Creator
 
             VisualElement root = Document.rootVisualElement;
             if (Style != null) root.styleSheets.Add(Style);
-            new CreatorView(root, _session, focus => _faceView = focus == "face", degrees => _yaw += degrees);
+            new CreatorView(root, _session, focus => _faceView = focus == "face", degrees => _yaw += degrees, Play);
             SnapCamera();
+        }
+
+        /// <summary>Scene the "Into town" button loads; it must be in the build's scene list.</summary>
+        public string GameScene = "Town";
+
+        void Play()
+        {
+            PlayerLook.Save(_session.Dna);
+            SceneManager.LoadScene(GameScene);
         }
 
         void Rebuild()

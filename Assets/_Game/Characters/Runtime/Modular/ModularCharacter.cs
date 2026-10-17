@@ -190,7 +190,8 @@ namespace Game.Characters.Modular
                     if (material != null) DestroySafely(material);
         }
 
-        static void DestroySafely(UnityEngine.Object obj)
+        /// <summary>Destroy in Play mode, DestroyImmediate in edit mode (tests, editor tools).</summary>
+        public static void DestroySafely(UnityEngine.Object obj)
         {
             if (Application.isPlaying) Destroy(obj);
             else DestroyImmediate(obj);
