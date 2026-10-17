@@ -29,19 +29,27 @@
     { "id": "face.preset.bright", "name": "Bright", "tags": ["cute", "sporty"], "values": { "eye.scale": 0.4, "eye.height": 0.2, "brow.height": 0.3, "mouth.width": 0.2 } },
     { "id": "face.preset.calm", "name": "Calm", "tags": ["elegant", "bookish"], "values": { "eye.scale": -0.1, "brow.height": -0.2, "mouth.width": -0.2 } },
     { "id": "face.preset.bold", "name": "Bold", "tags": ["street", "sporty", "casual"], "values": { "eye.scale": 0.05, "eye.spacing": 0.3, "brow.tilt": -0.3, "mouth.width": 0.4, "nose.size": 0.4 } },
-    { "id": "face.preset.delicate", "name": "Delicate", "tags": ["elegant", "cute"], "values": { "eye.scale": 0.2, "eye.spacing": -0.2, "mouth.width": -0.3, "nose.size": -0.4 } }
+    { "id": "face.preset.delicate", "name": "Delicate", "tags": ["elegant", "cute"], "values": { "eye.scale": 0.2, "eye.spacing": -0.2, "mouth.width": -0.3, "nose.size": -0.4 } },
+    { "id": "face.preset.gentle", "name": "Gentle", "tags": ["casual", "bookish", "cute"], "values": { "eye.scale": 0.15, "eye.tilt": -0.4, "brow.height": 0.2, "mouth.width": -0.1, "nose.size": -0.1 } },
+    { "id": "face.preset.keen", "name": "Keen", "tags": ["sporty", "street", "gothic"], "values": { "eye.scale": -0.15, "eye.spacing": -0.15, "eye.tilt": 0.3, "brow.tilt": 0.6, "nose.size": 0.1 } },
+    { "id": "face.preset.sunny", "name": "Sunny", "tags": ["cute", "casual", "sporty"], "values": { "eye.scale": 0.25, "eye.height": 0.3, "brow.height": 0.4, "mouth.width": 0.35, "mouth.height": 0.2 } }
   ],
 
   "eyeStyles": [
     { "id": "eye.style.round", "name": "Round", "tags": ["cute", "casual", "sporty"] },
     { "id": "eye.style.tall", "name": "Tall", "tags": ["cute", "elegant"] },
     { "id": "eye.style.narrow", "name": "Narrow", "tags": ["gothic", "street", "elegant"] },
-    { "id": "eye.style.droopy", "name": "Droopy", "tags": ["bookish", "casual"] }
+    { "id": "eye.style.droopy", "name": "Droopy", "tags": ["bookish", "casual"] },
+    { "id": "eye.style.cat", "name": "Cat", "tags": ["gothic", "elegant", "street"] },
+    { "id": "eye.style.big", "name": "Big", "tags": ["cute", "casual"] },
+    { "id": "eye.style.almond", "name": "Almond", "tags": ["elegant", "bookish", "casual"] }
   ],
   "browStyles": [
     { "id": "brow.style.thin", "name": "Thin", "tags": ["elegant", "gothic"] },
     { "id": "brow.style.thick", "name": "Thick", "tags": ["sporty", "street", "casual"] },
-    { "id": "brow.style.soft", "name": "Soft", "tags": ["cute", "bookish"] }
+    { "id": "brow.style.soft", "name": "Soft", "tags": ["cute", "bookish"] },
+    { "id": "brow.style.arched", "name": "Arched", "tags": ["elegant", "cute", "gothic"] },
+    { "id": "brow.style.straight", "name": "Straight", "tags": ["sporty", "bookish", "street"] }
   ],
   "lashStyles": [
     { "id": "lash.style.default" }
@@ -87,7 +95,11 @@
     { "id": "pattern.stripes_01", "name": "Stripes", "tags": ["casual", "sporty", "street"], "minScale": 6, "maxScale": 12 },
     { "id": "pattern.dots_01", "name": "Dots", "tags": ["cute", "casual"], "minScale": 8, "maxScale": 14 },
     { "id": "pattern.plaid_01", "name": "Plaid", "tags": ["bookish", "elegant", "gothic", "street"], "minScale": 4, "maxScale": 8 },
-    { "id": "pattern.check_01", "name": "Check", "tags": ["cute", "casual", "gothic"], "minScale": 6, "maxScale": 10 }
+    { "id": "pattern.check_01", "name": "Check", "tags": ["cute", "casual", "gothic"], "minScale": 6, "maxScale": 10 },
+    { "id": "pattern.hearts_01", "name": "Hearts", "tags": ["cute", "date"], "minScale": 7, "maxScale": 12 },
+    { "id": "pattern.stars_01", "name": "Stars", "tags": ["cute", "street", "casual"], "minScale": 7, "maxScale": 12 },
+    { "id": "pattern.pinstripe_01", "name": "Pinstripe", "tags": ["elegant", "bookish", "gothic"], "minScale": 10, "maxScale": 16 },
+    { "id": "pattern.floral_01", "name": "Floral", "tags": ["cute", "elegant", "casual", "date"], "minScale": 6, "maxScale": 10 }
   ],
 
   "palettes": [

@@ -23,7 +23,7 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 | Social web | Friendships and couples among residents, derived from the town seed. Taken residents turn you down unless smitten enough to leave their partner. Friends put in a good word | `Sim/Core/Social/SocialWeb.cs` |
 | Day loop | Priced gifts, an end-of-day summary, autosave on sleep, gentle decay for neglected friends | `Sim/Core/Sandbox/TownSession.cs`, `Relationships/Decay.cs` |
 | Expressions | Seven facial expressions plus blinking on the face bones, plus idle breathing, sway and gaze. Both layer over the builder's pose; residents react and nod at each interaction | `Characters/Runtime/Expressions`, `Docs/review/expressions.png` |
-| Stand-in content | Procedural body with simple face, 31 parts (12 hair, 19 clothing and accessories), toon materials, patterns. **Placeholder art until Phase 1.** | `Characters/Editor/StandIns`, `Content/StandIn` |
+| Stand-in content | Procedural body with simple face, 31 parts (12 hair, 19 clothing and accessories), 9 face presets, 7 eye and 5 brow styles, 8 patterns, toon materials. **Placeholder art until Phase 1.** | `Characters/Editor/StandIns`, `Content/StandIn` |
 | Performance | Town benchmark; distance-based detail (`CharacterLod`) | decision 0004, `Docs/review/perf.md` |
 | Tests | 182 Unity EditMode tests (104 characters, 78 sim); the pure C# sets also run on .NET 8 | `Characters/Tests`, `Sim/Tests` |
 

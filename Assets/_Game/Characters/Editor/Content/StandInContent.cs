@@ -102,6 +102,11 @@ namespace Game.Characters.ContentAuthoring
             Style("brow.style.thin", "Brow.R", "Brow.L", scale: new Vector3(1f, 0.65f, 1f)),
             Style("brow.style.thick", "Brow.R", "Brow.L", scale: new Vector3(1.06f, 1.6f, 1.2f)),
             Style("brow.style.soft", "Brow.R", "Brow.L", scale: new Vector3(0.94f, 1f, 1f), euler: new Vector3(0f, 0f, -6f)),
+            Style("eye.style.cat", "Eye.R", "Eye.L", scale: new Vector3(1.04f, 0.84f, 1f), euler: new Vector3(0f, 0f, 11f)),
+            Style("eye.style.big", "Eye.R", "Eye.L", scale: new Vector3(1.14f, 1.12f, 1f)),
+            Style("eye.style.almond", "Eye.R", "Eye.L", scale: new Vector3(1.1f, 0.86f, 1f), euler: new Vector3(0f, 0f, 4f)),
+            Style("brow.style.arched", "Brow.R", "Brow.L", scale: new Vector3(1.05f, 0.85f, 1f), euler: new Vector3(0f, 0f, 9f)),
+            Style("brow.style.straight", "Brow.R", "Brow.L", scale: new Vector3(1.14f, 1.25f, 1.1f), euler: new Vector3(0f, 0f, -2f)),
         };
 
         static SliderBinding Shape(string id) => new SliderBinding

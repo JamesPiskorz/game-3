@@ -87,6 +87,14 @@ MonoBehaviour:
     Texture: {fileID: 2800000, guid: fc3499da5ac26a945a2a08e8f6dda014, type: 3}
   - Id: pattern.check_01
     Texture: {fileID: 2800000, guid: ce8d553dcfd36404eaf4ce58c8621097, type: 3}
+  - Id: pattern.hearts_01
+    Texture: {fileID: 2800000, guid: 6511b17faff2d654ead78ab0cc59cde5, type: 3}
+  - Id: pattern.stars_01
+    Texture: {fileID: 2800000, guid: 632b82fab99cfd3418c12eac6bef51a5, type: 3}
+  - Id: pattern.pinstripe_01
+    Texture: {fileID: 2800000, guid: ca105d60d108cfe478e4a2443b8b331d, type: 3}
+  - Id: pattern.floral_01
+    Texture: {fileID: 2800000, guid: b53d25fdb30616842aa59578b1e888d7, type: 3}
   Sliders:
   - Id: body.weight
     Kind: 0
@@ -274,6 +282,41 @@ MonoBehaviour:
       Position: {x: 0, y: 0, z: 0}
       Scale: {x: 0.94, y: 1, z: 1}
       Euler: {x: 0, y: 0, z: -6}
+  - Id: eye.style.cat
+    Tweaks:
+    - Bone: Eye.R
+      MirrorBone: Eye.L
+      Position: {x: 0, y: 0, z: 0}
+      Scale: {x: 1.04, y: 0.84, z: 1}
+      Euler: {x: 0, y: 0, z: 11}
+  - Id: eye.style.big
+    Tweaks:
+    - Bone: Eye.R
+      MirrorBone: Eye.L
+      Position: {x: 0, y: 0, z: 0}
+      Scale: {x: 1.14, y: 1.12, z: 1}
+      Euler: {x: 0, y: 0, z: 0}
+  - Id: eye.style.almond
+    Tweaks:
+    - Bone: Eye.R
+      MirrorBone: Eye.L
+      Position: {x: 0, y: 0, z: 0}
+      Scale: {x: 1.1, y: 0.86, z: 1}
+      Euler: {x: 0, y: 0, z: 4}
+  - Id: brow.style.arched
+    Tweaks:
+    - Bone: Brow.R
+      MirrorBone: Brow.L
+      Position: {x: 0, y: 0, z: 0}
+      Scale: {x: 1.05, y: 0.85, z: 1}
+      Euler: {x: 0, y: 0, z: 9}
+  - Id: brow.style.straight
+    Tweaks:
+    - Bone: Brow.R
+      MirrorBone: Brow.L
+      Position: {x: 0, y: 0, z: 0}
+      Scale: {x: 1.14, y: 1.25, z: 1.1}
+      Euler: {x: 0, y: 0, z: -2}
   SpringColliders:
   - Bone: Head
     Offset: {x: 0, y: 0.1, z: 0}
