@@ -64,6 +64,13 @@ namespace Game.Town
                 case "ask.nosy":
                 case "ask.again": return ("annoyed", 0.5f);
                 case "invite.met": return shy ? ("shy", 1f) : ("delighted", 0.9f);
+                case "chat.open.interest": return dry ? ("happy", 0.6f) : ("delighted", 0.8f);
+                case "chat.open.day": return ("happy", 0.3f);
+                case "chat.open.worry": return ("sad", 0.6f);
+                case "chat.open.dream": return shy ? ("shy", 0.6f) : ("happy", 0.7f);
+                case "chat.react.good": return shy ? ("shy", 1f) : ("delighted", 0.9f);
+                case "chat.react.ok": return ("happy", 0.4f);
+                case "chat.react.bad": return dry ? ("annoyed", 0.8f) : ("sad", 0.6f);
                 case "date.taken": return ("shy", 0.5f);
                 case "date.leaves": return shy ? ("shy", 1f) : ("delighted", 0.8f);
                 default: return ("neutral", 0f);

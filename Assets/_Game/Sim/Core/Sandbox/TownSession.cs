@@ -416,6 +416,7 @@ namespace Game.Sim.Sandbox
         public void Select(Resident resident)
         {
             Notice = null;
+            if (resident != Selected) Chat = null;
             Selected = resident != null && Present().Contains(resident) ? resident : null;
             Raise();
         }
@@ -424,6 +425,37 @@ namespace Game.Sim.Sandbox
         public InteractionResult Talk(string topic) => Do(r => Act.Talk(r, topic));
         public InteractionResult Compliment() => Do(r => Act.Compliment(r));
         public InteractionResult Ask(string question) => Do(r => Act.Ask(r, question));
+
+        /// <summary>The chat the selected resident started, waiting for the player's reply (or null).</summary>
+        public ChatScene Chat { get; private set; }
+
+        /// <summary>Lets the selected resident start a conversation; reply with <see cref="ChatReply"/>.</summary>
+        public InteractionResult StartChat()
+        {
+            ChatScene chat = null;
+            InteractionResult opened = Do(r => Act.StartChat(r, out chat));
+            if (opened != null && Selected != null)
+            {
+                Chat = chat;
+                Raise();
+            }
+            return opened;
+        }
+
+        public InteractionResult ChatReply(int reply)
+        {
+            Notice = null;
+            if (Chat == null || Chat.Answered || reply < 0 || reply >= Chat.Replies.Count || Selected != Chat.With)
+            {
+                Chat = null;
+                Notice = "There's no conversation to answer.";
+                Raise();
+                return null;
+            }
+            ChatScene chat = Chat;
+            Chat = null;
+            return Do(r => Act.ChatReply(chat, reply));
+        }
         /// <summary>Gives a gift, which costs its price in coins.</summary>
         public InteractionResult Gift(string giftId)
         {
@@ -536,6 +568,7 @@ namespace Game.Sim.Sandbox
         InteractionResult Do(Func<Resident, InteractionResult> verb, bool keepTime = false)
         {
             Notice = null;
+            if (verb.Method.Name.IndexOf("Chat", StringComparison.Ordinal) < 0) Chat = null; // any other action moves the conversation on
             if (Selected == null)
             {
                 Notice = "Pick someone to talk to first.";
@@ -570,8 +603,10 @@ namespace Game.Sim.Sandbox
                 Notice = $"{LocationName(Location)} is closing, so you head home.";
                 World.Player.Location = SimCatalog.Home;
             }
+            if (Chat != null && Selected != Chat.With) Chat = null;
             if (Selected != null && !Present().Contains(Selected))
             {
+                Chat = null;
                 string where = World.WhereIs(Selected);
                 Notice = $"{Selected.Profile.FirstName} headed off" + (where == SimCatalog.Home ? " home." : $" to {LocationName(where)}.");
                 Selected = null;

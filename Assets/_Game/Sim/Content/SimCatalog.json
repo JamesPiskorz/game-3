@@ -267,6 +267,47 @@
       { "tone": "bubbly", "text": "Has anyone seen anything good about {topic} lately?" },
       { "tone": "dry", "text": "Nobody here appreciates {topic}." }
     ],
+    "chat.open.interest": [
+      { "tone": "any", "text": "Can I tell you about {topic}? I've been thinking about it all week." },
+      { "tone": "shy", "text": "I, um... have you ever gotten really into {topic}? Because I have." },
+      { "tone": "bubbly", "text": "Okay, okay, I have to talk about {topic} with someone or I'll burst!" },
+      { "tone": "dry", "text": "Hot take incoming about {topic}. Brace yourself." }
+    ],
+    "chat.open.day": [
+      { "tone": "any", "text": "Long day. Work was a lot." },
+      { "tone": "shy", "text": "Today was... kind of a lot." },
+      { "tone": "bubbly", "text": "You would not believe the day I've had!" },
+      { "tone": "dry", "text": "Today happened. Every minute of it." }
+    ],
+    "chat.open.worry": [
+      { "tone": "any", "text": "Can I tell you something? I've been a bit stressed lately." },
+      { "tone": "shy", "text": "Sorry, I'm a bit quiet today. I've got a lot on my mind." },
+      { "tone": "bubbly", "text": "I'm fine! Mostly. Okay, not totally fine." },
+      { "tone": "dry", "text": "Don't panic, but I'm worried about something." }
+    ],
+    "chat.open.dream": [
+      { "tone": "any", "text": "If you could live anywhere at all, where would it be?" },
+      { "tone": "shy", "text": "Do you ever daydream about just... leaving? Going somewhere new?" },
+      { "tone": "bubbly", "text": "Quick, pick a dream holiday! I'll go first: everywhere!" },
+      { "tone": "dry", "text": "Somewhere far away. That's my whole plan." }
+    ],
+    "chat.react.good": [
+      { "tone": "any", "text": "You always know what to say." },
+      { "tone": "shy", "text": "...Thank you. That means a lot." },
+      { "tone": "bubbly", "text": "Yes! Exactly! You get it!" },
+      { "tone": "dry", "text": "Huh. You're good at this." }
+    ],
+    "chat.react.ok": [
+      { "tone": "any", "text": "Yeah, maybe." },
+      { "tone": "bubbly", "text": "Ha, sure!" },
+      { "tone": "dry", "text": "Mm." }
+    ],
+    "chat.react.bad": [
+      { "tone": "any", "text": "That's... not really what I meant." },
+      { "tone": "shy", "text": "Oh. Never mind, then." },
+      { "tone": "bubbly", "text": "Oof. Okay. Moving on!" },
+      { "tone": "dry", "text": "Wow. Thanks." }
+    ],
     "talk.love": [
       { "tone": "any", "text": "Oh, I could talk about {topic} all day!" },
       { "tone": "warm", "text": "You like {topic} too? We're going to get along just fine." },

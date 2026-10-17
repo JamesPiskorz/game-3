@@ -28,6 +28,7 @@ namespace Game.Town
         bool _showMessages;
         readonly Label _hereTitle, _stats;
         readonly VisualElement _contacts;
+        readonly ScrollView _panel;
         bool _showContacts;
         string _choices; // "talk", "gift" or "date": which picker is open under the actions
         Resident _choicesFor;
@@ -72,7 +73,7 @@ namespace Game.Town
             _deltas = Add(_dialogue, new VisualElement(), "deltas");
             _learnt = Add(_dialogue, new Label(), "learnt");
 
-            var panel = Add(root, new ScrollView(), "panel");
+            var panel = _panel = Add(root, new ScrollView(), "panel");
             _stats = Add(panel, new Label(), "stats");
             Add(panel, new Label("Go to"), "section");
             _places = Add(panel, new VisualElement(), "chips");
@@ -377,6 +378,8 @@ namespace Game.Town
                 Add(_card, new Label("Talk to find out what they're into."), "hint");
             if (rel.KnownLikes.Count > 0) Add(_card, new Label("Loves " + Topics(rel.KnownLikes)), "known", "liked");
             if (rel.KnownDislikes.Count > 0) Add(_card, new Label("Not into " + Topics(rel.KnownDislikes)), "known", "disliked");
+            if (rel.KnownChatStyle != null && Enum.TryParse(rel.KnownChatStyle, out ChatStyle knownStyle))
+                Add(_card, new Label("Responds well to " + Interactions.StyleWords(knownStyle)), "known", "liked");
 
             if (_session.Date != null)
             {
@@ -384,10 +387,34 @@ namespace Game.Town
                 return;
             }
 
+            ChatScene chat = _session.Chat;
+            if (chat != null && chat.With == selected)
+            {
+                // They've said something and are waiting for an answer: the replies stand in for the actions until then.
+                // Once you know what they respond to, that reply is marked.
+                var replies = Add(_card, new VisualElement(), "chat-replies");
+                Add(replies, new Label("Your reply:"), "chat-prompt");
+                Button last = null;
+                for (int i = 0; i < chat.Replies.Count; i++)
+                {
+                    int index = i;
+                    last = Add(replies, Button("chatopt-" + i, chat.Replies[i].Text, () => _session.ChatReply(index)), "chip", "chat-reply");
+                    if (rel.KnownChatStyle == chat.Replies[i].Style.ToString()) last.AddToClassList("liked");
+                }
+                Button shown = last;
+                _panel.schedule.Execute(() => { if (shown.panel != null) _panel.ScrollTo(shown); });
+                return;
+            }
+
             var actions = Add(_card, new VisualElement(), "actions");
             if (_session.DateWith == null) Add(actions, Button("act-greet", "Say hi", () => _session.Greet()));
             Add(actions, Picker("act-talk", "Talk about…", "talk"));
             Add(actions, Picker("act-ask", "Ask about…", "ask"));
+            if (_session.DateWith == null) Add(actions, Button("act-chat", "Chat", () =>
+            {
+                _choices = null;
+                _session.StartChat();
+            }));
             Add(actions, Button("act-compliment", "Compliment", () => _session.Compliment()));
             if (_session.DateWith == null)
             {

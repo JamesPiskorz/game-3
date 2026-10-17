@@ -379,3 +379,23 @@ Button.selected,
     white-space: normal;
     -unity-text-align: middle-center;
 }
+
+.chat-replies {
+    flex-direction: column;
+    margin-top: 8px;
+}
+
+.chat-prompt {
+    font-size: 13px;
+    color: rgb(190, 190, 205);
+    margin-bottom: 2px;
+}
+
+.chat-reply {
+    white-space: normal;
+    -unity-text-align: middle-left;
+    margin-left: 0;
+    margin-right: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}

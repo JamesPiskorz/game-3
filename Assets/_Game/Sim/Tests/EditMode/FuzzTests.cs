@@ -28,7 +28,7 @@ namespace Game.Sim.Tests
 
             for (int step = 0; step < 1000; step++)
             {
-                int verb = rng.NextInt(17);
+                int verb = rng.NextInt(19);
                 string action = verb.ToString();
                 switch (verb)
                 {
@@ -67,6 +67,8 @@ namespace Game.Sim.Tests
                         var activities = session.Activities();
                         if (activities.Count > 0) session.DoActivity(rng.Pick(activities).Id);
                         break;
+                    case 17: session.StartChat(); break;
+                    case 18: session.ChatReply(rng.NextInt(3)); break;
                 }
                 Invariants(session, $"seed {seed}, step {step}, verb {action}");
             }

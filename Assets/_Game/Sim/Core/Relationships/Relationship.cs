@@ -61,6 +61,12 @@ namespace Game.Sim.Relationships
         /// </summary>
         public Memory LovedTopic, LovedGift, GreatDate;
 
+        /// <summary>Chat replies that landed well, by style; two of a kind and the player has learnt what they like.</summary>
+        public SortedDictionary<string, int> ChatWins = new SortedDictionary<string, int>(StringComparer.Ordinal);
+
+        /// <summary>The way of talking they respond to best, once the player has seen it work (null until then).</summary>
+        public string KnownChatStyle;
+
         /// <summary>Questions asked today (by kind), so asking twice is noticed.</summary>
         public SortedSet<string> AskedToday = new SortedSet<string>(StringComparer.Ordinal);
         public int AskedDay = -1;

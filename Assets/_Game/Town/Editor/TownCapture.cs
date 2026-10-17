@@ -22,7 +22,7 @@ namespace Game.Town
         const int Width = 1920, Height = 1080;
 
         // One command every few frames. "press:" presses a HUD button by name ({liked} and {gift} pick something the
-        // selected resident loves); "hour:" waits until that hour; "befriend" stands in for a week of visits;
+        // selected resident loves, {best} and {chat} the reply that suits them); "hour:" waits until that hour; "befriend" stands in for a week of visits;
         // "pause:" lets frames pass; "shot:" snaps everyone into place first, "live:" shoots them mid-motion.
         static readonly string[] Script =
         {
@@ -30,6 +30,7 @@ namespace Game.Town
             "press:here-0", "press:act-greet", "shot:greet",
             "press:act-talk", "press:topic-{liked}", "shot:talk",
             "befriend", "press:act-gift", "press:gift-{gift}", "shot:gift",
+            "press:act-chat", "shot:chat", "press:chatopt-{chat}", "shot:chat-reply",
             "press:act-date", "press:dateplace-park", "shot:date",
             "press:dateopt-{best}", "shot:date-round", "press:dateopt-{best}", "press:dateopt-{best}", "shot:date-end",
             "press:act-end-date", "press:place-mall", "press:buy-0", "shot:boutique",
@@ -174,7 +175,9 @@ namespace Game.Town
             string liked = selected.Profile.Interests.Where(i => i.Value >= 0.5f).OrderByDescending(i => i.Value).Select(i => i.Key).First();
             string gift = catalog.Gifts.First(g => g.Topics.Contains(liked)).Id;
             string best = screen.Session.Date == null || screen.Session.Date.Finished ? "0" : screen.Session.Date.BestOption().ToString();
-            return name.Replace("{liked}", liked).Replace("{gift}", gift).Replace("{best}", best);
+            ChatScene chat = screen.Session.Chat;
+            string reply = chat == null ? "0" : chat.Replies.IndexOf(chat.Replies.OrderByDescending(r => ChatTaste.Preference(selected.Profile.Personality, r.Style, chat.Opener)).First()).ToString();
+            return name.Replace("{liked}", liked).Replace("{gift}", gift).Replace("{best}", best).Replace("{chat}", reply);
         }
 
         static void Press(TownScreen screen, string name)

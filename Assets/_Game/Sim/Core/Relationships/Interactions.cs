@@ -16,6 +16,7 @@ namespace Game.Sim.Relationships
         Gift,
         AskOnDate,
         Ask,
+        Chat,
         DateRound,
         DateEnd,
     }
@@ -387,6 +388,83 @@ namespace Game.Sim.Relationships
             scene.Options = DateOptions(scene, rng);
             return Finish(resident, rel, rng, result, before, "date.yes", DateStartMinutes, place);
         }
+
+        public const int ChatMinutes = 10;
+        public const float WorryFamiliarity = 20f;
+
+        /// <summary>The resident starts a conversation; the player answers with <see cref="ChatReply"/>.</summary>
+        public InteractionResult StartChat(Resident resident, out ChatScene chat)
+        {
+            (Relationship rel, Pcg32 rng, InteractionResult result, Meters before) = Begin(resident, InteractionKind.Chat);
+            ResidentProfile profile = resident.Profile;
+            string opener = ChatTaste.Opener(profile, rng);
+            if (opener == "worry" && rel.Familiarity < WorryFamiliarity) opener = "day"; // worries are for people they know
+            string topic = null;
+            if (opener == "interest")
+            {
+                List<string> loves = profile.Interests.Where(i => i.Value >= ProfileGenerator.LikeThreshold).Select(i => i.Key).ToList();
+                topic = loves.Count == 0 ? null : rng.Pick(loves);
+                if (topic == null) opener = "day";
+            }
+            string topicName = topic == null ? null : _world.Catalog.Topic(topic)?.Name;
+            chat = new ChatScene { With = resident, Opener = opener, Topic = topic, Replies = ChatTaste.RepliesFor(opener, topicName) };
+            if (topic != null && rel.KnownLikes.Add(topic)) result.Learnt = $"{profile.FirstName} loves {topicName}.";
+            InteractionResult opened = Finish(resident, rel, rng, result, before, "chat.open." + opener, 5, ("topic", topicName ?? ""));
+            chat.Line = opened.Line;
+            return opened;
+        }
+
+        /// <summary>
+        /// The player's answer lands well when it's the kind this person warms to (see <see cref="ChatTaste"/>), badly
+        /// when it's the opposite. Seeing one kind land well twice teaches the player what they respond to.
+        /// </summary>
+        public InteractionResult ChatReply(ChatScene chat, int reply)
+        {
+            if (chat.Answered) throw new InvalidOperationException("That chat has been answered.");
+            Resident resident = chat.With;
+            (Relationship rel, Pcg32 rng, InteractionResult result, Meters before) = Begin(resident, InteractionKind.Chat);
+            Personality p = resident.Profile.Personality;
+            ChatReply choice = chat.Replies[reply];
+            float mine = ChatTaste.Preference(p, choice.Style, chat.Opener);
+            float mean = chat.Replies.Average(r => ChatTaste.Preference(p, r.Style, chat.Opener));
+            float lift = mine - mean;
+            string outcome = lift > 0.08f ? "good" : lift < -0.08f ? "bad" : "ok";
+            float fresh = Freshness(rel.TalksToday);
+            switch (outcome)
+            {
+                case "good":
+                    Add(ref rel.Affection, 3.5f * fresh);
+                    Add(ref rel.Familiarity, 3f * fresh);
+                    Add(ref rel.Trust, chat.Opener == "worry" ? 3f : 1f);
+                    if (choice.Style == ChatStyle.Playful) Add(ref rel.Attraction, 2f);
+                    string style = choice.Style.ToString();
+                    rel.ChatWins[style] = rel.ChatWins.TryGetValue(style, out int wins) ? wins + 1 : 1;
+                    if (rel.ChatWins[style] >= 2 && rel.KnownChatStyle == null)
+                    {
+                        rel.KnownChatStyle = style;
+                        result.Learnt = $"{resident.Profile.FirstName} responds well to {StyleWords(choice.Style)}.";
+                    }
+                    break;
+                case "ok":
+                    Add(ref rel.Affection, 1.2f * fresh);
+                    Add(ref rel.Familiarity, 2f * fresh);
+                    break;
+                default:
+                    Add(ref rel.Affection, -2.5f);
+                    Add(ref rel.Familiarity, 1f);
+                    break;
+            }
+            rel.TalksToday++;
+            chat.Answered = true;
+            return Finish(resident, rel, rng, result, before, "chat.react." + outcome, ChatMinutes);
+        }
+
+        public static string StyleWords(ChatStyle style) => style switch
+        {
+            ChatStyle.Warm => "warmth",
+            ChatStyle.Playful => "playful teasing",
+            _ => "curious questions",
+        };
 
         public static readonly string[] Questions = { "likes", "plans", "friends" };
 
