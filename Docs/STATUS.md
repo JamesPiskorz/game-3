@@ -21,7 +21,7 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 | Dates | Three-round scenes: pick topics or compliments; the outcome combines your choices with how well the place suits them | `Sim/Core/Relationships/DateScene.cs` |
 | Contacts | Everyone you've met, with whereabouts hints that sharpen as you get to know them; click to go to them | `Sim/Core/Sandbox/Contacts.cs` |
 | Expressions | Seven facial expressions plus blinking on the face bones, plus idle breathing, sway and gaze. Both layer over the builder's pose; residents react and nod at each interaction | `Characters/Runtime/Expressions`, `Docs/review/expressions.png` |
-| Stand-in content | Procedural body with simple face, 19 parts, toon materials, patterns. **Placeholder art until Phase 1.** | `Characters/Editor/StandIns`, `Content/StandIn` |
+| Stand-in content | Procedural body with simple face, 31 parts (12 hair, 19 clothing and accessories), toon materials, patterns. **Placeholder art until Phase 1.** | `Characters/Editor/StandIns`, `Content/StandIn` |
 | Performance | Town benchmark; distance-based detail (`CharacterLod`) | decision 0004, `Docs/review/perf.md` |
 | Tests | 171 Unity EditMode tests (104 characters, 67 sim); the pure C# sets also run on .NET 8 | `Characters/Tests`, `Sim/Tests` |
 

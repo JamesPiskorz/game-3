@@ -73,6 +73,12 @@ namespace Game.Characters.StandIns
             public float ChildBlendStart = 0.8f;      // above this t, weight blends towards ChildBone...
             public float ChildBlendMax = 0.5f;        // ...reaching this weight at t = 1
 
+            /// <summary>
+            /// Surface radius the body-shape deltas are scaled by; 0 uses the tube's own. Small details laid on a
+            /// garment (lapels) set the garment's, so they move out with it under weight and chest shapes.
+            /// </summary>
+            public float ShapeRadius;
+
             public Tube Clone() => (Tube)MemberwiseClone();
         }
 
@@ -214,7 +220,7 @@ namespace Game.Characters.StandIns
                     Vector3 spoke = u * (c * tube.Width) + v * (s * tube.Depth);
                     Vector3 normal = (u * (c / tube.Width) + v * (s / tube.Depth)).normalized;
                     Vector3 position = centre + spoke * radius + normal * offset;
-                    Vector3[] deltas = withShapes ? ShapeDeltas(tube.Region, t, normal, radius * spoke.magnitude) : null;
+                    Vector3[] deltas = withShapes ? ShapeDeltas(tube.Region, t, normal, tube.ShapeRadius > 0f ? tube.ShapeRadius : radius * spoke.magnitude) : null;
                     AddVertex(position, normal, new Vector2(around * circumference, t * length), painted, mask(t, around), weights, deltas);
                 }
             }

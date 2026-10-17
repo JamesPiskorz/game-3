@@ -47,6 +47,7 @@ namespace Game.Characters.StandIns
 
         static readonly StandInBone[] Ponytail = StandInSkeleton.Chain("Hair.Ponytail", "Head", new Vector3(0f, 1.69f, -0.112f), new Vector3(0f, 1.36f, -0.2f), 3);
         static readonly StandInBone[] TwinL = StandInSkeleton.Chain("Hair.TwinTail.L", "Head", new Vector3(-0.112f, 1.69f, -0.03f), new Vector3(-0.17f, 1.36f, -0.07f), 3);
+        static readonly StandInBone[] SideTail = StandInSkeleton.Chain("Hair.SideTail", "Head", new Vector3(0.105f, 1.67f, -0.06f), new Vector3(0.17f, 1.34f, -0.05f), 3);
         static readonly StandInBone[] TwinR = StandInSkeleton.Chain("Hair.TwinTail.R", "Head", new Vector3(0.112f, 1.69f, -0.03f), new Vector3(0.17f, 1.36f, -0.07f), 3);
 
         public static IEnumerable<Recipe> Parts()
@@ -163,6 +164,132 @@ namespace Game.Characters.StandIns
                 },
             };
 
+            // ---------------- more tops
+            yield return new Recipe
+            {
+                Id = "cloth.top.hoodie_01", Slot = "top", Material = "Cloth",
+                Covers = UpperTorso | LowerTorso | UpperArmL | UpperArmR | ForearmL | ForearmR,
+                Build = m =>
+                {
+                    const float thick = Cloth * 1.8f;
+                    m.AddTube(StandInBody.TubeFor(UpperTorso), thick, Cap.Open, Cap.Collar, Region1, false, collarRadius: 0.075f);
+                    m.AddTube(StandInBody.TubeFor(LowerTorso), thick, Cap.Open, Cap.Open, Trim(0.12f, true, false), false);
+                    foreach (BodyRegions arm in new[] { UpperArmL, UpperArmR })
+                        m.AddTube(StandInBody.TubeFor(arm), thick, Cap.Open, Cap.Open, Region1, false);
+                    foreach (BodyRegions forearm in new[] { ForearmL, ForearmR })
+                        m.AddTube(StandInBody.TubeFor(forearm), thick, Cap.Open, Cap.Open, Trim(0.18f, false, true), false);
+                    // The hood, lying across the shoulders, and a front pocket in the trim colour.
+                    m.AddEllipsoid(new Vector3(0f, 1.47f, -0.09f), new Vector3(0.115f, 0.075f, 0.06f), None, false, "Chest", Region1, d => d.z < 0.35f);
+                    m.AddTube(new Tube { Region = LowerTorso, Start = new Vector3(-0.08f, 1.125f, 0.123f), End = new Vector3(0.08f, 1.125f, 0.123f),
+                            R0 = 0.04f, R1 = 0.04f, Width = 1f, Depth = 0.22f, Bone = "Spine", ShapeRadius = 0.1f },
+                        0f, Cap.Closed, Cap.Closed, RegionTwo, false);
+                },
+            };
+            yield return new Recipe
+            {
+                Id = "cloth.top.blouse_01", Slot = "top", Material = "Cloth",
+                Covers = UpperTorso | LowerTorso | UpperArmL | UpperArmR,
+                Build = m =>
+                {
+                    m.AddTube(StandInBody.TubeFor(UpperTorso), Cloth, Cap.Open, Cap.Collar, Trim(0.2f, false, true), false, collarRadius: 0.06f);
+                    m.AddTube(StandInBody.TubeFor(LowerTorso), Cloth, Cap.Open, Cap.Open, Region1, false);
+                    // Short puffed sleeves.
+                    foreach (BodyRegions arm in new[] { UpperArmL, UpperArmR })
+                    {
+                        Tube sleeve = StandInBody.TubeFor(arm);
+                        sleeve.End = Vector3.Lerp(sleeve.Start, sleeve.End, 0.55f);
+                        sleeve.R0 = 0.064f;
+                        sleeve.R1 = 0.06f;
+                        m.AddTube(sleeve, Cloth, Cap.Open, Cap.Open, Trim(0.2f, false, true), false);
+                    }
+                },
+            };
+            yield return new Recipe
+            {
+                Id = "cloth.top.blazer_01", Slot = "top", Material = "Cloth",
+                Covers = UpperTorso | LowerTorso | UpperArmL | UpperArmR | ForearmL | ForearmR,
+                Build = m =>
+                {
+                    const float thick = Cloth * 1.5f;
+                    m.AddTube(StandInBody.TubeFor(UpperTorso), thick, Cap.Open, Cap.Collar, Region1, false, collarRadius: 0.07f);
+                    m.AddTube(StandInBody.TubeFor(LowerTorso), thick, Cap.Open, Cap.Open, Trim(0.1f, true, false), false);
+                    // Lapels as their own flat strips in the trim colour, opening into a V towards the collar (a colour
+                    // band painted on the tube would be finer than its vertices and smear). They take the torso's shape
+                    // response, so a fuller chest or build doesn't swallow them.
+                    foreach (float side in new[] { -1f, 1f })
+                        m.AddTube(new Tube { Region = UpperTorso, Start = new Vector3(0.012f * side, 1.25f, 0.129f), End = new Vector3(0.075f * side, 1.43f, 0.109f),
+                                R0 = 0.016f, R1 = 0.024f, Width = 1f, Depth = 0.3f, Bone = "Chest", ShapeRadius = 0.1f },
+                            0f, Cap.Closed, Cap.Closed, RegionTwo, false);
+                    foreach (BodyRegions arm in new[] { UpperArmL, UpperArmR })
+                        m.AddTube(StandInBody.TubeFor(arm), thick, Cap.Open, Cap.Open, Region1, false);
+                    foreach (BodyRegions forearm in new[] { ForearmL, ForearmR })
+                        m.AddTube(StandInBody.TubeFor(forearm), thick, Cap.Open, Cap.Open, Region1, false);
+                },
+            };
+
+            // ---------------- more bottoms
+            yield return new Recipe
+            {
+                Id = "cloth.bottom.longskirt_01", Slot = "bottom", Material = "Cloth",
+                Covers = Pelvis | ThighL | ThighR,
+                Build = m =>
+                {
+                    m.AddTube(StandInBody.TubeFor(Pelvis), Cloth * 0.5f, Cap.Closed, Cap.Open, new MaskFunction((a, b) => new Vector3(0f, 0f, 1f)), false);
+                    m.AddSkirt(1.07f, 0.28f, 0.135f, 0.27f, 1.22f, 0.85f, Cloth, Trim(0.06f, true, true));
+                },
+            };
+            yield return new Recipe
+            {
+                Id = "cloth.bottom.joggers_01", Slot = "bottom", Material = "Cloth",
+                Covers = Pelvis | ThighL | ThighR | CalfL | CalfR,
+                Build = m =>
+                {
+                    const float thick = Cloth * 1.4f;
+                    m.AddTube(StandInBody.TubeFor(Pelvis), thick, Cap.Closed, Cap.Open, Trim(0.14f, false, true), false);
+                    foreach ((BodyRegions thigh, BodyRegions calf, float outer) in new[] { (ThighL, CalfL, 0f), (ThighR, CalfR, 0.5f) })
+                    {
+                        // A stripe down the outside of each leg.
+                        MaskFunction stripe = (along, around) =>
+                        {
+                            float d = Mathf.Abs(Mathf.Repeat(around - outer + 0.5f, 1f) - 0.5f);
+                            return d < 0.06f ? new Vector4(0f, 1f, 0f, 0f) : new Vector4(1f, 0f, 0f, 0f);
+                        };
+                        m.AddTube(StandInBody.TubeFor(thigh), thick, Cap.Open, Cap.Open, stripe, false);
+                        m.AddTube(StandInBody.TubeFor(calf), thick, Cap.Open, Cap.Open,
+                            (along, around) => along > 0.88f ? new Vector4(0f, 1f, 0f, 0f) : stripe(along, around), false);
+                    }
+                },
+            };
+
+            // ---------------- more one-pieces and shoes
+            yield return new Recipe
+            {
+                Id = "cloth.onepiece.sundress_01", Slot = "onepiece", Blocks = new[] { "top", "bottom" }, Material = "Cloth",
+                Covers = UpperTorso | LowerTorso | Pelvis,
+                Build = m =>
+                {
+                    m.AddTube(StandInBody.TubeFor(UpperTorso), Cloth, Cap.Open, Cap.Collar, Trim(0.07f, false, true), false, collarRadius: 0.1f);
+                    m.AddTube(StandInBody.TubeFor(LowerTorso), Cloth, Cap.Open, Cap.Open, Region1, false);
+                    m.AddTube(StandInBody.TubeFor(Pelvis), Cloth * 0.5f, Cap.Closed, Cap.Open, new MaskFunction((a, b) => new Vector3(1f, 0f, 0f)), false);
+                    m.AddSkirt(1.07f, 0.68f, 0.135f, 0.25f, 1.22f, 0.85f, Cloth, Trim(0.07f, false, true));
+                },
+            };
+            yield return new Recipe
+            {
+                Id = "cloth.shoes.sandals_01", Slot = "shoes", Material = "Cloth",
+                Covers = None, // bare feet show between the straps
+                Build = m =>
+                {
+                    foreach ((string bone, float x) in new[] { ("Foot.L", -0.09f), ("Foot.R", 0.09f) })
+                    {
+                        m.AddEllipsoid(new Vector3(x, 0.008f, 0.06f), new Vector3(0.047f, 0.008f, 0.115f), None, false, bone, RegionTwo);
+                        foreach (float z in new[] { 0.1f, 0.0f })
+                            m.AddTube(new Tube { Region = None, Start = new Vector3(x - 0.042f, 0.035f, z), End = new Vector3(x + 0.042f, 0.035f, z), R0 = 0.008f, R1 = 0.008f, Bone = bone },
+                                0f, Cap.Closed, Cap.Closed, Region1, false, withShapes: false);
+                    }
+                },
+            };
+
             // ---------------- hair: back pieces (crown + length) and front pieces (bangs)
             yield return Hair("hair.back.crop_01", "hair.back", m => Crown(m));
             yield return Hair("hair.back.bob_01", "hair.back", m =>
@@ -198,6 +325,31 @@ namespace Game.Characters.StandIns
             yield return Hair("hair.front.swept_01", "hair.front", m =>
                 m.AddEllipsoid(HeadCentre, new Vector3(HeadR + 0.019f, HeadR + 0.019f, HeadR + 0.019f), None, false, "Head", Region1,
                     d => d.z > 0.2f && d.y > 0.5f + 0.3f * d.x));
+            yield return Hair("hair.front.parted_01", "hair.front", m =>
+                m.AddEllipsoid(HeadCentre, new Vector3(HeadR + 0.019f, HeadR + 0.019f, HeadR + 0.019f), None, false, "Head", Region1,
+                    d => d.z > 0.22f && d.y > 0.46f && Mathf.Abs(d.x) > 0.09f));
+            yield return Hair("hair.back.wavy_01", "hair.back", m =>
+            {
+                Crown(m);
+                m.AddCurtain(1.67f, 1.53f, 0.124f, 0.138f, -125f, 125f, null, Region1);
+                m.AddCurtain(1.6f, 1.02f, 0.132f, 0.175f, -70f, 70f, "Chest", Gradient(0.3f));
+            });
+            yield return Hair("hair.back.sidetail_01", "hair.back", m =>
+            {
+                Crown(m);
+                m.AddChain(SideTail, new Vector3(0.17f, 1.3f, -0.04f), 0.036f, 0.011f, Gradient(0.4f));
+            }, SideTail);
+            yield return Hair("hair.back.curly_01", "hair.back", m =>
+            {
+                Crown(m);
+                // Curls piled on top and at the back of the crown.
+                foreach (Vector3 direction in new[]
+                {
+                    new Vector3(0f, 1f, 0.25f), new Vector3(0.45f, 0.85f, 0.1f), new Vector3(-0.45f, 0.85f, 0.1f),
+                    new Vector3(0.25f, 0.8f, -0.5f), new Vector3(-0.25f, 0.8f, -0.5f), new Vector3(0f, 0.7f, -0.7f),
+                })
+                    m.AddEllipsoid(HeadCentre + direction.normalized * (HeadR + 0.02f), new Vector3(0.032f, 0.042f, 0.032f), None, false, "Head", Region1);
+            });
 
             // ---------------- accessories (no body shapes reach the head)
             yield return new Recipe
@@ -210,6 +362,15 @@ namespace Game.Characters.StandIns
                     m.AddTube(new Tube { Region = None, Start = new Vector3(-0.016f, 1.66f, 0.113f), End = new Vector3(0.016f, 1.66f, 0.113f), R0 = 0.0025f, R1 = 0.0025f, Bone = "Head" }, 0f, Cap.Closed, Cap.Closed, Region1, false, withShapes: false);
                     foreach (float x in new[] { -0.064f, 0.064f })
                         m.AddTube(new Tube { Region = None, Start = new Vector3(x, 1.66f, 0.108f), End = new Vector3(x * 1.72f, 1.655f, -0.005f), R0 = 0.0025f, R1 = 0.0025f, Bone = "Head" }, 0f, Cap.Closed, Cap.Closed, Region1, false, withShapes: false);
+                },
+            };
+            yield return new Recipe
+            {
+                Id = "acc.hat.cap_01", Slot = "hat", Material = "Cloth", FollowsBodyShapes = false,
+                Build = m =>
+                {
+                    m.AddEllipsoid(HeadCentre + new Vector3(0f, 0.01f, -0.004f), new Vector3(0.133f, 0.13f, 0.133f), None, false, "Head", Region1, d => d.y > 0.28f);
+                    m.AddEllipsoid(HeadCentre + new Vector3(0f, 0.05f, 0.105f), new Vector3(0.088f, 0.007f, 0.075f), None, false, "Head", RegionTwo, d => d.z > -0.3f);
                 },
             };
             yield return new Recipe
@@ -232,6 +393,8 @@ namespace Game.Characters.StandIns
         static void Crown(StandInMesh mesh) =>
             mesh.AddEllipsoid(HeadCentre, new Vector3(HeadR + 0.014f, HeadR + 0.016f, HeadR + 0.014f), None, false, "Head", Region1,
                 d => (d.z <= 0.3f && d.y > 0.2f) || (d.z > 0.3f && d.y > 0.55f) || (d.z < 0.1f && d.y > -0.45f) || (Mathf.Abs(d.x) > 0.8f && d.y > -0.15f));
+
+        static readonly MaskFunction RegionTwo = (along, around) => new Vector4(0f, 1f, 0f, 0f);
 
         // Region 1 upper, region 2 for the sole (faces pointing down).
         static readonly MaskFunction Sole = (along, around) =>

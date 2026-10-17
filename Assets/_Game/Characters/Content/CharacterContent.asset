@@ -34,6 +34,20 @@ MonoBehaviour:
     Prefab: {fileID: 5075321708317143307, guid: 299df16ed85662449910a8c5afdb1ea4, type: 3}
   - Id: cloth.shoes.boots_01
     Prefab: {fileID: 8791237670371142460, guid: 7bbf44245b3655343895820597142832, type: 3}
+  - Id: cloth.top.hoodie_01
+    Prefab: {fileID: 3828409449901050023, guid: fb4346953bd29d7468d244944f53aa5c, type: 3}
+  - Id: cloth.top.blouse_01
+    Prefab: {fileID: 6540336581743477530, guid: f372d0de892a65a4db2fcd1e279ddaeb, type: 3}
+  - Id: cloth.top.blazer_01
+    Prefab: {fileID: 6470018101860015975, guid: 55f4787e4b7e3ee46a4e684c3d28aaf2, type: 3}
+  - Id: cloth.bottom.longskirt_01
+    Prefab: {fileID: 8883899730034562172, guid: d023dcbab85a63b45a731617f42efb99, type: 3}
+  - Id: cloth.bottom.joggers_01
+    Prefab: {fileID: 3488021445104148382, guid: 3f880c4ea05d192439cca794a8d65b86, type: 3}
+  - Id: cloth.onepiece.sundress_01
+    Prefab: {fileID: 2599088505850092348, guid: 3a9d83d2f2732fc4ba0ba0a9091898f3, type: 3}
+  - Id: cloth.shoes.sandals_01
+    Prefab: {fileID: 7927110994504522840, guid: 8c15ba7c0716809499eea7c8c9c4c24c, type: 3}
   - Id: hair.back.crop_01
     Prefab: {fileID: 6935511194035738336, guid: fd7661973b5c9f543801fd11b0b4bb6b, type: 3}
   - Id: hair.back.bob_01
@@ -50,8 +64,18 @@ MonoBehaviour:
     Prefab: {fileID: 7959323058404227635, guid: 5536e869c8850764cbb9ef1bd0f52cd5, type: 3}
   - Id: hair.front.swept_01
     Prefab: {fileID: 2656334698948099300, guid: 3be6643afcb4ad2428024fb309a48394, type: 3}
+  - Id: hair.front.parted_01
+    Prefab: {fileID: 7290570672288359219, guid: 2133888ab367e204f823990e1cb92791, type: 3}
+  - Id: hair.back.wavy_01
+    Prefab: {fileID: 8479332677675387930, guid: a4c2def6299c1f34c827ace15e60aefd, type: 3}
+  - Id: hair.back.sidetail_01
+    Prefab: {fileID: 5455858211276924821, guid: 0c7fe0948ff5d324c9d8676f755d1792, type: 3}
+  - Id: hair.back.curly_01
+    Prefab: {fileID: 1338564963674439775, guid: 159fe7d9f3cdc3e409acabaacf1595f6, type: 3}
   - Id: acc.glasses.round_01
     Prefab: {fileID: 6544146924403857493, guid: 3d90ec4651dad26408a0306ed54fcd95, type: 3}
+  - Id: acc.hat.cap_01
+    Prefab: {fileID: 1724795837697061746, guid: 1b0bb045c4776624f93c40ee30320e0d, type: 3}
   - Id: acc.hat.beanie_01
     Prefab: {fileID: 6217756984660538669, guid: 0eef57ca19788214ab9b797ff4ede21e, type: 3}
   Patterns:
