@@ -129,7 +129,10 @@
       { "tone": "any", "text": "I keep thinking about our date at {location}. Can we do that again soon?" },
       { "tone": "shy", "text": "I had a really nice time at {location}... just so you know." },
       { "tone": "bubbly", "text": "{location} was SO fun! I told everyone. Well, almost everyone." },
-      { "tone": "dry", "text": "{location} was good. Better than good. Don't make me say it twice." }
+      { "tone": "dry", "text": "{location} was good. Better than good. Don't make me say it twice." },
+      { "tone": "any", "text": "I keep looking at our photo from {location}. We look good together, you know." },
+      { "tone": "shy", "text": "I... might have looked at our photo from {location} a few times. Maybe more than a few." },
+      { "tone": "bubbly", "text": "I made our photo from {location} my wallpaper! Is that too much? It's not too much." }
     ],
     "greet.remember.gift": [
       { "tone": "any", "text": "Hey, {player}! I've been enjoying {gift} you gave me. Thank you again." },
