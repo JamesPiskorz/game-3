@@ -49,7 +49,7 @@ Related: [PLAN.md](../PLAN.md) §3 and §4; decisions [0001](decisions/0001-runt
 
 Other proportions are bone sliders the art doesn't need to carry: height, shoulders, legs and head size.
 
-**Range:** `Docs/review/body-range.png` shows every body slider at its minimum, average and maximum on a feminine and a masculine character. The stand-in weight shape adds 40% to the radius of everything fleshy (and a little at the belly): at 22% the heaviest builds didn't read at town distance. The generator's weight spread is 0.28, so about one character in ten has a clearly fuller build. [Art to decide] the real range.
+**Range:** `Docs/review/body-range.png` shows every body slider at its minimum, average and maximum on a feminine and a masculine character. The stand-in weight shape adds 40% to the radius of everything fleshy (and a little at the belly): at 22% the heaviest builds didn't read at town distance. The generator's weight has a mean of 0.3 and a spread of 0.26, so about one character in eight is at the slim end and one in eight clearly fuller (`generator-stats.md` has the distribution). [Art to decide] the real range.
 
 ### Body regions (enforced)
 

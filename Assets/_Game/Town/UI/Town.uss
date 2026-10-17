@@ -493,3 +493,9 @@ Button.selected,
 .photo-caption {
     margin: 2px 0 10px 4px;
 }
+
+.card-photo {
+    width: 240px;
+    height: 160px;
+    margin: 6px 0 4px 0;
+}

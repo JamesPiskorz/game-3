@@ -1,8 +1,8 @@
 # Generator statistics
 
-_2026-10-18 05:56 · AMD Ryzen 7 5700X 8-Core Processor · Unity 6000.6.6f1 (editor). Regenerate with **Game → Characters → Review → Write Generator Statistics**._
+_2026-10-18 06:19 · AMD Ryzen 7 5700X 8-Core Processor · Unity 6000.6.6f1 (editor). Regenerate with **Game → Characters → Review → Write Generator Statistics**._
 
-10,000 characters, 0.458 ms each to generate. Rule violations: **0**.
+10,000 characters, 0.475 ms each to generate. Rule violations: **0**.
 
 ## Styles
 
@@ -24,6 +24,7 @@ Share of characters in each tenth of the range (0 = most masculine / lightest).
 |---|---|---|---|---|---|---|---|---|---|---|
 | Femininity | 12.2% | 20.4% | 10.8% | 3.6% | 2.4% | 2.7% | 3.5% | 11.2% | 20.8% | 12.5% |
 | Skin tone | 10.0% | 10.1% | 9.4% | 10.6% | 10.2% | 10.2% | 10.1% | 9.8% | 9.7% | 9.8% |
+| Weight (build) | 22.9% | 12.3% | 14.4% | 14.9% | 12.6% | 9.9% | 6.4% | 3.9% | 2.0% | 0.7% |
 
 Fantasy hair 13.7%, gradient tips 16.0%, fantasy eyes 6.3%, heterochromia 2.1%, lipstick 15.5%.
 
@@ -34,14 +35,16 @@ How many characters wear each part, per outfit context (hair: per character). **
 | Part | Slot | hair | casual | date | rain | sport | work |
 |---|---|---|---|---|---|---|---|
 | acc.bag.crossbody_01 | bag |  | 17.6% | 18.0% | 17.3% | never | 18.1% |
-| cloth.bottom.joggers_01 | bottom |  | 17.1% | never | never | 50.1% | never |
-| cloth.bottom.longskirt_01 | bottom |  | 8.0% | 11.8% | 10.6% | never | 14.7% |
-| cloth.bottom.pants_01 | bottom |  | 24.6% | 34.1% | 48.8% | never | 39.9% |
-| cloth.bottom.shorts_01 | bottom |  | 17.3% | never | never | 49.9% | never |
-| cloth.bottom.skirt_01 | bottom |  | 8.5% | 12.4% | 9.9% | never | 15.2% |
-| cloth.bottom.wide_01 | bottom |  | 7.8% | 17.8% | 13.8% | never | 20.6% |
-| acc.earrings.hoops_01 | earrings |  | 12.0% | 12.0% | 12.0% | 12.0% | 12.0% |
-| acc.earrings.studs_01 | earrings |  | 14.3% | 14.3% | 14.3% | 14.3% | 14.3% |
+| cloth.bottom.joggers_01 | bottom |  | 15.0% | never | never | 50.1% | never |
+| cloth.bottom.longskirt_01 | bottom |  | 6.7% | 11.0% | 7.9% | never | 12.7% |
+| cloth.bottom.pants_01 | bottom |  | 22.2% | 31.4% | 37.5% | never | 34.9% |
+| cloth.bottom.pinafore_01 | bottom |  | 10.9% | 5.5% | 18.7% | never | 11.7% |
+| cloth.bottom.shorts_01 | bottom |  | 15.0% | never | never | 49.9% | never |
+| cloth.bottom.skirt_01 | bottom |  | 7.0% | 12.0% | 7.9% | never | 13.2% |
+| cloth.bottom.wide_01 | bottom |  | 6.4% | 16.2% | 10.9% | never | 17.8% |
+| acc.earrings.drops_01 | earrings |  | 4.9% | 4.9% | 4.9% | 4.9% | 4.9% |
+| acc.earrings.hoops_01 | earrings |  | 10.0% | 10.0% | 10.0% | 10.0% | 10.0% |
+| acc.earrings.studs_01 | earrings |  | 11.4% | 11.4% | 11.4% | 11.4% | 11.4% |
 | face.makeup.blush_01 | face.blush | 10.4% |  |  |  |  |  |
 | face.mark.freckles_01 | face.freckles | 14.3% |  |  |  |  |  |
 | face.mark.mole_01 | face.mole | 5.9% |  |  |  |  |  |
@@ -67,15 +70,18 @@ How many characters wear each part, per outfit context (hair: per character). **
 | hair.front.curtain_01 | hair.front | 19.4% |  |  |  |  |  |
 | hair.front.parted_01 | hair.front | 17.2% |  |  |  |  |  |
 | hair.front.swept_01 | hair.front | 20.8% |  |  |  |  |  |
-| acc.hat.beanie_01 | hat |  | 2.1% | never | 2.1% | 2.1% | never |
-| acc.hat.cap_01 | hat |  | 1.9% | never | 2.0% | 2.1% | never |
-| acc.hair.clip_01 | headpiece |  | 8.4% | 5.6% | 8.4% | never | 5.6% |
-| acc.hair.headband_01 | headpiece |  | 4.3% | 6.9% | 4.7% | 17.5% | 7.9% |
-| acc.hair.ribbon_01 | headpiece |  | 4.6% | 5.6% | 4.4% | never | 4.9% |
-| cloth.legwear.socks_01 | legwear |  | 5.2% | 2.7% | 4.3% | never | never |
-| cloth.legwear.tights_01 | legwear |  | 7.6% | 11.1% | 7.0% | never | 12.5% |
-| acc.neck.necklace_01 | neck |  | 7.3% | 16.7% | 7.4% | never | 17.4% |
-| acc.neck.scarf_01 | neck |  | 10.0% | never | 10.0% | never | never |
+| acc.hat.beanie_01 | hat |  | 1.7% | never | 2.1% | 2.1% | never |
+| acc.hat.beret_01 | hat |  | 0.7% | 4.1% | never | never | never |
+| acc.hat.cap_01 | hat |  | 1.5% | never | 2.0% | 2.1% | never |
+| acc.hair.clip_01 | headpiece |  | 5.7% | 4.1% | 6.0% | never | 4.3% |
+| acc.hair.flower_01 | headpiece |  | 5.1% | 4.4% | 5.2% | never | 4.1% |
+| acc.hair.headband_01 | headpiece |  | 3.3% | 5.0% | 3.3% | 17.5% | 6.3% |
+| acc.hair.ribbon_01 | headpiece |  | 3.1% | 4.0% | 2.9% | never | 3.7% |
+| cloth.legwear.socks_01 | legwear |  | 5.7% | 2.9% | 5.3% | never | never |
+| cloth.legwear.tights_01 | legwear |  | 8.3% | 11.6% | 7.9% | never | 13.5% |
+| acc.neck.choker_01 | neck |  | 3.1% | 5.4% | 3.2% | never | never |
+| acc.neck.necklace_01 | neck |  | 5.8% | 11.4% | 5.7% | never | 17.4% |
+| acc.neck.scarf_01 | neck |  | 8.5% | never | 8.5% | never | never |
 | cloth.onepiece.dress_01 | onepiece |  | 5.5% | 10.9% | 5.7% | never | 9.6% |
 | cloth.onepiece.sundress_01 | onepiece |  | 11.2% | 13.0% | 11.4% | never | never |
 | cloth.outer.cardigan_01 | outer |  | 2.9% | 4.2% | never | never | 3.8% |
@@ -97,17 +103,19 @@ How many characters wear each part, per outfit context (hair: per character). **
 
 ## Patterns
 
-5.8% of worn items are patterned.
+6.2% of worn items are patterned.
 
 | Pattern | Items |
 |---|---|
-| Stripes | 1286 |
-| Dots | 1100 |
-| Plaid | 1431 |
-| Check | 1298 |
-| Hearts | 658 |
-| Stars | 1385 |
-| Pinstripe | 1052 |
-| Floral | 1462 |
-| Denim | 933 |
-| Knit | 1528 |
+| Stripes | 1094 |
+| Dots | 964 |
+| Plaid | 1199 |
+| Check | 1228 |
+| Hearts | 635 |
+| Stars | 1265 |
+| Pinstripe | 900 |
+| Floral | 1351 |
+| Denim | 785 |
+| Knit | 1362 |
+| Argyle | 1068 |
+| Chevron | 1091 |

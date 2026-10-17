@@ -492,6 +492,14 @@ namespace Game.Town
             Meter("Familiarity", rel.Familiarity, "familiarity");
             Meter("Trust", rel.Trust, "trust");
 
+            // Your latest photo together, if you have one.
+            Photo together = _session.Photos().FirstOrDefault(p => p.Resident == selected.Index);
+            if (together != null && _photo?.Invoke(together) is UnityEngine.RenderTexture snapshot)
+            {
+                var picture = Add(_card, new VisualElement(), "photo", "card-photo");
+                picture.style.backgroundImage = Background.FromRenderTexture(snapshot);
+            }
+
             string Topics(IEnumerable<string> ids) => string.Join(", ", ids.Select(id => world.Catalog.Topic(id)?.Name ?? id));
             if (rel.KnownLikes.Count + rel.KnownDislikes.Count == 0)
                 Add(_card, new Label("Talk to find out what they're into."), "hint");

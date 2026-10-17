@@ -25,6 +25,7 @@ namespace Game.Characters.Generation
         public SortedDictionary<string, int> Styles = new SortedDictionary<string, int>(StringComparer.Ordinal);
         public int[] Femininity = new int[10];
         public int[] SkinTone = new int[10];
+        public int[] Weight = new int[10];
         public int FantasyHair, FantasyEyes, Heterochromia, GradientHair, Lipstick;
 
         /// <summary>Part ID → how many characters wear it, per outfit context (hair counts once per character).</summary>
@@ -62,6 +63,7 @@ namespace Game.Characters.Generation
                 }
                 stats.Styles[dna.Style ?? "?"] = stats.Styles.TryGetValue(dna.Style ?? "?", out int s) ? s + 1 : 1;
                 stats.Femininity[Bucket(dna.Body.Femininity)]++;
+                if (dna.Body.Sliders.TryGetValue("body.weight", out float weight)) stats.Weight[Bucket(weight)]++;
                 stats.SkinTone[Bucket(dna.Skin.Tone)]++;
                 if (!Natural(naturalHair, dna.Hair.Base)) stats.FantasyHair++;
                 if (dna.Hair.Gradient > 0f) stats.GradientHair++;
@@ -112,6 +114,7 @@ namespace Game.Characters.Generation
             md.AppendLine("|---|" + string.Concat(Enumerable.Repeat("---|", 10)));
             md.AppendLine("| Femininity | " + string.Join(" | ", Femininity.Select(Pct)) + " |");
             md.AppendLine("| Skin tone | " + string.Join(" | ", SkinTone.Select(Pct)) + " |");
+            md.AppendLine("| Weight (build) | " + string.Join(" | ", Weight.Select(Pct)) + " |");
             md.AppendLine();
             md.AppendLine($"Fantasy hair {Pct(FantasyHair)}, gradient tips {Pct(GradientHair)}, fantasy eyes {Pct(FantasyEyes)}, heterochromia {Pct(Heterochromia)}, lipstick {Pct(Lipstick)}.");
             md.AppendLine();
