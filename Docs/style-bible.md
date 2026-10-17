@@ -164,6 +164,7 @@ Each archetype sets how often optional pieces appear: `hatChance`, `glassesChanc
 
 ## 4. Faces
 
+- **Catch-lights:** each iris has a small highlight, upper left as you look at them, the same side on both eyes, in the eye whites' colour. It rides the eye bone, so it closes with the eye. Anime eyes read as alive with one; real eyes should keep it.
 - **Features:** eyes, brows, nose and mouth are separate features. On the stand-in they're rigid shapes on the face bones; the face sliders (eye scale, height, spacing and tilt; brow height and tilt; mouth width and height; nose size) and the eye and brow **styles** move and scale those bones.
 - **Generation:** generated faces are designed **presets** plus small noise.
 

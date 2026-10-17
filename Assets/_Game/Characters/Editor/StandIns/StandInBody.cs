@@ -53,6 +53,9 @@ namespace Game.Characters.StandIns
                 Vector3 eye = Bone("Eye" + side);
                 mesh.AddEllipsoid(eye, new Vector3(0.019f, 0.025f, 0.006f), Head, true, "Eye" + side, White);
                 mesh.AddEllipsoid(eye + new Vector3(0f, -0.002f, 0.004f), new Vector3(0.012f, 0.018f, 0.004f), Head, true, "Eye" + side, Iris);
+                // A catch-light on the iris, upper left as you look at them (the same side on both eyes), in the eye
+                // whites' colour. It rides the eye bone, so blinks and smiles close it with the eye.
+                mesh.AddEllipsoid(eye + new Vector3(0.0045f, 0.0065f, 0.0078f), new Vector3(0.0036f, 0.0042f, 0.0012f), Head, true, "Eye" + side, White);
                 mesh.AddEllipsoid(Bone("Brow" + side), new Vector3(0.019f, 0.0045f, 0.004f), Head, true, "Brow" + side, Dark);
             }
             // Blush as anime hatching, three short strokes on each cheek in the brows' colour. Each stroke's ends sit
