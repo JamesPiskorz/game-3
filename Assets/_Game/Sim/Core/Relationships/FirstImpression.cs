@@ -46,6 +46,24 @@ namespace Game.Sim.Relationships
                 .Where(tag => characters.Archetypes.Any(a => a.TagWeights.ContainsKey(tag))).Distinct()
                 .Select(tag => resident.StyleTaste.TryGetValue(tag, out float taste) ? taste : 0f).DefaultIfEmpty(0f).Average();
 
+        /// <summary>
+        /// How much they like makeup on the player, 0..1: their taste in each style, weighted by how much that style
+        /// wears lipstick and blush itself. Elegant, gothic and cute tastes like it; sporty ones less so.
+        /// </summary>
+        public static float MakeupTaste(ResidentProfile resident, ContentCatalog characters)
+        {
+            float total = 0f, weight = 0f;
+            foreach (StyleArchetype style in characters.Archetypes)
+            {
+                if (!resident.StyleTaste.TryGetValue(style.Id, out float taste) || taste <= 0f) continue;
+                style.FaceChances.TryGetValue(Makeup.Lipstick, out float lips);
+                style.FaceChances.TryGetValue(Slots.FaceBlush, out float blush);
+                total += taste * (lips + blush);
+                weight += taste;
+            }
+            return weight > 0f ? total / weight : 0f;
+        }
+
         public static float Score(ResidentProfile resident, CharacterDna player, string outfitContext, ContentCatalog characters)
         {
             OutfitDna outfit = player.Outfits.FirstOrDefault(o => o.Context == outfitContext) ?? player.Outfits.FirstOrDefault();

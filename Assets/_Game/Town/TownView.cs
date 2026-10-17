@@ -306,6 +306,23 @@ namespace Game.Town
                 b.style.backgroundColor = UnityEngine.Color.HSVToRGB(c.H - (float)Math.Floor(c.H), Math.Max(0f, Math.Min(1f, c.S)), Math.Max(0f, Math.Min(1f, c.V)));
                 b.SetEnabled(money >= Salon.DyePrice);
             }
+
+            // The makeup counter: lipstick in any shade, blush; taking either off is free.
+            Add(_clothes, new Label($"Makeup  \u00B7  {Salon.MakeupPrice} each, free to take off"), "section");
+            OverlayDna lips = me.Face.Makeup.FirstOrDefault(m => m.OverlayId == Makeup.Lipstick);
+            bool blushed = me.Face.Makeup.Any(m => Makeup.SlotOf(world.Characters, m.OverlayId) == Slots.FaceBlush);
+            var makeup = Add(_clothes, new VisualElement(), "chips");
+            Add(makeup, Button("lipstick-none", lips == null ? "No lipstick (yours)" : "Take off lipstick", () => _session.Lipstick(null)), "chip").SetEnabled(lips != null);
+            Add(makeup, Button("blush-toggle", blushed ? "Take off blush" : "Blush", () => _session.Blush(!blushed)), "chip").SetEnabled(blushed || money >= Salon.MakeupPrice);
+            var shades = Add(_clothes, new VisualElement(), "chips", "dyes");
+            List<HsvColor> lipsticks = Salon.Lipsticks(world.Characters);
+            for (int i = 0; i < lipsticks.Count; i++)
+            {
+                HsvColor c = lipsticks[i];
+                Button b = Add(shades, Button("lipstick-" + i, "", () => _session.Lipstick(c)), "dye");
+                b.style.backgroundColor = UnityEngine.Color.HSVToRGB(c.H - (float)Math.Floor(c.H), Math.Max(0f, Math.Min(1f, c.S)), Math.Max(0f, Math.Min(1f, c.V)));
+                b.SetEnabled(money >= Salon.MakeupPrice);
+            }
         }
 
         /// <summary>A button showing a piece of clothing: a dot of its main colour, then its label.</summary>

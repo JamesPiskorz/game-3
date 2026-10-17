@@ -267,6 +267,8 @@ namespace Game.Sim.Sandbox
                 case "greet.stranger.family": Note(day, $"{name}'s family had already told them all about you."); break;
                 case "greet.player.makeover.love": Note(day, $"{name} loved the new hair."); break;
                 case "greet.player.makeover.meh": Note(day, $"{name} wasn't sure about the new hair."); break;
+                case "greet.player.makeup.love": Note(day, $"{name} loved the makeup."); break;
+                case "greet.player.makeup.meh": Note(day, $"{name} wasn't sure about the makeup."); break;
                 case "compliment.makeover.haircut":
                 case "compliment.makeover.colour":
                 case "compliment.makeover.clothes": Note(day, $"Noticed {name}'s new look, which meant a lot."); break;

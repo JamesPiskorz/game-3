@@ -12,6 +12,9 @@ namespace Game.Sim.Residents
         Haircut,
         Colour,
         Clothes,
+
+        /// <summary>Lipstick or blush (only the player, at the salon).</summary>
+        Makeup,
     }
 
     /// <summary>A change to how a resident looks, and the day it happened.</summary>
@@ -128,6 +131,7 @@ namespace Game.Sim.Residents
         {
             MakeoverKind.Haircut => "a new haircut",
             MakeoverKind.Colour => "a new hair colour",
+            MakeoverKind.Makeup => "new makeup",
             _ => "new clothes",
         };
 
@@ -135,6 +139,7 @@ namespace Game.Sim.Residents
         {
             MakeoverKind.Haircut => "haircut",
             MakeoverKind.Colour => "colour",
+            MakeoverKind.Makeup => "makeup",
             _ => "clothes",
         };
 

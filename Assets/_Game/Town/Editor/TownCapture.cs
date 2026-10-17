@@ -34,7 +34,7 @@ namespace Game.Town
             "press:act-chat", "shot:chat", "press:chatopt-{chat}", "shot:chat-reply", "press:chatopt-{chat}", "shot:chat-heard",
             "press:act-date", "press:dateplace-park", "shot:date",
             "press:dateopt-{best}", "shot:date-round", "press:dateopt-{best}", "press:dateopt-{best}", "shot:date-end",
-            "press:act-end-date", "press:place-mall", "press:buy-0", "shot:boutique", "press:cut-{cut}", "shot:salon",
+            "press:act-end-date", "press:place-mall", "press:buy-0", "shot:boutique", "press:cut-{cut}", "shot:salon", "press:lipstick-1", "press:blush-toggle", "shot:salon-makeup",
             "hour:20", "press:place-bar", "press:here-0", "shot:bar", "press:act-gift", "shot:give-picker", "press:giveitem-0", "shot:give-clothes",
             "smitten", "press:act-greet", "shot:confess", "press:confess-yes", "shot:confess-yes",
             "hour:22", "press:place-park", "shot:park-night",

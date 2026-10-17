@@ -324,6 +324,24 @@
       { "tone": "bubbly", "text": "New outfit day is the best day!" },
       { "tone": "dry", "text": "The new clothes are growing on me." }
     ],
+    "greet.player.makeup.love": [
+      { "tone": "any", "text": "Oh, you're wearing makeup! It looks lovely on you." },
+      { "tone": "shy", "text": "You look... um. Really pretty today. I mean it." },
+      { "tone": "bubbly", "text": "Okay, that colour on you? Perfect! You have to tell me where you got it!" },
+      { "tone": "dry", "text": "Nice colour. You should wear that more often." }
+    ],
+    "greet.player.makeup.nice": [
+      { "tone": "any", "text": "Something's different... makeup? It suits you." },
+      { "tone": "shy", "text": "Oh, you look nice today." },
+      { "tone": "bubbly", "text": "Ooh, a little makeup! Cute!" },
+      { "tone": "dry", "text": "Makeup. Okay. It works." }
+    ],
+    "greet.player.makeup.meh": [
+      { "tone": "any", "text": "Oh. Makeup? I liked your face fine before, honestly." },
+      { "tone": "shy", "text": "You look... different. Not bad! Just different." },
+      { "tone": "bubbly", "text": "Huh, makeup! Bold! Not sure it's you, but bold!" },
+      { "tone": "dry", "text": "You didn't need that. Just saying." }
+    ],
     "greet.player.makeover.love": [
       { "tone": "any", "text": "Wait, your hair! Oh, I love it. It really suits you." },
       { "tone": "shy", "text": "Oh! Your hair... it looks really, really good." },

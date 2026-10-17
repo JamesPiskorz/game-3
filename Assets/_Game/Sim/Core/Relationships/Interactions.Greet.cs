@@ -75,8 +75,9 @@ namespace Game.Sim.Relationships
                 if (mine != null && _previousSeen < mine.Day && rel.NoticedPlayerMakeoverDay < mine.Day && Today - mine.Day <= Makeovers.NewForDays)
                 {
                     rel.NoticedPlayerMakeoverDay = mine.Day;
-                    float taste = FirstImpression.HairTaste(resident.Profile, _world.Player.Dna, _world.Characters);
-                    string verdict = taste >= LovesHairAt ? "love" : taste < MehHairBelow ? "meh" : "nice";
+                    bool makeup = mine.Kind == MakeoverKind.Makeup;
+                    float taste = makeup ? FirstImpression.MakeupTaste(resident.Profile, _world.Characters) : FirstImpression.HairTaste(resident.Profile, _world.Player.Dna, _world.Characters);
+                    string verdict = taste >= (makeup ? LovesMakeupAt : LovesHairAt) ? "love" : taste < (makeup ? MehMakeupBelow : MehHairBelow) ? "meh" : "nice";
                     if (verdict == "love")
                     {
                         Add(ref rel.Attraction, 4f);
@@ -85,7 +86,7 @@ namespace Game.Sim.Relationships
                     }
                     else if (verdict == "nice") Add(ref rel.Attraction, 1.5f);
                     else Add(ref rel.Attraction, -1f);
-                    return Finish(resident, rel, rng, result, before, "greet.player.makeover." + verdict, GreetMinutes);
+                    return Finish(resident, rel, rng, result, before, (makeup ? "greet.player.makeup." : "greet.player.makeover.") + verdict, GreetMinutes);
                 }
 
                 // A new look since the player last saw them: they bring it up (and a compliment now counts double).
@@ -178,5 +179,7 @@ namespace Game.Sim.Relationships
 
         /// <summary>How much they must like a style for new hair to win them over, or how little for it to fall flat.</summary>
         public const float LovesHairAt = 0.4f, MehHairBelow = 0.2f;
+        /// <summary>Makeup taste over a town runs from about 0.29 (20th percentile) to 0.56 (80th), so about a fifth love it and a fifth don't.</summary>
+        public const float LovesMakeupAt = 0.55f, MehMakeupBelow = 0.3f;
     }
 }

@@ -108,6 +108,51 @@ namespace Game.Sim.Tests
             Assert.That(act.Greet(fan).Reaction, Does.Not.StartWith("greet.player.makeover"), "Once.");
         }
 
+        [Test]
+        public void LipstickAndBlushCostLittleAndComeOffFree()
+        {
+            TownSession session = AtTheSalon(out SimWorld world);
+            world.Player.Dna.Face.Makeup.Clear();
+            HsvColor red = Salon.Lipsticks(world.Characters)[1];
+            session.Lipstick(red);
+            session.Blush(true);
+            Assert.That(world.Player.Money, Is.EqualTo(500 - 2 * Salon.MakeupPrice));
+            Assert.That(world.Player.Dna.Face.Makeup.Select(m => m.OverlayId), Is.EquivalentTo(new[] { Makeup.Lipstick, Salon.BlushId }));
+            Assert.That(world.Player.LastMakeover.Kind, Is.EqualTo(MakeoverKind.Makeup));
+            Assert.That(DnaValidator.Validate(world.Characters, world.Player.Dna), Is.Empty);
+
+            session.Lipstick(red);
+            Assert.That(session.Notice, Does.Contain("already"));
+            int money = world.Player.Money;
+            world.Player.LastMakeover = null;
+            session.Lipstick(null);
+            session.Blush(false);
+            Assert.That(world.Player.Money, Is.EqualTo(money), "Taking it off is free.");
+            Assert.That(world.Player.Dna.Face.Makeup, Is.Empty);
+            Assert.That(world.Player.LastMakeover, Is.Null, "And nobody remarks on it.");
+        }
+
+        [Test]
+        public void PeopleReactToMakeupByHowMuchTheirStyleWearsIt()
+        {
+            TownSession session = AtTheSalon(out SimWorld world);
+            world.Player.Dna.Face.Makeup.Clear();
+            Resident fan = world.Residents.OrderByDescending(r => FirstImpression.MakeupTaste(r.Profile, world.Characters)).First();
+            Resident sceptic = world.Residents.OrderBy(r => FirstImpression.MakeupTaste(r.Profile, world.Characters)).First();
+            foreach (Resident r in new[] { fan, sceptic })
+            {
+                Relationship rel = world.RelationshipWith(r);
+                rel.Met = true;
+                rel.Familiarity = 20f;
+                rel.LastSeenDay = 1;
+            }
+            session.Lipstick(Salon.Lipsticks(world.Characters)[0]);
+
+            var act = new Interactions(world);
+            Assert.That(act.Greet(fan).Reaction, Is.EqualTo("greet.player.makeup.love"));
+            Assert.That(act.Greet(sceptic).Reaction, Is.EqualTo("greet.player.makeup.meh"));
+        }
+
         static CharacterDna Cut(SimWorld world, PartEntry cut)
         {
             CharacterDna dna = DnaSerializer.FromJson(DnaSerializer.ToJson(world.Player.Dna, indented: false));

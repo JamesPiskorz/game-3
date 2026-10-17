@@ -52,7 +52,29 @@ namespace Game.Sim.Sandbox
             return true;
         });
 
-        void Restyle(int price, MakeoverKind kind, string what, Func<CharacterDna, bool> change)
+        /// <summary>Lipstick in a shade, or (null) none. Putting it on costs; taking it off is free and nobody remarks on it.</summary>
+        public void Lipstick(HsvColor? colour) => Restyle(colour.HasValue ? Salon.MakeupPrice : 0, colour.HasValue ? MakeoverKind.Makeup : (MakeoverKind?)null,
+            colour.HasValue ? "lipstick" : "bare-lipped look", dna =>
+            {
+                OverlayDna old = dna.Face.Makeup.FirstOrDefault(m => m.OverlayId == Makeup.Lipstick);
+                if (colour == null ? old == null : old != null && HsvColor.Distance(old.Tint, colour.Value) < 0.02f) return false;
+                dna.Face.Makeup.RemoveAll(m => m.OverlayId == Makeup.Lipstick);
+                if (colour.HasValue) dna.Face.Makeup.Add(new OverlayDna { OverlayId = Makeup.Lipstick, Tint = colour.Value.Normalized(), Opacity = 1f });
+                return true;
+            });
+
+        /// <summary>Blush on, or off (free, and unremarked).</summary>
+        public void Blush(bool on) => Restyle(on ? Salon.MakeupPrice : 0, on ? MakeoverKind.Makeup : (MakeoverKind?)null, on ? "blush" : "look without blush", dna =>
+        {
+            bool has = dna.Face.Makeup.Any(m => Makeup.SlotOf(World.Characters, m.OverlayId) == Slots.FaceBlush);
+            if (has == on || (on && World.Characters.Part(Salon.BlushId) == null)) return false;
+            dna.Face.Makeup.RemoveAll(m => Makeup.SlotOf(World.Characters, m.OverlayId) == Slots.FaceBlush);
+            ColourPalette palette = World.Characters.Palette(Makeup.BlushPalette);
+            if (on) dna.Face.Makeup.Add(new OverlayDna { OverlayId = Salon.BlushId, Tint = palette == null ? new HsvColor(0.96f, 0.35f, 0.95f) : HsvColor.FromHex(palette.Colours[0].Hex), Opacity = 1f });
+            return true;
+        });
+
+        void Restyle(int price, MakeoverKind? kind, string what, Func<CharacterDna, bool> change)
         {
             Notice = null;
             PlayerCharacter player = World.Player;
@@ -70,10 +92,10 @@ namespace Game.Sim.Sandbox
                     player.Money -= price;
                     _today.Spent += price;
                     player.LookVersion++;
-                    player.LastMakeover = new Makeover { Day = World.Now.Day, Kind = kind };
-                    World.Advance(Salon.Minutes);
+                    if (kind.HasValue) player.LastMakeover = new Makeover { Day = World.Now.Day, Kind = kind.Value };
+                    World.Advance(kind == MakeoverKind.Makeup ? Salon.Minutes / 2 : kind == null ? 5 : Salon.Minutes);
                     AfterTimePasses();
-                    Notice ??= $"A new {what}, for {price} coins. People who know you will notice.";
+                    Notice ??= price == 0 ? $"A {what}." : $"A new {what}, for {price} coins. People who know you will notice.";
                 }
             }
             Raise();

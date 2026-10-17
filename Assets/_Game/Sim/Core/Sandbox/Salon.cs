@@ -13,7 +13,16 @@ namespace Game.Sim.Sandbox
     public static class Salon
     {
         public const string Location = Boutique.Location;
-        public const int CutPrice = 40, BangsPrice = 20, DyePrice = 35;
+        public const int CutPrice = 40, BangsPrice = 20, DyePrice = 35, MakeupPrice = 15;
+
+        /// <summary>The blush the makeup counter puts on.</summary>
+        public const string BlushId = "face.makeup.blush_01";
+
+        /// <summary>Lipstick shades: the everyday ones, then the dark ones.</summary>
+        public static List<HsvColor> Lipsticks(ContentCatalog catalog) =>
+            new[] { Makeup.LipPalette, "makeup.lips.dark" }
+                .SelectMany(id => catalog.Palette(id)?.Colours ?? new List<PaletteColour>())
+                .Select(c => HsvColor.FromHex(c.Hex)).ToList();
         public const int Minutes = 60;
 
         public static List<PartEntry> Cuts(ContentCatalog catalog) => catalog.PartsInSlot(Slots.HairBack).ToList();
