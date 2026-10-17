@@ -2,7 +2,7 @@
 
 _Draft v1 · 2026-10-17 · Engine: Unity 6 (URP) · Look: 3D stylized/anime · Art: in-house, small team_
 
-> **Progress:** Phase 0 is done apart from the style bible and Spike C (UMA). Phase 2's generator, creator and quality gate are done on procedural stand-in content. The Blender → Unity part pipeline works end to end (Spike E). Phase 5 has started: the sim core and a playable town prototype (create a character, go into town, meet residents, go on a date) run on stand-ins. See [Docs/STATUS.md](Docs/STATUS.md) and the decision records in [Docs/decisions](Docs/decisions/).
+> **Progress:** Phase 0 is done apart from the style bible (a technical draft exists, the art calls are open) and Spike C (UMA). Phase 2's generator, creator and quality gate are done on procedural stand-in content. The Blender → Unity part pipeline works end to end (Spike E). Phase 5 has started: the sim core and a playable town prototype (create a character, go into town, meet residents, go on a date) run on stand-ins. See [Docs/STATUS.md](Docs/STATUS.md) and the decision records in [Docs/decisions](Docs/decisions/).
 
 ---
 
@@ -522,6 +522,6 @@ Goal: the full pipeline, end to end and at production quality, with a small set 
 - [x] Install the packages from §6.
 - [x] Create the folder layout and asmdefs (`Game.Characters` with `noEngineReferences`, `Game.Characters.Unity`, Editor, Tests).
 - [x] Implement `CharacterDna` v1 and PCG32, with JSON round-trip and determinism tests.
-- [ ] Art: write the style bible, and block out the base-body proportions and skeleton in Blender.
+- [ ] Art: write the style bible, and block out the base-body proportions and skeleton in Blender. _(A technical draft v0 is in [Docs/style-bible.md](Docs/style-bible.md): what the code enforces, with the art calls left open.)_
 - [x] Run spikes A, B and D and write the decision records (0001–0003). Spike C (UMA) is still open.
 - [ ] Answer the open questions in §10, especially platform and camera.

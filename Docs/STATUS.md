@@ -61,6 +61,10 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
   - Anything on min-spec hardware or in a player build.
   - Real art. Everything visual is procedural stand-ins and blockout sets.
 
+## For artists
+
+[style-bible.md](style-bible.md) (draft v0) gathers everything the code enforces for character art: units and axes, bone names, body shapes, regions, recolour masks, budgets, naming, catalog fields and the review checklist. The taste calls are left open for the art team.
+
 ## Gotchas found along the way
 
 - **Unity CLI and licensing need an unsandboxed shell** on this machine, because the sandbox hides the Windows credential store.
