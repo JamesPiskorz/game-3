@@ -8,7 +8,7 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 - **Creator:** face marks and lipstick in the Face tab; **Variations** shows six candidates at once.
 - **Town:** portraits in contacts, messages, the card and your stats line; **Photos**: a great date leaves a photo of the two of you, as you looked that night (also on their card and, with a save, on the menu), and a photo booth at Arcade Lane for anyone you're close to; the card says when they're wearing your gift; people can be taken with your freckles, in a first hello or a returned compliment (when they like that style more than anything you're wearing); residents ask what you think of their outfit; confessions (residents ask you out); clothes as gifts that residents wear; a makeup counter at the salon; residents' makeup changes over the weeks.
 - **Menu:** the cast behind the menu keeps changing, with a caption of what the generator picked; with a saved game, your latest date photo sits under Continue (`FlowCheck` checks it and screenshots `menu-photo.png`).
-- **Fixes:** swept and curtain bangs have clean diagonal edges (they were staircases) and the hairline curves to the temples (a small step remains where some fringes meet the side hair); the first portrait of a session no longer comes out black; the AutoPlayer actually shops; parts unequipped mid-frame no longer render.
+- **Fixes:** swept and curtain bangs have clean diagonal edges (they were staircases) and the hairline curves to the temples (the hime cut's side locks are still flat slabs, with a gap where they meet its bangs); the first portrait of a session no longer comes out black; the AutoPlayer actually shops; parts unequipped mid-frame no longer render.
 
 ## What exists
 
