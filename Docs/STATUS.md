@@ -7,7 +7,7 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 - **Generation:** freckles, beauty marks, blush and lipstick by style; three textured hairstyles (afro, puffs, locs); square and cat-eye glasses; a beret; a turtleneck, a sweater, a cardigan, a pinafore, wide trousers, loafers and high-tops, drop earrings, a flower pin and a choker; argyle and chevron patterns; eye and brow styles pushed apart, fuller builds that read, catch-lights; freckles run in families. New review sheets: face styles and body range.
 - **Creator:** face marks and lipstick in the Face tab; **Variations** shows six candidates at once.
 - **Town:** portraits in contacts, messages, the card and your stats line; **Photos**: a great date leaves a photo of the two of you, as you looked that night; confessions (residents ask you out); clothes as gifts that residents wear; a makeup counter at the salon; residents' makeup changes over the weeks.
-- **Menu:** the cast behind the menu keeps changing, with a caption of what the generator picked.
+- **Menu:** the cast behind the menu keeps changing, with a caption of what the generator picked; with a saved game, your latest date photo sits under Continue (not yet seen in a capture: automated runs don't write a save with photos).
 - **Fixes:** swept bangs and the hairline no longer show a notch; the first portrait of a session no longer comes out black; the AutoPlayer actually shops; parts unequipped mid-frame no longer render.
 
 ## What exists

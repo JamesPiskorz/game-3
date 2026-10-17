@@ -10,6 +10,9 @@ namespace Game.Sim.Relationships
         public int Day;
         public string Location;
         public string PlayerLook;
+
+        /// <summary>Their first name and the place's name, for captions where the town isn't loaded (the main menu).</summary>
+        public string Name, Place;
         public string TheirLook;
     }
 }

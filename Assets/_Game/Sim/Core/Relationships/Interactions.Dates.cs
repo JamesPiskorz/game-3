@@ -225,7 +225,7 @@ namespace Game.Sim.Relationships
             if ((key == "date.great" || key == "date.partner") && _world.Player.Dna != null)
                 _world.Photos.Add(new Photo
                 {
-                    Resident = resident.Index, Day = Today, Location = location.Id,
+                    Resident = resident.Index, Day = Today, Location = location.Id, Name = resident.Profile.FirstName, Place = location.Name,
                     PlayerLook = DnaSerializer.ToJson(_world.Player.Dna, indented: false),
                     TheirLook = DnaSerializer.ToJson(resident.Dna, indented: false),
                 });

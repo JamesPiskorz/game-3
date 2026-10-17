@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Game.Characters.Building;
 using Game.Characters.Content;
 using Game.Characters.Dna;
@@ -77,6 +78,7 @@ namespace Game.Town
             });
             resume.SetEnabled(HasSave);
             panel.Add(resume);
+            LastPhoto(panel);
             panel.Add(MenuButton("quit", "Quit", Application.Quit));
 
             _caption = Label("Everyone here was just generated: face, hair, skin and clothes.", "menu-caption");
@@ -86,6 +88,46 @@ namespace Game.Town
             root.Add(shuffle);
 
             BuildCast();
+        }
+
+        PortraitStudio _studio;
+        RenderTexture _photo;
+
+        /// <summary>With a saved game, the most recent date photo under Continue: a reason to come back.</summary>
+        void LastPhoto(VisualElement panel)
+        {
+            if (!HasSave || Content == null) return;
+            Game.Sim.Relationships.Photo last;
+            try
+            {
+                last = Game.Sim.SimSave.FromJson(File.ReadAllText(TownScreen.SavePath)).Photos?.LastOrDefault();
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogWarning($"[Menu] Couldn't read the save for its photos: {e.Message}");
+                return;
+            }
+            if (last?.PlayerLook == null || last.TheirLook == null) return;
+            _studio = new PortraitStudio(new CharacterBuilder(Content), new Color(0.86f, 0.8f, 0.88f));
+            _photo = PortraitStudio.Target(360, 240);
+            _studio.RenderPair(DnaSerializer.FromJson(last.PlayerLook), DnaSerializer.FromJson(last.TheirLook), Game.Sim.Sandbox.TownSession.DateOutfit, _photo);
+            var picture = new VisualElement { name = "last-photo" };
+            picture.AddToClassList("menu-photo");
+            picture.style.backgroundImage = Background.FromRenderTexture(_photo);
+            panel.Add(picture);
+            string with = last.Name != null ? $" with {last.Name}" : "";
+            string where = last.Place != null ? $" at {last.Place}" : "";
+            panel.Add(Label($"Last time: day {last.Day + 1}{with}{where}.", "menu-subtitle"));
+        }
+
+        void OnDestroy()
+        {
+            _studio?.Dispose();
+            if (_photo != null)
+            {
+                _photo.Release();
+                Destroy(_photo);
+            }
         }
 
         void BuildCast()
