@@ -179,8 +179,18 @@ namespace Game.Characters.Tests.Modular
             face.Snap();
             Assert.That(corner.TransformPoint(tip).y, Is.LessThan(resting - 0.002f), "Sadness turns them down.");
 
+            // Shyness brings out a blush; neutral hides it again.
+            Transform blush = character.GetComponentsInChildren<Transform>().First(t => t.name == "Blush.L");
             face.Show("neutral");
             face.Snap();
+            float hidden = blush.localPosition.z;
+            face.Show("shy", 1f, float.PositiveInfinity);
+            face.Snap();
+            Assert.That(blush.localPosition.z, Is.GreaterThan(hidden + 0.005f), "A shy face blushes.");
+
+            face.Show("neutral");
+            face.Snap();
+            Assert.That(blush.localPosition.z, Is.EqualTo(hidden).Within(1e-6f));
             Assert.That(Vector3.Distance(mouth.localScale, restingMouth), Is.LessThan(1e-5f));
             Assert.That(Vector3.Distance(brow.localPosition, restingBrow), Is.LessThan(1e-6f));
         }

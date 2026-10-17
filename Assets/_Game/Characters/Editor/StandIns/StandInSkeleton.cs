@@ -44,6 +44,9 @@ namespace Game.Characters.StandIns
             // The mouth's corners pivot at the inner ends of the side pieces, so turning them curves the mouth.
             new StandInBone("Mouth.L", "Mouth", new Vector3(-0.008f, 1.59f, 0.1f)),
             new StandInBone("Mouth.R", "Mouth", new Vector3(0.008f, 1.59f, 0.1f)),
+            // Blush lines rest just under the cheeks' skin; expressions push them out.
+            new StandInBone("Blush.L", "Head", new Vector3(-0.055f, 1.612f, 0.092f)),
+            new StandInBone("Blush.R", "Head", new Vector3(0.055f, 1.612f, 0.092f)),
             new StandInBone("UpperArm.L", "Chest", new Vector3(-0.16f, 1.4f, 0f)),
             new StandInBone("LowerArm.L", "UpperArm.L", new Vector3(-0.44f, 1.4f, 0f)),
             new StandInBone("Hand.L", "LowerArm.L", new Vector3(-0.69f, 1.4f, 0f)),

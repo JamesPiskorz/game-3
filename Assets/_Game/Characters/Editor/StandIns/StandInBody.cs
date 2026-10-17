@@ -55,6 +55,21 @@ namespace Game.Characters.StandIns
                 mesh.AddEllipsoid(eye + new Vector3(0f, -0.002f, 0.004f), new Vector3(0.012f, 0.018f, 0.004f), Head, true, "Eye" + side, Iris);
                 mesh.AddEllipsoid(Bone("Brow" + side), new Vector3(0.019f, 0.0045f, 0.004f), Head, true, "Brow" + side, Dark);
             }
+            // Blush as anime hatching, three short strokes on each cheek in the brows' colour. Each stroke's ends sit
+            // just under the curved cheek, so it's hidden until an expression pushes the lines out through the skin.
+            foreach ((string side, float x) in new[] { (".L", -0.055f), (".R", 0.055f) })
+                for (int i = -1; i <= 1; i++)
+                {
+                    Vector3 Under(float px, float py)
+                    {
+                        float dx = px, dy = py - head.y;
+                        float z = Mathf.Sqrt(Mathf.Max(0f, StandInSkeleton.HeadRadius * StandInSkeleton.HeadRadius - dx * dx - dy * dy));
+                        return new Vector3(px, py, head.z + z - 0.0042f);
+                    }
+                    float cx = x + i * 0.0085f;
+                    mesh.AddTube(new Tube { Region = Head, Start = Under(cx + 0.0028f, 1.606f), End = Under(cx - 0.0028f, 1.618f), R0 = 0.0017f, R1 = 0.0017f, Bone = "Blush" + side },
+                        0f, Cap.Closed, Cap.Closed, Dark, true, withShapes: false);
+                }
             // A centre piece and two corner pieces: the corners turn up for a smile and down for a frown.
             mesh.AddEllipsoid(Bone("Mouth"), new Vector3(0.0095f, 0.003f, 0.004f), Head, true, "Mouth", Lips);
             foreach ((string side, float x) in new[] { (".L", -1f), (".R", 1f) })

@@ -30,6 +30,8 @@ namespace Game.Characters.Expressions
         public float MouthRaise;
         /// <summary>Degrees the mouth's corners turn: positive curves up into a smile, negative down into a frown.</summary>
         public float MouthCurve;
+        /// <summary>0..1 how flushed the cheeks are.</summary>
+        public float Blush;
 
         public static FacePose Lerp(FacePose a, FacePose b, float t) => new FacePose
         {
@@ -42,6 +44,7 @@ namespace Game.Characters.Expressions
             MouthOpen = Mathf.Lerp(a.MouthOpen, b.MouthOpen, t),
             MouthRaise = Mathf.Lerp(a.MouthRaise, b.MouthRaise, t),
             MouthCurve = Mathf.Lerp(a.MouthCurve, b.MouthCurve, t),
+            Blush = Mathf.Lerp(a.Blush, b.Blush, t),
         };
     }
 
@@ -56,9 +59,9 @@ namespace Game.Characters.Expressions
         public static readonly IReadOnlyDictionary<string, FacePose> Poses = new Dictionary<string, FacePose>
         {
             ["neutral"] = default,
-            ["happy"] = new FacePose { BrowRaise = 0.002f, EyeOpen = -0.25f, MouthWidth = 0.25f, MouthOpen = 0.6f, MouthRaise = 0.001f, MouthCurve = 22f },
-            ["delighted"] = new FacePose { BrowRaise = 0.004f, EyeOpen = -0.6f, MouthWidth = 0.35f, MouthOpen = 2.2f, MouthRaise = 0.0015f, MouthCurve = 26f },
-            ["shy"] = new FacePose { BrowRaise = 0.001f, BrowTilt = 18f, EyeOpen = -0.15f, EyeLook = 10f, MouthWidth = -0.3f, MouthCurve = 12f },
+            ["happy"] = new FacePose { BrowRaise = 0.002f, EyeOpen = -0.25f, MouthWidth = 0.25f, MouthOpen = 0.6f, MouthRaise = 0.001f, MouthCurve = 22f, Blush = 0.3f },
+            ["delighted"] = new FacePose { BrowRaise = 0.004f, EyeOpen = -0.6f, MouthWidth = 0.35f, MouthOpen = 2.2f, MouthRaise = 0.0015f, MouthCurve = 26f, Blush = 0.6f },
+            ["shy"] = new FacePose { BrowRaise = 0.001f, BrowTilt = 18f, EyeOpen = -0.15f, EyeLook = 10f, MouthWidth = -0.3f, MouthCurve = 12f, Blush = 1f },
             ["sad"] = new FacePose { BrowRaise = -0.001f, BrowTilt = 28f, EyeOpen = -0.2f, EyeLook = 6f, MouthWidth = -0.2f, MouthOpen = -0.3f, MouthRaise = -0.0015f, MouthCurve = -24f },
             ["annoyed"] = new FacePose { BrowRaise = -0.003f, BrowTilt = -24f, BrowIn = 0.003f, EyeOpen = -0.3f, MouthWidth = -0.1f, MouthOpen = -0.4f, MouthCurve = -12f },
             ["surprised"] = new FacePose { BrowRaise = 0.006f, EyeOpen = 0.2f, MouthWidth = -0.35f, MouthOpen = 3f },
@@ -71,6 +74,10 @@ namespace Game.Characters.Expressions
         public string BrowLeft = "Brow.L", BrowRight = "Brow.R";
         public string Mouth = "Mouth";
         public string MouthLeft = "Mouth.L", MouthRight = "Mouth.R";
+        public string BlushLeft = "Blush.L", BlushRight = "Blush.R";
+
+        /// <summary>How far a full blush pushes the lines out through the skin, in metres.</summary>
+        public float BlushDepth = 0.0075f;
 
         /// <summary>How quickly the face moves towards its target, per second.</summary>
         public float Speed = 12f;
@@ -84,7 +91,7 @@ namespace Game.Characters.Expressions
         }
 
         readonly List<Base> _bases = new List<Base>();
-        Base? _eyeL, _eyeR, _browL, _browR, _mouth, _mouthL, _mouthR;
+        Base? _eyeL, _eyeR, _browL, _browR, _mouth, _mouthL, _mouthR, _blushL, _blushR;
         bool _hasBase;
         FacePose _current, _target;
         string _expression = "neutral";
@@ -144,6 +151,9 @@ namespace Game.Characters.Expressions
             Vector3 corner = Vector3.one * Mathf.Lerp(1f, 0.3f, pucker);
             Pose(_mouthL, Vector3.zero, new Vector3(0f, 0f, -pose.MouthCurve), corner);
             Pose(_mouthR, Vector3.zero, new Vector3(0f, 0f, pose.MouthCurve), corner);
+            var flush = new Vector3(0f, 0f, pose.Blush * BlushDepth);
+            Pose(_blushL, flush, Vector3.zero, Vector3.one);
+            Pose(_blushR, flush, Vector3.zero, Vector3.one);
         }
 
         static void Pose(Base? feature, Vector3 offset, Vector3 euler, Vector3 scale)
@@ -177,6 +187,8 @@ namespace Game.Characters.Expressions
             _mouth = Take(Mouth);
             _mouthL = Take(MouthLeft);
             _mouthR = Take(MouthRight);
+            _blushL = Take(BlushLeft);
+            _blushR = Take(BlushRight);
             _hasBase = true;
         }
 

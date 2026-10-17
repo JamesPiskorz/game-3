@@ -175,6 +175,8 @@ Each archetype sets how often optional pieces appear: `hatChance`, `glassesChanc
 
 Recolourable face colours are iris, brows, eye whites and lips (body regions 1–4). Makeup and freckles are a planned overlay layer.
 
+- **Blush** on the stand-in is anime hatching, three strokes per cheek in the brow colour, pushed out through the skin by expressions (`Blush.L`, `Blush.R`). A pink flush would need a fifth face colour; [Art to decide] which style the game uses.
+
 ## 5. Hair
 
 - **Pieces:** a back piece (crown and length) plus a front piece (bangs). Any back can pair with any front, so bangs must not assume a particular back.
