@@ -107,6 +107,9 @@ namespace Game.Sim
         public string OutfitAt(string location)
         {
             LocationEntry place = Catalog.Location(location);
+            // At the gym, everyone's in their workout clothes.
+            if (place != null && place.Tags.Contains("sports") && Characters?.Context(Sandbox.TownSession.SportOutfit) != null)
+                return Sandbox.TownSession.SportOutfit;
             string everyday = Weather == Weather.Rainy && Characters?.Context(Sandbox.TownSession.RainOutfit) != null
                 ? Sandbox.TownSession.RainOutfit : Sandbox.TownSession.DayOutfit;
             if (place == null || Now.Hour < 18) return everyday;

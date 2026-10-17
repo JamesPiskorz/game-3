@@ -95,4 +95,4 @@ Partner may still be too quick for a sandbox. Retune it after real play sessions
   - NPCs dating and gossiping among themselves over time (the web is static apart from breakups).
   - Weather, and outfits changing by occasion beyond casual and date.
   - Jealousy when dating several people.
-- **Tests:** 137 sim tests (the town, families, makeovers, the salon, profiles, schedules, weather, interactions, chats, pacing, dialogue, dates, the boutique, contacts, the social web, invitations, the day loop, saves, the session, a fuzz test and story tests) pass on .NET 8 and in Unity. The prototype is verified headless by `TownCapture`, which presses HUD buttons through a scripted visit and saves `Docs/review/town-*.png`.
+- **Tests:** 139 sim tests (the town, families, makeovers, the salon, profiles, schedules, weather, interactions, chats, pacing, dialogue, dates, the boutique, contacts, the social web, invitations, the day loop, saves, the session, a fuzz test and story tests) pass on .NET 8 and in Unity. The prototype is verified headless by `TownCapture`, which presses HUD buttons through a scripted visit and saves `Docs/review/town-*.png`.

@@ -164,5 +164,21 @@ namespace Game.Sim.Tests
             Assert.That(loaded.Player.Wardrobe.Count, Is.EqualTo(session.World.Player.Wardrobe.Count));
             Assert.That(SimSave.Capture(loaded).ToJson(), Is.EqualTo(json));
         }
+        [Test]
+        public void ChangingIntoTrousersTakesTheTightsOff()
+        {
+            TownSession session = AtTheMall();
+            SimWorld world = session.World;
+            ItemDna Item(string id) => new ItemDna { ItemId = id, RegionColors = Enumerable.Repeat(new HsvColor(0.6f, 0.5f, 0.5f), world.Characters.Part(id).Regions).ToList() };
+            OutfitDna outfit = Wearing(session);
+            outfit.Items = new[] { "cloth.top.tshirt_01", "cloth.bottom.skirt_01", "cloth.legwear.tights_01", "cloth.shoes.sneakers_01" }.Select(Item).ToList();
+            ItemDna pants = Item("cloth.bottom.pants_01");
+            world.Player.Wardrobe.AddRange(outfit.Items.Select(i => Item(i.ItemId)));
+            world.Player.Wardrobe.Add(Item(pants.ItemId));
+
+            Assert.That(session.Wear(pants), session.Notice);
+            Assert.That(Wearing(session).Items.Select(i => i.ItemId), Does.Contain("cloth.bottom.pants_01").And.Not.Contain("cloth.legwear.tights_01"));
+            Assert.That(session.Notice, Does.Contain("tights come off"));
+        }
     }
 }

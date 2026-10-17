@@ -23,6 +23,8 @@
    - Outfits add one by an archetype's `outerChance`. A context can require one: the `rain` context ("Rainy day") picks the coat first and builds the rest of the outfit to go under it.
    - Draws come from their own streams, so existing outfits only gained layers and nobody's clothes changed.
    - Details meant to lie on top (the scarf's hanging end) are deep enough that their front clears an outer layer while their back still meets a plain top. Review found the scarf poking through coats before that.
+   - Legwear (tights, thigh-highs) sits right on the skin, under every bottom and boot, and requires a `bare_legs` piece (skirts, dresses, shorts) so it's never hidden under trousers. Changing into trousers in the wardrobe takes tights off rather than refusing the change.
+   - A context can allow only certain tags (`onlyTags`): the "Workout" context is sporty pieces only, and residents wear it at the gym. The catalog check makes sure every required slot has a piece it allows.
 5. **Coherence rules are found by review, then enforced by tests.** The 96-character quality sheet showed that clothing near the skin colour reads as bare skin. Torso and leg clothing now keeps a minimum distance from the skin. The rule is solved jointly with top/bottom contrast and covered by a 3,000-character sweep.
 6. **The builder is idempotent:**
    - It captures a rest pose once and resets bound bones before applying sliders and styles.

@@ -73,8 +73,8 @@ namespace Game.Characters.Review
             }
 
             // Hats need hair that takes one.
-            if (part.RequiresTags.Count > 0)
-                dna.Hair.PieceIds = new List<string> { catalog.Parts.First(p => p.Slot == Slots.HairBack && part.RequiresTags.All(p.Tags.Contains)).Id };
+            PartEntry hair = part.RequiresTags.Count == 0 ? null : catalog.Parts.FirstOrDefault(p => p.Slot == Slots.HairBack && part.RequiresTags.All(p.Tags.Contains));
+            if (hair != null) dna.Hair.PieceIds = new List<string> { hair.Id };
 
             outfit.Items.RemoveAll(item =>
             {
@@ -82,6 +82,14 @@ namespace Game.Characters.Review
                 return other.Slot == part.Slot || part.BlocksSlots.Contains(other.Slot) || other.BlocksSlots.Contains(part.Slot);
             });
             outfit.Items.Add(Item(part.Id));
+            // Legwear needs legs that show: swap the bottom for one that shows them.
+            bool Provided(string tag) => dna.Hair.PieceIds.Concat(outfit.Items.Select(i => i.ItemId)).Any(id => catalog.Part(id)?.Tags.Contains(tag) == true);
+            PartEntry showing = part.RequiresTags.All(Provided) ? null : catalog.PartsInSlot(Slots.Bottom).FirstOrDefault(b => part.RequiresTags.All(b.Tags.Contains));
+            if (showing != null)
+            {
+                outfit.Items.RemoveAll(i => SlotOf(i) == Slots.Bottom || SlotOf(i) == Slots.OnePiece);
+                outfit.Items.Add(Item(showing.Id));
+            }
             bool onePiece = outfit.Items.Any(i => SlotOf(i) == Slots.OnePiece);
             if (!onePiece && outfit.Items.All(i => SlotOf(i) != Slots.Top)) outfit.Items.Add(Item("cloth.top.tshirt_01"));
             if (!onePiece && outfit.Items.All(i => SlotOf(i) != Slots.Bottom)) outfit.Items.Add(Item("cloth.bottom.pants_01"));

@@ -21,6 +21,7 @@ namespace Game.Sim.Sandbox
         public const string DateOutfit = "date";
         public const string DayOutfit = "casual";
         public const string RainOutfit = "rain";
+        public const string SportOutfit = "sport";
         public const int ShiftHours = 4;
         public const int PayPerHour = 15;
         public const int ChangeMinutes = 5;
@@ -315,6 +316,7 @@ namespace Game.Sim.Sandbox
             }).ToList();
             next.Add(Copy(item));
             FillRequiredSlots(next);
+            List<string> off = TakeOffWhatNoLongerFits(next, item);
 
             if (!Wearable(next, out string problem))
             {
@@ -326,9 +328,37 @@ namespace Game.Sim.Sandbox
             World.Player.LookVersion++;
             World.Advance(ChangeMinutes);
             AfterTimePasses();
-            if (!quiet) Notice = $"You change into the {(part.Name ?? ContentCatalog.Humanize(part.Id)).ToLowerInvariant()}.";
+            if (!quiet) Notice = $"You change into the {(part.Name ?? ContentCatalog.Humanize(part.Id)).ToLowerInvariant()}."
+                + (off.Count == 0 ? "" : $" The {string.Join(" and the ", off)} come off.");
             Raise();
             return true;
+        }
+
+        /// <summary>
+        /// Accessories and extras that don't go with the new piece come off (tights under trousers), rather than
+        /// refusing the change. Returns their names.
+        /// </summary>
+        List<string> TakeOffWhatNoLongerFits(List<ItemDna> items, ItemDna added)
+        {
+            var off = new List<string>();
+            List<PartEntry> hair = World.Player.Dna.Hair.PieceIds.Select(World.Characters.Part).Where(p => p != null).ToList();
+            bool changed = true;
+            while (changed)
+            {
+                changed = false;
+                foreach (ItemDna worn in items.ToList())
+                {
+                    PartEntry part = World.Characters.Part(worn.ItemId);
+                    if (part == null || worn.ItemId == added.ItemId || part.Slot == Slots.Top || part.Slot == Slots.Bottom
+                        || part.Slot == Slots.OnePiece || part.Slot == Slots.Shoes) continue;
+                    List<PartEntry> others = hair.Concat(items.Where(i => i != worn).Select(i => World.Characters.Part(i.ItemId)).Where(p => p != null)).ToList();
+                    if (CharacterGenerator.Compatible(part, others)) continue;
+                    items.Remove(worn);
+                    off.Add((part.Name ?? ContentCatalog.Humanize(part.Id)).ToLowerInvariant());
+                    changed = true;
+                }
+            }
+            return off;
         }
 
         OutfitDna CurrentOutfit()

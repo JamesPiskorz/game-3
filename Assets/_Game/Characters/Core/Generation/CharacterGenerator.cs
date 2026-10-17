@@ -230,6 +230,10 @@ namespace Game.Characters.Generation
                     Wear(PickPart(neck, Slots.Neck, archetype, context, femininity, worn));
                 if (!context.Outer && outer.Chance(archetype.OuterChance))
                     Wear(PickPart(outer, Slots.Outer, archetype, context, femininity, worn));
+                // Tights or socks, where legs show; their own stream again.
+                Pcg32 legs = SeedStreams.For(seed, "outfit.legwear." + contextId);
+                if (legs.Chance(archetype.LegwearChance))
+                    Wear(PickPart(legs, Slots.Legwear, archetype, context, femininity, worn));
 
                 var outfit = new OutfitDna { Context = contextId };
                 OutfitColourer.Colour(rng, _catalog, archetype, palette, items, outfit, SkinColour(dna.Skin.Tone));
@@ -271,7 +275,9 @@ namespace Game.Characters.Generation
 
         IEnumerable<PartEntry> Candidates(string slot, OutfitContext context, List<PartEntry> worn) =>
             _catalog.PartsInSlot(slot).Where(p =>
-                (context == null || p.Contexts.Count == 0 || p.Contexts.Contains(context.Id)) && Compatible(p, worn));
+                (context == null || p.Contexts.Count == 0 || p.Contexts.Contains(context.Id))
+                && (context == null || context.OnlyTags.Count == 0 || p.Tags.Any(context.OnlyTags.Contains))
+                && Compatible(p, worn));
 
         static float PartWeight(PartEntry part, StyleArchetype archetype, OutfitContext context, float femininity) =>
             part.Weight * Affinity.Of(archetype, part.Tags) * Affinity.Of(context, part.Tags) * Affinity.Of(part.Lean, femininity);

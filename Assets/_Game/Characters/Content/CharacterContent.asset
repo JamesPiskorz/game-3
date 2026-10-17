@@ -78,6 +78,10 @@ MonoBehaviour:
     Prefab: {fileID: 4464213729245049470, guid: a1c492f991c80f94185fec3f52e47141, type: 3}
   - Id: cloth.outer.coat_01
     Prefab: {fileID: 7847054412189120578, guid: 0ee88afa454abda429f99dcafaff896e, type: 3}
+  - Id: cloth.legwear.tights_01
+    Prefab: {fileID: 2213277655113302920, guid: 7a60aa277fb7f2a4fb224d8b484f34d6, type: 3}
+  - Id: cloth.legwear.socks_01
+    Prefab: {fileID: 6492877069657280053, guid: d1799e5ded9968c4e94dcce6f7d35573, type: 3}
   - Id: acc.neck.scarf_01
     Prefab: {fileID: 8500610744588557661, guid: baeac3713eacea4468a07a59e2dedf49, type: 3}
   - Id: acc.neck.necklace_01

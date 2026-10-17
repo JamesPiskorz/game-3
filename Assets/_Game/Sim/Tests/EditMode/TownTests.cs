@@ -174,6 +174,23 @@ namespace Game.Sim.Tests
         }
 
         [Test]
+        public void AtTheGymEveryoneIsInWorkoutClothes()
+        {
+            SimWorld town = Fixtures.Town(0x5EED, 24);
+            town.Now = SimTime.At(2, 18);
+            Assert.That(town.OutfitAt("gym"), Is.EqualTo(Sandbox.TownSession.SportOutfit));
+            foreach (Resident r in town.Residents)
+            {
+                var sport = r.Dna.Outfits.Single(o => o.Context == Sandbox.TownSession.SportOutfit);
+                foreach (var item in sport.Items)
+                {
+                    var part = town.Characters.Part(item.ItemId);
+                    Assert.That(part.Tags.Contains("sporty") || part.Slot == Game.Characters.Content.Slots.Glasses, $"{r}: {part.Id} at the gym");
+                }
+            }
+        }
+
+        [Test]
         public void OnRainyDaysPeopleWearTheirCoats()
         {
             SimWorld town = Fixtures.Town(0x5EED, 24);

@@ -58,17 +58,17 @@
   "parts": [
     { "id": "cloth.top.tshirt_01", "name": "T-shirt", "slot": "top", "tags": ["casual", "sporty", "street"], "regions": 2, "patternable": true },
     { "id": "cloth.top.longsleeve_01", "name": "Long-sleeve top", "slot": "top", "tags": ["casual", "bookish", "elegant", "gothic", "date"], "regions": 2, "patternable": true },
-    { "id": "cloth.top.tank_01", "name": "Tank top", "slot": "top", "tags": ["sporty", "street", "casual"], "regions": 2, "patternable": true, "contexts": ["casual"] },
-    { "id": "cloth.top.hoodie_01", "name": "Hoodie", "slot": "top", "tags": ["casual", "street", "sporty", "hooded"], "regions": 2, "contexts": ["casual"] },
+    { "id": "cloth.top.tank_01", "name": "Tank top", "slot": "top", "tags": ["sporty", "street", "casual"], "regions": 2, "patternable": true, "contexts": ["casual", "sport"] },
+    { "id": "cloth.top.hoodie_01", "name": "Hoodie", "slot": "top", "tags": ["casual", "street", "sporty", "hooded"], "regions": 2, "contexts": ["casual", "sport"] },
     { "id": "cloth.top.blouse_01", "name": "Blouse", "slot": "top", "tags": ["cute", "elegant", "bookish", "date"], "regions": 2, "patternable": true, "lean": 0.6 },
     { "id": "cloth.top.blazer_01", "name": "Blazer", "slot": "top", "tags": ["elegant", "bookish", "gothic", "date", "tailored"], "regions": 2, "lean": -0.2 },
-    { "id": "cloth.bottom.shorts_01", "name": "Shorts", "slot": "bottom", "tags": ["casual", "sporty", "street"], "regions": 2, "contexts": ["casual"] },
+    { "id": "cloth.bottom.shorts_01", "name": "Shorts", "slot": "bottom", "tags": ["casual", "sporty", "street", "bare_legs"], "regions": 2, "contexts": ["casual", "sport"] },
     { "id": "cloth.bottom.pants_01", "name": "Trousers", "slot": "bottom", "tags": ["casual", "elegant", "bookish", "gothic", "street", "date"], "regions": 2, "lean": -0.2 },
-    { "id": "cloth.bottom.skirt_01", "name": "Skirt", "slot": "bottom", "tags": ["cute", "elegant", "gothic", "bookish", "date"], "regions": 3, "patternable": true, "lean": 0.7 },
-    { "id": "cloth.bottom.longskirt_01", "name": "Long skirt", "slot": "bottom", "tags": ["elegant", "gothic", "bookish", "cute", "date"], "regions": 3, "patternable": true, "lean": 0.8 },
-    { "id": "cloth.bottom.joggers_01", "name": "Joggers", "slot": "bottom", "tags": ["sporty", "street", "casual"], "regions": 2, "contexts": ["casual"], "lean": -0.1 },
-    { "id": "cloth.onepiece.dress_01", "name": "Dress", "slot": "onepiece", "blocksSlots": ["top", "bottom"], "tags": ["cute", "elegant", "gothic", "date"], "regions": 3, "patternable": true, "lean": 0.8 },
-    { "id": "cloth.onepiece.sundress_01", "name": "Sundress", "slot": "onepiece", "blocksSlots": ["top", "bottom"], "tags": ["cute", "casual", "date"], "regions": 2, "patternable": true, "lean": 0.9 },
+    { "id": "cloth.bottom.skirt_01", "name": "Skirt", "slot": "bottom", "tags": ["cute", "elegant", "gothic", "bookish", "date", "bare_legs"], "regions": 3, "patternable": true, "lean": 0.7 },
+    { "id": "cloth.bottom.longskirt_01", "name": "Long skirt", "slot": "bottom", "tags": ["elegant", "gothic", "bookish", "cute", "date", "bare_legs"], "regions": 3, "patternable": true, "lean": 0.8 },
+    { "id": "cloth.bottom.joggers_01", "name": "Joggers", "slot": "bottom", "tags": ["sporty", "street", "casual"], "regions": 2, "contexts": ["casual", "sport"], "lean": -0.1 },
+    { "id": "cloth.onepiece.dress_01", "name": "Dress", "slot": "onepiece", "blocksSlots": ["top", "bottom"], "tags": ["cute", "elegant", "gothic", "date", "bare_legs"], "regions": 3, "patternable": true, "lean": 0.8 },
+    { "id": "cloth.onepiece.sundress_01", "name": "Sundress", "slot": "onepiece", "blocksSlots": ["top", "bottom"], "tags": ["cute", "casual", "date", "bare_legs"], "regions": 2, "patternable": true, "lean": 0.9 },
     { "id": "cloth.shoes.sneakers_01", "name": "Sneakers", "slot": "shoes", "tags": ["casual", "sporty", "street", "cute"], "regions": 2 },
     { "id": "cloth.shoes.boots_01", "name": "Boots", "slot": "shoes", "tags": ["gothic", "street", "elegant", "bookish", "date"], "regions": 2 },
     { "id": "cloth.shoes.sandals_01", "name": "Sandals", "slot": "shoes", "tags": ["casual", "cute"], "regions": 2, "contexts": ["casual"] },
@@ -89,10 +89,12 @@
     { "id": "acc.glasses.round_01", "name": "Round glasses", "slot": "glasses", "tags": ["bookish", "elegant", "casual"] },
     { "id": "cloth.outer.jacket_01", "name": "Jacket", "slot": "outer", "tags": ["casual", "street", "sporty", "bookish"], "regions": 2, "excludesTags": ["hooded", "tailored"] },
     { "id": "cloth.outer.coat_01", "name": "Coat", "slot": "outer", "tags": ["elegant", "gothic", "bookish", "cute", "casual"], "regions": 2, "excludesTags": ["hooded", "tailored"] },
+    { "id": "cloth.legwear.tights_01", "name": "Tights", "slot": "legwear", "tags": ["gothic", "elegant", "cute", "bookish", "date"], "regions": 1, "patternable": true, "requiresTags": ["bare_legs"] },
+    { "id": "cloth.legwear.socks_01", "name": "Thigh-highs", "slot": "legwear", "tags": ["cute", "gothic", "street"], "regions": 2, "patternable": true, "requiresTags": ["bare_legs"], "lean": 0.4 },
     { "id": "acc.neck.scarf_01", "name": "Scarf", "slot": "neck", "tags": ["casual", "street", "bookish", "cute"], "regions": 2, "patternable": true, "contexts": ["casual", "rain"] },
     { "id": "acc.neck.necklace_01", "name": "Necklace", "slot": "neck", "tags": ["elegant", "gothic", "cute", "date"], "regions": 2, "lean": 0.4 },
-    { "id": "acc.hat.cap_01", "name": "Cap", "slot": "hat", "tags": ["sporty", "street", "casual"], "regions": 2, "requiresTags": ["hat_ok"], "contexts": ["casual", "rain"] },
-    { "id": "acc.hat.beanie_01", "name": "Beanie", "slot": "hat", "tags": ["street", "casual", "sporty"], "regions": 2, "requiresTags": ["hat_ok"], "contexts": ["casual", "rain"] }
+    { "id": "acc.hat.cap_01", "name": "Cap", "slot": "hat", "tags": ["sporty", "street", "casual"], "regions": 2, "requiresTags": ["hat_ok"], "contexts": ["casual", "rain", "sport"] },
+    { "id": "acc.hat.beanie_01", "name": "Beanie", "slot": "hat", "tags": ["street", "casual", "sporty"], "regions": 2, "requiresTags": ["hat_ok"], "contexts": ["casual", "rain", "sport"] }
   ],
 
   "patterns": [
@@ -155,25 +157,26 @@
 
   "archetypes": [
     { "id": "casual", "name": "Casual", "weight": 1.4, "outfitPalette": "outfit.casual", "tagWeights": { "casual": 3, "street": 0.6, "sporty": 0.6, "bookish": 0.4 },
-      "patternChance": 0.2, "fantasyHairChance": 0.08, "gradientChance": 0.1, "glassesChance": 0.12, "neckChance": 0.1, "outerChance": 0.12, "hatChance": 0.12, "noBangsChance": 0.3 },
+      "patternChance": 0.2, "fantasyHairChance": 0.08, "gradientChance": 0.1, "glassesChance": 0.12, "neckChance": 0.1, "outerChance": 0.12, "legwearChance": 0.1, "hatChance": 0.12, "noBangsChance": 0.3 },
     { "id": "sporty", "name": "Sporty", "weight": 1.0, "outfitPalette": "outfit.sporty", "tagWeights": { "sporty": 3, "casual": 0.8, "street": 0.5 },
-      "patternChance": 0.15, "fantasyHairChance": 0.08, "gradientChance": 0.1, "glassesChance": 0.04, "neckChance": 0.04, "outerChance": 0.1, "hatChance": 0.15, "noBangsChance": 0.4 },
+      "patternChance": 0.15, "fantasyHairChance": 0.08, "gradientChance": 0.1, "glassesChance": 0.04, "neckChance": 0.04, "outerChance": 0.1, "legwearChance": 0.04, "hatChance": 0.15, "noBangsChance": 0.4 },
     { "id": "cute", "name": "Cute", "weight": 1.0, "outfitPalette": "outfit.cute", "tagWeights": { "cute": 3, "casual": 0.6, "date": 0.4 },
-      "patternChance": 0.35, "fantasyHairChance": 0.3, "fantasyEyeChance": 0.08, "gradientChance": 0.3, "glassesChance": 0.08, "neckChance": 0.22, "outerChance": 0.06, "hatChance": 0.08, "noBangsChance": 0.15 },
+      "patternChance": 0.35, "fantasyHairChance": 0.3, "fantasyEyeChance": 0.08, "gradientChance": 0.3, "glassesChance": 0.08, "neckChance": 0.22, "outerChance": 0.06, "legwearChance": 0.4, "hatChance": 0.08, "noBangsChance": 0.15 },
     { "id": "gothic", "name": "Gothic", "weight": 0.7, "outfitPalette": "outfit.gothic", "tagWeights": { "gothic": 3, "elegant": 0.8 },
-      "patternChance": 0.15, "fantasyHairChance": 0.3, "fantasyEyeChance": 0.12, "gradientChance": 0.25, "glassesChance": 0.08, "neckChance": 0.32, "outerChance": 0.25, "hatChance": 0.05, "noBangsChance": 0.15 },
+      "patternChance": 0.15, "fantasyHairChance": 0.3, "fantasyEyeChance": 0.12, "gradientChance": 0.25, "glassesChance": 0.08, "neckChance": 0.32, "outerChance": 0.25, "legwearChance": 0.5, "hatChance": 0.05, "noBangsChance": 0.15 },
     { "id": "elegant", "name": "Elegant", "weight": 0.9, "outfitPalette": "outfit.elegant", "tagWeights": { "elegant": 3, "date": 0.6, "bookish": 0.4 },
-      "patternChance": 0.1, "fantasyHairChance": 0.06, "gradientChance": 0.08, "glassesChance": 0.15, "neckChance": 0.3, "outerChance": 0.12, "hatChance": 0.03, "noBangsChance": 0.35 },
+      "patternChance": 0.1, "fantasyHairChance": 0.06, "gradientChance": 0.08, "glassesChance": 0.15, "neckChance": 0.3, "outerChance": 0.12, "legwearChance": 0.3, "hatChance": 0.03, "noBangsChance": 0.35 },
     { "id": "street", "name": "Street", "weight": 1.0, "outfitPalette": "outfit.street", "tagWeights": { "street": 3, "sporty": 0.6, "casual": 0.6 },
-      "patternChance": 0.2, "fantasyHairChance": 0.2, "gradientChance": 0.25, "glassesChance": 0.08, "neckChance": 0.18, "outerChance": 0.3, "hatChance": 0.3, "noBangsChance": 0.3 },
+      "patternChance": 0.2, "fantasyHairChance": 0.2, "gradientChance": 0.25, "glassesChance": 0.08, "neckChance": 0.18, "outerChance": 0.3, "legwearChance": 0.18, "hatChance": 0.3, "noBangsChance": 0.3 },
     { "id": "bookish", "name": "Bookish", "weight": 0.8, "outfitPalette": "outfit.bookish", "tagWeights": { "bookish": 3, "elegant": 0.5, "casual": 0.5 },
-      "patternChance": 0.3, "fantasyHairChance": 0.05, "gradientChance": 0.05, "glassesChance": 0.55, "neckChance": 0.15, "outerChance": 0.18, "hatChance": 0.04, "noBangsChance": 0.25 }
+      "patternChance": 0.3, "fantasyHairChance": 0.05, "gradientChance": 0.05, "glassesChance": 0.55, "neckChance": 0.15, "outerChance": 0.18, "legwearChance": 0.22, "hatChance": 0.04, "noBangsChance": 0.25 }
   ],
 
   "contexts": [
     { "id": "casual", "name": "Casual", "tagWeights": { "casual": 1.0 } },
     { "id": "date", "name": "Date", "tagWeights": { "date": 1.5, "elegant": 0.5 } },
-    { "id": "rain", "name": "Rainy day", "tagWeights": { "casual": 1.0 }, "outer": true }
+    { "id": "rain", "name": "Rainy day", "tagWeights": { "casual": 1.0 }, "outer": true },
+    { "id": "sport", "name": "Workout", "tagWeights": { "sporty": 2.0 }, "onlyTags": ["sporty"] }
   ],
 
   "hair": { "naturalPalette": "hair.natural", "fantasyPalette": "hair.fantasy" },

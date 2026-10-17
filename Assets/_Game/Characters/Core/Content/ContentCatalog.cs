@@ -90,6 +90,10 @@ namespace Game.Characters.Content
             if (Archetypes.Count == 0) errors.Add("No archetypes.");
             if (FacePresets.Count == 0) errors.Add("No face presets.");
             if (Contexts.Count == 0) errors.Add("No outfit contexts.");
+            foreach (OutfitContext context in Contexts.Where(c => c.OnlyTags.Count > 0))
+                foreach (string slot in new[] { Slots.Top, Slots.Bottom, Slots.Shoes })
+                    if (!PartsInSlot(slot).Any(p => (p.Contexts.Count == 0 || p.Contexts.Contains(context.Id)) && p.Tags.Any(context.OnlyTags.Contains)))
+                        errors.Add($"Context '{context.Id}' allows only {string.Join("/", context.OnlyTags)}, but no {slot} part has those tags.");
             foreach (OutfitContext context in Contexts.Where(c => c.Outer))
                 if (!PartsInSlot(Slots.Outer).Any(p => p.Contexts.Count == 0 || p.Contexts.Contains(context.Id)))
                     errors.Add($"Context '{context.Id}' needs an outer layer, but no outer part fits it.");
@@ -108,6 +112,7 @@ namespace Game.Characters.Content
         public const string Glasses = "glasses";
         public const string Neck = "neck";
         public const string Outer = "outer";
+        public const string Legwear = "legwear";
         public const string HairBack = "hair.back";
         public const string HairFront = "hair.front";
     }
@@ -241,6 +246,9 @@ namespace Game.Characters.Content
 
         /// <summary>The chance an outfit adds an outer layer (jacket, coat) by choice; contexts can require one.</summary>
         public float OuterChance = 0.1f;
+
+        /// <summary>The chance of tights or socks with legs that show (anything tagged bare_legs).</summary>
+        public float LegwearChance = 0.1f;
         public float HatChance = 0.1f;
         public float NoBangsChance = 0.25f;
     }
@@ -254,6 +262,9 @@ namespace Game.Characters.Content
 
         /// <summary>Every outfit for this context has an outer layer (a rainy day's coat).</summary>
         public bool Outer;
+
+        /// <summary>If set, only parts with one of these tags are worn in this context (sportswear at the gym). Hair is the person's own.</summary>
+        public List<string> OnlyTags = new List<string>();
     }
 
     public sealed class HairRules

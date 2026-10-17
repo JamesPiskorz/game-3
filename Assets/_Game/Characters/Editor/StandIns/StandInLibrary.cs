@@ -421,6 +421,37 @@ namespace Game.Characters.StandIns
                 },
             };
 
+            // ---------------- legwear: right on the skin, under every bottom (skirt waistbands sit at Cloth * 0.5) and boot
+            yield return new Recipe
+            {
+                Id = "cloth.legwear.tights_01", Slot = "legwear", Material = "Cloth",
+                Covers = Pelvis | ThighL | ThighR | CalfL | CalfR,
+                Build = m =>
+                {
+                    const float thin = Cloth * 0.25f;
+                    m.AddTube(StandInBody.TubeFor(Pelvis), thin, Cap.Closed, Cap.Open, Region1, false);
+                    foreach (BodyRegions leg in new[] { ThighL, ThighR, CalfL, CalfR })
+                        m.AddTube(StandInBody.TubeFor(leg), thin, Cap.Open, Cap.Open, Region1, false);
+                },
+            };
+            yield return new Recipe
+            {
+                Id = "cloth.legwear.socks_01", Slot = "legwear", Material = "Cloth",
+                Covers = CalfL | CalfR,
+                Build = m =>
+                {
+                    const float thin = Cloth * 0.33f;
+                    foreach ((BodyRegions thigh, BodyRegions calf) in new[] { (ThighL, CalfL), (ThighR, CalfR) })
+                    {
+                        // Up over the knee, with a band at the top in the second colour.
+                        Tube above = StandInBody.TubeFor(thigh);
+                        above.Start = Vector3.Lerp(above.Start, above.End, 0.4f);
+                        m.AddTube(above, thin, Cap.Open, Cap.Open, Trim(0.22f, true, false), false);
+                        m.AddTube(StandInBody.TubeFor(calf), thin, Cap.Open, Cap.Open, Region1, false);
+                    }
+                },
+            };
+
             // ---------------- neckwear: details in front of the chest take its shape response (like the blazer's lapels)
             yield return new Recipe
             {
