@@ -21,7 +21,10 @@ namespace Game.Town
         readonly TownSession _session;
         readonly Label _clock, _place, _coins, _notice, _speaker, _line, _followUp, _learnt;
         readonly VisualElement _dialogue, _deltas, _places, _here, _card, _clothes;
-        readonly Button _work;
+        readonly Button _work, _contactsButton;
+        readonly Label _hereTitle;
+        readonly VisualElement _contacts;
+        bool _showContacts;
         string _choices; // "talk", "gift" or "date": which picker is open under the actions
         Resident _choicesFor;
 
@@ -37,6 +40,11 @@ namespace Game.Town
             _coins = Add(top, new Label(), "coins");
             Add(top, new VisualElement(), "spacer");
             _work = Add(top, Button("work", "Work a shift", () => _session.Work()));
+            _contactsButton = Add(top, Button("contacts", "Contacts", () =>
+            {
+                _showContacts = !_showContacts;
+                Refresh();
+            }));
             Add(top, Button("wait", "Wait an hour", () => _session.Wait()));
             Add(top, Button("sleep", "Sleep", () => _session.Sleep()));
             Add(top, Button("save", "Save", save));
@@ -53,7 +61,8 @@ namespace Game.Town
             var panel = Add(root, new ScrollView(), "panel");
             Add(panel, new Label("Go to"), "section");
             _places = Add(panel, new VisualElement(), "chips");
-            Add(panel, new Label("Here"), "section");
+            _contacts = Add(panel, new VisualElement(), "contacts");
+            _hereTitle = Add(panel, new Label("Here"), "section");
             _here = Add(panel, new VisualElement(), "here");
             _clothes = Add(panel, new VisualElement(), "clothes");
             _card = Add(panel, new VisualElement(), "card");
@@ -74,9 +83,40 @@ namespace Game.Town
 
             RefreshDialogue();
             RefreshPlaces(world);
+            RefreshContacts();
+            DisplayStyle normal = _showContacts ? DisplayStyle.None : DisplayStyle.Flex;
+            _hereTitle.style.display = _here.style.display = _clothes.style.display = normal;
+            if (_showContacts) _card.style.display = DisplayStyle.None;
+            if (_showContacts) return;
             RefreshHere();
             RefreshClothes(world);
             RefreshCard(world);
+        }
+
+        /// <summary>Everyone you've met, closest first, with what you know about where they are.</summary>
+        void RefreshContacts()
+        {
+            _contacts.Clear();
+            _contactsButton.EnableInClassList("selected", _showContacts);
+            _contacts.style.display = _showContacts ? DisplayStyle.Flex : DisplayStyle.None;
+            if (!_showContacts) return;
+
+            Add(_contacts, new Label("Contacts"), "section");
+            List<Contact> contacts = _session.Contacts();
+            if (contacts.Count == 0) Add(_contacts, new Label("You haven't met anyone yet. Say hi to people around town."), "hint");
+            for (int i = 0; i < contacts.Count; i++)
+            {
+                Contact contact = contacts[i];
+                var row = Add(_contacts, new VisualElement(), "contact");
+                bool findable = contact.KnownLocation != null && contact.KnownLocation != SimCatalog.Home && _session.IsOpen(contact.KnownLocation);
+                Button button = Add(row, Button("contact-" + i, $"{contact.Resident.Name}   \u00B7   {StageName(contact.Relationship.Stage)}", () =>
+                {
+                    _showContacts = false;
+                    _session.Find(contact);
+                }), "person");
+                button.SetEnabled(findable && _session.DateWith == null);
+                Add(row, new Label(contact.Hint), "hint", "contact-hint");
+            }
         }
 
         /// <summary>The boutique's stock at the mall, the wardrobe at home.</summary>

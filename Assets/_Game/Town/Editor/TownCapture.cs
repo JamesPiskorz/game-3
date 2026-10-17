@@ -36,6 +36,7 @@ namespace Game.Town
             "hour:20", "press:place-bar", "press:here-0", "shot:bar",
             "hour:22", "press:place-park", "shot:park-night",
             "press:place-home", "shot:wardrobe",
+            "press:contacts", "shot:contacts",
         };
 
         static int _frame, _step;

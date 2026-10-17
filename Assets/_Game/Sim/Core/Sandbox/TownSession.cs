@@ -259,6 +259,25 @@ namespace Game.Sim.Sandbox
             PatternColor = item.PatternColor,
         };
 
+        // ---------------------------------------------------------------- contacts
+
+        public List<Contact> Contacts() => Sandbox.Contacts.For(this);
+
+        /// <summary>Goes to where a contact is, if the player knows and it's somewhere they can go.</summary>
+        public void Find(Contact contact)
+        {
+            Notice = null;
+            string place = contact.KnownLocation;
+            if (place == null || place == SimCatalog.Home)
+            {
+                Notice = place == null ? $"You're not sure where {contact.Resident.Profile.FirstName} is." : $"{contact.Resident.Profile.FirstName} is at home.";
+                Raise();
+                return;
+            }
+            Travel(place);
+            if (Location == place) Select(contact.Resident);
+        }
+
         /// <summary>Shows a message from outside the sim ("Game saved").</summary>
         public void Tell(string message)
         {
