@@ -97,6 +97,7 @@
     { "id": "hair.front.swept_01", "name": "Swept bangs", "slot": "hair.front", "tags": ["casual", "elegant", "street", "sporty"] },
     { "id": "hair.front.parted_01", "name": "Parted bangs", "slot": "hair.front", "tags": ["elegant", "bookish", "gothic", "casual"] },
     { "id": "hair.front.curtain_01", "name": "Curtain bangs", "slot": "hair.front", "tags": ["cute", "elegant", "casual", "street"] },
+    { "id": "hair.front.hime_01", "name": "Hime cut", "slot": "hair.front", "tags": ["elegant", "gothic", "cute"] },
 
     { "id": "acc.glasses.round_01", "name": "Round glasses", "slot": "glasses", "tags": ["bookish", "elegant", "casual"] },
     { "id": "acc.glasses.square_01", "name": "Square glasses", "slot": "glasses", "tags": ["bookish", "street", "casual"] },

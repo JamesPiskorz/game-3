@@ -509,6 +509,14 @@ namespace Game.Characters.StandIns
             yield return Hair("hair.front.blunt_01", "hair.front", m =>
                 m.AddEllipsoid(HeadCentre, new Vector3(HeadR + 0.019f, HeadR + 0.019f, HeadR + 0.019f), None, false, "Head", Region1,
                     d => d.z > 0.25f && d.y > 0.52f));
+            yield return Hair("hair.front.hime_01", "hair.front", m =>
+            {
+                // A hime cut: blunt bangs, and a straight lock either side of the face cut level at the jaw.
+                m.AddEllipsoid(HeadCentre, new Vector3(HeadR + 0.019f, HeadR + 0.019f, HeadR + 0.019f), None, false, "Head", Region1,
+                    d => d.z > 0.25f && d.y > 0.52f);
+                m.AddCurtain(1.7f, 1.545f, 0.128f, 0.131f, 116f, 142f, null, Gradient(0.6f));
+                m.AddCurtain(1.7f, 1.545f, 0.128f, 0.131f, -142f, -116f, null, Gradient(0.6f));
+            });
             yield return Hair("hair.front.swept_01", "hair.front", m =>
             {
                 // Swept to one side: a level cut (smooth, along the sphere's rings), tilted so it rises toward +x.

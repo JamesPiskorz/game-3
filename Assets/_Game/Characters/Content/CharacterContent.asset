@@ -80,6 +80,8 @@ MonoBehaviour:
     Prefab: {fileID: 4560683986853413219, guid: 1377672241d443b4ea7296324bf3dd7b, type: 3}
   - Id: hair.front.blunt_01
     Prefab: {fileID: 7959323058404227635, guid: 5536e869c8850764cbb9ef1bd0f52cd5, type: 3}
+  - Id: hair.front.hime_01
+    Prefab: {fileID: 6860946237228462761, guid: 118534c29d386c644bdedd490d78855d, type: 3}
   - Id: hair.front.swept_01
     Prefab: {fileID: 2656334698948099300, guid: 3be6643afcb4ad2428024fb309a48394, type: 3}
   - Id: hair.front.parted_01
