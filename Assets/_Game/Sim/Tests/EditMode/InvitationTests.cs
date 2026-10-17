@@ -44,7 +44,7 @@ namespace Game.Sim.Tests
             {
                 Resident host = world.Residents[invitation.From];
                 Assert.That(close, Does.Contain(host), "Only close friends invite.");
-                Assert.That(host.Schedule.At(invitation.Day % 7, invitation.Hour), Is.EqualTo(invitation.Location), "They'll be there.");
+                Assert.That(world.WhereIs(host, SimTime.At(invitation.Day, invitation.Hour)), Is.EqualTo(invitation.Location), "They'll be there.");
                 Assert.That(world.Catalog.Location(invitation.Location).IsOpen(invitation.Hour));
                 Assert.That(invitation.Message, Does.Not.Contain("{"));
             }

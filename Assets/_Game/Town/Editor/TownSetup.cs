@@ -41,6 +41,7 @@ namespace Game.Town
             stage.Sun = sun;
             stage.PropMaterial = MaterialAsset(PropMaterialPath, "Universal Render Pipeline/Lit", new Color(0.8f, 0.8f, 0.8f));
             stage.HighlightMaterial = MaterialAsset(HighlightMaterialPath, "Universal Render Pipeline/Unlit", new Color(1f, 0.55f, 0.72f));
+            stage.RainMaterial = MaterialAsset(Folder + "/Materials/Rain.mat", "Universal Render Pipeline/Particles/Unlit", new Color(0.78f, 0.84f, 0.95f));
 
             var ui = new GameObject("Town UI");
             var document = ui.AddComponent<UIDocument>();

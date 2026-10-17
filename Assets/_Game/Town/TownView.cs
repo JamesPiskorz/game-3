@@ -83,7 +83,7 @@ namespace Game.Town
         public void Refresh()
         {
             SimWorld world = _session.World;
-            _clock.text = world.Now.ToString();
+            _clock.text = world.Now + "   \u00B7   " + Forecast.Describe(world.Weather);
             _place.text = _session.LocationName(_session.Location) + (_session.DateWith != null ? $"  ·  on a date with {_session.DateWith.Profile.FirstName}" : "");
             _coins.text = $"{world.Player.Money} coins";
             _work.style.display = _session.CanWork ? DisplayStyle.Flex : DisplayStyle.None;

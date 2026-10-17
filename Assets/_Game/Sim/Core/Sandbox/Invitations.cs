@@ -69,10 +69,10 @@ namespace Game.Sim.Sandbox
             string work = world.Catalog.Job(resident.Profile.JobId ?? "")?.Location;
             for (int hour = 12; hour <= 20; hour++)
             {
-                string place = resident.Schedule.At(day % 7, hour);
+                string place = world.WhereIs(resident, SimTime.At(day, hour));
                 LocationEntry location = world.Catalog.Location(place);
                 if (location == null || place == work) continue;
-                bool stays = Enumerable.Range(hour, WindowHours).All(h => h < 24 && resident.Schedule.At(day % 7, h) == place && location.IsOpen(h));
+                bool stays = Enumerable.Range(hour, WindowHours).All(h => h < 24 && world.WhereIs(resident, SimTime.At(day, h)) == place && location.IsOpen(h));
                 if (stays) return (place, hour);
             }
             return null;

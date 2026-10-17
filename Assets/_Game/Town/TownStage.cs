@@ -26,6 +26,7 @@ namespace Game.Town
         public Material HighlightMaterial;
         public Camera Camera;
         public Light Sun;
+        public Material RainMaterial;
 
         CharacterBuilder _builder;
         readonly Dictionary<int, Shown> _residents = new Dictionary<int, Shown>();
@@ -69,7 +70,7 @@ namespace Game.Town
             // A new place appears as it is; at the same place, people come and go on foot.
             bool arrived = _setId != session.Location;
             if (arrived) BuildSet(session.Location);
-            Light(TownSets.For(session.Location), world.Now.Hour);
+            Light(TownSets.For(session.Location), world.Now.Hour, world.Weather);
 
             bool date = session.DateWith != null;
             string outfit = date ? TownSession.DateOutfit : world.OutfitAt(session.Location);
@@ -274,6 +275,55 @@ namespace Game.Town
             }
         }
 
+        ParticleSystem _rain;
+
+        /// <summary>Streaks of rain over the stage, started already falling.</summary>
+        void Rain(bool on)
+        {
+            if (!on)
+            {
+                if (_rain != null) _rain.gameObject.SetActive(false);
+                return;
+            }
+            if (_rain == null)
+            {
+                var go = new GameObject("Rain");
+                go.transform.SetParent(transform, false);
+                go.transform.localPosition = new Vector3(0f, 7f, -1f);
+                _rain = go.AddComponent<ParticleSystem>();
+                _rain.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+                ParticleSystem.MainModule main = _rain.main;
+                main.duration = 1f;
+                main.loop = true;
+                main.startLifetime = 1.1f;
+                main.startSpeed = 0f;
+                main.startSize = 0.012f;
+                main.maxParticles = 4000;
+                main.simulationSpace = ParticleSystemSimulationSpace.World;
+                ParticleSystem.VelocityOverLifetimeModule velocity = _rain.velocityOverLifetime;
+                velocity.enabled = true;
+                velocity.space = ParticleSystemSimulationSpace.World;
+                velocity.x = new ParticleSystem.MinMaxCurve(-0.6f);
+                velocity.y = new ParticleSystem.MinMaxCurve(-9f);
+                velocity.z = new ParticleSystem.MinMaxCurve(0f);
+                ParticleSystem.EmissionModule emission = _rain.emission;
+                emission.rateOverTime = 2200f;
+                ParticleSystem.ShapeModule shape = _rain.shape;
+                shape.shapeType = ParticleSystemShapeType.Box;
+                shape.scale = new Vector3(20f, 0.1f, 12f);
+                var renderer = go.GetComponent<ParticleSystemRenderer>();
+                renderer.renderMode = ParticleSystemRenderMode.Stretch;
+                renderer.velocityScale = 0.035f;
+                renderer.lengthScale = 1f;
+                renderer.sharedMaterial = RainMaterial;
+                renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            }
+            if (_rain.gameObject.activeSelf && _rain.isPlaying) return;
+            _rain.gameObject.SetActive(true);
+            _rain.Simulate(1.5f, true, true);
+            _rain.Play();
+        }
+
         // Fraction of the view's width (at the subject's distance, for this field of view) to shift the subject left.
         const float OpenAreaShift = 0.13f;
 
@@ -366,7 +416,7 @@ namespace Game.Town
         /// Outdoors follows the clock (day, sunset, night with street lamps); interiors have warm overhead light and
         /// the walls as background, whatever the hour.
         /// </summary>
-        void Light(TownSets.Set set, int hour)
+        void Light(TownSets.Set set, int hour, Weather weather)
         {
             Color ambient, sunColour, background;
             float intensity;
@@ -405,6 +455,19 @@ namespace Game.Town
                 angles = new Vector3(48f, 150f, 0f);
                 lamps = true;
             }
+
+            // Clouds and rain grey the sky and soften the sun outdoors; it rains on outdoor sets.
+            if (set.Outdoor && weather != Weather.Sunny)
+            {
+                float grey = weather == Weather.Rainy ? 0.65f : 0.4f;
+                Color overcast = hour >= 20 || hour < 7 ? new Color(0.06f, 0.07f, 0.09f) : new Color(0.5f, 0.54f, 0.6f);
+                background = Color.Lerp(background, overcast, grey);
+                ambient = Color.Lerp(ambient, new Color(0.38f, 0.4f, 0.45f) * (hour >= 20 || hour < 7 ? 0.35f : 1f), grey);
+                sunColour = Color.Lerp(sunColour, new Color(0.82f, 0.86f, 0.92f), grey);
+                intensity *= 1f - 0.55f * grey;
+            }
+            Rain(set.Outdoor && weather == Weather.Rainy);
+            Sun.shadowStrength = set.Outdoor && weather != Weather.Sunny ? (weather == Weather.Rainy ? 0.35f : 0.6f) : 1f;
 
             Camera.clearFlags = CameraClearFlags.SolidColor;
             Camera.backgroundColor = background;

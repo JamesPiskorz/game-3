@@ -158,6 +158,36 @@ namespace Game.Sim.Tests
         }
 
         [Test]
+        public void WeatherIsSeededAndMostlyFine()
+        {
+            Assert.That(Forecast.For(5, 3), Is.EqualTo(Forecast.For(5, 3)));
+            var days = Enumerable.Range(0, 400).Select(d => Forecast.For(0x5EED, d)).ToList();
+            float rain = days.Count(w => w == Weather.Rainy) / 400f;
+            Assert.That(rain, Is.InRange(Forecast.RainChance - 0.06f, Forecast.RainChance + 0.06f));
+            Assert.That(days.Count(w => w == Weather.Sunny), Is.GreaterThan(days.Count(w => w == Weather.Rainy)));
+        }
+
+        [Test]
+        public void RainKeepsPeopleOutOfThePark()
+        {
+            SimWorld town = Fixtures.Town(0x5EED, 40);
+            int rainy = Enumerable.Range(0, 60).First(d => Forecast.For(town.Seed, d) == Weather.Rainy);
+            int planned = 0;
+            for (int hour = 8; hour < 22; hour++)
+            {
+                town.Now = SimTime.At(rainy, hour);
+                foreach (Resident r in town.Residents)
+                {
+                    if (r.Schedule.At(town.Now) == "park") planned++;
+                    string where = town.WhereIs(r);
+                    bool works = town.Catalog.Job(r.Profile.JobId).Location == where;
+                    Assert.That(where == "park" && !works, Is.False, $"{r} is in the park in the rain at {hour}:00.");
+                }
+            }
+            Assert.That(planned, Is.GreaterThan(0), "Someone had park plans that day.");
+        }
+
+        [Test]
         public void PeopleDressUpForAnEveningOut()
         {
             SimWorld town = Fixtures.Town(1, 1);

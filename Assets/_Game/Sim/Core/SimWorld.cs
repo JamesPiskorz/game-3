@@ -60,7 +60,27 @@ namespace Game.Sim
 
         readonly Dictionary<int, Relationship> _relationships = new Dictionary<int, Relationship>();
 
-        public string WhereIs(Resident resident) => resident.Schedule.At(Now);
+        public string WhereIs(Resident resident) => WhereIs(resident, Now);
+
+        /// <summary>
+        /// Where a resident is at <paramref name="time"/>: their weekly schedule, except that on a rainy day they skip
+        /// outdoor plans (work aside) for an open indoor favourite, or stay home.
+        /// </summary>
+        public string WhereIs(Resident resident, SimTime time)
+        {
+            string planned = resident.Schedule.At(time);
+            if (Forecast.For(Seed, time.Day) != Weather.Rainy) return planned;
+            LocationEntry place = Catalog.Location(planned);
+            if (place == null || !place.Tags.Contains("outdoors") || Catalog.Job(resident.Profile.JobId ?? "")?.Location == planned) return planned;
+            foreach (string hangout in resident.Profile.Hangouts)
+            {
+                LocationEntry shelter = Catalog.Location(hangout);
+                if (shelter != null && !shelter.Tags.Contains("outdoors") && shelter.IsOpen(time.Hour)) return hangout;
+            }
+            return SimCatalog.Home;
+        }
+
+        public Weather Weather => Forecast.For(Seed, Now.Day);
 
         /// <summary>
         /// What residents wear out right now: their going-out (date) outfit for evenings somewhere romantic, and for
@@ -76,7 +96,7 @@ namespace Game.Sim
         }
 
         /// <summary>Residents at a location right now, in index order.</summary>
-        public IEnumerable<Resident> At(string location) => Residents.Where(r => r.Schedule.At(Now) == location);
+        public IEnumerable<Resident> At(string location) => Residents.Where(r => WhereIs(r) == location);
 
         /// <summary>The relationship with resident <paramref name="index"/> if the player has one, else null (doesn't create one).</summary>
         public Relationship Find(int index) => _relationships.TryGetValue(index, out Relationship relationship) ? relationship : null;

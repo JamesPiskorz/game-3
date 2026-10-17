@@ -39,6 +39,7 @@ namespace Game.Town
             "press:place-home", "shot:wardrobe",
             "press:contacts", "shot:contacts",
             "close", "sleep-until-invited", "press:messages", "shot:messages",
+            "press:messages", "rainy-day", "press:place-park", "shot:park-rain",
         };
 
         static int _frame, _step, _pause;
@@ -131,6 +132,15 @@ namespace Game.Town
                     int minutes = (hour * 60 - (world.Now.Hour * 60 + world.Now.Minute) + 24 * 60) % (24 * 60);
                     screen.Session.Wait(minutes);
                     break;
+                case "rainy-day": // the next rainy morning, at home
+                {
+                    SimWorld w = screen.Session.World;
+                    int day = w.Now.Day + 1;
+                    while (Forecast.For(w.Seed, day) != Weather.Rainy) day++;
+                    while (w.Now.Day < day) screen.Session.Sleep();
+                    screen.Session.Wait(150); // late morning
+                    break;
+                }
                 case "sleep-until-invited":
                     for (int night = 0; night < 10 && screen.Session.World.Invitations.Count == 0; night++) screen.Session.Sleep();
                     break;
