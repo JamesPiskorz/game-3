@@ -21,6 +21,19 @@ namespace Game.Sim.Tests
         }
 
         [Test]
+        public void TheFirstDatePhotoIsPointedOut()
+        {
+            TownSession session = Busy(out SimWorld world);
+            Assert.That(session.Hint() ?? "", Does.Not.Contain("Photos"));
+            Resident someone = world.Residents[0];
+            world.Photos.Add(new Photo { Resident = someone.Index, Day = world.Now.Day, Location = "park", Name = someone.Profile.FirstName, Place = "Willow Park",
+                PlayerLook = "{}", TheirLook = "{}" });
+            Assert.That(session.Hint(), Does.Contain("Photos"));
+            session.Sleep();
+            Assert.That(session.Hint() ?? "", Does.Not.Contain("Photos"), "Only on the day.");
+        }
+
+        [Test]
         public void AChatWaitingForAnAnswerSaysSo()
         {
             TownSession session = Busy(out SimWorld _);

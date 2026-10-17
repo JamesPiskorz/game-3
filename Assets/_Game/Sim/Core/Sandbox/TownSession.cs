@@ -255,6 +255,8 @@ namespace Game.Sim.Sandbox
             if (Date != null && !Date.Finished) return "Pick what to talk about. Topics they love make for a good date.";
             if (Date != null) return "Say goodnight when you're ready.";
             if (World.Invitations.Any(i => i.Pending && i.Day == World.Now.Day)) return "You have a message: someone wants to meet up today.";
+            if (Date == null && World.Photos.Count == 1 && World.Photos[0].Day == World.Now.Day)
+                return "That date left a photo of the two of you: it's under Photos.";
             if (Confession != null) return $"{Confession.With.Profile.FirstName} has feelings for you. Say yes to start dating, or let {Confession.With.Profile.Object} down gently.";
             if (Chat != null) return "Pick a reply. Warmth, teasing or curiosity: different people warm to different things.";
             bool metAnyone = World.Relationships.Any(r => r.Met);

@@ -46,7 +46,7 @@ _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full pl
 | Stand-in content | Procedural body with simple face (catch-lights in the eyes), 68 parts (19 hair, including a braid on its own spring chain and three textured styles; 4 face marks; 45 clothing and accessories, including neckwear, outer layers, legwear, earrings, a crossbody bag and a backpack, hair accessories and three kinds of glasses), 9 face presets, 7 eye and 5 brow styles, 12 patterns, toon materials. **Placeholder art until Phase 1.** | `Characters/Editor/StandIns`, `Content/StandIn` |
 | Generator statistics | 10,000 characters measured as a population: style shares against catalog weights, presentation and skin-tone spread, fantasy hair and eyes, how often each part is worn in each context, patterns, rule violations (0) and time per character (about 0.5 ms with tonight's marks and pieces). A test fails if any part goes unworn | `Generation/GeneratorStats.cs`, `Docs/review/generator-stats.md` |
 | Performance | Town benchmark; distance-based detail (`CharacterLod`) | decision 0004, `Docs/review/perf.md` |
-| Tests | 307 Unity EditMode tests (142 characters, 165 sim); the pure C# sets also run on .NET 8 | `Characters/Tests`, `Sim/Tests` |
+| Tests | 308 Unity EditMode tests (142 characters, 166 sim); the pure C# sets also run on .NET 8 | `Characters/Tests`, `Sim/Tests` |
 
 ## Try it
 
