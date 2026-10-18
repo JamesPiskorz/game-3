@@ -36,6 +36,21 @@ The town is **a set of stages**, one per location, rather than a continuous spac
   - Start with one outdoor hub (the park and the café front) with NavMesh, and keep the stage view for interiors.
   - Keep `TownSession` as the authority, so tests and captures don't change.
 
+## Lighting (added 2026-10-18, graphics plan G0.4-G0.10)
+
+The light that followed the clock and weather became data:
+
+- **Presets.** `LightingPreset` assets (day, sunset, night, interior, studio) in a `LightingLibrary` the character content points to. `SceneLighting` applies a look to a scene: sun, ambient as a gradient (sky, horizon, ground, built into the ambient probe), a gradient sky with soft clouds (`Game/Environment/Sky`), linear fog, and a grading volume on the Default layer that only main cameras see.
+- **Blending and weather.** Changes blend over half an hour around 7:00, 17:00 and 20:00; weather greys the result (`LightingLook.Overcast`).
+- **The refactor was checked against the hard-coded light first.** With presets holding the old values, the captures matched the committed ones: 29 of 33 changed images differed in under 0.4% of pixels, lineups were identical, and the rest was rain streaks and a sub-visible grading shift. Only then did the look change.
+- **Sets are toon-shaded** (`Game/Environment/Toon`): the characters' two-tone banding, a cooler, slightly desaturated shade, per-pixel shadows from characters and props, emission for lit windows and bulbs, fog, and an inverted-hull outline. The outline runs along outline normals baked into a copy of each primitive mesh, so it stays closed at cube corners. `RenderingChecks` fails if a game scene still uses URP Lit.
+- **Shadows** cover 25 m in 2 cascades at 4096 (stages are small): about four times the texel density of the old 50 m in 4 cascades at 2048. Characters ignore them (decision 0002 item 5), so this is for the ground and props. It costs about 1.9 ms in the benchmark (0.6 ms before), and the total stays within budget.
+- **Weather and night.**
+  - Rain is soft and see-through, and darkens the ground.
+  - At night the park has a lamp post. One street lamp is the key light and casts shadows.
+  - Windows and bulbs marked `Lit()` in `TownSets` glow by the preset (bloom catches the night ones).
+- **Removed.** SSAO and the unused opaque texture. SSAO is removed from the renderer, not just switched off: a build strips an inactive SSAO feature's shaders, and the player then throws creating it (the smoke test caught this).
+
 ## Portraits
 
 Contacts and the resident card show a portrait rendered from the resident's DNA (`Town/Portraits.cs`): one hidden character in a studio 500 m below the town, re-dressed per portrait, rendered once into a 160 px texture by a camera that's otherwise off. The sun and ambient light are swapped for neutral daylight for that one render, so portraits don't go dark at night. Portraits are cached per resident and redrawn when their DNA object changes (makeovers and gifted clothes replace it). Real art would likely do the same with a proper portrait light rig and expression.

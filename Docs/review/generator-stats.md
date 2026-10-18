@@ -1,8 +1,8 @@
 # Generator statistics
 
-_2026-10-18 12:03 · AMD Ryzen 7 5700X 8-Core Processor · Unity 6000.6.6f1 (editor). Regenerate with **Game → Characters → Review → Write Generator Statistics**._
+_2026-10-18 15:03 · AMD Ryzen 7 5700X 8-Core Processor · Unity 6000.6.6f1 (editor). Regenerate with **Game → Characters → Review → Write Generator Statistics**._
 
-10,000 characters, 0.516 ms each to generate. Rule violations: **0**.
+10,000 characters, 3.712 ms each to generate. Rule violations: **0**.
 
 ## Styles
 

@@ -207,6 +207,26 @@ Recolourable face colours are iris, brows, eye whites and lips (body regions 1�
 - **No normal maps on characters.** The tangent channel is reserved for **smoothed outline normals**, baked at import.
 - **Outline widths** are per material at 1080p: cloth 1.4, hair 1.2, accessories 0.8. Outlines can't be thinner than a pixel, so very thin geometry (glasses frames) gets thin outlines.
 - **Two-sided materials** are cloth and hair (backfaces visible inside sleeves and under skirts). Skin and accessories cull backfaces.
+- **Characters never shadow themselves** (graphics plan R2-R3). They take the environment's shadow as a whole, from one sample by the head. Shadow cues inside a character (under the collar, in folds) are painted, not computed.
+
+### Lighting (presets; [Art to decide] the colours)
+
+Light is art-directed, not physical. Every place lights from a preset in `Characters/Content/Lighting/`, assets art can tune in the inspector without code:
+
+| Preset | Used for | Character |
+|---|---|---|
+| day | Outdoors 7:00-17:00 | Warm sun from high front-left; blue gradient sky with a few clouds; distant haze |
+| sunset | Outdoors 17:00-20:00 | Low orange sun; peach horizon under a violet sky; windows start to glow; purple shadows, warm highlights |
+| night | Outdoors 20:00-7:00 | Weak blue moon; navy sky; street lamps on, one casting shadows; lit windows and bulbs glow (and bloom) |
+| interior | All interiors | Warm overhead light; half the ambient is the set's wall colour; lamps on; walls instead of sky |
+| studio | Portraits and photos | Neutral daylight, soft shadows |
+
+- **A preset holds** the sun (colour, intensity, angle, shadow strength), ambient from the sky, the horizon and the ground, sky colours and cloud cover, fog, lamps and glow, the character rim colour, and screen grading (vignette, saturation, contrast, split toning).
+- **Changes blend.** Outdoors, each change blends over half an hour around the hour. Weather greys a preset: clouds by 0.4, rain by 0.65 (sky, ambient and sun), softening shadows and pulling the fog in.
+- **Grading and the vignette frame the screen only.** The portrait studio and review sheets don't get them.
+- **Characters keep the sun and horizon ambient they had before presets existed,** so skin stops hold.
+- **The review rigs (`LightingRig`) and the lighting sheet (`Docs/review/lighting.png`) read the same presets.** Tune a preset, re-render the sheet, and judge it there first.
+- **Rewriting presets.** **Game → Rendering → Reset Lighting Presets to Defaults** rewrites them from code. **Create Missing** leaves tuned ones alone.
 
 ## 8. Pipeline checklist for a new part
 

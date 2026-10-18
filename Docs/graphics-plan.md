@@ -54,6 +54,24 @@ The look comes from a dozen tricks, most of them faked for art direction rather 
 
   Within G0's +1.5 ms budget. Most of the anti-aliasing and post cost is paid for by the cheaper shadows.
 
+**2026-10-18 (later): G0.4-G0.10 are done.** G0 is complete.
+
+- **G0.4, presets as data.**
+  - `LightingPreset` assets (day, sunset, night, interior, studio) shared by the town, creator, menu, portrait studio, review rigs and the lighting sheet. Changes blend over half an hour; weather greys a preset. The vignette and grading reach main cameras only.
+  - The refactor was proven first: with the old values in the presets, captures matched the committed ones (lineups identical, 29 of 33 captures under 0.4% of pixels different, the rest rain streaks and a sub-visible grading shift).
+  - Then the look changed: a gradient ambient, per-preset grading, and the vignette back on the main camera.
+  - A lighting section is in the style bible.
+- **G0.5:** a gradient sky with soft clouds, linear fog, and glow on lit windows, bulbs and a new park lamp post (bloom catches it at night).
+- **G0.6:** the sets use `Game/Environment/Toon`, with outlines along baked outline normals. `RenderingChecks` passes: no URP Lit material in any game scene. Environment outlines are hull outlines on props; no edge pass was needed.
+- **G0.7:** shadows over 25 m in 2 cascades at 4096, about 4× the texel density. Sun shadows now cost about 1.9 ms in the benchmark (0.6 ms before).
+- **G0.8:** soft see-through rain, a darker wet ground, and one shadowed key lamp outdoors at night.
+- **G0.9:** SSAO removed from the renderer (switching it off made the built player throw), the opaque texture off, and PLAN.md §3.7 corrected.
+- **G0.10:** `Docs/review/lighting.png` shows four characters (skin tones 0.06-0.96) on a toon patch with a tree and a lamp post, under day, sunset, night, rain and interior.
+- **Benchmark:** 10.33 ms, or 9.13 ms with LOD (was 10.22 / 9.88), within budget.
+  - Timings taken while another Unity instance renders are unreliable: one run read 46.8 ms while another session's Unity was working.
+  - So run it with no other Unity open. The 10.33 ms run waited for that, and checked for overlap.
+- **Still open from G0:** the A/B verdicts (V3, the judge, isn't built), and art's sign-off on the preset colours.
+
 ## The reference look, element by element
 
 As the article observes the game behaving; this isn't from HoYoverse documentation.
