@@ -1,0 +1,8 @@
+{
+  "kind": "part",
+  "slot": "bottom",
+  "covers": [
+    "Pelvis"
+  ],
+  "followsBodyShapes": true
+}
