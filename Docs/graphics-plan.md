@@ -72,6 +72,13 @@ The look comes from a dozen tricks, most of them faked for art direction rather 
   - So run it with no other Unity open. The 10.33 ms run waited for that, and checked for overlap.
 - **Still open from G0:** the A/B verdicts (V3, the judge, isn't built), and art's sign-off on the preset colours.
 
+**2026-10-18 (evening): G5.1's pipeline is built, ahead of G5.** The art itself waits for G5.
+
+- **Generator:** Hunyuan3D 2.1 runs locally on the AMD card ([hunyuan3d.md](hunyuan3d.md)): about 30 s for a shape and 50 s for a texture. The open question in G5.1 is answered for now; the others weren't tried.
+- **Cleanup:** `Tools/Blender/clean_generated_prop.py` places, cleans and decimates a generated GLB, and snaps its texture to a location palette (`palettes.json`, seeded from the blockout colours). It validates, then exports FBX plus a sidecar that logs the licence.
+- **Import:** `PropModelImporter` turns the colours into `Game/Environment/Toon` materials and bakes outline normals. The prop sheet (`Docs/review/props.png`) and `ImportedPropTests` cover two test props, an armchair and a penguin.
+- **Not done:** palette distance as a metric (V6), the judge preferring a prop over its blockout (V3), and any real location props.
+
 ## The reference look, element by element
 
 As the article observes the game behaving; this isn't from HoYoverse documentation.
@@ -173,7 +180,7 @@ This checks a candidate list of 32 technologies against this project. The decidi
 | 5 | Blender MCP | Optional, for live sessions with an artist. Anything that must repeat ends up as a bpy script. | G2, G3 |
 | 6 | Blender MCP forks | Asset search and generation: environment props only. Auto-rigging: **no**, because parts use the shared rig. Text-to-animation: outside this plan. | G5.1 |
 | 7 | Unity MCP | Not set up (`unity pipeline list`: no Pipeline package). Optional, for live lighting tuning with art watching. | G0.4 |
-| 8-12 | Hunyuan3D, TRELLIS, Tripo, Meshy, Rodin | **Not for characters.** They can't produce rigged, region-masked parts with painted lightmaps (R1-R8). **Yes for environment props** after cleanup. Local models mostly target NVIDIA CUDA, and the dev machine has an AMD card; hosted ones need their commercial terms checked. | G5.1 |
+| 8-12 | Hunyuan3D, TRELLIS, Tripo, Meshy, Rodin | **Not for characters.** They can't produce rigged, region-masked parts with painted lightmaps (R1-R8). **Yes for environment props** after cleanup. Local models mostly target NVIDIA CUDA, but Hunyuan3D 2.1 now runs locally on the dev machine's AMD card ([hunyuan3d.md](hunyuan3d.md)); hosted ones need their commercial terms checked. | G5.1 |
 | 13 | Poly Haven | Yes, as CC0 base meshes for props. Its HDRIs and PBR textures don't suit art-directed toon light. | G5.2 |
 | 14 | Sketchfab | Low priority. Per-model licences need a licence log. | G5.2 |
 | 15 | Concept image first, then image-to-3D | Props: yes. Characters: concept and turnaround first, then modelled by hand. | G2.1, G5.1 |

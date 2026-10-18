@@ -1,0 +1,12 @@
+{
+  "_note": "Location palettes for generated props (sRGB hex), keyed by the location ids in TownSets.For. Seeded from the blockout set colours in Assets/_Game/Town/TownSets.cs; art replaces these when the G5 look is decided.",
+  "cafe": ["966C4E", "E8D2B4", "6E4834", "F0ECE4", "46342C", "C85046", "AAD2E6", "3C322E", "5A4032"],
+  "park": ["689656", "96C4E6", "6E503C", "508C52", "363A42", "FAE8C4", "966446", "46464C", "C4B496"],
+  "campus": ["AAA8A0", "A0BEDE", "B87860", "3C4050", "BEDCF0", "969696", "5A8C50"],
+  "office": ["787C84", "D6DCE4", "ECECEC", "282C36", "AAC8DC"],
+  "gym": ["40424A", "C4CCD4", "323238", "3C3C42", "28282E", "E65A46", "28282C"],
+  "mall": ["DCD6CE", "F0ECE8", "E66E8C", "5AAAC8", "F0BE50", "FAF8F4", "BEDCEC", "C8C4BE", "64A060"],
+  "bar": ["463028", "3C2A32", "603828", "281E1E", "50322E", "962832"],
+  "library": ["825C40", "E2D6BE", "64422C", "78543A", "503828", "5A3C2A"],
+  "home": ["AA8C74", "DECED6", "788CAA", "6E82A0", "C87878", "3C3C3C", "FAE6BE"]
+}
