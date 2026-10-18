@@ -18,6 +18,9 @@ namespace Game.Characters.Building
     /// </summary>
     public sealed class CharacterBuilder
     {
+        /// <summary>The body shape from the feminine base to the masculine one, weighted 1 - femininity.</summary>
+        public const string PresentationShape = "body.masculine";
+
         readonly CharacterContent _content;
         readonly ContentCatalog _catalog;
 
@@ -122,6 +125,10 @@ namespace Game.Characters.Building
                 if (!string.IsNullOrEmpty(binding.MirrorBone))
                     Accumulate(rest, offsets, binding.MirrorBone, binding.Kind, effect, mirrored: true);
             }
+
+            // A generated body carries the masculine base as a shape (decision 0008), so femininity shapes the mesh,
+            // not only the sliders' means. Bodies without the shape (the stand-in) ignore it.
+            character.SetShape(PresentationShape, 1f - Mathf.Clamp01(dna.Body.Femininity));
 
             foreach (string styleId in new[] { dna.Face.EyeStyleId, dna.Face.BrowStyleId, dna.Face.LashStyleId })
             {

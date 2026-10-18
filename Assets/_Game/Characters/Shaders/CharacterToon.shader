@@ -89,7 +89,7 @@ Shader "Game/Characters/Toon"
             {
                 Varyings output;
                 VertexPositionInputs positions = GetVertexPositionInputs(input.positionOS.xyz);
-                output.positionCS = positions.positionCS;
+                output.positionCS = ToonObjectToHClip(input.positionOS.xyz, input.uv1);
                 output.positionWS = positions.positionWS;
                 output.normalWS = TransformObjectToWorldNormal(input.normalOS);
                 output.uv = float4(input.uv, input.uv1);
@@ -211,7 +211,7 @@ Shader "Game/Characters/Toon"
             {
                 Varyings output;
                 float3 normalOS = dot(input.smoothNormalOS.xyz, input.smoothNormalOS.xyz) > 0.01 ? input.smoothNormalOS.xyz : input.normalOS;
-                float4 positionCS = TransformObjectToHClip(input.positionOS.xyz);
+                float4 positionCS = ToonObjectToHClip(input.positionOS.xyz, input.uv1);
                 float3 normalCS = TransformWorldToHClipDir(TransformObjectToWorldNormal(normalOS));
                 float2 direction = normalize(normalCS.xy + float2(1e-5, 1e-5));
                 float pixels = _OutlineWidth * (_ScreenParams.y / 1080.0);
@@ -304,12 +304,14 @@ Shader "Game/Characters/Toon"
             #pragma target 3.5
             #pragma vertex DepthVert
             #pragma fragment DepthFrag
+            #pragma shader_feature_local _MASK_VERTEX_COLOUR
 
             #include "CharacterToonInput.hlsl"
 
             struct Attributes
             {
                 float4 positionOS : POSITION;
+                float2 uv1 : TEXCOORD1;
                 half4 color : COLOR;
             };
 
@@ -322,7 +324,7 @@ Shader "Game/Characters/Toon"
             Varyings DepthVert(Attributes input)
             {
                 Varyings output;
-                output.positionCS = TransformObjectToHClip(input.positionOS.xyz);
+                output.positionCS = ToonObjectToHClip(input.positionOS.xyz, input.uv1);
                 output.region = ToonRegionId(input.color);
                 return output;
             }
@@ -348,6 +350,7 @@ Shader "Game/Characters/Toon"
             #pragma vertex DepthNormalsVert
             #pragma fragment DepthNormalsFrag
             #pragma multi_compile_fragment _ _GBUFFER_NORMALS_OCT
+            #pragma shader_feature_local _MASK_VERTEX_COLOUR
 
             #include "CharacterToonInput.hlsl"
 
@@ -355,6 +358,7 @@ Shader "Game/Characters/Toon"
             {
                 float4 positionOS : POSITION;
                 float3 normalOS : NORMAL;
+                float2 uv1 : TEXCOORD1;
                 half4 color : COLOR;
             };
 
@@ -368,7 +372,7 @@ Shader "Game/Characters/Toon"
             Varyings DepthNormalsVert(Attributes input)
             {
                 Varyings output;
-                output.positionCS = TransformObjectToHClip(input.positionOS.xyz);
+                output.positionCS = ToonObjectToHClip(input.positionOS.xyz, input.uv1);
                 output.normalWS = TransformObjectToWorldNormal(input.normalOS);
                 output.region = ToonRegionId(input.color);
                 return output;

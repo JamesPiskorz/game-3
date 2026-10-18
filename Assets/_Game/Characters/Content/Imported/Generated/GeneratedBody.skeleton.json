@@ -1,0 +1,267 @@
+{
+  "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261019_074558_raw.glb",
+  "height": 1.7,
+  "bones": [
+    {
+      "name": "Hips",
+      "parent": null,
+      "position": [
+        -0.0,
+        0.936,
+        -0.0232
+      ]
+    },
+    {
+      "name": "Spine",
+      "parent": "Hips",
+      "position": [
+        -0.0,
+        1.0445,
+        -0.0122
+      ]
+    },
+    {
+      "name": "Chest",
+      "parent": "Spine",
+      "position": [
+        -0.0,
+        1.1973,
+        0.0191
+      ]
+    },
+    {
+      "name": "Neck",
+      "parent": "Chest",
+      "position": [
+        -0.0,
+        1.3789,
+        -0.0084
+      ]
+    },
+    {
+      "name": "Head",
+      "parent": "Neck",
+      "position": [
+        -0.0,
+        1.4419,
+        -0.0255
+      ]
+    },
+    {
+      "name": "Eye.L",
+      "parent": "Head",
+      "position": [
+        -0.048,
+        1.5356,
+        0.0556
+      ]
+    },
+    {
+      "name": "Eye.R",
+      "parent": "Head",
+      "position": [
+        0.048,
+        1.5356,
+        0.0556
+      ]
+    },
+    {
+      "name": "Brow.L",
+      "parent": "Head",
+      "position": [
+        -0.0504,
+        1.5606,
+        0.0757
+      ]
+    },
+    {
+      "name": "Brow.R",
+      "parent": "Head",
+      "position": [
+        0.0504,
+        1.5606,
+        0.0757
+      ]
+    },
+    {
+      "name": "Nose",
+      "parent": "Head",
+      "position": [
+        -0.0,
+        1.5004,
+        0.0951
+      ]
+    },
+    {
+      "name": "Mouth",
+      "parent": "Head",
+      "position": [
+        -0.0,
+        1.4741,
+        0.084
+      ]
+    },
+    {
+      "name": "Mouth.L",
+      "parent": "Mouth",
+      "position": [
+        -0.008,
+        1.4741,
+        0.084
+      ]
+    },
+    {
+      "name": "Mouth.R",
+      "parent": "Mouth",
+      "position": [
+        0.008,
+        1.4741,
+        0.084
+      ]
+    },
+    {
+      "name": "Blush.L",
+      "parent": "Head",
+      "position": [
+        -0.0528,
+        1.5126,
+        0.068
+      ]
+    },
+    {
+      "name": "Blush.R",
+      "parent": "Head",
+      "position": [
+        0.0528,
+        1.5126,
+        0.068
+      ]
+    },
+    {
+      "name": "EyeSmile.L",
+      "parent": "Head",
+      "position": [
+        -0.048,
+        1.5326,
+        0.0556
+      ]
+    },
+    {
+      "name": "EyeSmile.R",
+      "parent": "Head",
+      "position": [
+        0.048,
+        1.5326,
+        0.0556
+      ]
+    },
+    {
+      "name": "UpperArm.L",
+      "parent": "Chest",
+      "position": [
+        -0.1004,
+        1.3439,
+        -0.0131
+      ]
+    },
+    {
+      "name": "LowerArm.L",
+      "parent": "UpperArm.L",
+      "position": [
+        -0.3015,
+        1.344,
+        -0.0001
+      ]
+    },
+    {
+      "name": "Hand.L",
+      "parent": "LowerArm.L",
+      "position": [
+        -0.4798,
+        1.344,
+        0.0114
+      ]
+    },
+    {
+      "name": "UpperArm.R",
+      "parent": "Chest",
+      "position": [
+        0.1004,
+        1.3439,
+        -0.0131
+      ]
+    },
+    {
+      "name": "LowerArm.R",
+      "parent": "UpperArm.R",
+      "position": [
+        0.3015,
+        1.344,
+        -0.0001
+      ]
+    },
+    {
+      "name": "Hand.R",
+      "parent": "LowerArm.R",
+      "position": [
+        0.4798,
+        1.344,
+        0.0114
+      ]
+    },
+    {
+      "name": "UpperLeg.L",
+      "parent": "Hips",
+      "position": [
+        -0.0759,
+        0.886,
+        -0.0228
+      ]
+    },
+    {
+      "name": "LowerLeg.L",
+      "parent": "UpperLeg.L",
+      "position": [
+        -0.0554,
+        0.51,
+        -0.0449
+      ]
+    },
+    {
+      "name": "Foot.L",
+      "parent": "LowerLeg.L",
+      "position": [
+        -0.0413,
+        0.134,
+        -0.0588
+      ]
+    },
+    {
+      "name": "UpperLeg.R",
+      "parent": "Hips",
+      "position": [
+        0.0759,
+        0.886,
+        -0.0228
+      ]
+    },
+    {
+      "name": "LowerLeg.R",
+      "parent": "UpperLeg.R",
+      "position": [
+        0.0554,
+        0.51,
+        -0.0449
+      ]
+    },
+    {
+      "name": "Foot.R",
+      "parent": "LowerLeg.R",
+      "position": [
+        0.0413,
+        0.134,
+        -0.0588
+      ]
+    }
+  ]
+}

@@ -68,23 +68,25 @@ def reset_scene():
 
 # ---------------------------------------------------------------------------------------------------- rig
 
-def build_armature(name="Armature"):
+def build_armature(name="Armature", skeleton=None):
+    skeleton = skeleton or SKELETON
+    positions = {bone_name: position for bone_name, _, position in skeleton}
     data = bpy.data.armatures.new(name)
     rig = bpy.data.objects.new(name, data)
     bpy.context.scene.collection.objects.link(rig)
     bpy.context.view_layer.objects.active = rig
     bpy.ops.object.mode_set(mode="EDIT")
     bones = {}
-    for bone_name, parent, position in SKELETON:
+    for bone_name, parent, position in skeleton:
         bone = data.edit_bones.new(bone_name)
         bone.head = unity_to_blender(position)
-        children = [child for child, child_parent, _ in SKELETON if child_parent == bone_name]
+        children = [child for child, child_parent, _ in skeleton if child_parent == bone_name]
         if bone_name in PRIMARY_CHILD:
-            bone.tail = unity_to_blender(POSITIONS[PRIMARY_CHILD[bone_name]])
+            bone.tail = unity_to_blender(positions[PRIMARY_CHILD[bone_name]])
         elif len(children) == 1:
-            bone.tail = unity_to_blender(POSITIONS[children[0]])
-        else:
-            bone.tail = bone.head + unity_to_blender(LEAF_DIRECTION[bone_name])
+            bone.tail = unity_to_blender(positions[children[0]])
+        else:  # leaves; face bones point forward
+            bone.tail = bone.head + unity_to_blender(LEAF_DIRECTION.get(bone_name, (0, 0, 0.02)))
         bone.roll = 0.0
         if parent:
             bone.parent = bones[parent]

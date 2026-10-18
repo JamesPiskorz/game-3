@@ -194,9 +194,12 @@ def palette_labels(colours, areas, palette, regions, seed=0):
 # ---------------------------------------------------------------------------------------------------- geometry
 
 def import_glb(path):
-    """Imports a GLB as one mesh object with its transforms applied."""
+    """Imports a GLB as one mesh object with its transforms applied. Objects already in the scene are left alone."""
+    existing = set(bpy.context.scene.objects)
     bpy.ops.import_scene.gltf(filepath=path)
-    meshes = [o for o in bpy.context.scene.objects if o.type == "MESH"]
+    imported = [o for o in bpy.context.scene.objects if o not in existing]
+    imported_names = [o.name for o in imported]  # joining frees the joined objects: keep names, not handles
+    meshes = [o for o in imported if o.type == "MESH"]
     if not meshes:
         raise ValueError(f"{path} has no meshes")
     bpy.ops.object.select_all(action="DESELECT")
@@ -206,8 +209,9 @@ def import_glb(path):
     if len(meshes) > 1:
         bpy.ops.object.join()
     obj = bpy.context.view_layer.objects.active
-    for other in [o for o in bpy.context.scene.objects if o != obj]:
-        bpy.data.objects.remove(other)
+    for name in imported_names:
+        if name != obj.name and name in bpy.data.objects:
+            bpy.data.objects.remove(bpy.data.objects[name])
     obj.parent = None
     obj.data.transform(obj.matrix_world)
     obj.matrix_world = Matrix.Identity(4)

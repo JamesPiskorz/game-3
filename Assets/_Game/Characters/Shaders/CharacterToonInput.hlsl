@@ -43,6 +43,23 @@ bool ToonIsHidden(uint region)
     return region < 32u && (((uint)_HiddenRegions >> region) & 1u) != 0u;
 }
 
+// Face features painted on a generated head (decision 0008) carry UV1.y = 1 and are drawn this much nearer the
+// camera than they are, so a few millimetres of sculpted eye socket or brow can't hide them when a slider, a style or
+// an expression moves them. The hidden blush and smiling-eye strokes carry 0, so they still only show when pushed out.
+// Only in vertex-colour mask mode, where UV1 is a data channel; stand-ins leave it at zero.
+#define TOON_FEATURE_LIFT 0.010
+
+float4 ToonObjectToHClip(float3 positionOS, float2 uv1)
+{
+#if defined(_MASK_VERTEX_COLOUR)
+    float3 positionVS = TransformWorldToView(TransformObjectToWorld(positionOS));
+    positionVS.z += saturate(uv1.y) * TOON_FEATURE_LIFT; // view space looks down -Z: +Z is towards the camera
+    return TransformWViewToHClip(positionVS);
+#else
+    return TransformObjectToHClip(positionOS);
+#endif
+}
+
 // Recolour weights for regions 1-4. Authored content uses _MaskMap (RGBA); procedural stand-ins
 // put regions 1-3 in vertex colour GBA and region 4 in UV1.x instead.
 half4 ToonMask(float2 uv, float2 uv1, half4 vertexColour)
