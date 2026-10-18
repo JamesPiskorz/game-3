@@ -149,7 +149,7 @@ Test poses: [scripted-poses.png](../review/scripted-poses.png).
 
 **Checks:** all six parts (now with shoes) pass `validate_part`, three builds in a row are byte-identical (30 files), and the 315 EditMode tests pass.
 
-**Hours:** about 1 h 5 min of wall-clock time for one agent session (14:24-15:28), machine time included. Builds now take about 2-3 minutes; renders about 1.
+**Hours:** about 1 h of wall-clock time for one agent session (14:24-15:24), machine time included. Builds now take about 2-3 minutes; renders about 1.
 
 | Step | Time |
 |---|---|
@@ -159,7 +159,7 @@ Test poses: [scripted-poses.png](../review/scripted-poses.png).
 | Render-and-fix rounds (hair standing out at the shoulders, bangs, highlight, side clumps) | 15 min |
 | Judge round 1, determinism, tests | 6 min |
 | Round-1 fixes (U-shaped hem, narrower side clumps, three side locks, no highlight on the cap, proxy set back, white shoe collar) | 9 min |
-| Final judge, determinism, tests, write-up | 13 min |
+| Final judge, determinism, tests, write-up | 9 min |
 
 **What moved:** every defect the first judge listed, in about 45 minutes of changes, mostly parameters:
 
