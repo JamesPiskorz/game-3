@@ -73,3 +73,6 @@ Thumbs.db
 # Python
 __pycache__/
 *.pyc
+
+# Diagnostic sheets (graphics plan V1): regenerated on demand, too big for git
+Docs/review/diagnostics/

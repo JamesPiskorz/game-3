@@ -93,7 +93,7 @@ namespace Game.Characters.Review
         }
 
         /// <summary>The model wearing <paramref name="part"/> in test colours, with whatever it needs to be a whole outfit.</summary>
-        static CharacterDna Wearing(CharacterDna model, PartEntry part, ContentCatalog catalog)
+        internal static CharacterDna Wearing(CharacterDna model, PartEntry part, ContentCatalog catalog)
         {
             CharacterDna dna = DnaSerializer.FromJson(DnaSerializer.ToJson(model));
             OutfitDna outfit = dna.Outfits.First(o => o.Context == "casual");
