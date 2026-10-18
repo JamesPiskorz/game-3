@@ -128,7 +128,7 @@ namespace Game.Characters.Review
         /// <paramref name="after"/> dimmed, with the pixels that came out darker than in <paramref name="before"/> in blue
         /// and lighter in orange: where the lightmaps moved the shadow edge.
         /// </summary>
-        static Texture2D Changes(Texture2D before, Texture2D after)
+        internal static Texture2D Changes(Texture2D before, Texture2D after)
         {
             const int Threshold = 8; // levels in any channel: above MSAA and post noise
             Color32[] a = before.GetPixels32(), b = after.GetPixels32(), marked = new Color32[a.Length];

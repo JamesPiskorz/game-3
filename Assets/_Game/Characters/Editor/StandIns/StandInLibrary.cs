@@ -40,6 +40,7 @@ namespace Game.Characters.StandIns
             public StandInBone[] Bones = StandInSkeleton.Bones;
             public string[] SpringChains = Array.Empty<string>();
             public bool Small;
+            public bool Metal; // the lightmap's metal mask and material type (glasses frames, earrings, clips, chains)
             public Action<StandInMesh> Build;
         }
 
@@ -631,7 +632,7 @@ namespace Game.Characters.StandIns
             // ---------------- accessories (no body shapes reach the head)
             yield return new Recipe
             {
-                Id = "acc.glasses.round_01", Slot = "glasses", Material = "Accessory", FollowsBodyShapes = false, Small = true,
+                Id = "acc.glasses.round_01", Slot = "glasses", Material = "Accessory", FollowsBodyShapes = false, Small = true, Metal = true,
                 Build = m =>
                 {
                     foreach (float x in new[] { -0.04f, 0.04f })
@@ -643,7 +644,7 @@ namespace Game.Characters.StandIns
             };
             yield return new Recipe
             {
-                Id = "acc.glasses.square_01", Slot = "glasses", Material = "Accessory", FollowsBodyShapes = false, Small = true,
+                Id = "acc.glasses.square_01", Slot = "glasses", Material = "Accessory", FollowsBodyShapes = false, Small = true, Metal = true,
                 Build = m =>
                 {
                     // Rectangular rims, each four bars round a lens, with the same bridge and arms as the round pair.
@@ -659,7 +660,7 @@ namespace Game.Characters.StandIns
             };
             yield return new Recipe
             {
-                Id = "acc.glasses.cateye_01", Slot = "glasses", Material = "Accessory", FollowsBodyShapes = false, Small = true,
+                Id = "acc.glasses.cateye_01", Slot = "glasses", Material = "Accessory", FollowsBodyShapes = false, Small = true, Metal = true,
                 Build = m =>
                 {
                     // Wide rims with their outer corners swept up: each lens's rim is cut level, then tilted.
@@ -791,7 +792,7 @@ namespace Game.Characters.StandIns
             // ---------------- earrings: at the sides of the head, just below its middle (the stand-in head has no ears)
             yield return new Recipe
             {
-                Id = "acc.earrings.studs_01", Slot = "earrings", Material = "Accessory", FollowsBodyShapes = false, Small = true,
+                Id = "acc.earrings.studs_01", Slot = "earrings", Material = "Accessory", FollowsBodyShapes = false, Small = true, Metal = true,
                 Build = m =>
                 {
                     using IDisposable coarse = m.Coarse();
@@ -801,7 +802,7 @@ namespace Game.Characters.StandIns
             };
             yield return new Recipe
             {
-                Id = "acc.earrings.hoops_01", Slot = "earrings", Material = "Accessory", FollowsBodyShapes = false, Small = true,
+                Id = "acc.earrings.hoops_01", Slot = "earrings", Material = "Accessory", FollowsBodyShapes = false, Small = true, Metal = true,
                 Build = m =>
                 {
                     // A ring of beads hanging below each side, turned partly towards the front so it doesn't read edge-on.
@@ -820,7 +821,7 @@ namespace Game.Characters.StandIns
             };
             yield return new Recipe
             {
-                Id = "acc.earrings.drops_01", Slot = "earrings", Material = "Accessory", FollowsBodyShapes = false, Small = true,
+                Id = "acc.earrings.drops_01", Slot = "earrings", Material = "Accessory", FollowsBodyShapes = false, Small = true, Metal = true,
                 Build = m =>
                 {
                     // Two small links and a teardrop hanging from each lobe.
@@ -922,7 +923,7 @@ namespace Game.Characters.StandIns
             };
             yield return new Recipe
             {
-                Id = "acc.hair.clip_01", Slot = "headpiece", Material = "Accessory", FollowsBodyShapes = false, Small = true,
+                Id = "acc.hair.clip_01", Slot = "headpiece", Material = "Accessory", FollowsBodyShapes = false, Small = true, Metal = true,
                 Build = m =>
                 {
                     // Two little bars pinning the bangs above one eye.
@@ -1012,7 +1013,7 @@ namespace Game.Characters.StandIns
             };
             yield return new Recipe
             {
-                Id = "acc.neck.necklace_01", Slot = "neck", Material = "Accessory", Small = true,
+                Id = "acc.neck.necklace_01", Slot = "neck", Material = "Accessory", Small = true, Metal = true,
                 Build = m =>
                 {
                     // A string of beads around the base of the neck, and a pendant resting on the chest.
@@ -1135,14 +1136,14 @@ namespace Game.Characters.StandIns
 
             var body = new StandInMesh(StandInSkeleton.Bones);
             StandInBody.Build(body);
-            Mesh bodyMesh = SaveMesh(body, "StandInBody", withShapes: true);
+            Mesh bodyMesh = SaveMesh(body, "StandInBody", withShapes: true, StandInLightMap.Body);
             SaveBody(bodyMesh, materials["Skin"]);
 
             foreach (Recipe recipe in Parts())
             {
                 var mesh = new StandInMesh(recipe.Bones);
                 recipe.Build(mesh);
-                Mesh asset = SaveMesh(mesh, recipe.Id, recipe.FollowsBodyShapes);
+                Mesh asset = SaveMesh(mesh, recipe.Id, recipe.FollowsBodyShapes, StandInLightMap.For(recipe));
                 SavePart(recipe, asset, materials[recipe.Material]);
             }
 
@@ -1210,11 +1211,11 @@ namespace Game.Characters.StandIns
         }
 
         // Meshes are rebuilt in place through the Mesh API: CopySerialized over a mesh whose vertex layout changed crashes the editor.
-        static Mesh SaveMesh(StandInMesh builder, string name, bool withShapes)
+        static Mesh SaveMesh(StandInMesh builder, string name, bool withShapes, LightMapFunction lightMap)
         {
             string path = $"{MeshFolder}/{name}.asset";
             var existing = AssetDatabase.LoadAssetAtPath<Mesh>(path);
-            Mesh mesh = builder.Build(name, withShapes, existing);
+            Mesh mesh = builder.Build(name, withShapes, existing, lightMap);
             if (existing == null) AssetDatabase.CreateAsset(mesh, path);
             else EditorUtility.SetDirty(existing);
             return mesh;

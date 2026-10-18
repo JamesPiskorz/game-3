@@ -12,7 +12,7 @@ Shader "Game/Characters/Toon"
 
         [Header(Recolour regions)]
         [NoScaleOffset] _MaskMap ("Mask (RGBA = regions 1-4)", 2D) = "black" {}
-        [Toggle(_MASK_VERTEX_COLOUR)] _MaskFromVertexColour ("Mask From Vertex Colour GBA", Float) = 0
+        [Toggle(_MASK_VERTEX_COLOUR)] _MaskFromVertexColour ("Vertex Data (mask in colour GBA and UV1.x, lightmap in UV2)", Float) = 0
         _Color1 ("Region 1", Color) = (1, 1, 1, 1)
         _Color2 ("Region 2", Color) = (1, 1, 1, 1)
         _Color3 ("Region 3", Color) = (1, 1, 1, 1)
@@ -73,6 +73,7 @@ Shader "Game/Characters/Toon"
                 float3 normalOS : NORMAL;
                 float2 uv : TEXCOORD0;
                 float2 uv1 : TEXCOORD1;
+                float4 uv2 : TEXCOORD2;
                 half4 color : COLOR;
             };
 
@@ -85,6 +86,9 @@ Shader "Game/Characters/Toon"
                 half4 color : TEXCOORD3;
                 nointerpolation uint region : TEXCOORD4;
                 half fogFactor : TEXCOORD5;
+            #if defined(_MASK_VERTEX_COLOUR)
+                float4 lightMap : TEXCOORD6; // UV2: stand-ins carry their lightmap per vertex
+            #endif
             };
 
             Varyings Vert(Attributes input)
@@ -98,6 +102,9 @@ Shader "Game/Characters/Toon"
                 output.color = input.color;
                 output.region = ToonRegionId(input.color);
                 output.fogFactor = ComputeFogFactor(positions.positionCS.z);
+            #if defined(_MASK_VERTEX_COLOUR)
+                output.lightMap = input.uv2;
+            #endif
                 return output;
             }
 
@@ -141,7 +148,12 @@ Shader "Game/Characters/Toon"
 
                 float3 normalWS = normalize(input.normalWS) * (isFrontFace ? 1.0 : -1.0);
                 float3 viewWS = GetWorldSpaceNormalizeViewDir(input.positionWS);
-                half shadowBias = ToonShadowBias(ToonLightMap(input.uv.xy));
+            #if defined(_MASK_VERTEX_COLOUR)
+                float4 vertexLightMap = input.lightMap;
+            #else
+                float4 vertexLightMap = 0.0;
+            #endif
+                half shadowBias = ToonShadowBias(ToonLightMap(input.uv.xy, vertexLightMap));
 
                 // Main light: shade colour where unlit, base colour where lit. Shading comes from the light direction
                 // and the painted bias alone; the environment's shadow covers the whole character or none of it.
