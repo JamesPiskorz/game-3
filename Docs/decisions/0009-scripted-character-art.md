@@ -27,7 +27,7 @@ It writes `Assets/_Game/Characters/Content/Imported/ScriptedSpike/` (FBX, sideca
 
 The character carries about 13.7k skinned vertices before shoes (a generated stand-in averages about 21k, `Docs/review/perf.md`). Every part passes `validate_part`. Test poses (relaxed, reach, sit) keep every triangle above 16% of its rest area.
 
-**Unity:** the parts import with the unchanged `CharacterModelImporter`. **Game → Characters → Review → Render Scripted Character Sheet** renders the character with the current toon shader next to a stand-in in the same colours, pose and light (`Docs/review/scripted-character.png`, `scripted-poses.png`). The scripted character borrows the stand-in sneakers, with bind poses rebaked for its rig. The current shader reads `_BaseMap` and `_MaskMap`; the `_light` texture waits for G1.1.
+**Unity:** the parts import with the unchanged `CharacterModelImporter`. **Game → Characters → Review → Render Scripted Character Sheet** renders the character with the current toon shader next to a stand-in in the same colours, pose and light (`Docs/review/scripted-character.png`, `scripted-poses.png`). The scripted character borrows the stand-in sneakers, with bind poses rebaked for its rig. The sheet applies `_BaseMap`, `_MaskMap` and, since G1.1, `_LightMap` (shadow bias only so far; `Docs/review/scripted-lightmap.png` shows it under a light turntable).
 
 ## Results
 

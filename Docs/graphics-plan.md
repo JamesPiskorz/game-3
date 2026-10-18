@@ -25,7 +25,7 @@ The look comes from a dozen tricks, most of them faked for art direction rather 
 
 ## Progress
 
-**2026-10-18: G0.1-G0.3, G1.3, V1 and V2 are done.**
+**2026-10-18: G0.1-G0.3, G1.3, V1 and V2 are done. G1.1 has its shader half.**
 
 - **G0.1, honest captures.**
   - `GameCamera` sets up every camera (town, creator, menu, portrait studio, review sheets): post on, MSAA from the pipeline asset.
@@ -42,6 +42,12 @@ The look comes from a dozen tricks, most of them faked for art direction rather 
   - One environment-shadow sample per character (`CharacterShadowAnchor`, decision 0002 item 5).
   - `ShadowCheck` passes at 0% wrong, against 30% and 52% for the old per-pixel shadows.
   - The blocky hair patches (baseline 6) are gone from the town captures.
+- **G1.1, lightmap input (shader half).**
+  - `_LightMap` on the toon shader (layout in `CharacterToonInput.hlsl`): R, the shadow bias, moves the toon step's threshold by up to ±0.5, for the main light and lamps. G, B and A wait for G1.5, G1.6 and G1.2. `ToonMaterial.SetLightMap` sets it.
+  - Unset, it's Unity's `linearGrey`, which reads just under 0.5 (treating 128/255 as neutral darkened 1.8% of the stand-in part sheet's pixels along the shadow edge); the Blender scripts write 0.5 as 128. Anything within one 8-bit step of 0.5 counts as neutral, so the stand-in part sheet renders pixel-identical: 0 of 9.5 M pixels differ.
+  - Proved on the scripted character (decision 0009), whose parts carry G1.1 lightmaps: `Docs/review/scripted-lightmap.png` (row 1 without lightmaps, row 2 with, row 3 marks what moved, row 4 another colourway). The hair layers fall into shade sooner at every sun angle. The jacket's high collar hides the neck, so the baked under-jaw bias doesn't show. The body and jacket lightmaps are nearly flat, because they were baked in the rest pose with the arms out, so the armpits barely change.
+  - `ToonShaderTests` checks the shader stays SRP Batcher compatible, using Unity's internal check (the one the shader inspector shows), against a built-in shader as a control.
+  - Not done: procedural lightmaps for the stand-ins (the generator half of the row).
 - **V1:** `DiagnosticSheet` renders all 70 parts in 17 s, and two runs give identical images (0 pixels differ). The sheets are regenerated on demand and kept out of git.
 - **V2:** rubrics in [Docs/review/rubrics](review/rubrics/README.md). Every R element and baseline problem has a question.
 - **Benchmark:**
