@@ -1,0 +1,11 @@
+{
+  "kind": "part",
+  "slot": "hair.back",
+  "covers": [],
+  "springChains": [
+    "Hair.Back.R.1",
+    "Hair.Back.C.1",
+    "Hair.Back.L.1"
+  ],
+  "followsBodyShapes": false
+}

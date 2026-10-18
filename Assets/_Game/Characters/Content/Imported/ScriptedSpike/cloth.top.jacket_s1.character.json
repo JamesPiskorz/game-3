@@ -1,0 +1,13 @@
+{
+  "kind": "part",
+  "slot": "top",
+  "covers": [
+    "UpperTorso",
+    "LowerTorso",
+    "UpperArmL",
+    "UpperArmR",
+    "ForearmL",
+    "ForearmR"
+  ],
+  "followsBodyShapes": true
+}
