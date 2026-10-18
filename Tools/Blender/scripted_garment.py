@@ -42,6 +42,27 @@ GARMENTS = {
             dict(kind="elbow", centre=0.44, span=0.07, count=3, amplitude=0.0035),
             dict(kind="waist", centre=1.10, span=0.08, count=3, amplitude=0.0028),
         ],
+        wide_occlusion=0.08,    # reach of the lightmap's wider occlusion bake: arm against torso, jaw over collar
+        fold_shadows=[  # painted fold shapes in the lightmap (scripted_textures.fold_shadows), both sides
+            # Pull folds from the armpit: down the sleeve to the front and back of the elbow, and onto the chest.
+            dict(frame="sleeve", start=(180, 0.205), end=(105, 0.36), bend=0.010, width=0.036, peak=0.2, depth=0.26),
+            dict(frame="sleeve", start=(185, 0.205), end=(250, 0.34), bend=-0.008, width=0.032, peak=0.2, depth=0.24),
+            dict(frame="sleeve", start=(165, 0.215), end=(140, 0.29), width=0.022, peak=0.3, depth=0.20),
+            dict(frame="torso", start=(72, 1.335), end=(40, 1.25), bend=0.008, width=0.032, peak=0.15, depth=0.24),
+            dict(frame="torso", start=(108, 1.335), end=(140, 1.24), bend=-0.008, width=0.032, peak=0.15, depth=0.22),
+            dict(frame="torso", start=(90, 1.34), end=(86, 1.19), width=0.036, peak=0.1, depth=0.26),
+            # Bunching inside the elbow, and above the cuff.
+            dict(frame="sleeve", start=(70, 0.418), end=(165, 0.432), bend=0.006, width=0.018, peak=0.4, depth=0.28),
+            dict(frame="sleeve", start=(85, 0.447), end=(180, 0.452), bend=0.007, width=0.020, peak=0.35, depth=0.30),
+            dict(frame="sleeve", start=(100, 0.474), end=(160, 0.490), bend=0.005, width=0.016, peak=0.4, depth=0.24),
+            dict(frame="sleeve", start=(120, 0.500), end=(95, 0.600), width=0.018, peak=0.2, depth=0.18),
+            dict(frame="sleeve", start=(110, 0.625), end=(170, 0.640), bend=0.004, width=0.016, peak=0.4, depth=0.20),
+            # Under the bust, and the waist pinching in at the sides.
+            dict(frame="torso", start=(15, 1.205), end=(62, 1.225), bend=-0.010, width=0.026, peak=0.5, depth=0.15),
+            dict(frame="torso", start=(68, 1.135), end=(100, 1.115), bend=-0.006, width=0.020, peak=0.6, depth=0.26),
+            dict(frame="torso", start=(74, 1.095), end=(108, 1.080), bend=-0.005, width=0.021, peak=0.6, depth=0.26),
+            dict(frame="torso", start=(80, 1.060), end=(104, 1.050), width=0.016, peak=0.5, depth=0.20),
+        ],
         placket=0.013,          # half width of the trim strip down the front
         buttons=[1.40, 1.30, 1.20, 1.10],
     ),
@@ -59,6 +80,11 @@ GARMENTS = {
         thickness=0.004,
         seam_depth=0.0012,
         folds=[dict(kind="crotch", centre=0.80, span=0.06, count=2, amplitude=0.0025)],
+        wide_occlusion=0.05,
+        fold_shadows=[  # short pull folds out from the crotch toward the hips, front and back
+            dict(frame="torso", start=(10, 0.858), end=(40, 0.885), bend=0.004, width=0.014, peak=0.25, depth=0.15),
+            dict(frame="torso", start=(170, 0.858), end=(142, 0.882), bend=-0.004, width=0.014, peak=0.25, depth=0.14),
+        ],
         placket=0.0,
         buttons=[],
     ),

@@ -87,9 +87,9 @@ namespace Game.Characters.Review
         /// <summary>
         /// The scripted character's upper body under a light turntable (Docs/review/scripted-lightmap.png), the sun
         /// stepped round in 45° increments, one column per step. Row 1 without its lightmaps (as before G1.1), row 2
-        /// with them: the baked shadow bias moves the shadow edge, so painted creases (most of all between hair layers)
-        /// fall into shade sooner. Row 3 marks what changed between them. Row 4 is row 2 in other colours (recolouring
-        /// still works).
+        /// with them: the baked shadow bias moves the shadow edge, so painted creases (between hair layers, at the
+        /// armpits and cloth folds, on the collar under the jaw) fall into shade sooner. Row 3 marks what changed
+        /// between them. Row 4 is row 2 in other colours (recolouring still works).
         /// Headless: -executeMethod Game.Characters.Review.ScriptedCharacterSheet.RenderLightTurntable
         /// </summary>
         public static void RenderLightTurntable()

@@ -29,6 +29,8 @@ The character carries about 13.7k skinned vertices before shoes (a generated sta
 
 **Unity:** the parts import with the unchanged `CharacterModelImporter`. **Game → Characters → Review → Render Scripted Character Sheet** renders the character with the current toon shader next to a stand-in in the same colours, pose and light (`Docs/review/scripted-character.png`, `scripted-poses.png`). The scripted character borrows the stand-in sneakers, with bind poses rebaked for its rig. The sheet applies `_BaseMap`, `_MaskMap` and, since G1.1, `_LightMap` (shadow bias only so far; `Docs/review/scripted-lightmap.png` shows it under a light turntable).
 
+**Lightmap creases (after G1.1):** the body and garments now bake occlusion in the relaxed pose (arms down). Garments bake with the body present and add a wider 8 cm bake, and they carry painted fold strokes (`fold_shadows` in `scripted_garment.py`: armpit pulls, inner elbow, under the bust, waist, above the cuffs, short pulls from the crotch on the shorts). The underside of the jaw gets a painted shadow. Share of in-UV texels with shadow bias below 0.45: jacket 0.2% → 23%, of which 14% is the outside and 9% the facings that sit against the body; shorts 0.8% → 17%; body 2.7% → 7.8% (torso and arms 0% → 9%). The hair is unchanged. Row 3 of the turntable now marks the collar under the jaw, the armpits and the folds as well as the hair.
+
 ## Results
 
 ![Stand-in (left) and scripted character (right)](../review/scripted-character.png)
@@ -115,7 +117,7 @@ This keeps G2 (one hero character to measure art cost) but changes what's measur
 
 ## Next
 
-- **The judge's top fixes, in the scripts:** fewer, wider hair clumps with normals from a smooth proxy and a highlight band that reads; corrective shapes at the knees and elbows; thicker face lines with a contrast floor (and the SDF face map, G1.4); painted fold shapes in the lightmap; a scripted shoe recipe.
+- **The judge's top fixes, in the scripts:** fewer, wider hair clumps with normals from a smooth proxy and a highlight band that reads; corrective shapes at the knees and elbows; thicker face lines with a contrast floor (and the SDF face map, G1.4); painted fold shapes in the lightmap (a scripted first pass is in, see Unity above; an artist should place the final ones); a scripted shoe recipe.
 - **G1.1:** read `_light` in the toon shader, using these parts as the test assets.
 - **Art and production:** decide whether to replace stand-ins with scripted parts slot by slot, and run G2 with the script kit to measure art hours per part.
 - **Compare with the image-to-3D head spike** when it reports: a generated head wrapped to the shared topology could supply the face these scripts can't.

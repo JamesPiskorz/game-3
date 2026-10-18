@@ -104,11 +104,11 @@ def main():
         print(f"[scripted] pose {pose}: smallest triangle {smallest:.2f} of rest area, {squashed} under 25%, {stretched} over 250%")
     sp.pose(rig, "rest")
 
-    st.body_textures(body, output, BODY_ID)
+    st.body_textures(body, output, BODY_ID, rig)
     st.hair_textures(hair_back, output, HAIR_BACK_ID)
     st.hair_textures(hair_front, output, HAIR_FRONT_ID)
     for gid, obj in garments.items():
-        st.garment_textures(obj, output, gid, sg.GARMENTS[gid])
+        st.garment_textures(obj, output, gid, sg.GARMENTS[gid], rig, body)
 
     make_fbx_deterministic()
     export_part(os.path.join(output, BODY_ID + ".fbx"), rig, body)

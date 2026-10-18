@@ -1,7 +1,8 @@
 """Procedural textures for the scripted parts (art spike, decision 0009).
 
 Each part is unwrapped, then Cycles bakes what the textures are computed from into float images: surface position and
-normal, ambient occlusion (the part alone) and curvature (pointiness), plus construction data the part carries as
+normal, ambient occlusion (hair alone; the body and garments in the relaxed pose, garments with the body there too)
+and curvature (pointiness), plus construction data the part carries as
 attributes (which part of the body, hair position along a clump, garment trims, linings and seams). numpy then
 writes three textures per part:
 
@@ -11,12 +12,14 @@ writes three textures per part:
 * ``_mask``: recolour regions 1-4 (RGBA, linear), decided by how the part was built (iris, brows and lashes, eye
   whites, lips on the body; base, tips and highlight band on hair; fabric, trims, lining and buttons on clothes).
 * ``_light``: the lightmap graphics-plan step G1.1 asks for, ready for when the shader reads it (RGBA, linear):
-  R shadow bias (0.5 neutral, lower falls into shade sooner) from occlusion and concavity; G specular mask (the
+  R shadow bias (0.5 neutral, lower falls into shade sooner) from occlusion and concavity, plus painted fold strokes
+  on garments and a shadow under the jaw; G specular mask (the
   hair's highlight band); B metal mask (buttons); A material type (0 skin, 32 hair, 64 cloth, 128 metal).
 
 Positions are converted to Unity terms (Y up, +Z forward, character's left at -X) before anything is drawn.
 """
 
+import contextlib
 import math
 import os
 import struct
@@ -26,9 +29,13 @@ import bpy
 import numpy as np
 
 import scripted_body as sb
+import scripted_preview as sp
 import scripted_shapes as ss
 
 MATERIAL = {"skin": 0, "hair": 32, "cloth": 64, "metal": 128}
+# Body and garments bake occlusion in the pose the character stands in (Poses.Relaxed, arms down), not the rest pose:
+# with the arms out, nothing shades the armpits, the sides of the torso or the insides of the sleeves.
+OCCLUSION_POSE = "relaxed"
 
 
 # ---------------------------------------------------------------------------------------------------- unwrapping
@@ -149,10 +156,10 @@ def _geometry(output):
     return build
 
 
-def _ao(distance):
+def _ao(distance, only_local=True):
     def build(nodes, links):
         ao = nodes.new("ShaderNodeAmbientOcclusion")
-        ao.only_local = True
+        ao.only_local = only_local
         ao.samples = 16
         ao.inputs["Distance"].default_value = distance
         ao.inputs["Color"].default_value = (1, 1, 1, 1)
@@ -173,15 +180,50 @@ def _attributes(names):
     return build
 
 
-class Bakes:
-    """Everything a part's textures are computed from, per texel, in Unity terms."""
+@contextlib.contextmanager
+def posed(rig, pose):
+    """The rig in a test pose for the duration (parts bound to it bake deformed), then back to rest."""
+    if rig is None or pose == "rest":
+        yield
+        return
+    sp.pose(rig, pose)
+    try:
+        yield
+    finally:
+        sp.pose(rig, "rest")
 
-    def __init__(self, obj, size, attributes=(), ao_distance=0.06, ao_samples=48):
+
+@contextlib.contextmanager
+def only_rendering(objects):
+    """Hides every other mesh from the renderer for the duration, so occlusion sees just these."""
+    hidden = [o for o in bpy.context.scene.objects if o.type == "MESH" and o not in objects and not o.hide_render]
+    for o in hidden:
+        o.hide_render = True
+    try:
+        yield
+    finally:
+        for o in hidden:
+            o.hide_render = False
+
+
+class Bakes:
+    """
+    Everything a part's textures are computed from, per texel, in Unity terms. Position, normal, curvature and
+    attributes are baked in the rest pose, where shapes are drawn. Occlusion is baked with ``rig`` in ``pose``, and,
+    given ``occluders`` (the body under a garment), with them present too. ``wide_ao_distance`` adds a second, wider
+    occlusion bake (``wide_ao``) that picks up limbs near the torso and the jaw over the collar.
+    """
+
+    def __init__(self, obj, size, attributes=(), ao_distance=0.06, ao_samples=48, rig=None, pose="rest", occluders=(),
+                 wide_ao_distance=None):
         position = bake(obj, size, _geometry("Position"))
         normal = bake(obj, size, _geometry("Normal"))
         self.position = np.stack([-position[..., 0], position[..., 2], -position[..., 1]], axis=-1)
         self.normal = np.stack([-normal[..., 0], normal[..., 2], -normal[..., 1]], axis=-1)
-        self.ao = bake(obj, size, _ao(ao_distance), samples=ao_samples)[..., 0]
+        alone = not occluders
+        with posed(rig, pose), (contextlib.nullcontext() if alone else only_rendering([obj, *occluders])):
+            self.ao = bake(obj, size, _ao(ao_distance, alone), samples=ao_samples)[..., 0]
+            self.wide_ao = bake(obj, size, _ao(wide_ao_distance, alone), samples=ao_samples)[..., 0] if wide_ao_distance else None
         self.curvature = bake(obj, size, _geometry("Pointiness"))[..., 0]
         self.attributes = {}
         for i in range(0, len(attributes), 3):
@@ -213,6 +255,65 @@ def painted_shadow(bakes, strength=1.0):
 def shadow_bias(bakes):
     occ = occlusion(bakes)
     return np.clip(0.5 - 0.42 * ss.smoothstep(0.12, 0.5, occ) - 0.15 * concavity(bakes), 0.0, 1.0)
+
+
+def stroke(around, along, start, end, bend, width, peak, segments=10):
+    """
+    A painted brush stroke on a surface flattened to (around, along) in metres: a curve from ``start`` to ``end``
+    bowed sideways by ``bend`` at its middle, ``width`` wide at ``peak`` (0..1 along it) and tapering to points.
+    Returns 1 over its middle falling to 0 at its edge, so the toon edge grows into it from the middle as the light
+    turns. Coordinates of ``start`` and ``end`` may be per-texel arrays.
+    """
+    (a0, l0), (a1, l1) = start, end
+    length = np.maximum(np.hypot(a1 - a0, l1 - l0), 1e-9)
+    side = (-(l1 - l0) / length, (a1 - a0) / length)
+    ts = np.linspace(0.0, 1.0, segments + 1)
+    curve = [(a0 + t * (a1 - a0) + 4.0 * t * (1.0 - t) * bend * side[0],
+              l0 + t * (l1 - l0) + 4.0 * t * (1.0 - t) * bend * side[1]) for t in ts]
+    best = np.full(around.shape, np.inf)
+    best_t = np.zeros(around.shape)
+    for k in range(segments):
+        (x0, y0), (x1, y1) = curve[k], curve[k + 1]
+        dx, dy = x1 - x0, y1 - y0
+        u = np.clip(((around - x0) * dx + (along - y0) * dy) / np.maximum(dx * dx + dy * dy, 1e-12), 0.0, 1.0)
+        dist = np.hypot(around - x0 - u * dx, along - y0 - u * dy)
+        closer = dist < best
+        best = np.where(closer, dist, best)
+        best_t = np.where(closer, ts[k] + u * (ts[k + 1] - ts[k]), best_t)
+    rise = np.clip(best_t / peak, 0.0, 1.0) ** 0.5
+    fall = np.clip((1.0 - best_t) / (1.0 - peak), 0.0, 1.0) ** 0.8
+    half_width = 0.5 * width * np.where(best_t < peak, rise, fall)
+    return ss.smoothstep(0.0, 0.6, 1.0 - best / np.maximum(half_width, 1e-6))
+
+
+def fold_shadows(bakes, folds):
+    """
+    The painted fold shapes the reference puts in cloth: how far each texel's shadow bias drops (0 for none). Each
+    fold is a stroke (see ``stroke``) in one of two frames, the same on both sides: ``torso`` points are (degrees round
+    from the front, 0, through the side, 90, to the back, 180; height), ``sleeve`` points are (degrees round the
+    rest-pose arm from the top, 0, through the front, 90, underneath, 180, and the back, 270; distance out from the
+    middle of the body). Angles become arc lengths at each texel's own radius, so widths and bends are in metres.
+    """
+    p = bakes.position
+    sleeve = bakes.attributes["sleeve"]
+    out = np.abs(p[..., 0])
+    arm = np.asarray(sb.ARM)
+    arm_y = p[..., 1] - np.interp(out, arm[:, 0], arm[:, 1])
+    arm_z = p[..., 2] - np.interp(out, arm[:, 0], arm[:, 2])
+    frames = {
+        "torso": (np.arctan2(out, p[..., 2]), np.hypot(out, p[..., 2]), p[..., 1], 1.0 - sleeve),
+        "sleeve": (np.arctan2(arm_z, arm_y) % (2 * math.pi), np.hypot(arm_y, arm_z), out, sleeve),
+    }
+    drop = np.zeros(out.shape)
+    for fold in folds:
+        angle, radius, along, mask = frames[fold["frame"]]
+        (a0, l0), (a1, l1) = fold["start"], fold["end"]
+        # Measure round the surface from the stroke's start angle, so it's in metres at this texel's radius.
+        around = (angle - math.radians(a0)) * radius
+        shape = stroke(around, along, (0.0, l0), (math.radians(a1 - a0) * radius, l1), fold.get("bend", 0.0),
+                       fold["width"], fold.get("peak", 0.3))
+        drop = np.maximum(drop, fold["depth"] * shape * mask)
+    return drop
 
 
 def coverage_aa(distance, width=0.0004):
@@ -347,13 +448,13 @@ def draw_face(fx, fy, front):
     return iris * front, brows * front, white * front, lips * front, 1 - (1 - value) * front
 
 
-def body_textures(obj, folder, name, size=2048):
+def body_textures(obj, folder, name, rig, size=2048):
     def is_face(polygon):
         return polygon.normal.y < -0.15  # Blender -Y is the character's front
     head = ss.point_attribute(obj, "p_head")
     head_faces = lambda p: all(head[v] > 0.5 for v in p.vertices) and is_face(p)
     unwrap(obj, [(head_faces, 3.0, False), (lambda p: not head_faces(p), 1.0, False)])
-    bakes = Bakes(obj, size, attributes=("p_head", "p_neck", "hand"), ao_distance=0.12)
+    bakes = Bakes(obj, size, attributes=("p_head", "p_neck", "hand"), ao_distance=0.12, rig=rig, pose=OCCLUSION_POSE)
     p, n = bakes.position, bakes.normal
     c = np.asarray(sb.HEAD["centre"])
     on_head = bakes.attributes["p_head"] > 0.5
@@ -369,8 +470,11 @@ def body_textures(obj, folder, name, size=2048):
     value = shadow * face_value
     base = np.repeat(value[..., None], 3, axis=2)
     mask = np.stack([iris, brows, white, lips], axis=-1)
+    # The head stays neutral for the face map, except underneath: the underside of the jaw and chin, where the high
+    # collars leave the under-jaw shadow its only room to show.
+    jaw = on_head * ss.smoothstep(-0.25, -0.6, n[..., 1]) * ss.smoothstep(c[1] - 0.05, c[1] - 0.075, p[..., 1]) * (1 - front)
     bias = shadow_bias(bakes)
-    bias = np.where(on_head, 0.5, bias) - 0.3 * under_jaw
+    bias = np.where(on_head, 0.5 - 0.32 * jaw, bias) - 0.3 * under_jaw
     light = np.stack([np.clip(bias, 0, 1), np.zeros_like(bias), np.zeros_like(bias), np.full_like(bias, MATERIAL["skin"] / 255.0)], axis=-1)
     write_set(folder, name, base, mask, light)
 
@@ -421,9 +525,12 @@ def is_cap(obj, polygon):
 
 # ---------------------------------------------------------------------------------------------------- garments
 
-def garment_textures(obj, folder, name, garment, size=1024):
+def garment_textures(obj, folder, name, garment, rig, body, size=1024):
     unwrap(obj, [(lambda p: True, 1.0, False)])
-    bakes = Bakes(obj, size, attributes=("trim", "lining", "seam", "sleeve"), ao_distance=0.025)  # creases, not the gap between the legs
+    # Creases (not the gap between the legs) for the painted detail, and a wider bake for the shadow bias: the arms
+    # hanging against the torso, the jaw over the collar. The body is always under a garment, so it occludes too.
+    bakes = Bakes(obj, size, attributes=("trim", "lining", "seam", "sleeve"), ao_distance=0.025, rig=rig,
+                  pose=OCCLUSION_POSE, occluders=[body], wide_ao_distance=garment["wide_occlusion"])
     p, n = bakes.position, bakes.normal
     trim = ss.smoothstep(0.4, 0.6, bakes.attributes["trim"])
     lining = ss.smoothstep(0.4, 0.6, bakes.attributes["lining"])
@@ -455,7 +562,10 @@ def garment_textures(obj, folder, name, garment, size=1024):
     base = np.repeat(np.clip(value, 0, 1)[..., None], 3, axis=2)
     mask = np.stack([region1, region2, region3, region4], axis=-1)
     material = np.where(buttons > 0.5, MATERIAL["metal"], MATERIAL["cloth"]) / 255.0
-    light = np.stack([shadow_bias(bakes), np.zeros_like(trim), buttons, material], axis=-1)
+    wide = np.clip(1.0 - bakes.wide_ao, 0.0, 1.0)
+    bias = shadow_bias(bakes) - 0.3 * ss.smoothstep(0.08, 0.45, wide)
+    bias -= fold_shadows(bakes, garment["fold_shadows"]) * (1 - trim) * (1 - lining) * (1 - buttons)
+    light = np.stack([np.clip(bias, 0, 1), np.zeros_like(trim), buttons, material], axis=-1)
     write_set(folder, name, base, mask, light)
 
 
