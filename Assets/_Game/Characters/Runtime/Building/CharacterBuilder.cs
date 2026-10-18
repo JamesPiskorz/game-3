@@ -33,6 +33,7 @@ namespace Game.Characters.Building
             character.name = dna.Style != null ? $"Character {dna.Seed:x} ({dna.Style})" : "Character";
             character.gameObject.AddComponent<RestPose>().Capture();
             character.gameObject.AddComponent<CharacterLod>();
+            character.gameObject.AddComponent<CharacterShadowAnchor>();
             character.gameObject.AddComponent<FaceExpression>();
             character.gameObject.AddComponent<IdleMotion>();
             Apply(character, dna, context);
@@ -47,6 +48,7 @@ namespace Game.Characters.Building
             ApplyShapesAndBones(character, dna);
             SpringBoneRig.Sync(character, _content.SpringColliders);
             character.GetComponent<CharacterLod>()?.Refresh(); // new parts bring new materials and chains
+            character.GetComponent<CharacterShadowAnchor>()?.Refresh();
             ApplyBodyColours(character, dna);
             ApplyPartColours(character, dna, outfit);
             character.GetComponent<FaceExpression>()?.Rebase(); // bones were just reset and re-posed

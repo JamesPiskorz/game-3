@@ -10,6 +10,7 @@ namespace Game.Characters.Rendering
         public static readonly int BaseColor = Shader.PropertyToID("_BaseColor");
         public static readonly int BaseShade = Shader.PropertyToID("_BaseShade");
         public static readonly int RimColor = Shader.PropertyToID("_RimColor");
+        public static readonly int ShadowAnchor = Shader.PropertyToID("_ShadowAnchor");
         public static readonly int ShadeTint = Shader.PropertyToID("_ShadeTint");
         public static readonly int PatternMap = Shader.PropertyToID("_PatternMap");
         public static readonly int PatternColor = Shader.PropertyToID("_PatternColor");
@@ -38,6 +39,13 @@ namespace Game.Characters.Rendering
             material.SetColor(BaseShade, skin.Shade);
             material.SetColor(RimColor, skin.Rim * SkinRimStrength);
         }
+
+        /// <summary>
+        /// Where the environment's shadow is sampled for the whole character: <paramref name="point"/>, moved
+        /// <paramref name="towardLight"/> metres toward the main light. A negative distance (the default) means unshadowed.
+        /// </summary>
+        public static void SetShadowAnchor(Material material, Vector3 point, float towardLight) =>
+            material.SetVector(ShadowAnchor, new Vector4(point.x, point.y, point.z, towardLight));
 
         /// <summary>Sets recolour region <paramref name="region"/> (0-3, i.e. mask channel R-A).</summary>
         public static void SetRegionColour(Material material, int region, Color colour) =>

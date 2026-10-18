@@ -25,6 +25,7 @@ CBUFFER_START(UnityPerMaterial)
     half _OutlineWidth;
     int _HiddenRegions;
     float _Cull;
+    float4 _ShadowAnchor;
 CBUFFER_END
 
 TEXTURE2D(_BaseMap);    SAMPLER(sampler_BaseMap);

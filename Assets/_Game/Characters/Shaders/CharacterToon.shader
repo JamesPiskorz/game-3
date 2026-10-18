@@ -1,5 +1,6 @@
 // CharacterToon v0 (Spike A): two-tone lighting with art-directed shade colours, rim light, inverted-hull
-// outline, mask/vertex-colour recolouring, pattern overlay and body-region hiding. See PLAN.md §3.7.
+// outline, mask/vertex-colour recolouring, pattern overlay and body-region hiding. See PLAN.md §3.7. Characters never
+// shadow themselves and are in the environment's shadow as a whole (Docs/graphics-plan.md R2-R3).
 Shader "Game/Characters/Toon"
 {
     Properties
@@ -36,6 +37,7 @@ Shader "Game/Characters/Toon"
 
         [Header(Body)]
         _HiddenRegions ("Hidden Regions (bitmask)", Integer) = 0
+        [HideInInspector] _ShadowAnchor ("Shadow Anchor (xyz point, w metres toward the light; w < 0 unshadowed)", Vector) = (0, 0, 0, -1)
         [Enum(UnityEngine.Rendering.CullMode)] _Cull ("Cull", Float) = 2
     }
 
@@ -56,7 +58,6 @@ Shader "Game/Characters/Toon"
             #pragma shader_feature_local _MASK_VERTEX_COLOUR
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
             #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
-            #pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS
             #pragma multi_compile_fragment _ _SHADOWS_SOFT _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH
             #pragma multi_compile _ _CLUSTER_LIGHT_LOOP
             #pragma multi_compile_fog
@@ -105,6 +106,28 @@ Shader "Game/Characters/Toon"
                 return smoothstep(_ShadeThreshold - _ShadeSoftness, _ShadeThreshold + _ShadeSoftness, halfLambert);
             }
 
+            // The environment's shadow on the whole character, 0 in shadow, 1 lit. The shadow map is read once, at
+            // _ShadowAnchor (set per character by CharacterShadowAnchor) moved toward the light so the character can't
+            // cover its own sample: no self-shadowing, and no character half in shadow (graphics plan R2-R3).
+            half CharacterShadow()
+            {
+            #if defined(MAIN_LIGHT_CALCULATE_SHADOWS)
+                if (_ShadowAnchor.w < 0.0) return 1.0h;
+                float3 anchorWS = _ShadowAnchor.xyz + _MainLightPosition.xyz * _ShadowAnchor.w;
+                #if defined(_MAIN_LIGHT_SHADOWS_CASCADE)
+                    half cascade = ComputeCascadeIndex(anchorWS);
+                #else
+                    half cascade = 0.0h;
+                #endif
+                float4 coord = float4(mul(_MainLightWorldToShadow[cascade], float4(anchorWS, 1.0)).xyz, 0.0);
+                half shadow = SampleShadowmap(TEXTURE2D_ARGS(_MainLightShadowmapTexture, sampler_LinearClampCompare), coord,
+                    GetMainLightShadowSamplingData(), GetMainLightShadowParams(), false);
+                return lerp(smoothstep(0.35h, 0.65h, shadow), 1.0h, GetMainLightShadowFade(anchorWS));
+            #else
+                return 1.0h;
+            #endif
+            }
+
             half4 Frag(Varyings input, bool isFrontFace : SV_IsFrontFace) : SV_Target
             {
                 if (ToonIsHidden(input.region)) discard;
@@ -115,24 +138,24 @@ Shader "Game/Characters/Toon"
                 float3 normalWS = normalize(input.normalWS) * (isFrontFace ? 1.0 : -1.0);
                 float3 viewWS = GetWorldSpaceNormalizeViewDir(input.positionWS);
 
-                // Main light: shade colour where unlit, base colour where lit; cast shadows snap to the shade colour.
-                Light mainLight = GetMainLight(TransformWorldToShadowCoord(input.positionWS));
-                half mainShadow = smoothstep(0.35, 0.65, mainLight.shadowAttenuation);
-                half mainLit = ToonStep(normalWS, mainLight.direction) * mainShadow;
+                // Main light: shade colour where unlit, base colour where lit. Shading comes from the light direction
+                // alone; the environment's shadow covers the whole character or none of it.
+                Light mainLight = GetMainLight();
+                half mainLit = ToonStep(normalWS, mainLight.direction) * CharacterShadow();
                 half3 colour = lerp(shade, lit, mainLit) * mainLight.color;
 
                 // Ambient fills from the shade colour, so dark scenes keep the art-directed hues.
                 colour += shade * SampleSH(normalWS) * _AmbientStrength;
 
             #if defined(_ADDITIONAL_LIGHTS)
-                // Point and spot lights add their toon-stepped lit colour.
+                // Point and spot lights add their toon-stepped lit colour, without shadows (no self-shadowing).
                 InputData inputData = (InputData)0;
                 inputData.positionWS = input.positionWS;
                 inputData.normalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(input.positionCS);
                 uint lightCount = GetAdditionalLightsCount();
                 LIGHT_LOOP_BEGIN(lightCount)
                     Light light = GetAdditionalLight(lightIndex, input.positionWS, half4(1, 1, 1, 1));
-                    half attenuation = light.distanceAttenuation * smoothstep(0.35, 0.65, light.shadowAttenuation);
+                    half attenuation = light.distanceAttenuation;
                     colour += lit * light.color * (ToonStep(normalWS, light.direction) * attenuation);
                 LIGHT_LOOP_END
             #endif

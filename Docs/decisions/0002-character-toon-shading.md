@@ -51,6 +51,13 @@ Can one URP shader give us the anime look across the whole skin-tone range and e
 2. **Smoothed outline normals live in tangents.** Real FBX imports must bake them too: an `AssetPostprocessor` calling `OutlineNormals.Bake` (Phase 1).
 3. **Shade colours are content, not maths,** for skin (palette stops). Cloth and hair use a shade tint per material, which art can override per item later.
 4. **Every character review runs under all three rigs** (`LightingRig.All`).
+5. **Characters don't receive shadows per pixel** (added 2026-10-18; graphics plan R2-R3, step G1.3). The target look has no self-shadowing, and a character is in the environment's shadow as a whole or not at all.
+   - The toon pass reads the shadow map once per character, at `_ShadowAnchor`: a point by the head that `CharacterShadowAnchor` sets each frame, moved 0.6 m toward the light by the shader so the character can't cover its own sample.
+   - Point and spot lights add no shadows on characters.
+   - Characters still cast shadows on the world.
+   - The default anchor (w < 0) means unshadowed, which suits the portrait studio and the review sheets.
+   - This also removed the blocky patches on stand-in hair, where stacked shells 3 mm apart shadowed each other at shadow-map resolution.
+   - `ShadowCheck` proves it: the old per-pixel shadows fail it (30% and 52% of the character wrong), and the new ones pass (0%).
 
 ## Caveats → follow-ups
 
