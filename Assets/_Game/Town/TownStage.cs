@@ -4,6 +4,7 @@ using Game.Characters.Building;
 using Game.Characters.Dna;
 using Game.Characters.Expressions;
 using Game.Characters.Modular;
+using Game.Characters.Rendering;
 using Game.Sim;
 using Game.Sim.Relationships;
 using Game.Sim.Sandbox;
@@ -82,7 +83,7 @@ namespace Game.Town
             // A new place appears as it is; at the same place, people come and go on foot.
             bool arrived = _setId != session.Location;
             if (arrived) BuildSet(session.Location);
-            Light(TownSets.For(session.Location), world.Now.Hour, world.Weather);
+            Light(TownSets.For(session.Location), world.Now.Hour * 60 + world.Now.Minute, world.Weather);
 
             bool date = session.DateWith != null;
             _player = Dress(_player, world.Player.Dna, world.Player.Outfit ?? TownSession.DayOutfit, "Player", world.Player.LookVersion);
@@ -421,7 +422,9 @@ namespace Game.Town
 
             TownSets.Set set = TownSets.For(location);
             _seats = set.Seats.ToList();
-            Place(PrimitiveType.Cube, new Vector3(0f, -0.05f, -2f), new Vector3(30f, 0.1f, 24f), set.Floor);
+            _glowing.Clear();
+            _floorColour = set.Floor;
+            _floor = Place(PrimitiveType.Cube, new Vector3(0f, -0.05f, -2f), new Vector3(30f, 0.1f, 24f), set.Floor).GetComponent<Renderer>();
             if (!set.Outdoor)
             {
                 Place(PrimitiveType.Cube, Screen(0f, 2.5f, -3.6f), new Vector3(30f, 5f, 0.2f), set.Wall);
@@ -429,14 +432,14 @@ namespace Game.Town
             }
             foreach (TownSets.Prop prop in set.Props)
             {
-                GameObject made = Place(prop.Shape, Screen(prop.Position.x, prop.Position.y, prop.Position.z), prop.Scale, prop.Colour);
+                GameObject made = Place(prop.Shape, Screen(prop.Position.x, prop.Position.y, prop.Position.z), prop.Scale, prop.Colour, prop.Glow);
                 made.transform.localRotation = Quaternion.Euler(0f, -prop.Yaw, 0f);
             }
         }
 
-        GameObject Place(PrimitiveType shape, Vector3 position, Vector3 scale, Color colour)
+        GameObject Place(PrimitiveType shape, Vector3 position, Vector3 scale, Color colour, bool glow = false)
         {
-            GameObject made = Prop(shape, _set, Material(colour));
+            GameObject made = Prop(shape, _set, glow ? Glowing(colour) : Material(colour));
             made.transform.localPosition = position;
             made.transform.localScale = scale;
             return made;
@@ -449,7 +452,36 @@ namespace Game.Town
             if (collider != null) ModularCharacter.DestroySafely(collider);
             made.transform.SetParent(parent, false);
             made.GetComponent<Renderer>().sharedMaterial = material;
+            made.GetComponent<MeshFilter>().sharedMesh = Outlined(shape, made.GetComponent<MeshFilter>().sharedMesh);
             return made;
+        }
+
+        static readonly Dictionary<PrimitiveType, Mesh> OutlinedMeshes = new Dictionary<PrimitiveType, Mesh>();
+
+        // The primitive with outline normals baked into its tangents, so the toon outline stays closed at hard corners.
+        static Mesh Outlined(PrimitiveType shape, Mesh primitive)
+        {
+            if (OutlinedMeshes.TryGetValue(shape, out Mesh mesh) && mesh != null) return mesh;
+            mesh = Object.Instantiate(primitive);
+            mesh.name = primitive.name + " (outlined)";
+            mesh.hideFlags = HideFlags.DontSave;
+            OutlineNormals.Bake(mesh);
+            OutlinedMeshes[shape] = mesh;
+            return mesh;
+        }
+
+        readonly List<Material> _glowing = new List<Material>();
+        Renderer _floor;
+        Color _floorColour;
+
+        // Lit windows and lamps: their own material, so the glow can follow the light.
+        Material Glowing(Color colour)
+        {
+            colour.a = 1f;
+            var material = new Material(PropMaterial) { name = "Lit " + ColorUtility.ToHtmlStringRGB(colour), hideFlags = HideFlags.DontSave };
+            material.SetColor("_BaseColor", colour);
+            _glowing.Add(material);
+            return material;
         }
 
         Material Material(Color colour)
@@ -462,73 +494,35 @@ namespace Game.Town
             return material;
         }
 
+        SceneLighting _lighting;
+
         /// <summary>
-        /// Outdoors follows the clock (day, sunset, night with street lamps); interiors have warm overhead light and
-        /// the walls as background, whatever the hour.
+        /// Outdoors follows the clock through the lighting presets (day, sunset, night with street lamps), blended over
+        /// half an hour at each change; interiors have warm overhead light and the walls as background, whatever the
+        /// hour. Clouds and rain grey outdoor light; it rains on outdoor sets.
         /// </summary>
-        void Light(TownSets.Set set, int hour, Weather weather)
+        void Light(TownSets.Set set, int minuteOfDay, Weather weather)
         {
-            Color ambient, sunColour, background;
-            float intensity;
-            Vector3 angles;
-            bool lamps = set.Lamps;
+            LightingLibrary library = Content.Lighting;
+            LightingLook look;
             if (!set.Outdoor)
             {
-                background = set.Wall;
-                ambient = Color.Lerp(set.Wall, new Color(0.45f, 0.42f, 0.4f), 0.5f) * 0.75f;
-                sunColour = new Color(1f, 0.93f, 0.84f);
-                intensity = 0.95f;
-                angles = new Vector3(50f, 160f, 0f);
-            }
-            else if (hour >= 7 && hour < 17)
-            {
-                background = new Color(0.62f, 0.74f, 0.86f);
-                ambient = new Color(0.42f, 0.46f, 0.55f);
-                sunColour = new Color(1f, 0.96f, 0.9f);
-                intensity = 1.1f;
-                angles = new Vector3(42f, 155f, 0f);
-            }
-            else if (hour >= 17 && hour < 20)
-            {
-                background = new Color(0.55f, 0.36f, 0.42f);
-                ambient = new Color(0.3f, 0.24f, 0.36f);
-                sunColour = new Color(1f, 0.62f, 0.38f);
-                intensity = 1.05f;
-                angles = new Vector3(14f, 118f, 0f);
+                look = library.Get(LightingLibrary.Interior).Look.Walls(set.Wall);
+                look.Lamps = set.Lamps;
             }
             else
             {
-                background = new Color(0.07f, 0.08f, 0.13f);
-                ambient = new Color(0.1f, 0.11f, 0.18f);
-                sunColour = new Color(0.45f, 0.55f, 0.8f);
-                intensity = 0.35f;
-                angles = new Vector3(48f, 150f, 0f);
-                lamps = true;
-            }
-
-            // Clouds and rain grey the sky and soften the sun outdoors; it rains on outdoor sets.
-            if (set.Outdoor && weather != Weather.Sunny)
-            {
-                float grey = weather == Weather.Rainy ? 0.65f : 0.4f;
-                Color overcast = hour >= 20 || hour < 7 ? new Color(0.06f, 0.07f, 0.09f) : new Color(0.5f, 0.54f, 0.6f);
-                background = Color.Lerp(background, overcast, grey);
-                ambient = Color.Lerp(ambient, new Color(0.38f, 0.4f, 0.45f) * (hour >= 20 || hour < 7 ? 0.35f : 1f), grey);
-                sunColour = Color.Lerp(sunColour, new Color(0.82f, 0.86f, 0.92f), grey);
-                intensity *= 1f - 0.55f * grey;
+                look = library.Outdoors(minuteOfDay);
+                if (weather == Weather.Rainy) look = look.Overcast(0.65f, 0.35f);
+                else if (weather == Weather.Cloudy) look = look.Overcast(0.4f, 0.6f);
             }
             Rain(set.Outdoor && weather == Weather.Rainy);
-            Sun.shadowStrength = set.Outdoor && weather != Weather.Sunny ? (weather == Weather.Rainy ? 0.35f : 0.6f) : 1f;
-
-            Camera.clearFlags = CameraClearFlags.SolidColor;
-            Camera.backgroundColor = background;
-            Sun.color = sunColour;
-            Sun.intensity = intensity;
-            Sun.transform.rotation = Quaternion.Euler(angles);
-            RenderSettings.ambientMode = AmbientMode.Flat;
-            RenderSettings.ambientLight = ambient;
-            var probe = new SphericalHarmonicsL2();
-            probe.AddAmbientLight(ambient);
-            RenderSettings.ambientProbe = probe;
+            _lighting ??= new SceneLighting(Sun, Camera);
+            _lighting.Apply(look, set.Outdoor ? (Color?)null : set.Wall);
+            bool lamps = look.Lamps;
+            foreach (Material glowing in _glowing) glowing.SetColor("_EmissionColor", look.LampColour * look.Glow);
+            // Rain darkens the ground.
+            if (_floor != null) _floor.sharedMaterial = Material(set.Outdoor && weather == Weather.Rainy ? _floorColour * 0.78f : _floorColour);
 
             while (_lamps.Count < 2)
             {
@@ -540,9 +534,12 @@ namespace Game.Town
             for (int i = 0; i < _lamps.Count; i++)
             {
                 _lamps[i].gameObject.SetActive(lamps);
-                _lamps[i].color = new Color(1f, 0.78f, 0.52f);
-                _lamps[i].intensity = set.Outdoor ? 1.2f : 0.7f;
+                _lamps[i].color = look.LampColour;
+                _lamps[i].intensity = look.LampIntensity;
                 _lamps[i].range = 5f;
+                // Outdoors at night, one lamp is the key light and casts shadows (characters don't receive them).
+                _lamps[i].shadows = i == 0 && set.Outdoor && lamps ? LightShadows.Soft : LightShadows.None;
+                _lamps[i].shadowStrength = 0.8f;
                 _lamps[i].transform.localPosition = Screen(i == 0 ? -1.2f : 1.6f, 2.6f, 1.6f);
             }
         }

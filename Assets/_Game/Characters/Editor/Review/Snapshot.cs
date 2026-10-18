@@ -12,7 +12,7 @@ namespace Game.Characters.Review
         public static Camera CreateCamera(Color background, float fieldOfView = 30f)
         {
             var camera = new GameObject("Snapshot Camera").AddComponent<Camera>();
-            Game.Characters.Rendering.GameCamera.Configure(camera); // post and MSAA as in the game
+            Game.Characters.Rendering.GameCamera.Configure(camera, sceneGrading: false); // post and MSAA as in the game; no vignette per tile
             camera.clearFlags = CameraClearFlags.SolidColor;
             camera.backgroundColor = background;
             camera.fieldOfView = fieldOfView;

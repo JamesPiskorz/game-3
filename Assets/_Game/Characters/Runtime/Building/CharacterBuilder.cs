@@ -27,6 +27,8 @@ namespace Game.Characters.Building
             _catalog = content.LoadCatalog();
         }
 
+        public CharacterContent Content => _content;
+
         public ModularCharacter Build(CharacterDna dna, string context = null, Transform parent = null)
         {
             ModularCharacter character = UnityEngine.Object.Instantiate(_content.BodyPrefab, parent);

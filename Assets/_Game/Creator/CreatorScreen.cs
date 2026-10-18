@@ -41,6 +41,9 @@ namespace Game.Creator
         void Start()
         {
             Game.Characters.Rendering.GameCamera.Configure(PreviewCamera);
+            if (Content.Lighting != null)
+                new Game.Characters.Rendering.SceneLighting(RenderSettings.sun, PreviewCamera)
+                    .Apply(Content.Lighting.Get(Game.Characters.Rendering.LightingLibrary.Day).Look, PreviewCamera.backgroundColor, fog: false);
             var generator = new CharacterGenerator(Content.LoadCatalog());
             // Pick up where the player left off, if they've made a character before.
             CharacterDna start = PlayerLook.TryLoad(out CharacterDna saved) ? saved : generator.Generate(StartSeed);

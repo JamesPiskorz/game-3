@@ -39,7 +39,7 @@ namespace Game.Town
             stage.Content = StandInContent.Load();
             stage.Camera = camera;
             stage.Sun = sun;
-            stage.PropMaterial = MaterialAsset(PropMaterialPath, "Universal Render Pipeline/Lit", new Color(0.8f, 0.8f, 0.8f));
+            stage.PropMaterial = MaterialAsset(PropMaterialPath, "Game/Environment/Toon", new Color(0.8f, 0.8f, 0.8f));
             stage.HighlightMaterial = MaterialAsset(HighlightMaterialPath, "Universal Render Pipeline/Unlit", new Color(1f, 0.55f, 0.72f));
             stage.RainMaterial = MaterialAsset(Folder + "/Materials/Rain.mat", "Universal Render Pipeline/Particles/Unlit", new Color(0.78f, 0.84f, 0.95f));
 
@@ -75,7 +75,7 @@ namespace Game.Town
             floor.transform.SetParent(stage, false);
             floor.transform.localScale = new Vector3(6f, 0.01f, 3f);
             Object.DestroyImmediate(floor.GetComponent<Collider>());
-            floor.GetComponent<Renderer>().sharedMaterial = MaterialAsset(Folder + "/Materials/MenuFloor.mat", "Universal Render Pipeline/Lit", new Color(0.36f, 0.3f, 0.4f));
+            floor.GetComponent<Renderer>().sharedMaterial = MaterialAsset(Folder + "/Materials/MenuFloor.mat", "Game/Environment/Toon", new Color(0.36f, 0.3f, 0.4f));
 
             var camera = new GameObject("Main Camera") { tag = "MainCamera" }.AddComponent<Camera>();
             camera.clearFlags = CameraClearFlags.SolidColor;

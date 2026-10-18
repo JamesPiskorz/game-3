@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e2de1572071bcd4088bc3a8a2611e04, type: 3}
+  m_Name: sunset
+  m_EditorClassIdentifier: Game.Characters.Unity::Game.Characters.Rendering.LightingPreset
+  Look:
+    SunColour: {r: 1, g: 0.62, b: 0.38, a: 1}
+    SunIntensity: 1.05
+    SunAngles: {x: 14, y: 118, z: 0}
+    ShadowStrength: 1
+    AmbientSky: {r: 0.34, g: 0.28, b: 0.44, a: 1}
+    AmbientEquator: {r: 0.3, g: 0.24, b: 0.36, a: 1}
+    AmbientGround: {r: 0.24, g: 0.18, b: 0.24, a: 1}
+    SkyTop: {r: 0.3, g: 0.26, b: 0.52, a: 1}
+    SkyHorizon: {r: 0.98, g: 0.6, b: 0.46, a: 1}
+    Clouds: 0.28
+    FogColour: {r: 0.86, g: 0.56, b: 0.5, a: 1}
+    FogStart: 20
+    FogEnd: 85
+    Lamps: 0
+    LampColour: {r: 1, g: 0.78, b: 0.52, a: 1}
+    LampIntensity: 1.2
+    Glow: 0.5
+    RimColour: {r: 0.25, g: 0.22, b: 0.2, a: 1}
+    Night: 0.25
+    Vignette: 0.2
+    Saturation: 5
+    Contrast: 0
+    ColourFilter: {r: 1, g: 1, b: 1, a: 1}
+    SplitShadows: {r: 0.46, g: 0.43, b: 0.6, a: 1}
+    SplitHighlights: {r: 0.62, g: 0.5, b: 0.42, a: 1}

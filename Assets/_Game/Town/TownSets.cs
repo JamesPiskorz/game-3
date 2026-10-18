@@ -35,6 +35,15 @@ namespace Game.Town
                 Props.Add(new Prop { Shape = shape, Position = new Vector3(x, y, z), Scale = new Vector3(sx, sy, sz), Colour = colour, Yaw = yaw });
                 return this;
             }
+
+            /// <summary>Marks the last prop as lit from within (a window, a lamp): it glows as the lighting preset says.</summary>
+            public Set Lit()
+            {
+                Prop prop = Props[Props.Count - 1];
+                prop.Glow = true;
+                Props[Props.Count - 1] = prop;
+                return this;
+            }
         }
 
         public struct Prop
@@ -44,6 +53,9 @@ namespace Game.Town
             public Vector3 Scale;
             public Color Colour;
             public float Yaw;
+
+            /// <summary>Lit from within: glows with the preset's lamp colour (more at night).</summary>
+            public bool Glow;
         }
 
         static Color C(int r, int g, int b) => new Color(r / 255f, g / 255f, b / 255f);
@@ -96,6 +108,9 @@ namespace Game.Town
             Tree(4.6f, -3.2f, 1.4f);
             Tree(-1.2f, -5.5f, 1.5f);
             Tree(2.0f, -6.5f, 1.3f);
+            // A lamp post by the path, lit at night.
+            set.Add(PrimitiveType.Cylinder, -5.2f, 1.4f, -1.8f, 0.08f, 1.4f, 0.08f, C(54, 58, 66))
+               .Add(PrimitiveType.Sphere, -5.2f, 2.9f, -1.8f, 0.34f, 0.34f, 0.34f, C(250, 232, 196)).Lit();
             // A bench on the left (the HUD covers the right), with room for two.
             set.Add(PrimitiveType.Cube, -3.2f, 0.45f, -1.3f, 1.8f, 0.08f, 0.5f, C(150, 100, 70))         // bench
                .Add(PrimitiveType.Cube, -3.2f, 0.22f, -1.3f, 1.6f, 0.44f, 0.08f, C(70, 70, 76))
@@ -110,7 +125,7 @@ namespace Game.Town
             set.Add(PrimitiveType.Cube, 0f, 2.5f, -5f, 12f, 5f, 1f, C(184, 120, 96))                      // brick building
                .Add(PrimitiveType.Cube, 0f, 1.2f, -4.45f, 1.6f, 2.4f, 0.1f, C(60, 64, 80));               // door
             for (int i = -2; i <= 2; i++)
-                if (i != 0) set.Add(PrimitiveType.Cube, i * 2.2f, 3f, -4.45f, 1.1f, 1.3f, 0.1f, C(190, 220, 240));
+                if (i != 0) set.Add(PrimitiveType.Cube, i * 2.2f, 3f, -4.45f, 1.1f, 1.3f, 0.1f, C(190, 220, 240)).Lit();
             set.Add(PrimitiveType.Cylinder, -3.8f, 0.5f, -1.5f, 1.6f, 0.5f, 1.6f, C(150, 150, 150))       // planter
                .Add(PrimitiveType.Sphere, -3.8f, 1.2f, -1.5f, 1.4f, 0.9f, 1.4f, C(90, 140, 80));
             return set;
@@ -146,7 +161,7 @@ namespace Game.Town
             {
                 float x = -4f + i * 4f;
                 set.Add(PrimitiveType.Cube, x, 1.4f, -3f, 3.4f, 2.8f, 0.3f, C(250, 248, 244))
-                   .Add(PrimitiveType.Cube, x, 1.2f, -2.82f, 2.6f, 1.8f, 0.05f, C(190, 220, 236))
+                   .Add(PrimitiveType.Cube, x, 1.2f, -2.82f, 2.6f, 1.8f, 0.05f, C(190, 220, 236)).Lit()
                    .Add(PrimitiveType.Cube, x, 2.55f, -2.6f, 3.4f, 0.12f, 0.8f, awnings[i]);
             }
             set.Add(PrimitiveType.Cylinder, 5.6f, 0.4f, -1.6f, 1.2f, 0.4f, 1.2f, C(200, 196, 190))         // planter
@@ -191,7 +206,7 @@ namespace Game.Town
                .Add(PrimitiveType.Cube, 0f, 0.8f, -2.8f, 2.6f, 0.6f, 0.2f, C(110, 130, 160))
                .Add(PrimitiveType.Cylinder, 0f, 0.005f, -1f, 3f, 0.005f, 2.2f, C(200, 120, 120))             // rug
                .Add(PrimitiveType.Cylinder, 2.2f, 0.8f, -2.5f, 0.05f, 0.8f, 0.05f, C(60, 60, 60))             // lamp
-               .Add(PrimitiveType.Sphere, 2.2f, 1.65f, -2.5f, 0.45f, 0.35f, 0.45f, C(250, 230, 190));
+               .Add(PrimitiveType.Sphere, 2.2f, 1.65f, -2.5f, 0.45f, 0.35f, 0.45f, C(250, 230, 190)).Lit();
             return set;
         }
     }

@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using Game.Characters.Rendering;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace Game.Characters.Review
 {
     /// <summary>
     /// The lighting setups every character review runs under (PLAN.md §3.4): skin and colours must hold up in all
-    /// of them, not just in daylight.
+    /// of them, not just in daylight. They come from the game's lighting presets (<see cref="LightingPresets"/>), so a
+    /// review shows the light the game uses.
     /// </summary>
     public sealed class LightingRig
     {
@@ -17,27 +18,22 @@ namespace Game.Characters.Review
         public float SunIntensity;
         public Vector3 SunAngles;
         public Color? LampColour;    // warm point lights near the subjects (street lamps, interiors)
+        public LightingLook Look;
 
-        public static readonly LightingRig Day = new LightingRig
+        public static LightingRig Day => From(LightingLibrary.Day);
+        public static LightingRig Sunset => From(LightingLibrary.Sunset);
+        public static LightingRig Night => From(LightingLibrary.Night);
+        public static LightingRig[] All => new[] { Day, Sunset, Night };
+
+        public static LightingRig From(string preset)
         {
-            Name = "day", Background = new Color(0.62f, 0.74f, 0.86f), Ambient = new Color(0.42f, 0.46f, 0.55f),
-            SunColour = new Color(1f, 0.96f, 0.9f), SunIntensity = 1.1f, SunAngles = new Vector3(42f, 155f, 0f),
-        };
-
-        public static readonly LightingRig Sunset = new LightingRig
-        {
-            Name = "sunset", Background = new Color(0.55f, 0.36f, 0.42f), Ambient = new Color(0.3f, 0.24f, 0.36f),
-            SunColour = new Color(1f, 0.62f, 0.38f), SunIntensity = 1.05f, SunAngles = new Vector3(14f, 118f, 0f),
-        };
-
-        public static readonly LightingRig Night = new LightingRig
-        {
-            Name = "night", Background = new Color(0.07f, 0.08f, 0.13f), Ambient = new Color(0.1f, 0.11f, 0.18f),
-            SunColour = new Color(0.45f, 0.55f, 0.8f), SunIntensity = 0.35f, SunAngles = new Vector3(48f, 150f, 0f),
-            LampColour = new Color(1f, 0.74f, 0.45f),
-        };
-
-        public static readonly LightingRig[] All = { Day, Sunset, Night };
+            LightingLook look = LightingPresets.Library().Get(preset).Look;
+            return new LightingRig
+            {
+                Name = preset, Look = look, Background = look.SkyHorizon, Ambient = look.AmbientEquator, SunColour = look.SunColour,
+                SunIntensity = look.SunIntensity, SunAngles = look.SunAngles, LampColour = look.Lamps ? look.LampColour : (Color?)null,
+            };
+        }
 
         /// <summary>Lights the open scene; lamps are placed in front of and above each subject position.</summary>
         public List<GameObject> Apply(IEnumerable<Vector3> subjects)
@@ -50,14 +46,10 @@ namespace Game.Characters.Review
             sun.intensity = SunIntensity;
             sun.shadows = LightShadows.Soft;
             sun.transform.rotation = Quaternion.Euler(SunAngles);
+            sun.shadowStrength = Look.ShadowStrength > 0f ? Look.ShadowStrength : 1f;
             RenderSettings.sun = sun;
             created.Add(sun.gameObject);
-
-            RenderSettings.ambientMode = AmbientMode.Flat;
-            RenderSettings.ambientLight = Ambient;
-            var probe = new SphericalHarmonicsL2();
-            probe.AddAmbientLight(Ambient);
-            RenderSettings.ambientProbe = probe;
+            SceneLighting.ApplyAmbient(Look);
 
             if (LampColour.HasValue)
                 foreach (Vector3 subject in subjects)

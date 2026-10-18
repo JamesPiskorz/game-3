@@ -212,7 +212,7 @@ The problems: fit across body shapes, clipping, layering, and enough variety fro
 
 ### 3.7 Shading: `CharacterToon`
 
-A custom URP Shader Graph family with these features:
+A custom URP shader family, hand-written in HLSL (decision 0002: Shader Graph can't do the multi-pass outline cleanly), with these features:
 
 - Two-tone or ramp lighting with art-directed shade colours, rim light, and specular for hair and eyes.
 - An **inverted-hull outline** using smoothed normals that are baked into a spare UV channel at import, so outlines don't break on hard edges. Width and colour are set per material.

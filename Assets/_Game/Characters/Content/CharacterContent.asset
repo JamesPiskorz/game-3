@@ -403,6 +403,7 @@ MonoBehaviour:
       Position: {x: 0, y: 0, z: 0}
       Scale: {x: 1.14, y: 1.25, z: 1.1}
       Euler: {x: 0, y: 0, z: -2}
+  Lighting: {fileID: 11400000, guid: 4565c3be61433be4ba0c13eb30269d76, type: 2}
   SpringColliders:
   - Bone: Head
     Offset: {x: 0, y: 0.1, z: 0}

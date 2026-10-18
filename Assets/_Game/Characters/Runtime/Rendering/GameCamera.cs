@@ -11,7 +11,11 @@ namespace Game.Characters.Rendering
     /// </summary>
     public static class GameCamera
     {
-        public static void Configure(Camera camera)
+        /// <param name="sceneGrading">
+        /// False for cameras that shouldn't get the scene's screen grading (the portrait studio, review tiles): they see
+        /// only the pipeline's profile, not volumes on the Default layer (<see cref="SceneLighting"/>).
+        /// </param>
+        public static void Configure(Camera camera, bool sceneGrading = true)
         {
             camera.allowMSAA = true;
             camera.allowHDR = true;
@@ -20,6 +24,7 @@ namespace Game.Characters.Rendering
             // MSAA covers the outlines, which are geometry. No TAA: it ghosts thin hair and lines, and the toon shader
             // has no motion-vector pass.
             data.antialiasing = AntialiasingMode.None;
+            data.volumeLayerMask = sceneGrading ? 1 : 0;
         }
 
         /// <summary>

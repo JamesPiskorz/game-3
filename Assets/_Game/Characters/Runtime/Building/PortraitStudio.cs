@@ -47,7 +47,7 @@ namespace Game.Characters.Building
             _camera = new GameObject("Portrait camera").AddComponent<Camera>();
             _camera.transform.SetParent(_studio.transform, false);
             _camera.enabled = false; // rendered by hand
-            GameCamera.Configure(_camera);
+            GameCamera.Configure(_camera, sceneGrading: false); // no screen vignette on every portrait
             _camera.clearFlags = CameraClearFlags.SolidColor;
             _camera.backgroundColor = backdrop;
             _camera.fieldOfView = 18f;
@@ -147,15 +147,12 @@ namespace Game.Characters.Building
                     intensity = _sun.intensity;
                     shadows = _sun.shadowStrength;
                     rotation = _sun.transform.rotation;
-                    _sun.color = new Color(1f, 0.96f, 0.9f);
-                    _sun.intensity = 1.05f;
-                    _sun.shadowStrength = 0.6f;
-                    _sun.transform.rotation = Quaternion.Euler(35f, 160f, 0f);
-                    var light = new Color(0.46f, 0.47f, 0.55f);
-                    RenderSettings.ambientLight = light;
-                    var flat = new SphericalHarmonicsL2();
-                    flat.AddAmbientLight(light);
-                    RenderSettings.ambientProbe = flat;
+                    LightingLook studio = Studio;
+                    _sun.color = studio.SunColour;
+                    _sun.intensity = studio.SunIntensity;
+                    _sun.shadowStrength = studio.ShadowStrength;
+                    _sun.transform.rotation = Quaternion.Euler(studio.SunAngles);
+                    SceneLighting.ApplyAmbient(studio);
                 }
                 _camera.targetTexture = target;
                 // The first render after startup can come out with placeholder shaders (black); throw one away.
@@ -178,6 +175,22 @@ namespace Game.Characters.Building
                     RenderSettings.ambientLight = ambient;
                     RenderSettings.ambientProbe = probe;
                 }
+            }
+        }
+
+        // The studio preset, or neutral daylight if the content has no lighting library.
+        LightingLook Studio
+        {
+            get
+            {
+                LightingPreset preset = _builder.Content != null && _builder.Content.Lighting != null ? _builder.Content.Lighting.Get(LightingLibrary.Studio) : null;
+                if (preset != null) return preset.Look;
+                Color ambient = new Color(0.46f, 0.47f, 0.55f);
+                return new LightingLook
+                {
+                    SunColour = new Color(1f, 0.96f, 0.9f), SunIntensity = 1.05f, SunAngles = new Vector3(35f, 160f, 0f), ShadowStrength = 0.6f,
+                    AmbientSky = ambient, AmbientEquator = ambient, AmbientGround = ambient,
+                };
             }
         }
 

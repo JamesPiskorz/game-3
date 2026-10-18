@@ -35,7 +35,8 @@ namespace Game.Creator
             var floorMaterial = AssetDatabase.LoadAssetAtPath<Material>(floorPath);
             if (floorMaterial == null)
             {
-                floorMaterial = new Material(Shader.Find("Universal Render Pipeline/Lit")) { name = "CreatorFloor" };
+                floorMaterial = new Material(Shader.Find("Game/Environment/Toon")) { name = "CreatorFloor" };
+                floorMaterial.SetFloat("_OutlineWidth", 0f);
                 floorMaterial.SetColor("_BaseColor", new Color(0.32f, 0.3f, 0.38f));
                 AssetDatabase.CreateAsset(floorMaterial, floorPath);
             }

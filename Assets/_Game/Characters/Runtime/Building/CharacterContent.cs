@@ -24,6 +24,9 @@ namespace Game.Characters.Building
         public List<SliderBinding> Sliders = new List<SliderBinding>();
         public List<StyleBinding> Styles = new List<StyleBinding>();
 
+        [Tooltip("Lighting presets for the places characters appear: town, creator, menu, portraits (graphics plan G0.4).")]
+        public LightingLibrary Lighting;
+
         [Tooltip("Spheres on the body that spring-bone hair and cloth can't pass through.")]
         public List<SpringColliderBinding> SpringColliders = new List<SpringColliderBinding>();
 

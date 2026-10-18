@@ -58,7 +58,13 @@ namespace Game.Town
 
         void Start()
         {
-            if (Camera.main != null) Game.Characters.Rendering.GameCamera.Configure(Camera.main);
+            if (Camera.main != null)
+            {
+                Game.Characters.Rendering.GameCamera.Configure(Camera.main);
+                if (Content != null && Content.Lighting != null)
+                    new Game.Characters.Rendering.SceneLighting(RenderSettings.sun, Camera.main)
+                        .Apply(Content.Lighting.Get(Game.Characters.Rendering.LightingLibrary.Day).Look, Camera.main.backgroundColor, fog: false);
+            }
             VisualElement root = Document.rootVisualElement;
             if (Style != null) root.styleSheets.Add(Style);
             root.AddToClassList("menu");
