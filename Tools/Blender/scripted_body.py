@@ -1,7 +1,8 @@
 """Scripted base body and anime head (art spike, decision 0009).
 
 The body is a quad cage built ring by ring, so edge loops sit where the rig bends: three loops at each shoulder,
-elbow, wrist, hip, knee and ankle, and at each finger joint. One welded mesh from neck to toes: the arms grow out of
+wrist, hip and ankle, five at each knee and elbow (weighted so they keep their volume, see HINGES), and loops at each
+finger joint. One welded mesh from neck to toes: the arms grow out of
 2x2 holes in the torso's sides, the legs out of the pelvis floor (sharing the crotch line), the fingers out of the
 palm, and the head (a cube-sphere cage) is bridged onto the neck. The cage is subdivided once onto its limit surface.
 
@@ -59,16 +60,18 @@ ARM = [
     (0.195, 1.409, -0.002, 0.051, 0.053, 0.0),   # deltoid
     (0.255, 1.402, -0.004, 0.046, 0.047, 0.0),
     (0.330, 1.400, -0.004, 0.041, 0.043, 0.0),
-    (0.405, 1.400, -0.004, 0.036, 0.038, 0.0),   # elbow loops: above, at, below
-    (0.440, 1.400, -0.006, 0.034, 0.036, 0.0),
+    (0.400, 1.400, -0.004, 0.037, 0.039, 0.0),   # elbow loops (weighted by HINGES)
+    (0.425, 1.400, -0.005, 0.035, 0.037, 0.0),
+    (0.450, 1.400, -0.006, 0.035, 0.037, 1.0),
     (0.475, 1.400, -0.004, 0.036, 0.039, 4.0),
+    (0.505, 1.400, -0.003, 0.036, 0.038, 7.0),
     (0.545, 1.400, -0.002, 0.034, 0.036, 10.0),
     (0.620, 1.400, 0.000, 0.027, 0.031, 16.0),
     (0.685, 1.400, 0.002, 0.019, 0.027, 22.5),   # wrist: a quarter-step twist lines it up with the palm
 ]
-ARM_WEIGHTS = [  # (UpperArm, LowerArm, Hand) per station; the rest is Chest
-    (0.6, 0, 0), (0.92, 0, 0), (1, 0, 0), (0.78, 0.22, 0), (0.5, 0.5, 0), (0.22, 0.78, 0), (0, 1, 0), (0, 0.92, 0.08),
-    (0, 0.5, 0.5),
+ARM_WEIGHTS = [  # (UpperArm, LowerArm, Hand) per station; the rest is Chest. Elbow loops are overridden by HINGES.
+    (0.6, 0, 0), (0.92, 0, 0), (1, 0, 0), (0.8, 0.2, 0), (0.6, 0.4, 0), (0.4, 0.6, 0), (0.22, 0.78, 0), (0.1, 0.9, 0),
+    (0, 1, 0), (0, 0.92, 0.08), (0, 0.5, 0.5),
 ]
 # Palm stations past the wrist: |x|, centre y, centre z, width (thumb to little finger), thickness.
 PALM = [(0.712, 1.399, 0.004, 0.060, 0.027), (0.748, 1.398, 0.002, 0.070, 0.026), (0.786, 1.397, 0.000, 0.072, 0.022)]
@@ -87,18 +90,32 @@ LEG = [
     (0.780, 0.084, -0.002, 0.069, 0.073, 0.073, 0.065),
     (0.680, 0.088, 0.002, 0.063, 0.063, 0.063, 0.057),
     (0.590, 0.090, 0.006, 0.054, 0.053, 0.053, 0.049),
-    (0.535, 0.090, 0.008, 0.047, 0.046, 0.046, 0.044),   # knee loops: above, at, below
-    (0.500, 0.090, 0.010, 0.046, 0.043, 0.044, 0.043),
-    (0.460, 0.090, 0.006, 0.043, 0.047, 0.044, 0.043),
-    (0.370, 0.090, -0.004, 0.037, 0.054, 0.045, 0.042),  # calf
-    (0.250, 0.090, -0.002, 0.033, 0.039, 0.036, 0.034),
-    (0.160, 0.090, 0.000, 0.028, 0.029, 0.029, 0.027),
+    (0.545, 0.090, 0.008, 0.048, 0.047, 0.047, 0.045),   # knee loops (weighted by HINGES)
+    (0.515, 0.090, 0.009, 0.046, 0.044, 0.045, 0.043),
+    (0.490, 0.090, 0.010, 0.046, 0.043, 0.044, 0.043),
+    (0.465, 0.090, 0.008, 0.044, 0.045, 0.044, 0.043),
+    (0.430, 0.090, 0.004, 0.041, 0.050, 0.045, 0.043),
+    (0.370, 0.090, -0.004, 0.037, 0.058, 0.047, 0.043),  # calf
+    (0.250, 0.090, -0.002, 0.033, 0.040, 0.036, 0.034),
+    (0.160, 0.090, 0.000, 0.027, 0.028, 0.028, 0.026),
     (0.105, 0.090, 0.000, 0.028, 0.029, 0.030, 0.029),   # ankle
 ]
-LEG_WEIGHTS = [  # (UpperLeg, LowerLeg, Foot); the rest is Hips
-    (0.85, 0, 0), (1, 0, 0), (1, 0, 0), (0.75, 0.25, 0), (0.5, 0.5, 0), (0.25, 0.75, 0), (0, 1, 0), (0, 1, 0), (0, 0.9, 0.1),
-    (0, 0.5, 0.5),
+LEG_WEIGHTS = [  # (UpperLeg, LowerLeg, Foot); the rest is Hips. Knee loops are overridden by HINGES.
+    (0.85, 0, 0), (1, 0, 0), (1, 0, 0), (0.85, 0.15, 0), (0.6, 0.4, 0), (0.4, 0.6, 0), (0.15, 0.85, 0), (0, 1, 0),
+    (0, 1, 0), (0, 1, 0), (0, 0.9, 0.1), (0, 0.5, 0.5),
 ]
+# Knees and elbows keep their volume without helper bones or corrective shapes (the rig and importer stay as they are).
+# Linear blend skinning pulls a vertex shared half and half between two bones toward the joint by cos(bend / 2), so a
+# blend centred on the joint folds the outside of a 90° bend to 0.71 of its radius, however wide the blend is. On the
+# outside of the bend the blend starts at the joint and runs a few loops toward the child bone, so the half-and-half
+# vertices sit away from the joint and the outside turns a round corner (about 0.83 of its radius). On the inside it
+# stays tight round the joint. A kneecap and an elbow point add a little volume where the outside still thins
+# (together about 0.9). ``along`` runs from parent to child (y down the leg, |x| out along the arm); ``outside`` is
+# from the joint to full child weight, ``inside`` likewise; the bump is (height, centre, spread).
+HINGES = {
+    "knee": dict(zone=(0.56, 0.40), outside=(0.505, 0.432), inside=(0.532, 0.466), bump=(0.013, 0.492, 0.022)),
+    "elbow": dict(zone=(0.39, 0.52), outside=(0.437, 0.505), inside=(0.410, 0.472), bump=(0.006, 0.452, 0.020)),
+}
 # Foot rings (the leg tube bends forward): centre, tilt of the ring's "top" from straight forward (0) to straight up (90),
 # radii toward top, sole, outer side, inner side.
 FOOT = [
@@ -173,6 +190,26 @@ def torso_weights(y):
     chest = ramp(1.16, 1.27)
     hips = 1 - ramp(0.98, 1.10)
     return blend_weights(("Hips", hips), ("Spine", spine), ("Chest", chest))
+
+
+def in_hinge(name, along):
+    a, b = HINGES[name]["zone"]
+    return min(a, b) < along < max(a, b)
+
+
+def hinge_weight(name, along, outside):
+    """The child bone's weight at a hinge loop vertex; ``outside`` is 1 on the outside of the bend, -1 inside."""
+    h = HINGES[name]
+    on_outside = float(ss.smoothstep(-0.4, 0.6, outside))
+    w_out = float(ss.smoothstep(h["outside"][0], h["outside"][1], along))
+    w_in = float(ss.smoothstep(h["inside"][0], h["inside"][1], along))
+    return w_in + (w_out - w_in) * on_outside
+
+
+def hinge_bump(name, along, outside):
+    """How far the kneecap or elbow point lifts a vertex on the outside of the bend."""
+    height, centre, spread = HINGES[name]["bump"]
+    return height * gauss(along - centre, spread) * max(outside, 0.0) ** 2
 
 
 def side_name(sign):
@@ -298,10 +335,16 @@ def build_arm(cage, root, sign):
         ring = []
         for k in range(8):
             phi = math.radians(k * 45 + twist)
+            outside = -math.sin(phi)  # elbows bend forward: the back of the arm is the outside
+            w_up, w_low = bone_up, bone_low
+            if in_hinge("elbow", x):
+                w_low = hinge_weight("elbow", x, outside)
+                w_up = 1.0 - w_low
             ry_k = ry * (1.04 + (0.03 if station is ARM[0] and math.cos(phi) > 0.3 else 0.0))
-            ring.append(cage.add((sign * x, cy + ry_k * math.cos(phi), cz + rz * 1.04 * math.sin(phi)),
-                                 blend_weights((upper, bone_up), (lower, bone_low), (hand, bone_hand),
-                                               ("Chest", 1 - bone_up - bone_low - bone_hand)), flesh=1, seam=k == 4, **part))
+            z = cz + rz * 1.04 * math.sin(phi) - hinge_bump("elbow", x, outside)
+            ring.append(cage.add((sign * x, cy + ry_k * math.cos(phi), z),
+                                 blend_weights((upper, w_up), (lower, w_low), (hand, bone_hand),
+                                               ("Chest", 1 - w_up - w_low - bone_hand)), flesh=1, seam=k == 4, **part))
         cage.bridge(previous, ring)
         previous = ring
     build_hand(cage, previous, sign, part)
@@ -375,10 +418,14 @@ def build_leg(cage, root, sign):
         ring = []
         for k in range(8):
             phi = math.radians(k * 45)
-            c, s = math.cos(phi), math.sin(phi)
-            z = cz + (rf if c >= 0 else rb) * c * 1.04
+            c, s = math.cos(phi), math.sin(phi)  # knees bend backward: the front (c > 0) is the outside
+            w_up, w_low = bu, bl
+            if in_hinge("knee", y):
+                w_low = hinge_weight("knee", y, c)
+                w_up = 1.0 - w_low
+            z = cz + (rf if c >= 0 else rb) * c * 1.04 + hinge_bump("knee", y, c)
             x = sign * (cx + (ro if s >= 0 else ri) * s * 1.04)
-            ring.append(cage.add((x, y, z), blend_weights((upper, bu), (lower, bl), (foot, bf), ("Hips", 1 - bu - bl - bf)),
+            ring.append(cage.add((x, y, z), blend_weights((upper, w_up), (lower, w_low), (foot, bf), ("Hips", 1 - w_up - w_low - bf)),
                                  flesh=1 if bf == 0 else 0.4, seam=k in (2, 6), **part))
         cage.bridge(previous, ring)
         previous = ring

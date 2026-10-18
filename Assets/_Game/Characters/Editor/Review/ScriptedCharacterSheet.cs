@@ -16,15 +16,18 @@ namespace Game.Characters.Review
     /// The scripted-art spike (decision 0009): the character built entirely by script in Blender
     /// (Tools/Blender/make_scripted_character.py) on the right, a stand-in wearing the matching pieces on the left, in
     /// the same colours, pose and lighting, rendered with the game's toon shader (Docs/review/scripted-character.png),
-    /// and both in three test poses (Docs/review/scripted-poses.png). The scripted character borrows the stand-in
-    /// sneakers (it has no shoes of its own); nothing here touches the catalogue.
+    /// and both in three test poses (Docs/review/scripted-poses.png). Since the second pass the scripted character
+    /// wears its own scripted sneakers; nothing here touches the catalogue.
     /// Headless: unity run . -- -executeMethod Game.Characters.Review.ScriptedCharacterSheet.Render
     /// </summary>
     public static class ScriptedCharacterSheet
     {
         const string Folder = CharacterModelImporter.Folder + "ScriptedSpike/";
         const string BodyId = "ScriptedBody";
-        static readonly string[] PartIds = { "hair.back.layered_s1", "hair.front.sidelocks_s1", "cloth.top.jacket_s1", "cloth.bottom.shorts_s1" };
+        static readonly string[] PartIds =
+        {
+            "hair.back.layered_s1", "hair.front.sidelocks_s1", "cloth.top.jacket_s1", "cloth.bottom.shorts_s1", "cloth.shoes.sneakers_s1",
+        };
 
         // One look, applied to both characters (sRGB HSV, as DNA stores colours).
         const float SkinTone = 0.2f, SkinUndertone = 0.55f;
@@ -41,6 +44,7 @@ namespace Game.Characters.Review
         static readonly HsvColor ShortsTrim = new HsvColor(0.08f, 0.22f, 0.5f);
         static readonly HsvColor ShoeMain = new HsvColor(0f, 0f, 0.95f);
         static readonly HsvColor ShoeTrim = new HsvColor(0.62f, 0.45f, 0.35f);
+        static readonly HsvColor ShoeSole = new HsvColor(0.1f, 0.08f, 0.78f);
         static readonly Dictionary<string, float> Shapes = new Dictionary<string, float> { ["body.weight"] = 0.15f, ["body.chest"] = 0.45f, ["body.hips"] = 0.4f };
 
         // Seen from the front, +X is on the left of the frame: the stand-in stands left, the scripted character right.
@@ -183,41 +187,17 @@ namespace Game.Characters.Review
                         ? new[] { CharacterBuilder.ToColour(HairBase), hairTip, CharacterBuilder.ToColour(HairHighlight), Color.white }
                         : id.Contains("jacket")
                             ? new[] { JacketMain, JacketTrim, JacketLining, JacketButtons }.Select(CharacterBuilder.ToColour).ToArray()
-                            : new[] { ShortsMain, ShortsTrim, ShortsTrim, ShortsTrim }.Select(CharacterBuilder.ToColour).ToArray();
+                            : id.Contains("shoes")
+                                ? new[] { ShoeMain, ShoeTrim, ShoeSole, ShoeSole }.Select(CharacterBuilder.ToColour).ToArray()
+                                : new[] { ShortsMain, ShortsTrim, ShortsTrim, ShortsTrim }.Select(CharacterBuilder.ToColour).ToArray();
                     for (int region = 0; region < 4; region++) ToonMaterial.SetRegionColour(material, region, colours[region]);
                 }
-            }
-
-            // Borrowed stand-in sneakers: rebuilt for this skeleton's rest pose (Blender bones aren't identity at rest).
-            CharacterPart shoes = character.Equip(content.Part("cloth.shoes.sneakers_01"));
-            FitToSkeleton(shoes);
-            foreach (Material material in character.PartMaterials(shoes.Slot))
-            {
-                ToonMaterial.SetRegionColour(material, 0, CharacterBuilder.ToColour(ShoeMain));
-                ToonMaterial.SetRegionColour(material, 1, CharacterBuilder.ToColour(ShoeTrim));
-                ToonMaterial.SetRegionColour(material, 2, CharacterBuilder.ToColour(ShoeMain));
             }
 
             SkinnedMeshRenderer standInBody = standIn.Body;
             for (int i = 0; i < standInBody.sharedMesh.blendShapeCount; i++)
                 character.SetShape(standInBody.sharedMesh.GetBlendShapeName(i), standInBody.GetBlendShapeWeight(i) / 100f);
             return character;
-        }
-
-        /// <summary>
-        /// Rebakes bind poses so a part skinned to the stand-in skeleton (identity bone rotations) renders unchanged on
-        /// this skeleton at rest. Real parts don't need this: they share the body's rig.
-        /// </summary>
-        static void FitToSkeleton(CharacterPart part)
-        {
-            foreach (SkinnedMeshRenderer renderer in part.GetComponentsInChildren<SkinnedMeshRenderer>(true))
-            {
-                Mesh mesh = Object.Instantiate(renderer.sharedMesh);
-                mesh.hideFlags = HideFlags.DontSave;
-                Matrix4x4 meshToWorld = renderer.transform.localToWorldMatrix;
-                mesh.bindposes = renderer.bones.Select(bone => bone.worldToLocalMatrix * meshToWorld).ToArray();
-                renderer.sharedMesh = mesh;
-            }
         }
 
         static Color LipsFrom(Color shade)
