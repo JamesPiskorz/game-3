@@ -23,6 +23,37 @@ The look comes from a dozen tricks, most of them faked for art direction rather 
 
 **Keep our own shader and extend it.** It already does what no off-the-shelf toon shader does: DNA recolour regions, patterns, body-region hiding, SRP Batcher material instances and the LOD pass toggles. Its painted base texture already multiplies the region colours, which is the hook item 2 needs.
 
+## Progress
+
+**2026-10-18: G0.1-G0.3, G1.3, V1 and V2 are done.**
+
+- **G0.1, honest captures.**
+  - `GameCamera` sets up every camera (town, creator, menu, portrait studio, review sheets): post on, MSAA from the pipeline asset.
+  - Captures render into targets with the pipeline's sample count. Before, they used 4× while the game had none, because a camera that renders into a texture takes its MSAA from the texture.
+  - Not done: the pixel diff against a player-build screenshot (the batch-mode player doesn't screenshot). The shared setup is the guarantee instead.
+- **G0.2:** MSAA 4× on PC (`RenderingSetup.Apply`). URP records it in the PC quality level too.
+- **G0.3, post-processing.**
+  - One profile, `Settings/GamePost.asset`, on the pipeline assets rather than a Volume per scene. It reaches every camera, including the portrait studio and review sheets.
+  - No tonemapping, which keeps the authored colours; Neutral vs a LUT is still **[Art to decide]**.
+  - Bloom above sunlit white (threshold 1.3).
+  - The vignette moves to G0.4's per-scene volumes: on the shared profile, every portrait and review tile got its own dark corners.
+  - Not yet judged A/B, because V3 isn't built.
+- **G1.3, no self-shadowing.**
+  - One environment-shadow sample per character (`CharacterShadowAnchor`, decision 0002 item 5).
+  - `ShadowCheck` passes at 0% wrong, against 30% and 52% for the old per-pixel shadows.
+  - The blocky hair patches (baseline 6) are gone from the town captures.
+- **V1:** `DiagnosticSheet` renders all 70 parts in 17 s, and two runs give identical images (0 pixels differ). The sheets are regenerated on demand and kept out of git.
+- **V2:** rubrics in [Docs/review/rubrics](review/rubrics/README.md). Every R element and baseline problem has a question.
+- **Benchmark:**
+
+  | Measure | Before | Now | Change |
+  |---|---|---|---|
+  | Render | 10.46 ms | 10.22 ms | −0.24 ms |
+  | With CharacterLod | 9.66 ms | 9.88 ms | +0.22 ms |
+  | Shadow cost | 2.2 ms | 0.6 ms | −1.6 ms |
+
+  Within G0's +1.5 ms budget. Most of the anti-aliasing and post cost is paid for by the cheaper shadows.
+
 ## The reference look, element by element
 
 As the article observes the game behaving; this isn't from HoYoverse documentation.
