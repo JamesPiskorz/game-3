@@ -47,6 +47,7 @@ namespace Game.Characters.Building
             _camera = new GameObject("Portrait camera").AddComponent<Camera>();
             _camera.transform.SetParent(_studio.transform, false);
             _camera.enabled = false; // rendered by hand
+            GameCamera.Configure(_camera);
             _camera.clearFlags = CameraClearFlags.SolidColor;
             _camera.backgroundColor = backdrop;
             _camera.fieldOfView = 18f;

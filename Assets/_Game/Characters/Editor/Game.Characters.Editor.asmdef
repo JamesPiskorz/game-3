@@ -3,7 +3,9 @@
     "rootNamespace": "Game.Characters",
     "references": [
         "Game.Characters",
-        "Game.Characters.Unity"
+        "Game.Characters.Unity",
+        "Unity.RenderPipelines.Core.Runtime",
+        "Unity.RenderPipelines.Universal.Runtime"
     ],
     "includePlatforms": [
         "Editor"

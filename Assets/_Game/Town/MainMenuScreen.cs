@@ -58,6 +58,7 @@ namespace Game.Town
 
         void Start()
         {
+            if (Camera.main != null) Game.Characters.Rendering.GameCamera.Configure(Camera.main);
             VisualElement root = Document.rootVisualElement;
             if (Style != null) root.styleSheets.Add(Style);
             root.AddToClassList("menu");

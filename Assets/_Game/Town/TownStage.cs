@@ -30,6 +30,11 @@ namespace Game.Town
 
         CharacterBuilder _builder;
         readonly Dictionary<int, Shown> _residents = new Dictionary<int, Shown>();
+
+        void Awake()
+        {
+            if (Camera != null) Game.Characters.Rendering.GameCamera.Configure(Camera);
+        }
         readonly Dictionary<Color, Material> _materials = new Dictionary<Color, Material>();
         readonly List<Light> _lamps = new List<Light>();
         Shown _player;

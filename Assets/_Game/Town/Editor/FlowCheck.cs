@@ -91,7 +91,7 @@ namespace Game.Town
                     if (menu == null) return;
                     if (_scene == null)
                     {
-                        _scene = PanelShot.Target(Width, Height, 4);
+                        _scene = PanelShot.Target(Width, Height, Game.Characters.Rendering.GameCamera.MsaaSamples); // as the screen renders
                         Camera.main.targetTexture = _scene;
                         return;
                     }

@@ -12,6 +12,7 @@ namespace Game.Characters.Review
         public static Camera CreateCamera(Color background, float fieldOfView = 30f)
         {
             var camera = new GameObject("Snapshot Camera").AddComponent<Camera>();
+            Game.Characters.Rendering.GameCamera.Configure(camera); // post and MSAA as in the game
             camera.clearFlags = CameraClearFlags.SolidColor;
             camera.backgroundColor = background;
             camera.fieldOfView = fieldOfView;
@@ -19,15 +20,23 @@ namespace Game.Characters.Review
             return camera;
         }
 
-        /// <summary>Renders <paramref name="camera"/> from <paramref name="position"/> looking at <paramref name="target"/>, 4× MSAA.</summary>
+        /// <summary>
+        /// Renders <paramref name="camera"/> from <paramref name="position"/> looking at <paramref name="target"/>, with
+        /// the game's MSAA, so review images show what the player sees.
+        /// </summary>
         public static Texture2D Shoot(Camera camera, Vector3 position, Vector3 target, int width, int height)
+        {
+            camera.transform.position = position;
+            camera.transform.LookAt(target);
+            return Shoot(camera, width, height);
+        }
+
+        /// <summary>Renders <paramref name="camera"/> as it is posed, with the game's MSAA.</summary>
+        public static Texture2D Shoot(Camera camera, int width, int height)
         {
             // Async compilation renders placeholder shaders until variants finish compiling; snapshots must wait.
             UnityEditor.ShaderUtil.allowAsyncCompilation = false;
-            camera.transform.position = position;
-            camera.transform.LookAt(target);
-
-            var multisampled = new RenderTexture(width, height, 24, RenderTextureFormat.ARGB32, RenderTextureReadWrite.sRGB) { antiAliasing = 4 };
+            RenderTexture multisampled = Game.Characters.Rendering.GameCamera.CaptureTarget(width, height);
             RenderTexture resolved = RenderTexture.GetTemporary(width, height, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.sRGB);
             camera.targetTexture = multisampled;
             if (!_warmedUp)

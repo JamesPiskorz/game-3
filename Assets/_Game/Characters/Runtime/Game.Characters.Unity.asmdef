@@ -2,7 +2,9 @@
     "name": "Game.Characters.Unity",
     "rootNamespace": "Game.Characters",
     "references": [
-        "Game.Characters"
+        "Game.Characters",
+        "Unity.RenderPipelines.Core.Runtime",
+        "Unity.RenderPipelines.Universal.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

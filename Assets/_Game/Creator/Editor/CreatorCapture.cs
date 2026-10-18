@@ -72,7 +72,7 @@ namespace Game.Creator
             if (_ui == null)
             {
                 _ui = settings.targetTexture;
-                _scene = new RenderTexture(Width, Height, 24, RenderTextureFormat.ARGB32, RenderTextureReadWrite.sRGB) { antiAliasing = 4 };
+                _scene = Game.Characters.Rendering.GameCamera.CaptureTarget(Width, Height); // as the screen renders
                 screen.PreviewCamera.targetTexture = _scene;
             }
 
