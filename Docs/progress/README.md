@@ -56,6 +56,6 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261020-014951.png | ed9715d | 20 mm: brows hidden but the fringe crumples (rejected) |
 | 20261020-015319.png | ed9715d | Fringe cut lower, resting on the lash line |
 | 20261020-015619.png | ed9715d | Brows not drawn over: the fringe hides them, as in the image (bald heads still show them) |
-| 20261020-015933.png | (next) | Stance 5° per leg: a gap between the knees |
-| 20261020-020024.png | (next) | Bob cut 2.5 cm under the chin |
-| 20261020-020119.png | (next) | Bob cut 8 mm under the chin: ends at the jaw like the image's |
+| 20261020-015933.png | fc4209d | Stance 5° per leg: a gap between the knees |
+| 20261020-020024.png | fc4209d | Bob cut 2.5 cm under the chin |
+| 20261020-020119.png | fc4209d | Bob cut 8 mm under the chin: ends at the jaw like the image's |
