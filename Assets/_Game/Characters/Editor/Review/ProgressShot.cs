@@ -18,7 +18,8 @@ namespace Game.Characters.Review
     /// How close the generated female character comes to her references (the look loop, decision 0008): the generated
     /// image she was made from (outfit-01 with the bob, References/character-base-images/hair/hair-bob.png) beside the
     /// game's render of her dressed to match it, in its T-pose and in the game's relaxed pose; then her face close up,
-    /// front and three-quarter, between the image's face and a face from the style board (References/stylistic). Each
+    /// front and three-quarter, between the image's face and a face from the style board (References/stylistic); then the
+    /// other generated outfits beside their images, T-pose and relaxed. Each
     /// run writes Docs/progress/&lt;date-time&gt;.png and latest.png, so progress can be compared commit by commit.
     /// Headless: unity run . -- -executeMethod Game.Characters.Review.ProgressShot.Render
     /// </summary>
@@ -78,9 +79,30 @@ namespace Game.Characters.Review
                 Shoot(near, relaxed, positions[1], face + new Vector3(-0.45f, 0.08f, -0.8f), face, Small),
                 Shoot(near, relaxed, positions[1], new Vector3(0f, 1.25f, 1.55f), new Vector3(0f, 1.2f, 0f), Small),
             };
+            // The other generated outfits beside their images (bald, as generated), T-pose and relaxed.
+            var others = new List<Texture2D>();
+            foreach (string name in new[] { "outfit-02", "outfit-03" })
+            {
+                GeneratedOutfitSheet.GeneratedOutfit outfit = outfits.FirstOrDefault(o => o.Name == name);
+                string image = $"References/character-base-images/outfits/{name}.png";
+                if (outfit == null || !File.Exists(image)) continue;
+                CharacterDna other = Matching(new CharacterGenerator(StandInContent.Load().LoadCatalog()), bob, outfit);
+                other.Hair.PieceIds = new List<string>();
+                ModularCharacter standing = Build(builder, other, positions[0] + new Vector3(0f, 0f, 6f), relaxed: false);
+                ModularCharacter resting = Build(builder, other, positions[1] + new Vector3(0f, 0f, 6f), relaxed: true);
+                foreach (ModularCharacter character in new[] { standing, resting })
+                    character.GetComponent<FaceExpression>()?.Snap();
+                others.Add(Resize(Load(image), Small, Small));
+                others.Add(Shoot(far, standing, standing.transform.position, new Vector3(0f, 0.88f, 13f), new Vector3(0f, 0.88f, 0f), Small));
+                others.Add(Shoot(far, resting, resting.transform.position, new Vector3(0f, 0.88f, 13f), new Vector3(0f, 0.88f, 0f), Small));
+                UnityEngine.Object.DestroyImmediate(standing.gameObject);
+                UnityEngine.Object.DestroyImmediate(resting.gameObject);
+            }
             FaceExpression.Blinking = blinking;
 
-            Texture2D sheet = Snapshot.StackVertically(new[] { Snapshot.Grid(top, 3, Color.black), Snapshot.Grid(bottom, 6, Color.black) }, Color.black);
+            var rows = new List<Texture2D> { Snapshot.Grid(top, 3, Color.black), Snapshot.Grid(bottom, 6, Color.black) };
+            if (others.Count > 0) rows.Add(Snapshot.Grid(others, 6, Color.black));
+            Texture2D sheet = Snapshot.StackVertically(rows, Color.black);
             string stamp = DateTime.Now.ToString("yyyyMMdd-HHmm");
             Directory.CreateDirectory(Folder);
             Snapshot.Save(sheet, $"{Folder}/{stamp}.png");

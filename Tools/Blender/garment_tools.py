@@ -895,7 +895,7 @@ def _body_adjacency(mesh):
 
 
 def project_garment(body, scan, garment, labels, index, offset, name, joints, always=None, max_loose=0.06,
-                    reach_out=0.15, reach_in=0.10, edge_blur=None, drape=False, extend_down=0.0):
+                    reach_out=0.15, reach_in=0.10, edge_blur=None, drape=False, extend_down=0.0, ease=0.0):
     """
     A fitted garment built from the canonical body itself: the body's own surface over the regions the scan's
     garment covers, lifted by the layer offset, or by the scan's own looseness where it hangs further out (a flared
@@ -942,7 +942,10 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
     a, b = _body_adjacency(mesh)
     if always is not None:
         covered[always] = 1.0
-    wide, fine = _surface_neighbours(body, CLOSING), _surface_neighbours(body, COVER_SMOOTHING)
+    # Thin features (a tank top's straps) need the closing as fine as their edges: blurred over 3 cm, a 1 cm strap
+    # never reached the closing's threshold and vanished.
+    closing = CLOSING if edge_blur is None else min(CLOSING, 1.5 * edge_blur)
+    wide, fine = _surface_neighbours(body, closing), _surface_neighbours(body, COVER_SMOOTHING)
     # Closing (grow, then shrink back): fills slits the texture left, like the skin-coloured seam Hunyuan paints down
     # each side of a pair of shorts where its front and back views meet. Hems and the neck opening stay where they were.
     covered = (_blur(wide, (_blur(wide, covered) > 0.15).astype(float)) > 0.85).astype(float)
@@ -962,7 +965,7 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
             cluster[i[take]] = cluster[j[take]]
 
     body_weights = bt.weight_matrix(body)
-    lift = np.clip(loose, offset, max_loose)
+    lift = np.clip(loose, max(offset, ease), max(max_loose, ease))  # ease: at least this loose (baggy joggers)
     lift[~inside] = offset
     lift = _even_limb_slack(co, body_weights[0], body_weights[1], joints, lift, inside)
     # Even, so the garment is as smooth as the body; blended only between parts that move together.
