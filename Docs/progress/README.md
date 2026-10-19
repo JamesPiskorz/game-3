@@ -22,4 +22,4 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261019-2326.png | aad1d73 | 1.5 cm overlap: the waistband shows under the shirt as in the image |
 | 20261019-2328.png | 1b2d64f | Bob drawn in below the eyes (no bell flare) |
 | 20261019-2329.png | 1b2d64f | Blunt fringe straight across just under the brows |
-| 20261019-2331.png | (next) | Softer rose lips; cool skin undertone in the shot |
+| 20261019-2331.png | 05a8d91 | Softer rose lips; cool skin undertone in the shot |
