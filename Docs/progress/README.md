@@ -52,7 +52,7 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261020-012959.png | ae6c84c | T-shirt sleeves stand off the arm (1.8 cm sleeve ease) |
 | 20261020-013221.png | ae6c84c | Sneaker toe box flattened |
 | 20261020-014345.png | ae6c84c | Whites are white (collar, cuffs, sneakers); prompt colours for regions the image can't show (red soles, brown boots) |
-| 20261020-014839.png | (next) | Fringe stands off the forehead (13 mm) |
-| 20261020-014951.png | (next) | 20 mm: brows hidden but the fringe crumples (rejected) |
-| 20261020-015319.png | (next) | Fringe cut lower, resting on the lash line |
-| 20261020-015619.png | (next) | Brows not drawn over: the fringe hides them, as in the image (bald heads still show them) |
+| 20261020-014839.png | ed9715d | Fringe stands off the forehead (13 mm) |
+| 20261020-014951.png | ed9715d | 20 mm: brows hidden but the fringe crumples (rejected) |
+| 20261020-015319.png | ed9715d | Fringe cut lower, resting on the lash line |
+| 20261020-015619.png | ed9715d | Brows not drawn over: the fringe hides them, as in the image (bald heads still show them) |
