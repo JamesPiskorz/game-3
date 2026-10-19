@@ -588,8 +588,9 @@ def recolour_mask(part, vertex_cluster, areas_by_cluster, lab, min_share=0.04, s
     region_of = {k: ranked.index(shade_of[k]) if shade_of.get(k) in ranked else
                  int(np.argmin([pt.colour_distance(lab[k], lab[r]) for r in ranked])) for k in range(len(lab))}
     region = np.array([region_of.get(int(k), 0) if k >= 0 else 0 for k in vertex_cluster])
+    trims = []
     if len(ranked) > 1:
-        region = _edge_trims(part, region, len(ranked))
+        region, trims = _edge_trims(part, region, len(ranked))
         if sole:
             region = _sole(part, region, len(ranked))
     mesh = part.data
@@ -607,7 +608,30 @@ def recolour_mask(part, vertex_cluster, areas_by_cluster, lab, min_share=0.04, s
             bm.verts.ensure_lookup_table()
             field = np.array([v[layer] for v in bm.verts])
             _cut_along(bm, np.where(np.abs(field - 0.5) < 1e-4, 0.5 + 1e-4, field), 0.5)
-        face_region = [int(np.argmax([np.mean([v[layer] for v in f.verts]) for layer in layers])) for f in bm.faces]
+        # Trim bands are cut exactly at their width from their edge: the blurred fields left them uneven.
+        from mathutils.kdtree import KDTree
+        bands = []
+        for points, width, trim in trims:
+            tree = KDTree(len(points))
+            for i, p in enumerate(points):
+                tree.insert(p, i)
+            tree.balance()
+            bm.verts.index_update()
+            bm.verts.ensure_lookup_table()
+            field = np.array([tree.find(v.co)[2] for v in bm.verts]) - width
+            _cut_along(bm, np.where(np.abs(field) < 1e-5, 1e-5, field), 0.0)
+            bands.append((tree, width, trim))
+        face_region = []
+        for f in bm.faces:
+            r = int(np.argmax([np.mean([v[layer] for v in f.verts]) for layer in layers]))
+            centre = f.calc_center_median()
+            for tree, width, trim in bands:
+                d = tree.find(centre)[2]
+                if d < width:
+                    r = trim
+                elif r == trim and d < width + 0.03:
+                    r = 0
+            face_region.append(r)
         for layer in layers:
             bm.verts.layers.float.remove(layer)
         bm.to_mesh(mesh)
@@ -679,6 +703,7 @@ def _edge_trims(part, region, regions, band=0.02, dominant=0.15, widths=(0.008, 
     if "no_trim" in part.data.attributes:  # pieces whose edges aren't garment edges (a hood's cut)
         part.data.attributes["no_trim"].data.foreach_get("value", no_trim)
     result = region.copy()
+    made = []
     near_trim = {r: np.zeros(len(co), dtype=bool) for r in range(1, regions)}
     for loop in loops:
         if len(loop) < 8 or no_trim[loop].mean() > 0.5:
@@ -700,10 +725,11 @@ def _edge_trims(part, region, regions, band=0.02, dominant=0.15, widths=(0.008, 
         result[(distance >= width) & (distance < width + 0.025) & (result == trim)] = 0  # ragged leftovers past the band
         result[distance < width] = trim
         near_trim[trim] |= distance < width
+        made.append((co[loop].copy(), width, trim))
     for trim, near in near_trim.items():
         if near.any():  # a trim colour away from its edges is stray texture
             result[(result == trim) & ~near] = 0
-    return result
+    return result, made
 
 
 def _shades(areas_by_cluster, lab, hue_reach=25.0, alike=0.55, grey=0.025, grey_alike=0.6):

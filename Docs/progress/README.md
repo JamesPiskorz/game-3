@@ -43,3 +43,4 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261020-0036.png | 1bd2540 | Brown belt band on the trousers; all outfits rebuilt with edge-eased bridging |
 | 20261020-0039.png | 4c509d7 | Garment surface faired after drape: far fewer outline squiggles on the shirt |
 | 20261020-0041.png | 4c509d7 | Fairing at 24 passes |
+| 20261020-0050.png | (next) | Trim bands cut exactly at their width: clean even cuffs and collar |
