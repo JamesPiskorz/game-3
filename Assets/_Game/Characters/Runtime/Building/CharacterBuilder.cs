@@ -263,7 +263,8 @@ namespace Game.Characters.Building
             }
         }
 
-        static HsvColor BrowFromHair(HsvColor hair) => new HsvColor(hair.H, Math.Min(1f, hair.S + 0.05f), hair.V * 0.72f);
+        // Brows, lash lines and pupils: the hair's colour, deep enough to read as the dark lines anime faces are drawn with.
+        static HsvColor BrowFromHair(HsvColor hair) => new HsvColor(hair.H, Math.Min(1f, hair.S + 0.1f), hair.V * 0.42f);
 
         // A drawn mouth line: the skin's shade colour, deeper and redder.
         static Color LipsFromSkin(Color shade)

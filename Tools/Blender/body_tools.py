@@ -760,6 +760,39 @@ class FeatureBuilder:
             faces.append((ring(rings, a + 1), n + ring(rings, a + 1), n + ring(rings, a), ring(rings, a)))
         self.parts.append((np.array(front + back), faces, bone, mask, True))
 
+    def band(self, points, half_widths, lift, bone, mask, thickness=0.002):
+        """
+        A ribbon painted on the face along ``points`` ((x, z) pairs), ``half_widths`` wide either side: like a disc,
+        its front follows the scanned surface ``lift`` metres proud and its back sits ``thickness`` behind, closed.
+        """
+        points = np.asarray(points, dtype=float)
+        tangents = np.gradient(points, axis=0)
+        tangents /= np.maximum(np.linalg.norm(tangents, axis=1), 1e-12)[:, None]
+        normals = np.stack([-tangents[:, 1], tangents[:, 0]], axis=1)
+        outline = [p + n * w for p, n, w in zip(points, normals, half_widths)] + \
+                  [p - n * w for p, n, w in zip(points, normals, half_widths)][::-1]
+        middle = self.surface(*points[len(points) // 2])
+        front, back = [], []
+        for x, z in outline:
+            y = self.surface(x, z)
+            y = middle if y is None else y
+            front.append((x, y - lift, z))
+            back.append((x, y + thickness, z))
+        n, k = len(outline), len(points)
+        faces = []
+        for i in range(k - 1):  # quads across the ribbon: point i's two sides to point i+1's
+            a, b, c, d = i, i + 1, n - 2 - i, n - 1 - i
+            faces.append((a, b, c, d))
+            faces.append((n + d, n + c, n + b, n + a))
+        for i in range(n):  # the rim
+            j = (i + 1) % n
+            faces.append((j, i, n + i, n + j))
+        verts = np.array(front + back)
+        a, b, c = verts[faces[0][0]], verts[faces[0][1]], verts[faces[0][2]]
+        if np.cross(b - a, c - a)[1] > 0:  # the front must face the viewer (-y), whichever way the curve runs
+            faces = [face[::-1] for face in faces]
+        self.parts.append((verts, faces, bone, mask, True))
+
     def ellipsoid(self, centre, radii, bone, mask, axis=None, segments=12, rows=8):
         rotation = np.eye(3)
         if axis is not None:  # stretched along a direction: a stroke between two points
@@ -844,8 +877,9 @@ LIFT = 0.002  # how far the painted-on face features stand off the skin
 
 def build_face(obj, joints, socket_half):
     """
-    The game's face features (StandInBody.Build), built against the generated head. Eyes, irises, catch-lights,
-    brows and lips are conformal discs sized to the scan's eye sockets, layered 2.0, 2.6 and 3.2 mm proud of the
+    The game's face features (StandInBody.Build), built against the generated head. Eyes (white, iris, pupil,
+    catch-lights, lash lines), brows and lips are conformal discs and ribbons sized to the scan's eye sockets, layered
+    from 2.0 to 3.5 mm proud of the
     surface: the skin's outline shell (a constant 1.4 px) hides anything flatter, as the stand-in's blush comment notes. The blush and smiling-eye strokes are sunk under the real surface by the stand-in's depths along the
     face's forward axis, so FaceExpression's pushes (BlushDepth 9.5 mm, EyeSmileDepth 11.5 mm) bring them out as
     before. The scan's own nose stays (see weight_nose).
@@ -855,15 +889,36 @@ def build_face(obj, joints, socket_half):
     white = (socket_half[0] * 0.8, socket_half[1] * 0.8)  # across, up: anime eyes fill their sockets
     scale = white[0] / 0.019  # relative to the stand-in's eye white
 
-    for side in (".L", ".R"):
+    for side, outward in ((".L", 1.0), (".R", -1.0)):  # outward: +x is the left eye's outer corner
         eye = j["Eye" + side]
-        features.disc(eye[0], eye[2], white, LIFT, "Eye" + side, WHITE)
-        features.disc(eye[0], eye[2] - 0.002 * scale, (white[0] * 0.6, white[1] * 0.85), LIFT + 0.0006, "Eye" + side, IRIS)
-        # The catch-light: upper left as you look at them (the same side on both eyes), in the eye whites' colour.
-        features.disc(eye[0] - 0.0045 * scale, eye[2] + 0.0065 * scale, (0.0036 * scale, 0.0042 * scale), LIFT + 0.0012,
+        ex, ez = eye[0], eye[2]
+        # Anime eyes after the style board and the generated images: a white almond, a tall iris filling most of
+        # its height with a dark pupil and two catch-lights, and a heavy upper lash line that flicks out past the
+        # outer corner, with a short lower lash at the outer corner.
+        features.disc(ex, ez, (white[0], white[1] * 0.9), LIFT, "Eye" + side, WHITE)
+        iris = (white[0] * 0.62, white[1] * 0.84)
+        iris_z = ez - white[1] * 0.06
+        features.disc(ex, iris_z, iris, LIFT + 0.0005, "Eye" + side, IRIS)
+        features.disc(ex, iris_z - iris[1] * 0.05, (iris[0] * 0.46, iris[1] * 0.5), LIFT + 0.0008, "Eye" + side, DARK, rings=3)
+        # Catch-lights: upper left as you look at them (the same side on both eyes), and a small one opposite.
+        features.disc(ex - iris[0] * 0.38, iris_z + iris[1] * 0.42, (iris[0] * 0.3, iris[1] * 0.27), LIFT + 0.0015,
                       "Eye" + side, WHITE, rings=2, segments=12)
+        features.disc(ex + iris[0] * 0.36, iris_z - iris[1] * 0.42, (iris[0] * 0.14, iris[1] * 0.12), LIFT + 0.0015,
+                      "Eye" + side, WHITE, rings=1, segments=10)
+        top = white[1] * 0.9
+        lash, widths = [], []
+        for t in np.linspace(0.0, 1.0, 14):  # inner corner to outer, along the top of the white
+            angle = math.pi * (0.94 - 0.86 * t)
+            lash.append((ex + outward * math.cos(angle) * white[0] * 1.04, ez + math.sin(angle) * top + 0.0008))
+            widths.append((0.0007 + 0.0013 * t) * scale)
+        for t in np.linspace(0.25, 1.0, 4):  # the flick past the outer corner
+            lash.append((ex + outward * (white[0] * 1.04 + 0.0055 * scale * t), ez + top * 0.06 + 0.0035 * scale * t))
+            widths.append((0.0019 - 0.0012 * t) * scale)
+        features.band(lash, widths, LIFT + 0.0011, "Eye" + side, DARK)
+        lower = [(ex + outward * math.cos(a) * white[0] * 1.0, ez - math.sin(a) * top * 0.98) for a in np.linspace(0.12, 0.62, 6)]
+        features.band(lower, [0.00045 * scale] * len(lower), LIFT + 0.0011, "Eye" + side, DARK)
         brow = j["Brow" + side]
-        features.disc(brow[0], brow[2], (0.019 * scale, 0.0045 * scale), LIFT, "Brow" + side, DARK, rings=2)
+        features.disc(brow[0], brow[2], (0.018 * scale, 0.0028 * scale), LIFT, "Brow" + side, DARK, rings=2)
 
         # Blush: three short strokes on each cheek, 6.2 mm under the skin along the face's forward axis, every one
         # leaning the same way on both cheeks (/// ///) as the stand-in's do.
@@ -887,10 +942,10 @@ def build_face(obj, joints, socket_half):
         for a, b in zip(arc[:-1], arc[1:]):
             features.stroke(a, b, 0.0021, "EyeSmile" + side, DARK)
 
-    mouth = j["Mouth"]
-    features.disc(mouth[0], mouth[2], (0.0095 * scale, 0.003), LIFT, "Mouth", LIPS, rings=2)
+    mouth = j["Mouth"]  # small, as the references draw it
+    features.disc(mouth[0], mouth[2], (0.0072 * scale, 0.0024), LIFT, "Mouth", LIPS, rings=2)
     for side, sign in ((".L", 1.0), (".R", -1.0)):
-        features.disc(mouth[0] + sign * 0.0135 * scale, mouth[2], (0.0072 * scale, 0.0027), LIFT - 0.0002, "Mouth" + side, LIPS, rings=2)
+        features.disc(mouth[0] + sign * 0.0098 * scale, mouth[2], (0.0052 * scale, 0.0021), LIFT - 0.0002, "Mouth" + side, LIPS, rings=2)
     return features.merge_into(obj)
 
 
