@@ -19,8 +19,8 @@ namespace Game.Characters.Review
     /// image she was made from (outfit-01 with the bob, References/character-base-images/hair/hair-bob.png) beside the
     /// game's render of her dressed to match it, in its T-pose and in the game's relaxed pose, and a target-look image
     /// (References/character-base-images/targets: her as a cel-shaded anime render); then her face close up,
-    /// front and three-quarter, between the image's face and a face from the style board (References/stylistic); then the
-    /// other generated outfits beside their images, T-pose and relaxed. Each
+    /// front and three-quarter, between the image's face and a face from the style board (References/stylistic), and her
+    /// shoes close up; then the other generated outfits beside their images, T-pose and relaxed. Each
     /// run writes Docs/progress/&lt;date-time&gt;.png and latest.png, so progress can be compared commit by commit.
     /// Headless: unity run . -- -executeMethod Game.Characters.Review.ProgressShot.Render
     /// </summary>
@@ -81,6 +81,9 @@ namespace Game.Characters.Review
                 Resize(Crop(Load(StyleBoard), StyleBoardFace), Small, Small),
                 Shoot(near, relaxed, positions[1], face + new Vector3(-0.45f, 0.08f, -0.8f), face, Small),
                 Shoot(near, relaxed, positions[1], new Vector3(0f, 1.25f, 1.55f), new Vector3(0f, 1.2f, 0f), Small),
+                // The shoes close up, front and three-quarter.
+                Shoot(near, relaxed, positions[1], new Vector3(0f, 0.16f, 1.0f), new Vector3(0f, 0.07f, 0f), Small),
+                Shoot(near, relaxed, positions[1], new Vector3(0.7f, 0.2f, 0.7f), new Vector3(0f, 0.07f, 0f), Small),
             };
             // The other generated outfits beside their images (bald, as generated), T-pose and relaxed.
             var others = new List<Texture2D>();
@@ -103,7 +106,7 @@ namespace Game.Characters.Review
             }
             FaceExpression.Blinking = blinking;
 
-            var rows = new List<Texture2D> { Snapshot.Grid(top, top.Count, Color.black), Snapshot.Grid(bottom, 6, Color.black) };
+            var rows = new List<Texture2D> { Snapshot.Grid(top, top.Count, Color.black), Snapshot.Grid(bottom, 8, Color.black) };
             if (others.Count > 0) rows.Add(Snapshot.Grid(others, 6, Color.black));
             Texture2D sheet = Snapshot.StackVertically(rows, Color.black);
             string stamp = DateTime.Now.ToString("yyyyMMdd-HHmmss");

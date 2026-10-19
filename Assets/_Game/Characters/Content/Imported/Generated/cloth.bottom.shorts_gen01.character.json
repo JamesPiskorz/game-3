@@ -3,11 +3,12 @@
   "slot": "bottom",
   "covers": [],
   "followsBodyShapes": true,
-  "regions": 2,
+  "regions": 3,
   "outfit": "outfit-01",
   "colours": [
     "#99876c",
-    "#4a3020"
+    "#4a3020",
+    "#a4966c"
   ],
   "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261019_141731_for_texture_textured.glb",
   "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",

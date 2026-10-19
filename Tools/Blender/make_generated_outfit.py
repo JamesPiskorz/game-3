@@ -130,11 +130,12 @@ def main():
                                          ease=spec.get("ease", 0.0), straps=spec.get("straps", 0.0),
                                          scoop=spec.get("scoop", 0.0), gather=spec.get("gather", 0.0),
                                          sleeve_ease=spec.get("sleeve_ease", 0.0), flare=tuple(spec.get("flare", (0.0, 0.0))),
-                                         top=spec.get("top"), neck=spec.get("neck"),
+                                         top=spec.get("top"), neck=spec.get("neck"), hem=spec.get("hem"),
                                          extend_down=OVERLAP if slot == "top" and any(g["slot"] == "bottom" for g in outfit["garments"]) else 0.0)
             if slot == "shoes":
                 gt.flare_sole(part)
                 gt._push_out(part, body, offset)  # the toe box mustn't dip into the toes
+                gt.round_shoe(part)  # over the lumps the toes pushed up
             hood = gt.extract_hood(scan, garment, index, body, joints, areas, spec["id"]) if spec.get("hood") else None
             if hood is not None:
                 gt.join_into(part, hood)
@@ -162,6 +163,10 @@ def main():
         if spec.get("band") and recolour < 3:  # a belt or waistband the scan has no colour block for
             gt.add_band(part, spec["band"]["width"], recolour)
             band_colour = spec["band"]["colour"]
+            recolour += 1
+        if spec.get("cuff") and recolour < 3:  # turned-up cuffs, a shade off the cloth, as the target draws them
+            gt.add_band(part, spec["cuff"]["width"], recolour, edge="bottom")
+            band_colour = spec["cuff"]["colour"]
             recolour += 1
         if spec.get("collar") and (trim := gt.trim_region(part)) is not None:
             # A crew neck's ribbed collar in its cuffs' colour. The scan's collar climbed the neck; the shirt now

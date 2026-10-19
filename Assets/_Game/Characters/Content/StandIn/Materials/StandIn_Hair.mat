@@ -42,7 +42,7 @@ Material:
     - _AmbientStrength: 1
     - _Cull: 0
     - _MaskFromVertexColour: 1
-    - _OutlineWidth: 1.2
+    - _OutlineWidth: 1.8
     - _PatternScale: 8
     - _RimWidth: 0.25
     - _ShadeSoftness: 0.03

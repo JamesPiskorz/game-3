@@ -603,11 +603,11 @@ def recolour_mask(part, vertex_cluster, areas_by_cluster, lab, min_share=0.04, s
     region_of = {k: ranked.index(shade_of[k]) if shade_of.get(k) in ranked else
                  int(np.argmin([pt.colour_distance(lab[k], lab[r]) for r in ranked])) for k in range(len(lab))}
     region = np.array([region_of.get(int(k), 0) if k >= 0 else 0 for k in vertex_cluster])
-    trims = []
+    trims, sole_line = [], None
     if len(ranked) > 1:
         region, trims = _edge_trims(part, region, len(ranked))
         if sole:
-            region = _sole(part, region, len(ranked))
+            region, sole_line = _sole(part, region, len(ranked))
     mesh = part.data
     if len(ranked) > 1:
         neighbours = _surface_neighbours(part, sigma)
@@ -636,6 +636,11 @@ def recolour_mask(part, vertex_cluster, areas_by_cluster, lab, min_share=0.04, s
             field = np.array([tree.find(v.co)[2] for v in bm.verts]) - width
             _cut_along(bm, np.where(np.abs(field) < 1e-5, 1e-5, field), 0.0)
             bands.append((tree, width, trim))
+        if sole_line is not None:  # the sole's top, level all round
+            bm.verts.index_update()
+            bm.verts.ensure_lookup_table()
+            field = np.array([v.co.z for v in bm.verts]) - sole_line[1]
+            _cut_along(bm, np.where(np.abs(field) < 1e-5, 1e-5, field), 0.0)
         face_region = []
         for f in bm.faces:
             r = int(np.argmax([np.mean([v[layer] for v in f.verts]) for layer in layers]))
@@ -646,6 +651,8 @@ def recolour_mask(part, vertex_cluster, areas_by_cluster, lab, min_share=0.04, s
                     r = trim
                 elif r == trim and d < width + 0.03:
                     r = 0
+            if sole_line is not None:
+                r = sole_line[0] if centre.z < sole_line[1] else (0 if r == sole_line[0] else r)
             face_region.append(r)
         for layer in layers:
             bm.verts.layers.float.remove(layer)
@@ -676,11 +683,11 @@ def _sole(part, region, regions, height=0.016, look=0.035, least=0.08):
     counts = np.bincount(region[low], minlength=regions) / max(low.sum(), 1)
     trim = int(np.argmax(counts[1:])) + 1
     if counts[trim] < least:
-        return region
+        return region, None
     result = region.copy()
-    result[(result == trim) & (z >= z.min() + height + 0.02)] = 0
+    result[result == trim] = 0  # the scan's red ran up the heel in patches
     result[z < z.min() + height] = trim
-    return result
+    return result, (trim, float(z.min()) + height)
 
 
 def _edge_trims(part, region, regions, band=0.02, dominant=0.15, widths=(0.008, 0.02)):
@@ -875,14 +882,21 @@ def flare_sole(part, height=0.024, flare=0.01, flat=0.008, angles=72, toe=0.05, 
     """
     mesh = part.data
     co = bt.vertices(part)
-    floor = float(co[:, 2].min())
+    mesh.update()
+    normal_z = np.array([v.normal.z for v in mesh.vertices])
     thetas = np.linspace(-np.pi, np.pi, angles, endpoint=False)
     shift = np.zeros_like(co)
     for side in (1.0, -1.0):
         foot = co[:, 0] * side > 0
         if foot.sum() < 10:
             continue
-        print_ = foot & (co[:, 2] < floor + height)
+        # Each shoe's own floor, under most of its bottom: the heel poked 5 mm below the rest, and the arch and the
+        # curled-up toes stood 2 cm off it, so the sole band missed the toe.
+        bottom = foot & (normal_z < -0.5)
+        floor = float(np.percentile(co[bottom, 2], 20)) if bottom.sum() > 20 else float(co[foot, 2].min())
+        # The footprint: everything up to the toe box's top, which reaches further forward than the shoe's bottom
+        # (the toes curl up), so the sole runs under all of it and shows round the toe.
+        print_ = foot & (co[:, 2] < floor + toe + 0.01)
         centre = co[print_, :2].mean(axis=0)
         hull = _hull_radii(co[print_, :2] - centre, thetas) + flare
         d = co[:, :2] - centre
@@ -895,7 +909,7 @@ def flare_sole(part, height=0.024, flare=0.01, flat=0.008, angles=72, toe=0.05, 
         weight = weight * weight * (3 - 2 * weight)
         grow = np.where(foot, np.maximum(target - radius, 0.0) * weight, 0.0)
         shift[:, :2] += d / np.maximum(radius, 1e-9)[:, None] * grow[:, None]
-        down = foot & (co[:, 2] < floor + flat)
+        down = foot & ((co[:, 2] < floor + flat) | ((normal_z < -0.3) & (co[:, 2] < floor + 0.025)))
         shift[down, 2] = floor - co[down, 2]
         # A sneaker's low toe box: in front of the instep the top comes down to a line rising from the toe (fitted
         # to the foot, the toes made a bulb).
@@ -903,11 +917,76 @@ def flare_sole(part, height=0.024, flare=0.01, flat=0.008, angles=72, toe=0.05, 
         cap = floor + toe + toe_rise * (co[:, 1] - tip)
         box = foot & (co[:, 2] > cap) & (co[:, 1] < tip + 0.09) & (co[:, 2] < floor + 0.09)
         shift[box, 2] = cap[box] - co[box, 2]
+        shift[foot, 2] = np.maximum(co[foot, 2] + shift[foot, 2], floor) - co[foot, 2]  # nothing under the sole
     keys = list(mesh.shape_keys.key_blocks) if mesh.shape_keys else []
     for key in keys:
         key.data.foreach_set("co", (_key_positions(key) + shift).ravel())
     mesh.vertices.foreach_set("co", (co + shift).ravel())
     mesh.update()
+
+
+def round_shoe(part, step=0.006, angles=72, sigma=2.0):
+    """
+    Each shoe wrapped like a sneaker's upper: every cross-section across the foot (a slice ``step`` metres deep along
+    its length) is pushed out to its convex hull round its centre, the hulls blurred along the foot and round it, so
+    the toe box and the sides are one smooth shell. Fitted to the foot, the toes and the tendons showed through as
+    lumps. Only outwards. The basis and every shape key alike.
+    """
+    mesh = part.data
+    co = bt.vertices(part)
+    thetas = np.linspace(-np.pi, np.pi, angles, endpoint=False)
+    shift = np.zeros_like(co)
+    kernel = np.exp(-0.5 * (np.arange(-6, 7) / sigma) ** 2)
+    kernel /= kernel.sum()
+
+    def blur_rows(grid):  # along the foot (edges held)
+        padded = np.concatenate([np.repeat(grid[:1], 6, axis=0), grid, np.repeat(grid[-1:], 6, axis=0)], axis=0)
+        return np.apply_along_axis(lambda r: np.convolve(r, kernel, mode="valid"), 0, padded)
+
+    for side in (1.0, -1.0):
+        foot = np.nonzero(co[:, 0] * side > 0)[0]
+        if len(foot) < 30:
+            continue
+        y = co[foot, 1]
+        ys = np.arange(y.min(), y.max() + step, step)
+        centres = np.zeros((len(ys), 2))
+        for i, yy in enumerate(ys):
+            slab = np.abs(y - yy) < step
+            centres[i] = co[foot][slab][:, [0, 2]].mean(axis=0) if slab.sum() >= 3 else np.nan
+        good = ~np.isnan(centres[:, 0])
+        for k in (0, 1):
+            centres[:, k] = np.interp(ys, ys[good], centres[good, k])
+        centres = blur_rows(centres)
+        grid = np.zeros((len(ys), angles))
+        for i, yy in enumerate(ys):
+            slab = np.abs(y - yy) < step
+            if slab.sum() >= 3:
+                grid[i] = _hull_radii(co[foot][slab][:, [0, 2]] - centres[i], thetas)
+        grid = blur_rows(grid)
+        padded = np.concatenate([grid[:, -6:], grid, grid[:, :6]], axis=1)  # round the foot (wrapping)
+        grid = np.apply_along_axis(lambda r: np.convolve(r, kernel, mode="valid"), 1, padded)
+        fi = np.clip((y - ys[0]) / step, 0, len(ys) - 1.001)
+        i0, ti = fi.astype(int), fi - fi.astype(int)
+        i1 = np.minimum(i0 + 1, len(ys) - 1)
+        centre = centres[i0] * (1 - ti)[:, None] + centres[i1] * ti[:, None]
+        d = co[foot][:, [0, 2]] - centre
+        radius = np.linalg.norm(d, axis=1)
+        fj = ((np.arctan2(d[:, 1], d[:, 0]) + np.pi) / (2 * np.pi) * angles) % angles
+        j0, tj = fj.astype(int), fj - fj.astype(int)
+        j1 = (j0 + 1) % angles
+        hull = (grid[i0, j0] * (1 - ti) * (1 - tj) + grid[i1, j0] * ti * (1 - tj)
+                + grid[i0, j1] * (1 - ti) * tj + grid[i1, j1] * ti * tj)
+        grow = np.maximum(hull - radius, 0.0)
+        out = d / np.maximum(radius, 1e-9)[:, None] * grow[:, None]
+        shift[foot, 0] += out[:, 0]
+        floor = float(co[foot, 2].min())
+        shift[foot, 2] += np.maximum(co[foot, 2] + out[:, 1], floor) - co[foot, 2]  # out round it, not through the floor
+    keys = list(mesh.shape_keys.key_blocks) if mesh.shape_keys else []
+    for key in keys:
+        key.data.foreach_set("co", (_key_positions(key) + shift).ravel())
+    mesh.vertices.foreach_set("co", (co + shift).ravel())
+    mesh.update()
+    return float(np.linalg.norm(shift, axis=1).max())
 
 
 def trim_region(part):
@@ -926,11 +1005,12 @@ def trim_region(part):
     return int(counts[1:].argmax()) + 1 if counts[1:].max() > 0 else None
 
 
-def add_band(part, width, region):
+def add_band(part, width, region, edge="top"):
     """
     A band ``width`` metres deep along the garment's top edge (the open edge loop that sits highest: a waistband,
     a belt) in recolour ``region`` (0-2), cut along its lower line so it's clean. The scan's thin brown belt was
-    shading on navy, and no colour block of its own.
+    shading on navy, and no colour block of its own. With ``edge`` "bottom", along every edge loop but the top one
+    instead (a pair of shorts' turned-up cuffs).
     """
     from mathutils.kdtree import KDTree
     mesh = part.data
@@ -955,6 +1035,8 @@ def add_band(part, width, region):
         loops.append(loop)
     co = np.array([v.co[:] for v in bm.verts])
     top = max(loops, key=lambda l: co[l, 2].mean())
+    if edge == "bottom":
+        top = [v for loop in loops if loop is not top for v in loop]
     tree = KDTree(len(top))
     for i, v in enumerate(top):
         tree.insert(co[v], i)
@@ -1086,7 +1168,7 @@ def _body_adjacency(mesh):
 
 def project_garment(body, scan, garment, labels, index, offset, name, joints, always=None, max_loose=0.06,
                     reach_out=0.15, reach_in=0.10, edge_blur=None, drape=False, extend_down=0.0, ease=0.0,
-                    straps=0.0, scoop=0.0, gather=0.0, sleeve_ease=0.0, flare=(0.0, 0.0), top=None, neck=None):
+                    straps=0.0, scoop=0.0, gather=0.0, sleeve_ease=0.0, flare=(0.0, 0.0), top=None, neck=None, hem=None):
     """
     A fitted garment built from the canonical body itself: the body's own surface over the regions the scan's
     garment covers, lifted by the layer offset, or by the scan's own looseness where it hangs further out (a flared
@@ -1146,13 +1228,28 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
         fine = _surface_neighbours(body, edge_blur)
     covered = _blur(fine, covered)  # no speckle, smooth edges
     if top is not None:  # no higher than this (low-top sneakers stop under the ankle)
-        covered = np.minimum(covered, np.clip((top - bt.vertices(body)[:, 2]) / 0.008 + 0.5, 0.0, 1.0))
+        co_body = bt.vertices(body)
+        if np.ndim(top):  # [front, side, back]: a low-top's collar, up the tongue and the heel, down under the ankle bones
+            front, side, back = top
+            ankle = np.where((co_body[:, 0] > 0)[:, None], np.asarray(joints["Foot.L"])[:2], np.asarray(joints["Foot.R"])[:2])
+            u = co_body[:, :2] - ankle
+            u /= np.maximum(np.linalg.norm(u, axis=1), 1e-9)[:, None]
+            ahead, behind = np.maximum(-u[:, 1], 0.0), np.maximum(u[:, 1], 0.0)
+            top = side + (front - side) * ahead ** 2 + (back - side) * behind ** 2
+        covered = np.minimum(covered, np.clip((top - co_body[:, 2]) / 0.008 + 0.5, 0.0, 1.0))
     if neck is not None:
         # A crew neck: round the neck up to this far above the neck joint, a level ring. The scan's collar climbed the
         # neck in folds, and it covered the neck only in patches, so its edge was ragged.
         on_neck = np.isin(body_regions(body), ["Neck", "Head"])
         cap = float(joints["Neck"][2]) + neck
         covered = np.where(on_neck, np.clip((cap - bt.vertices(body)[:, 2]) / 0.008 + 0.5, 0.0, 1.0), covered)
+    hem_drop = hem
+    if hem is not None:
+        # Shorts' legs end in a level hem this far below the hip joints, covering the thighs above it: the scan's hem
+        # was a ragged colour edge.
+        on_thigh = np.isin(body_regions(body), ["ThighL", "ThighR"])
+        level = float(joints["UpperLeg.L"][2]) - hem
+        covered = np.where(on_thigh, np.clip((bt.vertices(body)[:, 2] - level) / 0.008 + 0.5, 0.0, 1.0), covered)
     if scoop > 0:
         covered = np.minimum(covered, 1.0 - _scoop(body, joints, scoop, straps))
     if straps > 0:
@@ -1186,6 +1283,7 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
         t = np.clip((hem + flare[1] - co[:, 2]) / flare[1], 0.0, 1.0)
         # Away from the inner thigh only: flared inwards too, the two legs met in a skirt.
         outward = np.clip(0.4 + normals[:, 0] * np.sign(co[:, 0]), 0.0, 1.0)
+        outward = _blur(_surface_neighbours(body, 0.03), outward)  # the inner thigh's normals made the hem bulge
         lift = np.where(inside, lift + flare[0] * t * t * (3 - 2 * t) * outward, lift)
     if gather > 0 and inside.any():  # gathered at the hem (joggers' ankle cuffs): the ease goes over the last stretch
         hem = float(co[inside, 2].min())
@@ -1221,7 +1319,95 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
     # A strapped top drapes only below the armpits (its straps lie on the shoulders).
     drape_below = float(joints["UpperArm.L"][2]) - 0.06 if straps > 0 else None
     _shape_in_pose(part, body, body_weights, joints, offset, drape=drape, drape_below=drape_below)
+    if hem_drop is not None:
+        _level_hems(part, float(joints["UpperLeg.L"][2]) - hem_drop / 2)
+        _span_crotch(part, body, joints, offset)
     return part, int(inside.sum())
+
+
+def _span_crotch(part, body, joints, offset, iterations=60):
+    """
+    A pair of shorts spans the crotch: the surface there is smoothed (fills the hollows either side, never inside
+    the body), so it no longer shows the body's shape between the legs. The basis and every shape key alike.
+    """
+    mesh = part.data
+    co = bt.vertices(part)
+    crotch = float(joints["UpperLeg.L"][2]) - 0.06
+    weight = np.clip((0.07 - np.abs(co[:, 0])) / 0.03, 0.0, 1.0) * np.clip(1.0 - np.abs(co[:, 2] - crotch - 0.03) / 0.07, 0.0, 1.0)
+    weight = weight[:, None] * 0.5
+    pairs = np.empty(len(mesh.edges) * 2, dtype=np.int64)
+    mesh.edges.foreach_get("vertices", pairs)
+    a, b = pairs[0::2], pairs[1::2]
+    count = np.maximum(np.bincount(np.concatenate([a, b]), minlength=len(co)), 1)[:, None]
+
+    def smoothed(points):
+        points = points.copy()
+        for _ in range(iterations):
+            total = np.zeros_like(points)
+            np.add.at(total, a, points[b])
+            np.add.at(total, b, points[a])
+            points += weight * (total / count - points)
+        return points
+
+    keys = list(mesh.shape_keys.key_blocks) if mesh.shape_keys else []
+    for key in keys:
+        key.data.foreach_set("co", smoothed(_key_positions(key)).ravel())
+    mesh.vertices.foreach_set("co", (smoothed(co) if not keys else _key_positions(mesh.shape_keys.reference_key)).ravel())
+    mesh.update()
+    _push_out(part, body, offset)
+
+
+def _level_hems(part, below, reach=0.04):
+    """
+    Each open edge loop lower than ``below`` (a pair of shorts' leg openings) made level at its mean height, the
+    surface above eased after it over ``reach`` metres. Lifted off the tapering thigh along its normals, the hem rose and
+    fell by 3 cm. The basis and every shape key alike.
+    """
+    from mathutils.kdtree import KDTree
+    mesh = part.data
+    bm = bmesh.new()
+    bm.from_mesh(mesh)
+    boundary = [v for v in bm.verts if v.is_boundary]
+    loops, seen = [], set()
+    for start in boundary:
+        if start.index in seen:
+            continue
+        stack, loop = [start], []
+        seen.add(start.index)
+        while stack:
+            v = stack.pop()
+            loop.append(v.index)
+            for e in v.link_edges:
+                w = e.other_vert(v)
+                if e.is_boundary and w.index not in seen:
+                    seen.add(w.index)
+                    stack.append(w)
+        loops.append(loop)
+    bm.free()
+    co = bt.vertices(part)
+    hems = [l for l in loops if co[l, 2].mean() < below and len(l) > 8]
+    if not hems:
+        return 0
+    points = np.concatenate(hems)
+    delta = np.concatenate([co[l, 2].mean() - co[l, 2] for l in hems])
+    tree = KDTree(len(points))
+    for i, v in enumerate(points):
+        tree.insert(co[v], i)
+    tree.balance()
+    shift = np.zeros(len(co))
+    for i, p in enumerate(co):
+        _, j, d = tree.find(p)
+        t = max(0.0, 1.0 - d / reach)
+        shift[i] = delta[j] * t * t * (3 - 2 * t)
+    keys = list(mesh.shape_keys.key_blocks) if mesh.shape_keys else []
+    for key in keys:
+        moved = _key_positions(key)
+        moved[:, 2] += shift
+        key.data.foreach_set("co", moved.ravel())
+    co[:, 2] += shift
+    mesh.vertices.foreach_set("co", co.ravel())
+    mesh.update()
+    return len(hems)
 
 
 def _smooth_edges(part, body, body_weights, lift, cluster, iterations=40):

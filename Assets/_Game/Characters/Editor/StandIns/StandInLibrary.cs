@@ -1125,9 +1125,9 @@ namespace Game.Characters.StandIns
 
             var materials = new Dictionary<string, Material>
             {
-                ["Skin"] = SaveMaterial("StandIn_Skin", CullMode.Back, new Color(0.93f, 0.76f, 0.65f), new Color(0.82f, 0.56f, 0.5f), outline: 1.4f),
-                ["Cloth"] = SaveMaterial("StandIn_Cloth", CullMode.Off, Color.white, new Color(0.7f, 0.66f, 0.74f), outline: 1.4f),
-                ["Hair"] = SaveMaterial("StandIn_Hair", CullMode.Off, Color.white, new Color(0.7f, 0.66f, 0.74f), outline: 1.2f),
+                ["Skin"] = SaveMaterial("StandIn_Skin", CullMode.Back, new Color(0.93f, 0.76f, 0.65f), new Color(0.82f, 0.56f, 0.5f), outline: 2f),
+                ["Cloth"] = SaveMaterial("StandIn_Cloth", CullMode.Off, Color.white, new Color(0.7f, 0.66f, 0.74f), outline: 2f),
+                ["Hair"] = SaveMaterial("StandIn_Hair", CullMode.Off, Color.white, new Color(0.7f, 0.66f, 0.74f), outline: 1.8f),
                 ["Accessory"] = SaveMaterial("StandIn_Accessory", CullMode.Back, Color.white, new Color(0.7f, 0.66f, 0.74f), outline: 0.8f),
                 // Marks on the skin (freckles, blush) have no outline: a ring around every freckle would read as dirt.
                 ["Mark"] = SaveMaterial("StandIn_Mark", CullMode.Back, Color.white, new Color(0.85f, 0.8f, 0.82f), outline: 0f),
