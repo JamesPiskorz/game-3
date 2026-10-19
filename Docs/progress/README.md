@@ -16,4 +16,4 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261019-2257.png | 6f151f9 | Image colours with a gain check; mean rather than lightest tones |
 | 20261019-2258.png | 6f151f9 | Toon shader: ambient mostly on the shaded side |
 | 20261019-2301.png | 6f151f9 | Face normals blended to an ellipsoid: clean anime face shading |
-| 20261019-2302.png | (next) | Hair sheen: a narrow ring with a zigzag lower edge, like anime hair |
+| 20261019-2302.png | 1f2e34f | Hair sheen: a narrow ring with a zigzag lower edge, like anime hair |
