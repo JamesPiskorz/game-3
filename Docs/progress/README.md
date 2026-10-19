@@ -65,3 +65,4 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261020-021602.png | 43fd05d | Sneakers up to 11.5 cm, pushed off the toes; slimmer (1.2 cm ease) |
 | 20261020-021602.png | ca13ba6 | Bug: a hole in the ankles (the hidden Foot region reached above the low sneakers) |
 | 20261020-022142.png | ca13ba6 | Fixed: a part hides only regions it covers all but a few of (99.5%) |
+| 20261020-022249.png | (next) | Hair normals lean towards the viewer: most of the bob lit, shade on its far side |

@@ -451,7 +451,7 @@ def tame(part, frame, joints, squeeze=0.15):
     part.data.update()
 
 
-def round_normals(part, frame, strength=0.75):
+def round_normals(part, frame, strength=0.75, forward=0.45):
     """
     Blends the hair's normals towards a sphere's round the head's centre (``strength``), as anime hair is shaded: the
     toon step then crosses the hair in one clean curve instead of following every lock and dent of the scan. Writes
@@ -467,6 +467,9 @@ def round_normals(part, frame, strength=0.75):
     facing = np.sign((normals * sphere).sum(axis=1))[:, None]  # the underside of a lock faces in: keep it so
     facing[facing == 0] = 1.0
     mixed = normals * (1.0 - strength) + sphere * facing * strength
+    # Leaning towards the viewer, as the face's do, so the toon step leaves most of the hair lit and shades its far
+    # side and underneath, as in the references (round alone, half the bob was in shade).
+    mixed[:, 1] -= forward * (facing[:, 0] > 0)
     mixed /= np.maximum(np.linalg.norm(mixed, axis=1), 1e-9)[:, None]
     mesh.polygons.foreach_set("use_smooth", np.ones(len(mesh.polygons), dtype=bool))
     mesh.normals_split_custom_set_from_vertices([tuple(n) for n in mixed])
