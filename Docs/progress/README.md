@@ -30,3 +30,4 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261019-2352.png | c4555ca | Belt experiments reverted (the belt stays a known gap) |
 | 20261019-2354.png | c4555ca | Soft cheek blush (30%) |
 | 20261019-2356.png | c4555ca | Blush at 45%, wider |
+| 20261019-2359.png | (next) | Hoodie: the hood's edges aren't trims, so mint shows only round the neck opening |

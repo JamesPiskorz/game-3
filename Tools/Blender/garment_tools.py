@@ -675,10 +675,13 @@ def _edge_trims(part, region, regions, band=0.02, dominant=0.15, widths=(0.008, 
     bm.free()
 
     co = bt.vertices(part)
+    no_trim = np.zeros(len(co), dtype=np.int32)
+    if "no_trim" in part.data.attributes:  # pieces whose edges aren't garment edges (a hood's cut)
+        part.data.attributes["no_trim"].data.foreach_get("value", no_trim)
     result = region.copy()
     near_trim = {r: np.zeros(len(co), dtype=bool) for r in range(1, regions)}
     for loop in loops:
-        if len(loop) < 8:
+        if len(loop) < 8 or no_trim[loop].mean() > 0.5:
             continue
         tree = KDTree(len(loop))
         for i, v in enumerate(loop):
@@ -778,6 +781,8 @@ def extract_hood(scan, garment, index, body, joints, areas, name, reach=0.03, bu
     bm.to_mesh(mesh)
     bm.free()
     ct.transfer_from_body(hood, body, bones=["Chest", "Neck"])
+    # Its edges aren't trims: one is where it was cut from the hoodie's body (mint bands spread over the back).
+    hood.data.attributes.new("no_trim", "INT", "POINT").data.foreach_set("value", np.ones(len(mesh.vertices), dtype=np.int32))
     chest = hood.vertex_groups.get("Chest") or hood.vertex_groups.new(name="Chest")
     for v in mesh.vertices:
         if sum(g.weight for g in v.groups) < 1e-6:
