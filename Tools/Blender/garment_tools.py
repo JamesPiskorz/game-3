@@ -1488,20 +1488,20 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
             u /= np.maximum(np.linalg.norm(u, axis=1), 1e-9)[:, None]
             ahead, behind = np.maximum(-u[:, 1], 0.0), np.maximum(u[:, 1], 0.0)
             top = side + (front - side) * ahead ** 2 + (back - side) * behind ** 2
-        covered = np.minimum(covered, np.clip((top - co_body[:, 2]) / 0.008 + 0.5, 0.0, 1.0))
+        covered = np.minimum(covered, np.clip((top - co_body[:, 2]) / 0.015 + 0.5, 0.0, 1.0))
     if neck is not None:
         # A crew neck: round the neck up to this far above the neck joint, a level ring. The scan's collar climbed the
         # neck in folds, and it covered the neck only in patches, so its edge was ragged.
         on_neck = np.isin(body_regions(body), ["Neck", "Head"])
         cap = float(joints["Neck"][2]) + neck
-        covered = np.where(on_neck, np.clip((cap - bt.vertices(body)[:, 2]) / 0.008 + 0.5, 0.0, 1.0), covered)
+        covered = np.where(on_neck, np.clip((cap - bt.vertices(body)[:, 2]) / 0.015 + 0.5, 0.0, 1.0), covered)
     hem_drop = hem
     if hem is not None:
         # Shorts' or joggers' legs end in a level hem this far below the hip joints, covering the legs above it: the
         # scan's hem was a ragged colour edge.
         on_thigh = np.isin(body_regions(body), ["ThighL", "ThighR", "CalfL", "CalfR"])
         level = float(joints["UpperLeg.L"][2]) - hem
-        covered = np.where(on_thigh, np.clip((bt.vertices(body)[:, 2] - level) / 0.008 + 0.5, 0.0, 1.0), covered)
+        covered = np.where(on_thigh, np.clip((bt.vertices(body)[:, 2] - level) / 0.015 + 0.5, 0.0, 1.0), covered)
     if scoop > 0:
         covered = np.minimum(covered, 1.0 - _scoop(body, joints, scoop, straps))
     if straps > 0:
