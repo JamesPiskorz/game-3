@@ -1066,6 +1066,68 @@ def draw_cords(part, region, length=0.13, width=0.007, apart=0.05):
     return _paint(bm, mesh, field, region, cuts)
 
 
+def draw_fly(part, region, below=0.03, length=0.075, width=0.004, offset=0.012):
+    """
+    A pair of trousers' fly drawn as a stripe ``width`` metres wide down the front, from ``below`` metres under the
+    waist's front to ``length`` further, ``offset`` metres off the centre line (the fly's stitched edge), in recolour
+    ``region``. Returns the faces drawn.
+    """
+    mesh = part.data
+    co = bt.vertices(part)
+    bm = bmesh.new()
+    bm.from_mesh(mesh)
+    bm.verts.ensure_lookup_table()
+    boundary = np.array([v.is_boundary for v in bm.verts])
+    front = boundary & (np.abs(co[:, 0]) < 0.02) & (co[:, 1] < float(np.median(co[:, 1]))) & (co[:, 2] > np.percentile(co[:, 2], 75))
+    top = (float(co[front, 2].min()) if front.any() else float(co[:, 2].max())) - below
+    middle_y = float(np.median(co[:, 1]))
+
+    def field(p):
+        if p[1] > middle_y:
+            return -1.0
+        return min(width / 2 - abs(p[0] - offset), top - p[2], p[2] - (top - length))
+
+    cuts = [lambda p: top - p[2], lambda p: p[2] - (top - length),
+            lambda p: p[0] - (offset - width / 2), lambda p: (offset + width / 2) - p[0]]
+    return _paint(bm, mesh, field, region, cuts)
+
+
+def draw_pockets(part, region, below=0.03, inner=0.09, outer=0.15, drop=0.06, width=0.004):
+    """
+    Front pocket openings drawn as a slanted stripe ``width`` metres wide on each hip, from ``inner`` metres off the
+    centre line just under the waistband (``below`` the waist's top) out and down to the side, ``outer`` metres off
+    it and ``drop`` lower, in recolour ``region``. Returns the faces drawn.
+    """
+    mesh = part.data
+    co = bt.vertices(part)
+    bm = bmesh.new()
+    bm.from_mesh(mesh)
+    bm.verts.ensure_lookup_table()
+    boundary = np.array([v.is_boundary for v in bm.verts])
+    front = boundary & (np.abs(co[:, 0]) < 0.02) & (co[:, 1] < float(np.median(co[:, 1]))) & (co[:, 2] > np.percentile(co[:, 2], 75))
+    top = (float(co[front, 2].min()) if front.any() else float(co[:, 2].max())) - below
+    middle_y = float(np.median(co[:, 1]))
+    direction = np.array([outer - inner, -drop])
+    direction /= np.linalg.norm(direction)
+    normal = np.array([-direction[1], direction[0]])
+
+    def across(p):  # signed distance from the pocket line, in the front view (|x|, z)
+        return (abs(p[0]) - inner) * normal[0] + (p[2] - top) * normal[1]
+
+    def along(p):
+        return (abs(p[0]) - inner) * direction[0] + (p[2] - top) * direction[1]
+
+    reach = float(np.hypot(outer - inner, drop))
+
+    def field(p):
+        if p[1] > middle_y:
+            return -1.0
+        return min(width / 2 - abs(across(p)), along(p), reach - along(p))
+
+    cuts = [lambda p: across(p) + width / 2, lambda p: width / 2 - across(p), along, lambda p: reach - along(p)]
+    return _paint(bm, mesh, field, region, cuts)
+
+
 def _paint(bm, mesh, field, region, cuts):
     """
     Cuts ``bm`` along each of ``cuts`` (straight fields, cut where they cross zero) and paints the faces where

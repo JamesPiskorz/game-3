@@ -172,6 +172,8 @@ def main():
             print(f"[outfit] {spec['id']}: cords on {gt.draw_cords(part, recolour)} faces")
             band_colour = spec["cords"]["colour"]
             recolour += 1
+        if spec.get("fly") and recolour > 1:  # a fly and front pockets in the waistband's colour, as the target draws them
+            print(f"[outfit] {spec['id']}: fly on {gt.draw_fly(part, 1)} faces, pockets on {gt.draw_pockets(part, 1)}")
         if spec.get("cuff") and recolour < 3:  # turned-up cuffs, a shade off the cloth, as the target draws them
             gt.add_band(part, spec["cuff"]["width"], recolour, edge="bottom")
             band_colour = spec["cuff"]["colour"]

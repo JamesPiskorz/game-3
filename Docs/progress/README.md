@@ -100,3 +100,6 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261020-044126.png | a08b490 | Eyes 9% bigger (the whites fill their sockets): nearer the image's |
 | 20261020-044255.png | a319ed3 | Hair pieces faired (Taubin, edges held): the black fleck on the bob is gone |
 | 20261020-044540.png | 2f0d8b7 | Jaw widened 35% at the chin (was 22%): a rounder lower face like the image's |
+| 20261020-044850.png | (between commits) | Shorts: a fly line in the waistband's brown |
+| 20261020-045109.png | (between commits) | Front pocket lines (too near the centre: darts) |
+| 20261020-045314.png | (next) | Pocket lines out at the hips, as the target draws them |
