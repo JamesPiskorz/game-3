@@ -20,3 +20,5 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261019-2318.png | aad1d73 | Tops drape like cloth (convex-hull drape from the bust, no abs or cleavage); midriff gap |
 | 20261019-2320.png | aad1d73 | Tops reach 3 cm over the waistband (hides it) |
 | 20261019-2326.png | aad1d73 | 1.5 cm overlap: the waistband shows under the shirt as in the image |
+| 20261019-2328.png | (next) | Bob drawn in below the eyes (no bell flare) |
+| 20261019-2329.png | (next) | Blunt fringe straight across just under the brows |

@@ -358,6 +358,67 @@ def clear_eyes(part, frame, joints):
     return float(floor - lowest)
 
 
+def blunt_cut(part, frame, joints, below_brow=0.005, band=0.05, column=0.008):
+    """
+    A blunt fringe: straight across ``below_brow`` metres under the brows (hiding them, as the image's does), in
+    front of the face between the outer eye corners; the side locks keep their length. Where the fringe stops short
+    of that line (the scan's dipped in a notch between two lobes) its lowest ``band`` metres are stretched down to it,
+    column by column ``column`` metres wide; whatever hangs below it is cut away along it. Returns the faces removed.
+    """
+    line = float(max(joints["Brow.L"][2], joints["Brow.R"][2])) - below_brow
+    eye_x = float(abs(joints["Eye.L"][0])) + 0.03
+    front_y = frame["centre"][1] - 0.04
+    co = bt.vertices(part)
+    in_front = (np.abs(co[:, 0]) < eye_x + 0.01) & (co[:, 1] < front_y)
+    bm = bmesh.new()
+    bm.from_mesh(part.data)
+    bm.verts.ensure_lookup_table()
+    edge = np.array([v.is_boundary for v in bm.verts])
+    bm.free()
+    columns = np.round(co[:, 0] / column).astype(int)
+    stretched = co.copy()
+    for c in np.unique(columns[in_front & edge]):
+        here = in_front & (columns == c)
+        bottom = co[here & edge, 2].min()
+        if bottom <= line or abs(c * column) > eye_x:
+            continue
+        top = bottom + band
+        moving = here & (co[:, 2] < top)
+        stretched[moving, 2] = top - (top - co[moving, 2]) * (top - line) / (top - bottom)
+    part.data.vertices.foreach_set("co", stretched.ravel())
+    part.data.update()
+
+    bm = bmesh.new()
+    bm.from_mesh(part.data)
+    geometry = bm.verts[:] + bm.edges[:] + bm.faces[:]
+    bmesh.ops.bisect_plane(bm, geom=geometry, plane_co=(0.0, 0.0, line), plane_no=(0.0, 0.0, 1.0))
+    cut = [f for f in bm.faces
+           if (c := f.calc_center_median()).z < line - 1e-4 and abs(c.x) < eye_x and c.y < front_y]
+    bmesh.ops.delete(bm, geom=cut, context="FACES")
+    bmesh.ops.delete(bm, geom=[v for v in bm.verts if not v.link_faces], context="VERTS")
+    bm.to_mesh(part.data)
+    bm.free()
+    part.data.update()
+    return len(cut)
+
+
+def tame(part, frame, joints, squeeze=0.15):
+    """
+    Draws hair below the eyes in towards the head's vertical axis, up to ``squeeze`` of its distance by the chin: a
+    bob from the image hangs straight down, and Hunyuan's flared out into a bell. push_off_body afterwards keeps it
+    off the face and neck.
+    """
+    co = bt.vertices(part)
+    eye = float(max(joints["Eye.L"][2], joints["Eye.R"][2]))
+    chin = float(joints["Head"][2])
+    t = np.clip((eye - co[:, 2]) / max(eye - chin, 1e-6), 0.0, 1.0)
+    scale = 1.0 - squeeze * t * t * (3 - 2 * t)
+    axis = np.array([0.0, frame["centre"][1]])
+    co[:, :2] = axis + (co[:, :2] - axis) * scale[:, None]
+    part.data.vertices.foreach_set("co", co.ravel())
+    part.data.update()
+
+
 def smooth(part, iterations=2, factor=0.5):
     """A light smoothing of the scan's surface noise (keeps the strand grooves); the open edges stay put."""
     bm = bmesh.new()
