@@ -91,8 +91,8 @@ def main():
             problems.append(f"{spec[which]['id']}: no hair on that side")
             continue
         ht.tidy(piece, largest_hole=0.0)  # slivers the split left
-        pt.shade(piece, 50.0)
         ring = ht.hair_mask_colours(piece, frame, tip_from, tip_to)
+        ht.round_normals(piece, frame)  # after the ring's cuts, which would interpolate them
         planar_uvs(piece)
         ht.transfer_shapes(piece, body, regions_of_body)
         gt._push_out(piece, body, ht.HEAD_OFFSET)  # in every shape: the masculine chest is broader than the hair beside it

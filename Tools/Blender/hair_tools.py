@@ -419,6 +419,28 @@ def tame(part, frame, joints, squeeze=0.15):
     part.data.update()
 
 
+def round_normals(part, frame, strength=0.75):
+    """
+    Blends the hair's normals towards a sphere's round the head's centre (``strength``), as anime hair is shaded: the
+    toon step then crosses the hair in one clean curve instead of following every lock and dent of the scan. Writes
+    custom split normals, which the FBX export carries.
+    """
+    mesh = part.data
+    co = bt.vertices(part)
+    sphere = co - frame["centre"]
+    sphere /= np.maximum(np.linalg.norm(sphere, axis=1), 1e-9)[:, None]
+    normals = np.empty(len(co) * 3)
+    mesh.vertices.foreach_get("normal", normals)
+    normals = normals.reshape(-1, 3)
+    facing = np.sign((normals * sphere).sum(axis=1))[:, None]  # the underside of a lock faces in: keep it so
+    facing[facing == 0] = 1.0
+    mixed = normals * (1.0 - strength) + sphere * facing * strength
+    mixed /= np.maximum(np.linalg.norm(mixed, axis=1), 1e-9)[:, None]
+    mesh.polygons.foreach_set("use_smooth", np.ones(len(mesh.polygons), dtype=bool))
+    mesh.normals_split_custom_set_from_vertices([tuple(n) for n in mixed])
+    mesh.update()
+
+
 def smooth(part, iterations=2, factor=0.5):
     """A light smoothing of the scan's surface noise (keeps the strand grooves); the open edges stay put."""
     bm = bmesh.new()
