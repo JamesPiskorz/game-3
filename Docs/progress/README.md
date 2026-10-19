@@ -34,4 +34,4 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261020-0002.png | 7d7bbb1 | Sole flare (small) |
 | 20261020-0005.png | 7d7bbb1 | Sneaker soles: flat, out to the footprint's hull |
 | 20261020-0006.png | 7d7bbb1 | Chunkier sneakers (1.6 cm ease, 1 cm flare): the red sole shows |
-| 20261020-0009.png | (next) | Hair normals rounded towards a sphere: one clean shade curve across the bob |
+| 20261020-0009.png | 6f75529 | Hair normals rounded towards a sphere: one clean shade curve across the bob |
