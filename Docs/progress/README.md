@@ -104,5 +104,5 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261020-045109.png | (between commits) | Front pocket lines (too near the centre: darts) |
 | 20261020-045314.png | 018fe22 | Pocket lines out at the hips, as the target draws them |
 | 20261020-051600.png | (between commits) | New last row: her from three-quarter beside a three-quarter target (camera on the wrong side); thinner closed lips; joggers end above the ankles; hood faired; sneaker toe caps |
-| 20261020-051635.png | (next) | Three-quarter camera on her right, as the target |
-| 20261020-052153.png | (next) | Thumbs tucked in along the hands: no more claws with the arms down |
+| 20261020-051635.png | 8a04b3a | Three-quarter camera on her right, as the target |
+| 20261020-052153.png | 8a04b3a | Thumbs tucked in along the hands: no more claws with the arms down |
