@@ -1069,7 +1069,7 @@ def _body_adjacency(mesh):
 
 def project_garment(body, scan, garment, labels, index, offset, name, joints, always=None, max_loose=0.06,
                     reach_out=0.15, reach_in=0.10, edge_blur=None, drape=False, extend_down=0.0, ease=0.0,
-                    straps=0.0, scoop=0.0, gather=0.0, sleeve_ease=0.0):
+                    straps=0.0, scoop=0.0, gather=0.0, sleeve_ease=0.0, flare=(0.0, 0.0)):
     """
     A fitted garment built from the canonical body itself: the body's own surface over the regions the scan's
     garment covers, lifted by the layer offset, or by the scan's own looseness where it hangs further out (a flared
@@ -1156,6 +1156,12 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
     lift = _even_limb_slack(co, body_weights[0], body_weights[1], joints, lift, inside)
     # Even, so the garment is as smooth as the body; blended only between parts that move together.
     lift = np.maximum(_blur(_surface_neighbours(body, CLOSING, affinity=body_weights[0]), lift), offset)
+    if flare[0] > 0 and inside.any():  # flared at the hem (A-line shorts): more ease over the last stretch
+        hem = float(co[inside, 2].min())
+        t = np.clip((hem + flare[1] - co[:, 2]) / flare[1], 0.0, 1.0)
+        # Away from the inner thigh only: flared inwards too, the two legs met in a skirt.
+        outward = np.clip(0.4 + normals[:, 0] * np.sign(co[:, 0]), 0.0, 1.0)
+        lift = np.where(inside, lift + flare[0] * t * t * (3 - 2 * t) * outward, lift)
     if gather > 0 and inside.any():  # gathered at the hem (joggers' ankle cuffs): the ease goes over the last stretch
         hem = float(co[inside, 2].min())
         t = np.clip((co[:, 2] - hem) / gather, 0.0, 1.0)
