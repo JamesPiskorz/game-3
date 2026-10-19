@@ -1177,6 +1177,33 @@ def draw_pockets(part, region, below=0.03, inner=0.09, outer=0.15, drop=0.06, wi
     return _paint(bm, mesh, field, region, cuts)
 
 
+def draw_buckle(part, region, width=0.03, height=0.022, line=0.004, below=0.0):
+    """
+    A belt buckle drawn as a rectangular frame ``width`` by ``height`` metres, ``line`` thick, at the front middle of
+    the garment's top edge (its waistband), in recolour ``region``. Returns the faces drawn.
+    """
+    mesh = part.data
+    co = bt.vertices(part)
+    bm = bmesh.new()
+    bm.from_mesh(mesh)
+    bm.verts.ensure_lookup_table()
+    boundary = np.array([v.is_boundary for v in bm.verts])
+    front = boundary & (np.abs(co[:, 0]) < 0.02) & (co[:, 1] < float(np.median(co[:, 1]))) & (co[:, 2] > np.percentile(co[:, 2], 75))
+    top = (float(co[front, 2].min()) if front.any() else float(co[:, 2].max())) - below
+    centre_z = top - height / 2
+    middle_y = float(np.median(co[:, 1]))
+
+    def field(p):
+        if p[1] > middle_y:
+            return -1.0
+        dx, dz = abs(p[0]) - width / 2, abs(p[2] - centre_z) - height / 2
+        outside = max(dx, dz)
+        return min(-outside, outside + line)  # inside the outer box, outside the inner one
+
+    cuts = [lambda p, s=s_: s * p[0] + width / 2 for s_ in (1.0, -1.0)] +            [lambda p, s=s_: s * p[0] + width / 2 - line for s_ in (1.0, -1.0)] +            [lambda p, s=s_: s * (p[2] - centre_z) + height / 2 for s_ in (1.0, -1.0)] +            [lambda p, s=s_: s * (p[2] - centre_z) + height / 2 - line for s_ in (1.0, -1.0)]
+    return _paint(bm, mesh, field, region, cuts)
+
+
 def _paint(bm, mesh, field, region, cuts):
     """
     Cuts ``bm`` along each of ``cuts`` (straight fields, cut where they cross zero) and paints the faces where

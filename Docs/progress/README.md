@@ -122,3 +122,4 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261020-060348.png | (between commits) | Tank tucked in, its hem 15.2 cm above the hips: the belt shows (skin sliver above it) |
 | 20261020-060541.png | (between commits) | Tucked to 13.8 cm (a few skin flecks) |
 | 20261020-060734.png | 2bacea1 | Tucked to 13.2 cm: the whole belt shows, no skin |
+| 20261020-060954.png | (next) | A dark buckle on the trousers' belt |

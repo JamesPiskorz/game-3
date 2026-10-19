@@ -165,6 +165,10 @@ def main():
             gt.add_band(part, spec["band"]["width"], recolour)
             band_colour = spec["band"]["colour"]
             recolour += 1
+            if spec["band"].get("buckle") and recolour < 3:  # a buckle on the belt, in its own colour
+                print(f"[outfit] {spec['id']}: buckle on {gt.draw_buckle(part, recolour, below=0.0)} faces")
+                band_colour = [band_colour, spec["band"]["buckle"]]
+                recolour += 1
         if spec.get("laces") and recolour < 3:  # a sneaker's laces, drawn as a few bars across the instep, and its toe cap
             print(f"[outfit] {spec['id']}: laces on {gt.lace_lines(part, recolour, lines=spec['laces'].get('lines', 4))} faces, "
                   f"toe caps on {gt.draw_toe_caps(part, recolour)}")
@@ -210,7 +214,7 @@ def main():
             ct.write_sidecar(os.path.join(args.output, spec["id"] + ".character.json"), {
                 "kind": "part", "slot": slot, "covers": covers, "followsBodyShapes": True, "regions": recolour, "outfit": args.outfit,
                 # The generated texture's colour for each recolour region where lit (sRGB): how the image dressed it.
-                "colours": [region_colour(k, spec) for k in region_clusters] + ([band_colour] if band_colour else []),
+                "colours": [region_colour(k, spec) for k in region_clusters] + (band_colour if isinstance(band_colour, list) else [band_colour] if band_colour else []),
                 "source": os.path.abspath(args.scan), "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
                 "licence": "Tencent Hunyuan 3D 2.1 Community License",
             })

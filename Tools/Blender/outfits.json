@@ -24,7 +24,7 @@
     "_generated": "The image came out with slim trousers tucked into knee-high boots; the pieces are named for what it made.",
     "garments": [
       {"id": "cloth.top.tank_gen01", "slot": "top", "regions": ["Neck", "UpperTorso", "LowerTorso", "UpperArmL", "UpperArmR"], "colours": ["#7a1f2e", "#1c1c1c"], "loosest": 0.012, "straps": 0.022, "scoop": 0.09, "collar": 0.006, "tucked": 0.132},
-      {"id": "cloth.bottom.trousers_gen01", "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#1f2a4a", "#7a5230"], "loosest": 0.015, "band": {"width": 0.022, "colour": "#6b4528"}},
+      {"id": "cloth.bottom.trousers_gen01", "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#1f2a4a", "#7a5230"], "loosest": 0.015, "band": {"width": 0.022, "colour": "#6b4528", "buckle": "#3a2a1c"}},
       {"id": "cloth.shoes.tallboots_gen01", "slot": "shoes", "regions": ["FootL", "FootR", "CalfL", "CalfR"], "colours": ["#4a3020", "#1c1c1c"]}
     ]
   }
