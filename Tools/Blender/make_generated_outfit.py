@@ -141,6 +141,11 @@ def main():
         palette = gt.palette_clusters(outfit, lab, index, skin)
         own = {k: float(areas[(garment == index) & (labels == k)].sum()) for k in set(cluster.tolist()) if k in palette}
         recolour = len(region_clusters := gt.recolour_mask(part, cluster, own, lab, sole=slot == "shoes"))
+        band_colour = None
+        if spec.get("band") and recolour < 3:  # a belt or waistband the scan has no colour block for
+            gt.add_band(part, spec["band"]["width"], recolour)
+            band_colour = spec["band"]["colour"]
+            recolour += 1
         gt.limit_influences(part)  # vertices made by the cuts blend two vertices' weights
         planar_uvs(part)
         if slot not in gt.FITTED:
@@ -163,7 +168,7 @@ def main():
             ct.write_sidecar(os.path.join(args.output, spec["id"] + ".character.json"), {
                 "kind": "part", "slot": slot, "covers": covers, "followsBodyShapes": True, "regions": recolour, "outfit": args.outfit,
                 # The generated texture's colour for each recolour region where lit (sRGB): how the image dressed it.
-                "colours": [srgb_hex(lit_colour[k]) for k in region_clusters],
+                "colours": [srgb_hex(lit_colour[k]) for k in region_clusters] + ([band_colour] if band_colour else []),
                 "source": os.path.abspath(args.scan), "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
                 "licence": "Tencent Hunyuan 3D 2.1 Community License",
             })

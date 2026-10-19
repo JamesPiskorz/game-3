@@ -7,10 +7,11 @@
     "ThighR"
   ],
   "followsBodyShapes": true,
-  "regions": 1,
+  "regions": 2,
   "outfit": "outfit-03",
   "colours": [
-    "#0e1a32"
+    "#0e1a32",
+    "#6b4528"
   ],
   "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261019_213432_for_texture_textured.glb",
   "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",

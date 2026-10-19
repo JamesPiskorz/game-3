@@ -863,6 +863,54 @@ def flare_sole(part, height=0.024, flare=0.01, flat=0.008, angles=72):
     mesh.update()
 
 
+def add_band(part, width, region):
+    """
+    A band ``width`` metres deep along the garment's top edge (the open edge loop that sits highest: a waistband,
+    a belt) in recolour ``region`` (0-2), cut along its lower line so it's clean. The scan's thin brown belt was
+    shading on navy, and no colour block of its own.
+    """
+    from mathutils.kdtree import KDTree
+    mesh = part.data
+    bm = bmesh.new()
+    bm.from_mesh(mesh)
+    bm.verts.ensure_lookup_table()
+    boundary = [v for v in bm.verts if v.is_boundary]
+    loops, seen = [], set()
+    for start in boundary:
+        if start.index in seen:
+            continue
+        stack, loop = [start], []
+        seen.add(start.index)
+        while stack:
+            v = stack.pop()
+            loop.append(v.index)
+            for e in v.link_edges:
+                w = e.other_vert(v)
+                if e.is_boundary and w.index not in seen:
+                    seen.add(w.index)
+                    stack.append(w)
+        loops.append(loop)
+    co = np.array([v.co[:] for v in bm.verts])
+    top = max(loops, key=lambda l: co[l, 2].mean())
+    tree = KDTree(len(top))
+    for i, v in enumerate(top):
+        tree.insert(co[v], i)
+    tree.balance()
+    field = np.array([tree.find(p)[2] for p in co]) - width
+    value = _cut_along(bm, np.where(np.abs(field) < 1e-5, 1e-5, field), 0.0)
+    banded = [f for f in bm.faces if np.mean([value[v] for v in f.verts]) < 0]
+    colours = bm.loops.layers.float_color.get(ct.COLOUR_ATTRIBUTE)
+    one_hot = [0.0, 0.0, 0.0, 0.0]
+    one_hot[region + 1] = 1.0
+    for f in banded:
+        for loop in f.loops:
+            loop[colours] = one_hot
+    bm.to_mesh(mesh)
+    bm.free()
+    mesh.update()
+    return len(banded)
+
+
 def limit_influences(part):
     """At most character_tools.MAX_INFLUENCES bones per vertex, normalised, as the validator requires."""
     if not part.vertex_groups:  # not skinned yet (loose layers get their weights by transfer later)
