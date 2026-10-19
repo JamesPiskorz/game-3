@@ -10,4 +10,4 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261019-2211.png | 8f86726 | Anime eyes with lash lines, catch-lights and pupils; no body sliders |
 | 20261019-2215.png | b55fd07 | Rounder eyes; hair edges relaxed; narrower hair sheen |
 | 20261019-2223.png | b55fd07 | Shorts and sleeve hems smoothed (3 cm coverage blur) |
-| 20261019-2229.png | (next) | Edge trims: the collar, cuffs and waistband are even bands along the garment edges |
+| 20261019-2229.png | b2d7b0f | Edge trims: the collar, cuffs and waistband are even bands along the garment edges |
