@@ -1420,7 +1420,8 @@ def _body_adjacency(mesh):
 
 def project_garment(body, scan, garment, labels, index, offset, name, joints, always=None, max_loose=0.06,
                     reach_out=0.15, reach_in=0.10, edge_blur=None, drape=False, extend_down=0.0, ease=0.0,
-                    straps=0.0, scoop=0.0, gather=0.0, sleeve_ease=0.0, flare=(0.0, 0.0), top=None, neck=None, hem=None):
+                    straps=0.0, scoop=0.0, gather=0.0, sleeve_ease=0.0, flare=(0.0, 0.0), top=None, neck=None, hem=None,
+                    tucked=None):
     """
     A fitted garment built from the canonical body itself: the body's own surface over the regions the scan's
     garment covers, lifted by the layer offset, or by the scan's own looseness where it hangs further out (a flared
@@ -1502,6 +1503,12 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
         on_thigh = np.isin(body_regions(body), ["ThighL", "ThighR", "CalfL", "CalfR"])
         level = float(joints["UpperLeg.L"][2]) - hem
         covered = np.where(on_thigh, np.clip((bt.vertices(body)[:, 2] - level) / 0.015 + 0.5, 0.0, 1.0), covered)
+    if tucked is not None:
+        # Tucked in: a top ends in a level hem this far above the hip joint, so the belt over the bottom's waist shows
+        # (the image's tank top is tucked into its jeans; hanging over, it hid the belt).
+        on_torso = np.isin(body_regions(body), ["UpperTorso", "LowerTorso", "Pelvis"])
+        level = float(joints["Hips"][2]) + tucked
+        covered = np.where(on_torso, np.minimum(covered, np.clip((bt.vertices(body)[:, 2] - level) / 0.015 + 0.5, 0.0, 1.0)), covered)
     if scoop > 0:
         covered = np.minimum(covered, 1.0 - _scoop(body, joints, scoop, straps))
     if straps > 0:

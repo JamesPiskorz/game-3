@@ -130,8 +130,9 @@ def main():
                                          ease=spec.get("ease", 0.0), straps=spec.get("straps", 0.0),
                                          scoop=spec.get("scoop", 0.0), gather=spec.get("gather", 0.0),
                                          sleeve_ease=spec.get("sleeve_ease", 0.0), flare=tuple(spec.get("flare", (0.0, 0.0))),
-                                         top=spec.get("top"), neck=spec.get("neck"), hem=spec.get("hem"),
-                                         extend_down=OVERLAP if slot == "top" and any(g["slot"] == "bottom" for g in outfit["garments"]) else 0.0)
+                                         top=spec.get("top"), neck=spec.get("neck"), hem=spec.get("hem"), tucked=spec.get("tucked"),
+                                         extend_down=spec.get("overlap", OVERLAP) if slot == "top" and any(g["slot"] == "bottom" for g in outfit["garments"]) else 0.0)
+
             if slot == "shoes":
                 gt.flare_sole(part)
                 gt._push_out(part, body, offset)  # the toe box mustn't dip into the toes
