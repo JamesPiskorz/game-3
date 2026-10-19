@@ -6,6 +6,7 @@
   ],
   "followsBodyShapes": true,
   "regions": 2,
+  "outfit": "outfit-01",
   "colours": [
     "#4c6888",
     "#d5d0d4"

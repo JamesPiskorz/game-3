@@ -16,7 +16,7 @@ namespace Game.Characters.Review
     /// A generated character animated as the game animates it (IdleMotion breathing, swaying and looking about, the
     /// face blinking), waving and then smiling, stepped at 30 fps: every frame to Recordings/wave-smile/ for a video,
     /// and a filmstrip to Docs/review/wave-smile.png. Built like <see cref="GeneratedOutfitSheet"/>: the generated body
-    /// in the generated parts.
+    /// in the first generated outfit.
     /// Headless: unity run . -- -executeMethod Game.Characters.Review.GestureClip.Render
     /// </summary>
     public static class GestureClip
@@ -32,13 +32,13 @@ namespace Game.Characters.Review
         public static void Render()
         {
             EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-            CharacterContent content = GeneratedOutfitSheet.Content(out List<ItemDna> items, out _);
+            CharacterContent content = GeneratedOutfitSheet.Content(out List<GeneratedOutfitSheet.GeneratedOutfit> outfits, out _);
             if (content == null) return;
 
             CharacterDna dna = new CharacterGenerator(StandInContent.Load().LoadCatalog())
                 .Generate(41, new GenerationRequest { Archetype = "casual", FemininityMin = 1f, FemininityMax = 1f });
             dna.Hair.PieceIds = new List<string>(); // no generated hair yet
-            dna.Outfits = new List<OutfitDna> { new OutfitDna { Context = "casual", Items = items } };
+            dna.Outfits = new List<OutfitDna> { new OutfitDna { Context = "casual", Items = outfits[0].Items } };
             ModularCharacter character = new CharacterBuilder(content).Build(dna, "casual");
             Poses.Relaxed(character.transform);
             foreach (SkinnedMeshRenderer renderer in character.GetComponentsInChildren<SkinnedMeshRenderer>())

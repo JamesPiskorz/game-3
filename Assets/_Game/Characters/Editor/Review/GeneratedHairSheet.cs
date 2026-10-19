@@ -13,7 +13,7 @@ namespace Game.Characters.Review
 {
     /// <summary>
     /// The generated hairstyles (Tools/Blender/make_generated_hair.py, decision 0008) on the generated body as the game
-    /// builds it, in the generated outfit: one row per style, its front and back pieces worn together, head and
+    /// builds it, in the first generated outfit: one row per style, its front and back pieces worn together, head and
     /// shoulders from the front, three-quarter, side and back, on a feminine and a masculine person with the
     /// generator's hair colours (Docs/review/generated-hair.png). Uses <see cref="GeneratedOutfitSheet"/>'s content.
     /// Headless: unity run . -- -executeMethod Game.Characters.Review.GeneratedHairSheet.Render
@@ -30,7 +30,7 @@ namespace Game.Characters.Review
         public static void Render()
         {
             EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-            CharacterContent content = GeneratedOutfitSheet.Content(out List<ItemDna> items, out List<GeneratedOutfitSheet.HairStyle> styles);
+            CharacterContent content = GeneratedOutfitSheet.Content(out List<GeneratedOutfitSheet.GeneratedOutfit> outfits, out List<GeneratedOutfitSheet.HairStyle> styles);
             if (content == null) return;
             if (styles.Count == 0)
             {
@@ -50,7 +50,7 @@ namespace Game.Characters.Review
                 {
                     CharacterDna dna = generator.Generate((ulong)(61 + 7 * row + person), new GenerationRequest { Archetype = "casual", FemininityMin = Femininity[person], FemininityMax = Femininity[person], FantasyHair = false });
                     dna.Hair.PieceIds = styles[row].Pieces.ToList();
-                    dna.Outfits = new List<OutfitDna> { new OutfitDna { Context = "casual", Items = items } };
+                    dna.Outfits = new List<OutfitDna> { new OutfitDna { Context = "casual", Items = outfits[0].Items } };
                     ModularCharacter character = builder.Build(dna, "casual");
                     Poses.Relaxed(character.transform);
                     foreach (SkinnedMeshRenderer renderer in character.GetComponentsInChildren<SkinnedMeshRenderer>())

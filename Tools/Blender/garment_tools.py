@@ -12,6 +12,7 @@ Coordinates: Blender is Z-up with the front at -Y, the character's left at +X (a
 """
 
 import json
+import math
 import os
 
 import bmesh
@@ -188,9 +189,11 @@ def assign_garments(outfit, labels, mean_colour, areas, regions, bare):
     Skin is the colour cluster covering most of ``bare`` (skin_faces: matching body regions instead depended on the
     alignment being exact), and any cluster close to it.
     Each other cluster belongs to the garment whose regions it covers most, counting only regions no other garment
-    lists. A cluster lying mostly on regions two garments share (a waistband between a top and shorts, a belt) goes
-    instead to the garment whose "colours" (the prompt's colours, as hex, in outfits.json) are nearest its own. A
-    face goes to the garments that list its region, and among several, to its cluster's garment.
+    lists. A cluster lying mostly on regions two garments share (a waistband between a top and shorts, a belt, boot
+    shafts over trouser legs) goes instead to the garment whose "colours" (the prompt's colours, as hex, in
+    outfits.json) are nearest its own, ties going to the one it covers most alone (a tank top's black trim and boots'
+    black soles both list black). A face goes to the garments that list its region; among several, to its cluster's
+    garment, or if that isn't one of them, to the one whose colours are nearest.
     """
     garments = outfit["garments"]
     lab = pt.linear_to_oklab(mean_colour)
@@ -202,16 +205,16 @@ def assign_garments(outfit, labels, mean_colour, areas, regions, bare):
     exclusive = [c - set().union(*(o for j, o in enumerate(claims) if j != i)) for i, c in enumerate(claims)]
     claimed = list(set().union(*claims))
     distances = hint_distances(outfit, lab)
-    owner = {}
+    owner, scores = {}, {}
     for k in range(len(lab)):
         if k in skin:
             continue
-        scores = [areas[(labels == k) & np.isin(regions, list(e))].sum() for e in exclusive]
+        scores[k] = [areas[(labels == k) & np.isin(regions, list(e))].sum() for e in exclusive]
         on_garments = areas[(labels == k) & np.isin(regions, claimed)].sum()
-        if max(scores) < SHARED_ONLY * on_garments and distances is not None:
-            owner[k] = int(np.argmin(distances[k]))
+        if max(scores[k]) < SHARED_ONLY * on_garments and distances is not None:
+            owner[k] = _nearest_colour(distances[k], scores[k], range(len(garments)))
         else:
-            owner[k] = int(np.argmax(scores)) if max(scores) > 0 else -1
+            owner[k] = int(np.argmax(scores[k])) if max(scores[k]) > 0 else -1
 
     result = np.full(len(labels), -1)
     for f in range(len(labels)):
@@ -222,8 +225,18 @@ def assign_garments(outfit, labels, mean_colour, areas, regions, bare):
         if len(listing) == 1:
             result[f] = listing[0]
         elif len(listing) > 1:
-            result[f] = owner[k] if owner.get(k, -1) in listing else listing[0]
+            if owner.get(k, -1) in listing:
+                result[f] = owner[k]
+            else:
+                result[f] = _nearest_colour(distances[k], scores[k], listing) if distances is not None else listing[0]
     return result, skin_cluster, skin
+
+
+def _nearest_colour(distances, scores, candidates):
+    """Of ``candidates``, the garment whose colours are nearest (``distances``), ties to the higher ``scores``."""
+    candidates = list(candidates)
+    best = min(distances[i] for i in candidates)
+    return max((i for i in candidates if distances[i] <= best + 1e-4), key=lambda i: scores[i])
 
 
 def fill_holes(scan, garment, areas, largest=0.004):
@@ -453,16 +466,23 @@ def recolour_mask(part, vertex_cluster, areas_by_cluster, lab, min_share=0.04, s
     """
     The `Col` attribute for a part: R = 0 (parts carry no region), G, B, A = recolour regions 1-3 by the part's own
     colour blocks, largest first (main fabric, then trim, then a secondary panel, as the style bible's convention).
-    A block under ``min_share`` of the part is shading or stray texture, not a panel: it joins the region nearest its
-    colour (``lab``: each cluster's OKLab colour). Each region is blurred over the surface (``sigma`` metres) and the
+    Blocks that are shades of one colour (_shades: the texture's shading split burgundy into a lit and a dark cluster,
+    and the dark one came out as blotches) count as one block, coloured as the largest. A block under ``min_share`` of
+    the part is stray texture, not a panel: it joins the region nearest its colour (``lab``: each cluster's OKLab
+    colour). Each region is blurred over the surface (``sigma`` metres) and the
     mesh cut along its edge, and the regions are written per face corner: the shader blends vertex colours across a
     triangle, which on the body's long slivers smeared every colour edge into streaks. Returns the colour cluster of
     each region, in order.
     """
-    total = max(sum(areas_by_cluster.values()), 1e-12)
-    ranked = [k for k in sorted(areas_by_cluster, key=lambda k: -areas_by_cluster[k]) if areas_by_cluster[k] / total >= min_share][:3]
-    ranked = ranked or sorted(areas_by_cluster, key=lambda k: -areas_by_cluster[k])[:1]
-    region_of = {k: int(np.argmin([pt.colour_distance(lab[k], lab[r]) for r in ranked])) for k in range(len(lab))}
+    shade_of = _shades(areas_by_cluster, lab)
+    blocks = {}
+    for k, area in areas_by_cluster.items():
+        blocks[shade_of[k]] = blocks.get(shade_of[k], 0.0) + area
+    total = max(sum(blocks.values()), 1e-12)
+    ranked = [k for k in sorted(blocks, key=lambda k: -blocks[k]) if blocks[k] / total >= min_share][:3]
+    ranked = ranked or sorted(blocks, key=lambda k: -blocks[k])[:1]
+    region_of = {k: ranked.index(shade_of[k]) if shade_of.get(k) in ranked else
+                 int(np.argmin([pt.colour_distance(lab[k], lab[r]) for r in ranked])) for k in range(len(lab))}
     region = np.array([region_of.get(int(k), 0) if k >= 0 else 0 for k in vertex_cluster])
     mesh = part.data
     if len(ranked) > 1:
@@ -496,6 +516,117 @@ def recolour_mask(part, vertex_cluster, areas_by_cluster, lab, min_share=0.04, s
     colours.data.foreach_set("color", values.ravel())
     mesh.color_attributes.active_color = colours
     return ranked
+
+
+def _shades(areas_by_cluster, lab, hue_reach=25.0, alike=0.55, grey=0.025, grey_alike=0.6):
+    """
+    Each colour cluster's block: the largest cluster it is a shade of (lit and shaded versions of one colour). Two
+    coloured clusters are shades of one colour if their hues are within ``hue_reach`` degrees and their saturations
+    (chroma over lightness, which shading keeps) within ``alike`` of each other; two greys (chroma under ``grey``) if
+    their lightnesses are within ``grey_alike``. A colour and a grey never are: black trim stays apart from burgundy.
+    """
+    clusters = sorted(areas_by_cluster, key=lambda k: -areas_by_cluster[k])
+    light = {k: float(lab[k][0]) for k in clusters}
+    chroma = {k: float(math.hypot(lab[k][1], lab[k][2])) for k in clusters}
+    hue = {k: math.degrees(math.atan2(lab[k][2], lab[k][1])) for k in clusters}
+
+    def same(a, b):
+        if chroma[a] < grey and chroma[b] < grey:
+            return min(light[a], light[b]) / max(light[a], light[b], 1e-9) >= grey_alike
+        if chroma[a] < grey or chroma[b] < grey:
+            return False
+        turn = abs((hue[a] - hue[b] + 180.0) % 360.0 - 180.0)
+        sat_a, sat_b = chroma[a] / max(light[a], 1e-9), chroma[b] / max(light[b], 1e-9)
+        return turn < hue_reach and min(sat_a, sat_b) / max(sat_a, sat_b) >= alike
+
+    block = {}
+    for k in clusters:  # largest first, so each block is named after its largest cluster
+        block[k] = next((block[j] for j in clusters if j in block and same(j, k)), k)
+    return block
+
+
+def extract_hood(scan, garment, index, body, joints, areas, name, reach=0.03, budget=3000):
+    """
+    A hood (down, resting round the neck and on the upper back) as its own piece, from the scan's geometry: the
+    garment's faces around the neck that stand more than ``reach`` off the body. A fitted garment can only stand a few
+    centimetres off the skin along its normals, so it flattened a rolled hood into a high collar. The piece is lifted
+    5 mm off the scan surface (outside the fitted garment where the two coincide), kept off the body, and follows the
+    chest and neck with every body shape. Returns it, or None if there's no hood.
+    """
+    from mathutils import Vector
+    tree = BVHTree.FromPolygons([tuple(v) for v in bt.vertices(body)], [tuple(p.vertices) for p in body.data.polygons])
+    centres = np.empty(len(scan.data.polygons) * 3)
+    scan.data.polygons.foreach_get("center", centres)
+    centres = centres.reshape(-1, 3)
+    neck, shoulder_z = np.asarray(joints["Neck"], dtype=float), float(joints["UpperArm.L"][2])
+    zone = (centres[:, 2] > shoulder_z - 0.06) & (np.hypot(centres[:, 0] - neck[0], centres[:, 1] - neck[1]) < 0.2)
+    off = np.zeros(len(centres))
+    for f in np.flatnonzero(zone & (garment == index)):
+        off[f] = tree.find_nearest(Vector(tuple(centres[f])))[3]
+    chosen = zone & (garment == index) & (off > reach)
+    # Trim the fringe the cut-off leaves (faces hanging on by one edge), then drop stray bits.
+    bm = bmesh.new()
+    bm.from_mesh(scan.data)
+    bm.faces.ensure_lookup_table()
+    neighbours = [[o.index for e in f.edges for o in e.link_faces if o is not f] for f in bm.faces]
+    bm.free()
+    for _ in range(3):
+        chosen = chosen & np.array([sum(chosen[o] for o in n) >= 2 for n in neighbours])
+    mask = drop_islands(scan, np.where(chosen, 0, -1), areas, keep_fraction=0.3)
+    if not (mask == 0).any():
+        return None
+    hood = extract(scan, mask, 0, name + ".hood")
+    vertex_clusters(hood)
+    pt.decimate(hood, budget)
+    _relax_edges(hood)
+    mesh = hood.data
+    mesh.calc_loop_triangles()
+    triangles = np.empty(len(mesh.loop_triangles) * 3, dtype=np.int64)
+    mesh.loop_triangles.foreach_get("vertices", triangles)
+    co = bt.vertices(hood)
+    co = co + _vertex_normals(co, triangles.reshape(-1, 3)) * 0.005
+    mesh.vertices.foreach_set("co", _pushed_out(co, tree, LAYER_OFFSET["outer"]).ravel())
+    mesh.update()
+    bm = bmesh.new()
+    bm.from_mesh(mesh)
+    bmesh.ops.delete(bm, geom=[v for v in bm.verts if not v.link_faces], context="VERTS")  # decimation leaves a few
+    bm.to_mesh(mesh)
+    bm.free()
+    ct.transfer_from_body(hood, body, bones=["Chest", "Neck"])
+    chest = hood.vertex_groups.get("Chest") or hood.vertex_groups.new(name="Chest")
+    for v in mesh.vertices:
+        if sum(g.weight for g in v.groups) < 1e-6:
+            chest.add([v.index], 1.0, "REPLACE")
+    return hood
+
+
+def _relax_edges(part, iterations=8):
+    """Straightens a piece's open edges along their own line (each edge vertex towards its two edge neighbours)."""
+    bm = bmesh.new()
+    bm.from_mesh(part.data)
+    along = {}
+    for v in bm.verts:
+        ends = [e.other_vert(v).index for e in v.link_edges if e.is_boundary]
+        if v.is_boundary and len(ends) == 2:
+            along[v.index] = ends
+    bm.free()
+    co = bt.vertices(part)
+    for _ in range(iterations):
+        moved = co.copy()
+        for i, (a, b) in along.items():
+            moved[i] = 0.5 * co[i] + 0.25 * (co[a] + co[b])
+        co = moved
+    part.data.vertices.foreach_set("co", co.ravel())
+    part.data.update()
+
+
+def join_into(part, extra):
+    """Joins ``extra`` into ``part``: vertex groups, shape keys and attributes are matched by name."""
+    bpy.ops.object.select_all(action="DESELECT")
+    extra.select_set(True)
+    part.select_set(True)
+    bpy.context.view_layer.objects.active = part
+    bpy.ops.object.join()
 
 
 def limit_influences(part):
@@ -533,7 +664,7 @@ def covered_regions(part, body, regions, candidates, reach=0.08, share=0.9):
 # Built from the body; everything else keeps the scan's geometry. Shoes too: a scan's shoes are shaped for its own
 # feet, and ours poked through their toes.
 FITTED = {"top", "bottom", "legwear", "onepiece", "shoes"}
-COVER_SMOOTHING = 0.02  # metres: the blur on the body's coverage before the cut, so hem and sleeve lines are smooth
+COVER_SMOOTHING = 0.012  # metres: the blur on the body's coverage before the cut: hem lines smooth, a tank top's straps kept
 CLOSING = 0.03  # metres: the blur for closing gaps in the coverage (closes slits up to about twice this), and the lift's
 
 
@@ -641,8 +772,99 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
     bm.to_mesh(part.data)
     bm.free()
     part.data.update()
+    _smooth_edges(part, body, body_weights, lift, cluster)
     _shape_in_pose(part, body, body_weights, joints, offset)
     return part, int(inside.sum())
+
+
+def _smooth_edges(part, body, body_weights, lift, cluster, iterations=10):
+    """
+    Straightens the garment's open edges (hems, cuffs, necklines, boot tops) along their own line, with the ring of
+    vertices inside them, keeping everything on the body's surface. The cut follows the scan's colour boundary, which
+    the texture paints in blotches where two garments meet; blurring the coverage hard enough to hide that also wiped
+    out a tank top's straps. Each moved vertex takes the body's weights, shapes, lift and colour cluster at the point
+    it lands on. The part must still lie on the body (straight after the cut, before it is lifted or posed).
+    """
+    mesh = part.data
+    bm = bmesh.new()
+    bm.from_mesh(mesh)
+    bm.verts.ensure_lookup_table()
+    along = {}
+    for v in bm.verts:
+        if v.is_boundary:
+            ends = [e.other_vert(v).index for e in v.link_edges if e.is_boundary]
+            if len(ends) == 2:
+                along[v.index] = ends
+    inner = {}
+    for i in along:
+        for e in bm.verts[i].link_edges:
+            w = e.other_vert(bm.verts[i])
+            if not w.is_boundary and w.index not in inner:
+                inner[w.index] = [x.other_vert(w).index for x in w.link_edges]
+    bm.free()
+    if not along:
+        return
+
+    body_mesh = body.data
+    body_mesh.calc_loop_triangles()
+    triangles = np.empty(len(body_mesh.loop_triangles) * 3, dtype=np.int64)
+    body_mesh.loop_triangles.foreach_get("vertices", triangles)
+    triangles = triangles.reshape(-1, 3)
+    body_co = bt.vertices(body)
+    tree = BVHTree.FromPolygons([tuple(v) for v in body_co], [tuple(t) for t in triangles])
+
+    co = bt.vertices(part)
+    moving = np.array(sorted(set(along) | set(inner)))
+    for _ in range(iterations):
+        target = co.copy()
+        for i, (a, b) in along.items():
+            target[i] = 0.5 * co[i] + 0.25 * (co[a] + co[b])
+        for i, ring in inner.items():
+            target[i] = 0.5 * co[i] + 0.5 * co[ring].mean(axis=0)
+        for i in moving:
+            location, _, _, _ = tree.find_nearest(Vector(tuple(target[i])))
+            co[i] = location
+
+    # What the body has where each moved vertex now lies: barycentric on its nearest triangle.
+    weights, names = body_weights
+    keys = {k.name: _key_positions(k) for k in body_mesh.shape_keys.key_blocks} if body_mesh.shape_keys else {}
+    groups = {g.name: g for g in part.vertex_groups}
+    vcluster = np.empty(len(mesh.vertices), dtype=np.int32)
+    mesh.attributes["vcluster"].data.foreach_get("value", vcluster)
+    part_lift = np.empty(len(mesh.vertices))
+    mesh.attributes["lift"].data.foreach_get("value", part_lift)
+    part_keys = {k.name: _key_positions(k) for k in mesh.shape_keys.key_blocks} if mesh.shape_keys else {}
+    for i in moving:
+        _, _, index, _ = tree.find_nearest(Vector(tuple(co[i])))
+        corners = triangles[index]
+        share = np.array(ct.barycentric(Vector(tuple(co[i])), *(Vector(tuple(body_co[c])) for c in corners)))
+        share = np.clip(share, 0.0, None)
+        share /= max(share.sum(), 1e-12)
+        part_lift[i] = float(share @ lift[corners])
+        vcluster[i] = int(cluster[corners[int(np.argmax(share))]])
+        for name, positions in part_keys.items():
+            if name in keys:
+                positions[i] = share @ keys[name][corners]
+        blended = share @ weights[corners]
+        strongest = np.argsort(-blended)[:ct.MAX_INFLUENCES]
+        for group in part.vertex_groups:
+            group.remove([int(i)])
+        total = max(blended[strongest].sum(), 1e-12)
+        for column in strongest:
+            if blended[column] > 1e-4:
+                group = groups.get(names[column]) or part.vertex_groups.new(name=names[column])
+                groups[names[column]] = group
+                group.add([int(i)], float(blended[column] / total), "REPLACE")
+    mesh.vertices.foreach_set("co", co.ravel())
+    for name, positions in part_keys.items():
+        key = mesh.shape_keys.key_blocks[name]
+        if name in keys:
+            key.data.foreach_set("co", positions.ravel())
+    if mesh.shape_keys:
+        mesh.shape_keys.reference_key.data.foreach_set("co", co.ravel())
+    mesh.attributes["vcluster"].data.foreach_set("value", vcluster)
+    mesh.attributes["lift"].data.foreach_set("value", part_lift)
+    mesh.update()
 
 
 def _push_out(part, body, offset):

@@ -191,18 +191,21 @@ def _slice(co, axis, value, half_width):
     return co[np.abs(co[:, axis] - value) < half_width]
 
 
-def fit_body_joints(obj, crotch=None):
+def fit_body_joints(obj, crotch=None, shoulder=None):
     """
     Joint positions for the body bones of a T-posed scan, in Blender coordinates, from cross-sections:
     the armpit is where the slice under the arm empties, the wrist the thinnest slice before the hand, the crotch
     where the gap between the legs closes, the ankle the thinnest slice above the foot, the neck the narrowest slice
     above the shoulders. Elbows, knees and the spine follow the stand-ins' proportions between those.
 
-    ``crotch`` (a height) skips finding it: a dressed scan's shorts or skirt hide it.
+    ``crotch`` (a height) skips finding it: a dressed scan's shorts or skirt hide it. ``shoulder`` (the left
+    shoulder joint; the right is its mirror) is used instead of finding the armpits: an oversized hoodie's sleeves
+    hang below them, or fake one far out along the arm.
     """
     co = vertices(obj)
     top = co[:, 2].max()
     joints = {}
+    shoulder_hint = shoulder
 
     def measure_arm(c):
         """Shoulder, elbow and wrist of the arm on +X of ``c``, and the arm's radius at the armpit."""
@@ -215,9 +218,17 @@ def fit_body_joints(obj, crotch=None):
             if len(part) and part[:, 2].min() > arm_z - 0.07:
                 armpit = float(x)
                 break
-        at_armpit = _slice(band, 0, armpit + 0.02, 0.004)
-        radius = float(at_armpit[:, 2].max() - at_armpit[:, 2].min()) / 2
-        shoulder = np.array([armpit - 0.6 * radius, at_armpit[:, 1].mean(), (at_armpit[:, 2].max() + at_armpit[:, 2].min()) / 2])
+        if armpit is None and shoulder_hint is None:
+            raise ValueError("no armpit found (sleeves hanging below the arm?): pass the shoulder joint")
+        if shoulder_hint is not None:  # a droopy sleeve can also fake an armpit far out along the arm
+            joint = np.array([abs(float(shoulder_hint[0])), float(shoulder_hint[1]), float(shoulder_hint[2])])
+            at_armpit = _slice(band, 0, joint[0] + 0.05, 0.004)
+            radius = float(at_armpit[:, 2].max() - at_armpit[:, 2].min()) / 2
+            armpit = float(joint[0])
+        else:
+            at_armpit = _slice(band, 0, armpit + 0.02, 0.004)
+            radius = float(at_armpit[:, 2].max() - at_armpit[:, 2].min()) / 2
+            joint = np.array([armpit - 0.6 * radius, at_armpit[:, 1].mean(), (at_armpit[:, 2].max() + at_armpit[:, 2].min()) / 2])
         tip = float(c[:, 0].max())
         sizes = []
         for x in np.arange(tip - 0.32, tip - 0.10, 0.004):
@@ -226,7 +237,7 @@ def fit_body_joints(obj, crotch=None):
                 sizes.append((float(np.ptp(part[:, 1]) + np.ptp(part[:, 2])), float(x), part))
         _, wrist_x, wrist_part = min(sizes, key=lambda s: s[0])
         wrist = np.array([wrist_x, wrist_part[:, 1].mean(), (wrist_part[:, 2].max() + wrist_part[:, 2].min()) / 2])
-        return shoulder, shoulder + ELBOW_ALONG_ARM * (wrist - shoulder), wrist, radius
+        return joint, joint + ELBOW_ALONG_ARM * (wrist - joint), wrist, radius
 
     def measure_leg(c, crotch):
         """Hip joint, knee and ankle of the leg on +X of ``c``."""

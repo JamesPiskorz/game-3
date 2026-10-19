@@ -16,9 +16,9 @@ using UnityEngine;
 namespace Game.Characters.Review
 {
     /// <summary>
-    /// The generated parts (Tools/Blender/make_generated_outfit.py, decision 0008) on the generated body as the game
-    /// builds it: people from very feminine to very masculine wearing every generated part, in the colours the outfit
-    /// image gave them, front then back, then the two ends close up from four sides (Docs/review/generated-outfit.png).
+    /// The generated outfits (Tools/Blender/make_generated_outfit.py, decision 0008) on the generated body as the game
+    /// builds it, each in the colours its image gave it: per outfit, people from very feminine to very masculine from
+    /// the front, then the two ends close up from four sides (Docs/review/generated-outfit.png).
     /// Like <see cref="GeneratedBodySheet"/>, it uses a copy of the content with the body swapped, and catalog entries
     /// made from the parts' sidecars.
     /// Headless: unity run . -- -executeMethod Game.Characters.Review.GeneratedOutfitSheet.Render
@@ -37,6 +37,14 @@ namespace Game.Characters.Review
             public string[] colours = Array.Empty<string>();
             public string[] tags = Array.Empty<string>();
             public string style;
+            public string outfit;
+        }
+
+        /// <summary>A generated outfit: its garments, as outfit items in the colours its image gave them.</summary>
+        internal sealed class GeneratedOutfit
+        {
+            public string Name;
+            public List<ItemDna> Items = new List<ItemDna>();
         }
 
         /// <summary>A generated hairstyle: its pieces (front and back), worn together.</summary>
@@ -50,7 +58,7 @@ namespace Game.Characters.Review
         public static void Render()
         {
             EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-            CharacterContent content = Content(out List<ItemDna> items, out _);
+            CharacterContent content = Content(out List<GeneratedOutfit> outfits, out _);
             if (content == null) return;
 
             var generator = new CharacterGenerator(StandInContent.Load().LoadCatalog());
@@ -58,49 +66,51 @@ namespace Game.Characters.Review
             Vector3[] positions = Femininity.Select((_, i) => new Vector3((i - 2.5f) * 1.0f, 0f, 0f)).ToArray();
             LightingRig.Day.Apply(positions);
             Camera camera = Snapshot.CreateCamera(LightingRig.Day.Background, 26f);
-            var characters = new List<ModularCharacter>();
-            for (int i = 0; i < Femininity.Length; i++)
-            {
-                CharacterDna dna = generator.Generate((ulong)(41 + i), new GenerationRequest { Archetype = "casual", FemininityMin = Femininity[i], FemininityMax = Femininity[i] });
-                dna.Hair.PieceIds = new List<string>(); // no generated hair yet
-                dna.Outfits = new List<OutfitDna> { new OutfitDna { Context = "casual", Items = items } };
-                ModularCharacter character = builder.Build(dna, "casual");
-                character.transform.position = positions[i];
-                Poses.Relaxed(character.transform);
-                foreach (SkinnedMeshRenderer renderer in character.GetComponentsInChildren<SkinnedMeshRenderer>())
-                    renderer.forceMatrixRecalculationPerRender = true;
-                characters.Add(character);
-            }
 
-            var rows = new List<Texture2D>
+            var rows = new List<Texture2D>();
+            foreach (GeneratedOutfit outfit in outfits)
             {
-                Snapshot.Shoot(camera, new Vector3(0f, 0.95f, 7.4f), new Vector3(0f, 0.86f, 0f), 1540, 620),
-                Snapshot.Shoot(camera, new Vector3(0f, 0.95f, -7.4f), new Vector3(0f, 0.86f, 0f), 1540, 620),
-            };
-            // Close up, the most feminine and the most masculine: front, three-quarter front, side, three-quarter back.
-            var closeUps = new List<Texture2D>();
-            foreach (ModularCharacter character in new[] { characters.First(), characters.Last() })
-            {
-                foreach (ModularCharacter other in characters) other.gameObject.SetActive(other == character);
-                Vector3 target = character.transform.position + new Vector3(0f, 0.86f, 0f);
-                foreach (Vector3 direction in new[] { new Vector3(0f, 0.05f, 1f), new Vector3(0.7f, 0.05f, 0.7f), new Vector3(1f, 0.05f, 0f), new Vector3(-0.6f, 0.05f, -0.8f) })
-                    closeUps.Add(Snapshot.Shoot(camera, target + direction.normalized * 3.6f, target, 192, 400));
+                var characters = new List<ModularCharacter>();
+                for (int i = 0; i < Femininity.Length; i++)
+                {
+                    CharacterDna dna = generator.Generate((ulong)(41 + i), new GenerationRequest { Archetype = "casual", FemininityMin = Femininity[i], FemininityMax = Femininity[i] });
+                    dna.Hair.PieceIds = new List<string>();
+                    dna.Outfits = new List<OutfitDna> { new OutfitDna { Context = "casual", Items = outfit.Items } };
+                    ModularCharacter character = builder.Build(dna, "casual");
+                    character.transform.position = positions[i];
+                    Poses.Relaxed(character.transform);
+                    foreach (SkinnedMeshRenderer renderer in character.GetComponentsInChildren<SkinnedMeshRenderer>())
+                        renderer.forceMatrixRecalculationPerRender = true;
+                    characters.Add(character);
+                }
+                rows.Add(Snapshot.Shoot(camera, new Vector3(0f, 0.95f, 7.4f), new Vector3(0f, 0.86f, 0f), 1540, 620));
+
+                // Close up, the most feminine and the most masculine: front, three-quarter front, side, three-quarter back.
+                var closeUps = new List<Texture2D>();
+                foreach (ModularCharacter character in new[] { characters.First(), characters.Last() })
+                {
+                    foreach (ModularCharacter other in characters) other.gameObject.SetActive(other == character);
+                    Vector3 target = character.transform.position + new Vector3(0f, 0.86f, 0f);
+                    foreach (Vector3 direction in new[] { new Vector3(0f, 0.05f, 1f), new Vector3(0.7f, 0.05f, 0.7f), new Vector3(1f, 0.05f, 0f), new Vector3(-0.6f, 0.05f, -0.8f) })
+                        closeUps.Add(Snapshot.Shoot(camera, target + direction.normalized * 3.6f, target, 192, 400));
+                }
+                rows.Add(Snapshot.Grid(closeUps, 8, Color.black));
+                foreach (ModularCharacter character in characters) UnityEngine.Object.DestroyImmediate(character.gameObject);
             }
-            foreach (ModularCharacter character in characters) character.gameObject.SetActive(true);
-            rows.Add(Snapshot.Grid(closeUps, 8, Color.black));
             string path = GeneratedLineup.Folder + "/generated-outfit.png";
             Snapshot.Save(Snapshot.StackVertically(rows, Color.black), path);
-            Debug.Log($"[Review] Wrote {path}: {Femininity.Length} people on {GeneratedBodySheet.BodyPath} wearing " + string.Join(", ", items.Select(i => i.ItemId)));
+            Debug.Log($"[Review] Wrote {path}: {Femininity.Length} people on {GeneratedBodySheet.BodyPath} in " +
+                      string.Join("; ", outfits.Select(o => $"{o.Name} = {string.Join(" + ", o.Items.Select(i => i.ItemId))}")));
         }
 
         /// <summary>
         /// A copy of the content with the generated body and only the generated parts (bound, with catalog entries made
-        /// from their sidecars): an outfit item for each garment in the colours its outfit image gave it, and the
-        /// generated hairstyles. Null, with the reason logged, if the body or the garments are missing.
+        /// from their sidecars): the generated outfits, in name order, and the generated hairstyles. Null, with the
+        /// reason logged, if the body or the garments are missing.
         /// </summary>
-        internal static CharacterContent Content(out List<ItemDna> items, out List<HairStyle> hair)
+        internal static CharacterContent Content(out List<GeneratedOutfit> outfits, out List<HairStyle> hair)
         {
-            items = new List<ItemDna>();
+            outfits = new List<GeneratedOutfit>();
             hair = new List<HairStyle>();
             var body = AssetDatabase.LoadAssetAtPath<ModularCharacter>(GeneratedBodySheet.BodyPath);
             if (body == null)
@@ -135,9 +145,12 @@ namespace Game.Characters.Review
                     continue;
                 }
                 catalog.Parts.Add(new PartEntry { Id = id, Slot = sidecar.slot, Regions = sidecar.regions, Tags = new List<string> { "casual" } });
-                items.Add(new ItemDna { ItemId = id, RegionColors = sidecar.colours.Select(HsvColor.FromHex).ToList() });
+                GeneratedOutfit outfit = outfits.FirstOrDefault(o => o.Name == sidecar.outfit);
+                if (outfit == null) outfits.Add(outfit = new GeneratedOutfit { Name = sidecar.outfit ?? id });
+                outfit.Items.Add(new ItemDna { ItemId = id, RegionColors = sidecar.colours.Select(HsvColor.FromHex).ToList() });
             }
-            if (items.Count == 0)
+            outfits.Sort((a, b) => string.CompareOrdinal(a.Name, b.Name));
+            if (outfits.Count == 0)
             {
                 Debug.LogError($"[Review] No generated parts in {Folder}");
                 return null;
