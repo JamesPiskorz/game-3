@@ -38,4 +38,4 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261020-0011.png | 5b489b0 | Rim light tinted by albedo |
 | 20261020-0014.png | 5b489b0 | Garments' copied custom normals cleared |
 | 20261020-0020.png | 5b489b0 | Bug fix: Region4 UVs zeroed; the grey wash over half of every garment is gone |
-| 20261020-0022.png | (next) | Tank top gets shoulder straps |
+| 20261020-0022.png | 3972d9b | Tank top gets shoulder straps |
