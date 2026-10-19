@@ -1046,6 +1046,20 @@ def lace_lines(part, region, lines=4, spacing=0.012, line=0.004, half_width=0.01
     return _paint(bm, mesh, field, region, cuts)
 
 
+def paint_straps(part, region, joints, below=0.035):
+    """
+    A strapped top's straps, everything above ``below`` metres under the shoulder joints, painted in recolour
+    ``region`` (its edging's colour): the image's straps are black, and the edge bands left burgundy slivers between.
+    Returns the faces painted.
+    """
+    mesh = part.data
+    line = float(joints["UpperArm.L"][2]) - below
+    bm = bmesh.new()
+    bm.from_mesh(mesh)
+    field = lambda p: p[2] - line
+    return _paint(bm, mesh, field, region, [field])
+
+
 def draw_toe_caps(part, region, back=0.045, line=0.003, above=0.02):
     """
     A sneaker's toe-cap seam: the line round each toe box ``back`` metres behind its tip, from the sole up over the top
@@ -1340,7 +1354,7 @@ def _blur(neighbours, values):
             / np.maximum(np.bincount(rows, weights=weights, minlength=count), 1e-12))
 
 
-def _scoop(body, joints, depth, straps, soft=0.004):
+def _scoop(body, joints, depth, straps, soft=0.015):
     """
     A scoop neckline as an uncovered field: on the front, everything above a curve ``depth`` metres below the neck
     joint at the centre, rising to the neck joint's height at the straps' inner edges. The scan's neckline sat at
@@ -1355,7 +1369,7 @@ def _scoop(body, joints, depth, straps, soft=0.004):
     return np.where(front & (co[:, 2] > neck[2] - depth - 0.02), np.clip((co[:, 2] - edge) / soft + 0.5, 0.0, 1.0), 0.0)
 
 
-def _straps(body, joints, width, soft=0.004):
+def _straps(body, joints, width, soft=0.015):
     """
     Shoulder straps ``width`` metres wide as a coverage field: a band over each shoulder, centred halfway between the
     neck and the shoulder joint, from the chest up over the top of the shoulder and down the back. A tank top's straps
@@ -1368,7 +1382,10 @@ def _straps(body, joints, width, soft=0.004):
     inside = (np.abs(co[:, 0]) < abs(float(joints["UpperArm.L"][0])) - 0.015) & (co[:, 2] < float(joints["Neck"][2]) + 0.02)
     on_torso = (weights[:, torso].sum(axis=1) > 0.5) | inside
     centre = 0.5 * abs(float(joints["UpperArm.L"][0]))
-    across = np.abs(np.abs(co[:, 0]) - centre)
+    # Measured across the body as it stands in the relaxed pose: the shoulder's skin is partly the upper arm's, and
+    # a strap even in the bind pose spread to 5 cm once the arms came down.
+    posed = bt.skin_positions(co, weights, names, bt.pose_skinning(joints))
+    across = np.abs(np.abs(posed[:, 0]) - centre)
     band = np.clip((width / 2 - across) / soft + 0.5, 0.0, 1.0)
     low = float(joints["Chest"][2])
     # Up over the top of the shoulder (the highest torso skin under the strap), and no further up the neck.
@@ -1491,7 +1508,9 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
         # Above the armpits a strapped top is only its straps: the scan's coverage spread over the shoulder caps.
         top_line = float(joints["UpperArm.L"][2]) - 0.035
         co_body = bt.vertices(body)
-        covered = np.minimum(covered, np.clip((top_line - co_body[:, 2]) / 0.008 + 0.5, 0.0, 1.0))
+        # Ramps wider than the body's triangles (about 1 cm), so the cut finds the line between vertices instead of
+        # snapping to the triangles' edges: a strap cut from a 4 mm ramp had sawtooth edges.
+        covered = np.minimum(covered, np.clip((top_line - co_body[:, 2]) / 0.015 + 0.5, 0.0, 1.0))
         covered = np.maximum(covered, _straps(body, joints, straps))
     covered = np.where(np.abs(covered - 0.5) < 1e-4, 0.5 + 1e-4, covered)
     inside = covered > 0.5
