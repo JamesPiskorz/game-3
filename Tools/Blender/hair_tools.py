@@ -441,6 +441,26 @@ def round_normals(part, frame, strength=0.75):
     mesh.update()
 
 
+def thin(part, body, neck_z, keep=0.6):
+    """
+    Hair above the neck drawn in towards the scalp so it stands off it only ``keep`` as far (over HEAD_OFFSET): the
+    image's bob hugs the head, and Hunyuan's stood out from it like a helmet. Each point moves along the line to its
+    nearest point on the body.
+    """
+    tree = BVHTree.FromPolygons([tuple(v) for v in bt.vertices(body)], [tuple(p.vertices) for p in body.data.polygons])
+    co = bt.vertices(part)
+    for i, p in enumerate(co):
+        if p[2] < neck_z:
+            continue
+        location, _, _, distance = tree.find_nearest(Vector(tuple(p)))
+        if location is None or distance <= HEAD_OFFSET:
+            continue
+        target = HEAD_OFFSET + (distance - HEAD_OFFSET) * keep
+        co[i] = np.asarray(location) + (p - np.asarray(location)) * (target / distance)
+    part.data.vertices.foreach_set("co", co.ravel())
+    part.data.update()
+
+
 def smooth(part, iterations=2, factor=0.5):
     """A light smoothing of the scan's surface noise (keeps the strand grooves); the open edges stay put."""
     bm = bmesh.new()

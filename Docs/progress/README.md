@@ -46,3 +46,5 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261020-0050.png | 0e45dce | Trim bands cut exactly at their width: clean even cuffs and collar |
 | 20261020-0113.png | 6ba5fde | Target-look image (cel-shaded anime render of her, generated) added to the shot; face mostly lit; loose hoodie, gathered joggers |
 | 20261020-0119.png | 6ba5fde | Garment colours 1.4x chroma (towards the target's saturation) |
+| 20261020-0119.png (overwritten at 01:19 by the next run) | (next) | Bob squeezed 25%; paler skin (tone 0.04) |
+| 20261020-012046.png | (next) | Bob drawn in towards the scalp (thin 0.6): hugs the head like the image's; squeeze back to 15% |

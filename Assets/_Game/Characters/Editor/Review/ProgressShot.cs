@@ -106,7 +106,7 @@ namespace Game.Characters.Review
             var rows = new List<Texture2D> { Snapshot.Grid(top, top.Count, Color.black), Snapshot.Grid(bottom, 6, Color.black) };
             if (others.Count > 0) rows.Add(Snapshot.Grid(others, 6, Color.black));
             Texture2D sheet = Snapshot.StackVertically(rows, Color.black);
-            string stamp = DateTime.Now.ToString("yyyyMMdd-HHmm");
+            string stamp = DateTime.Now.ToString("yyyyMMdd-HHmmss");
             Directory.CreateDirectory(Folder);
             Snapshot.Save(sheet, $"{Folder}/{stamp}.png");
             Snapshot.Save(sheet, $"{Folder}/latest.png");

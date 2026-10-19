@@ -1,10 +1,11 @@
 {
-  "_note": "Generated hairstyles (decision 0008): each image is outfit-01's with 'Bald.' swapped for the hairstyle, in vivid emerald green so the hair separates from skin and clothes by colour (the game recolours it). Each style is split into a front piece (everything in front of the ears) and a back piece; chains are spring-bone chains fitted along hair that hangs free; squeeze draws a flared style in below the eyes (hair_tools.tame); blunt cuts the fringe straight across (hair_tools.blunt_cut).",
+  "_note": "Generated hairstyles (decision 0008): each image is outfit-01's with 'Bald.' swapped for the hairstyle, in vivid emerald green so the hair separates from skin and clothes by colour (the game recolours it). Each style is split into a front piece (everything in front of the ears) and a back piece; chains are spring-bone chains fitted along hair that hangs free; squeeze draws a flared style in below the eyes (hair_tools.tame); blunt cuts the fringe straight across (hair_tools.blunt_cut); thin draws a voluminous style in towards the scalp (hair_tools.thin).",
   "hair-bob": {
     "image": "References/character-base-images/hair/hair-bob.png",
     "prompt": "Her hair is a chin-length straight bob with a thick blunt fringe cut straight across just above the eyebrows, in solid vivid emerald green.",
     "colour": "#1f9e5a",
     "squeeze": 0.15,
+    "thin": 0.6,
     "blunt": true,
     "front": {"id": "hair.front.blunt_gen01", "tags": ["blunt"]},
     "back": {"id": "hair.back.bob_gen01", "tags": ["short", "hat_ok"]},
