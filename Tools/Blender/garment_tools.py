@@ -913,6 +913,24 @@ def _blur(neighbours, values):
             / np.maximum(np.bincount(rows, weights=weights, minlength=count), 1e-12))
 
 
+def _straps(body, joints, width, soft=0.004):
+    """
+    Shoulder straps ``width`` metres wide as a coverage field: a band over each shoulder, centred halfway between the
+    neck and the shoulder joint, from the chest up over the top of the shoulder and down the back. A tank top's straps
+    are too thin for the scan to show (it painted them on the skin, or not at all).
+    """
+    co = bt.vertices(body)
+    weights, names = bt.weight_matrix(body)
+    torso = [i for i, n in enumerate(names) if n in ("Chest", "Spine", "Neck")]
+    on_torso = weights[:, torso].sum(axis=1) > 0.5
+    centre = 0.5 * abs(float(joints["UpperArm.L"][0]))
+    across = np.abs(np.abs(co[:, 0]) - centre)
+    band = np.clip((width / 2 - across) / soft + 0.5, 0.0, 1.0)
+    low = float(joints["Chest"][2])
+    high = float(joints["Neck"][2]) + 0.03
+    return np.where(on_torso & (co[:, 2] > low) & (co[:, 2] < high), band, 0.0)
+
+
 def _extended_down(body, covered, distance):
     """Coverage moved ``distance`` metres further down the torso: each torso point takes the coverage above it."""
     from mathutils.kdtree import KDTree
@@ -938,7 +956,8 @@ def _body_adjacency(mesh):
 
 
 def project_garment(body, scan, garment, labels, index, offset, name, joints, always=None, max_loose=0.06,
-                    reach_out=0.15, reach_in=0.10, edge_blur=None, drape=False, extend_down=0.0, ease=0.0):
+                    reach_out=0.15, reach_in=0.10, edge_blur=None, drape=False, extend_down=0.0, ease=0.0,
+                    straps=0.0):
     """
     A fitted garment built from the canonical body itself: the body's own surface over the regions the scan's
     garment covers, lifted by the layer offset, or by the scan's own looseness where it hangs further out (a flared
@@ -997,6 +1016,8 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
     if edge_blur is not None and edge_blur != COVER_SMOOTHING:
         fine = _surface_neighbours(body, edge_blur)
     covered = _blur(fine, covered)  # no speckle, smooth edges
+    if straps > 0:
+        covered = np.maximum(covered, _straps(body, joints, straps))
     covered = np.where(np.abs(covered - 0.5) < 1e-4, 0.5 + 1e-4, covered)
     inside = covered > 0.5
     for _ in range(4):  # vertices the smoothing covered take a neighbour's colour
