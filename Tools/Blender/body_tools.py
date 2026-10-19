@@ -1028,7 +1028,7 @@ def tuck_thumbs(obj, joints, angle=40.0, blend=0.015):
     return int(moved_any.sum())
 
 
-def paint_blush(obj, joints, strength=0.45, radius=0.028):
+def paint_blush(obj, joints, strength=0.6, radius=0.028):
     """
     A soft blush on each cheek, as every reference face has: the skin round the Blush joints takes up to
     ``strength`` of recolour region 4 (the lips' colour) in the second UV map, fading out over ``radius`` metres. The
