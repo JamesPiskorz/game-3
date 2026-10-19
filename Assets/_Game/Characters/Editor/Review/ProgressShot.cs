@@ -89,7 +89,7 @@ namespace Game.Characters.Review
         }
 
         // A feminine person dressed and coloured like the reference image: outfit-01 in its image's colours, the bob in
-        // emerald green, light skin, dark brown eyes, no body or face sliders.
+        // emerald green, light cool skin, dark brown eyes, no body or face sliders.
         static CharacterDna Matching(CharacterGenerator generator, GeneratedOutfitSheet.HairStyle bob, GeneratedOutfitSheet.GeneratedOutfit outfit)
         {
             CharacterDna dna = generator.Generate(41, new GenerationRequest { Archetype = "casual", FemininityMin = 1f, FemininityMax = 1f, FantasyHair = false });
@@ -99,6 +99,7 @@ namespace Game.Characters.Review
             dna.Hair.Highlight = HsvColor.FromHex("#5fd197");
             dna.Hair.Gradient = 0.4f;
             dna.Skin.Tone = 0.12f;
+            dna.Skin.Undertone = 0.1f; // cool: the image's skin is pink-ivory
             dna.Face.IrisLeft = dna.Face.IrisRight = HsvColor.FromHex("#3b2a22");
             // The canonical shapes: the image is the base, not this person's sliders (a curvy roll read as a mismatch).
             dna.Body.Sliders.Clear();

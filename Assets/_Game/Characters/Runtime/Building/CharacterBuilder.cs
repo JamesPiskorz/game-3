@@ -266,11 +266,11 @@ namespace Game.Characters.Building
         // Brows, lash lines and pupils: the hair's colour, deep enough to read as the dark lines anime faces are drawn with.
         static HsvColor BrowFromHair(HsvColor hair) => new HsvColor(hair.H, Math.Min(1f, hair.S + 0.1f), hair.V * 0.42f);
 
-        // A drawn mouth line: the skin's shade colour, deeper and redder.
+        // A drawn mouth line: the skin's shade colour, deeper and redder: a soft rose, as the references draw it.
         static Color LipsFromSkin(Color shade)
         {
             Color.RGBToHSV(shade, out float h, out float s, out float v);
-            return Color.HSVToRGB(Mathf.Repeat(h - 0.015f, 1f), Mathf.Clamp01(s + 0.15f), v * 0.62f);
+            return Color.HSVToRGB(Mathf.Repeat(h - 0.025f, 1f), Mathf.Clamp01(s + 0.22f), v * 0.78f);
         }
 
         /// <summary>DNA colours are sRGB HSV; Unity <see cref="Color"/> values are sRGB too, and materials convert to linear.</summary>
