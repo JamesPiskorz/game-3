@@ -1013,6 +1013,10 @@ def lace_lines(part, region, lines=4, spacing=0.012, line=0.004, half_width=0.01
         tip = co[np.flatnonzero(foot)[np.argmin(co[foot, 1])]]
         feet.append((side, front, tip))
 
+    def centre_x(p, front, tip):
+        t = np.clip((front[1] - p[1]) / max(front[1] - tip[1], 1e-6), 0.0, 1.0)
+        return front[0] + (tip[0] - front[0]) * t
+
     def field(p):
         best = -1.0
         for side, front, tip in feet:
@@ -1021,13 +1025,56 @@ def lace_lines(part, region, lines=4, spacing=0.012, line=0.004, half_width=0.01
             along = (front[1] - 0.008 - p[1]) / spacing  # bars from just in front of the collar, towards the toe
             k = np.clip(np.round(along), 0, lines - 1)
             bar = line / 2 - abs(along - k) * spacing
-            t = np.clip((front[1] - p[1]) / max(front[1] - tip[1], 1e-6), 0.0, 1.0)
-            centre_x = front[0] + (tip[0] - front[0]) * t
-            best = max(best, min(bar, half_width - abs(p[0] - centre_x), p[2] - floor - above))
+            best = max(best, min(bar, half_width - abs(p[0] - centre_x(p, front, tip)), p[2] - floor - above))
         return best
 
-    values = np.array([field(v.co) for v in bm.verts])
-    _cut_along(bm, np.where(np.abs(values) < 1e-6, 1e-6, values), 0.0)
+    # Each straight edge cut on its own: a bar's field is a tent, and triangles across its ridge zigzagged the cut.
+    cuts = [lambda p: p[2] - floor - above]
+    for side, front, tip in feet:
+        for sign in (1.0, -1.0):
+            cuts.append(lambda p, f=front, t=tip, s=sign: (s * (p[0] - centre_x(p, f, t)) + half_width) if p[0] * side > 0 else 1.0)
+        for k in range(lines):
+            for sign in (1.0, -1.0):
+                cuts.append(lambda p, y=front[1] - 0.008 - k * spacing, s=sign: s * (p[1] - y) + line / 2)
+    return _paint(bm, mesh, field, region, cuts)
+
+
+def draw_cords(part, region, length=0.13, width=0.007, apart=0.05):
+    """
+    A hoodie's drawstrings drawn as two stripes ``width`` metres wide and ``length`` long, ``apart`` metres apart,
+    hanging down the front from the neck opening, in recolour ``region``. Returns the faces drawn.
+    """
+    mesh = part.data
+    co = bt.vertices(part)
+    bm = bmesh.new()
+    bm.from_mesh(mesh)
+    bm.verts.ensure_lookup_table()
+    boundary = np.array([v.is_boundary for v in bm.verts])
+    # The neck opening's front (not the hem's): open edge at the middle of the front, in the top of the garment.
+    front = boundary & (np.abs(co[:, 0]) < 0.03) & (co[:, 1] < float(np.median(co[:, 1]))) & (co[:, 2] > np.percentile(co[:, 2], 75))
+    top = float(co[front, 2][co[front, 1] < np.percentile(co[front, 1], 30)].min()) if front.any() else float(co[:, 2].max())
+    middle_y = float(np.median(co[:, 1]))
+
+    def field(p):
+        if p[1] > middle_y:
+            return -1.0
+        across = width / 2 - abs(abs(p[0]) - apart / 2)
+        return min(across, top - 0.004 - p[2], p[2] - (top - length))
+
+    cuts = [lambda p: top - 0.004 - p[2], lambda p: p[2] - (top - length),
+            lambda p: abs(p[0]) - (apart - width) / 2, lambda p: (apart + width) / 2 - abs(p[0])]
+    return _paint(bm, mesh, field, region, cuts)
+
+
+def _paint(bm, mesh, field, region, cuts):
+    """
+    Cuts ``bm`` along each of ``cuts`` (straight fields, cut where they cross zero) and paints the faces where
+    ``field`` is positive in recolour ``region``.
+    """
+    for cut in cuts:
+        bm.verts.ensure_lookup_table()
+        values = np.array([cut(v.co) for v in bm.verts])
+        _cut_along(bm, np.where(np.abs(values) < 1e-6, 1e-6, values), 0.0)
     drawn = [f for f in bm.faces if field(f.calc_center_median()) > 0]
     colours = bm.loops.layers.float_color.get(ct.COLOUR_ATTRIBUTE)
     one_hot = [0.0, 0.0, 0.0, 0.0]

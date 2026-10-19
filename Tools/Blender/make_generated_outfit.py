@@ -168,6 +168,10 @@ def main():
             print(f"[outfit] {spec['id']}: laces on {gt.lace_lines(part, recolour)} faces")
             band_colour = spec["laces"]["colour"]
             recolour += 1
+        if spec.get("cords") and recolour < 3:  # a hoodie's drawstrings, drawn down its front
+            print(f"[outfit] {spec['id']}: cords on {gt.draw_cords(part, recolour)} faces")
+            band_colour = spec["cords"]["colour"]
+            recolour += 1
         if spec.get("cuff") and recolour < 3:  # turned-up cuffs, a shade off the cloth, as the target draws them
             gt.add_band(part, spec["cuff"]["width"], recolour, edge="bottom")
             band_colour = spec["cuff"]["colour"]
