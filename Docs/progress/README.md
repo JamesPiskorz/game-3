@@ -118,4 +118,4 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261020-055512.png | 472c2a0 | Shot DNA: round eyes, thin brows (the seed drew droopy eyes and thick brows that peeked out) |
 | 20261020-055659.png | ac576af | Cloth shades cool grey-blue (was lavender): white collar and sneakers grey in shadow, as the targets' |
 | 20261020-055750.png | ac576af | Same as 0556 (compile check) |
-| 20261020-060029.png | (next) | Hoodie: a 2.5 cm mint band round its neck opening (a little more lining shows at the front) |
+| 20261020-060029.png | fdfa6b1 | Hoodie: a 2.5 cm mint band round its neck opening (a little more lining shows at the front) |
