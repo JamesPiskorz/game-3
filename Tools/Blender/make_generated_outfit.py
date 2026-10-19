@@ -80,6 +80,20 @@ def main():
     scan = gt.load_scan(args.scan, SCAN_HEIGHT)
     labels, mean_colour, areas = gt.colour_clusters(scan)
     lit_colour = gt.lit_colours(scan, labels, areas)
+    def region_colour(k, spec):
+        """A region's colour: the image's, or where the image couldn't be read for it (a thin sole, a trim), the
+        prompt's colour for the garment nearest the texture's (Hunyuan painted the red soles magenta)."""
+        if gt.TRUSTED is None or k in gt.TRUSTED or not spec.get("colours"):
+            return srgb_hex(lit_colour[k])
+        hints = [pt.linear_to_oklab(pt.srgb_to_linear(pt.hex_to_srgb(h.lstrip("#")))) for h in spec["colours"]]
+
+        def by_hue(h):  # hue and chroma first: the texture's darks are darker than the prompt's (brown boots read black)
+            d = lab[k] - h
+            return float((0.15 * d[0]) ** 2 + d[1] ** 2 + d[2] ** 2)
+
+        nearest = min(hints, key=by_hue)
+        return srgb_hex(pt.oklab_to_linear(nearest)) if by_hue(nearest) < 0.1 ** 2 else srgb_hex(lit_colour[k])
+
     image = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", outfit["image"])
     if os.path.exists(image):  # the source image's own colours, which the texture darkens
         lit_colour = gt.image_colours(scan, labels, os.path.abspath(image), lit_colour)
@@ -115,6 +129,7 @@ def main():
                                          edge_blur=spec.get("edge_blur"), drape=slot in ("top", "onepiece"),
                                          ease=spec.get("ease", 0.0), straps=spec.get("straps", 0.0),
                                          scoop=spec.get("scoop", 0.0), gather=spec.get("gather", 0.0),
+                                         sleeve_ease=spec.get("sleeve_ease", 0.0),
                                          extend_down=OVERLAP if slot == "top" and any(g["slot"] == "bottom" for g in outfit["garments"]) else 0.0)
             if slot == "shoes":
                 gt.flare_sole(part)
@@ -168,7 +183,7 @@ def main():
             ct.write_sidecar(os.path.join(args.output, spec["id"] + ".character.json"), {
                 "kind": "part", "slot": slot, "covers": covers, "followsBodyShapes": True, "regions": recolour, "outfit": args.outfit,
                 # The generated texture's colour for each recolour region where lit (sRGB): how the image dressed it.
-                "colours": [srgb_hex(lit_colour[k]) for k in region_clusters] + ([band_colour] if band_colour else []),
+                "colours": [region_colour(k, spec) for k in region_clusters] + ([band_colour] if band_colour else []),
                 "source": os.path.abspath(args.scan), "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
                 "licence": "Tencent Hunyuan 3D 2.1 Community License",
             })

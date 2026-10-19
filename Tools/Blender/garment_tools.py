@@ -136,6 +136,7 @@ def lit_colours(scan, labels, areas, share=0.2):
 
 
 VIVID = 1.4  # chroma boost for colours taken from the source image
+TRUSTED = None  # the clusters image_colours last took from the image (the rest are the texture's, lightened)
 
 
 def image_colours(scan, labels, image_path, fallback, share=1.0, least=30, hue_reach=0.035, gain_reach=0.25):
@@ -219,10 +220,17 @@ def image_colours(scan, labels, image_path, fallback, share=1.0, least=30, hue_r
             result[k] = seen[k]
             trusted.append(k)
     print(f"[colour] image colours for clusters {sorted(trusted)}; the rest lightened by the gain {gain:.2f}")
+    global TRUSTED
+    TRUSTED = set(trusted)
     # More saturated, as cel-shaded art paints them: the image is a soft 3D render, and the game's light and ambient
     # grey them further (a target cel render of the same outfit had twice the chroma ours rendered with).
     vivid = pt.linear_to_oklab(result)
     vivid[:, 1:] *= VIVID
+    # Light neutrals are white (a collar, canvas sneakers): the image's whites averaged over its soft shading came out
+    # pinkish grey.
+    white = (vivid[:, 0] > 0.78) & (np.hypot(vivid[:, 1], vivid[:, 2]) < 0.04)
+    vivid[white, 0] = np.maximum(vivid[white, 0], 0.97)
+    vivid[white, 1:] *= 0.3
     return np.clip(pt.oklab_to_linear(vivid), 0.0, 1.0)
 
 
@@ -858,7 +866,7 @@ def join_into(part, extra):
     bpy.ops.object.join()
 
 
-def flare_sole(part, height=0.024, flare=0.01, flat=0.008, angles=72):
+def flare_sole(part, height=0.024, flare=0.01, flat=0.008, angles=72, toe=0.042, toe_rise=0.45):
     """
     Gives a shoe a sneaker's sole: for each foot, the bottom ``height`` metres are pushed out horizontally to the
     footprint's convex hull plus ``flare`` (full over the lower half, easing to nothing at the top), and the bottom
@@ -889,6 +897,12 @@ def flare_sole(part, height=0.024, flare=0.01, flat=0.008, angles=72):
         shift[:, :2] += d / np.maximum(radius, 1e-9)[:, None] * grow[:, None]
         down = foot & (co[:, 2] < floor + flat)
         shift[down, 2] = floor - co[down, 2]
+        # A sneaker's low toe box: in front of the instep the top comes down to a line rising from the toe (fitted
+        # to the foot, the toes made a bulb).
+        tip = float(co[foot, 1].min())
+        cap = floor + toe + toe_rise * (co[:, 1] - tip)
+        box = foot & (co[:, 2] > cap) & (co[:, 1] < tip + 0.09) & (co[:, 2] < floor + 0.09)
+        shift[box, 2] = cap[box] - co[box, 2]
     keys = list(mesh.shape_keys.key_blocks) if mesh.shape_keys else []
     for key in keys:
         key.data.foreach_set("co", (_key_positions(key) + shift).ravel())
@@ -1055,7 +1069,7 @@ def _body_adjacency(mesh):
 
 def project_garment(body, scan, garment, labels, index, offset, name, joints, always=None, max_loose=0.06,
                     reach_out=0.15, reach_in=0.10, edge_blur=None, drape=False, extend_down=0.0, ease=0.0,
-                    straps=0.0, scoop=0.0, gather=0.0):
+                    straps=0.0, scoop=0.0, gather=0.0, sleeve_ease=0.0):
     """
     A fitted garment built from the canonical body itself: the body's own surface over the regions the scan's
     garment covers, lifted by the layer offset, or by the scan's own looseness where it hangs further out (a flared
@@ -1135,6 +1149,10 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
     body_weights = bt.weight_matrix(body)
     lift = np.clip(loose, max(offset, ease), max(max_loose, ease))  # ease: at least this loose (baggy joggers)
     lift[~inside] = offset
+    if sleeve_ease > 0:  # short sleeves stand off the arm, open at the end, as the image's do
+        arm = [i for i, n in enumerate(body_weights[1]) if n.startswith(("UpperArm", "LowerArm"))]
+        on_arm = body_weights[0][:, arm].sum(axis=1)
+        lift = np.where(inside, np.maximum(lift, sleeve_ease * np.clip(on_arm, 0.0, 1.0)), lift)
     lift = _even_limb_slack(co, body_weights[0], body_weights[1], joints, lift, inside)
     # Even, so the garment is as smooth as the body; blended only between parts that move together.
     lift = np.maximum(_blur(_surface_neighbours(body, CLOSING, affinity=body_weights[0]), lift), offset)

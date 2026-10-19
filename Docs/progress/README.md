@@ -49,3 +49,6 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261020-0119.png (overwritten at 01:19 by the next run) | 8a15178 | Bob squeezed 25%; paler skin (tone 0.04) |
 | 20261020-012046.png | 8a15178 | Bob drawn in towards the scalp (thin 0.6): hugs the head like the image's; squeeze back to 15% |
 | 20261020-012651.png | 4ddc4ea | Relaxed pose: feet a little apart (3° per leg), garments refitted to it |
+| 20261020-012959.png | (next) | T-shirt sleeves stand off the arm (1.8 cm sleeve ease) |
+| 20261020-013221.png | (next) | Sneaker toe box flattened |
+| 20261020-014345.png | (next) | Whites are white (collar, cuffs, sneakers); prompt colours for regions the image can't show (red soles, brown boots) |
