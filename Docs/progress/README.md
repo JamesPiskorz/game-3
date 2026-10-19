@@ -125,4 +125,4 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261020-060954.png | 8c339d9 | A dark buckle on the trousers' belt |
 | 20261020-061347.png | (between commits) | Boots: a black sole band and level tops (bare skin showed above the left boot) |
 | 20261020-061554.png | 1a6faf4 | Jeans end in a level hem at 30 cm, tucked into boot tops at 37 cm: no skin gap |
-| 20261020-062632.png | (next) | Each shoe's sole levelled to the pair's floor (one boot stood 1-2 cm high on a spike); all outfits rebuilt |
+| 20261020-062632.png | ccef105 | Each shoe's sole levelled to the pair's floor (one boot stood 1-2 cm high on a spike); all outfits rebuilt |
