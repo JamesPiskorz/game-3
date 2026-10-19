@@ -35,3 +35,6 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261020-0005.png | 7d7bbb1 | Sneaker soles: flat, out to the footprint's hull |
 | 20261020-0006.png | 7d7bbb1 | Chunkier sneakers (1.6 cm ease, 1 cm flare): the red sole shows |
 | 20261020-0009.png | 6f75529 | Hair normals rounded towards a sphere: one clean shade curve across the bob |
+| 20261020-0011.png | (next) | Rim light tinted by albedo |
+| 20261020-0014.png | (next) | Garments' copied custom normals cleared |
+| 20261020-0020.png | (next) | Bug fix: Region4 UVs zeroed; the grey wash over half of every garment is gone |

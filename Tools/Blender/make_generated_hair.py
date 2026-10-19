@@ -140,7 +140,10 @@ def planar_uvs(part):
     mesh.loops.foreach_get("vertex_index", loop_vertex)
     co = bt.vertices(part)
     mesh.uv_layers.new(name="UVMap").data.foreach_set("uv", co[loop_vertex][:, [0, 2]].ravel())
-    mesh.uv_layers.new(name="Region4")
+    # Recolour region 4 (x) and the drawn-over flag (y) stay empty. A new UV layer copies the active one, and the
+    # planar UVs there made region 4 a white wash over half of every garment and lifted them towards the camera.
+    region4 = mesh.uv_layers.new(name="Region4")
+    region4.data.foreach_set("uv", np.zeros(len(mesh.loops) * 2))
 
 
 def preview(body, parts, path):

@@ -163,10 +163,11 @@ Shader "Game/Characters/Toon"
                 LIGHT_LOOP_END
             #endif
 
-                // Rim on the lit side only.
+                // Rim on the lit side only, tinted by the surface: added flat, it washed dark cloth (navy trousers,
+                // black joggers) grey down the lit edge of every limb.
                 half fresnel = 1.0 - saturate(dot(normalWS, viewWS));
                 half rim = smoothstep(1.0 - _RimWidth, 1.0 - _RimWidth + 0.06, fresnel);
-                colour += _RimColor.rgb * mainLight.color * (rim * mainLit);
+                colour += lit * _RimColor.rgb * 2.0h * mainLight.color * (rim * mainLit);
 
                 return half4(MixFog(colour, input.fogFactor), 1.0);
             }
