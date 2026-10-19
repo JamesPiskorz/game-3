@@ -110,3 +110,4 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261020-052755.png | 76542e8 | All outfits refitted to the wider stance |
 | 20261020-053108.png | (between commits) | Crew collar shaded as a ring (normals out from the neck): fewer white and lavender patches |
 | 20261020-053312.png | 13334c3 | Collar normals tipped further up (little change) |
+| 20261020-053430.png | (next) | Hair sheen ring lower (45-49° from the crown): a band across the fringe, not the top edge |

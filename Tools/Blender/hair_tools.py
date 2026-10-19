@@ -27,7 +27,7 @@ HAIRS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "hairs.json")
 
 HEAD_OFFSET = 0.004   # metres hair stands off the scalp at least
 BODY_OFFSET = 0.022   # and off the torso: outside a coat (style bible §3: outer layers sit at 16 mm)
-RING = (0.17, 0.192)  # the angel ring, as a share of the way from the top of the head to the bottom: a narrow sheen
+RING = (0.25, 0.272)  # the angel ring, as a share of the way from the top of the head to the bottom: a narrow sheen
 RING_TEETH, RING_DEPTH = 16, 0.032  # its lower edge zigzags down in this many teeth round the head, this deep
 
 
