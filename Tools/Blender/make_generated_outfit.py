@@ -114,6 +114,7 @@ def main():
                                          max_loose=spec.get("loosest", LOOSEST.get(slot, 0.06)),
                                          edge_blur=spec.get("edge_blur"), drape=slot in ("top", "onepiece"),
                                          ease=spec.get("ease", 0.0), straps=spec.get("straps", 0.0),
+                                         scoop=spec.get("scoop", 0.0),
                                          extend_down=OVERLAP if slot == "top" and any(g["slot"] == "bottom" for g in outfit["garments"]) else 0.0)
             if slot == "shoes":
                 gt.flare_sole(part)

@@ -913,6 +913,21 @@ def _blur(neighbours, values):
             / np.maximum(np.bincount(rows, weights=weights, minlength=count), 1e-12))
 
 
+def _scoop(body, joints, depth, straps, soft=0.004):
+    """
+    A scoop neckline as an uncovered field: on the front, everything above a curve ``depth`` metres below the neck
+    joint at the centre, rising to the neck joint's height at the straps' inner edges. The scan's neckline sat at
+    the collarbone in blotches.
+    """
+    co = bt.vertices(body)
+    neck = np.asarray(joints["Neck"], dtype=float)
+    reach = 0.5 * abs(float(joints["UpperArm.L"][0])) - straps / 2
+    t = np.clip(np.abs(co[:, 0]) / max(reach, 1e-6), 0.0, 1.0)
+    edge = neck[2] - depth * np.sqrt(1.0 - t * t)  # a round scoop, not a V
+    front = co[:, 1] < float(joints["Chest"][1])
+    return np.where(front & (co[:, 2] > neck[2] - depth - 0.02), np.clip((co[:, 2] - edge) / soft + 0.5, 0.0, 1.0), 0.0)
+
+
 def _straps(body, joints, width, soft=0.004):
     """
     Shoulder straps ``width`` metres wide as a coverage field: a band over each shoulder, centred halfway between the
@@ -927,7 +942,9 @@ def _straps(body, joints, width, soft=0.004):
     across = np.abs(np.abs(co[:, 0]) - centre)
     band = np.clip((width / 2 - across) / soft + 0.5, 0.0, 1.0)
     low = float(joints["Chest"][2])
-    high = float(joints["Neck"][2]) + 0.03
+    # Up over the top of the shoulder (the highest torso skin under the strap), and no further up the neck.
+    under = on_torso & (across < width)
+    high = float(co[under, 2].max()) + 0.005 if under.any() else float(joints["Neck"][2]) + 0.03
     return np.where(on_torso & (co[:, 2] > low) & (co[:, 2] < high), band, 0.0)
 
 
@@ -957,7 +974,7 @@ def _body_adjacency(mesh):
 
 def project_garment(body, scan, garment, labels, index, offset, name, joints, always=None, max_loose=0.06,
                     reach_out=0.15, reach_in=0.10, edge_blur=None, drape=False, extend_down=0.0, ease=0.0,
-                    straps=0.0):
+                    straps=0.0, scoop=0.0):
     """
     A fitted garment built from the canonical body itself: the body's own surface over the regions the scan's
     garment covers, lifted by the layer offset, or by the scan's own looseness where it hangs further out (a flared
@@ -1016,7 +1033,13 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
     if edge_blur is not None and edge_blur != COVER_SMOOTHING:
         fine = _surface_neighbours(body, edge_blur)
     covered = _blur(fine, covered)  # no speckle, smooth edges
+    if scoop > 0:
+        covered = np.minimum(covered, 1.0 - _scoop(body, joints, scoop, straps))
     if straps > 0:
+        # Above the armpits a strapped top is only its straps: the scan's coverage spread over the shoulder caps.
+        top_line = float(joints["UpperArm.L"][2]) - 0.035
+        co_body = bt.vertices(body)
+        covered = np.minimum(covered, np.clip((top_line - co_body[:, 2]) / 0.008 + 0.5, 0.0, 1.0))
         covered = np.maximum(covered, _straps(body, joints, straps))
     covered = np.where(np.abs(covered - 0.5) < 1e-4, 0.5 + 1e-4, covered)
     inside = covered > 0.5
@@ -1187,7 +1210,7 @@ def _key_positions(key):
 BRIDGE = 0.045  # metres: the reach of hollow bridging
 
 
-def _bridged(co, neighbours, triangles, edge, iterations=24):
+def _bridged(co, neighbours, triangles, edge, iterations=24, edge_rings=None):
     """
     A fitted garment's hollows filled the way cloth spans them (between the buttocks, under the bust, between the toes)
     instead of following the skin into them: each vertex moves out towards the blurred surface around it, never in, so
@@ -1198,13 +1221,24 @@ def _bridged(co, neighbours, triangles, edge, iterations=24):
     rows, cols, weights = neighbours
     count = len(co)
     total = np.maximum(np.bincount(rows, weights=weights, minlength=count), 1e-12)
+    # Bridging eases in over the first rings in from the edge: next to it a narrow strip (a tank top's strap) bulged
+    # out into a fin between its held edges.
+    hold = np.ones(count) if edge.dtype != bool else (~edge).astype(float)
+    if edge.dtype == bool and edge_rings is not None:
+        a, b = edge_rings
+        ring = np.where(edge, 0, 99)
+        for step in range(1, 5):
+            near = np.zeros(count, dtype=bool)
+            near[a[ring[b] == step - 1]] = True
+            near[b[ring[a] == step - 1]] = True
+            ring = np.where(near & (ring > step), step, ring)
+        hold = np.clip(ring / 4.0, 0.0, 1.0)
     co = co.copy()
     for _ in range(iterations):
         blurred = np.stack([np.bincount(rows, weights=weights * co[cols, k], minlength=count) for k in range(3)], 1) / total[:, None]
         normals = _vertex_normals(co, triangles)
         out = np.maximum(((blurred - co) * normals).sum(axis=1), 0.0)
-        out[edge] = 0.0
-        co += out[:, None] * normals
+        co += (out * hold)[:, None] * normals
     return co
 
 
@@ -1328,6 +1362,10 @@ def _draped(co, weights, names, joints, slope=DRAPE_SLOPE, angles=120, step=0.01
     drape = (grid[i0, j0] * (1 - ti) * (1 - tj) + grid[i1, j0] * ti * (1 - tj)
              + grid[i0, j1] * (1 - ti) * tj + grid[i1, j1] * ti * tj)
     blend = np.clip((share - 0.3) / 0.5, 0.0, 1.0)
+    # Only below the shoulders: up there the hull is the shoulders' width, and pushed out to it a tank top's straps
+    # stood off the shoulders like fins.
+    armpit = float(joints["UpperArm.L"][2]) - 0.06
+    blend *= np.clip((armpit - co[:, 2]) / 0.06, 0.0, 1.0)
 
     def onto(points):  # each point out to the drape where it is (never in)
         dd = points[:, :2] - axis
@@ -1398,7 +1436,7 @@ def _shape_in_pose(part, body, body_weights, joints, offset, drape=False):
         tree = BVHTree.FromPolygons([tuple(v) for v in bt.skin_positions(body_rest, body_w, body_names, skinning)], body_polygons)
         posed = bt.skin_positions(rest, weights, names, skinning)
         shaped = posed + _vertex_normals(posed, triangles) * lift[:, None]
-        shaped = _bridged(shaped, neighbours, triangles, edge)
+        shaped = _bridged(shaped, neighbours, triangles, edge, edge_rings=mesh_edges)
         if drape:
             shaped = _draped(shaped, weights, names, joints, edges=mesh_edges)
         shaped = _pushed_out(shaped, tree, offset)
