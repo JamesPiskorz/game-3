@@ -112,6 +112,8 @@ def main():
                                          edge_blur=spec.get("edge_blur"), drape=slot in ("top", "onepiece"),
                                          ease=spec.get("ease", 0.0),
                                          extend_down=OVERLAP if slot == "top" and any(g["slot"] == "bottom" for g in outfit["garments"]) else 0.0)
+            if slot == "shoes":
+                gt.flare_sole(part)
             hood = gt.extract_hood(scan, garment, index, body, joints, areas, spec["id"]) if spec.get("hood") else None
             if hood is not None:
                 gt.join_into(part, hood)

@@ -825,6 +825,44 @@ def join_into(part, extra):
     bpy.ops.object.join()
 
 
+def flare_sole(part, height=0.024, flare=0.01, flat=0.008, angles=72):
+    """
+    Gives a shoe a sneaker's sole: for each foot, the bottom ``height`` metres are pushed out horizontally to the
+    footprint's convex hull plus ``flare`` (full over the lower half, easing to nothing at the top), and the bottom
+    ``flat`` metres pressed down to the floor, so it stands on a flat, wider sole with a straight edge. Fitted to the
+    foot, the shoes were rounded slippers with no sole edge. The basis and every shape key alike.
+    """
+    mesh = part.data
+    co = bt.vertices(part)
+    floor = float(co[:, 2].min())
+    thetas = np.linspace(-np.pi, np.pi, angles, endpoint=False)
+    shift = np.zeros_like(co)
+    for side in (1.0, -1.0):
+        foot = co[:, 0] * side > 0
+        if foot.sum() < 10:
+            continue
+        print_ = foot & (co[:, 2] < floor + height)
+        centre = co[print_, :2].mean(axis=0)
+        hull = _hull_radii(co[print_, :2] - centre, thetas) + flare
+        d = co[:, :2] - centre
+        radius = np.linalg.norm(d, axis=1)
+        angle = np.arctan2(d[:, 1], d[:, 0])
+        j = ((angle + np.pi) / (2 * np.pi) * angles) % angles
+        j0, t = j.astype(int), j - j.astype(int)
+        target = hull[j0] * (1 - t) + hull[(j0 + 1) % angles] * t
+        weight = np.clip((floor + height - co[:, 2]) / (height / 2), 0.0, 1.0)
+        weight = weight * weight * (3 - 2 * weight)
+        grow = np.where(foot, np.maximum(target - radius, 0.0) * weight, 0.0)
+        shift[:, :2] += d / np.maximum(radius, 1e-9)[:, None] * grow[:, None]
+        down = foot & (co[:, 2] < floor + flat)
+        shift[down, 2] = floor - co[down, 2]
+    keys = list(mesh.shape_keys.key_blocks) if mesh.shape_keys else []
+    for key in keys:
+        key.data.foreach_set("co", (_key_positions(key) + shift).ravel())
+    mesh.vertices.foreach_set("co", (co + shift).ravel())
+    mesh.update()
+
+
 def limit_influences(part):
     """At most character_tools.MAX_INFLUENCES bones per vertex, normalised, as the validator requires."""
     if not part.vertex_groups:  # not skinned yet (loose layers get their weights by transfer later)
