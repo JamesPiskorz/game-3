@@ -129,3 +129,4 @@ Milestones worth comparing: 20261019-2207 (baseline), 20261020-0113 (anime eyes,
 | 20261020-061554.png | 1a6faf4 | Jeans end in a level hem at 30 cm, tucked into boot tops at 37 cm: no skin gap |
 | 20261020-062632.png | ccef105 | Each shoe's sole levelled to the pair's floor (one boot stood 1-2 cm high on a spike); all outfits rebuilt |
 | 20261020-062739.png | 3010b0e | Hair normals lean up as well: the back of the bob mostly lit, shade low on its far side |
+| 20261020-063259.png | 0dde83c | End of the night: jeans gathered into the boots |
