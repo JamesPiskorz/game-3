@@ -135,3 +135,4 @@ Milestones worth comparing: 20261019-2207 (baseline), 20261020-0113 (anime eyes,
 | 20261020-064125.png | 4a7af55 | Blush at 60% (was 45%), rosier like both references |
 | 20261020-064514.png | (rejected) | Brows 11% shorter: the brow tip hid, but the gap between fringe and side lock opened wider |
 | 20261020-064605.png | (rejected) | Blunt cut 2 cm past the eyes (was 3): no gap by the fringe, but the side lock covers the eye's corner with holes |
+| 20261020-064659.png | (rejected) | Blunt cut 2.5 cm past the eyes: still a ragged side lock over the eye's corner; 3 cm kept |
