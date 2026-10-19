@@ -952,6 +952,32 @@ def build_face(obj, joints, socket_half):
     return features.merge_into(obj)
 
 
+def round_jaw(obj, joints, widen=0.22):
+    """
+    Rounds the lower face: below the mouth, head skin in front of the ears is widened (x scaled about the centre
+    line) by up to ``widen`` at the chin, by head weight, so the generated head's pointed V chin becomes the soft
+    U the references draw. Call after skinning, before the face features are built on the surface. Returns the
+    largest move in metres.
+    """
+    mesh = obj.data
+    co = vertices(obj)
+    weights, names = weight_matrix(obj)
+    head = [i for i, n in enumerate(names) if n in ("Head", "Nose")]
+    share = np.clip(weights[:, head].sum(axis=1), 0.0, 1.0) if head else np.zeros(len(co))
+    mouth, chin = float(joints["Mouth"][2]), float(joints["Head"][2])
+    top = mouth + 0.012
+    t = np.clip((top - co[:, 2]) / max(top - chin, 1e-6), 0.0, 1.0)
+    t = t * t * (3 - 2 * t)
+    centre_y = float(np.median(co[share > 0.9, 1])) if (share > 0.9).any() else 0.0
+    front = np.clip((centre_y - co[:, 1]) / 0.04, 0.0, 1.0)
+    factor = 1.0 + widen * t * front * share
+    moved = co.copy()
+    moved[:, 0] *= factor
+    mesh.vertices.foreach_set("co", moved.ravel())
+    mesh.update()
+    return float(np.abs(moved[:, 0] - co[:, 0]).max())
+
+
 def paint_blush(obj, joints, strength=0.45, radius=0.028):
     """
     A soft blush on each cheek, as every reference face has: the skin round the Blush joints takes up to

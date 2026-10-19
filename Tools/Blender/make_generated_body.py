@@ -79,6 +79,8 @@ def main():
     bt.skin(body, rig)
     bt.weight_nose(body, joints)
     bt.paint_regions(body)
+    rounded = bt.round_jaw(body, joints)
+    print(f"[body] jaw rounded (up to {rounded * 1000:.1f} mm)")
     features = bt.build_face(body, joints, face_info["socket_half"])
     bt.paint_blush(body, joints)
     bt.add_body_shapes(body, joints)

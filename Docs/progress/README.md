@@ -66,3 +66,4 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261020-021602.png | ca13ba6 | Bug: a hole in the ankles (the hidden Foot region reached above the low sneakers) |
 | 20261020-022142.png | ca13ba6 | Fixed: a part hides only regions it covers all but a few of (99.5%) |
 | 20261020-022249.png | 33c98a5 | Hair normals lean towards the viewer: most of the bob lit, shade on its far side |
+| 20261020-022550.png | (next) | Rounder jaw: the pointed V chin widened into a soft U |
