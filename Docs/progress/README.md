@@ -79,5 +79,5 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261020-025957.png | (between commits) | A collar band in the cuffs' white round the neck opening; the opening stands 4 cm off the throat |
 | 20261020-030929.png | (between commits) | The drape fades out below the neck: the collar no longer stands off the throat |
 | 20261020-031136.png | (between commits) | Up the neck 3.5 cm (still folds at the sides) |
-| 20261020-031700.png | (next) | Crew neck: a level ring 2.5 cm up the neck, hugging it, with a 1.8 cm white collar |
-| 20261020-032021.png | (next) | All outfits rebuilt with the neck fade |
+| 20261020-031700.png | fab914b | Crew neck: a level ring 2.5 cm up the neck, hugging it, with a 1.8 cm white collar |
+| 20261020-032021.png | fab914b | All outfits rebuilt with the neck fade |
