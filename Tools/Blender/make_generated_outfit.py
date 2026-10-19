@@ -130,6 +130,7 @@ def main():
         planar_uvs(part)
         if slot not in gt.FITTED:
             ct.transfer_from_body(part, body, bones=gt.FOLLOWS[slot])
+            gt.limit_influences(part)
         for old in [o for o in bpy.context.scene.objects if o.type == "ARMATURE"]:
             bpy.data.objects.remove(old)
         rig = ct.build_armature("Armature", skeleton)

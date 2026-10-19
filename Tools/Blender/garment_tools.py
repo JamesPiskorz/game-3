@@ -822,6 +822,8 @@ def join_into(part, extra):
 
 def limit_influences(part):
     """At most character_tools.MAX_INFLUENCES bones per vertex, normalised, as the validator requires."""
+    if not part.vertex_groups:  # not skinned yet (loose layers get their weights by transfer later)
+        return
     bpy.ops.object.select_all(action="DESELECT")
     part.select_set(True)
     bpy.context.view_layer.objects.active = part

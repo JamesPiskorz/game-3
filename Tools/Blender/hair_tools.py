@@ -27,7 +27,8 @@ HAIRS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "hairs.json")
 
 HEAD_OFFSET = 0.004   # metres hair stands off the scalp at least
 BODY_OFFSET = 0.022   # and off the torso: outside a coat (style bible §3: outer layers sit at 16 mm)
-RING = (0.17, 0.22)   # the angel ring, as a share of the way from the top of the head to the bottom: a narrow sheen
+RING = (0.17, 0.192)  # the angel ring, as a share of the way from the top of the head to the bottom: a narrow sheen
+RING_TEETH, RING_DEPTH = 16, 0.032  # its lower edge zigzags down in this many teeth round the head, this deep
 
 
 def load_hair(key):
@@ -407,7 +408,8 @@ def hair_mask_colours(part, frame, tip_from, tip_to):
     """
     The `Col` attribute for hair, per face corner: G = base and B = tip, blending down the hair's length from
     ``tip_from`` to ``tip_to`` (heights, shared by both pieces so they match), and A = the highlight "angel ring" round
-    the crown, cut along its edges so they are clean lines. R = 0: hair carries no body region.
+    the crown, its lower edge a zigzag as anime hair's sheen is drawn, cut along its edges so they are clean lines.
+    R = 0: hair carries no body region.
     """
     mesh = part.data
     centre = frame["centre"]
@@ -416,12 +418,20 @@ def hair_mask_colours(part, frame, tip_from, tip_to):
         d = co - centre
         return np.degrees(np.arccos(np.clip(d[:, 2] / np.maximum(np.linalg.norm(d, axis=1), 1e-9), -1, 1))) / 180.0
 
+    def teeth(co):  # 0..1 round the head: a triangle wave in the azimuth
+        d = co - centre
+        turn = (np.arctan2(d[:, 0], -d[:, 1]) / (2 * np.pi) * RING_TEETH) % 1.0
+        return 1.0 - np.abs(turn * 2.0 - 1.0)
+
+    def lower(co):
+        return RING[1] + RING_DEPTH * teeth(co)
+
     bm = bmesh.new()
     bm.from_mesh(mesh)
-    for level in RING:
+    for edge in (lambda co: along(co) - RING[0], lambda co: along(co) - lower(co)):
         bm.verts.index_update()
         bm.verts.ensure_lookup_table()
-        field = along(np.array([v.co[:] for v in bm.verts])) - level
+        field = edge(np.array([v.co[:] for v in bm.verts]))
         gt._cut_along(bm, np.where(np.abs(field) < 1e-5, 1e-5, field), 0.0)
     bm.to_mesh(mesh)
     bm.free()
@@ -439,7 +449,7 @@ def hair_mask_colours(part, frame, tip_from, tip_to):
     radial = centres - centre
     radial /= np.maximum(np.linalg.norm(radial, axis=1), 1e-9)[:, None]
     face_along = along(centres)
-    ring = (face_along > RING[0]) & (face_along < RING[1]) & ((normals * radial).sum(1) > 0.2)
+    ring = (face_along > RING[0]) & (face_along < lower(centres)) & ((normals * radial).sum(1) > 0.2)
 
     loop_vertex = np.empty(len(mesh.loops), dtype=np.int64)
     mesh.loops.foreach_get("vertex_index", loop_vertex)
