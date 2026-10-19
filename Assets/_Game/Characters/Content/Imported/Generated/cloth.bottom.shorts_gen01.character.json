@@ -1,9 +1,7 @@
 {
   "kind": "part",
   "slot": "bottom",
-  "covers": [
-    "Pelvis"
-  ],
+  "covers": [],
   "followsBodyShapes": true,
   "regions": 2,
   "outfit": "outfit-01",

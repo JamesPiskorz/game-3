@@ -1,10 +1,7 @@
 {
   "kind": "part",
   "slot": "shoes",
-  "covers": [
-    "FootL",
-    "FootR"
-  ],
+  "covers": [],
   "followsBodyShapes": true,
   "regions": 2,
   "outfit": "outfit-03",

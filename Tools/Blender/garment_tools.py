@@ -969,10 +969,11 @@ def limit_influences(part):
     bpy.ops.object.vertex_group_normalize_all(group_select_mode="ALL", lock_active=False)
 
 
-def covered_regions(part, body, regions, candidates, reach=0.08, share=0.9):
+def covered_regions(part, body, regions, candidates, reach=0.08, share=0.995):
     """
     Body regions the part hides: those (among ``candidates``) where at least ``share`` of the skin, looking out along
-    its normal, meets the part within ``reach``. The shader hides covered skin, so nothing pokes through.
+    its normal, meets the part within ``reach``. The shader hides covered skin, so nothing pokes through. All but a
+    few: a region hidden under a part that stops short of its edge (a low sneaker on the Foot region) left a hole.
     """
     tree = BVHTree.FromPolygons([tuple(v) for v in bt.vertices(part)], [tuple(p.vertices) for p in part.data.polygons])
     co = bt.vertices(body)

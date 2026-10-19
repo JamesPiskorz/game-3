@@ -1,11 +1,7 @@
 {
   "kind": "part",
   "slot": "bottom",
-  "covers": [
-    "Pelvis",
-    "ThighL",
-    "ThighR"
-  ],
+  "covers": [],
   "followsBodyShapes": true,
   "regions": 2,
   "outfit": "outfit-03",
