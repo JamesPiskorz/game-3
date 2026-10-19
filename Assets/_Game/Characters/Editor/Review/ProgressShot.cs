@@ -17,7 +17,8 @@ namespace Game.Characters.Review
     /// <summary>
     /// How close the generated female character comes to her references (the look loop, decision 0008): the generated
     /// image she was made from (outfit-01 with the bob, References/character-base-images/hair/hair-bob.png) beside the
-    /// game's render of her dressed to match it, in its T-pose and in the game's relaxed pose; then her face close up,
+    /// game's render of her dressed to match it, in its T-pose and in the game's relaxed pose, and a target-look image
+    /// (References/character-base-images/targets: her as a cel-shaded anime render); then her face close up,
     /// front and three-quarter, between the image's face and a face from the style board (References/stylistic); then the
     /// other generated outfits beside their images, T-pose and relaxed. Each
     /// run writes Docs/progress/&lt;date-time&gt;.png and latest.png, so progress can be compared commit by commit.
@@ -28,6 +29,7 @@ namespace Game.Characters.Review
         const string Folder = "Docs/progress";
         const string Reference = "References/character-base-images/hair/hair-bob.png";
         const string StyleBoard = "References/stylistic/blog-final.jpg";
+        const string Target = "References/character-base-images/targets/target-bob-outfit01.png";
 
         // Where the faces are in the references (pixels from the top left, square crops).
         static readonly RectInt ReferenceFace = new RectInt(232, 20, 100, 100);
@@ -69,6 +71,7 @@ namespace Game.Characters.Review
                 Shoot(far, tpose, positions[0], new Vector3(0f, 0.88f, 13f), new Vector3(0f, 0.88f, 0f), Big),
                 Shoot(far, relaxed, positions[1], new Vector3(0f, 0.88f, 13f), new Vector3(0f, 0.88f, 0f), Big),
             };
+            if (File.Exists(Target)) top.Add(Resize(Load(Target), Big, Big)); // the look we're after, as a 2D cel render
             Vector3 face = FaceCentre(relaxed) - positions[1];
             var bottom = new List<Texture2D>
             {
@@ -100,7 +103,7 @@ namespace Game.Characters.Review
             }
             FaceExpression.Blinking = blinking;
 
-            var rows = new List<Texture2D> { Snapshot.Grid(top, 3, Color.black), Snapshot.Grid(bottom, 6, Color.black) };
+            var rows = new List<Texture2D> { Snapshot.Grid(top, top.Count, Color.black), Snapshot.Grid(bottom, 6, Color.black) };
             if (others.Count > 0) rows.Add(Snapshot.Grid(others, 6, Color.black));
             Texture2D sheet = Snapshot.StackVertically(rows, Color.black);
             string stamp = DateTime.Now.ToString("yyyyMMdd-HHmm");
@@ -120,7 +123,7 @@ namespace Game.Characters.Review
             dna.Hair.Tip = HsvColor.FromHex("#167244");
             dna.Hair.Highlight = HsvColor.FromHex("#5fd197");
             dna.Hair.Gradient = 0.4f;
-            dna.Skin.Tone = 0.12f;
+            dna.Skin.Tone = 0.04f;
             dna.Skin.Undertone = 0.1f; // cool: the image's skin is pink-ivory
             dna.Face.IrisLeft = dna.Face.IrisRight = HsvColor.FromHex("#3b2a22");
             // The canonical shapes, not this person's (a curvy roll read as a mismatch), with the image's proportions.

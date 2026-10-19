@@ -135,6 +135,9 @@ def lit_colours(scan, labels, areas, share=0.2):
     return result
 
 
+VIVID = 1.4  # chroma boost for colours taken from the source image
+
+
 def image_colours(scan, labels, image_path, fallback, share=1.0, least=30, hue_reach=0.035, gain_reach=0.25):
     """
     Each colour cluster's colour as the source image paints it (the game's sunlight brightens it further). The scan (placed, not yet aligned) is the
@@ -216,7 +219,11 @@ def image_colours(scan, labels, image_path, fallback, share=1.0, least=30, hue_r
             result[k] = seen[k]
             trusted.append(k)
     print(f"[colour] image colours for clusters {sorted(trusted)}; the rest lightened by the gain {gain:.2f}")
-    return result
+    # More saturated, as cel-shaded art paints them: the image is a soft 3D render, and the game's light and ambient
+    # grey them further (a target cel render of the same outfit had twice the chroma ours rendered with).
+    vivid = pt.linear_to_oklab(result)
+    vivid[:, 1:] *= VIVID
+    return np.clip(pt.oklab_to_linear(vivid), 0.0, 1.0)
 
 
 def face_regions(scan, body, regions):
@@ -1048,7 +1055,7 @@ def _body_adjacency(mesh):
 
 def project_garment(body, scan, garment, labels, index, offset, name, joints, always=None, max_loose=0.06,
                     reach_out=0.15, reach_in=0.10, edge_blur=None, drape=False, extend_down=0.0, ease=0.0,
-                    straps=0.0, scoop=0.0):
+                    straps=0.0, scoop=0.0, gather=0.0):
     """
     A fitted garment built from the canonical body itself: the body's own surface over the regions the scan's
     garment covers, lifted by the layer offset, or by the scan's own looseness where it hangs further out (a flared
@@ -1131,6 +1138,10 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
     lift = _even_limb_slack(co, body_weights[0], body_weights[1], joints, lift, inside)
     # Even, so the garment is as smooth as the body; blended only between parts that move together.
     lift = np.maximum(_blur(_surface_neighbours(body, CLOSING, affinity=body_weights[0]), lift), offset)
+    if gather > 0 and inside.any():  # gathered at the hem (joggers' ankle cuffs): the ease goes over the last stretch
+        hem = float(co[inside, 2].min())
+        t = np.clip((co[:, 2] - hem) / gather, 0.0, 1.0)
+        lift = offset + (lift - offset) * t * t * (3 - 2 * t)
 
     part = body.copy()
     part.data = body.data.copy()

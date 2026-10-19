@@ -980,7 +980,7 @@ def paint_blush(obj, joints, strength=0.45, radius=0.028):
     return int((weight > 0.01).sum())
 
 
-def face_normals(obj, joints, strength=0.9):
+def face_normals(obj, joints, strength=0.9, forward=0.6):
     """
     Blends the head's normals towards an ellipsoid's around it (``strength`` at full head weight, fading down the
     neck with the skin weights), as anime characters' faces are shaded: the toon step then crosses the face in one
@@ -1003,6 +1003,11 @@ def face_normals(obj, joints, strength=0.9):
     normals = normals.reshape(-1, 3)
     blend = (strength * share)[:, None]
     mixed = normals * (1.0 - blend) + sphere * blend
+    # The front of the face leans further towards the viewer, so the toon step mostly keeps it lit, with the shade
+    # only round its far side, as anime faces are lit (a face-shadow map's job in the games the style board shows).
+    front = np.clip(-sphere[:, 1], 0.0, 1.0) * share
+    mixed[:, 1] -= forward * front
+    mixed /= np.maximum(np.linalg.norm(mixed, axis=1), 1e-9)[:, None]
     mixed /= np.maximum(np.linalg.norm(mixed, axis=1), 1e-9)[:, None]
     mesh.polygons.foreach_set("use_smooth", np.ones(len(mesh.polygons), dtype=bool))
     mesh.normals_split_custom_set_from_vertices([tuple(n) for n in mixed])
