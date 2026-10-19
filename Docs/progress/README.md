@@ -11,3 +11,8 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261019-2215.png | b55fd07 | Rounder eyes; hair edges relaxed; narrower hair sheen |
 | 20261019-2223.png | b55fd07 | Shorts and sleeve hems smoothed (3 cm coverage blur) |
 | 20261019-2229.png | b2d7b0f | Edge trims: the collar, cuffs and waistband are even bands along the garment edges |
+| 20261019-2233.png | (next) | Bigger eyes; red sole bands on shoes |
+| 20261019-2249.png | (next) | Garment colours sampled from the source image (first pass: tank and trousers wrong) |
+| 20261019-2257.png | (next) | Image colours with a gain check; mean rather than lightest tones |
+| 20261019-2258.png | (next) | Toon shader: ambient mostly on the shaded side |
+| 20261019-2301.png | (next) | Face normals blended to an ellipsoid: clean anime face shading |

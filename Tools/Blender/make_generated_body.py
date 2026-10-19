@@ -85,7 +85,9 @@ def main():
         largest = bt.add_presentation_shape(body, other, joints)
         bpy.data.meshes.remove(other.data)
         print(f"[body] body.masculine shape: moves the skin up to {largest * 100:.1f} cm")
-    print(f"[body] {pt.triangle_count(body)} triangles ({features} face-feature vertices), {len(body.vertex_groups)} bones weighted")
+    shaded = bt.face_normals(body, joints)
+    print(f"[body] {pt.triangle_count(body)} triangles ({features} face-feature vertices), {len(body.vertex_groups)} bones weighted, "
+          f"face normals on {shaded} vertices")
 
     problems = validate_body(body, rig, BUDGET)
     for problem in problems:

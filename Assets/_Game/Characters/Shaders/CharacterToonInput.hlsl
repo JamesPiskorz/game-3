@@ -16,6 +16,7 @@ CBUFFER_START(UnityPerMaterial)
     half _ShadeThreshold;
     half _ShadeSoftness;
     half _AmbientStrength;
+    half _LitAmbient;
     half4 _RimColor;
     half _RimWidth;
     half4 _PatternColor;

@@ -63,6 +63,17 @@ def linear_to_oklab(rgb):
                            [-0.0040720468, 0.4505937099, -0.8086757660]])
 
 
+def oklab_to_linear(lab):
+    """linear_to_oklab's inverse."""
+    lab = np.asarray(lab, dtype=np.float64)
+    lms = lab @ np.array([[1.0, 1.0, 1.0],
+                          [0.3963377774, -0.1055613458, -0.0894841775],
+                          [0.2158037573, -0.0638541728, -1.2914855480]])
+    return (lms ** 3) @ np.array([[4.0767416621, -1.2684380046, -0.0041960863],
+                                  [-3.3077115913, 2.6097574011, -0.7034186147],
+                                  [0.2309699292, -0.3413193965, 1.7076147010]])
+
+
 def base_colour_image(obj):
     """The image feeding the Principled BSDF's Base Color (Hunyuan3D's albedo), or None for an untextured mesh."""
     for material in obj.data.materials:

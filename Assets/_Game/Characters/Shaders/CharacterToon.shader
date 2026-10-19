@@ -22,6 +22,7 @@ Shader "Game/Characters/Toon"
         _ShadeThreshold ("Shade Threshold", Range(0, 1)) = 0.5
         _ShadeSoftness ("Shade Softness", Range(0.001, 0.5)) = 0.03
         _AmbientStrength ("Ambient Strength", Range(0, 2)) = 1
+        _LitAmbient ("Ambient On The Lit Side", Range(0, 1)) = 0.35
         _RimColor ("Rim Colour", Color) = (0.25, 0.22, 0.2, 1)
         _RimWidth ("Rim Width", Range(0, 1)) = 0.25
 
@@ -144,8 +145,10 @@ Shader "Game/Characters/Toon"
                 half mainLit = ToonStep(normalWS, mainLight.direction) * CharacterShadow();
                 half3 colour = lerp(shade, lit, mainLit) * mainLight.color;
 
-                // Ambient fills from the shade colour, so dark scenes keep the art-directed hues.
-                colour += shade * SampleSH(normalWS) * _AmbientStrength;
+                // Ambient fills from the shade colour, so dark scenes keep the art-directed hues. Mostly on the shaded
+                // side: added in full where lit too, it took lit colours to half again their albedo, pale and greyed,
+                // where the references keep them near it.
+                colour += shade * SampleSH(normalWS) * _AmbientStrength * lerp(1.0h, _LitAmbient, mainLit);
 
             #if defined(_ADDITIONAL_LIGHTS)
                 // Point and spot lights add their toon-stepped lit colour, without shadows (no self-shadowing).

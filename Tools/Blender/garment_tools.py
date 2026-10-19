@@ -117,6 +117,108 @@ def colour_clusters(scan, clusters=8, seed=0):
     return labels, mean_colour, areas
 
 
+def lit_colours(scan, labels, areas, share=0.2):
+    """
+    Each colour cluster's colour where it's lit: the area-weighted mean of its lightest ``share`` of faces. The
+    generated texture bakes in the image's soft shading, so a cluster's plain mean came out darker than the garment
+    looks in the image; the game's toon shader adds its own shade.
+    """
+    colours, _, _ = pt.textured_colours(scan, pt.base_colour_image(scan))
+    light = pt.linear_to_oklab(colours)[:, 0]
+    result = np.zeros((labels.max() + 1, 3))
+    for k in range(labels.max() + 1):
+        faces = np.flatnonzero(labels == k)
+        if len(faces) == 0:
+            continue
+        lit = faces[light[faces] >= np.quantile(light[faces], 1.0 - share)]
+        result[k] = np.average(colours[lit], axis=0, weights=areas[lit])
+    return result
+
+
+def image_colours(scan, labels, image_path, fallback, share=1.0, least=30, hue_reach=0.035, gain_reach=0.25):
+    """
+    Each colour cluster's colour as the source image paints it (the game's sunlight brightens it further). The scan (placed, not yet aligned) is the
+    image's front view in 3D, so each face seen from the front samples the image pixel in front of it, the figure's
+    height in the image matching the scan's; a cluster takes the mean of the lightest ``share`` of its faces'
+    samples. Hunyuan's texture comes out a quarter darker than the image it was made from, and matching by colour
+    alone took khaki for skin. The image is lighter than the texture by a gain (the median lightness ratio over the
+    clusters whose samples match the texture's hue and chroma within ``hue_reach``); a cluster's samples are trusted
+    if they match that well and their ratio is within ``gain_reach`` of the gain: thin or narrow features (soles, a
+    waistband, a tank top, legs close together) sample their neighbours. Any other cluster keeps its ``fallback``
+    colour (linear) lightened by the gain.
+    """
+    from mathutils import Vector
+    image = bpy.data.images.load(image_path, check_existing=True)
+    width, height = image.size
+    pixels = np.empty(width * height * 4, dtype=np.float32)
+    image.pixels.foreach_get(pixels)
+    bpy.data.images.remove(image)
+    srgb = pixels.reshape(height, width, 4)[::-1, :, :3].astype(float)  # Blender's rows run bottom-up
+    lab = pt.linear_to_oklab(pt.srgb_to_linear(srgb).reshape(-1, 3)).reshape(height, width, 3)
+    edges = np.concatenate([lab[:, :12], lab[:, -12:]], axis=1)
+    foreground = ((lab - np.median(edges, axis=1)[:, None, :]) ** 2).sum(axis=2) > 0.06 ** 2
+    rows = np.flatnonzero(foreground[:, width // 4: 3 * width // 4].sum(axis=1) > 8)
+    top, bottom = rows.min(), rows.max()
+    distance = ((lab - np.median(edges, axis=1)[:, None, :]) ** 2).sum(axis=2)
+    centre_x = float(np.median(np.nonzero(distance[top:bottom] > 0.07 ** 2)[1]))  # the figure's middle (T-pose)
+    co = bt.vertices(scan)
+    scale = (bottom - top) / float(co[:, 2].max() - co[:, 2].min())  # pixels per metre
+    floor = float(co[:, 2].min())
+    print(f"[colour] image {width}x{height}: figure rows {top}-{bottom}, centre x {centre_x:.0f}, {scale:.0f} px/m")
+
+    mesh = scan.data
+    centres = np.empty(len(mesh.polygons) * 3)
+    mesh.polygons.foreach_get("center", centres)
+    centres = centres.reshape(-1, 3)
+    normals = np.empty(len(mesh.polygons) * 3)
+    mesh.polygons.foreach_get("normal", normals)
+    normals = normals.reshape(-1, 3)
+    tree = BVHTree.FromPolygons([tuple(v) for v in co], [tuple(p.vertices) for p in mesh.polygons])
+    samples = np.full((len(centres), 3), np.nan)
+    for f in np.flatnonzero(normals[:, 1] < -0.3):
+        x, z = centres[f, 0], centres[f, 2]
+        _, _, hit, _ = tree.ray_cast(Vector((x, -5.0, z)), Vector((0.0, 1.0, 0.0)), 10.0)
+        if hit != f:
+            continue
+        px, py = int(round(centre_x + x * scale)), int(round(bottom - (z - floor) * scale))
+        if 0 <= px < width and 0 <= py < height:
+            samples[f] = srgb[py, px]
+    fallback = np.array(fallback, dtype=float)
+    texture = pt.linear_to_oklab(fallback)
+    seen, matches, ratios, counts = {}, {}, {}, {}
+    for k in range(len(fallback)):
+        taken = samples[(labels == k) & ~np.isnan(samples[:, 0])]
+        if len(taken) < least:
+            continue
+        linear = pt.srgb_to_linear(taken)
+        light = pt.linear_to_oklab(linear)[:, 0]
+        seen[k] = linear[light >= np.quantile(light, 1.0 - share)].mean(axis=0)
+        lab_k = pt.linear_to_oklab(seen[k])
+        matches[k] = np.linalg.norm(lab_k[1:] - texture[k][1:]) < hue_reach
+        ratios[k], counts[k] = lab_k[0] / max(texture[k][0], 1e-6), len(taken)
+    candidates = [k for k in seen if matches[k]]
+    if candidates:
+        order = sorted(candidates, key=lambda k: ratios[k])
+        weights = np.cumsum([counts[k] for k in order])
+        gain = float(ratios[order[int(np.searchsorted(weights, weights[-1] / 2))]])  # weighted median
+    else:
+        gain = 1.0
+    # Lightened in OKLab: lightness times the gain, but never more than halfway to white (whites don't clip), with
+    # chroma following lightness up to a fifth more.
+    light = texture[:, 0]
+    lifted = np.minimum(light * gain, light + 0.5 * (1.0 - light))
+    scaled = texture.copy()
+    scaled[:, 0] = lifted
+    scaled[:, 1:] *= np.minimum(lifted / np.maximum(light, 1e-6), 1.2)[:, None]
+    result, trusted = np.clip(pt.oklab_to_linear(scaled), 0.0, 1.0), []
+    for k in candidates:
+        if abs(ratios[k] / gain - 1.0) < gain_reach:
+            result[k] = seen[k]
+            trusted.append(k)
+    print(f"[colour] image colours for clusters {sorted(trusted)}; the rest lightened by the gain {gain:.2f}")
+    return result
+
+
 def face_regions(scan, body, regions):
     """The body region under each scan face: that of the nearest body vertex to the face's centre."""
     tree = BVHTree.FromPolygons([tuple(v) for v in bt.vertices(body)], [tuple(p.vertices) for p in body.data.polygons])
@@ -462,14 +564,15 @@ def read_vertex_clusters(part):
     return values
 
 
-def recolour_mask(part, vertex_cluster, areas_by_cluster, lab, min_share=0.04, sigma=0.012):
+def recolour_mask(part, vertex_cluster, areas_by_cluster, lab, min_share=0.04, sigma=0.012, sole=False):
     """
     The `Col` attribute for a part: R = 0 (parts carry no region), G, B, A = recolour regions 1-3 by the part's own
     colour blocks, largest first (main fabric, then trim, then a secondary panel, as the style bible's convention).
     Blocks that are shades of one colour (_shades: the texture's shading split burgundy into a lit and a dark cluster,
     and the dark one came out as blotches) count as one block, coloured as the largest. A block under ``min_share`` of
     the part is stray texture, not a panel: it joins the region nearest its colour (``lab``: each cluster's OKLab
-    colour). Trims along the garment's edges become even bands (_edge_trims). Each region is blurred over the surface
+    colour). Trims along the garment's edges become even bands (_edge_trims), and with ``sole`` a shoe's sole a band
+    round its bottom (_sole). Each region is blurred over the surface
     (``sigma`` metres) and the
     mesh cut along its edge, and the regions are written per face corner: the shader blends vertex colours across a
     triangle, which on the body's long slivers smeared every colour edge into streaks. Returns the colour cluster of
@@ -487,6 +590,8 @@ def recolour_mask(part, vertex_cluster, areas_by_cluster, lab, min_share=0.04, s
     region = np.array([region_of.get(int(k), 0) if k >= 0 else 0 for k in vertex_cluster])
     if len(ranked) > 1:
         region = _edge_trims(part, region, len(ranked))
+        if sole:
+            region = _sole(part, region, len(ranked))
     mesh = part.data
     if len(ranked) > 1:
         neighbours = _surface_neighbours(part, sigma)
@@ -519,6 +624,24 @@ def recolour_mask(part, vertex_cluster, areas_by_cluster, lab, min_share=0.04, s
     colours.data.foreach_set("color", values.ravel())
     mesh.color_attributes.active_color = colours
     return ranked
+
+
+def _sole(part, region, regions, height=0.016, look=0.035, least=0.08):
+    """
+    ``region`` with a shoe's sole an even band ``height`` metres up from its lowest point, in the region other than
+    the upper's that covers most of the bottom ``look`` metres (at least ``least`` of it): red rubber soles came out
+    as pink specks on white blobs.
+    """
+    z = bt.vertices(part)[:, 2]
+    low = z < z.min() + look
+    counts = np.bincount(region[low], minlength=regions) / max(low.sum(), 1)
+    trim = int(np.argmax(counts[1:])) + 1
+    if counts[trim] < least:
+        return region
+    result = region.copy()
+    result[(result == trim) & (z >= z.min() + height + 0.02)] = 0
+    result[z < z.min() + height] = trim
+    return result
 
 
 def _edge_trims(part, region, regions, band=0.02, dominant=0.15, widths=(0.008, 0.03)):

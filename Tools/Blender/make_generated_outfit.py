@@ -74,6 +74,10 @@ def main():
 
     scan = gt.load_scan(args.scan, SCAN_HEIGHT)
     labels, mean_colour, areas = gt.colour_clusters(scan)
+    lit_colour = gt.lit_colours(scan, labels, areas)
+    image = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", outfit["image"])
+    if os.path.exists(image):  # the source image's own colours, which the texture darkens
+        lit_colour = gt.image_colours(scan, labels, os.path.abspath(image), lit_colour)
     gt.tag_clusters(scan, labels)
     # Outfit images come from the base's prompt and seed, so the dressed body has the canonical body's proportions;
     # its own crotch is hidden by the garments (loose shorts read as hips 10 cm low, stretching them up the torso), and
@@ -121,7 +125,7 @@ def main():
         cluster = gt.read_vertex_clusters(part)
         palette = gt.palette_clusters(outfit, lab, index, skin)
         own = {k: float(areas[(garment == index) & (labels == k)].sum()) for k in set(cluster.tolist()) if k in palette}
-        recolour = len(region_clusters := gt.recolour_mask(part, cluster, own, lab))
+        recolour = len(region_clusters := gt.recolour_mask(part, cluster, own, lab, sole=slot == "shoes"))
         gt.limit_influences(part)  # vertices made by the cuts blend two vertices' weights
         planar_uvs(part)
         if slot not in gt.FITTED:
@@ -142,8 +146,8 @@ def main():
             ct.export_fbx(path, [rig, part])
             ct.write_sidecar(os.path.join(args.output, spec["id"] + ".character.json"), {
                 "kind": "part", "slot": slot, "covers": covers, "followsBodyShapes": True, "regions": recolour, "outfit": args.outfit,
-                # The generated texture's colour for each recolour region (sRGB): how the outfit image dressed it.
-                "colours": [srgb_hex(mean_colour[k]) for k in region_clusters],
+                # The generated texture's colour for each recolour region where lit (sRGB): how the image dressed it.
+                "colours": [srgb_hex(lit_colour[k]) for k in region_clusters],
                 "source": os.path.abspath(args.scan), "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
                 "licence": "Tencent Hunyuan 3D 2.1 Community License",
             })

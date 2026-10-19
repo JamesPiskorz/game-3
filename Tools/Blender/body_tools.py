@@ -886,7 +886,7 @@ def build_face(obj, joints, socket_half):
     """
     j = {k: np.asarray(v, dtype=float) for k, v in joints.items()}
     features = FeatureBuilder(_bvh(obj))
-    white = (socket_half[0] * 0.8, socket_half[1] * 0.8)  # across, up: anime eyes fill their sockets
+    white = (socket_half[0] * 0.92, socket_half[1] * 0.92)  # across, up: anime eyes fill their sockets and then some
     scale = white[0] / 0.019  # relative to the stand-in's eye white
 
     for side, outward in ((".L", 1.0), (".R", -1.0)):  # outward: +x is the left eye's outer corner
@@ -947,6 +947,36 @@ def build_face(obj, joints, socket_half):
     for side, sign in ((".L", 1.0), (".R", -1.0)):
         features.disc(mouth[0] + sign * 0.0098 * scale, mouth[2], (0.0052 * scale, 0.0021), LIFT - 0.0002, "Mouth" + side, LIPS, rings=2)
     return features.merge_into(obj)
+
+
+def face_normals(obj, joints, strength=0.9):
+    """
+    Blends the head's normals towards an ellipsoid's around it (``strength`` at full head weight, fading down the
+    neck with the skin weights), as anime characters' faces are shaded: the toon step then crosses the face in one
+    clean curve. Lit by the sculpt's own normals, the eye sockets, nose and cheekbones broke it into patches. Writes
+    custom split normals, which the FBX export carries and the importer keeps.
+    """
+    mesh = obj.data
+    co = vertices(obj)
+    weights, names = weight_matrix(obj)
+    head_bones = [i for i, n in enumerate(names) if n == "Head" or n in FACE_BONES]
+    share = np.clip(weights[:, head_bones].sum(axis=1), 0.0, 1.0) if head_bones else np.zeros(len(co))
+    head = co[share > 0.9]
+    low, high = head.min(axis=0), head.max(axis=0)
+    centre = np.array([0.0, (low[1] + high[1]) / 2, (low[2] + high[2]) / 2])
+    radii = np.maximum((high - low) / 2, 1e-3)
+    sphere = (co - centre) / radii ** 2  # the ellipsoid's gradient
+    sphere /= np.maximum(np.linalg.norm(sphere, axis=1), 1e-9)[:, None]
+    normals = np.empty(len(co) * 3)
+    mesh.vertices.foreach_get("normal", normals)
+    normals = normals.reshape(-1, 3)
+    blend = (strength * share)[:, None]
+    mixed = normals * (1.0 - blend) + sphere * blend
+    mixed /= np.maximum(np.linalg.norm(mixed, axis=1), 1e-9)[:, None]
+    mesh.polygons.foreach_set("use_smooth", np.ones(len(mesh.polygons), dtype=bool))
+    mesh.normals_split_custom_set_from_vertices([tuple(n) for n in mixed])
+    mesh.update()
+    return int((share > 0.5).sum())
 
 
 # ---------------------------------------------------------------------------------------------------- preview
