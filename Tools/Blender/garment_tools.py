@@ -1177,6 +1177,19 @@ def draw_pockets(part, region, below=0.03, inner=0.09, outer=0.15, drop=0.06, wi
     return _paint(bm, mesh, field, region, cuts)
 
 
+def paint_sole(part, region, height=0.016):
+    """
+    A shoe's sole painted as a level band ``height`` metres up from its lowest point, in recolour ``region``: a thin
+    dark sole is too small a colour block in the scan to get a region of its own. Returns the faces painted.
+    """
+    mesh = part.data
+    floor = float(bt.vertices(part)[:, 2].min())
+    bm = bmesh.new()
+    bm.from_mesh(mesh)
+    field = lambda p: floor + height - p[2]
+    return _paint(bm, mesh, field, region, [field])
+
+
 def draw_buckle(part, region, width=0.03, height=0.022, line=0.004, below=0.0):
     """
     A belt buckle drawn as a rectangular frame ``width`` by ``height`` metres, ``line`` thick, at the front middle of

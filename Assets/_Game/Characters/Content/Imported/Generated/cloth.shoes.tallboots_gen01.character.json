@@ -2,13 +2,15 @@
   "kind": "part",
   "slot": "shoes",
   "covers": [
-    "FootL"
+    "FootL",
+    "FootR"
   ],
   "followsBodyShapes": true,
-  "regions": 2,
+  "regions": 3,
   "outfit": "outfit-03",
   "colours": [
     "#4a3020",
+    "#1c1c1c",
     "#1c1c1c"
   ],
   "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261019_213432_for_texture_textured.glb",

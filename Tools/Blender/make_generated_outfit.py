@@ -169,6 +169,10 @@ def main():
                 print(f"[outfit] {spec['id']}: buckle on {gt.draw_buckle(part, recolour, below=0.0)} faces")
                 band_colour = [band_colour, spec["band"]["buckle"]]
                 recolour += 1
+        if spec.get("sole") and recolour < 3:  # a thin sole the scan has no colour block for
+            print(f"[outfit] {spec['id']}: sole on {gt.paint_sole(part, recolour, spec['sole'].get('height', 0.016))} faces")
+            band_colour = spec["sole"]["colour"]
+            recolour += 1
         if spec.get("laces") and recolour < 3:  # a sneaker's laces, drawn as a few bars across the instep, and its toe cap
             print(f"[outfit] {spec['id']}: laces on {gt.lace_lines(part, recolour, lines=spec['laces'].get('lines', 4))} faces, "
                   f"toe caps on {gt.draw_toe_caps(part, recolour)}")

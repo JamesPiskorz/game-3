@@ -123,3 +123,5 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261020-060541.png | (between commits) | Tucked to 13.8 cm (a few skin flecks) |
 | 20261020-060734.png | 2bacea1 | Tucked to 13.2 cm: the whole belt shows, no skin |
 | 20261020-060954.png | 8c339d9 | A dark buckle on the trousers' belt |
+| 20261020-061347.png | (between commits) | Boots: a black sole band and level tops (bare skin showed above the left boot) |
+| 20261020-061554.png | (next) | Jeans end in a level hem at 30 cm, tucked into boot tops at 37 cm: no skin gap |
