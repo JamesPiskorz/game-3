@@ -101,9 +101,11 @@ namespace Game.Characters.Review
             dna.Skin.Tone = 0.12f;
             dna.Skin.Undertone = 0.1f; // cool: the image's skin is pink-ivory
             dna.Face.IrisLeft = dna.Face.IrisRight = HsvColor.FromHex("#3b2a22");
-            // The canonical shapes: the image is the base, not this person's sliders (a curvy roll read as a mismatch).
+            // The canonical shapes, not this person's (a curvy roll read as a mismatch), with the image's proportions.
             dna.Body.Sliders.Clear();
             dna.Face.Sliders.Clear();
+            dna.Body.Sliders["body.legs"] = 0.25f;      // her legs are a little longer,
+            dna.Body.Sliders["body.shoulders"] = -0.3f; // her shoulders narrower
             dna.Outfits = new List<OutfitDna> { new OutfitDna { Context = "casual", Items = outfit.Items } };
             return dna;
         }
