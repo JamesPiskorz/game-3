@@ -932,6 +932,39 @@ def flare_sole(part, height=0.024, flare=0.01, flat=0.008, angles=72, toe=0.05, 
     mesh.update()
 
 
+def level_soles(part, flat=0.012):
+    """
+    Both shoes' soles pressed flat onto one floor, the pair's lowest point: everything within ``flat`` metres above
+    each shoe's own sole goes down to it. The push-out off the toes after flare_sole dragged a few points of one boot's flat sole a
+    centimetre under it, so the boots stood at different heights on spikes. The basis and every shape key alike.
+    """
+    mesh = part.data
+    co = bt.vertices(part)
+    mesh.update()
+    normal_z = np.array([v.normal.z for v in mesh.vertices])
+    floor = float(co[:, 2].min())
+    shift = np.zeros(len(co))
+    for side in (1.0, -1.0):
+        foot = co[:, 0] * side > 0
+        bottom = foot & (normal_z < -0.5)
+        if bottom.sum() < 20:
+            continue
+        # This shoe's own sole (most of its bottom): one boot's stood 1-2 cm higher than the other, with only its
+        # inner edge reaching the floor, a spike under it.
+        own = float(np.percentile(co[bottom, 2], 30))
+        low = foot & (co[:, 2] < max(own, floor) + flat)
+        shift[low] = floor - co[low, 2]
+    keys = list(mesh.shape_keys.key_blocks) if mesh.shape_keys else []
+    for key in keys:
+        moved = _key_positions(key)
+        moved[:, 2] += shift
+        key.data.foreach_set("co", moved.ravel())
+    co[:, 2] += shift
+    mesh.vertices.foreach_set("co", co.ravel())
+    mesh.update()
+    return int((shift < 0).sum())
+
+
 def round_shoe(part, step=0.006, angles=72, sigma=2.0):
     """
     Each shoe wrapped like a sneaker's upper: every cross-section across the foot (a slice ``step`` metres deep along
@@ -986,8 +1019,10 @@ def round_shoe(part, step=0.006, angles=72, sigma=2.0):
         grow = np.maximum(hull - radius, 0.0)
         out = d / np.maximum(radius, 1e-9)[:, None] * grow[:, None]
         shift[foot, 0] += out[:, 0]
-        floor = float(co[foot, 2].min())
-        shift[foot, 2] += np.maximum(co[foot, 2] + out[:, 1], floor) - co[foot, 2]  # out round it, not through the floor
+        # Out round it, not through the floor: the sole's level (its lowest few percent; the push-out can leave a
+        # stray point poking a centimetre under it).
+        floor = float(np.percentile(co[foot, 2], 2))
+        shift[foot, 2] += np.maximum(co[foot, 2] + out[:, 1], floor) - co[foot, 2]
     keys = list(mesh.shape_keys.key_blocks) if mesh.shape_keys else []
     for key in keys:
         key.data.foreach_set("co", (_key_positions(key) + shift).ravel())

@@ -136,6 +136,7 @@ def main():
             if slot == "shoes":
                 gt.flare_sole(part)
                 gt._push_out(part, body, offset)  # the toe box mustn't dip into the toes
+                gt.level_soles(part)
                 gt.round_shoe(part)  # over the lumps the toes pushed up
             hood = gt.extract_hood(scan, garment, index, body, joints, areas, spec["id"]) if spec.get("hood") else None
             if hood is not None:
