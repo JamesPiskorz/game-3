@@ -61,5 +61,5 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261020-020119.png | fc4209d | Bob cut 8 mm under the chin: ends at the jaw like the image's |
 | 20261020-020730.png | d94c2f0 | Shorts flared at the hem (rejected: the legs met in a skirt) |
 | 20261020-020929.png | d94c2f0 | Shorts flared away from the inner thigh only: A-line legs with an inseam, like the image |
-| 20261020-021151.png | (next) | Low-top sneakers capped at 8.5 cm (too low: slippers) |
-| 20261020-021602.png | (next) | Sneakers up to 11.5 cm, pushed off the toes; slimmer (1.2 cm ease) |
+| 20261020-021151.png | 43fd05d | Low-top sneakers capped at 8.5 cm (too low: slippers) |
+| 20261020-021602.png | 43fd05d | Sneakers up to 11.5 cm, pushed off the toes; slimmer (1.2 cm ease) |
