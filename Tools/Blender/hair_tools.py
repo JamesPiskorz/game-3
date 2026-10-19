@@ -415,6 +415,25 @@ def blunt_cut(part, frame, joints, below_brow=0.009, band=0.05, column=0.008):
     return len(cut)
 
 
+def cut_length(part, joints, below_chin):
+    """
+    Cuts the hair straight across ``below_chin`` metres under the chin (the Head joint), all round: the bob in the
+    image ends at the jaw, and Hunyuan's hung nearly to the shoulders. Returns the faces removed.
+    """
+    line = float(joints["Head"][2]) - below_chin
+    bm = bmesh.new()
+    bm.from_mesh(part.data)
+    geometry = bm.verts[:] + bm.edges[:] + bm.faces[:]
+    bmesh.ops.bisect_plane(bm, geom=geometry, plane_co=(0.0, 0.0, line), plane_no=(0.0, 0.0, 1.0))
+    cut = [f for f in bm.faces if f.calc_center_median().z < line - 1e-4]
+    bmesh.ops.delete(bm, geom=cut, context="FACES")
+    bmesh.ops.delete(bm, geom=[v for v in bm.verts if not v.link_faces], context="VERTS")
+    bm.to_mesh(part.data)
+    bm.free()
+    part.data.update()
+    return len(cut)
+
+
 def tame(part, frame, joints, squeeze=0.15):
     """
     Draws hair below the eyes in towards the head's vertical axis, up to ``squeeze`` of its distance by the chin: a
