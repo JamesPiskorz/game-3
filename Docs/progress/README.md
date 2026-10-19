@@ -48,3 +48,4 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261020-0119.png | 6ba5fde | Garment colours 1.4x chroma (towards the target's saturation) |
 | 20261020-0119.png (overwritten at 01:19 by the next run) | 8a15178 | Bob squeezed 25%; paler skin (tone 0.04) |
 | 20261020-012046.png | 8a15178 | Bob drawn in towards the scalp (thin 0.6): hugs the head like the image's; squeeze back to 15% |
+| 20261020-012651.png | (next) | Relaxed pose: feet a little apart (3° per leg), garments refitted to it |

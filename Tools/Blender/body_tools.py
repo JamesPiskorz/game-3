@@ -466,7 +466,8 @@ def blender_to_unity(p):
 # The game's everyday pose: Poses.Relaxed (Assets/_Game/Characters/Runtime/Building/Poses.cs), which the town, the
 # creator, the menu and portraits all stand characters in. Each bone's bend in Unity Euler degrees, in the character's
 # frame, on top of its parent's. Keep the two in step.
-RELAXED = {"UpperArm.L": (0.0, 8.0, 72.0), "UpperArm.R": (0.0, -8.0, -72.0), "LowerArm.L": (0.0, 12.0, 0.0), "LowerArm.R": (0.0, -12.0, 0.0)}
+RELAXED = {"UpperArm.L": (0.0, 8.0, 72.0), "UpperArm.R": (0.0, -8.0, -72.0), "LowerArm.L": (0.0, 12.0, 0.0), "LowerArm.R": (0.0, -12.0, 0.0),
+           "UpperLeg.L": (0.0, 0.0, -3.0), "UpperLeg.R": (0.0, 0.0, 3.0)}
 UNITY_TO_BLENDER = np.array([[-1.0, 0.0, 0.0], [0.0, 0.0, -1.0], [0.0, 1.0, 0.0]])  # blender_to_unity's inverse
 
 
