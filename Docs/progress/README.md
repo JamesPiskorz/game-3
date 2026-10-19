@@ -41,3 +41,5 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261020-0022.png | 3972d9b | Tank top gets shoulder straps |
 | 20261020-0031.png | e2b44fd | Tank: straps over the shoulder, scoop neckline, bare shoulder caps; bridging eases in from edges |
 | 20261020-0036.png | 1bd2540 | Brown belt band on the trousers; all outfits rebuilt with edge-eased bridging |
+| 20261020-0039.png | (next) | Garment surface faired after drape: far fewer outline squiggles on the shirt |
+| 20261020-0041.png | (next) | Fairing at 24 passes |

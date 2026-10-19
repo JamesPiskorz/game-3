@@ -1290,6 +1290,23 @@ def _bridged(co, neighbours, triangles, edge, iterations=24, edge_rings=None):
     return co
 
 
+def _fair(co, edges, held, iterations=24):
+    """
+    Taubin smoothing of a garment's surface (its ``held`` edge vertices stay put): the small dents bridging and
+    draping leave turn the toon outline's inverted hull into dark squiggles across the cloth.
+    """
+    a, b = edges
+    count = np.maximum(np.bincount(np.concatenate([a, b]), minlength=len(co)), 1)[:, None]
+    free = (~held)[:, None]
+    co = co.copy()
+    for step in range(iterations):
+        total = np.zeros_like(co)
+        np.add.at(total, a, co[b])
+        np.add.at(total, b, co[a])
+        co = co + free * TAUBIN[step % 2] * (total / count - co)
+    return co
+
+
 def _pushed_out(co, tree, offset, passes=3):
     """``co`` with every point nearer the surface in ``tree`` than ``offset`` (or inside it) moved out to ``offset``."""
     co = co.copy()
@@ -1487,7 +1504,7 @@ def _shape_in_pose(part, body, body_weights, joints, offset, drape=False):
         shaped = _bridged(shaped, neighbours, triangles, edge, edge_rings=mesh_edges)
         if drape:
             shaped = _draped(shaped, weights, names, joints, edges=mesh_edges)
-        shaped = _pushed_out(shaped, tree, offset)
+        shaped = _pushed_out(_fair(shaped, mesh_edges, edge), tree, offset)
         unposed = bt.unskin_positions(shaped, weights, names, skinning)
         (mesh.vertices if key is None else key.data).foreach_set("co", unposed.ravel())
     if mesh.shape_keys:
