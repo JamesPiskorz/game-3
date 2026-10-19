@@ -74,7 +74,7 @@ def main():
         ht.blunt_cut(hair, frame, joints)
     if spec.get("below_chin") is not None:
         ht.cut_length(hair, joints, spec["below_chin"])
-    ht.tame(hair, frame, joints, squeeze=spec.get("squeeze", 0.0))
+    ht.tame(hair, frame, joints, squeeze=spec.get("squeeze", 0.0), curl=spec.get("curl", 0.0))
     if spec.get("thin"):
         ht.thin(hair, body, neck_z, keep=spec["thin"])
     pushed = ht.push_off_body(hair, body, neck_z, joints)

@@ -1131,7 +1131,9 @@ def _straps(body, joints, width, soft=0.004):
     co = bt.vertices(body)
     weights, names = bt.weight_matrix(body)
     torso = [i for i, n in enumerate(names) if n in ("Chest", "Spine", "Neck")]
-    on_torso = weights[:, torso].sum(axis=1) > 0.5
+    # Inside the shoulder joints counts too: one shoulder's top is mostly the upper arm's, and the strap split there.
+    inside = (np.abs(co[:, 0]) < abs(float(joints["UpperArm.L"][0])) - 0.015) & (co[:, 2] < float(joints["Neck"][2]) + 0.02)
+    on_torso = (weights[:, torso].sum(axis=1) > 0.5) | inside
     centre = 0.5 * abs(float(joints["UpperArm.L"][0]))
     across = np.abs(np.abs(co[:, 0]) - centre)
     band = np.clip((width / 2 - across) / soft + 0.5, 0.0, 1.0)

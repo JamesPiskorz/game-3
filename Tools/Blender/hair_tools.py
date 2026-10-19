@@ -434,17 +434,21 @@ def cut_length(part, joints, below_chin):
     return len(cut)
 
 
-def tame(part, frame, joints, squeeze=0.15):
+def tame(part, frame, joints, squeeze=0.15, curl=0.0, curl_length=0.035):
     """
     Draws hair below the eyes in towards the head's vertical axis, up to ``squeeze`` of its distance by the chin: a
-    bob from the image hangs straight down, and Hunyuan's flared out into a bell. push_off_body afterwards keeps it
-    off the face and neck.
+    bob from the image hangs straight down, and Hunyuan's flared out into a bell. With ``curl``, the ends curve under
+    as well, drawn in that much more over their last ``curl_length`` metres (a bob's ends turn in; the scan's flicked
+    out in points). push_off_body afterwards keeps it off the face and neck.
     """
     co = bt.vertices(part)
     eye = float(max(joints["Eye.L"][2], joints["Eye.R"][2]))
     chin = float(joints["Head"][2])
     t = np.clip((eye - co[:, 2]) / max(eye - chin, 1e-6), 0.0, 1.0)
     scale = 1.0 - squeeze * t * t * (3 - 2 * t)
+    if curl > 0:
+        u = np.clip((co[:, 2] - float(co[:, 2].min())) / curl_length, 0.0, 1.0)
+        scale *= 1.0 - curl * (1.0 - u) ** 2
     axis = np.array([0.0, frame["centre"][1]])
     co[:, :2] = axis + (co[:, :2] - axis) * scale[:, None]
     part.data.vertices.foreach_set("co", co.ravel())

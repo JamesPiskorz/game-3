@@ -169,9 +169,9 @@ def main():
             band_colour = spec["cuff"]["colour"]
             recolour += 1
         if spec.get("collar") and (trim := gt.trim_region(part)) is not None:
-            # A crew neck's ribbed collar in its cuffs' colour. The scan's collar climbed the neck; the shirt now
-            # stops at the neck's base, under the white the scan painted there.
-            gt.add_band(part, spec["collar"], trim)
+            # An even band round the top edge in the edge trims' colour: a crew neck's ribbed collar like its cuffs
+            # (the scan's collar climbed the neck; the shirt now stops at its base), a tank top's black edging.
+            print(f"[outfit] {spec['id']}: collar in region {trim}, {gt.add_band(part, spec['collar'], trim)} faces")
         gt.limit_influences(part)  # vertices made by the cuts blend two vertices' weights
         planar_uvs(part)
         if slot not in gt.FITTED:

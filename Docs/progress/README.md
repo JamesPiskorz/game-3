@@ -89,3 +89,6 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261020-034852.png | 78e2636 | Shoe close-ups added to the shot (one shoe's sole hidden under its toe box) |
 | 20261020-040030.png | 78e2636 | Each shoe stands on its own flat floor; the sole runs under the toe box: red all round |
 | 20261020-040352.png | 78e2636 | All outfits rebuilt |
+| 20261020-040735.png | (next) | Bob ends curl under (12%) |
+| 20261020-040808.png | (next) | Curl 20%: a rounded bob, its ends turned in like the image's |
+| 20261020-041912.png | (next) | Tank: the right strap no longer splits (its shoulder is mostly the arm's); black edging along the neckline and straps |
