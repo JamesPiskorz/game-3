@@ -870,6 +870,24 @@ def _blur(neighbours, values):
             / np.maximum(np.bincount(rows, weights=weights, minlength=count), 1e-12))
 
 
+def _extended_down(body, covered, distance):
+    """Coverage moved ``distance`` metres further down the torso: each torso point takes the coverage above it."""
+    from mathutils.kdtree import KDTree
+    co = bt.vertices(body)
+    weights, names = bt.weight_matrix(body)
+    torso = [i for i, n in enumerate(names) if n in ("Hips", "Spine", "Chest")]
+    on_torso = weights[:, torso].sum(axis=1) > 0.5
+    tree = KDTree(len(co))
+    for i, p in enumerate(co):
+        tree.insert(p, i)
+    tree.balance()
+    result = covered.copy()
+    for i in np.flatnonzero(on_torso & (covered < 1.0)):
+        above = tree.find(co[i] + np.array([0.0, 0.0, distance]))[1]
+        result[i] = max(result[i], covered[above])
+    return result
+
+
 def _body_adjacency(mesh):
     edges = np.empty(len(mesh.edges) * 2, dtype=np.int64)
     mesh.edges.foreach_get("vertices", edges)
@@ -877,7 +895,7 @@ def _body_adjacency(mesh):
 
 
 def project_garment(body, scan, garment, labels, index, offset, name, joints, always=None, max_loose=0.06,
-                    reach_out=0.15, reach_in=0.10, edge_blur=None):
+                    reach_out=0.15, reach_in=0.10, edge_blur=None, drape=False, extend_down=0.0):
     """
     A fitted garment built from the canonical body itself: the body's own surface over the regions the scan's
     garment covers, lifted by the layer offset, or by the scan's own looseness where it hangs further out (a flared
@@ -894,7 +912,8 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
     covered whatever the scan shows: a shoe encloses the whole foot even where our toes reach past the scan's shoe.
 
     Where the garment is and how loose, it reads off the T-posed scan; its shape it gets in the game's arms-down pose
-    (_shape_in_pose), with the slack round each limb evened out (_even_limb_slack). ``joints``: the body's skeleton.
+    (_shape_in_pose), with the slack round each limb evened out (_even_limb_slack) and, with ``drape``, hanging like
+    cloth from the bust and shoulder blades (_draped). ``joints``: the body's skeleton.
     """
     scan_tree = BVHTree.FromPolygons([tuple(v) for v in bt.vertices(scan)], [tuple(p.vertices) for p in scan.data.polygons])
     mesh = body.data
@@ -927,6 +946,8 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
     # Closing (grow, then shrink back): fills slits the texture left, like the skin-coloured seam Hunyuan paints down
     # each side of a pair of shorts where its front and back views meet. Hems and the neck opening stay where they were.
     covered = (_blur(wide, (_blur(wide, covered) > 0.15).astype(float)) > 0.85).astype(float)
+    if extend_down > 0:  # a top reaches down over the waistband: no midriff showing once it hangs loose
+        covered = _extended_down(body, covered, extend_down)
     if edge_blur is not None and edge_blur != COVER_SMOOTHING:
         fine = _surface_neighbours(body, edge_blur)
     covered = _blur(fine, covered)  # no speckle, smooth edges
@@ -969,7 +990,7 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
     bm.free()
     part.data.update()
     _smooth_edges(part, body, body_weights, lift, cluster)
-    _shape_in_pose(part, body, body_weights, joints, offset)
+    _shape_in_pose(part, body, body_weights, joints, offset, drape=drape)
     return part, int(inside.sum())
 
 
@@ -1099,7 +1120,7 @@ def _key_positions(key):
 BRIDGE = 0.045  # metres: the reach of hollow bridging
 
 
-def _bridged(co, neighbours, triangles, edge, iterations=8):
+def _bridged(co, neighbours, triangles, edge, iterations=24):
     """
     A fitted garment's hollows filled the way cloth spans them (between the buttocks, under the bust, between the toes)
     instead of following the skin into them: each vertex moves out towards the blurred surface around it, never in, so
@@ -1160,7 +1181,119 @@ def _even_limb_slack(co, weights, names, joints, lift, inside, ring=0.015):
     return np.where(share > 0, evened + (1.0 - share) * lift, lift)
 
 
-def _shape_in_pose(part, body, body_weights, joints, offset):
+# How fast a draped top comes back in below what it hangs from (metres in per metre down).
+DRAPE_SLOPE = 0.18
+
+
+def _hull_radii(points, angles):
+    """The radius, from the origin, of the convex hull of 2D ``points`` along each direction in ``angles``."""
+    pts = sorted(map(tuple, points))
+    if len(pts) < 3:
+        return np.zeros(len(angles))
+
+    def cross(o, a, b):
+        return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0])
+
+    lower, upper = [], []
+    for p in pts:
+        while len(lower) >= 2 and cross(lower[-2], lower[-1], p) <= 0:
+            lower.pop()
+        lower.append(p)
+    for p in reversed(pts):
+        while len(upper) >= 2 and cross(upper[-2], upper[-1], p) <= 0:
+            upper.pop()
+        upper.append(p)
+    hull = np.array(lower[:-1] + upper[:-1])
+    a, b = hull, np.roll(hull, -1, axis=0)
+    radii = np.zeros(len(angles))
+    for k, theta in enumerate(angles):  # the ray from the origin at theta against each hull edge
+        d = np.array([np.cos(theta), np.sin(theta)])
+        e = b - a
+        denom = d[0] * e[:, 1] - d[1] * e[:, 0]
+        ok = np.abs(denom) > 1e-12
+        t = np.where(ok, (a[:, 0] * e[:, 1] - a[:, 1] * e[:, 0]) / np.where(ok, denom, 1.0), -1.0)
+        u = np.where(ok, (a[:, 0] * d[1] - a[:, 1] * d[0]) / np.where(ok, denom, 1.0), -1.0)
+        hit = ok & (t > 0) & (u >= -1e-9) & (u <= 1 + 1e-9)
+        radii[k] = t[hit].max() if hit.any() else 0.0
+    return radii
+
+
+def _draped(co, weights, names, joints, slope=DRAPE_SLOPE, angles=120, step=0.01, edges=None, relax=12):
+    """
+    A top hanging like cloth, in the pose (arms down). Round the torso's vertical axis, each horizontal slice of the
+    torso is wrapped by its convex hull (cloth under tension spans the cleavage and the abs), each column of that
+    hangs from what's above it, coming in only ``slope`` metres per metre of drop (it falls from the bust and the
+    shoulder blades and hangs loose over the waist), and the result is blurred, so it is one smooth surface; then
+    each torso point is pushed out to it, and (given the mesh's ``edges``) the moved points are spread evenly over it
+    again. Fitted to the skin, the shirt showed the abs, the ribs and the cleavage.
+    """
+    torso = [i for i, n in enumerate(names) if n in ("Hips", "Spine", "Chest", "Neck")]
+    share = weights[:, torso].sum(axis=1) if torso else np.zeros(len(co))
+    on_torso = share > 0.6
+    if on_torso.sum() < 50:
+        return co
+    axis = np.array([0.0, float(joints["Chest"][1])])
+    d = co[:, :2] - axis
+    radius = np.linalg.norm(d, axis=1)
+    angle = np.arctan2(d[:, 1], d[:, 0])
+    thetas = np.linspace(-np.pi, np.pi, angles, endpoint=False)
+    z0, z1 = co[on_torso, 2].min(), co[on_torso, 2].max()
+    heights = np.arange(z0, z1 + step, step)
+    grid = np.zeros((len(heights), angles))
+    for i, z in enumerate(heights):
+        slab = on_torso & (np.abs(co[:, 2] - z) < step)
+        if slab.sum() >= 3:
+            grid[i] = _hull_radii(d[slab], thetas)
+    for i in range(len(heights) - 2, -1, -1):  # hang: from the top down
+        grid[i] = np.maximum(grid[i], grid[i + 1] - slope * step)
+    for axis_, sigma in ((0, 2.0), (1, 2.0)):  # blur over height and round the axis (wrapping)
+        kernel = np.exp(-0.5 * (np.arange(-6, 7) / sigma) ** 2)
+        kernel /= kernel.sum()
+        padded = np.concatenate([grid[:, -6:], grid, grid[:, :6]], axis=1) if axis_ == 1 else             np.concatenate([np.repeat(grid[:1], 6, axis=0), grid, np.repeat(grid[-1:], 6, axis=0)], axis=0)
+        grid = np.apply_along_axis(lambda r: np.convolve(r, kernel, mode="valid"), axis_, padded)
+    # Each point's drape radius, bilinear in (height, angle).
+    fi = np.clip((co[:, 2] - z0) / step, 0, len(heights) - 1.001)
+    fj = ((angle + np.pi) / (2 * np.pi) * angles) % angles
+    i0, j0 = fi.astype(int), fj.astype(int)
+    ti, tj = fi - i0, fj - j0
+    j1 = (j0 + 1) % angles
+    i1 = np.minimum(i0 + 1, len(heights) - 1)
+    drape = (grid[i0, j0] * (1 - ti) * (1 - tj) + grid[i1, j0] * ti * (1 - tj)
+             + grid[i0, j1] * (1 - ti) * tj + grid[i1, j1] * ti * tj)
+    blend = np.clip((share - 0.3) / 0.5, 0.0, 1.0)
+
+    def onto(points):  # each point out to the drape where it is (never in)
+        dd = points[:, :2] - axis
+        rr = np.linalg.norm(dd, axis=1)
+        aa = np.arctan2(dd[:, 1], dd[:, 0])
+        gi = np.clip((points[:, 2] - z0) / step, 0, len(heights) - 1.001)
+        gj = ((aa + np.pi) / (2 * np.pi) * angles) % angles
+        a0, b0 = gi.astype(int), gj.astype(int)
+        ta, tb = gi - a0, gj - b0
+        a1, b1 = np.minimum(a0 + 1, len(heights) - 1), (b0 + 1) % angles
+        hang = (grid[a0, b0] * (1 - ta) * (1 - tb) + grid[a1, b0] * ta * (1 - tb)
+                + grid[a0, b1] * (1 - ta) * tb + grid[a1, b1] * ta * tb)
+        target = rr + blend * np.maximum(hang - rr, 0.0)
+        moved = points.copy()
+        moved[:, :2] = axis + dd * (target / np.maximum(rr, 1e-9))[:, None]
+        return moved
+
+    out = onto(co)
+    # Collapsing a fold (the cleavage's two walls) onto the drape leaves its triangles degenerate and flipped: spread the
+    # points that moved evenly over the drape again (uniform Laplacian, then back onto it).
+    if edges is not None:
+        a, b = edges
+        count = np.maximum(np.bincount(np.concatenate([a, b]), minlength=len(co)), 1)[:, None]
+        moved = np.linalg.norm(out - co, axis=1) > 0.003
+        for _ in range(relax):
+            total = np.zeros_like(out)
+            np.add.at(total, a, out[b])
+            np.add.at(total, b, out[a])
+            out[moved] = onto(0.5 * out + 0.5 * total / count)[moved]
+    return out
+
+
+def _shape_in_pose(part, body, body_weights, joints, offset, drape=False):
     """
     The garment's final shape, made in the game's everyday pose (body_tools.RELAXED: arms down) and taken back to the
     bind pose: the body under it and the garment (the body's surface where it covers it, with its ``lift`` attribute)
@@ -1184,6 +1317,9 @@ def _shape_in_pose(part, body, body_weights, joints, offset):
     edge = np.array([v.is_boundary for v in bm.verts])
     bm.free()
     body_polygons = [tuple(p.vertices) for p in body.data.polygons]
+    pairs = np.empty(len(mesh.edges) * 2, dtype=np.int64)
+    mesh.edges.foreach_get("vertices", pairs)
+    mesh_edges = (pairs[0::2], pairs[1::2])
     body_keys = {k.name: k for k in body.data.shape_keys.key_blocks} if body.data.shape_keys else {}
 
     keys = list(mesh.shape_keys.key_blocks) if mesh.shape_keys else [None]
@@ -1195,7 +1331,10 @@ def _shape_in_pose(part, body, body_weights, joints, offset):
         tree = BVHTree.FromPolygons([tuple(v) for v in bt.skin_positions(body_rest, body_w, body_names, skinning)], body_polygons)
         posed = bt.skin_positions(rest, weights, names, skinning)
         shaped = posed + _vertex_normals(posed, triangles) * lift[:, None]
-        shaped = _pushed_out(_bridged(shaped, neighbours, triangles, edge), tree, offset)
+        shaped = _bridged(shaped, neighbours, triangles, edge)
+        if drape:
+            shaped = _draped(shaped, weights, names, joints, edges=mesh_edges)
+        shaped = _pushed_out(shaped, tree, offset)
         unposed = bt.unskin_positions(shaped, weights, names, skinning)
         (mesh.vertices if key is None else key.data).foreach_set("co", unposed.ravel())
     if mesh.shape_keys:

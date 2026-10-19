@@ -2,7 +2,6 @@
   "kind": "part",
   "slot": "top",
   "covers": [
-    "Neck",
     "UpperTorso",
     "LowerTorso",
     "UpperArmL",
@@ -14,7 +13,7 @@
   "regions": 2,
   "outfit": "outfit-02",
   "colours": [
-    "#898e95",
+    "#7d8188",
     "#a5edc1"
   ],
   "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261019_213015_for_texture_textured.glb",

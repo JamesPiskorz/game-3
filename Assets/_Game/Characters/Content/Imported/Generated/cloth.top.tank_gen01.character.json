@@ -2,14 +2,14 @@
   "kind": "part",
   "slot": "top",
   "covers": [
-    "UpperTorso"
+    "LowerTorso"
   ],
   "followsBodyShapes": true,
   "regions": 2,
   "outfit": "outfit-03",
   "colours": [
-    "#83354d",
-    "#11080f"
+    "#783045",
+    "#0e060c"
   ],
   "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261019_213432_for_texture_textured.glb",
   "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",

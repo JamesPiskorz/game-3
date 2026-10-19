@@ -17,3 +17,6 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261019-2258.png | 6f151f9 | Toon shader: ambient mostly on the shaded side |
 | 20261019-2301.png | 6f151f9 | Face normals blended to an ellipsoid: clean anime face shading |
 | 20261019-2302.png | 1f2e34f | Hair sheen: a narrow ring with a zigzag lower edge, like anime hair |
+| 20261019-2318.png | (next) | Tops drape like cloth (convex-hull drape from the bust, no abs or cleavage); midriff gap |
+| 20261019-2320.png | (next) | Tops reach 3 cm over the waistband (hides it) |
+| 20261019-2326.png | (next) | 1.5 cm overlap: the waistband shows under the shirt as in the image |

@@ -31,6 +31,7 @@ BUDGET = {"top": 6000, "bottom": 5000, "shoes": 3000, "outer": 8000, "onepiece":
 # "loosest" in outfits.json overrides its slot's (straight-leg trousers hang looser than shorts).
 LOOSEST = {"shoes": 0.025, "bottom": 0.01}
 SCAN_HEIGHT = 1.70
+OVERLAP = 0.015  # metres a top reaches down over its outfit's bottom (it hid the waistband at 3 cm)
 
 
 def arguments():
@@ -107,7 +108,8 @@ def main():
             always = np.isin(regions_of_body, ["FootL", "FootR"]) if slot == "shoes" else None
             part, _ = gt.project_garment(body, scan, garment, labels, index, offset, spec["id"], joints, always,
                                          max_loose=spec.get("loosest", LOOSEST.get(slot, 0.06)),
-                                         edge_blur=spec.get("edge_blur"))
+                                         edge_blur=spec.get("edge_blur"), drape=slot in ("top", "onepiece"),
+                                         extend_down=OVERLAP if slot == "top" and any(g["slot"] == "bottom" for g in outfit["garments"]) else 0.0)
             hood = gt.extract_hood(scan, garment, index, body, joints, areas, spec["id"]) if spec.get("hood") else None
             if hood is not None:
                 gt.join_into(part, hood)
