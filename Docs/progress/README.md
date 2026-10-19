@@ -98,3 +98,4 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261020-043623.png | 878d465 | Hoodie drawstrings (two white stripes down the front); lace bars cut cleanly along their straight edges |
 | 20261020-043902.png | a08b490 | High-tops get six dark lace bars, as in the hoodie image |
 | 20261020-044126.png | a08b490 | Eyes 9% bigger (the whites fill their sockets): nearer the image's |
+| 20261020-044255.png | (next) | Hair pieces faired (Taubin, edges held): the black fleck on the bob is gone |

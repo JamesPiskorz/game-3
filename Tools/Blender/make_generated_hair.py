@@ -15,6 +15,7 @@ import math
 import os
 import sys
 
+import bmesh
 import bpy
 import numpy as np
 
@@ -95,6 +96,7 @@ def main():
             problems.append(f"{spec[which]['id']}: no hair on that side")
             continue
         ht.tidy(piece, largest_hole=0.0)  # slivers the split left
+        fair_piece(piece)
         ring = ht.hair_mask_colours(piece, frame, tip_from, tip_to)
         ht.round_normals(piece, frame)  # after the ring's cuts, which would interpolate them
         planar_uvs(piece)
@@ -133,6 +135,23 @@ def main():
     if problems:
         sys.exit(1)
     print(f"[hair] exported {len(made)} pieces to {args.output}")
+
+
+def fair_piece(part, iterations=12):
+    """
+    Taubin smoothing of a hair piece, its open edges held: a small dent in the scan's surface turned away from the
+    camera, and the toon outline showed through it as a black fleck.
+    """
+    mesh = part.data
+    pairs = np.empty(len(mesh.edges) * 2, dtype=np.int64)
+    mesh.edges.foreach_get("vertices", pairs)
+    bm = bmesh.new()
+    bm.from_mesh(mesh)
+    held = np.array([v.is_boundary for v in bm.verts])
+    bm.free()
+    co = gt._fair(bt.vertices(part), (pairs[0::2], pairs[1::2]), held, iterations=iterations)
+    mesh.vertices.foreach_set("co", co.ravel())
+    mesh.update()
 
 
 def planar_uvs(part):
