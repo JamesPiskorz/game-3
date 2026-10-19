@@ -727,7 +727,7 @@ class FeatureBuilder:
         hit, _, _, _ = self.tree.ray_cast(Vector((x, -2.0, z)), Vector((0.0, 1.0, 0.0)), 4.0)
         return None if hit is None else hit.y
 
-    def disc(self, centre_x, centre_z, radii, lift, bone, mask, rings=5, segments=20, thickness=0.002):
+    def disc(self, centre_x, centre_z, radii, lift, bone, mask, rings=5, segments=20, thickness=0.002, over=1.0):
         """
         An elliptical lens on the face: its front follows the scanned surface ``lift`` metres proud of it, its back
         ``thickness`` behind the surface, so it reads as painted on and stays closed for the outline pass.
@@ -759,7 +759,7 @@ class FeatureBuilder:
                     faces.append(quad[::-1] if flip else quad)
         for a in range(segments):  # the rim joins them
             faces.append((ring(rings, a + 1), n + ring(rings, a + 1), n + ring(rings, a), ring(rings, a)))
-        self.parts.append((np.array(front + back), faces, bone, mask, True))
+        self.parts.append((np.array(front + back), faces, bone, mask, over))
 
     def band(self, points, half_widths, lift, bone, mask, thickness=0.002):
         """
@@ -863,7 +863,7 @@ class FeatureBuilder:
             group.add(indices.tolist(), 1.0, "REPLACE")
             values[indices] = (0.0, mask[0], mask[1], mask[2])  # R = the Head region (0)
             region4[indices] = mask[3]
-            over[indices] = 1.0 if drawn_over else 0.0
+            over[indices] = float(drawn_over)  # how far towards the camera, as a share of the shader's 10 mm
         colours.data.foreach_set("color", values.ravel())
         uv = np.zeros((len(mesh.loops), 2))
         uv[:, 0] = region4[loop_vertex]
@@ -919,7 +919,9 @@ def build_face(obj, joints, socket_half):
         lower = [(ex + outward * math.cos(a) * white[0] * 1.0, ez - math.sin(a) * top * 0.98) for a in np.linspace(0.12, 0.62, 6)]
         features.band(lower, [0.00045 * scale] * len(lower), LIFT + 0.0011, "Eye" + side, DARK)
         brow = j["Brow" + side]
-        features.disc(brow[0], brow[2], (0.018 * scale, 0.0028 * scale), LIFT, "Brow" + side, DARK, rings=2)
+        # Brows aren't drawn over (the eyes need the 10 mm lift to clear their sockets; brows sit on the brow ridge):
+        # a fringe hides them, as in the references, instead of the brows showing through it.
+        features.disc(brow[0], brow[2], (0.018 * scale, 0.0028 * scale), LIFT, "Brow" + side, DARK, rings=2, over=0.0)
 
         # Blush: three short strokes on each cheek, 6.2 mm under the skin along the face's forward axis, every one
         # leaning the same way on both cheeks (/// ///) as the stand-in's do.

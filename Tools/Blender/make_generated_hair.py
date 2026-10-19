@@ -75,7 +75,7 @@ def main():
     ht.tame(hair, frame, joints, squeeze=spec.get("squeeze", 0.0))
     if spec.get("thin"):
         ht.thin(hair, body, neck_z, keep=spec["thin"])
-    pushed = ht.push_off_body(hair, body, neck_z)
+    pushed = ht.push_off_body(hair, body, neck_z, joints)
     chest = ht.off_the_chest(hair, body, regions_of_body, shoulder_z)
     scalp = ht.cover_scalp(hair, body, regions_of_body, frame, joints)
     print(f"[hair] filled {holes} holes, dropped {loose} loose pieces and {chest} faces on the chest, "

@@ -120,19 +120,31 @@ def fit_head(scan, body, regions, skin_cluster, labels, neck_z, shoulder_z, iter
     return offset
 
 
-def push_off_body(part, body, neck_z):
+FRINGE_OFFSET = 0.007  # metres a fringe stands off the forehead: well in front of the brows painted 2 mm proud of it
+
+
+def push_off_body(part, body, neck_z, joints=None):
     """
     Hair nearer the body than HEAD_OFFSET (on the head and neck) or BODY_OFFSET (on the torso), or inside it, goes
     out to it. The offset grows over the 10 cm below the neck: a step there left a ridge across long hair's back.
+    Given ``joints``, a fringe over the brows stands FRINGE_OFFSET off the forehead, clear of the brows painted on it.
+    (Pushed further, the fringe's inner layer went through its outer one and crumpled.)
     """
     tree = BVHTree.FromPolygons([tuple(v) for v in bt.vertices(body)], [tuple(p.vertices) for p in body.data.polygons])
     co = bt.vertices(part)
     moved = 0
+    forehead = None
+    if joints is not None:  # across between the outer eye corners, from the eyes' top to above the brows
+        brow = float(max(joints["Brow.L"][2], joints["Brow.R"][2]))
+        eye = float(max(joints["Eye.L"][2], joints["Eye.R"][2]))
+        forehead = (float(abs(joints["Eye.L"][0])) + 0.03, eye, brow + 0.04)
     for _ in range(3):  # in a fold, the nearest face can change once a vertex has moved
         for i, p in enumerate(co):
             location, normal, _, _ = tree.find_nearest(Vector(tuple(p)))
             below = min(max((neck_z - location.z) / 0.1, 0.0), 1.0)
             offset = HEAD_OFFSET + (BODY_OFFSET - HEAD_OFFSET) * below * below * (3 - 2 * below)
+            if forehead is not None and normal.y < -0.5 and abs(location.x) < forehead[0] and forehead[1] < location.z < forehead[2]:
+                offset = FRINGE_OFFSET
             if (Vector(tuple(p)) - location).dot(normal) < offset:
                 co[i] = tuple(location + normal * offset)
                 moved += 1
@@ -358,9 +370,10 @@ def clear_eyes(part, frame, joints):
     return float(floor - lowest)
 
 
-def blunt_cut(part, frame, joints, below_brow=0.005, band=0.05, column=0.008):
+def blunt_cut(part, frame, joints, below_brow=0.009, band=0.05, column=0.008):
     """
-    A blunt fringe: straight across ``below_brow`` metres under the brows (hiding them, as the image's does), in
+    A blunt fringe: straight across ``below_brow`` metres under the brows, resting on the upper lash line (hiding the
+    brows, as the image's does), in
     front of the face between the outer eye corners; the side locks keep their length. Where the fringe stops short
     of that line (the scan's dipped in a notch between two lobes) its lowest ``band`` metres are stretched down to it,
     column by column ``column`` metres wide; whatever hangs below it is cut away along it. Returns the faces removed.
