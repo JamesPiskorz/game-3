@@ -122,27 +122,33 @@ namespace Game.Characters.Expressions
         public void Snap()
         {
             _current = _target;
-            LateUpdate();
+            Tick(Time.time, Time.deltaTime);
         }
 
         /// <summary>The builder changed the bones underneath: take the new base before the next pose.</summary>
         public void Rebase() => _hasBase = false;
 
-        void LateUpdate()
+        void LateUpdate() => Tick(Time.time, Time.deltaTime);
+
+        /// <summary>
+        /// Moves the face on to <paramref name="time"/>, <paramref name="deltaTime"/> seconds after the last tick:
+        /// LateUpdate does this every frame; captures that step time themselves call it directly.
+        /// </summary>
+        public void Tick(float time, float deltaTime)
         {
             if (!_hasBase) Capture();
             if (_bases.Count == 0) return;
 
-            if (Time.time >= _holdUntil)
+            if (time >= _holdUntil)
             {
                 _target = default;
                 _expression = "neutral";
                 _holdUntil = float.PositiveInfinity;
             }
-            _current = FacePose.Lerp(_current, _target, 1f - Mathf.Exp(-Speed * Time.deltaTime));
+            _current = FacePose.Lerp(_current, _target, 1f - Mathf.Exp(-Speed * deltaTime));
 
             FacePose pose = _current;
-            float blink = Blink();
+            float blink = Blink(time);
             pose.EyeOpen = Mathf.Lerp(pose.EyeOpen, -0.92f, Mathf.Max(blink, pose.EyeSmile));
 
             Pose(_browL, new Vector3(pose.BrowIn, pose.BrowRaise, 0f), new Vector3(0f, 0f, pose.BrowTilt), Vector3.one);
@@ -205,11 +211,10 @@ namespace Game.Characters.Expressions
         }
 
         /// <summary>0..1 eyelid closure: a quick blink every few seconds, at times that differ per character.</summary>
-        float Blink()
+        float Blink(float now)
         {
             if (!Blinking) return 0f;
             _random ??= new System.Random((int)StableHash.Fnv1a64(name));
-            float now = Time.time;
             if (_nextBlink < 0f) _nextBlink = now + 1f + 3f * (float)_random.NextDouble();
             if (now >= _nextBlink)
             {

@@ -20,16 +20,22 @@ What it makes is one fused solid with a painted face: no rig, no separate hair o
 
    The masculine scan is wrapped onto the feminine body's topology to make a **`body.femininity` shape**, so one body and one set of parts covers everyone, and `BodyDna.Femininity` finally drives the mesh.
 2. **Faces stay the game's own.** The generated head keeps its sculpted shape (eye sockets, nose, chin). The game's face features (eye whites, irises, catch-lights, brows, mouth pieces, blush and smile strokes) are built in Blender against the real head surface and skinned to the face bones, so expressions, blinking, styles and recolouring keep working. Hunyuan3D's painted face is only used to find where the features go.
-3. **Hair** comes from generations of a character with that hairstyle, aligned to the canonical body. What lies outside the head becomes `hair.back` and `hair.front`, on the Head bone, with spring chains fitted along long hair.
-4. **Clothing** comes from generations of a character wearing the outfit, aligned to the canonical body. The steps are:
-   - split by colour and body region into the slots;
-   - push each piece out to its layer offset (style bible §3);
-   - **settle it on the body with Blender cloth simulation**, so nothing clips and skirts hang;
-   - transfer weights and every body shape from the body;
-   - build the recolour mask from the generated texture's colour blocks;
+3. **Hair** comes from generations of the outfit-01 character with that hairstyle, in a colour far from skin and clothes (`Tools/Blender/hairs.json`, `make_generated_hair.py`). The steps are:
+   - take the scan's hair-coloured surface, aligned to the canonical body and fitted to its head by the bare face; over the head it's a cap whose edge is the hairline, so the bald head sits inside it like a wig;
+   - cover any bare scalp the scan invented (Hunyuan painted the nape under a ponytail as skin), drop hair lying on the chest, and shorten a fringe to the canonical brows so the game's eyes and expressions show;
+   - cut it into `hair.front` (in front of the ears, below the crown) and `hair.back`, which meet without a gap;
+   - give it the hair mask (base to tip down its length, the highlight ring round the crown), head weights handing over down the spine for long hair, the body's shapes from the head and trunk, and spring chains along hair hanging free behind (a ponytail).
+
+   `GeneratedHairSheet` reviews them (`Docs/review/generated-hair.png`).
+4. **Clothing** comes from generations of a character wearing the outfit (same prompt and seed as the base, so the same body), aligned to the canonical body. The steps are:
+   - split by colour and body region into the slots (`Tools/Blender/outfits.json` lists each outfit's garments, the regions they may sit on, and the prompt's colours);
+   - **fitted garments** (tops, bottoms, legwear, one-pieces, shoes) are **built from the canonical body's own surface** wherever the scan shows the garment, lifted to the layer offset (style bible §3) or to the scan's own looseness, with hollows bridged the way cloth spans them. They inherit the body's weights and every body shape exactly. Pushing the scan's own garment geometry onto the body came out boxy and lumpy, since it kept the outfit model's proportions;
+   - **loose layers** (coats, and later skirts) keep the scan's geometry, conformed to the body, and can be **settled with Blender cloth simulation** (`--settle`); on a T-posed body it buckles fitted fabric, so it isn't used for those;
+   - transfer weights and body shapes to the loose layers;
+   - build the recolour mask from the generated texture's colour blocks, cut along smooth region edges;
    - draft the catalog entry.
 
-   The physics runs at authoring time. In game, motion stays on spring bones: runtime cloth for 40 residents doesn't fit decision 0004's budget.
+   The physics runs at authoring time. In game, motion stays on spring bones: runtime cloth for 40 residents doesn't fit decision 0004's budget. `GeneratedOutfitSheet` reviews the parts on the generated body (`Docs/review/generated-outfit.png`).
 5. **Everything arrives through decision 0005's path:** FBX plus a sidecar, through `CharacterModelImporter`, checked by the Blender validator, reviewed on the part sheet, the 96-character quality sheet and the lineups.
 
 The images are text-to-image, not edits of one base, so no two generations share a body exactly. Aligning and conforming to the canonical body absorbs that. If it doesn't, Hunyuan3D-Omni can condition a generation on the canonical body's point cloud.
@@ -43,6 +49,6 @@ The images are text-to-image, not edits of one base, so no two generations share
 - **Risks:**
   - Generated hands are mittens with a thumb.
   - Separate generations may not align well enough to conform.
-  - Generated texture quality limits the recolour masks.
+  - Generated texture quality limits the recolour masks. Hunyuan invents the views it can't see: it painted a bald head's crown dark grey and a skin-coloured seam down each side of a pair of shorts. Skin is read from the face and hands only, and garment coverage is closed over gaps a few centimetres wide.
   - The Tencent licence doesn't cover the EU, UK or South Korea; the user has accepted that for now.
 - **Graphics plan:** G2's "one hand-modelled character" becomes "one generated character at the bar"; G3's parts catalogue is generated. G1 (shader parity) is unchanged and applies to generated parts as it does to stand-ins.

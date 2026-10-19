@@ -191,39 +191,59 @@ def _slice(co, axis, value, half_width):
     return co[np.abs(co[:, axis] - value) < half_width]
 
 
-def fit_body_joints(obj):
+def fit_body_joints(obj, crotch=None):
     """
     Joint positions for the body bones of a T-posed scan, in Blender coordinates, from cross-sections:
     the armpit is where the slice under the arm empties, the wrist the thinnest slice before the hand, the crotch
     where the gap between the legs closes, the ankle the thinnest slice above the foot, the neck the narrowest slice
     above the shoulders. Elbows, knees and the spine follow the stand-ins' proportions between those.
+
+    ``crotch`` (a height) skips finding it: a dressed scan's shorts or skirt hide it.
     """
     co = vertices(obj)
     top = co[:, 2].max()
     joints = {}
 
-    # Arms, measured on the character's left (+X) and mirrored: the body is symmetrised.
-    arm = co[co[:, 0] > 0.3]
-    arm_z = float(np.median(arm[:, 2]))
-    band = co[np.abs(co[:, 2] - arm_z) < 0.12]
-    armpit = None
-    for x in np.arange(0.05, 0.45, 0.004):
-        part = _slice(band, 0, x, 0.003)
-        if len(part) and part[:, 2].min() > arm_z - 0.07:
-            armpit = float(x)
-            break
-    at_armpit = _slice(band, 0, armpit + 0.02, 0.004)
-    arm_radius = float(at_armpit[:, 2].max() - at_armpit[:, 2].min()) / 2
-    shoulder = np.array([armpit - 0.6 * arm_radius, at_armpit[:, 1].mean(), (at_armpit[:, 2].max() + at_armpit[:, 2].min()) / 2])
-    tip = float(co[:, 0].max())
-    sizes = []
-    for x in np.arange(tip - 0.32, tip - 0.10, 0.004):
-        part = _slice(co[co[:, 0] > armpit], 0, x, 0.003)
-        if len(part):
-            sizes.append((float(np.ptp(part[:, 1]) + np.ptp(part[:, 2])), float(x), part))
-    _, wrist_x, wrist_part = min(sizes, key=lambda s: s[0])
-    wrist = np.array([wrist_x, wrist_part[:, 1].mean(), (wrist_part[:, 2].max() + wrist_part[:, 2].min()) / 2])
-    elbow = shoulder + ELBOW_ALONG_ARM * (wrist - shoulder)
+    def measure_arm(c):
+        """Shoulder, elbow and wrist of the arm on +X of ``c``, and the arm's radius at the armpit."""
+        arm = c[c[:, 0] > 0.3]
+        arm_z = float(np.median(arm[:, 2]))
+        band = c[np.abs(c[:, 2] - arm_z) < 0.12]
+        armpit = None
+        for x in np.arange(0.05, 0.45, 0.004):
+            part = _slice(band, 0, x, 0.003)
+            if len(part) and part[:, 2].min() > arm_z - 0.07:
+                armpit = float(x)
+                break
+        at_armpit = _slice(band, 0, armpit + 0.02, 0.004)
+        radius = float(at_armpit[:, 2].max() - at_armpit[:, 2].min()) / 2
+        shoulder = np.array([armpit - 0.6 * radius, at_armpit[:, 1].mean(), (at_armpit[:, 2].max() + at_armpit[:, 2].min()) / 2])
+        tip = float(c[:, 0].max())
+        sizes = []
+        for x in np.arange(tip - 0.32, tip - 0.10, 0.004):
+            part = _slice(c[c[:, 0] > armpit], 0, x, 0.003)
+            if len(part):
+                sizes.append((float(np.ptp(part[:, 1]) + np.ptp(part[:, 2])), float(x), part))
+        _, wrist_x, wrist_part = min(sizes, key=lambda s: s[0])
+        wrist = np.array([wrist_x, wrist_part[:, 1].mean(), (wrist_part[:, 2].max() + wrist_part[:, 2].min()) / 2])
+        return shoulder, shoulder + ELBOW_ALONG_ARM * (wrist - shoulder), wrist, radius
+
+    def measure_leg(c, crotch):
+        """Hip joint, knee and ankle of the leg on +X of ``c``."""
+        thigh = c[(np.abs(c[:, 2] - (crotch - 0.08)) < 0.004) & (c[:, 0] > 0)]
+        hip_joint = np.array([thigh[:, 0].mean(), thigh[:, 1].mean(), crotch + 0.06])
+        leg = c[(c[:, 0] > 0) & (c[:, 2] < crotch - 0.05)]
+        sizes = []
+        for z in np.arange(0.05, 0.25, 0.003):
+            part = _slice(leg, 2, z, 0.002)
+            part = part[part[:, 1] > np.median(part[:, 1]) - 0.06] if len(part) else part  # leave the foot's front out
+            if len(part):
+                sizes.append((float(np.ptp(part[:, 0]) + np.ptp(part[:, 1])), float(z), part))
+        _, ankle_z, ankle_part = min(sizes, key=lambda s: s[0])
+        ankle = np.array([ankle_part[:, 0].mean(), ankle_part[:, 1].mean(), ankle_z])
+        knee_z = ankle_z + KNEE_ALONG_LEG * (hip_joint[2] - ankle_z)
+        knee_part = _slice(leg, 2, knee_z, 0.004)
+        return hip_joint, np.array([knee_part[:, 0].mean(), knee_part[:, 1].mean(), knee_z]), ankle
 
     # Legs: the crotch is where a gap first opens on the centre plane, coming down from the pelvis. Where the thighs
     # touch, that gap only opens low on the legs; then the hip joints go to the pelvis's widest point instead (the top
@@ -232,37 +252,36 @@ def fit_body_joints(obj):
         part = _slice(co, 2, z, 0.003)
         return len(part) and (np.abs(part[:, 0]) < 0.015).any()
 
-    crotch = None
-    for z in np.arange(0.65 * top, 0.3 * top, -0.003):
-        if not centre_solid(z) and not any(centre_solid(z - d) for d in (0.004, 0.008, 0.012)):  # a gap that lasts
-            crotch = float(z) + 0.003
-            break
-    if crotch is None or crotch < 0.42 * top:
-        widths = []
-        for z in np.arange(0.44 * top, 0.6 * top, 0.003):
-            part = _slice(co[np.abs(co[:, 0]) < 0.3], 2, z, 0.002)
-            if len(part):
-                widths.append((float(np.ptp(part[:, 0])), float(z)))
-        crotch = max(widths)[1] - 0.06
-    thigh = co[(np.abs(co[:, 2] - (crotch - 0.08)) < 0.004) & (co[:, 0] > 0)]
-    hip_joint = np.array([thigh[:, 0].mean(), thigh[:, 1].mean(), crotch + 0.06])
-    leg = co[(co[:, 0] > 0) & (co[:, 2] < crotch - 0.05)]
-    sizes = []
-    for z in np.arange(0.05, 0.25, 0.003):
-        part = _slice(leg, 2, z, 0.002)
-        part = part[part[:, 1] > np.median(part[:, 1]) - 0.06] if len(part) else part  # leave the foot's front out
-        if len(part):
-            sizes.append((float(np.ptp(part[:, 0]) + np.ptp(part[:, 1])), float(z), part))
-    _, ankle_z, ankle_part = min(sizes, key=lambda s: s[0])
-    ankle = np.array([ankle_part[:, 0].mean(), ankle_part[:, 1].mean(), ankle_z])
-    knee_z = ankle_z + KNEE_ALONG_LEG * (hip_joint[2] - ankle_z)
-    knee_part = _slice(leg, 2, knee_z, 0.004)
-    knee = np.array([knee_part[:, 0].mean(), knee_part[:, 1].mean(), knee_z])
+    if crotch is None:
+        for z in np.arange(0.65 * top, 0.3 * top, -0.003):
+            if not centre_solid(z) and not any(centre_solid(z - d) for d in (0.004, 0.008, 0.012)):  # a gap that lasts
+                crotch = float(z) + 0.003
+                break
+        if crotch is None or crotch < 0.42 * top:
+            widths = []
+            for z in np.arange(0.44 * top, 0.6 * top, 0.003):
+                part = _slice(co[np.abs(co[:, 0]) < 0.3], 2, z, 0.002)
+                if len(part):
+                    widths.append((float(np.ptp(part[:, 0])), float(z)))
+            crotch = max(widths)[1] - 0.06
+
+    # Each side measured on its own (mirrored onto +X and back): an outfit scan isn't symmetrised, and mirroring one
+    # side's joints left the other foot where the scan had it.
+    limbs = {}
+    for side, sign in ((".L", 1.0), (".R", -1.0)):
+        flip = np.array([sign, 1.0, 1.0])
+        mirrored = co * flip
+        shoulder, elbow, wrist, arm_radius = measure_arm(mirrored)
+        hip_joint, knee, ankle = measure_leg(mirrored, crotch)
+        limbs[side] = dict(UpperArm=shoulder * flip, LowerArm=elbow * flip, Hand=wrist * flip,
+                           UpperLeg=hip_joint * flip, LowerLeg=knee * flip, Foot=ankle * flip)
+    shoulder_z = (limbs[".L"]["UpperArm"][2] + limbs[".R"]["UpperArm"][2]) / 2
+    hip_z = (limbs[".L"]["UpperLeg"][2] + limbs[".R"]["UpperLeg"][2]) / 2
 
     # Torso: the neck is the narrowest slice between the shoulders and the crown.
     centre = co[np.abs(co[:, 0]) < 0.2]
     widths = []
-    for z in np.arange(shoulder[2] + 0.02, top - 0.12, 0.003):
+    for z in np.arange(shoulder_z + 0.02, top - 0.12, 0.003):
         part = _slice(centre, 2, z, 0.002)
         if len(part):
             widths.append((float(np.ptp(part[:, 0])), float(z)))
@@ -272,8 +291,8 @@ def fit_body_joints(obj):
         part = _slice(centre, 2, z, 0.004)
         return np.array([0.0, part[:, 1].mean(), z])
 
-    hips = torso_point(hip_joint[2] + 0.05)
-    neck = torso_point(shoulder[2] + 0.035)
+    hips = torso_point(hip_z + 0.05)
+    neck = torso_point(shoulder_z + 0.035)
     head = torso_point(neck_narrowest + 0.025)
     joints.update({
         "Hips": hips,
@@ -282,14 +301,9 @@ def fit_body_joints(obj):
         "Neck": neck,
         "Head": head,
     })
-    for side, sign in ((".L", 1.0), (".R", -1.0)):
-        flip = np.array([sign, 1.0, 1.0])
-        joints["UpperArm" + side] = shoulder * flip
-        joints["LowerArm" + side] = elbow * flip
-        joints["Hand" + side] = wrist * flip
-        joints["UpperLeg" + side] = hip_joint * flip
-        joints["LowerLeg" + side] = knee * flip
-        joints["Foot" + side] = ankle * flip
+    for side, found in limbs.items():
+        for bone, position in found.items():
+            joints[bone + side] = position
     return joints, {"crown": float(top), "neck_narrowest": neck_narrowest, "arm_radius": arm_radius, "crotch": crotch}
 
 
@@ -922,31 +936,78 @@ def part_legs(obj, below, gap=0.006):
     bpy.data.objects.remove(slab)
 
 
+def fill_missing_weights(obj):
+    """
+    Vertices bone heat left unweighted take the weights of the nearest weighted vertex. Bone heat skips pieces of a
+    scan no bone passes through (a shoe Hunyuan3D made as a separate piece), and unweighted vertices don't move.
+    """
+    from mathutils.kdtree import KDTree
+    weights, names = weight_matrix(obj)
+    weighted = np.flatnonzero(weights.sum(axis=1) > 0.0)
+    missing = np.flatnonzero(weights.sum(axis=1) == 0.0)
+    if not len(missing) or not len(weighted):
+        return 0
+    co = vertices(obj)
+    tree = KDTree(len(weighted))
+    for k, i in enumerate(weighted):
+        tree.insert(co[i], k)
+    tree.balance()
+    for i in missing:
+        _, k, _ = tree.find(co[i])
+        source = weighted[k]
+        for g in np.flatnonzero(weights[source] > 0.0):
+            obj.vertex_groups[names[g]].add([int(i)], float(weights[source, g]), "REPLACE")
+    return len(missing)
+
+
+# Bones that swing to point the way the target's do: each limb bone towards its child joint, hands along the forearm.
+# Feet and the torso only move, so feet stay flat and the spine upright.
+AIM = {"UpperArm": "LowerArm", "LowerArm": "Hand", "Hand": None, "UpperLeg": "LowerLeg", "LowerLeg": "Foot"}
+
+
 def align_to_skeleton(obj, own, target):
     """
-    Moves a scan so its joints land on ``target``'s: skin it to a rig at its own fitted joints, translate each bone
-    to the target joint, and bake the pose. Two bases then differ in their flesh, not in where their joints are, so
-    one canonical skeleton serves both.
+    Moves a scan so its joints land on ``target``'s: skin it to a rig at its own fitted joints, then give each bone
+    the rigid motion taking its joint to the target joint and turning its limb to the target limb's direction, and
+    blend those by the skin weights. Two bases then differ in their flesh, not in where their joints are, so one
+    canonical skeleton serves both. Translating alone shears a limb instead of swinging it: a scan standing with one
+    foot 20 cm wider got a bent shin.
     """
     import character_tools as ct
+    from mathutils import Vector
     body_bones = [(name, parent) for name, parent in PARENTS if name not in FACE_BONES]
     rig = ct.build_armature("AlignRig", [(n, p, tuple(blender_to_unity(own[n]))) for n, p in body_bones])
     skin(obj, rig)
-    bpy.context.view_layer.objects.active = rig
-    bpy.ops.object.mode_set(mode="POSE")
-    from mathutils import Vector
-    for name, parent in body_bones:
-        world = np.asarray(target[name]) - np.asarray(own[name])
-        if parent is not None:
-            world = world - (np.asarray(target[parent]) - np.asarray(own[parent]))  # the parent already moved it
-        rest = rig.data.bones[name].matrix_local.to_3x3()
-        rig.pose.bones[name].location = rest.inverted() @ Vector(tuple(world))
-    bpy.ops.object.mode_set(mode="OBJECT")
-    bpy.context.view_layer.objects.active = obj
-    bpy.ops.object.modifier_apply(modifier=obj.modifiers[0].name)
+    fill_missing_weights(obj)
+    weights, names = weight_matrix(obj)
+    for modifier in [m for m in obj.modifiers if m.type == "ARMATURE"]:
+        obj.modifiers.remove(modifier)
     obj.parent = None
     obj.vertex_groups.clear()
     bpy.data.objects.remove(rig)
+
+    def rotation(name):
+        side = name[-2:] if name.endswith((".L", ".R")) else ""
+        stem = name[:-2] if side else name
+        if stem not in AIM:
+            return np.eye(3)
+        if AIM[stem] is None:
+            return rotation("LowerArm" + side)
+        child = AIM[stem] + side
+        a = Vector(tuple(np.asarray(own[child]) - np.asarray(own[name])))
+        b = Vector(tuple(np.asarray(target[child]) - np.asarray(target[name])))
+        return np.array(a.rotation_difference(b).to_matrix())
+
+    co = vertices(obj)
+    moved = np.zeros_like(co)
+    for column, name in enumerate(names):
+        w = weights[:, column]
+        if name in own and w.any():
+            moved += w[:, None] * ((co - own[name]) @ rotation(name).T + np.asarray(target[name]))
+    total = weights.sum(axis=1)
+    moved = np.where(total[:, None] > 0, moved / np.maximum(total, 1e-9)[:, None], co)
+    obj.data.vertices.foreach_set("co", moved.ravel())
+    obj.data.update()
 
 
 def bone_segments(body, joints):

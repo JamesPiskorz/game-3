@@ -1,0 +1,28 @@
+{
+  "_note": "Generated hairstyles (decision 0008): each image is outfit-01's with 'Bald.' swapped for the hairstyle, in vivid emerald green so the hair separates from skin and clothes by colour (the game recolours it). Each style is split into a front piece (everything in front of the ears) and a back piece; chains are spring-bone chains fitted along hair that hangs free.",
+  "hair-bob": {
+    "image": "References/character-base-images/hair/hair-bob.png",
+    "prompt": "Her hair is a chin-length straight bob with a thick blunt fringe cut straight across just above the eyebrows, in solid vivid emerald green.",
+    "colour": "#1f9e5a",
+    "front": {"id": "hair.front.blunt_gen01", "tags": ["blunt"]},
+    "back": {"id": "hair.back.bob_gen01", "tags": ["short", "hat_ok"]},
+    "chains": []
+  },
+  "hair-long": {
+    "image": "References/character-base-images/hair/hair-long.png",
+    "prompt": "Her hair is long and straight with a centre parting, falling behind her shoulders to the middle of her back, in solid vivid emerald green.",
+    "_generated": "The image came out hip-length with a heavy fringe instead of a parting; the pieces are named for what it made.",
+    "colour": "#1f9e5a",
+    "front": {"id": "hair.front.heavy_gen01", "tags": ["heavy"]},
+    "back": {"id": "hair.back.long_gen01", "tags": ["long", "hat_ok"]},
+    "chains": []
+  },
+  "hair-ponytail": {
+    "image": "References/character-base-images/hair/hair-ponytail.png",
+    "prompt": "Her hair is pulled back into a high ponytail tied at the crown that hangs down to between the shoulder blades, with a short side-swept fringe, in solid vivid emerald green.",
+    "colour": "#1f9e5a",
+    "front": {"id": "hair.front.swept_gen01", "tags": ["swept"]},
+    "back": {"id": "hair.back.ponytail_gen01", "tags": ["tied", "hat_ok"]},
+    "chains": [{"name": "Hair.Ponytail", "bones": 3}]
+  }
+}

@@ -322,6 +322,7 @@ def transfer_from_body(part, body, bones=None):
         part.shape_key_add(name="Basis", from_mix=False)
         for key in shape_keys:
             target = part.shape_key_add(name=key.name, from_mix=False)
+            target.value = 0.0  # added at full strength; exported, that's the default weight Unity shows it at
             for i, (corners, bary) in enumerate(samples):
                 delta = Vector((0, 0, 0))
                 for corner, share in zip(corners, bary):
