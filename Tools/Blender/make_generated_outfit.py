@@ -164,8 +164,9 @@ def main():
             gt.add_band(part, spec["band"]["width"], recolour)
             band_colour = spec["band"]["colour"]
             recolour += 1
-        if spec.get("laces") and recolour < 3:  # a sneaker's laces, drawn as a few bars across the instep
-            print(f"[outfit] {spec['id']}: laces on {gt.lace_lines(part, recolour, lines=spec['laces'].get('lines', 4))} faces")
+        if spec.get("laces") and recolour < 3:  # a sneaker's laces, drawn as a few bars across the instep, and its toe cap
+            print(f"[outfit] {spec['id']}: laces on {gt.lace_lines(part, recolour, lines=spec['laces'].get('lines', 4))} faces, "
+                  f"toe caps on {gt.draw_toe_caps(part, recolour)}")
             band_colour = spec["laces"]["colour"]
             recolour += 1
         if spec.get("cords") and recolour < 3:  # a hoodie's drawstrings, drawn down its front

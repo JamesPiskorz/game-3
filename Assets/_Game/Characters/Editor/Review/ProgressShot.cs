@@ -20,7 +20,8 @@ namespace Game.Characters.Review
     /// game's render of her dressed to match it, in its T-pose and in the game's relaxed pose, and a target-look image
     /// (References/character-base-images/targets: her as a cel-shaded anime render); then her face close up,
     /// front and three-quarter, between the image's face and a face from the style board (References/stylistic), and her
-    /// shoes close up; then the other generated outfits beside their images, T-pose and relaxed. Each
+    /// shoes close up; then the other generated outfits beside their images, T-pose and relaxed; then her from three-quarter
+    /// beside a three-quarter target. Each
     /// run writes Docs/progress/&lt;date-time&gt;.png and latest.png, so progress can be compared commit by commit.
     /// Headless: unity run . -- -executeMethod Game.Characters.Review.ProgressShot.Render
     /// </summary>
@@ -30,6 +31,7 @@ namespace Game.Characters.Review
         const string Reference = "References/character-base-images/hair/hair-bob.png";
         const string StyleBoard = "References/stylistic/blog-final.jpg";
         const string Target = "References/character-base-images/targets/target-bob-outfit01.png";
+        const string TargetThreeQuarter = "References/character-base-images/targets/target-bob-outfit01-34.png";
 
         // Where the faces are in the references (pixels from the top left, square crops).
         static readonly RectInt ReferenceFace = new RectInt(232, 20, 100, 100);
@@ -85,6 +87,13 @@ namespace Game.Characters.Review
                 Shoot(near, relaxed, positions[1], new Vector3(0f, 0.16f, 1.0f), new Vector3(0f, 0.07f, 0f), Small),
                 Shoot(near, relaxed, positions[1], new Vector3(0.7f, 0.2f, 0.7f), new Vector3(0f, 0.07f, 0f), Small),
             };
+            // From her front right, 40 degrees round, beside the three-quarter target: the angle the game's camera mostly sees.
+            var turned = new List<Texture2D>();
+            if (File.Exists(TargetThreeQuarter))
+            {
+                turned.Add(Shoot(far, relaxed, positions[1], new Vector3(-8.36f, 0.88f, 9.96f), new Vector3(0f, 0.88f, 0f), Big));
+                turned.Add(Resize(Load(TargetThreeQuarter), Big, Big));
+            }
             // The other generated outfits beside their images (bald, as generated), T-pose and relaxed.
             var others = new List<Texture2D>();
             foreach (string name in new[] { "outfit-02", "outfit-03" })
@@ -108,6 +117,7 @@ namespace Game.Characters.Review
 
             var rows = new List<Texture2D> { Snapshot.Grid(top, top.Count, Color.black), Snapshot.Grid(bottom, 8, Color.black) };
             if (others.Count > 0) rows.Add(Snapshot.Grid(others, 6, Color.black));
+            if (turned.Count > 0) rows.Add(Snapshot.Grid(turned, turned.Count, Color.black));
             Texture2D sheet = Snapshot.StackVertically(rows, Color.black);
             string stamp = DateTime.Now.ToString("yyyyMMdd-HHmmss");
             Directory.CreateDirectory(Folder);

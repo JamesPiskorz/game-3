@@ -945,10 +945,10 @@ def build_face(obj, joints, socket_half):
         for a, b in zip(arc[:-1], arc[1:]):
             features.stroke(a, b, 0.0021, "EyeSmile" + side, DARK)
 
-    mouth = j["Mouth"]  # small, as the references draw it
-    features.disc(mouth[0], mouth[2], (0.0072 * scale, 0.0024), LIFT, "Mouth", LIPS, rings=2)
+    mouth = j["Mouth"]  # small and closed, as the references draw it: thicker, it read as an open "o" at a distance
+    features.disc(mouth[0], mouth[2], (0.0072 * scale, 0.0016), LIFT, "Mouth", LIPS, rings=2)
     for side, sign in ((".L", 1.0), (".R", -1.0)):
-        features.disc(mouth[0] + sign * 0.0098 * scale, mouth[2], (0.0052 * scale, 0.0021), LIFT - 0.0002, "Mouth" + side, LIPS, rings=2)
+        features.disc(mouth[0] + sign * 0.0098 * scale, mouth[2], (0.0052 * scale, 0.0014), LIFT - 0.0002, "Mouth" + side, LIPS, rings=2)
     return features.merge_into(obj)
 
 
@@ -976,6 +976,56 @@ def round_jaw(obj, joints, widen=0.35):
     mesh.vertices.foreach_set("co", moved.ravel())
     mesh.update()
     return float(np.abs(moved[:, 0] - co[:, 0]).max())
+
+
+def tuck_thumbs(obj, joints, angle=40.0, blend=0.015):
+    """
+    Turns each thumb in towards the hand by up to ``angle`` degrees about its root (in the T-pose's horizontal plane),
+    blended in over ``blend`` metres from the edge of the palm so the root bends rather than tears: the scan's thumbs
+    stuck out from the hand, and with the arms down the hands read as claws. The basis and every shape key alike.
+    Returns how many vertices moved.
+    """
+    mesh = obj.data
+    co = vertices(obj)
+    weights, names = weight_matrix(obj)
+    moved_any = np.zeros(len(co), dtype=bool)
+    turns = []
+    for side, sign in ((".L", 1.0), (".R", -1.0)):
+        if "Hand" + side not in names:
+            continue
+        share = weights[:, names.index("Hand" + side)]
+        hand = share > 0.3
+        wrist = np.asarray(joints["Hand" + side])
+        along = (co[:, 0] - wrist[0]) * sign  # out along the hand from the wrist
+        fingers = hand & (along > 0.11)  # past the thumb's tip
+        if not fingers.any():
+            continue
+        front = float(co[fingers, 1].min())  # the fingers' front edge: the thumb sticks out in front of it
+        thumb = hand & (co[:, 1] < front - 0.01)
+        if not thumb.any():
+            continue
+        root = np.array([wrist[0] + sign * (float(along[thumb].min()) + 0.01), front])
+        t = np.clip((front - co[:, 1]) / blend, 0.0, 1.0) * np.clip(share, 0.0, 1.0) * hand
+        turns.append((root, sign * np.radians(angle) * t))
+        moved_any |= t > 0
+
+    def tucked(points):
+        points = points.copy()
+        for root, theta in turns:
+            d = points[:, :2] - root
+            c, s_ = np.cos(theta), np.sin(theta)
+            points[:, 0] = root[0] + c * d[:, 0] - s_ * d[:, 1]
+            points[:, 1] = root[1] + s_ * d[:, 0] + c * d[:, 1]
+        return points
+
+    keys = list(mesh.shape_keys.key_blocks) if mesh.shape_keys else []
+    for key in keys:
+        positions = np.empty(len(key.data) * 3)
+        key.data.foreach_get("co", positions)
+        key.data.foreach_set("co", tucked(positions.reshape(-1, 3)).ravel())
+    mesh.vertices.foreach_set("co", tucked(co).ravel())
+    mesh.update()
+    return int(moved_any.sum())
 
 
 def paint_blush(obj, joints, strength=0.45, radius=0.028):

@@ -34,6 +34,7 @@ What it makes is one fused solid with a painted face: no rig, no separate hair o
    - transfer weights and body shapes to the loose layers;
    - a hood (down, round the neck) stands too far off the body to fit, so it comes from the scan's own geometry and is joined to the fitted garment;
    - build the recolour mask from the generated texture's colour blocks, counting shades of one colour as one block (shading split a burgundy top into blotches), cut along smooth region edges; garment edges are straightened along their own line rather than blurred, so thin straps survive;
+   - where the scan can't show a detail, the garment's entry in `outfits.json` gives it: a crew neck's height up the neck and an even collar band, a level hem with turned-up cuffs, shoes' sole and low-top collar line, and drawn details (laces, drawstrings, a fly, pockets) painted as stripes in a recolour region, cut along each straight edge;
    - draft the catalog entry.
 
    The physics runs at authoring time. In game, motion stays on spring bones: runtime cloth for 40 residents doesn't fit decision 0004's budget. `GeneratedOutfitSheet` reviews the parts on the generated body (`Docs/review/generated-outfit.png`).

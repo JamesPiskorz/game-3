@@ -88,6 +88,8 @@ def main():
         largest = bt.add_presentation_shape(body, other, joints)
         bpy.data.meshes.remove(other.data)
         print(f"[body] body.masculine shape: moves the skin up to {largest * 100:.1f} cm")
+    tucked = bt.tuck_thumbs(body, joints)
+    print(f"[body] thumbs tucked in ({tucked} vertices)")
     shaded = bt.face_normals(body, joints)
     print(f"[body] {pt.triangle_count(body)} triangles ({features} face-feature vertices), {len(body.vertex_groups)} bones weighted, "
           f"face normals on {shaded} vertices")

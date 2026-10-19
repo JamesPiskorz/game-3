@@ -8,3 +8,7 @@ small nose, soft blush, calm closed-mouth expression. She wears a plain crew-nec
 blue with a white ribbed collar and white sleeve hems, loose mid-thigh khaki shorts with a dark brown waistband, and
 low white canvas sneakers with red soles. Standing relaxed with arms at her sides, front view, full body from hair to
 shoes, centred, clean toon shading with crisp shadow edges and thin dark outlines, plain light blue background."
+
+target-bob-outfit01-34.png is the same prompt with "front view" swapped for "three-quarter view, her body turned 40
+degrees to her left so we see her front and her right side" (seed 601416873263224); the progress shot's last row
+compares it with the game's render from the same side.

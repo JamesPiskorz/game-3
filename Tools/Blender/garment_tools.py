@@ -820,6 +820,13 @@ def extract_hood(scan, garment, index, body, joints, areas, name, reach=0.03, bu
     triangles = np.empty(len(mesh.loop_triangles) * 3, dtype=np.int64)
     mesh.loop_triangles.foreach_get("vertices", triangles)
     co = bt.vertices(hood)
+    pairs = np.empty(len(mesh.edges) * 2, dtype=np.int64)
+    mesh.edges.foreach_get("vertices", pairs)
+    bm = bmesh.new()
+    bm.from_mesh(mesh)
+    held = np.array([v.is_boundary for v in bm.verts])
+    bm.free()
+    co = _fair(co, (pairs[0::2], pairs[1::2]), held)  # the scan's folds were crumpled lumps
     co = co + _vertex_normals(co, triangles.reshape(-1, 3)) * 0.005
     mesh.vertices.foreach_set("co", _pushed_out(co, tree, LAYER_OFFSET["outer"]).ravel())
     mesh.update()
@@ -1039,6 +1046,34 @@ def lace_lines(part, region, lines=4, spacing=0.012, line=0.004, half_width=0.01
     return _paint(bm, mesh, field, region, cuts)
 
 
+def draw_toe_caps(part, region, back=0.045, line=0.003, above=0.02):
+    """
+    A sneaker's toe-cap seam: the line round each toe box ``back`` metres behind its tip, from the sole up over the top
+    and down to the sole on the other side, ``line`` metres wide, in recolour ``region``. Returns the faces drawn.
+    """
+    mesh = part.data
+    co = bt.vertices(part)
+    floor = float(co[:, 2].min())
+    tips = {side: float(co[co[:, 0] * side > 0, 1].min()) for side in (1.0, -1.0) if (co[:, 0] * side > 0).any()}
+    bm = bmesh.new()
+    bm.from_mesh(mesh)
+
+    def seam(p, side):
+        return line / 2 - abs(p[1] - (tips[side] + back))
+
+    def field(p):
+        side = 1.0 if p[0] > 0 else -1.0
+        if side not in tips:
+            return -1.0
+        return min(seam(p, side), p[2] - floor - above)
+
+    cuts = [lambda p: p[2] - floor - above]
+    for side, tip in tips.items():
+        for sign in (1.0, -1.0):
+            cuts.append(lambda p, y=tip + back, s=sign: s * (p[1] - y) + line / 2)
+    return _paint(bm, mesh, field, region, cuts)
+
+
 def draw_cords(part, region, length=0.13, width=0.007, apart=0.05):
     """
     A hoodie's drawstrings drawn as two stripes ``width`` metres wide and ``length`` long, ``apart`` metres apart,
@@ -1136,7 +1171,10 @@ def _paint(bm, mesh, field, region, cuts):
     for cut in cuts:
         bm.verts.ensure_lookup_table()
         values = np.array([cut(v.co) for v in bm.verts])
-        _cut_along(bm, np.where(np.abs(values) < 1e-6, 1e-6, values), 0.0)
+        # Only near the painted area: each cut is a whole plane, and cutting it right through the mesh tripled a
+        # shoe's triangles.
+        near = np.array([field(v.co) > -0.015 for v in bm.verts])
+        _cut_along(bm, np.where(np.abs(values) < 1e-6, 1e-6, values), 0.0, near=near)
     drawn = [f for f in bm.faces if field(f.calc_center_median()) > 0]
     colours = bm.loops.layers.float_color.get(ct.COLOUR_ATTRIBUTE)
     one_hot = [0.0, 0.0, 0.0, 0.0]
@@ -1408,9 +1446,9 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
         covered = np.where(on_neck, np.clip((cap - bt.vertices(body)[:, 2]) / 0.008 + 0.5, 0.0, 1.0), covered)
     hem_drop = hem
     if hem is not None:
-        # Shorts' legs end in a level hem this far below the hip joints, covering the thighs above it: the scan's hem
-        # was a ragged colour edge.
-        on_thigh = np.isin(body_regions(body), ["ThighL", "ThighR"])
+        # Shorts' or joggers' legs end in a level hem this far below the hip joints, covering the legs above it: the
+        # scan's hem was a ragged colour edge.
+        on_thigh = np.isin(body_regions(body), ["ThighL", "ThighR", "CalfL", "CalfR"])
         level = float(joints["UpperLeg.L"][2]) - hem
         covered = np.where(on_thigh, np.clip((bt.vertices(body)[:, 2] - level) / 0.008 + 0.5, 0.0, 1.0), covered)
     if scoop > 0:
@@ -2008,17 +2046,20 @@ def _surface_neighbours(obj, sigma, affinity=None, co=None):
     return rows, cols, weights
 
 
-def _cut_along(bm, field, level):
+def _cut_along(bm, field, level, near=None):
     """
     Splits ``bm``'s edges where ``field`` (one value per vertex, by index) crosses ``level`` and joins the splits
     across each face, so a later cut can follow the field's level line instead of the mesh's edges. New vertices take
-    the edge's interpolated position, weights and shape keys. Returns each vertex's field value (the new ones'
-    ``level``).
+    the edge's interpolated position, weights and shape keys. With ``near`` (per vertex), only edges with both ends
+    near are cut. Returns each vertex's field value (the new ones' ``level``).
     """
     bm.verts.ensure_lookup_table()
     value = {v: field[v.index] for v in bm.verts}
     made = []
-    for edge in [e for e in bm.edges if (value[e.verts[0]] - level) * (value[e.verts[1]] - level) < 0]:
+    crossing = [e for e in bm.edges if (value[e.verts[0]] - level) * (value[e.verts[1]] - level) < 0]
+    if near is not None:
+        crossing = [e for e in crossing if near[e.verts[0].index] and near[e.verts[1].index]]
+    for edge in crossing:
         first, second = edge.verts
         _, vertex = bmesh.utils.edge_split(edge, first, (level - value[first]) / (value[second] - value[first]))
         value[vertex] = level
