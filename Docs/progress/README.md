@@ -59,5 +59,5 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261020-015933.png | fc4209d | Stance 5° per leg: a gap between the knees |
 | 20261020-020024.png | fc4209d | Bob cut 2.5 cm under the chin |
 | 20261020-020119.png | fc4209d | Bob cut 8 mm under the chin: ends at the jaw like the image's |
-| 20261020-020730.png | (next) | Shorts flared at the hem (rejected: the legs met in a skirt) |
-| 20261020-020929.png | (next) | Shorts flared away from the inner thigh only: A-line legs with an inseam, like the image |
+| 20261020-020730.png | d94c2f0 | Shorts flared at the hem (rejected: the legs met in a skirt) |
+| 20261020-020929.png | d94c2f0 | Shorts flared away from the inner thigh only: A-line legs with an inseam, like the image |
