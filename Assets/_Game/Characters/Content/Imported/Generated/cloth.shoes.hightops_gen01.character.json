@@ -6,11 +6,12 @@
     "FootR"
   ],
   "followsBodyShapes": true,
-  "regions": 2,
+  "regions": 3,
   "outfit": "outfit-02",
   "colours": [
     "#f2f2f2",
-    "#1c1c1c"
+    "#1c1c1c",
+    "#2a2a2e"
   ],
   "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261019_213015_for_texture_textured.glb",
   "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",

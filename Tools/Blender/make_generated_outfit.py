@@ -165,7 +165,7 @@ def main():
             band_colour = spec["band"]["colour"]
             recolour += 1
         if spec.get("laces") and recolour < 3:  # a sneaker's laces, drawn as a few bars across the instep
-            print(f"[outfit] {spec['id']}: laces on {gt.lace_lines(part, recolour)} faces")
+            print(f"[outfit] {spec['id']}: laces on {gt.lace_lines(part, recolour, lines=spec['laces'].get('lines', 4))} faces")
             band_colour = spec["laces"]["colour"]
             recolour += 1
         if spec.get("cords") and recolour < 3:  # a hoodie's drawstrings, drawn down its front
