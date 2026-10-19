@@ -99,3 +99,4 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261020-043902.png | a08b490 | High-tops get six dark lace bars, as in the hoodie image |
 | 20261020-044126.png | a08b490 | Eyes 9% bigger (the whites fill their sockets): nearer the image's |
 | 20261020-044255.png | a319ed3 | Hair pieces faired (Taubin, edges held): the black fleck on the bob is gone |
+| 20261020-044540.png | (next) | Jaw widened 35% at the chin (was 22%): a rounder lower face like the image's |

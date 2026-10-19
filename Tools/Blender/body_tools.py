@@ -952,7 +952,7 @@ def build_face(obj, joints, socket_half):
     return features.merge_into(obj)
 
 
-def round_jaw(obj, joints, widen=0.22):
+def round_jaw(obj, joints, widen=0.35):
     """
     Rounds the lower face: below the mouth, head skin in front of the ears is widened (x scaled about the centre
     line) by up to ``widen`` at the chin, by head weight, so the generated head's pointed V chin becomes the soft
