@@ -24,6 +24,6 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261019-2329.png | 1b2d64f | Blunt fringe straight across just under the brows |
 | 20261019-2331.png | 05a8d91 | Softer rose lips; cool skin undertone in the shot |
 | 20261019-2334.png | 46dd7a2 | Chunkier shoes (4.5 cm slack); the shot's person has the image's longer legs and narrower shoulders |
-| 20261019-2338.png | (next) | Shot adds outfits 02 and 03 beside their images |
-| 20261019-2341.png | (next) | Closing scaled to edge_blur (tank straps still missing: the scan has none at the front) |
-| 20261019-2344.png | (next) | Baggy joggers (3.5 cm ease) |
+| 20261019-2338.png | 7c83508 | Shot adds outfits 02 and 03 beside their images |
+| 20261019-2341.png | 7c83508 | Closing scaled to edge_blur (tank straps still missing: the scan has none at the front) |
+| 20261019-2344.png | 7c83508 | Baggy joggers (3.5 cm ease) |
