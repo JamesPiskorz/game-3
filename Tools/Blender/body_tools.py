@@ -452,6 +452,68 @@ def blender_to_unity(p):
     return (-float(p[0]), float(p[2]), -float(p[1]))
 
 
+# The game's everyday pose: Poses.Relaxed (Assets/_Game/Characters/Runtime/Building/Poses.cs), which the town, the
+# creator, the menu and portraits all stand characters in. Each bone's bend in Unity Euler degrees, in the character's
+# frame, on top of its parent's. Keep the two in step.
+RELAXED = {"UpperArm.L": (0.0, 8.0, 72.0), "UpperArm.R": (0.0, -8.0, -72.0), "LowerArm.L": (0.0, 12.0, 0.0), "LowerArm.R": (0.0, -12.0, 0.0)}
+UNITY_TO_BLENDER = np.array([[-1.0, 0.0, 0.0], [0.0, 0.0, -1.0], [0.0, 1.0, 0.0]])  # blender_to_unity's inverse
+
+
+def unity_euler(x, y, z):
+    """Quaternion.Euler(x, y, z) as a matrix (Unity coordinates): z degrees about Z, then x about X, then y about Y."""
+    def turn(axis, degrees):
+        c, s = math.cos(math.radians(degrees)), math.sin(math.radians(degrees))
+        i, j = [(1, 2), (2, 0), (0, 1)][axis]
+        m = np.eye(3)
+        m[i, i], m[i, j], m[j, i], m[j, j] = c, -s, s, c
+        return m
+    return turn(1, y) @ turn(0, x) @ turn(2, z)
+
+
+def pose_skinning(joints, pose=RELAXED):
+    """
+    Each body bone's skinning transform for ``pose``, as (rotation, translation) in Blender coordinates: a vertex
+    on that bone goes to rotation @ v + translation. Bends compose down the hierarchy as Poses.Bend composes them.
+    """
+    bend, rotation, head = {}, {}, {}
+    for name, parent in PARENTS:
+        if name in FACE_BONES or name not in joints:
+            continue
+        bend[name] = (bend[parent] if parent else np.eye(3)) @ unity_euler(*pose.get(name, (0.0, 0.0, 0.0)))
+        rotation[name] = UNITY_TO_BLENDER @ bend[name] @ UNITY_TO_BLENDER.T
+        at = np.asarray(joints[name], dtype=float)
+        head[name] = at if parent is None else head[parent] + rotation[parent] @ (at - np.asarray(joints[parent], dtype=float))
+    return {name: (rotation[name], head[name] - rotation[name] @ np.asarray(joints[name], dtype=float)) for name in rotation}
+
+
+def _unposed_share(weights, names, skinning):
+    """Each vertex's weight on no posed bone (unweighted, or on face bones): that share stays where it is."""
+    posed = [column for column, name in enumerate(names) if name in skinning]
+    return np.clip(1.0 - weights[:, posed].sum(axis=1), 0.0, 1.0)
+
+
+def skin_positions(co, weights, names, skinning):
+    """Linear blend skinning of rest positions ``co`` (weights: vertices x names) into the pose."""
+    posed = co * _unposed_share(weights, names, skinning)[:, None]
+    for column, name in enumerate(names):
+        if name in skinning and weights[:, column].any():
+            r, t = skinning[name]
+            posed += weights[:, column:column + 1] * (co @ r.T + t)
+    return posed
+
+
+def unskin_positions(posed, weights, names, skinning):
+    """The rest positions that skin_positions takes to ``posed``: each vertex's blended transform, inverted."""
+    blend = np.repeat(np.eye(3)[None], len(posed), axis=0) * _unposed_share(weights, names, skinning)[:, None, None]
+    shift = np.zeros_like(posed)
+    for column, name in enumerate(names):
+        if name in skinning and weights[:, column].any():
+            r, t = skinning[name]
+            blend += weights[:, column, None, None] * r
+            shift += weights[:, column:column + 1] * t
+    return np.linalg.solve(blend, (posed - shift)[:, :, None])[:, :, 0]
+
+
 def skeleton_from_joints(joints):
     """The (name, parent, Unity position) list character_tools.build_armature takes, rounded to 0.1 mm."""
     return [(name, parent, tuple(round(c, 4) for c in blender_to_unity(joints[name]))) for name, parent in PARENTS]

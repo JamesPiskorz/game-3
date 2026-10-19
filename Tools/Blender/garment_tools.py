@@ -551,8 +551,8 @@ def _body_adjacency(mesh):
     return edges[0::2], edges[1::2]
 
 
-def project_garment(body, scan, garment, labels, index, offset, name, always=None, max_loose=0.06, reach_out=0.15,
-                    reach_in=0.10):
+def project_garment(body, scan, garment, labels, index, offset, name, joints, always=None, max_loose=0.06,
+                    reach_out=0.15, reach_in=0.10):
     """
     A fitted garment built from the canonical body itself: the body's own surface over the regions the scan's
     garment covers, lifted by the layer offset, or by the scan's own looseness where it hangs further out (a flared
@@ -567,6 +567,9 @@ def project_garment(body, scan, garment, labels, index, offset, name, always=Non
     lie inside them). Coverage is smoothed over the body and the garment cut along its half-way line, so hems and
     sleeve ends are smooth curves rather than the body's triangle edges. ``always`` (a mask of body vertices) is
     covered whatever the scan shows: a shoe encloses the whole foot even where our toes reach past the scan's shoe.
+
+    Where the garment is and how loose, it reads off the T-posed scan; its shape it gets in the game's arms-down pose
+    (_shape_in_pose), with the slack round each limb evened out (_even_limb_slack). ``joints``: the body's skeleton.
     """
     scan_tree = BVHTree.FromPolygons([tuple(v) for v in bt.vertices(scan)], [tuple(p.vertices) for p in scan.data.polygons])
     mesh = body.data
@@ -610,9 +613,12 @@ def project_garment(body, scan, garment, labels, index, offset, name, always=Non
             take = missing[i] & (cluster[j] >= 0)
             cluster[i[take]] = cluster[j[take]]
 
+    body_weights = bt.weight_matrix(body)
     lift = np.clip(loose, offset, max_loose)
     lift[~inside] = offset
-    lift = np.maximum(_blur(wide, lift), offset)  # even, so the garment is as smooth as the body
+    lift = _even_limb_slack(co, body_weights[0], body_weights[1], joints, lift, inside)
+    # Even, so the garment is as smooth as the body; blended only between parts that move together.
+    lift = np.maximum(_blur(_surface_neighbours(body, CLOSING, affinity=body_weights[0]), lift), offset)
 
     part = body.copy()
     part.data = body.data.copy()
@@ -620,18 +626,9 @@ def project_garment(body, scan, garment, labels, index, offset, name, always=Non
     bpy.context.scene.collection.objects.link(part)
     for modifier in list(part.modifiers):
         part.modifiers.remove(modifier)
-    part.data.vertices.foreach_set("co", (co + normals * lift[:, None]).ravel())
-    if part.data.shape_keys:
-        # Every shape moves the garment as it moves the body under it, lifted along that shape's own normals: lifted
-        # along the basis's, the masculine chest's garment slid down off the bust's underside and creased.
-        part.data.calc_loop_triangles()
-        triangles = np.empty(len(part.data.loop_triangles) * 3, dtype=np.int64)
-        part.data.loop_triangles.foreach_get("vertices", triangles)
-        triangles = triangles.reshape(-1, 3)
-        for key in part.data.shape_keys.key_blocks:
-            shaped = _key_positions(key)
-            key.data.foreach_set("co", (shaped + _vertex_normals(shaped, triangles) * lift[:, None]).ravel())
-        part.data.vertices.foreach_set("co", _key_positions(part.data.shape_keys.reference_key).ravel())
+    if "lift" in part.data.attributes:
+        part.data.attributes.remove(part.data.attributes["lift"])
+    part.data.attributes.new("lift", "FLOAT", "POINT").data.foreach_set("value", lift)
 
     if "vcluster" in part.data.attributes:
         part.data.attributes.remove(part.data.attributes["vcluster"])
@@ -644,8 +641,7 @@ def project_garment(body, scan, garment, labels, index, offset, name, always=Non
     bm.to_mesh(part.data)
     bm.free()
     part.data.update()
-    _bridge_hollows(part)
-    _push_out(part, body, offset)
+    _shape_in_pose(part, body, body_weights, joints, offset)
     return part, int(inside.sum())
 
 
@@ -681,49 +677,111 @@ def _key_positions(key):
     return co.reshape(-1, 3)
 
 
-def _bridge_hollows(part, sigma=0.045, iterations=8):
+BRIDGE = 0.045  # metres: the reach of hollow bridging
+
+
+def _bridged(co, neighbours, triangles, edge, iterations=8):
     """
-    Fills a fitted garment's hollows the way cloth spans them (between the buttocks, under the bust, between the toes)
-    instead of following the skin into them: each vertex moves out towards the blurred surface around it (``sigma``
-    metres), never in, so it never sinks into the body. Neighbours facing away count for nothing, so the two legs of
-    a pair of shorts don't web together. Each shape key is done on its own, since each shape has its own hollows. The
-    edges stay put. (Smoothing over mesh neighbours only filled the narrowest creases: it stalls once each vertex's
-    neighbours look flat.)
+    A fitted garment's hollows filled the way cloth spans them (between the buttocks, under the bust, between the toes)
+    instead of following the skin into them: each vertex moves out towards the blurred surface around it, never in, so
+    it never sinks into the body. ``neighbours`` is a _surface_neighbours blur (by bone affinity, so cloth doesn't web
+    an arm to the torso or one thigh to the other). Vertices on the garment's ``edge`` stay put. (Smoothing over mesh
+    neighbours only filled the narrowest creases: it stalls once each vertex's neighbours look flat.)
+    """
+    rows, cols, weights = neighbours
+    count = len(co)
+    total = np.maximum(np.bincount(rows, weights=weights, minlength=count), 1e-12)
+    co = co.copy()
+    for _ in range(iterations):
+        blurred = np.stack([np.bincount(rows, weights=weights * co[cols, k], minlength=count) for k in range(3)], 1) / total[:, None]
+        normals = _vertex_normals(co, triangles)
+        out = np.maximum(((blurred - co) * normals).sum(axis=1), 0.0)
+        out[edge] = 0.0
+        co += out[:, None] * normals
+    return co
+
+
+def _pushed_out(co, tree, offset, passes=3):
+    """``co`` with every point nearer the surface in ``tree`` than ``offset`` (or inside it) moved out to ``offset``."""
+    co = co.copy()
+    for _ in range(passes):  # in a fold, the nearest face can change once a point has moved
+        for i, p in enumerate(co):
+            location, normal, _, _ = tree.find_nearest(Vector(tuple(p)))
+            if location is not None and (Vector(tuple(p)) - location).dot(normal) < offset:
+                co[i] = tuple(location + normal * offset)
+    return co
+
+
+# The limb bones and the joint each runs to: slack round a sleeve or a shorts leg is evened out along them.
+LIMBS = {"UpperArm.L": "LowerArm.L", "UpperArm.R": "LowerArm.R", "LowerArm.L": "Hand.L", "LowerArm.R": "Hand.R",
+         "UpperLeg.L": "LowerLeg.L", "UpperLeg.R": "LowerLeg.R", "LowerLeg.L": "Foot.L", "LowerLeg.R": "Foot.R"}
+
+
+def _even_limb_slack(co, weights, names, joints, lift, inside, ring=0.015):
+    """
+    The lift round each limb made the same all the way round, ring by ring along the bone (``ring`` metres apart).
+    On the T-posed outfit model a loose sleeve hangs under the arm; kept as it was, that slack swung up beside the
+    shoulder when the arms came down, like a shoulder pad. A tube of even slack sits right in any pose.
+    """
+    evened, share = np.zeros(len(co)), np.zeros(len(co))
+    for bone, child in LIMBS.items():
+        if bone not in names or bone not in joints or child not in joints:
+            continue
+        w = weights[:, names.index(bone)]
+        a, b = np.asarray(joints[bone], dtype=float), np.asarray(joints[child], dtype=float)
+        axis = b - a
+        bins = np.floor(((co - a) @ axis) / max(np.linalg.norm(axis), 1e-9) / ring).astype(int)
+        mask = (w > 0.3) & inside
+        means = {k: float(lift[mask & (bins == k)].mean()) for k in np.unique(bins[mask])}
+        ring_lift = np.array([means.get(k, np.nan) for k in bins])
+        known = ~np.isnan(ring_lift)
+        evened[known] += w[known] * ring_lift[known]
+        share[known] += w[known]
+    share = np.clip(share, 0.0, 1.0)
+    return np.where(share > 0, evened + (1.0 - share) * lift, lift)
+
+
+def _shape_in_pose(part, body, body_weights, joints, offset):
+    """
+    The garment's final shape, made in the game's everyday pose (body_tools.RELAXED: arms down) and taken back to the
+    bind pose: the body under it and the garment (the body's surface where it covers it, with its ``lift`` attribute)
+    are both skinned into the pose; there the garment is lifted off the posed surface, its hollows bridged and any
+    point inside the body pushed out; then each point is unskinned. Skinned back into that pose in the game, it is
+    exactly that shape, instead of a T-pose fit bent by the bones (which bunched the shoulders). Every shape key the
+    same way, against the body in that shape.
     """
     mesh = part.data
-    count = len(mesh.vertices)
-    bm = bmesh.new()
-    bm.from_mesh(mesh)
-    edge = np.array([v.is_boundary for v in bm.verts])
-    bm.free()
-    rows, cols, weights = _surface_neighbours(part, sigma)
+    skinning = bt.pose_skinning(joints)
+    weights, names = bt.weight_matrix(part)
+    body_w, body_names = body_weights
+    lift = np.empty(len(mesh.vertices))
+    mesh.attributes["lift"].data.foreach_get("value", lift)
     mesh.calc_loop_triangles()
     triangles = np.empty(len(mesh.loop_triangles) * 3, dtype=np.int64)
     mesh.loop_triangles.foreach_get("vertices", triangles)
     triangles = triangles.reshape(-1, 3)
-    total_weight = np.maximum(np.bincount(rows, weights=weights, minlength=count), 1e-12)
+    bm = bmesh.new()
+    bm.from_mesh(mesh)
+    edge = np.array([v.is_boundary for v in bm.verts])
+    bm.free()
+    body_polygons = [tuple(p.vertices) for p in body.data.polygons]
+    body_keys = {k.name: k for k in body.data.shape_keys.key_blocks} if body.data.shape_keys else {}
 
-    def bridged(co):
-        co = co.copy()
-        for _ in range(iterations):
-            blurred = np.stack([np.bincount(rows, weights=weights * co[cols, k], minlength=count) for k in range(3)], 1)
-            blurred /= total_weight[:, None]
-            normals = _vertex_normals(co, triangles)
-            out = np.maximum(((blurred - co) * normals).sum(axis=1), 0.0)
-            out[edge] = 0.0
-            co += out[:, None] * normals
-        return co
-
+    keys = list(mesh.shape_keys.key_blocks) if mesh.shape_keys else [None]
+    posed_basis = bt.skin_positions(bt.vertices(part), weights, names, skinning)
+    neighbours = _surface_neighbours(part, BRIDGE, affinity=weights, co=posed_basis)
+    for key in keys:
+        rest = bt.vertices(part) if key is None else _key_positions(key)
+        body_rest = bt.vertices(body) if key is None or key.name not in body_keys else _key_positions(body_keys[key.name])
+        tree = BVHTree.FromPolygons([tuple(v) for v in bt.skin_positions(body_rest, body_w, body_names, skinning)], body_polygons)
+        posed = bt.skin_positions(rest, weights, names, skinning)
+        shaped = posed + _vertex_normals(posed, triangles) * lift[:, None]
+        shaped = _pushed_out(_bridged(shaped, neighbours, triangles, edge), tree, offset)
+        unposed = bt.unskin_positions(shaped, weights, names, skinning)
+        (mesh.vertices if key is None else key.data).foreach_set("co", unposed.ravel())
     if mesh.shape_keys:
-        for key in mesh.shape_keys.key_blocks:
-            shaped = np.empty(count * 3)
-            key.data.foreach_get("co", shaped)
-            key.data.foreach_set("co", bridged(shaped.reshape(-1, 3)).ravel())
-        basis = np.empty(count * 3)
-        mesh.shape_keys.reference_key.data.foreach_get("co", basis)
-        mesh.vertices.foreach_set("co", basis)
-    else:
-        mesh.vertices.foreach_set("co", bridged(bt.vertices(part)).ravel())
+        mesh.vertices.foreach_set("co", _key_positions(mesh.shape_keys.reference_key).ravel())
+    mesh.attributes.remove(mesh.attributes["lift"])
     mesh.update()
 
 
@@ -736,14 +794,16 @@ def _vertex_normals(co, triangles):
     return normals / np.maximum(np.linalg.norm(normals, axis=1), 1e-12)[:, None]
 
 
-def _surface_neighbours(obj, sigma):
+def _surface_neighbours(obj, sigma, affinity=None, co=None):
     """
     A Gaussian blur over ``obj``'s surface as a sparse matrix (rows, cols, weights): neighbours by distance, each
     weighted by its share of the surface and by how much its normal agrees (none if it faces away, as across the gap
     between two legs). Distance rather than mesh connectivity, since the body is decimated into long slivers.
+    ``affinity`` (vertices x bones skin weights) also weights neighbours by how alike they move, so an arm and the
+    torso beside it, or the two thighs, don't blend. ``co`` replaces the mesh's positions (a posed copy).
     """
     from mathutils.kdtree import KDTree
-    co = bt.vertices(obj)
+    co = bt.vertices(obj) if co is None else co
     mesh = obj.data
     mesh.calc_loop_triangles()
     triangles = np.empty(len(mesh.loop_triangles) * 3, dtype=np.int64)
@@ -766,8 +826,12 @@ def _surface_neighbours(obj, sigma):
         cols.append(np.fromiter((f[1] for f in found), dtype=np.int64, count=len(found)))
         distances.append(np.fromiter((f[2] for f in found), dtype=float, count=len(found)))
     rows, cols, distances = np.concatenate(rows), np.concatenate(cols), np.concatenate(distances)
-    agree = np.clip((normals[rows] * normals[cols]).sum(axis=1), 0.0, 1.0)
-    return rows, cols, area[cols] * np.exp(-0.5 * (distances / sigma) ** 2) * agree
+    weights = area[cols] * np.exp(-0.5 * (distances / sigma) ** 2) * np.clip((normals[rows] * normals[cols]).sum(axis=1), 0.0, 1.0)
+    if affinity is not None:
+        length = np.maximum(np.linalg.norm(affinity, axis=1), 1e-12)
+        alike = (affinity[rows] * affinity[cols]).sum(axis=1) / (length[rows] * length[cols])
+        weights *= np.clip(alike, 0.0, 1.0) ** 2
+    return rows, cols, weights
 
 
 def _cut_along(bm, field, level):

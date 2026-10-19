@@ -26,7 +26,9 @@ import garment_tools as gt  # noqa: E402
 import prop_tools as pt  # noqa: E402
 
 BUDGET = {"top": 6000, "bottom": 5000, "shoes": 3000, "outer": 8000, "onepiece": 8000, "legwear": 3000}
-LOOSEST = {"shoes": 0.025}  # metres a fitted garment may stand off the body (6 cm otherwise): shoes hug the foot
+# Metres a fitted garment may stand off the body (6 cm otherwise): shoes hug the foot, and bottoms sit close to the
+# hips and thighs (with the scan's full slack, loose shorts flared into a bell over a wide-hipped body).
+LOOSEST = {"shoes": 0.025, "bottom": 0.01}
 SCAN_HEIGHT = 1.70
 
 
@@ -97,7 +99,7 @@ def main():
         if slot in gt.FITTED:
             # Built from the body: its surface, weights and shapes, lifted by the offset or the scan's looseness.
             always = np.isin(regions_of_body, ["FootL", "FootR"]) if slot == "shoes" else None
-            part, _ = gt.project_garment(body, scan, garment, labels, index, offset, spec["id"], always,
+            part, _ = gt.project_garment(body, scan, garment, labels, index, offset, spec["id"], joints, always,
                                          max_loose=LOOSEST.get(slot, 0.06))
             # No decimation: it keeps the body's density, which is what makes it deform exactly like the skin under
             # it (and Blender can't decimate a mesh with shape keys). The validator still caps it at 12k triangles.
