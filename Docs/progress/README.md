@@ -116,3 +116,4 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261020-054556.png | c4279e6 | Crew neck, hems and shoe collars cut from ramps wider than the triangles: cleaner edges |
 | 20261020-055359.png | (between commits) | Fringe pushed clear of the brows straight in from the front (beside the brows it kept only 4 mm) |
 | 20261020-055512.png | 472c2a0 | Shot DNA: round eyes, thin brows (the seed drew droopy eyes and thick brows that peeked out) |
+| 20261020-055659.png | (next) | Cloth shades cool grey-blue (was lavender): white collar and sneakers grey in shadow, as the targets' |

@@ -1126,7 +1126,10 @@ namespace Game.Characters.StandIns
             var materials = new Dictionary<string, Material>
             {
                 ["Skin"] = SaveMaterial("StandIn_Skin", CullMode.Back, new Color(0.93f, 0.76f, 0.65f), new Color(0.82f, 0.56f, 0.5f), outline: 2f),
-                ["Cloth"] = SaveMaterial("StandIn_Cloth", CullMode.Off, Color.white, new Color(0.7f, 0.66f, 0.74f), outline: 2f),
+                ["Cloth"] = SaveMaterial("StandIn_Cloth", CullMode.Off, Color.white, new Color(0.7f, 0.66f, 0.74f), outline: 2f,
+                    // Cloth shades cool grey-blue, as the target-look images' whites do: the lavender default turned
+                    // white collars and sneakers lilac in shadow.
+                    shadeTint: new Color(0.7f, 0.74f, 0.82f)),
                 ["Hair"] = SaveMaterial("StandIn_Hair", CullMode.Off, Color.white, new Color(0.7f, 0.66f, 0.74f), outline: 1.8f),
                 ["Accessory"] = SaveMaterial("StandIn_Accessory", CullMode.Back, Color.white, new Color(0.7f, 0.66f, 0.74f), outline: 0.8f),
                 // Marks on the skin (freckles, blush) have no outline: a ring around every freckle would read as dirt.
@@ -1193,7 +1196,7 @@ namespace Game.Characters.StandIns
             return renderer;
         }
 
-        static Material SaveMaterial(string name, CullMode cull, Color baseColour, Color shade, float outline)
+        static Material SaveMaterial(string name, CullMode cull, Color baseColour, Color shade, float outline, Color? shadeTint = null)
         {
             var material = new Material(Shader.Find(ToonMaterial.ShaderName)) { name = name };
             material.EnableKeyword(ToonMaterial.VertexColourMaskKeyword);
@@ -1202,6 +1205,7 @@ namespace Game.Characters.StandIns
             material.SetColor(ToonMaterial.BaseShade, shade);
             material.SetFloat(ToonMaterial.Cull, (float)cull);
             material.SetFloat(ToonMaterial.OutlineWidth, outline);
+            if (shadeTint.HasValue) material.SetColor(ToonMaterial.ShadeTint, shadeTint.Value);
             if (outline <= 0f) material.SetShaderPassEnabled("SRPDefaultUnlit", false); // no outline, so no outline draw
             ToonMaterial.SetRegionColour(material, 0, new Color(0.55f, 0.6f, 0.75f));
             ToonMaterial.SetRegionColour(material, 1, new Color(0.25f, 0.22f, 0.2f));
