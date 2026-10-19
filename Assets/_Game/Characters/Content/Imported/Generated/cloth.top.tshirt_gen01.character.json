@@ -1,9 +1,7 @@
 {
   "kind": "part",
   "slot": "top",
-  "covers": [
-    "UpperTorso"
-  ],
+  "covers": [],
   "followsBodyShapes": true,
   "regions": 2,
   "outfit": "outfit-01",

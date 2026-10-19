@@ -1412,7 +1412,7 @@ def _even_limb_slack(co, weights, names, joints, lift, inside, ring=0.015):
 
 
 # How fast a draped top comes back in below what it hangs from (metres in per metre down).
-DRAPE_SLOPE = 0.18
+DRAPE_SLOPE = 0.06  # nearly straight down from the bust, as the references' T-shirts hang
 
 
 def _hull_radii(points, angles):
