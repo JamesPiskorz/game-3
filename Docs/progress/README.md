@@ -81,11 +81,11 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261020-031136.png | (between commits) | Up the neck 3.5 cm (still folds at the sides) |
 | 20261020-031700.png | fab914b | Crew neck: a level ring 2.5 cm up the neck, hugging it, with a 1.8 cm white collar |
 | 20261020-032021.png | fab914b | All outfits rebuilt with the neck fade |
-| 20261020-032932.png | (next) | Sneakers: wrapped in their cross-sections' hull, a level red sole band, a low-top collar (up the tongue and heel, down under the ankle bones) |
-| 20261020-033047.png | (next) | Bolder outlines: 2 px on skin and cloth, 1.8 on hair (at 1080p) |
-| 20261020-034239.png | (next) | Shorts: a level hem 13 cm under the hip joints, turned-up cuffs, the crotch spanned |
-| 20261020-034442.png | (next) | Shorts flare 1.8 cm |
-| 20261020-034713.png | (next) | Shorts hem 3 cm higher, as in the image |
-| 20261020-034852.png | (next) | Shoe close-ups added to the shot (one shoe's sole hidden under its toe box) |
-| 20261020-040030.png | (next) | Each shoe stands on its own flat floor; the sole runs under the toe box: red all round |
-| 20261020-040352.png | (next) | All outfits rebuilt |
+| 20261020-032932.png | 78e2636 | Sneakers: wrapped in their cross-sections' hull, a level red sole band, a low-top collar (up the tongue and heel, down under the ankle bones) |
+| 20261020-033047.png | 78e2636 | Bolder outlines: 2 px on skin and cloth, 1.8 on hair (at 1080p) |
+| 20261020-034239.png | 78e2636 | Shorts: a level hem 13 cm under the hip joints, turned-up cuffs, the crotch spanned |
+| 20261020-034442.png | 78e2636 | Shorts flare 1.8 cm |
+| 20261020-034713.png | 78e2636 | Shorts hem 3 cm higher, as in the image |
+| 20261020-034852.png | 78e2636 | Shoe close-ups added to the shot (one shoe's sole hidden under its toe box) |
+| 20261020-040030.png | 78e2636 | Each shoe stands on its own flat floor; the sole runs under the toe box: red all round |
+| 20261020-040352.png | 78e2636 | All outfits rebuilt |
