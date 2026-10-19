@@ -13,7 +13,7 @@
     "image": "References/character-base-images/outfits/outfit-02.png",
     "prompt": "oversized pullover hoodie in solid charcoal grey with mint green ribbed cuffs and hem, the hood down and resting on the back of the neck; slim jogger trousers in solid black, gathered at the ankles; high-top sneakers in solid white with black soles",
     "garments": [
-      {"id": "cloth.top.hoodie_gen01", "slot": "top", "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR", "ForearmL", "ForearmR", "Head"], "colours": ["#4a4a4f", "#a8e6cf"], "hood": true, "ease": 0.025, "cords": {"colour": "#f2f2f2"}},
+      {"id": "cloth.top.hoodie_gen01", "slot": "top", "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR", "ForearmL", "ForearmR", "Head"], "colours": ["#4a4a4f", "#a8e6cf"], "hood": true, "ease": 0.025, "cords": {"colour": "#f2f2f2"}, "collar": 0.025},
       {"id": "cloth.bottom.joggers_gen01", "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#1c1c1c"], "loosest": 0.06, "ease": 0.045, "gather": 0.12, "hem": 0.69},
       {"id": "cloth.shoes.hightops_gen01", "slot": "shoes", "regions": ["FootL", "FootR", "CalfL", "CalfR"], "colours": ["#f2f2f2", "#1c1c1c"], "ease": 0.01, "laces": {"colour": "#2a2a2e", "lines": 6}}
     ]
