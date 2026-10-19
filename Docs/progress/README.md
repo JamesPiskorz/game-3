@@ -31,6 +31,6 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261019-2354.png | c4555ca | Soft cheek blush (30%) |
 | 20261019-2356.png | c4555ca | Blush at 45%, wider |
 | 20261019-2359.png | e61e69a | Hoodie: the hood's edges aren't trims, so mint shows only round the neck opening |
-| 20261020-0002.png | (next) | Sole flare (small) |
-| 20261020-0005.png | (next) | Sneaker soles: flat, out to the footprint's hull |
-| 20261020-0006.png | (next) | Chunkier sneakers (1.6 cm ease, 1 cm flare): the red sole shows |
+| 20261020-0002.png | 7d7bbb1 | Sole flare (small) |
+| 20261020-0005.png | 7d7bbb1 | Sneaker soles: flat, out to the footprint's hull |
+| 20261020-0006.png | 7d7bbb1 | Chunkier sneakers (1.6 cm ease, 1 cm flare): the red sole shows |
