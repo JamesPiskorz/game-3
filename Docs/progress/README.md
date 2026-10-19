@@ -69,7 +69,7 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261020-022550.png | fa60ba7 | Rounder jaw: the pointed V chin widened into a soft U |
 | 20261020-023129.png | 45aa949 | All parts rebuilt on the rounder-jaw body |
 | 20261020-023325.png | 45aa949 | T-shirt falls straighter from the bust (drape slope 0.06): boxy like the target |
-| 20261020-023829.png | (next) | Unstrapped tops drape up to the shoulders; the drape relaxes 40 passes: no cleavage, no fold under the bust |
-| 20261020-024024.png | (next) | 2.5 cm overlap (a skin sliver still showed) |
-| 20261020-024538.png | (next) | Bug fix: the relax no longer draws the hem up; 2.5 cm now hides the waistband |
-| 20261020-024736.png | (next) | 6 mm overlap: the waistband shows under the shirt, no skin |
+| 20261020-023829.png | 428e215 | Unstrapped tops drape up to the shoulders; the drape relaxes 40 passes: no cleavage, no fold under the bust |
+| 20261020-024024.png | 428e215 | 2.5 cm overlap (a skin sliver still showed) |
+| 20261020-024538.png | 428e215 | Bug fix: the relax no longer draws the hem up; 2.5 cm now hides the waistband |
+| 20261020-024736.png | 428e215 | 6 mm overlap: the waistband shows under the shirt, no skin |
