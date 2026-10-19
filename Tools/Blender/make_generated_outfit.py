@@ -130,7 +130,7 @@ def main():
                                          ease=spec.get("ease", 0.0), straps=spec.get("straps", 0.0),
                                          scoop=spec.get("scoop", 0.0), gather=spec.get("gather", 0.0),
                                          sleeve_ease=spec.get("sleeve_ease", 0.0), flare=tuple(spec.get("flare", (0.0, 0.0))),
-                                         top=spec.get("top"),
+                                         top=spec.get("top"), neck=spec.get("neck"),
                                          extend_down=OVERLAP if slot == "top" and any(g["slot"] == "bottom" for g in outfit["garments"]) else 0.0)
             if slot == "shoes":
                 gt.flare_sole(part)
@@ -163,6 +163,10 @@ def main():
             gt.add_band(part, spec["band"]["width"], recolour)
             band_colour = spec["band"]["colour"]
             recolour += 1
+        if spec.get("collar") and (trim := gt.trim_region(part)) is not None:
+            # A crew neck's ribbed collar in its cuffs' colour. The scan's collar climbed the neck; the shirt now
+            # stops at the neck's base, under the white the scan painted there.
+            gt.add_band(part, spec["collar"], trim)
         gt.limit_influences(part)  # vertices made by the cuts blend two vertices' weights
         planar_uvs(part)
         if slot not in gt.FITTED:

@@ -683,7 +683,7 @@ def _sole(part, region, regions, height=0.016, look=0.035, least=0.08):
     return result
 
 
-def _edge_trims(part, region, regions, band=0.02, dominant=0.15, widths=(0.008, 0.03)):
+def _edge_trims(part, region, regions, band=0.02, dominant=0.15, widths=(0.008, 0.02)):
     """
     ``region`` (per vertex) with each edge trim made an even band: a collar round the neck opening, cuffs round the
     sleeve ends, a waistband, a tank top's edging. A region other than the main one (0) that covers at least
@@ -910,6 +910,22 @@ def flare_sole(part, height=0.024, flare=0.01, flat=0.008, angles=72, toe=0.05, 
     mesh.update()
 
 
+def trim_region(part):
+    """The recolour region (1-2) the garment's edge trims are in (a T-shirt's cuffs), or None if it has none."""
+    mesh = part.data
+    values = np.empty(len(mesh.loops) * 4)
+    mesh.color_attributes[ct.COLOUR_ATTRIBUTE].data.foreach_get("color", values)
+    corner = values.reshape(-1, 4)[:, 1:].argmax(axis=1)
+    bm = bmesh.new()
+    bm.from_mesh(mesh)
+    counts = np.zeros(3)
+    for f in bm.faces:
+        if any(e.is_boundary for e in f.edges):
+            counts[corner[f.loops[0].index]] += 1
+    bm.free()
+    return int(counts[1:].argmax()) + 1 if counts[1:].max() > 0 else None
+
+
 def add_band(part, width, region):
     """
     A band ``width`` metres deep along the garment's top edge (the open edge loop that sits highest: a waistband,
@@ -1070,7 +1086,7 @@ def _body_adjacency(mesh):
 
 def project_garment(body, scan, garment, labels, index, offset, name, joints, always=None, max_loose=0.06,
                     reach_out=0.15, reach_in=0.10, edge_blur=None, drape=False, extend_down=0.0, ease=0.0,
-                    straps=0.0, scoop=0.0, gather=0.0, sleeve_ease=0.0, flare=(0.0, 0.0), top=None):
+                    straps=0.0, scoop=0.0, gather=0.0, sleeve_ease=0.0, flare=(0.0, 0.0), top=None, neck=None):
     """
     A fitted garment built from the canonical body itself: the body's own surface over the regions the scan's
     garment covers, lifted by the layer offset, or by the scan's own looseness where it hangs further out (a flared
@@ -1131,6 +1147,12 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
     covered = _blur(fine, covered)  # no speckle, smooth edges
     if top is not None:  # no higher than this (low-top sneakers stop under the ankle)
         covered = np.minimum(covered, np.clip((top - bt.vertices(body)[:, 2]) / 0.008 + 0.5, 0.0, 1.0))
+    if neck is not None:
+        # A crew neck: round the neck up to this far above the neck joint, a level ring. The scan's collar climbed the
+        # neck in folds, and it covered the neck only in patches, so its edge was ragged.
+        on_neck = np.isin(body_regions(body), ["Neck", "Head"])
+        cap = float(joints["Neck"][2]) + neck
+        covered = np.where(on_neck, np.clip((cap - bt.vertices(body)[:, 2]) / 0.008 + 0.5, 0.0, 1.0), covered)
     if scoop > 0:
         covered = np.minimum(covered, 1.0 - _scoop(body, joints, scoop, straps))
     if straps > 0:
@@ -1169,6 +1191,10 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
         hem = float(co[inside, 2].min())
         t = np.clip((co[:, 2] - hem) / gather, 0.0, 1.0)
         lift = offset + (lift - offset) * t * t * (3 - 2 * t)
+    if neck is not None:  # a crew neck hugs the neck: the scan's thick collar stood 2 cm off it all round
+        across = np.linalg.norm(co[:, :2] - np.array([0.0, float(joints["Neck"][1])]), axis=1)
+        near = np.clip((0.11 - across) / 0.03, 0.0, 1.0) * np.clip((co[:, 2] - float(joints["Neck"][2]) + 0.05) / 0.04, 0.0, 1.0)
+        lift = lift - np.maximum(lift - offset - 0.002, 0.0) * near
 
     part = body.copy()
     part.data = body.data.copy()
@@ -1494,6 +1520,10 @@ def _draped(co, weights, names, joints, slope=DRAPE_SLOPE, angles=120, step=0.01
     drape = (grid[i0, j0] * (1 - ti) * (1 - tj) + grid[i1, j0] * ti * (1 - tj)
              + grid[i0, j1] * (1 - ti) * tj + grid[i1, j1] * ti * tj)
     blend = np.clip((share - 0.3) / 0.5, 0.0, 1.0)
+    # Out to nothing at the neck: the blur over height carried the chest's wider hull up into the neckline, and the
+    # collar stood 4 cm off the throat in folds.
+    neck = float(joints["Neck"][2])
+    blend *= np.clip((neck + 0.01 - co[:, 2]) / 0.05, 0.0, 1.0)
     if below is not None:  # only below this height: pushed out to the shoulders' hull, a tank top's straps were fins
         blend *= np.clip((below - co[:, 2]) / 0.06, 0.0, 1.0)
 

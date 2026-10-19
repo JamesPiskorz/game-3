@@ -73,3 +73,11 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261020-024024.png | 428e215 | 2.5 cm overlap (a skin sliver still showed) |
 | 20261020-024538.png | 428e215 | Bug fix: the relax no longer draws the hem up; 2.5 cm now hides the waistband |
 | 20261020-024736.png | 428e215 | 6 mm overlap: the waistband shows under the shirt, no skin |
+| 20261020-025113.png | c487c63 | Outfits 02 and 03 rebuilt with the same fit |
+| 20261020-025308.png | (between commits) | Trim bands at most 2 cm wide (the T-shirt's collar climbs the neck in folds) |
+| 20261020-025529.png | (between commits) | T-shirt off the neck entirely: no collar at all (rejected) |
+| 20261020-025957.png | (between commits) | A collar band in the cuffs' white round the neck opening; the opening stands 4 cm off the throat |
+| 20261020-030929.png | (between commits) | The drape fades out below the neck: the collar no longer stands off the throat |
+| 20261020-031136.png | (between commits) | Up the neck 3.5 cm (still folds at the sides) |
+| 20261020-031700.png | (next) | Crew neck: a level ring 2.5 cm up the neck, hugging it, with a 1.8 cm white collar |
+| 20261020-032021.png | (next) | All outfits rebuilt with the neck fade |
