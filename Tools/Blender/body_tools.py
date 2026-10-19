@@ -887,7 +887,7 @@ def build_face(obj, joints, socket_half):
     """
     j = {k: np.asarray(v, dtype=float) for k, v in joints.items()}
     features = FeatureBuilder(_bvh(obj))
-    white = (socket_half[0] * 1.0, socket_half[1] * 1.0)  # across, up: anime eyes fill their sockets and then some
+    white = (socket_half[0] * 1.06, socket_half[1] * 1.06)  # across, up: anime eyes fill their sockets and then some
     scale = white[0] / 0.019  # relative to the stand-in's eye white
 
     for side, outward in ((".L", 1.0), (".R", -1.0)):  # outward: +x is the left eye's outer corner
