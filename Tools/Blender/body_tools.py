@@ -949,6 +949,37 @@ def build_face(obj, joints, socket_half):
     return features.merge_into(obj)
 
 
+def paint_blush(obj, joints, strength=0.45, radius=0.028):
+    """
+    A soft blush on each cheek, as every reference face has: the skin round the Blush joints takes up to
+    ``strength`` of recolour region 4 (the lips' colour) in the second UV map, fading out over ``radius`` metres. The
+    toon shader blends a region's weight into the skin, so it shades softly; FaceExpression's blush strokes still
+    come out over it. Only skin facing forward takes it (not the features drawn over, which keep their own masks).
+    """
+    mesh = obj.data
+    co = vertices(obj)
+    normals = np.empty(len(co) * 3)
+    mesh.vertices.foreach_get("normal", normals)
+    normals = normals.reshape(-1, 3)
+    weight = np.zeros(len(co))
+    for side in (".L", ".R"):
+        centre = np.asarray(joints["Blush" + side], dtype=float)
+        d = np.linalg.norm((co - centre) * np.array([1.0, 0.6, 1.25]), axis=1)  # wider than tall
+        t = np.clip(1.0 - d / radius, 0.0, 1.0)
+        weight = np.maximum(weight, strength * t * t * (3 - 2 * t))
+    weight[normals[:, 1] > -0.2] = 0.0
+    loop_vertex = np.empty(len(mesh.loops), dtype=np.int64)
+    mesh.loops.foreach_get("vertex_index", loop_vertex)
+    uv = np.empty(len(mesh.loops) * 2)
+    mesh.uv_layers[1].data.foreach_get("uv", uv)
+    uv = uv.reshape(-1, 2)
+    skin = uv[:, 1] < 0.5  # features are drawn over (UV1.y = 1) and keep their regions
+    uv[skin, 0] = np.maximum(uv[skin, 0], weight[loop_vertex][skin])
+    mesh.uv_layers[1].data.foreach_set("uv", uv.ravel())
+    mesh.update()
+    return int((weight > 0.01).sum())
+
+
 def face_normals(obj, joints, strength=0.9):
     """
     Blends the head's normals towards an ellipsoid's around it (``strength`` at full head weight, fading down the

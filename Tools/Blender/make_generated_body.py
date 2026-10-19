@@ -80,6 +80,7 @@ def main():
     bt.weight_nose(body, joints)
     bt.paint_regions(body)
     features = bt.build_face(body, joints, face_info["socket_half"])
+    bt.paint_blush(body, joints)
     bt.add_body_shapes(body, joints)
     if other is not None:
         largest = bt.add_presentation_shape(body, other, joints)

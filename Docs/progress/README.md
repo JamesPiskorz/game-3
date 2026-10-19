@@ -27,3 +27,6 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261019-2338.png | 7c83508 | Shot adds outfits 02 and 03 beside their images |
 | 20261019-2341.png | 7c83508 | Closing scaled to edge_blur (tank straps still missing: the scan has none at the front) |
 | 20261019-2344.png | 7c83508 | Baggy joggers (3.5 cm ease) |
+| 20261019-2352.png | (next) | Belt experiments reverted (the belt stays a known gap) |
+| 20261019-2354.png | (next) | Soft cheek blush (30%) |
+| 20261019-2356.png | (next) | Blush at 45%, wider |
