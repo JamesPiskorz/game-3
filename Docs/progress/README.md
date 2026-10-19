@@ -107,4 +107,4 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261020-051635.png | 8a04b3a | Three-quarter camera on her right, as the target |
 | 20261020-052153.png | 8a04b3a | Thumbs tucked in along the hands: no more claws with the arms down |
 | 20261020-052419.png | (between commits) | Stance 7° per leg (a clearer gap between the shorts' legs); sleeves 2.6 cm off the arm |
-| 20261020-052755.png | (next) | All outfits refitted to the wider stance |
+| 20261020-052755.png | 76542e8 | All outfits refitted to the wider stance |
