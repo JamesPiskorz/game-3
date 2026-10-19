@@ -132,4 +132,4 @@ Milestones worth comparing: 20261019-2207 (baseline), 20261020-0113 (anime eyes,
 | 20261020-063259.png | 0dde83c | End of the night: jeans gathered into the boots |
 | 20261020-063459.png | (between commits) | Eye whites 106% of the socket |
 | 20261020-063557.png | 49cbd63 | Hair rebuilt against the bigger eyes |
-| 20261020-064125.png | (next) | Blush at 60% (was 45%), rosier like both references |
+| 20261020-064125.png | 4a7af55 | Blush at 60% (was 45%), rosier like both references |
