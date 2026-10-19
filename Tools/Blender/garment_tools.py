@@ -1192,7 +1192,9 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
     bm.free()
     part.data.update()
     _smooth_edges(part, body, body_weights, lift, cluster)
-    _shape_in_pose(part, body, body_weights, joints, offset, drape=drape)
+    # A strapped top drapes only below the armpits (its straps lie on the shoulders).
+    drape_below = float(joints["UpperArm.L"][2]) - 0.06 if straps > 0 else None
+    _shape_in_pose(part, body, body_weights, joints, offset, drape=drape, drape_below=drape_below)
     return part, int(inside.sum())
 
 
@@ -1448,7 +1450,8 @@ def _hull_radii(points, angles):
     return radii
 
 
-def _draped(co, weights, names, joints, slope=DRAPE_SLOPE, angles=120, step=0.01, edges=None, relax=12):
+def _draped(co, weights, names, joints, slope=DRAPE_SLOPE, angles=120, step=0.01, edges=None, relax=40, below=None,
+            held=None):
     """
     A top hanging like cloth, in the pose (arms down). Round the torso's vertical axis, each horizontal slice of the
     torso is wrapped by its convex hull (cloth under tension spans the cleavage and the abs), each column of that
@@ -1491,10 +1494,8 @@ def _draped(co, weights, names, joints, slope=DRAPE_SLOPE, angles=120, step=0.01
     drape = (grid[i0, j0] * (1 - ti) * (1 - tj) + grid[i1, j0] * ti * (1 - tj)
              + grid[i0, j1] * (1 - ti) * tj + grid[i1, j1] * ti * tj)
     blend = np.clip((share - 0.3) / 0.5, 0.0, 1.0)
-    # Only below the shoulders: up there the hull is the shoulders' width, and pushed out to it a tank top's straps
-    # stood off the shoulders like fins.
-    armpit = float(joints["UpperArm.L"][2]) - 0.06
-    blend *= np.clip((armpit - co[:, 2]) / 0.06, 0.0, 1.0)
+    if below is not None:  # only below this height: pushed out to the shoulders' hull, a tank top's straps were fins
+        blend *= np.clip((below - co[:, 2]) / 0.06, 0.0, 1.0)
 
     def onto(points):  # each point out to the drape where it is (never in)
         dd = points[:, :2] - axis
@@ -1518,7 +1519,9 @@ def _draped(co, weights, names, joints, slope=DRAPE_SLOPE, angles=120, step=0.01
     if edges is not None:
         a, b = edges
         count = np.maximum(np.bincount(np.concatenate([a, b]), minlength=len(co)), 1)[:, None]
-        moved = np.linalg.norm(out - co, axis=1) > 0.003
+        moved = np.linalg.norm(out - co, axis=1) > 0.001
+        if held is not None:  # the garment's edges stay put: relaxing drew the hem 2 cm up
+            moved &= ~held
         for _ in range(relax):
             total = np.zeros_like(out)
             np.add.at(total, a, out[b])
@@ -1527,7 +1530,7 @@ def _draped(co, weights, names, joints, slope=DRAPE_SLOPE, angles=120, step=0.01
     return out
 
 
-def _shape_in_pose(part, body, body_weights, joints, offset, drape=False):
+def _shape_in_pose(part, body, body_weights, joints, offset, drape=False, drape_below=None):
     """
     The garment's final shape, made in the game's everyday pose (body_tools.RELAXED: arms down) and taken back to the
     bind pose: the body under it and the garment (the body's surface where it covers it, with its ``lift`` attribute)
@@ -1567,7 +1570,7 @@ def _shape_in_pose(part, body, body_weights, joints, offset, drape=False):
         shaped = posed + _vertex_normals(posed, triangles) * lift[:, None]
         shaped = _bridged(shaped, neighbours, triangles, edge, edge_rings=mesh_edges)
         if drape:
-            shaped = _draped(shaped, weights, names, joints, edges=mesh_edges)
+            shaped = _draped(shaped, weights, names, joints, edges=mesh_edges, below=drape_below, held=edge)
         shaped = _pushed_out(_fair(shaped, mesh_edges, edge), tree, offset)
         unposed = bt.unskin_positions(shaped, weights, names, skinning)
         (mesh.vertices if key is None else key.data).foreach_set("co", unposed.ravel())

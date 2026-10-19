@@ -32,7 +32,7 @@ BUDGET = {"top": 6000, "bottom": 5000, "shoes": 3000, "outer": 8000, "onepiece":
 # "loosest" in outfits.json overrides its slot's (straight-leg trousers hang looser than shorts).
 LOOSEST = {"shoes": 0.045, "bottom": 0.01}
 SCAN_HEIGHT = 1.70
-OVERLAP = 0.015  # metres a top reaches down over its outfit's bottom (it hid the waistband at 3 cm)
+OVERLAP = 0.006  # metres a top reaches down over its outfit's bottom: just over the top of a waistband
 
 
 def arguments():
