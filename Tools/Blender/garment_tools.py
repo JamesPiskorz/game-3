@@ -469,7 +469,8 @@ def recolour_mask(part, vertex_cluster, areas_by_cluster, lab, min_share=0.04, s
     Blocks that are shades of one colour (_shades: the texture's shading split burgundy into a lit and a dark cluster,
     and the dark one came out as blotches) count as one block, coloured as the largest. A block under ``min_share`` of
     the part is stray texture, not a panel: it joins the region nearest its colour (``lab``: each cluster's OKLab
-    colour). Each region is blurred over the surface (``sigma`` metres) and the
+    colour). Trims along the garment's edges become even bands (_edge_trims). Each region is blurred over the surface
+    (``sigma`` metres) and the
     mesh cut along its edge, and the regions are written per face corner: the shader blends vertex colours across a
     triangle, which on the body's long slivers smeared every colour edge into streaks. Returns the colour cluster of
     each region, in order.
@@ -484,6 +485,8 @@ def recolour_mask(part, vertex_cluster, areas_by_cluster, lab, min_share=0.04, s
     region_of = {k: ranked.index(shade_of[k]) if shade_of.get(k) in ranked else
                  int(np.argmin([pt.colour_distance(lab[k], lab[r]) for r in ranked])) for k in range(len(lab))}
     region = np.array([region_of.get(int(k), 0) if k >= 0 else 0 for k in vertex_cluster])
+    if len(ranked) > 1:
+        region = _edge_trims(part, region, len(ranked))
     mesh = part.data
     if len(ranked) > 1:
         neighbours = _surface_neighbours(part, sigma)
@@ -516,6 +519,65 @@ def recolour_mask(part, vertex_cluster, areas_by_cluster, lab, min_share=0.04, s
     colours.data.foreach_set("color", values.ravel())
     mesh.color_attributes.active_color = colours
     return ranked
+
+
+def _edge_trims(part, region, regions, band=0.02, dominant=0.15, widths=(0.008, 0.03)):
+    """
+    ``region`` (per vertex) with each edge trim made an even band: a collar round the neck opening, cuffs round the
+    sleeve ends, a waistband, a tank top's edging. A region other than the main one (0) that covers at least
+    ``dominant`` of the ``band`` metres along an edge loop is that loop's trim; it then covers that loop's whole band
+    out to its own width (how far it reached from the loop, within ``widths``), and only there: the scan's cuffs
+    reached the sleeve ends in patches, and white specks elsewhere on the shirt were its highlights.
+    """
+    from mathutils.kdtree import KDTree
+    bm = bmesh.new()
+    bm.from_mesh(part.data)
+    bm.edges.ensure_lookup_table()
+    boundary = {e for e in bm.edges if e.is_boundary}
+    loops, seen = [], set()
+    for start in boundary:
+        if start in seen:
+            continue
+        stack, verts = [start], set()
+        seen.add(start)
+        while stack:
+            edge = stack.pop()
+            verts.update(v.index for v in edge.verts)
+            for v in edge.verts:
+                for other in v.link_edges:
+                    if other in boundary and other not in seen:
+                        seen.add(other)
+                        stack.append(other)
+        loops.append(sorted(verts))
+    bm.free()
+
+    co = bt.vertices(part)
+    result = region.copy()
+    near_trim = {r: np.zeros(len(co), dtype=bool) for r in range(1, regions)}
+    for loop in loops:
+        if len(loop) < 8:
+            continue
+        tree = KDTree(len(loop))
+        for i, v in enumerate(loop):
+            tree.insert(co[v], i)
+        tree.balance()
+        distance = np.array([tree.find(p)[2] for p in co])
+        inside = distance < band
+        counts = np.bincount(region[inside], minlength=regions) / max(inside.sum(), 1)
+        trim = int(np.argmax(counts[1:])) + 1 if regions > 1 else 0
+        print(f"[trim] edge loop of {len(loop)}: shares {np.round(counts, 2).tolist()}"
+              + (f", region {trim} band" if trim and counts[trim] >= dominant else ""))
+        if trim == 0 or counts[trim] < dominant:
+            continue
+        reach = distance[(region == trim) & (distance < 2.5 * band)]
+        width = float(np.clip(np.percentile(reach, 80), *widths)) if len(reach) else widths[0]
+        result[(distance >= width) & (distance < width + 0.025) & (result == trim)] = 0  # ragged leftovers past the band
+        result[distance < width] = trim
+        near_trim[trim] |= distance < width
+    for trim, near in near_trim.items():
+        if near.any():  # a trim colour away from its edges is stray texture
+            result[(result == trim) & ~near] = 0
+    return result
 
 
 def _shades(areas_by_cluster, lab, hue_reach=25.0, alike=0.55, grey=0.025, grey_alike=0.6):
