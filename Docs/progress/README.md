@@ -131,4 +131,4 @@ Milestones worth comparing: 20261019-2207 (baseline), 20261020-0113 (anime eyes,
 | 20261020-062739.png | 3010b0e | Hair normals lean up as well: the back of the bob mostly lit, shade low on its far side |
 | 20261020-063259.png | 0dde83c | End of the night: jeans gathered into the boots |
 | 20261020-063459.png | (between commits) | Eye whites 106% of the socket |
-| 20261020-063557.png | (next) | Hair rebuilt against the bigger eyes |
+| 20261020-063557.png | 49cbd63 | Hair rebuilt against the bigger eyes |
