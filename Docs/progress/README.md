@@ -95,4 +95,4 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261020-042313.png | d3628e0 | Relaxed pose: toes turned out 10°, arms 4° closer to the body, as the target stands; garments refitted |
 | 20261020-042617.png | d3628e0 | Sneaker laces: four grey bars across each instep |
 | 20261020-042939.png | d3628e0 | All outfits refitted to the new pose |
-| 20261020-043623.png | (next) | Hoodie drawstrings (two white stripes down the front); lace bars cut cleanly along their straight edges |
+| 20261020-043623.png | 878d465 | Hoodie drawstrings (two white stripes down the front); lace bars cut cleanly along their straight edges |
