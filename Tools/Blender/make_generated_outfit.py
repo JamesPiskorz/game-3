@@ -183,6 +183,8 @@ def main():
             # An even band round the top edge in the edge trims' colour: a crew neck's ribbed collar like its cuffs
             # (the scan's collar climbed the neck; the shirt now stops at its base), a tank top's black edging.
             print(f"[outfit] {spec['id']}: collar in region {trim}, {gt.add_band(part, spec['collar'], trim)} faces")
+            if spec.get("neck"):  # a crew neck's collar is a ring round the neck: shaded as one
+                print(f"[outfit] {spec['id']}: collar normals on {gt.collar_normals(part, trim, joints)} vertices")
         gt.limit_influences(part)  # vertices made by the cuts blend two vertices' weights
         planar_uvs(part)
         if slot not in gt.FITTED:

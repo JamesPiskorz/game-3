@@ -1188,6 +1188,40 @@ def _paint(bm, mesh, field, region, cuts):
     return len(drawn)
 
 
+def collar_normals(part, region, joints, strength=0.85, lift=1.0):
+    """
+    A collar band (recolour ``region`` above the shoulders) shaded as one ring: its normals blended ``strength`` of the
+    way to point straight out from the neck (tipped ``lift`` upwards), so the toon step goes round it smoothly. Where
+    the collar met the shoulders its surface was bumpy and it broke into white and lavender patches. Returns the
+    vertices set.
+    """
+    mesh = part.data
+    co = bt.vertices(part)
+    values = np.empty(len(mesh.loops) * 4)
+    mesh.color_attributes[ct.COLOUR_ATTRIBUTE].data.foreach_get("color", values)
+    corner = values.reshape(-1, 4)[:, 1:].argmax(axis=1)
+    loop_vertex = np.empty(len(mesh.loops), dtype=np.int64)
+    mesh.loops.foreach_get("vertex_index", loop_vertex)
+    collar = np.zeros(len(co), dtype=bool)
+    collar[loop_vertex[corner == region]] = True
+    collar &= co[:, 2] > float(joints["UpperArm.L"][2])
+    neck = np.asarray(joints["Neck"], dtype=float)
+    out = co - neck
+    out[:, 2] = 0.0
+    out /= np.maximum(np.linalg.norm(out, axis=1), 1e-9)[:, None]
+    out[:, 2] = lift
+    out /= np.linalg.norm(out, axis=1)[:, None]
+    normals = np.empty(len(co) * 3)
+    mesh.vertices.foreach_get("normal", normals)
+    normals = normals.reshape(-1, 3)
+    mixed = np.where(collar[:, None], normals * (1.0 - strength) + out * strength, normals)
+    mixed /= np.maximum(np.linalg.norm(mixed, axis=1), 1e-9)[:, None]
+    mesh.polygons.foreach_set("use_smooth", np.ones(len(mesh.polygons), dtype=bool))
+    mesh.normals_split_custom_set_from_vertices([tuple(n) for n in mixed])
+    mesh.update()
+    return int(collar.sum())
+
+
 def trim_region(part):
     """The recolour region (1-2) the garment's edge trims are in (a T-shirt's cuffs), or None if it has none."""
     mesh = part.data
