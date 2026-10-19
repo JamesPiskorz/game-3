@@ -67,5 +67,5 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261020-022142.png | ca13ba6 | Fixed: a part hides only regions it covers all but a few of (99.5%) |
 | 20261020-022249.png | 33c98a5 | Hair normals lean towards the viewer: most of the bob lit, shade on its far side |
 | 20261020-022550.png | fa60ba7 | Rounder jaw: the pointed V chin widened into a soft U |
-| 20261020-023129.png | (next) | All parts rebuilt on the rounder-jaw body |
-| 20261020-023325.png | (next) | T-shirt falls straighter from the bust (drape slope 0.06): boxy like the target |
+| 20261020-023129.png | 45aa949 | All parts rebuilt on the rounder-jaw body |
+| 20261020-023325.png | 45aa949 | T-shirt falls straighter from the bust (drape slope 0.06): boxy like the target |
