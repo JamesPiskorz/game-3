@@ -1,8 +1,10 @@
 # Look progress: the generated female character against her references
 
-Each screenshot is `ProgressShot` (Assets/_Game/Characters/Editor/Review/ProgressShot.cs). The top row shows the generated source image, then the game's render of her in the T-pose and in the relaxed pose. The bottom row shows the image's face, the game's face from the front and three-quarter, a style-board face, the back of the head and the upper body.
+Each screenshot is `ProgressShot` (Assets/_Game/Characters/Editor/Review/ProgressShot.cs). The top row shows the generated source image, then the game's render of her in the T-pose and in the relaxed pose, then the target-look image. The second row shows the image's face, the game's face from the front and three-quarter, a style-board face, the back of the head, the upper body and (from 03:48) her shoes close up. From 23:38 a third row shows outfits 02 and 03 beside their images, and from 05:16 a last row shows her from three-quarter beside a three-quarter target.
 
-To go back to the state in a screenshot, check out its commit. For example, `git checkout b55fd07 -- Tools Assets/_Game/Characters` restores just the tools and assets.
+To go back to the state in a screenshot, check out its commit. For example, `git checkout b55fd07 -- Tools Assets/_Game/Characters` restores just the tools and assets. Rows marked "(between commits)" or "(rejected)" were experiments; their state is not in any commit.
+
+Milestones worth comparing: 20261019-2207 (baseline), 20261020-0113 (anime eyes, trims, image colours), 20261020-023829 (draped boxy shirt), 20261020-031700 (crew neck), 20261020-042939 (soles, cuffs, laces, turned-out stance), 20261020-055512 (three-quarter row, tucked thumbs, round eyes) and the latest.
 
 | Screenshot | Commit | What changed |
 |---|---|---|
