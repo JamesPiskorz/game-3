@@ -895,9 +895,9 @@ def build_face(obj, joints, socket_half):
         # Anime eyes after the style board and the generated images: a white almond, a tall iris filling most of
         # its height with a dark pupil and two catch-lights, and a heavy upper lash line that flicks out past the
         # outer corner, with a short lower lash at the outer corner.
-        features.disc(ex, ez, (white[0], white[1] * 0.9), LIFT, "Eye" + side, WHITE)
-        iris = (white[0] * 0.62, white[1] * 0.84)
-        iris_z = ez - white[1] * 0.06
+        features.disc(ex, ez, (white[0], white[1] * 1.02), LIFT, "Eye" + side, WHITE)
+        iris = (white[0] * 0.74, white[1] * 0.98)  # the references' eyes are mostly iris
+        iris_z = ez - white[1] * 0.04
         features.disc(ex, iris_z, iris, LIFT + 0.0005, "Eye" + side, IRIS)
         features.disc(ex, iris_z - iris[1] * 0.05, (iris[0] * 0.46, iris[1] * 0.5), LIFT + 0.0008, "Eye" + side, DARK, rings=3)
         # Catch-lights: upper left as you look at them (the same side on both eyes), and a small one opposite.
@@ -905,7 +905,7 @@ def build_face(obj, joints, socket_half):
                       "Eye" + side, WHITE, rings=2, segments=12)
         features.disc(ex + iris[0] * 0.36, iris_z - iris[1] * 0.42, (iris[0] * 0.14, iris[1] * 0.12), LIFT + 0.0015,
                       "Eye" + side, WHITE, rings=1, segments=10)
-        top = white[1] * 0.9
+        top = white[1] * 1.02
         lash, widths = [], []
         for t in np.linspace(0.0, 1.0, 14):  # inner corner to outer, along the top of the white
             angle = math.pi * (0.94 - 0.86 * t)

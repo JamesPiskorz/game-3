@@ -102,7 +102,8 @@ def main():
             # Built from the body: its surface, weights and shapes, lifted by the offset or the scan's looseness.
             always = np.isin(regions_of_body, ["FootL", "FootR"]) if slot == "shoes" else None
             part, _ = gt.project_garment(body, scan, garment, labels, index, offset, spec["id"], joints, always,
-                                         max_loose=spec.get("loosest", LOOSEST.get(slot, 0.06)))
+                                         max_loose=spec.get("loosest", LOOSEST.get(slot, 0.06)),
+                                         edge_blur=spec.get("edge_blur"))
             hood = gt.extract_hood(scan, garment, index, body, joints, areas, spec["id"]) if spec.get("hood") else None
             if hood is not None:
                 gt.join_into(part, hood)

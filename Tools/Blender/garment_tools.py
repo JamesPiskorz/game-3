@@ -600,8 +600,14 @@ def extract_hood(scan, garment, index, body, joints, areas, name, reach=0.03, bu
     return hood
 
 
+TAUBIN = (0.5, -0.53)  # smoothing factors that don't shrink a curve
+
+
 def _relax_edges(part, iterations=8):
-    """Straightens a piece's open edges along their own line (each edge vertex towards its two edge neighbours)."""
+    """
+    Straightens a piece's open edges along their own line (each edge vertex towards its two edge neighbours),
+    Taubin-style so edge loops keep their size.
+    """
     bm = bmesh.new()
     bm.from_mesh(part.data)
     along = {}
@@ -611,10 +617,10 @@ def _relax_edges(part, iterations=8):
             along[v.index] = ends
     bm.free()
     co = bt.vertices(part)
-    for _ in range(iterations):
+    for step in range(iterations):
         moved = co.copy()
         for i, (a, b) in along.items():
-            moved[i] = 0.5 * co[i] + 0.25 * (co[a] + co[b])
+            moved[i] = co[i] + TAUBIN[step % 2] * (0.5 * (co[a] + co[b]) - co[i])
         co = moved
     part.data.vertices.foreach_set("co", co.ravel())
     part.data.update()
@@ -664,7 +670,8 @@ def covered_regions(part, body, regions, candidates, reach=0.08, share=0.9):
 # Built from the body; everything else keeps the scan's geometry. Shoes too: a scan's shoes are shaped for its own
 # feet, and ours poked through their toes.
 FITTED = {"top", "bottom", "legwear", "onepiece", "shoes"}
-COVER_SMOOTHING = 0.012  # metres: the blur on the body's coverage before the cut: hem lines smooth, a tank top's straps kept
+COVER_SMOOTHING = 0.03  # metres: the blur on the body's coverage before the cut, so hems are smooth curves; a garment
+                        # with fine edges (a tank top's straps) sets a smaller "edge_blur" in outfits.json
 CLOSING = 0.03  # metres: the blur for closing gaps in the coverage (closes slits up to about twice this), and the lift's
 
 
@@ -683,7 +690,7 @@ def _body_adjacency(mesh):
 
 
 def project_garment(body, scan, garment, labels, index, offset, name, joints, always=None, max_loose=0.06,
-                    reach_out=0.15, reach_in=0.10):
+                    reach_out=0.15, reach_in=0.10, edge_blur=None):
     """
     A fitted garment built from the canonical body itself: the body's own surface over the regions the scan's
     garment covers, lifted by the layer offset, or by the scan's own looseness where it hangs further out (a flared
@@ -733,6 +740,8 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
     # Closing (grow, then shrink back): fills slits the texture left, like the skin-coloured seam Hunyuan paints down
     # each side of a pair of shorts where its front and back views meet. Hems and the neck opening stay where they were.
     covered = (_blur(wide, (_blur(wide, covered) > 0.15).astype(float)) > 0.85).astype(float)
+    if edge_blur is not None and edge_blur != COVER_SMOOTHING:
+        fine = _surface_neighbours(body, edge_blur)
     covered = _blur(fine, covered)  # no speckle, smooth edges
     covered = np.where(np.abs(covered - 0.5) < 1e-4, 0.5 + 1e-4, covered)
     inside = covered > 0.5
@@ -777,7 +786,7 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
     return part, int(inside.sum())
 
 
-def _smooth_edges(part, body, body_weights, lift, cluster, iterations=10):
+def _smooth_edges(part, body, body_weights, lift, cluster, iterations=40):
     """
     Straightens the garment's open edges (hems, cuffs, necklines, boot tops) along their own line, with the ring of
     vertices inside them, keeping everything on the body's surface. The cut follows the scan's colour boundary, which
@@ -815,12 +824,13 @@ def _smooth_edges(part, body, body_weights, lift, cluster, iterations=10):
 
     co = bt.vertices(part)
     moving = np.array(sorted(set(along) | set(inner)))
-    for _ in range(iterations):
+    for step in range(iterations):
+        factor = TAUBIN[step % 2]  # Taubin: smooth, then un-shrink, so hem loops don't creep up or down the limb
         target = co.copy()
         for i, (a, b) in along.items():
-            target[i] = 0.5 * co[i] + 0.25 * (co[a] + co[b])
+            target[i] = co[i] + factor * (0.5 * (co[a] + co[b]) - co[i])
         for i, ring in inner.items():
-            target[i] = 0.5 * co[i] + 0.5 * co[ring].mean(axis=0)
+            target[i] = co[i] + factor * (co[ring].mean(axis=0) - co[i])
         for i in moving:
             location, _, _, _ = tree.find_nearest(Vector(tuple(target[i])))
             co[i] = location

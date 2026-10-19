@@ -1,5 +1,5 @@
 {
-  "_note": "Generated outfits (decision 0008): which garments each outfit image yields, their slots, and the body regions each may sit on. Colours come from the generated texture; each garment's colours (the prompt's, as hex) only settle which garment owns a colour lying where two garments meet. A garment's loosest overrides its slot's cap on how far a fitted garment stands off the body (make_generated_outfit.LOOSEST). A garment with hood true also takes its hood from the scan (garment_tools.extract_hood).",
+  "_note": "Generated outfits (decision 0008): which garments each outfit image yields, their slots, and the body regions each may sit on. Colours come from the generated texture; each garment's colours (the prompt's, as hex) only settle which garment owns a colour lying where two garments meet. A garment's loosest overrides its slot's cap on how far a fitted garment stands off the body (make_generated_outfit.LOOSEST). A garment's edge_blur (metres) overrides how much its edges are smoothed (thin straps need little). A garment with hood true also takes its hood from the scan (garment_tools.extract_hood).",
   "outfit-01": {
     "image": "References/character-base-images/outfits/outfit-01.png",
     "prompt": "plain crew-neck short-sleeve T-shirt in solid dusty blue with a white ribbed collar and white sleeve hems, hanging loose over the waist; loose mid-thigh shorts in solid khaki with a dark brown waistband; low white canvas sneakers with red rubber soles",
@@ -23,7 +23,7 @@
     "prompt": "fitted tank top in solid burgundy with black trim at the neckline and armholes; straight-leg full-length trousers in solid navy with a thin brown belt; ankle boots in solid dark brown with black soles",
     "_generated": "The image came out with slim trousers tucked into knee-high boots; the pieces are named for what it made.",
     "garments": [
-      {"id": "cloth.top.tank_gen01", "slot": "top", "regions": ["Neck", "UpperTorso", "LowerTorso", "UpperArmL", "UpperArmR"], "colours": ["#7a1f2e", "#1c1c1c"], "loosest": 0.012},
+      {"id": "cloth.top.tank_gen01", "slot": "top", "regions": ["Neck", "UpperTorso", "LowerTorso", "UpperArmL", "UpperArmR"], "colours": ["#7a1f2e", "#1c1c1c"], "loosest": 0.012, "edge_blur": 0.012},
       {"id": "cloth.bottom.trousers_gen01", "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#1f2a4a", "#7a5230"], "loosest": 0.015},
       {"id": "cloth.shoes.tallboots_gen01", "slot": "shoes", "regions": ["FootL", "FootR", "CalfL", "CalfR"], "colours": ["#4a3020", "#1c1c1c"]}
     ]

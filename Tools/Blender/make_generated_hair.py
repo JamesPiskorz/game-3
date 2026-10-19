@@ -68,6 +68,7 @@ def main():
     holes, loose = ht.tidy(hair)
     ht.smooth(hair)
     pt.decimate(hair, BUDGET)
+    gt._relax_edges(hair, iterations=30)  # the fringe's and the ends' cut follows the texture's ragged colour edge
     lifted = ht.clear_eyes(hair, frame, joints)
     pushed = ht.push_off_body(hair, body, neck_z)
     chest = ht.off_the_chest(hair, body, regions_of_body, shoulder_z)
