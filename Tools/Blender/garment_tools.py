@@ -866,7 +866,7 @@ def join_into(part, extra):
     bpy.ops.object.join()
 
 
-def flare_sole(part, height=0.024, flare=0.01, flat=0.008, angles=72, toe=0.042, toe_rise=0.45):
+def flare_sole(part, height=0.024, flare=0.01, flat=0.008, angles=72, toe=0.05, toe_rise=0.45):
     """
     Gives a shoe a sneaker's sole: for each foot, the bottom ``height`` metres are pushed out horizontally to the
     footprint's convex hull plus ``flare`` (full over the lower half, easing to nothing at the top), and the bottom
@@ -1069,7 +1069,7 @@ def _body_adjacency(mesh):
 
 def project_garment(body, scan, garment, labels, index, offset, name, joints, always=None, max_loose=0.06,
                     reach_out=0.15, reach_in=0.10, edge_blur=None, drape=False, extend_down=0.0, ease=0.0,
-                    straps=0.0, scoop=0.0, gather=0.0, sleeve_ease=0.0, flare=(0.0, 0.0)):
+                    straps=0.0, scoop=0.0, gather=0.0, sleeve_ease=0.0, flare=(0.0, 0.0), top=None):
     """
     A fitted garment built from the canonical body itself: the body's own surface over the regions the scan's
     garment covers, lifted by the layer offset, or by the scan's own looseness where it hangs further out (a flared
@@ -1128,6 +1128,8 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
     if edge_blur is not None and edge_blur != COVER_SMOOTHING:
         fine = _surface_neighbours(body, edge_blur)
     covered = _blur(fine, covered)  # no speckle, smooth edges
+    if top is not None:  # no higher than this (low-top sneakers stop under the ankle)
+        covered = np.minimum(covered, np.clip((top - bt.vertices(body)[:, 2]) / 0.008 + 0.5, 0.0, 1.0))
     if scoop > 0:
         covered = np.minimum(covered, 1.0 - _scoop(body, joints, scoop, straps))
     if straps > 0:
