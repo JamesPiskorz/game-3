@@ -148,6 +148,16 @@ def push_off_body(part, body, neck_z, joints=None):
             if (Vector(tuple(p)) - location).dot(normal) < offset:
                 co[i] = tuple(location + normal * offset)
                 moved += 1
+    if forehead is not None:
+        # Measured straight in from the front as well: next to the brows a fringe point's nearest surface is often a
+        # brow's rim, facing up or down, so it only kept HEAD_OFFSET and the brows showed through the fringe.
+        clear = FRINGE_OFFSET - 0.002
+        for i, p in enumerate(co):
+            if abs(p[0]) < forehead[0] and forehead[1] < p[2] < forehead[2]:
+                hit, _, _, _ = tree.ray_cast(Vector((p[0], p[1] - 0.2, p[2])), Vector((0.0, 1.0, 0.0)), 0.4)
+                if hit is not None and p[1] > hit.y - clear and p[1] < hit.y + 0.02:
+                    co[i][1] = hit.y - clear
+                    moved += 1
     part.data.vertices.foreach_set("co", co.ravel())
     part.data.update()
     return moved

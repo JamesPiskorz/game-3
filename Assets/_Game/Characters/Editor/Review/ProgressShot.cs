@@ -139,6 +139,8 @@ namespace Game.Characters.Review
             dna.Skin.Tone = 0.04f;
             dna.Skin.Undertone = 0.1f; // cool: the image's skin is pink-ivory
             dna.Face.IrisLeft = dna.Face.IrisRight = HsvColor.FromHex("#3b2a22");
+            dna.Face.EyeStyleId = "eye.style.round";  // the image's eyes are round (the seed drew droopy ones)
+            dna.Face.BrowStyleId = "brow.style.thin"; // and its brows are hidden under the fringe (thick ones peeked out)
             // The canonical shapes, not this person's (a curvy roll read as a mismatch), with the image's proportions.
             dna.Body.Sliders.Clear();
             dna.Face.Sliders.Clear();

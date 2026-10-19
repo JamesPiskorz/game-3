@@ -98,6 +98,8 @@ def main():
         ht.tidy(piece, largest_hole=0.0)  # slivers the split left
         fair_piece(piece)
         ring = ht.hair_mask_colours(piece, frame, tip_from, tip_to)
+        # Off the face again after the fairing and the ring's cuts, which drew the fringe back against the brows.
+        ht.push_off_body(piece, body, neck_z, joints)
         ht.round_normals(piece, frame)  # after the ring's cuts, which would interpolate them
         planar_uvs(piece)
         ht.transfer_shapes(piece, body, regions_of_body)

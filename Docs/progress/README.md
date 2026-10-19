@@ -114,3 +114,5 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261020-053617.png | (rejected) | Skin undertone 0.25 (warmer, not pinker: 0 is the cool end) |
 | 20261020-054335.png | 919ee47 | Tank straps: clean edges (ramps wider than the triangles), 2.2 cm wide as posed (they spread to 5 cm with the arms down), painted black like the image's |
 | 20261020-054556.png | c4279e6 | Crew neck, hems and shoe collars cut from ramps wider than the triangles: cleaner edges |
+| 20261020-055359.png | (between commits) | Fringe pushed clear of the brows straight in from the front (beside the brows it kept only 4 mm) |
+| 20261020-055512.png | (next) | Shot DNA: round eyes, thin brows (the seed drew droopy eyes and thick brows that peeked out) |
