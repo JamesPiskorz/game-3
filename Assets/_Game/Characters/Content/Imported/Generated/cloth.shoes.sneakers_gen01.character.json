@@ -3,11 +3,12 @@
   "slot": "shoes",
   "covers": [],
   "followsBodyShapes": true,
-  "regions": 2,
+  "regions": 3,
   "outfit": "outfit-01",
   "colours": [
     "#f7f4f5",
-    "#c0392b"
+    "#c0392b",
+    "#7d8796"
   ],
   "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261019_141731_for_texture_textured.glb",
   "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",

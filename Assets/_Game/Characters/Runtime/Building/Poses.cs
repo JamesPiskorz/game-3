@@ -16,13 +16,14 @@ namespace Game.Characters.Building
         public static void Relaxed(Transform character)
         {
             var pose = new Pose(character);
-            pose.Bend("UpperArm.L", new Vector3(0f, 8f, 72f));
-            pose.Bend("UpperArm.R", new Vector3(0f, -8f, -72f));
+            pose.Bend("UpperArm.L", new Vector3(0f, 8f, 76f));
+            pose.Bend("UpperArm.R", new Vector3(0f, -8f, -76f));
             pose.Bend("LowerArm.L", new Vector3(0f, 12f, 0f));
             pose.Bend("LowerArm.R", new Vector3(0f, -12f, 0f));
-            // Feet a little apart, as people stand: straight down, generated bodies' thighs merge into one shape.
-            pose.Bend("UpperLeg.L", new Vector3(0f, 0f, -5f));
-            pose.Bend("UpperLeg.R", new Vector3(0f, 0f, 5f));
+            // Feet a little apart and turned out, as people stand: straight down, generated bodies' thighs merge into
+            // one shape, and straight ahead, shoes are a white lump from the front.
+            pose.Bend("UpperLeg.L", new Vector3(0f, -10f, -5f));
+            pose.Bend("UpperLeg.R", new Vector3(0f, 10f, 5f));
         }
 
         sealed class Pose

@@ -92,3 +92,6 @@ To go back to the state in a screenshot, check out its commit. For example, `git
 | 20261020-040735.png | (between commits) | Bob ends curl under (12%) |
 | 20261020-040808.png | d21dab5 | Curl 20%: a rounded bob, its ends turned in like the image's |
 | 20261020-041912.png | d21dab5 | Tank: the right strap no longer splits (its shoulder is mostly the arm's); black edging along the neckline and straps |
+| 20261020-042313.png | (next) | Relaxed pose: toes turned out 10°, arms 4° closer to the body, as the target stands; garments refitted |
+| 20261020-042617.png | (next) | Sneaker laces: four grey bars across each instep |
+| 20261020-042939.png | (next) | All outfits refitted to the new pose |

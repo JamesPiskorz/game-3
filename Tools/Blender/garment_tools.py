@@ -989,6 +989,58 @@ def round_shoe(part, step=0.006, angles=72, sigma=2.0):
     return float(np.linalg.norm(shift, axis=1).max())
 
 
+def lace_lines(part, region, lines=4, spacing=0.012, line=0.004, half_width=0.016, above=0.035):
+    """
+    A sneaker's laces drawn as ``lines`` short bars across the top of each shoe, ``line`` metres thick and ``spacing``
+    apart, from the front of the collar down the instep towards the toe, in recolour ``region``: from the front the
+    shoes were white lumps, and the references draw laces as a few strokes. Only above ``above`` metres off the floor.
+    Returns the faces drawn.
+    """
+    mesh = part.data
+    co = bt.vertices(part)
+    floor = float(co[:, 2].min())
+    bm = bmesh.new()
+    bm.from_mesh(mesh)
+    bm.verts.ensure_lookup_table()
+    boundary = np.array([v.is_boundary for v in bm.verts])
+    feet = []
+    for side in (1.0, -1.0):
+        foot = co[:, 0] * side > 0
+        collar = foot & boundary & (co[:, 2] > floor + above)
+        if not collar.any():
+            continue
+        front = co[np.flatnonzero(collar)[np.argmin(co[collar, 1])]]  # the collar's front: the tongue's top
+        tip = co[np.flatnonzero(foot)[np.argmin(co[foot, 1])]]
+        feet.append((side, front, tip))
+
+    def field(p):
+        best = -1.0
+        for side, front, tip in feet:
+            if p[0] * side <= 0:
+                continue
+            along = (front[1] - 0.008 - p[1]) / spacing  # bars from just in front of the collar, towards the toe
+            k = np.clip(np.round(along), 0, lines - 1)
+            bar = line / 2 - abs(along - k) * spacing
+            t = np.clip((front[1] - p[1]) / max(front[1] - tip[1], 1e-6), 0.0, 1.0)
+            centre_x = front[0] + (tip[0] - front[0]) * t
+            best = max(best, min(bar, half_width - abs(p[0] - centre_x), p[2] - floor - above))
+        return best
+
+    values = np.array([field(v.co) for v in bm.verts])
+    _cut_along(bm, np.where(np.abs(values) < 1e-6, 1e-6, values), 0.0)
+    drawn = [f for f in bm.faces if field(f.calc_center_median()) > 0]
+    colours = bm.loops.layers.float_color.get(ct.COLOUR_ATTRIBUTE)
+    one_hot = [0.0, 0.0, 0.0, 0.0]
+    one_hot[region + 1] = 1.0
+    for f in drawn:
+        for loop in f.loops:
+            loop[colours] = one_hot
+    bm.to_mesh(mesh)
+    bm.free()
+    mesh.update()
+    return len(drawn)
+
+
 def trim_region(part):
     """The recolour region (1-2) the garment's edge trims are in (a T-shirt's cuffs), or None if it has none."""
     mesh = part.data
