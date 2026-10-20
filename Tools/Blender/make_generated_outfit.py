@@ -219,7 +219,10 @@ def main():
             ct.write_sidecar(os.path.join(args.output, spec["id"] + ".character.json"), {
                 "kind": "part", "slot": slot, "covers": covers, "followsBodyShapes": True, "regions": recolour, "outfit": args.outfit,
                 # The generated texture's colour for each recolour region where lit (sRGB): how the image dressed it.
-                "colours": [region_colour(k, spec) for k in region_clusters] + (band_colour if isinstance(band_colour, list) else [band_colour] if band_colour else []),
+                # "main" overrides the main region's colour where the image's lighting shifted its hue (khaki read red).
+                "colours": ([spec["main"]] + [region_colour(k, spec) for k in region_clusters[1:]] if spec.get("main") else
+                            [region_colour(k, spec) for k in region_clusters])
+                           + (band_colour if isinstance(band_colour, list) else [band_colour] if band_colour else []),
                 "source": os.path.abspath(args.scan), "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
                 "licence": "Tencent Hunyuan 3D 2.1 Community License",
             })
