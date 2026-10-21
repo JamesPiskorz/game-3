@@ -27,10 +27,11 @@ import prop_tools as pt  # noqa: E402
 
 BUDGET = {"top": 6000, "bottom": 5000, "shoes": 3000, "outer": 8000, "onepiece": 8000, "legwear": 3000}
 # Metres a fitted garment may stand off the body (6 cm otherwise): shoes as chunky as the scan's, up to 4.5 cm (at
-# 2.5 cm they hugged the foot like socks), and bottoms sit close to the
-# hips and thighs (with the scan's full slack, loose shorts flared into a bell over a wide-hipped body). A garment's
+# 2.5 cm they hugged the foot like socks), bottoms sit close to the
+# hips and thighs (with the scan's full slack, loose shorts flared into a bell over a wide-hipped body), and legwear
+# hugs the skin (tights filled in under a skirt took the skirt's slack and came out through it). A garment's
 # "loosest" in outfits.json overrides its slot's (straight-leg trousers hang looser than shorts).
-LOOSEST = {"shoes": 0.045, "bottom": 0.01}
+LOOSEST = {"shoes": 0.045, "bottom": 0.01, "legwear": 0.004}
 SCAN_HEIGHT = 1.70
 OVERLAP = 0.006  # metres a top reaches down over its outfit's bottom: just over the top of a waistband
 

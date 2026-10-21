@@ -431,6 +431,26 @@
   ],
   "parts": [
     {
+      "id": "cloth.bottom.alineskirt_gen01",
+      "name": "A-line skirt",
+      "slot": "bottom",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "bookish",
+        "casual",
+        "cute",
+        "date",
+        "bare_legs"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.9,
+      "regions": 1,
+      "patternable": false,
+      "contexts": []
+    },
+    {
       "id": "cloth.bottom.bikinibottom_gen01",
       "name": "Bikini bottoms",
       "slot": "bottom",
@@ -460,6 +480,24 @@
       "requiresTags": [],
       "excludesTags": [],
       "lean": 0.95,
+      "regions": 1,
+      "patternable": false,
+      "contexts": [
+        "swim"
+      ]
+    },
+    {
+      "id": "cloth.bottom.boardshorts_gen01",
+      "name": "Board shorts",
+      "slot": "bottom",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "swim"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": -0.9,
       "regions": 1,
       "patternable": false,
       "contexts": [
@@ -523,6 +561,24 @@
       "regions": 1,
       "patternable": false,
       "contexts": []
+    },
+    {
+      "id": "cloth.bottom.highcutbriefs_gen01",
+      "name": "High-cut briefs",
+      "slot": "bottom",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "sleep"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.95,
+      "regions": 1,
+      "patternable": false,
+      "contexts": [
+        "sleep"
+      ]
     },
     {
       "id": "cloth.bottom.jeans_gen01",
@@ -638,6 +694,26 @@
       "contexts": []
     },
     {
+      "id": "cloth.bottom.scrubpants_gen01",
+      "name": "Scrub trousers",
+      "slot": "bottom",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "uniform"
+      ],
+      "requiresTags": [
+        "uniform"
+      ],
+      "excludesTags": [],
+      "lean": 0.0,
+      "regions": 1,
+      "patternable": false,
+      "contexts": [
+        "work"
+      ]
+    },
+    {
       "id": "cloth.bottom.shorts_gen01",
       "name": "Shorts",
       "slot": "bottom",
@@ -660,6 +736,24 @@
       ]
     },
     {
+      "id": "cloth.bottom.skinnyjeans_gen01",
+      "name": "Skinny jeans",
+      "slot": "bottom",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "street",
+        "date"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.7,
+      "regions": 1,
+      "patternable": false,
+      "contexts": []
+    },
+    {
       "id": "cloth.bottom.slacks_gen01",
       "name": "Tailored trousers",
       "slot": "bottom",
@@ -674,6 +768,43 @@
       "excludesTags": [],
       "lean": 0.1,
       "regions": 3,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "cloth.bottom.sleeppants_gen01",
+      "name": "Pyjama trousers",
+      "slot": "bottom",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "sleep"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": -0.7,
+      "regions": 1,
+      "patternable": false,
+      "contexts": [
+        "sleep"
+      ]
+    },
+    {
+      "id": "cloth.bottom.slimblack_gen01",
+      "name": "Slim black trousers",
+      "slot": "bottom",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "elegant",
+        "street",
+        "bookish"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.5,
+      "regions": 1,
       "patternable": false,
       "contexts": []
     },
@@ -693,6 +824,44 @@
       "excludesTags": [],
       "lean": -0.4,
       "regions": 3,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "cloth.bottom.tennisskirt_gen01",
+      "name": "Tennis skirt",
+      "slot": "bottom",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "sporty",
+        "cute",
+        "casual",
+        "bare_legs"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.95,
+      "regions": 1,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "cloth.bottom.tieredskirt_gen01",
+      "name": "Tiered midi skirt",
+      "slot": "bottom",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "cute",
+        "casual",
+        "date",
+        "bare_legs"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.95,
+      "regions": 1,
       "patternable": false,
       "contexts": []
     },
@@ -729,6 +898,45 @@
       "requiresTags": [],
       "excludesTags": [],
       "lean": 0.8,
+      "regions": 1,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "cloth.legwear.stockings_gen01",
+      "name": "Thigh-high stockings",
+      "slot": "legwear",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "sleep",
+        "elegant",
+        "date",
+        "gothic"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.95,
+      "regions": 1,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "cloth.legwear.tights_gen01",
+      "name": "Tights",
+      "slot": "legwear",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "bookish",
+        "cute",
+        "casual",
+        "gothic",
+        "elegant"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.9,
       "regions": 1,
       "patternable": false,
       "contexts": []
@@ -816,6 +1024,24 @@
       ]
     },
     {
+      "id": "cloth.onepiece.halterswimsuit_gen01",
+      "name": "High-cut swimsuit",
+      "slot": "onepiece",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "swim"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.95,
+      "regions": 1,
+      "patternable": false,
+      "contexts": [
+        "swim"
+      ]
+    },
+    {
       "id": "cloth.onepiece.jumpsuit_gen01",
       "name": "Jumpsuit",
       "slot": "onepiece",
@@ -872,6 +1098,63 @@
       "contexts": [
         "date",
         "formal"
+      ]
+    },
+    {
+      "id": "cloth.onepiece.nightgown_gen01",
+      "name": "Nightgown",
+      "slot": "onepiece",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "sleep"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.95,
+      "regions": 1,
+      "patternable": false,
+      "contexts": [
+        "sleep"
+      ]
+    },
+    {
+      "id": "cloth.onepiece.partydress_gen01",
+      "name": "Party dress",
+      "slot": "onepiece",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "formal",
+        "date",
+        "elegant"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.95,
+      "regions": 1,
+      "patternable": false,
+      "contexts": [
+        "date",
+        "formal"
+      ]
+    },
+    {
+      "id": "cloth.onepiece.robe_gen01",
+      "name": "Satin robe",
+      "slot": "onepiece",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "sleep"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.7,
+      "regions": 1,
+      "patternable": false,
+      "contexts": [
+        "sleep"
       ]
     },
     {
@@ -951,6 +1234,47 @@
       ]
     },
     {
+      "id": "cloth.outer.leatherjacket_gen01",
+      "name": "Leather jacket",
+      "slot": "outer",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "street",
+        "gothic"
+      ],
+      "requiresTags": [],
+      "excludesTags": [
+        "hooded"
+      ],
+      "lean": 0.6,
+      "regions": 1,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "cloth.outer.puffer_gen01",
+      "name": "Puffer jacket",
+      "slot": "outer",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "street",
+        "sporty"
+      ],
+      "requiresTags": [],
+      "excludesTags": [
+        "hooded",
+        "tailored"
+      ],
+      "lean": 0.3,
+      "regions": 1,
+      "patternable": false,
+      "contexts": []
+    },
+    {
       "id": "cloth.outer.rainjacket_gen01",
       "name": "Rain jacket",
       "slot": "outer",
@@ -968,6 +1292,25 @@
       ],
       "lean": 0.0,
       "regions": 1,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "cloth.shoes.ankleboots_gen01",
+      "name": "Ankle boots",
+      "slot": "shoes",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "street",
+        "gothic",
+        "date"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.6,
+      "regions": 3,
       "patternable": false,
       "contexts": []
     },
@@ -1005,6 +1348,23 @@
       "excludesTags": [],
       "lean": 0.4,
       "regions": 3,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "cloth.shoes.clogs_gen01",
+      "name": "Clogs",
+      "slot": "shoes",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "uniform",
+        "casual"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.0,
+      "regions": 2,
       "patternable": false,
       "contexts": []
     },
@@ -1275,6 +1635,24 @@
       ]
     },
     {
+      "id": "cloth.shoes.suedeboots_gen01",
+      "name": "Suede ankle boots",
+      "slot": "shoes",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "street",
+        "bookish"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.6,
+      "regions": 2,
+      "patternable": false,
+      "contexts": []
+    },
+    {
       "id": "cloth.shoes.tallboots_gen01",
       "name": "Tall boots",
       "slot": "shoes",
@@ -1289,6 +1667,23 @@
       "requiresTags": [],
       "excludesTags": [],
       "lean": 0.0,
+      "regions": 3,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "cloth.shoes.tennisshoes_gen01",
+      "name": "Tennis shoes",
+      "slot": "shoes",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "sporty",
+        "casual"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.5,
       "regions": 3,
       "patternable": false,
       "contexts": []
@@ -1311,6 +1706,24 @@
       "regions": 3,
       "patternable": false,
       "contexts": []
+    },
+    {
+      "id": "cloth.top.balconette_gen01",
+      "name": "Balconette bra",
+      "slot": "top",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "sleep"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.95,
+      "regions": 1,
+      "patternable": false,
+      "contexts": [
+        "sleep"
+      ]
     },
     {
       "id": "cloth.top.bandeau_gen01",
@@ -1498,6 +1911,60 @@
       ]
     },
     {
+      "id": "cloth.top.peasant_gen01",
+      "name": "Peasant blouse",
+      "slot": "top",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "cute",
+        "casual",
+        "date"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.9,
+      "regions": 1,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "cloth.top.rashguard_gen01",
+      "name": "Rash guard",
+      "slot": "top",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "swim"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": -0.8,
+      "regions": 1,
+      "patternable": false,
+      "contexts": [
+        "swim"
+      ]
+    },
+    {
+      "id": "cloth.top.scrubtop_gen01",
+      "name": "Scrub top",
+      "slot": "top",
+      "blocksSlots": [],
+      "weight": 0.5,
+      "tags": [
+        "uniform"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.2,
+      "regions": 1,
+      "patternable": false,
+      "contexts": [
+        "work"
+      ]
+    },
+    {
       "id": "cloth.top.silkblouse_gen01",
       "name": "Silk blouse",
       "slot": "top",
@@ -1514,6 +1981,24 @@
       "regions": 1,
       "patternable": false,
       "contexts": []
+    },
+    {
+      "id": "cloth.top.sleeptee_gen01",
+      "name": "Sleep T-shirt",
+      "slot": "top",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "sleep"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": -0.7,
+      "regions": 1,
+      "patternable": false,
+      "contexts": [
+        "sleep"
+      ]
     },
     {
       "id": "cloth.top.sportsbra_gen01",
@@ -1552,6 +2037,23 @@
       "contexts": []
     },
     {
+      "id": "cloth.top.tennistop_gen01",
+      "name": "Tennis crop top",
+      "slot": "top",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "sporty",
+        "casual"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.8,
+      "regions": 1,
+      "patternable": false,
+      "contexts": []
+    },
+    {
       "id": "cloth.top.tshirt_gen01",
       "name": "T-shirt",
       "slot": "top",
@@ -1566,6 +2068,25 @@
       "excludesTags": [],
       "lean": 0.0,
       "regions": 2,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "cloth.top.turtleneck_gen01",
+      "name": "Turtleneck",
+      "slot": "top",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "elegant",
+        "bookish",
+        "casual",
+        "gothic"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.5,
+      "regions": 1,
       "patternable": false,
       "contexts": []
     },

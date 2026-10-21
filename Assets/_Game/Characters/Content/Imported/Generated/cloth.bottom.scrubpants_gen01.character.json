@@ -1,0 +1,26 @@
+{
+  "kind": "part",
+  "slot": "bottom",
+  "covers": [],
+  "followsBodyShapes": true,
+  "regions": 1,
+  "outfit": "outfit-38",
+  "colours": [
+    "#4a9ea6"
+  ],
+  "name": "Scrub trousers",
+  "tags": [
+    "uniform"
+  ],
+  "lean": 0.0,
+  "contexts": [
+    "work"
+  ],
+  "weight": 1.0,
+  "requiresTags": [
+    "uniform"
+  ],
+  "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261022_022813_for_texture_textured.glb",
+  "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
+  "licence": "Tencent Hunyuan 3D 2.1 Community License"
+}

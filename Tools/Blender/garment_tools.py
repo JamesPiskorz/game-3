@@ -1971,6 +1971,12 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
         line = float(joints["Hips"][2]) + WAIST_ABOVE_HIPS
         t = np.clip((line - 0.12 - co[:, 2]) / 0.10, 0.0, 1.0)
         lift = offset + (lift - offset) * t * t * (3 - 2 * t)
+    if waist == "top":
+        # Clear of any bottom's waistband where they overlap: at the same offset a tight top (a rash guard) and the
+        # shorts under it flickered through each other.
+        line = float(joints["Hips"][2]) + WAIST_ABOVE_HIPS
+        t = np.clip((line + 0.06 - co[:, 2]) / 0.04, 0.0, 1.0)
+        lift = np.maximum(lift, offset + 0.004 * t * t * (3 - 2 * t))
     if tucked is not None:  # the hem band half the layer offset off the skin: inside any bottom's waistband
         band = co[:, 2] < float(joints["Hips"][2]) + tucked + 0.04
         lift = np.where(band, np.minimum(lift, offset * 0.5), lift)

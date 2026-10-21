@@ -225,7 +225,7 @@
   },
   "outfit-27": {
     "image": "References/character-base-images/outfits/outfit-27.png",
-    "prompt": "strapless floor-length wedding gown in solid ivory white with a fitted sweetheart bodice and a full A-line skirt that reaches the floor",
+    "prompt": "strapless floor-length wedding gown in solid ivory white with a fitted sweetheart bodice and a full A-line skirt that reaches the floor. Her arms are held straight out to the sides at shoulder height, clear of the gown",
     "legs_hidden": true,
     "_generated": "The first image (seed 601416873263224) came out in an A-pose: the arms hanging by the gown landed on the hips and thighs and swelled the skirt. Needs another seed.",
     "garments": [
@@ -244,7 +244,7 @@
     "image": "References/character-base-images/outfits/outfit-29.png",
     "prompt": "cropped black leather biker jacket with long sleeves, zipped closed; skinny jeans in solid light blue; black ankle boots",
     "garments": [
-      {"id": "cloth.outer.leatherjacket_gen01", "name": "Leather jacket", "tags": ["casual", "street", "gothic"], "excludes_tags": ["hooded"], "lean": 0.6, "slot": "outer", "fitted": true, "regions": ["Neck", "UpperTorso", "LowerTorso", "UpperArmL", "UpperArmR", "ForearmL", "ForearmR"], "colours": ["#1a1a1a"], "ease": 0.015, "sleeve_ease": 0.015},
+      {"id": "cloth.outer.leatherjacket_gen01", "name": "Leather jacket", "tags": ["casual", "street", "gothic"], "excludes_tags": ["hooded"], "lean": 0.6, "slot": "outer", "fitted": true, "regions": ["Neck", "UpperTorso", "LowerTorso", "UpperArmL", "UpperArmR", "ForearmL", "ForearmR"], "colours": ["#1a1a1a"], "ease": 0.015, "sleeve_ease": 0.015, "tucked": 0.25},
       {"id": "cloth.bottom.skinnyjeans_gen01", "name": "Skinny jeans", "tags": ["casual", "street", "date"], "lean": 0.7, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#8fb0d8"], "loosest": 0.008, "hem": 0.76},
       {"id": "cloth.shoes.ankleboots_gen01", "name": "Ankle boots", "tags": ["casual", "street", "gothic", "date"], "lean": 0.6, "slot": "shoes", "regions": ["FootL", "FootR", "CalfL", "CalfR"], "colours": ["#151515"], "ease": 0.008, "top": 0.15, "sole": {"colour": "#0a0a0a", "height": 0.015}}
     ]
@@ -253,7 +253,7 @@
     "image": "References/character-base-images/outfits/outfit-30.png",
     "prompt": "fitted sleeveless tennis top in solid white and a short pleated tennis skirt in solid navy blue; white tennis shoes",
     "garments": [
-      {"id": "cloth.top.tennistop_gen01", "name": "Tennis crop top", "tags": ["sporty", "casual"], "lean": 0.8, "slot": "top", "regions": ["Neck", "UpperTorso", "LowerTorso"], "colours": ["#f2f2f2"], "loosest": 0.01, "waist": false, "tucked": 0.24},
+      {"id": "cloth.top.tennistop_gen01", "name": "Tennis crop top", "tags": ["sporty", "casual"], "lean": 0.8, "slot": "top", "regions": ["Neck", "UpperTorso", "LowerTorso"], "colours": ["#f2f2f2"], "loosest": 0.01, "waist": false, "tucked": 0.24, "fill": ["UpperTorso"], "straps": 0.045, "scoop": 0.06},
       {"id": "cloth.bottom.tennisskirt_gen01", "name": "Tennis skirt", "tags": ["sporty", "cute", "casual", "bare_legs"], "lean": 0.95, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#26304f"], "skirt": {"pleats": 24, "pleat_depth": 0.008, "flare": true}},
       {"id": "cloth.shoes.tennisshoes_gen01", "name": "Tennis shoes", "tags": ["sporty", "casual"], "lean": 0.5, "slot": "shoes", "regions": ["FootL", "FootR", "CalfL", "CalfR"], "colours": ["#f2f2f2"], "ease": 0.012, "top": [0.11, 0.07, 0.09], "sole": {"colour": "#e4e4e4", "height": 0.018}, "laces": {"colour": "#d0d0d0"}}
     ]
@@ -262,7 +262,7 @@
     "image": "References/character-base-images/outfits/outfit-31.png",
     "prompt": "knee-length satin dressing robe in solid dusty rose with long sleeves, wrapped closed and tied with a sash at the waist; barefoot",
     "garments": [
-      {"id": "cloth.onepiece.robe_gen01", "name": "Satin robe", "tags": ["sleep"], "contexts": ["sleep"], "lean": 0.7, "slot": "onepiece", "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR", "ForearmL", "ForearmR", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#d8a0a8"], "drape": true, "sleeve_ease": 0.02, "tucked": 0.155, "loosest": 0.02, "skirt": {"offset": 0.015, "smooth": 2}}
+      {"id": "cloth.onepiece.robe_gen01", "name": "Satin robe", "tags": ["sleep"], "contexts": ["sleep"], "lean": 0.7, "slot": "onepiece", "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR", "ForearmL", "ForearmR", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#d8a0a8"], "drape": false, "sleeve_ease": 0.02, "tucked": 0.155, "loosest": 0.02, "skirt": {"offset": 0.015, "smooth": 2}, "scoop": 0.1}
     ]
   },
   "outfit-32": {
@@ -271,14 +271,14 @@
     "garments": [
       {"id": "cloth.top.balconette_gen01", "name": "Balconette bra", "tags": ["sleep"], "contexts": ["sleep"], "lean": 0.95, "slot": "top", "regions": ["UpperTorso"], "colours": ["#a01428"], "waist": false, "drape": false, "straps": 0.014, "edge_blur": 0.008, "ring": {"at": "bottom", "width": 0.025, "back": "band"}, "loosest": 0.006},
       {"id": "cloth.bottom.highcutbriefs_gen01", "name": "High-cut briefs", "tags": ["sleep"], "contexts": ["sleep"], "lean": 0.95, "slot": "bottom", "regions": ["Pelvis", "LowerTorso"], "colours": ["#a01428"], "waist": false, "ring": {"at": "top", "width": 0.02}, "loosest": 0.006},
-      {"id": "cloth.legwear.stockings_gen01", "name": "Thigh-high stockings", "tags": ["sleep", "elegant", "date", "gothic"], "lean": 0.95, "slot": "legwear", "regions": ["FootL", "FootR", "CalfL", "CalfR", "ThighL", "ThighR"], "colours": ["#151515"], "top": 0.66}
+      {"id": "cloth.legwear.stockings_gen01", "name": "Thigh-high stockings", "tags": ["sleep", "elegant", "date", "gothic"], "lean": 0.95, "slot": "legwear", "regions": ["FootL", "FootR", "CalfL", "CalfR", "ThighL", "ThighR"], "colours": ["#151515"], "top": 0.66, "loosest": 0.003}
     ]
   },
   "outfit-33": {
     "image": "References/character-base-images/outfits/outfit-33.png",
     "prompt": "halter-neck one-piece swimsuit in solid hot pink with high-cut legs; barefoot",
     "garments": [
-      {"id": "cloth.onepiece.halterswimsuit_gen01", "name": "Halter swimsuit", "tags": ["swim"], "contexts": ["swim"], "lean": 0.95, "slot": "onepiece", "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis"], "colours": ["#e8448c"], "drape": false, "loosest": 0.006, "edge_blur": 0.01}
+      {"id": "cloth.onepiece.halterswimsuit_gen01", "name": "High-cut swimsuit", "tags": ["swim"], "contexts": ["swim"], "lean": 0.95, "slot": "onepiece", "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis"], "colours": ["#e8448c"], "drape": false, "loosest": 0.006, "edge_blur": 0.01, "ring": {"at": "top", "width": 0.02}}
     ]
   },
   "outfit-34": {
@@ -294,7 +294,7 @@
     "image": "References/character-base-images/outfits/outfit-35.png",
     "prompt": "off-the-shoulder white peasant blouse with short puff sleeves, tucked into a flowing tiered midi skirt in solid mustard yellow; brown strappy flat sandals",
     "garments": [
-      {"id": "cloth.top.peasant_gen01", "name": "Peasant blouse", "tags": ["cute", "casual", "date"], "lean": 0.9, "slot": "top", "regions": ["UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR"], "colours": ["#f4f2ee"], "tucked": 0.132, "sleeve_ease": 0.03, "drape": true},
+      {"id": "cloth.top.peasant_gen01", "name": "Peasant blouse", "tags": ["cute", "casual", "date"], "lean": 0.9, "slot": "top", "regions": ["UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR"], "colours": ["#f4f2ee"], "tucked": 0.132, "sleeve_ease": 0.03, "drape": true, "fill": ["LowerTorso"]},
       {"id": "cloth.bottom.tieredskirt_gen01", "name": "Tiered midi skirt", "tags": ["cute", "casual", "date", "bare_legs"], "lean": 0.95, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#d8a420"], "skirt": {"flare": true, "offset": 0.012}}
     ]
   },
@@ -304,7 +304,7 @@
     "garments": [
       {"id": "cloth.top.turtleneck_gen01", "name": "Turtleneck", "tags": ["elegant", "bookish", "casual", "gothic"], "lean": 0.5, "slot": "top", "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR", "ForearmL", "ForearmR"], "colours": ["#151515"], "tucked": 0.132, "neck": 0.07},
       {"id": "cloth.bottom.alineskirt_gen01", "name": "A-line skirt", "tags": ["bookish", "casual", "cute", "date", "bare_legs"], "lean": 0.9, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#a87a4a"], "skirt": {"flare": true, "offset": 0.01}},
-      {"id": "cloth.legwear.tights_gen01", "name": "Tights", "tags": ["bookish", "cute", "casual", "gothic", "elegant"], "lean": 0.9, "slot": "legwear", "regions": ["Pelvis", "ThighL", "ThighR", "CalfL", "CalfR", "FootL", "FootR"], "colours": ["#6a1a2a"], "fill": ["Pelvis", "ThighL", "ThighR", "CalfL", "CalfR", "FootL", "FootR"]}
+      {"id": "cloth.legwear.tights_gen01", "name": "Tights", "tags": ["bookish", "cute", "casual", "gothic", "elegant"], "lean": 0.9, "slot": "legwear", "regions": ["Pelvis", "ThighL", "ThighR", "CalfL", "CalfR", "FootL", "FootR"], "colours": ["#6a1a2a"], "fill": ["Pelvis", "ThighL", "ThighR", "CalfL", "CalfR", "FootL", "FootR"], "loosest": 0.003}
     ]
   },
   "outfit-37": {
@@ -328,7 +328,7 @@
     "prompt": "long sleeveless cotton nightgown in solid white with thin shoulder straps, falling to the ankles; barefoot",
     "legs_hidden": true,
     "garments": [
-      {"id": "cloth.onepiece.nightgown_gen01", "name": "Nightgown", "tags": ["sleep"], "contexts": ["sleep"], "lean": 0.95, "slot": "onepiece", "regions": ["UpperTorso", "LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR", "FootL", "FootR"], "colours": ["#f4f2ee"], "drape": true, "straps": 0.012, "tucked": 0.155, "loosest": 0.02, "skirt": {"flare": true, "offset": 0.015}}
+      {"id": "cloth.onepiece.nightgown_gen01", "name": "Nightgown", "tags": ["sleep"], "contexts": ["sleep"], "lean": 0.95, "slot": "onepiece", "regions": ["UpperTorso", "LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR", "FootL", "FootR"], "colours": ["#f4f2ee"], "drape": false, "straps": 0.012, "tucked": 0.155, "loosest": 0.02, "skirt": {"flare": true, "offset": 0.015}}
     ]
   },
   "outfit-40": {
@@ -336,8 +336,8 @@
     "prompt": "fitted short-sleeve rash guard swim shirt in solid white and knee-length board shorts in solid royal blue; barefoot",
     "body": "masculine",
     "garments": [
-      {"id": "cloth.top.rashguard_gen01", "name": "Rash guard", "tags": ["swim"], "contexts": ["swim"], "lean": -0.8, "slot": "top", "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR"], "colours": ["#f2f2f2"], "drape": false, "loosest": 0.01},
-      {"id": "cloth.bottom.boardshorts_gen01", "name": "Board shorts", "tags": ["swim"], "contexts": ["swim"], "lean": -0.9, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#2a4bb0"], "loosest": 0.04, "ease": 0.015}
+      {"id": "cloth.top.rashguard_gen01", "name": "Rash guard", "tags": ["swim"], "contexts": ["swim"], "lean": -0.8, "slot": "top", "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR"], "colours": ["#f2f2f2"], "drape": false, "loosest": 0.01, "fill": ["UpperTorso", "LowerTorso", "UpperArmL", "UpperArmR"]},
+      {"id": "cloth.bottom.boardshorts_gen01", "name": "Board shorts", "tags": ["swim"], "contexts": ["swim"], "lean": -0.9, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#2a4bb0"], "loosest": 0.04, "ease": 0.015, "hem": 0.3}
     ]
   },
   "outfit-41": {
@@ -362,7 +362,7 @@
     "image": "References/character-base-images/outfits/outfit-43.png",
     "prompt": "a cropped long-sleeve sweatshirt in solid lilac ending above the navel, and high-waisted tight cycling shorts in solid black reaching mid-thigh; white sneakers",
     "garments": [
-      {"id": "cloth.top.cropsweat_gen01", "name": "Cropped sweatshirt", "tags": ["sporty", "casual", "street", "cute"], "lean": 0.8, "slot": "top", "regions": ["Neck", "UpperTorso", "LowerTorso", "UpperArmL", "UpperArmR", "ForearmL", "ForearmR"], "colours": ["#b9a3dc"], "waist": false, "sleeve_ease": 0.02, "neck": 0.02},
+      {"id": "cloth.top.cropsweat_gen01", "name": "Cropped hoodie", "tags": ["sporty", "casual", "street", "cute", "hooded"], "lean": 0.8, "slot": "top", "regions": ["Neck", "UpperTorso", "LowerTorso", "UpperArmL", "UpperArmR", "ForearmL", "ForearmR"], "colours": ["#b9a3dc"], "waist": false, "sleeve_ease": 0.02, "hood": true, "hood_rise": 0.15, "cords": {"colour": "#f2f2f2"}},
       {"id": "cloth.bottom.cyclingshorts_gen01", "name": "Cycling shorts", "tags": ["sporty", "casual", "street"], "lean": 0.8, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#151515"], "loosest": 0.004, "hem": 0.3}
     ]
   },
@@ -431,7 +431,7 @@
     "image": "References/character-base-images/outfits/outfit-52.png",
     "prompt": "a knee-length short-sleeve shirt dress in solid chambray blue with a collar and buttons down the front and a flared skirt; white sneakers",
     "garments": [
-      {"id": "cloth.onepiece.shirtdress_gen01", "name": "Shirt dress", "tags": ["casual", "bookish", "cute"], "lean": 0.9, "slot": "onepiece", "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#7a9cc8"], "drape": true, "sleeve_ease": 0.02, "tucked": 0.155, "loosest": 0.02, "skirt": {"flare": true, "offset": 0.012}}
+      {"id": "cloth.onepiece.shirtdress_gen01", "name": "Shirt dress", "tags": ["casual", "bookish", "cute"], "lean": 0.9, "slot": "onepiece", "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#7a9cc8"], "drape": false, "sleeve_ease": 0.02, "tucked": 0.155, "loosest": 0.02, "skirt": {"flare": true, "offset": 0.012}}
     ]
   },
   "outfit-53": {
@@ -509,7 +509,7 @@
     "image": "References/character-base-images/outfits/outfit-62.png",
     "prompt": "a long-sleeve button-up flannel nightshirt in solid red falling to mid-thigh; barefoot",
     "garments": [
-      {"id": "cloth.onepiece.nightshirt_gen01", "name": "Nightshirt", "tags": ["sleep"], "contexts": ["sleep"], "lean": 0.6, "slot": "onepiece", "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR", "ForearmL", "ForearmR", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#b02a30"], "drape": true, "sleeve_ease": 0.02, "tucked": 0.155, "loosest": 0.02, "skirt": {"offset": 0.015}}
+      {"id": "cloth.onepiece.nightshirt_gen01", "name": "Nightshirt", "tags": ["sleep"], "contexts": ["sleep"], "lean": 0.6, "slot": "onepiece", "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR", "ForearmL", "ForearmR", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#b02a30"], "drape": false, "sleeve_ease": 0.02, "tucked": 0.155, "loosest": 0.02, "skirt": {"offset": 0.015}}
     ]
   },
   "outfit-63": {

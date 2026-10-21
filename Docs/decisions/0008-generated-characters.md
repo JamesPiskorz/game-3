@@ -52,7 +52,7 @@ The images are text-to-image, not edits of one base, so no two generations share
 - **Cost:**
   - Replacing the canonical skeleton moves every joint. The 70 procedural stand-ins are built in absolute coordinates, so they misfit until they are retargeted or replaced by generated parts.
   - The PipelineTest FBXs, `character_tools.SKELETON`, spring colliders and the hard-coded head centre and radius all follow the new skeleton.
-  - Before generated content can be the default, it needs coverage: 21 garments from 8 outfits (two of them men's) and 22 hair pieces from 11 styles (four men's), against 70 stand-in parts in 17 slots. Nothing generated exists yet for accessories or face marks. A knee-length trench coat couldn't be built (the loose-layer path tore it apart; outer layers are built like tops, so they stop at the hips).
+  - Before generated content can be the default, it needs coverage: 88 garments from 40 outfits (four of them men's: the women's run from lingerie and swimwear to gowns, the men's are mostly everyday, swim and sleep) and 22 hair pieces from 11 styles (four men's), against 70 stand-in parts in 17 slots. Nothing generated exists yet for accessories or face marks, and men have no formal wear beyond a shirt and trousers. A knee-length trench coat couldn't be built (the loose-layer path tore it apart; outer layers are built like tops, so they stop at the hips).
 - **Risks:**
   - Generated hands are mittens with a thumb.
   - Separate generations may not align well enough to conform.

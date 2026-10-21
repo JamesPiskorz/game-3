@@ -1,0 +1,27 @@
+{
+  "kind": "part",
+  "slot": "bottom",
+  "covers": [
+    "Pelvis"
+  ],
+  "followsBodyShapes": true,
+  "regions": 1,
+  "outfit": "outfit-36",
+  "colours": [
+    "#af7353"
+  ],
+  "name": "A-line skirt",
+  "tags": [
+    "bookish",
+    "casual",
+    "cute",
+    "date",
+    "bare_legs"
+  ],
+  "lean": 0.9,
+  "contexts": [],
+  "weight": 1.0,
+  "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261022_021940_for_texture_textured.glb",
+  "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
+  "licence": "Tencent Hunyuan 3D 2.1 Community License"
+}

@@ -1,0 +1,27 @@
+{
+  "kind": "part",
+  "slot": "shoes",
+  "covers": [
+    "FootL",
+    "FootR"
+  ],
+  "followsBodyShapes": true,
+  "regions": 2,
+  "outfit": "outfit-34",
+  "colours": [
+    "#b08050",
+    "#3a2a1c"
+  ],
+  "name": "Suede ankle boots",
+  "tags": [
+    "casual",
+    "street",
+    "bookish"
+  ],
+  "lean": 0.6,
+  "contexts": [],
+  "weight": 1.0,
+  "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261022_021128_for_texture_textured.glb",
+  "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
+  "licence": "Tencent Hunyuan 3D 2.1 Community License"
+}
