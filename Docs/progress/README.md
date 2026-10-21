@@ -140,4 +140,4 @@ Milestones worth comparing: 20261019-2207 (baseline), 20261020-0113 (anime eyes,
 | 20261021-151246.png | (between commits) | Hood stood up 35% round the neck (towers over the shoulders); boot shafts wrapped in their slices' hull |
 | 20261021-151442.png | (between commits) | Hood stood up 15%: a cowl round the neck |
 | 20261021-151805.png | 2542782 | Shorts' cuffs a darker khaki, a band like the target's; all outfits rebuilt |
-| 20261021-192808.png | (next) | Four new hairstyles built (twin tails, pixie, bun, wavy; see Docs/review/generated-hair.png); long hair clears the back with the arms down |
+| 20261021-192808.png | 70a9358 | Four new hairstyles built (twin tails, pixie, bun, wavy; see Docs/review/generated-hair.png); long hair clears the back with the arms down |
