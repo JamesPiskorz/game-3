@@ -72,6 +72,7 @@ namespace Game.Town
                 case "mall": return Mall();
                 case "bar": return Bar();
                 case "library": return Library();
+                case "beach": return Beach();
                 default: return Home();
             }
         }
@@ -196,6 +197,29 @@ namespace Game.Town
             // On the left: the HUD covers the right of the screen.
             Table(set, -4.6f, 0.8f, C(120, 84, 58), C(80, 56, 40));
             set.Seat(-4.6f, 0.0f, C(90, 60, 42));
+            return set;
+        }
+
+        static Set Beach()
+        {
+            var set = new Set { Floor = C(226, 208, 164), Wall = C(150, 200, 236), Outdoor = true };
+            set.Add(PrimitiveType.Cube, 0f, 0.02f, -9f, 40f, 0.04f, 10f, C(70, 150, 196))                 // the sea
+               .Add(PrimitiveType.Cube, 0f, 0.03f, -4.1f, 40f, 0.04f, 0.5f, C(236, 244, 246))               // surf
+               .Add(PrimitiveType.Sphere, 4.2f, 0.25f, -7f, 0.5f, 0.5f, 0.5f, C(230, 90, 70));              // buoy
+            // Parasols and loungers on the left (the HUD covers the right); people sit on the loungers.
+            Color[] canopies = { C(230, 110, 120), C(90, 180, 200) };
+            for (int i = 0; i < 2; i++)
+            {
+                float x = -4.6f + i * 2f;
+                set.Add(PrimitiveType.Cylinder, x, 1.1f, -1.9f, 0.06f, 1.1f, 0.06f, C(240, 240, 236))
+                   .Add(PrimitiveType.Sphere, x, 2.2f, -1.9f, 2f, 0.35f, 2f, canopies[i])
+                   .Add(PrimitiveType.Cube, x, 0.2f, -1.2f, 0.6f, 0.4f, 1.6f, C(200, 196, 188))              // lounger, seat height
+                   .Add(PrimitiveType.Cube, x, 0.44f, -1.2f, 0.7f, 0.06f, 1.8f, C(250, 250, 246))
+                   .Seat(x, -1.2f, default, stool: false);
+            }
+            set.Add(PrimitiveType.Cube, -1.6f, 0.01f, -2.4f, 0.9f, 0.02f, 1.7f, C(240, 200, 80), 15f)       // towel
+               .Add(PrimitiveType.Cube, 5.4f, 1.6f, -4f, 0.9f, 0.08f, 0.9f, C(220, 80, 70))                 // lifeguard chair
+               .Add(PrimitiveType.Cube, 5.4f, 0.8f, -4f, 0.1f, 1.6f, 0.1f, C(240, 240, 236));
             return set;
         }
 

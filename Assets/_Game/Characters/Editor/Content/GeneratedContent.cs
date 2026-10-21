@@ -165,8 +165,9 @@ namespace Game.Characters.ContentAuthoring
         /// <summary>
         /// Occasions only the generated parts dress: swimming and sleepwear, barefoot, from parts tagged "swim" and
         /// "sleep" only, so swimwear and lingerie never turn up in everyday outfits; and formal wear (gowns, a wedding
-        /// dress, a dress shirt and trousers), from parts tagged "formal". The town doesn't send anyone to them yet; the
-        /// creator lists them.
+        /// dress, a dress shirt and trousers), from parts tagged "formal". The town dresses for them where the catalog
+        /// has them (SimWorld.OutfitAt): nightwear at home at night, swimwear at the beach, formal wear at the town's
+        /// occasional events (TownEvents). The creator lists them.
         /// </summary>
         static IEnumerable<OutfitContext> ExtraContexts()
         {

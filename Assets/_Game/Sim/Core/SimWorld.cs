@@ -87,9 +87,19 @@ namespace Game.Sim
 
         /// <summary>
         /// Where a resident is at <paramref name="time"/>: their weekly schedule, except that on a rainy day they skip
-        /// outdoor plans (work aside) for an open indoor favourite, or stay home.
+        /// outdoor plans (work aside) for an open indoor favourite, or stay home; and while an event is on
+        /// (<see cref="TownEvents"/>), whoever is out and not at work goes to it.
         /// </summary>
         public string WhereIs(Resident resident, SimTime time)
+        {
+            string planned = Planned(resident, time);
+            if (planned == SimCatalog.Home) return planned;
+            EventEntry occasion = TownEvents.Happening(this, time);
+            if (occasion == null || Catalog.Job(resident.Profile.JobId ?? "")?.Location == planned) return planned;
+            return occasion.Location;
+        }
+
+        string Planned(Resident resident, SimTime time)
         {
             string planned = resident.Schedule.At(time);
             if (Forecast.For(Seed, time.Day) != Weather.Rainy) return planned;
@@ -105,17 +115,28 @@ namespace Game.Sim
 
         public Weather Weather => Forecast.For(Seed, Now.Day);
 
+        /// <summary>Nightwear hours at home: from <see cref="Bedtime"/> to <see cref="Morning"/> o'clock.</summary>
+        public const int Bedtime = 22, Morning = 9;
+
         /// <summary>
-        /// What residents wear out right now: their going-out (date) outfit for evenings somewhere romantic, and for
-        /// Friday and Saturday nights anywhere social; on a rainy day, the outfit with their coat; everyday clothes
-        /// otherwise.
+        /// What residents wear here right now: at home at night, their nightwear; at an event, its dress code (formal
+        /// wear at a gala); at the gym, workout clothes; at the beach on a dry day, swimwear; their going-out (date)
+        /// outfit for evenings somewhere romantic, and for Friday and Saturday nights anywhere social; on a rainy day,
+        /// the outfit with their coat; everyday clothes otherwise. Each only where the character catalog has that
+        /// outfit (the stand-ins have no nightwear, swimwear or formal wear).
         /// </summary>
         public string OutfitAt(string location)
         {
+            if (location == SimCatalog.Home && (Now.Hour >= Bedtime || Now.Hour < Morning) && Characters?.Context(Sandbox.TownSession.SleepOutfit) != null)
+                return Sandbox.TownSession.SleepOutfit;
+            EventEntry occasion = TownEvents.At(this, location, Now);
+            if (occasion != null) return occasion.Outfit;
             LocationEntry place = Catalog.Location(location);
             // At the gym, everyone's in their workout clothes.
             if (place != null && place.Tags.Contains("sports") && Characters?.Context(Sandbox.TownSession.SportOutfit) != null)
                 return Sandbox.TownSession.SportOutfit;
+            if (place != null && place.Tags.Contains("swimming") && Weather != Weather.Rainy && Characters?.Context(Sandbox.TownSession.SwimOutfit) != null)
+                return Sandbox.TownSession.SwimOutfit;
             string everyday = Weather == Weather.Rainy && Characters?.Context(Sandbox.TownSession.RainOutfit) != null
                 ? Sandbox.TownSession.RainOutfit : Sandbox.TownSession.DayOutfit;
             if (place == null || Now.Hour < 18) return everyday;

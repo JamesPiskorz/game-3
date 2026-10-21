@@ -23,6 +23,8 @@ namespace Game.Sim.Sandbox
         public const string RainOutfit = "rain";
         public const string SportOutfit = "sport";
         public const string WorkOutfit = "work";
+        public const string SwimOutfit = "swim";
+        public const string SleepOutfit = "sleep";
         public const int ShiftHours = 4;
         public const int PayPerHour = 15;
         public const int ChangeMinutes = 5;
@@ -95,6 +97,8 @@ namespace Game.Sim.Sandbox
             Last = null;
             World.Advance(TravelMinutes);
             AfterTimePasses();
+            EventEntry occasion = TownEvents.At(World, Location, World.Now);
+            if (occasion != null && Notice == null) Notice = $"{occasion.Name} is on, and everyone's dressed up.";
             Raise();
         }
 
@@ -117,6 +121,7 @@ namespace Game.Sim.Sandbox
             EndDateQuietly();
             string summary = _today.Summary();
             World.Sleep();
+            DressForTheOccasion(); // waking in nightwear, where there is any
             List<Invitation> stoodUp = Invitations.Expire(World);
             List<Resident> missing = Decay.NewDay(World);
             string news = World.Now.DayOfWeek == 0 ? WeekNews() : "";
@@ -127,6 +132,7 @@ namespace Game.Sim.Sandbox
             Notice = (summary.Length > 0 ? summary + " " : "") + "A new day: " + World.Now + "."
                 + string.Concat(stoodUp.Select(i => $" You stood {World.Residents[i.From].Profile.FirstName} up."))
                 + string.Concat(missing.Select(r => $" {r.Profile.FirstName} misses you.")) + news
+                + string.Concat(TownEvents.On(World, World.Now.Day).Select(e => $" Today: {e.Name} at {LocationName(e.Location)}, {e.Start}:00 to {e.End}:00."))
                 + (invited.Count == 0 ? "" : invited.Count == 1 ? $" A message from {World.Residents[invited[0].From].Profile.FirstName}." : $" {invited.Count} new messages.");
             Slept?.Invoke();
             Raise();

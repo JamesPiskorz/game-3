@@ -18,6 +18,9 @@ namespace Game.Sim
         public List<JobEntry> Jobs = new List<JobEntry>();
         public List<TopicEntry> Topics = new List<TopicEntry>();
         public List<GiftEntry> Gifts = new List<GiftEntry>();
+
+        /// <summary>The town's occasional events: a gala, a garden party (<see cref="TownEvents"/>).</summary>
+        public List<EventEntry> Events = new List<EventEntry>();
         public Dictionary<string, ArchetypeTendencies> Archetypes = new Dictionary<string, ArchetypeTendencies>();
         public NamePool Names = new NamePool();
         public Dictionary<string, List<DialogueLine>> Dialogue = new Dictionary<string, List<DialogueLine>>();
@@ -64,6 +67,15 @@ namespace Game.Sim
                 foreach (string hangout in pair.Value.Hangouts)
                     if (Location(hangout) == null) errors.Add($"Archetype '{pair.Key}' hangs out at unknown location '{hangout}'.");
             }
+            foreach (EventEntry entry in Events)
+            {
+                LocationEntry venue = Location(entry.Location);
+                if (venue == null) errors.Add($"Event '{entry.Id}' is held at unknown location '{entry.Location}'.");
+                else if (entry.Start >= entry.End || !venue.IsOpen(entry.Start) || !venue.IsOpen(entry.End - 1))
+                    errors.Add($"Event '{entry.Id}' runs {entry.Start}-{entry.End}, outside {venue.Name}'s hours.");
+                if (string.IsNullOrEmpty(entry.Outfit)) errors.Add($"Event '{entry.Id}' has no dress code.");
+                if (entry.Days.Count == 0 || entry.Days.Any(d => d < 0 || d > 6)) errors.Add($"Event '{entry.Id}' needs days of the week (0 = Monday).");
+            }
             if (Names.Feminine.Count == 0 || Names.Masculine.Count == 0 || Names.Neutral.Count == 0 || Names.Family.Count == 0)
                 errors.Add("Every name list needs names.");
             return errors;
@@ -109,6 +121,25 @@ namespace Game.Sim
         public float Gain;
         public int Hours = 1;
         public int Cost;
+    }
+
+    /// <summary>
+    /// An occasional evening (or afternoon) out at a location: some weeks, by <see cref="Chance"/>, on one of its
+    /// <see cref="Days"/>, from <see cref="Start"/> to <see cref="End"/> o'clock. Everyone there wears the
+    /// <see cref="Outfit"/> outfit (an outfit context ID: "formal").
+    /// </summary>
+    public sealed class EventEntry
+    {
+        public string Id;
+        public string Name;
+        public string Location;
+        public int Start;
+        public int End;
+        public string Outfit;
+        public List<int> Days = new List<int>();
+
+        /// <summary>The chance that a given week has it.</summary>
+        public float Chance = 0.5f;
     }
 
     public sealed class JobEntry

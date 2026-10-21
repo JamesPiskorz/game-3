@@ -14,11 +14,15 @@ namespace Game.Town
     /// screenshotting along the way (Docs/review/town-*.png): meeting someone at the café, talking, a gift, a date,
     /// the bar in the evening and the park at night. Launch the editor WITHOUT -quit; this exits itself:
     /// Unity.exe -batchmode -projectPath . -executeMethod Game.Town.TownCapture.Run -logFile -
+    /// <see cref="RunOccasions"/> plays a shorter visit for the occasions only the generated content dresses for
+    /// (run it with the game on generated content, GameContent.UseGenerated): home at night in nightwear, the beach
+    /// on a dry day, and a gala night at the bar (town-night-home, town-beach, town-gala).
     /// </summary>
     [InitializeOnLoad]
     public static class TownCapture
     {
         const string PendingKey = "Game.Town.TownCapture.Pending";
+        const string ScriptKey = "Game.Town.TownCapture.Script";
         const int Width = 1920, Height = 1080;
 
         // One command every few frames. "press:" presses a HUD button by name ({liked} and {gift} pick something the
@@ -48,6 +52,14 @@ namespace Game.Town
             "busy:gym", "press:place-gym", "shot:gym",
         };
 
+        static readonly string[] OccasionScript =
+        {
+            "hour:23", "press:place-home", "shot:night-home",
+            "dry-day", "busy:beach", "press:place-beach", "shot:beach",
+            "gala-day", "hour:20", "press:place-bar", "shot:gala",
+        };
+
+        static string[] _script = Script;
         static int _frame, _step, _pause;
         static RenderTexture _ui, _scene;
 
@@ -60,13 +72,26 @@ namespace Game.Town
         {
             if (state != PlayModeStateChange.EnteredPlayMode) return;
             EditorApplication.playModeStateChanged -= OnPlayModeChanged;
+            _script = SessionState.GetString(ScriptKey, "") == "occasions" ? OccasionScript : Script;
             Time.captureFramerate = 30; // fixed steps, so expressions and springs settle the same way every run
             FaceExpression.Blinking = false;
             TownScreen.SavingEnabled = false; // the visit sleeps through days; never touch the real save
             EditorApplication.update += Tick;
         }
 
+        public static void RunOccasions()
+        {
+            SessionState.SetString(ScriptKey, "occasions");
+            Start();
+        }
+
         public static void Run()
+        {
+            SessionState.SetString(ScriptKey, "");
+            Start();
+        }
+
+        static void Start()
         {
             TownSetup.BuildScene();
             EditorSceneManager.OpenScene(TownSetup.ScenePath);
@@ -99,7 +124,7 @@ namespace Game.Town
                 _scene = Game.Characters.Rendering.GameCamera.CaptureTarget(Width, Height); // as the screen renders
                 screen.Stage.Camera.targetTexture = _scene;
             }
-            if (_step == Script.Length)
+            if (_step == _script.Length)
             {
                 Finish(0);
                 return;
@@ -110,7 +135,7 @@ namespace Game.Town
                 _pause -= 12;
                 return;
             }
-            string command = Script[_step++];
+            string command = _script[_step++];
             int colon = command.IndexOf(':');
             string verb = colon < 0 ? command : command.Substring(0, colon);
             string argument = colon < 0 ? "" : command.Substring(colon + 1);
@@ -153,6 +178,18 @@ namespace Game.Town
                     while (Forecast.For(w.Seed, day) != Weather.Rainy) day++;
                     while (w.Now.Day < day) screen.Session.Sleep();
                     screen.Session.Wait(150); // late morning
+                    break;
+                }
+                case "dry-day": // the next dry morning
+                case "gala-day": // the next day with a gala, morning
+                {
+                    SimWorld w = screen.Session.World;
+                    int day = w.Now.Day + 1;
+                    bool Wanted(int d) => verb == "dry-day" ? Forecast.For(w.Seed, d) != Weather.Rainy : TownEvents.On(w, d).Any(e => e.Id == "gala");
+                    for (int tries = 0; tries < 60 && !Wanted(day); tries++) day++;
+                    while (w.Now.Day < day) screen.Session.Sleep();
+                    screen.Session.Wait(120);
+                    Debug.Log($"[TownCapture] {verb}: {w.Now}, {w.Weather}");
                     break;
                 }
                 case "sleep-until-invited":
@@ -243,6 +280,7 @@ namespace Game.Town
         {
             EditorApplication.update -= Tick;
             SessionState.SetBool(PendingKey, false);
+            SessionState.SetString(ScriptKey, "");
             Time.captureFramerate = 0;
             FaceExpression.Blinking = true;
             TownScreen.SavingEnabled = true;

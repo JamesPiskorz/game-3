@@ -7,7 +7,13 @@
     { "id": "gym", "name": "Pulse Gym", "tags": ["sports"], "opens": 6, "closes": 22, "activities": [{ "id": "workout", "name": "Work out", "stat": "fitness", "gain": 7, "hours": 2, "cost": 10 }], "dateActivities": [{ "id": "spar", "name": "Spar a little", "topics": ["sports"] }] },
     { "id": "mall", "name": "Arcade Lane", "tags": ["fashion", "games", "social"], "opens": 10, "closes": 21, "activities": [{ "id": "browse", "name": "Study the shop windows", "stat": "style", "gain": 5, "hours": 1 }], "dateActivities": [{ "id": "tryon", "name": "Try on silly outfits", "topics": ["fashion"] }, { "id": "arcade", "name": "Play at the arcade", "topics": ["games"] }] },
     { "id": "bar", "name": "The Night Owl", "tags": ["music", "social", "romantic"], "opens": 17, "closes": 24, "activities": [{ "id": "mingle", "name": "Mingle", "stat": "charm", "gain": 7, "hours": 2, "cost": 15 }], "dateActivities": [{ "id": "dance", "name": "Dance", "topics": ["music"] }, { "id": "karaoke", "name": "Sing karaoke", "topics": ["music", "film"] }] },
-    { "id": "library", "name": "Ink & Willow Library", "tags": ["books", "quiet"], "opens": 9, "closes": 20, "activities": [{ "id": "read", "name": "Read up", "stat": "smarts", "gain": 6, "hours": 2 }], "dateActivities": [{ "id": "readaloud", "name": "Read to each other", "topics": ["books"] }, { "id": "artbooks", "name": "Browse the art books", "topics": ["art", "travel"] }] }
+    { "id": "library", "name": "Ink & Willow Library", "tags": ["books", "quiet"], "opens": 9, "closes": 20, "activities": [{ "id": "read", "name": "Read up", "stat": "smarts", "gain": 6, "hours": 2 }], "dateActivities": [{ "id": "readaloud", "name": "Read to each other", "topics": ["books"] }, { "id": "artbooks", "name": "Browse the art books", "topics": ["art", "travel"] }] },
+    { "id": "beach", "name": "Sandpiper Cove", "tags": ["nature", "outdoors", "swimming"], "opens": 8, "closes": 20, "activities": [{ "id": "swim", "name": "Swim out to the buoy", "stat": "fitness", "gain": 5, "hours": 1 }], "dateActivities": [{ "id": "shells", "name": "Hunt for shells along the shore", "topics": ["nature"] }, { "id": "sandcastle", "name": "Build a sandcastle", "topics": ["art", "games"] }] }
+  ],
+
+  "events": [
+    { "id": "gala", "name": "The Harbour Gala", "location": "bar", "start": 19, "end": 23, "outfit": "formal", "days": [4, 5], "chance": 0.5 },
+    { "id": "gardenparty", "name": "The garden party", "location": "park", "start": 15, "end": 19, "outfit": "formal", "days": [5, 6], "chance": 0.25 }
   ],
 
   "jobs": [
@@ -47,9 +53,9 @@
 
   "archetypes": {
     "casual":  { "traits": { "openness": 0.5,  "conscientiousness": 0.5,  "extraversion": 0.6,  "agreeableness": 0.65, "neuroticism": 0.4 },
-                 "interests": { "food": 2, "film": 2, "music": 1.5, "travel": 1.5, "pets": 1, "games": 1 }, "hangouts": ["cafe", "park", "mall"], "admires": { "charm": 1 } },
+                 "interests": { "food": 2, "film": 2, "music": 1.5, "travel": 1.5, "pets": 1, "games": 1 }, "hangouts": ["cafe", "park", "mall", "beach"], "admires": { "charm": 1 } },
     "sporty":  { "traits": { "openness": 0.45, "conscientiousness": 0.6,  "extraversion": 0.75, "agreeableness": 0.55, "neuroticism": 0.3 },
-                 "interests": { "sports": 3, "nature": 2, "food": 1.5, "music": 1, "travel": 1 }, "hangouts": ["gym", "park"], "admires": { "fitness": 1, "charm": 0.4 } },
+                 "interests": { "sports": 3, "nature": 2, "food": 1.5, "music": 1, "travel": 1 }, "hangouts": ["gym", "beach", "park"], "admires": { "fitness": 1, "charm": 0.4 } },
     "cute":    { "traits": { "openness": 0.55, "conscientiousness": 0.45, "extraversion": 0.7,  "agreeableness": 0.75, "neuroticism": 0.5 },
                  "interests": { "fashion": 2, "pets": 2, "food": 2, "art": 1.5, "games": 1.5 }, "hangouts": ["cafe", "mall", "park"], "admires": { "charm": 1, "style": 0.6 } },
     "gothic":  { "traits": { "openness": 0.75, "conscientiousness": 0.45, "extraversion": 0.3,  "agreeableness": 0.45, "neuroticism": 0.6 },

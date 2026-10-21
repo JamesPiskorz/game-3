@@ -440,7 +440,10 @@ namespace Game.Town
             {
                 int count = id == SimCatalog.Home ? 0 : world.At(id).Count();
                 bool open = _session.IsOpen(id);
-                string label = _session.LocationName(id) + (open ? count > 0 ? $"  ·  {count}" : "" : "  (closed)");
+                // An event on today shows by the place, from the morning (it's in the day's news) till it ends.
+                EventEntry occasion = TownEvents.On(world, world.Now.Day).FirstOrDefault(e => e.Location == id && world.Now.Hour < e.End);
+                string label = _session.LocationName(id) + (open ? count > 0 ? $"  ·  {count}" : "" : "  (closed)")
+                    + (occasion != null ? $"  ·  {(occasion.Name.StartsWith("The ") ? occasion.Name.Substring(4) : occasion.Name)} {occasion.Start}:00" : "");
                 Button button = Add(_places, Button("place-" + id, label, () => _session.Travel(id)), "chip");
                 button.SetEnabled(open);
                 if (id == _session.Location) button.AddToClassList("selected");

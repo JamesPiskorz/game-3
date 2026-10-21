@@ -8,7 +8,7 @@ namespace Game.Sim.Tests
     /// <summary>The project's real catalogs, found from the Unity project root or next to the test assembly.</summary>
     static class Fixtures
     {
-        static string _simJson, _characterJson;
+        static string _simJson, _characterJson, _generatedJson;
 
         public static SimCatalog Sim() => SimCatalog.FromJson(_simJson ?? (_simJson = Read("Assets/_Game/Sim/Content/SimCatalog.json")));
 
@@ -16,6 +16,14 @@ namespace Game.Sim.Tests
             CatalogSerializer.FromJson(_characterJson ?? (_characterJson = Read("Assets/_Game/Characters/Content/Catalog.json")));
 
         public static SimWorld Town(ulong seed = 0x5EED, int population = 24) => new TownGenerator(Sim(), Characters()).Create(seed, population);
+
+        /// <summary>The generated content's catalog (decision 0008), which adds nightwear, swimwear and formal wear.</summary>
+        public static ContentCatalog GeneratedCharacters() =>
+            CatalogSerializer.FromJson(_generatedJson ?? (_generatedJson = Read("Assets/_Game/Characters/Content/GeneratedCatalog.json")));
+
+        /// <summary>A town dressed from the generated content.</summary>
+        public static SimWorld GeneratedTown(ulong seed = 0x5EED, int population = 24) =>
+            new TownGenerator(Sim(), GeneratedCharacters()).Create(seed, population);
 
         /// <summary>A world with one hand-made resident whose tastes the test controls. No player look, so no impression.</summary>
         public static (SimWorld World, Resident Resident) OneResident(Action<ResidentProfile> setup = null)
