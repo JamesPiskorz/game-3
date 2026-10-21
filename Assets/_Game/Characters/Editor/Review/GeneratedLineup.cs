@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Game.Characters.Building;
+using Game.Characters.Content;
 using Game.Characters.ContentAuthoring;
 using Game.Characters.Dna;
 using Game.Characters.Generation;
@@ -35,16 +37,26 @@ namespace Game.Characters.Review
         [MenuItem("Game/Characters/Review/Render Quality Sheet (96)")]
         public static void RenderQualitySheet() => Render(7, 96, 12, "qa-", 200, false, onlyFirstContext: true);
 
-        public static void Render(ulong worldSeed, int count, int columns, string prefix, int tileWidth, bool faces, bool onlyFirstContext = false)
+        /// <summary>
+        /// The same town on the generated content (decision 0008), dressed for every occasion its catalog has:
+        /// generated-lineup-&lt;context&gt;.png.
+        /// Headless: unity run . -- -executeMethod Game.Characters.Review.GeneratedLineup.RenderGeneratedContent
+        /// </summary>
+        [MenuItem("Game/Characters/Review/Render Lineup on Generated Content")]
+        public static void RenderGeneratedContent() => Render(DefaultWorldSeed, 32, 8, "generated-", 300, false, load: GeneratedContent.Load);
+
+        public static void Render(ulong worldSeed, int count, int columns, string prefix, int tileWidth, bool faces, bool onlyFirstContext = false,
+                                  Func<CharacterContent> load = null)
         {
-            var generator = new CharacterGenerator(StandInContent.Load().LoadCatalog());
+            load ??= StandInContent.Load;
+            var generator = new CharacterGenerator(load().LoadCatalog());
             List<CharacterDna> residents = new PopulationGenerator(generator).Generate(worldSeed, count);
 
             foreach (string context in generator.Catalog.Contexts.Select(c => c.Id).Take(onlyFirstContext ? 1 : int.MaxValue))
             {
                 EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
                 // NewScene unloads unused assets, so load content after it.
-                var builder = new CharacterBuilder(StandInContent.Load());
+                var builder = new CharacterBuilder(load());
                 Vector3[] positions = Enumerable.Range(0, count).Select(i => new Vector3(i * Spacing, 0f, 0f)).ToArray();
                 LightingRig.Day.Apply(positions);
 

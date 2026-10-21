@@ -56,7 +56,7 @@ The images are text-to-image, not edits of one base, so no two generations share
 - **Risks:**
   - Generated hands are mittens with a thumb.
   - Separate generations may not align well enough to conform.
-  - A masculine body in a long dress still shows the skirt's own outline in streaks down the front in game, though built in Blender's relaxed pose the same skirt has no faces turned away: the game's pose or shape blend differs from the build's for masculine bodies. Dresses lean feminine, so it is rare.
+  - Dark outline blotches still show on some garments in game, most on dresses and on bodies away from the basis shape (masculine, heavier, curvier): at the waist, on bodices and in streaks down long skirts. Built in Blender's relaxed pose, the same skirts have no faces turned away from the camera, so the game's blend of several body shapes at once is the likely cause. `GeneratedLineup.RenderGeneratedContent` (Docs/review/generated-lineup-<occasion>.png) shows a town dressed from the generated content for every occasion, where it is easy to see.
   - Text-to-image doesn't always keep the T-pose: a wedding gown came out with the arms hanging (A-pose), and the arms landed on the hips and thighs and swelled its skirt. Such an image needs another seed.
   - Generated texture quality limits the recolour masks. Hunyuan invents the views it can't see: it painted a bald head's crown dark grey and a skin-coloured seam down each side of a pair of shorts. Skin is read from the face and hands only, and garment coverage is closed over gaps a few centimetres wide.
   - The Tencent licence doesn't cover the EU, UK or South Korea; the user has accepted that for now.
