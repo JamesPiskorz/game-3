@@ -228,6 +228,182 @@ namespace Game.Characters.Tests.Modular
         }
 
         [Test]
+        public void Expressions_MoveTheGeneratedFaceAlongTheCharactersAxes()
+        {
+            // The generated rig's face bones rest pointing out of the face (Blender keeps bone roll), and its masculine
+            // shape moves the features off them. Neither may change what an expression does.
+            CharacterContent content = GeneratedContent();
+            CharacterDna dna = new CharacterGenerator(content.LoadCatalog())
+                .Generate(5, new GenerationRequest { FemininityMin = 0f, FemininityMax = 0f });
+            ModularCharacter character = new CharacterBuilder(content).Build(dna, "casual");
+            _created.Add(character.gameObject);
+            var face = character.GetComponent<FaceExpression>();
+            Transform mouth = Find(character, "Mouth"), corner = Find(character, "Mouth.L"), eye = Find(character, "Eye.L");
+            Vector3 up = character.transform.up, forward = character.transform.forward;
+
+            float Middle(bool shaped = true)
+            {
+                List<float> heights = Features(character, mouth, shaped).Select(p => Vector3.Dot(p, up)).ToList();
+                return (heights.Min() + heights.Max()) / 2f;
+            }
+            Vector3 outward = (corner.position - mouth.position).normalized;
+            int tip = 0; // the corner's outermost point
+            Vector3[] cornerAtRest = Features(character, corner, true);
+            for (int i = 1; i < cornerAtRest.Length; i++)
+                if (Vector3.Dot(cornerAtRest[i], outward) > Vector3.Dot(cornerAtRest[tip], outward)) tip = i;
+            float Curve() => Vector3.Dot(Features(character, corner, true)[tip], up) - Middle();
+
+            face.Snap();
+            Matrix4x4 mouthRest = mouth.localToWorldMatrix, eyeRest = eye.localToWorldMatrix;
+            float restingMiddle = Middle(), restingCurve = Curve();
+            Assert.That(Mathf.Abs(restingMiddle - Middle(shaped: false)), Is.GreaterThan(0.0005f),
+                "The masculine shape should move the mouth off its bone, or this test checks nothing.");
+
+            face.Show("surprised", 1f, float.PositiveInfinity);
+            face.Snap();
+            Assert.That(Moved(mouth, mouthRest).MultiplyVector(up).magnitude, Is.GreaterThan(3f), "A surprised mouth opens up and down,");
+            Assert.That(Moved(mouth, mouthRest).MultiplyVector(forward).magnitude, Is.EqualTo(1f).Within(1e-3f), "not out of the face,");
+            Assert.That(Middle(), Is.EqualTo(restingMiddle).Within(0.002f), "and stays where the shape put it.");
+
+            face.Show("happy", 1f, float.PositiveInfinity);
+            face.Snap();
+            Assert.That(Curve(), Is.GreaterThan(restingCurve + 0.002f), "A smile lifts the corners.");
+            face.Show("sad", 1f, float.PositiveInfinity);
+            face.Snap();
+            Assert.That(Curve(), Is.LessThan(restingCurve - 0.002f), "Sadness turns them down.");
+
+            face.Show("delighted", 1f, float.PositiveInfinity);
+            face.Snap();
+            Assert.That(Moved(eye, eyeRest).MultiplyVector(up).magnitude, Is.LessThan(0.2f), "Delight shuts the eyes.");
+        }
+
+        [Test]
+        public void SlidersAndStyles_ActAlongTheCharactersAxesOnTheGeneratedRig()
+        {
+            // The generated rig's bones keep Blender's roll: its face bones point out of the face, its armature is z-up
+            // and its legs point down. Sliders and styles must still stretch, turn and move along the character's axes.
+            CharacterContent content = GeneratedContent();
+            var builder = new CharacterBuilder(content);
+            CharacterDna dna = new CharacterGenerator(content.LoadCatalog())
+                .Generate(5, new GenerationRequest { FemininityMin = 1f, FemininityMax = 1f }); // no shape moves the face
+            Plain(dna);
+            ModularCharacter character = builder.Build(dna, "casual");
+            _created.Add(character.gameObject);
+            Transform eye = Find(character, "Eye.L"), brow = Find(character, "Brow.L");
+            Transform hips = Find(character, "Hips"), foot = Find(character, "Foot.L");
+            Matrix4x4 eyeRest = eye.localToWorldMatrix, browRest = brow.localToWorldMatrix;
+            Vector3 hipsRest = hips.position, footRest = foot.position;
+            Vector3 up = character.transform.up, forward = character.transform.forward;
+
+            dna.Face.EyeStyleId = "eye.style.tall"; // 0.92 wide, 1.2 tall
+            dna.Face.Sliders["brow.tilt"] = 1f; // 16 degrees
+            dna.Body.Sliders["body.legs"] = 1f;
+            builder.Apply(character, dna, "casual");
+
+            Matrix4x4 eyeMoved = Moved(eye, eyeRest), browMoved = Moved(brow, browRest);
+            Assert.That(eyeMoved.MultiplyVector(up).magnitude, Is.EqualTo(1.2f).Within(1e-3f), "Tall eyes are taller,");
+            Assert.That(eyeMoved.MultiplyVector(forward).magnitude, Is.EqualTo(1f).Within(1e-3f), "not deeper.");
+            Assert.That(Vector3.Angle(browMoved.MultiplyVector(forward), forward), Is.LessThan(0.1f), "Brows tilt in the face's plane,");
+            Assert.That(Vector3.Angle(browMoved.MultiplyVector(up), up), Is.EqualTo(16f).Within(0.1f), "by the slider's angle.");
+            Vector3 lift = hips.position - hipsRest;
+            Assert.That(Vector3.Dot(lift, up), Is.GreaterThan(0.035f), "Longer legs raise the hips");
+            Assert.That(Vector3.ProjectOnPlane(lift, up).magnitude, Is.LessThan(1e-3f), "straight up,");
+            Assert.That(Mathf.Abs(Vector3.Dot(foot.position - footRest, up)), Is.LessThan(5e-4f), "and lower the knees as far, so the feet stay down.");
+        }
+
+        [Test]
+        public void FaceSlidersAndStyles_StretchAndTurnTheGeneratedFeaturesAboutThemselves()
+        {
+            // The masculine shape sets the generated face's features centimetres behind their bones. A bigger, tilted eye
+            // or a thicker brow must move the feature only as it would where the bone sits in it (the feminine face):
+            // stretched about the bone, the masculine one would sink into the head or come out of it.
+            CharacterContent content = GeneratedContent();
+            var builder = new CharacterBuilder(content);
+            CharacterDna dna = new CharacterGenerator(content.LoadCatalog())
+                .Generate(5, new GenerationRequest { FemininityMin = 0f, FemininityMax = 0f });
+            Plain(dna);
+            ModularCharacter character = builder.Build(dna, "casual");
+            _created.Add(character.gameObject);
+            Transform eye = Find(character, "Eye.L"), brow = Find(character, "Brow.L");
+
+            var rest = new Dictionary<Transform, (Matrix4x4 Bone, Vector3 At, Vector3 Unshaped)>();
+            foreach (Transform bone in new[] { eye, brow })
+                rest[bone] = (bone.localToWorldMatrix, Centre(Features(character, bone, true)), Centre(Features(character, bone, false)) - bone.position);
+            float eyeSize = Spread(Features(character, eye, true));
+            Assert.That(Vector3.Distance(rest[eye].At - eye.position, rest[eye].Unshaped), Is.GreaterThan(0.01f),
+                "The masculine shape should move the eye well off its bone, or this test checks nothing.");
+
+            dna.Face.Sliders["eye.scale"] = 1f; // 1.22 times
+            dna.Face.Sliders["eye.tilt"] = 1f; // 14 degrees
+            dna.Face.BrowStyleId = "brow.style.thick"; // 1.08 wide, 1.85 tall, 1.25 deep
+            builder.Apply(character, dna, "casual");
+
+            Assert.That(Spread(Features(character, eye, true)) / eyeSize, Is.EqualTo(1.22f).Within(0.01f), "The eye grows,");
+            foreach (Transform bone in new[] { eye, brow })
+            {
+                // How the bone's turn and stretch carry the feature where the bone sits in it, with no shape.
+                Vector3 unshaped = rest[bone].Unshaped, expected = Moved(bone, rest[bone].Bone).MultiplyVector(unshaped) - unshaped;
+                Assert.That(Vector3.Distance(Centre(Features(character, bone, true)) - rest[bone].At, expected), Is.LessThan(1e-4f),
+                    $"and {bone.name} moves no further for the shape having moved it off its bone.");
+            }
+        }
+
+        const string GeneratedBody = "Assets/_Game/Characters/Content/Imported/Generated/GeneratedBody.fbx";
+
+        /// <summary>A copy of the content with the generated body, and no parts: the stand-in parts don't fit its skeleton.</summary>
+        CharacterContent GeneratedContent()
+        {
+            var body = AssetDatabase.LoadAssetAtPath<ModularCharacter>(GeneratedBody);
+            Assert.That(body != null, $"no generated body at {GeneratedBody}");
+            CharacterContent content = Object.Instantiate(_content);
+            _created.Add(content);
+            content.BodyPrefab = body;
+            content.Parts = new List<PartBinding>();
+            return content;
+        }
+
+        /// <summary>No face preset or styles, and every face slider mid-range: nothing turns or stretches the features.</summary>
+        static void Plain(CharacterDna dna)
+        {
+            dna.Face.PresetId = null; // face sliders are offsets from the preset's values
+            foreach (string id in dna.Face.Sliders.Keys.ToList()) dna.Face.Sliders[id] = 0f;
+            dna.Face.EyeStyleId = dna.Face.BrowStyleId = dna.Face.LashStyleId = null;
+        }
+
+        static Vector3 Centre(Vector3[] points) => points.Aggregate(Vector3.zero, (sum, p) => sum + p) / points.Length;
+
+        /// <summary>How far, on average, the points are from their centre: grows with a stretch, not with a turn.</summary>
+        static float Spread(Vector3[] points)
+        {
+            Vector3 centre = Centre(points);
+            return points.Average(p => Vector3.Distance(p, centre));
+        }
+
+        /// <summary>How a bone's pose moves the features on it: from where its rest left them to where it puts them.</summary>
+        static Matrix4x4 Moved(Transform bone, Matrix4x4 rest) => bone.localToWorldMatrix * rest.inverse;
+
+        /// <summary>Where the features wholly on <paramref name="bone"/> are now, with or without the body's shapes.</summary>
+        static Vector3[] Features(ModularCharacter character, Transform bone, bool shaped)
+        {
+            Mesh mesh = character.Body.sharedMesh;
+            int index = System.Array.IndexOf(character.Body.bones, bone);
+            Vector3[] vertices = mesh.vertices;
+            var offsets = new Vector3[mesh.vertexCount];
+            for (int shape = 0; shaped && shape < mesh.blendShapeCount; shape++)
+            {
+                var deltas = new Vector3[mesh.vertexCount];
+                mesh.GetBlendShapeFrameVertices(shape, 0, deltas, null, null);
+                float weight = character.Body.GetBlendShapeWeight(shape) / 100f;
+                for (int v = 0; v < deltas.Length; v++) offsets[v] += deltas[v] * weight;
+            }
+            Matrix4x4 skin = bone.localToWorldMatrix * mesh.bindposes[index];
+            BoneWeight[] weights = mesh.boneWeights;
+            return Enumerable.Range(0, vertices.Length)
+                .Where(v => weights[v].boneIndex0 == index && weights[v].weight0 > 0.99f)
+                .Select(v => skin.MultiplyPoint3x4(vertices[v] + offsets[v])).ToArray();
+        }
+
+        [Test]
         public void IdleMotion_IsRepeatableKeepsFeetPlantedAndSurvivesReapply()
         {
             CharacterDna dna = _generator.Generate(9);

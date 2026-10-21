@@ -15,16 +15,24 @@ namespace Game.Characters.Review
     /// <summary>
     /// Each body slider at its minimum, its presentation's average and its maximum, on one feminine and one masculine
     /// character in the same clothes (Docs/review/body-range.png): one row per slider, full body. Shows the range the
-    /// content supports, against which the generator's spreads can be judged.
+    /// content supports, against which the generator's spreads can be judged. RenderGenerated does the same on the
+    /// generated body, undressed (Docs/review/generated-body-range.png).
     /// Headless: unity run . -- -executeMethod Game.Characters.Review.BodyRangeSheet.Render
     /// </summary>
     public static class BodyRangeSheet
     {
         [MenuItem("Game/Characters/Review/Render Body Range Sheet")]
-        public static void Render()
+        public static void Render() => Render(StandInContent.Load, "body-range.png");
+
+        [MenuItem("Game/Characters/Review/Render Generated Body Range Sheet")]
+        public static void RenderGenerated() => Render(GeneratedBodySheet.Content, "generated-body-range.png");
+
+        /// <summary>Loads the content after opening the scene: a new scene unloads assets nothing in it refers to.</summary>
+        static void Render(System.Func<CharacterContent> load, string file)
         {
             EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-            CharacterContent content = StandInContent.Load();
+            CharacterContent content = load();
+            if (content == null) return;
             ContentCatalog catalog = content.LoadCatalog();
             var generator = new CharacterGenerator(catalog);
             var builder = new CharacterBuilder(content);
@@ -57,7 +65,7 @@ namespace Game.Characters.Review
                     }
                 }
 
-            Snapshot.Save(Snapshot.Grid(shots, people.Length * 3, Color.black), GeneratedLineup.Folder + "/body-range.png");
+            Snapshot.Save(Snapshot.Grid(shots, people.Length * 3, Color.black), GeneratedLineup.Folder + "/" + file);
             Debug.Log("[Review] Body range: " + string.Join(", ", catalog.BodySliders.Select(s => s.Id)));
         }
     }

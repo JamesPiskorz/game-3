@@ -16,16 +16,24 @@ namespace Game.Characters.Review
     /// <summary>
     /// Every eye style, then every brow style, on the same few faces, close up (Docs/review/face-styles.png): one row
     /// per face, one column per style. The styles should be told apart at a glance; the face presets and sliders vary
-    /// within a style, and the style is what reads across the room.
+    /// within a style, and the style is what reads across the room. RenderGenerated does the same on the generated body
+    /// (Docs/review/generated-face-styles.png).
     /// Headless: unity run . -- -executeMethod Game.Characters.Review.FaceStyleSheet.Render
     /// </summary>
     public static class FaceStyleSheet
     {
         [MenuItem("Game/Characters/Review/Render Face Style Sheet")]
-        public static void Render()
+        public static void Render() => Render(StandInContent.Load, "face-styles.png");
+
+        [MenuItem("Game/Characters/Review/Render Generated Face Style Sheet")]
+        public static void RenderGenerated() => Render(GeneratedBodySheet.Content, "generated-face-styles.png");
+
+        /// <summary>Loads the content after opening the scene: a new scene unloads assets nothing in it refers to.</summary>
+        static void Render(System.Func<CharacterContent> load, string file)
         {
             EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-            CharacterContent content = StandInContent.Load();
+            CharacterContent content = load();
+            if (content == null) return;
             ContentCatalog catalog = content.LoadCatalog();
             var generator = new CharacterGenerator(catalog);
             List<CharacterDna> people = new PopulationGenerator(generator).Generate(57, 3);
@@ -64,7 +72,7 @@ namespace Game.Characters.Review
             }
             FaceExpression.Blinking = blinking;
 
-            Snapshot.Save(Snapshot.Grid(shots, columns.Count, Color.black), GeneratedLineup.Folder + "/face-styles.png");
+            Snapshot.Save(Snapshot.Grid(shots, columns.Count, Color.black), GeneratedLineup.Folder + "/" + file);
             Debug.Log("[Review] Face styles: " + string.Join(", ", columns.Select(c => c.Eye ?? c.Brow)));
         }
     }

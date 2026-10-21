@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Game.Characters.Building;
+using Game.Characters.Modular;
 using Game.Characters.Rng;
 using UnityEngine;
 
@@ -56,16 +58,18 @@ namespace Game.Characters.Expressions
     /// builder left them in: slider and style offsets, then expression on top. The builder resets every bone when it
     /// re-applies DNA and then calls <see cref="Rebase"/>, so expressions never compound with sliders. The stand-in
     /// rig's feature bones are the default; a real head that uses blendshapes would need its own driver.
+    /// Poses are in the character's axes (x across, y up, z out of the face), whatever way a rig's bones rest, and turn
+    /// and stretch each feature about itself wherever body shapes have moved it (<see cref="BoneFrame"/>).
     /// </summary>
     public sealed class FaceExpression : MonoBehaviour
     {
         public static readonly IReadOnlyDictionary<string, FacePose> Poses = new Dictionary<string, FacePose>
         {
             ["neutral"] = default,
-            ["happy"] = new FacePose { BrowRaise = 0.002f, EyeOpen = -0.25f, MouthWidth = 0.25f, MouthOpen = 0.6f, MouthRaise = 0.001f, MouthCurve = 22f },
+            ["happy"] = new FacePose { BrowRaise = 0.002f, EyeOpen = -0.25f, MouthWidth = 0.25f, MouthOpen = 1f, MouthRaise = 0.001f, MouthCurve = 22f },
             ["delighted"] = new FacePose { BrowRaise = 0.004f, EyeOpen = -0.6f, MouthWidth = 0.35f, MouthOpen = 2.2f, MouthRaise = 0.0015f, MouthCurve = 26f, Blush = 0.6f, EyeSmile = 1f },
             ["shy"] = new FacePose { BrowRaise = 0.001f, BrowTilt = 18f, EyeOpen = -0.15f, EyeLook = 10f, MouthWidth = -0.3f, MouthCurve = 12f, Blush = 1f },
-            ["sad"] = new FacePose { BrowRaise = -0.001f, BrowTilt = 28f, EyeOpen = -0.2f, EyeLook = 6f, MouthWidth = -0.2f, MouthOpen = -0.3f, MouthRaise = -0.0015f, MouthCurve = -24f },
+            ["sad"] = new FacePose { BrowRaise = -0.001f, BrowTilt = 28f, EyeOpen = -0.2f, EyeLook = 6f, MouthWidth = -0.15f, MouthOpen = -0.1f, MouthRaise = -0.0015f, MouthCurve = -30f },
             ["annoyed"] = new FacePose { BrowRaise = -0.003f, BrowTilt = -24f, BrowIn = 0.003f, EyeOpen = -0.3f, MouthWidth = -0.1f, MouthOpen = -0.4f, MouthCurve = -12f },
             ["surprised"] = new FacePose { BrowRaise = 0.006f, EyeOpen = 0.2f, MouthWidth = -0.35f, MouthOpen = 3f },
         };
@@ -92,9 +96,9 @@ namespace Game.Characters.Expressions
         struct Base
         {
             public Transform Bone;
-            public Vector3 Position;
-            public Quaternion Rotation;
-            public Vector3 Scale;
+            /// <summary>The local pose the builder left.</summary>
+            public RestPose.Pose From;
+            public BoneFrame Frame;
         }
 
         readonly List<Base> _bases = new List<Base>();
@@ -172,13 +176,12 @@ namespace Game.Characters.Expressions
             Pose(_smileR, arcs, Vector3.zero, Vector3.one);
         }
 
+        /// <summary>Moves a feature by an offset, turn and stretch in the character's axes, about the feature.</summary>
         static void Pose(Base? feature, Vector3 offset, Vector3 euler, Vector3 scale)
         {
             if (feature == null) return;
             Base b = feature.Value;
-            b.Bone.localPosition = b.Position + offset;
-            b.Bone.localRotation = b.Rotation * Quaternion.Euler(euler);
-            b.Bone.localScale = Vector3.Scale(b.Scale, scale);
+            b.Frame.Move(b.Bone, b.From, offset, euler, scale);
         }
 
         void Capture()
@@ -188,10 +191,17 @@ namespace Game.Characters.Expressions
             foreach (Transform bone in GetComponentsInChildren<Transform>(true))
                 if (!bones.ContainsKey(bone.name)) bones[bone.name] = bone;
 
+            var character = GetComponent<ModularCharacter>();
+            SkinnedMeshRenderer body = character != null ? character.Body : null;
             Base? Take(string name)
             {
                 if (string.IsNullOrEmpty(name) || !bones.TryGetValue(name, out Transform bone)) return null;
-                var b = new Base { Bone = bone, Position = bone.localPosition, Rotation = bone.localRotation, Scale = bone.localScale };
+                var b = new Base
+                {
+                    Bone = bone,
+                    From = new RestPose.Pose { Position = bone.localPosition, Rotation = bone.localRotation, Scale = bone.localScale },
+                    Frame = BoneFrame.Of(transform, bone, body),
+                };
                 _bases.Add(b);
                 return b;
             }

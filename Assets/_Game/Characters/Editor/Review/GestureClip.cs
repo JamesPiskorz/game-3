@@ -61,7 +61,7 @@ namespace Game.Characters.Review
                 float t = frame * FrameSeconds;
                 if (!smiling && t >= SmileAt)
                 {
-                    face.Show("delighted", 1f, float.PositiveInfinity); // "happy" barely moves the generated face at this distance
+                    face.Show("happy", 1f, float.PositiveInfinity);
                     smiling = true;
                 }
                 idle.Pose(t);

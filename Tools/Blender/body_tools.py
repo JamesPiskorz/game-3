@@ -727,18 +727,20 @@ class FeatureBuilder:
         hit, _, _, _ = self.tree.ray_cast(Vector((x, -2.0, z)), Vector((0.0, 1.0, 0.0)), 4.0)
         return None if hit is None else hit.y
 
-    def disc(self, centre_x, centre_z, radii, lift, bone, mask, rings=5, segments=20, thickness=0.002, over=1.0):
+    def disc(self, centre_x, centre_z, radii, lift, bone, mask, rings=5, segments=20, thickness=0.002, over=1.0, below=None):
         """
         An elliptical lens on the face: its front follows the scanned surface ``lift`` metres proud of it, its back
-        ``thickness`` behind the surface, so it reads as painted on and stays closed for the outline pass.
+        ``thickness`` behind the surface, so it reads as painted on and stays closed for the outline pass. ``below``
+        gives its lower half a different height from its upper half.
         """
         rx, rz = radii
+        below = rz if below is None else below
         points = [(0.0, 0.0)] + [(r * np.cos(a), r * np.sin(a)) for r in np.linspace(1.0 / rings, 1.0, rings)
                                  for a in np.linspace(0.0, 2 * np.pi, segments, endpoint=False)]
         centre_y = self.surface(centre_x, centre_z)
         front, back = [], []
         for u, w in points:
-            x, z = centre_x + u * rx, centre_z + w * rz
+            x, z = centre_x + u * rx, centre_z + w * (rz if w >= 0 else below)
             y = self.surface(x, z)
             y = centre_y if y is None else y
             front.append((x, y - lift, z))
@@ -945,10 +947,16 @@ def build_face(obj, joints, socket_half):
         for a, b in zip(arc[:-1], arc[1:]):
             features.stroke(a, b, 0.0021, "EyeSmile" + side, DARK)
 
-    mouth = j["Mouth"]  # small and closed, as the references draw it: thicker, it read as an open "o" at a distance
-    features.disc(mouth[0], mouth[2], (0.0072 * scale, 0.0016), LIFT, "Mouth", LIPS, rings=2)
+    # The mouth: small and closed at rest, as the references draw it (thicker, it read as an open "o" at a distance).
+    # FaceExpression stretches the Mouth bone and everything on it (the corners too) and turns the corners about
+    # Mouth.L/R. The middle is deeper below than above, so opening it makes the D of an open smile rather than a lens.
+    # The corners straddle their pivots: their inner ends turn the opposite way to their tips, so short tips still curve
+    # a smile or frown. Long tips rose into horns once an open smile's stretch steepened their turn.
+    mouth = j["Mouth"]
+    features.disc(mouth[0], mouth[2], (0.008 * scale, 0.0015), LIFT, "Mouth", LIPS, rings=2, below=0.0023)
     for side, sign in ((".L", 1.0), (".R", -1.0)):
-        features.disc(mouth[0] + sign * 0.0098 * scale, mouth[2], (0.0052 * scale, 0.0014), LIFT - 0.0002, "Mouth" + side, LIPS, rings=2)
+        pivot = j["Mouth" + side][0]
+        features.disc(pivot + sign * 0.003, mouth[2], (0.0063, 0.0014), LIFT - 0.0002, "Mouth" + side, LIPS, rings=2)
     return features.merge_into(obj)
 
 
