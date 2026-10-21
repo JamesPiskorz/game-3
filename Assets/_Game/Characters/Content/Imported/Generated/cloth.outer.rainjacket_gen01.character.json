@@ -1,0 +1,29 @@
+{
+  "kind": "part",
+  "slot": "outer",
+  "covers": [],
+  "followsBodyShapes": true,
+  "regions": 3,
+  "outfit": "outfit-08",
+  "colours": [
+    "#f9a900",
+    "#be935a",
+    "#2e2936"
+  ],
+  "name": "Rain jacket",
+  "tags": [
+    "casual",
+    "street",
+    "sporty"
+  ],
+  "lean": 0.0,
+  "contexts": [],
+  "weight": 1.0,
+  "excludesTags": [
+    "hooded",
+    "tailored"
+  ],
+  "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261021_215716_for_texture_textured.glb",
+  "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
+  "licence": "Tencent Hunyuan 3D 2.1 Community License"
+}

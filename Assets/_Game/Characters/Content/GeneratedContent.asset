@@ -16,20 +16,44 @@ MonoBehaviour:
   BodyPrefab: {fileID: -6359599782955986536, guid: 3eeb2d2da0428ac44a957080ab5c69b4, type: 3}
   SkinPalette: {fileID: 11400000, guid: 249c629ddf8b62543bb9d085776fc466, type: 2}
   Parts:
+  - Id: cloth.bottom.chinos_gen01
+    Prefab: {fileID: -6725632144773131485, guid: f25aa2a7647320343af8a4225129b509, type: 3}
+  - Id: cloth.bottom.jeans_gen01
+    Prefab: {fileID: -6725632144773131485, guid: d6475bd0e5fc7eb44a7911dd9c5443e1, type: 3}
   - Id: cloth.bottom.joggers_gen01
     Prefab: {fileID: -6725632144773131485, guid: cc55471c66434c04ea15d2c02d536736, type: 3}
   - Id: cloth.bottom.shorts_gen01
     Prefab: {fileID: -6725632144773131485, guid: fcf972ab20a5b3642956d4009643b8e1, type: 3}
+  - Id: cloth.bottom.slacks_gen01
+    Prefab: {fileID: -6725632144773131485, guid: acd0f52a46a7b514181be941846d699b, type: 3}
+  - Id: cloth.bottom.slimtrousers_gen01
+    Prefab: {fileID: -6725632144773131485, guid: 4edcc1c9f2f004b448aa6162f2b65e28, type: 3}
   - Id: cloth.bottom.trousers_gen01
     Prefab: {fileID: -6725632144773131485, guid: 79837dcb1b2ecc044b8229612275bb1d, type: 3}
+  - Id: cloth.outer.rainjacket_gen01
+    Prefab: {fileID: -6725632144773131485, guid: 13e4b2a58b22f914a86368bb60b60eb9, type: 3}
+  - Id: cloth.shoes.canvas_gen01
+    Prefab: {fileID: -6725632144773131485, guid: 7bee790564d7de841a996f14b54ace8b, type: 3}
+  - Id: cloth.shoes.derby_gen01
+    Prefab: {fileID: -6725632144773131485, guid: 758110adb182537479eabc5dd8c6ebaa, type: 3}
   - Id: cloth.shoes.hightops_gen01
     Prefab: {fileID: -6725632144773131485, guid: 17dcdd34918fdfe4fb9eb32f92cc4a32, type: 3}
+  - Id: cloth.shoes.loafers_gen01
+    Prefab: {fileID: -6725632144773131485, guid: 8a66530e363a18a44895af23aa8e6416, type: 3}
+  - Id: cloth.shoes.rainboots_gen01
+    Prefab: {fileID: -6725632144773131485, guid: c487d508e11e8f248a343ca8034e8843, type: 3}
   - Id: cloth.shoes.sneakers_gen01
     Prefab: {fileID: -6725632144773131485, guid: 3ef000b7efa92d6498fdb6f57b5bbfee, type: 3}
   - Id: cloth.shoes.tallboots_gen01
     Prefab: {fileID: -6725632144773131485, guid: 6edf77ae07743124fa78897d3fd35b40, type: 3}
+  - Id: cloth.top.blouse_gen01
+    Prefab: {fileID: -6725632144773131485, guid: 31c2ded84bf29bb488a34e866764fd44, type: 3}
+  - Id: cloth.top.campshirt_gen01
+    Prefab: {fileID: -6725632144773131485, guid: 44098bb9919248043b702e3c550c23c8, type: 3}
   - Id: cloth.top.hoodie_gen01
     Prefab: {fileID: -6725632144773131485, guid: 87c5840bb700dfb4d9d927e28c2cbdcd, type: 3}
+  - Id: cloth.top.oxford_gen01
+    Prefab: {fileID: -6725632144773131485, guid: 93a2bcc38fec55347aa4cc22ddeb6453, type: 3}
   - Id: cloth.top.tank_gen01
     Prefab: {fileID: -6725632144773131485, guid: 75f73f8dd751ce644bae96fb0390ca13, type: 3}
   - Id: cloth.top.tshirt_gen01
@@ -38,28 +62,44 @@ MonoBehaviour:
     Prefab: {fileID: -6725632144773131485, guid: ebddb35057209db4ca2a3a856323b71c, type: 3}
   - Id: hair.back.bun_gen01
     Prefab: {fileID: -6725632144773131485, guid: 48d47d770d2b4e3468de94ea7459825e, type: 3}
+  - Id: hair.back.crop_gen01
+    Prefab: {fileID: -6725632144773131485, guid: df8243f795a7d6948bbb2e511e18d62f, type: 3}
   - Id: hair.back.long_gen01
     Prefab: {fileID: -6725632144773131485, guid: 2443f7c7e44940f478ebab403d88ccdf, type: 3}
+  - Id: hair.back.messy_gen01
+    Prefab: {fileID: -6725632144773131485, guid: d06348581a0d5944da633e06f470a088, type: 3}
   - Id: hair.back.pixie_gen01
     Prefab: {fileID: -6725632144773131485, guid: 06f0cd9e781e7ca4a8411c8b77d93a0d, type: 3}
   - Id: hair.back.ponytail_gen01
     Prefab: {fileID: -6725632144773131485, guid: 716e20279889ae74c95b55d13d987672, type: 3}
+  - Id: hair.back.sidepart_gen01
+    Prefab: {fileID: -6725632144773131485, guid: e4867e133315f8f41aebd8f5dc52ffff, type: 3}
   - Id: hair.back.twintails_gen01
     Prefab: {fileID: -6725632144773131485, guid: 5d7ae0737419c5d4296f79d817e681ff, type: 3}
+  - Id: hair.back.undercut_gen01
+    Prefab: {fileID: -6725632144773131485, guid: 3196524a3d0709c49a4fc0853b859b7a, type: 3}
   - Id: hair.back.wavy_gen01
     Prefab: {fileID: -6725632144773131485, guid: c52314bbfb576ab44a586538d7b9b265, type: 3}
   - Id: hair.front.blunt_gen01
     Prefab: {fileID: -6725632144773131485, guid: 857023154e3cab24eb0501db86f60472, type: 3}
+  - Id: hair.front.cropfringe_gen01
+    Prefab: {fileID: -6725632144773131485, guid: b5e6bdb21e0087f4eb1bf222260f5b6c, type: 3}
   - Id: hair.front.framing_gen01
     Prefab: {fileID: -6725632144773131485, guid: fbf74d966323bc4448a0cbed9d1a536a, type: 3}
   - Id: hair.front.fringe_gen01
     Prefab: {fileID: -6725632144773131485, guid: 2b045c2dc3c9c7f45882c7af6a79f502, type: 3}
   - Id: hair.front.heavy_gen01
     Prefab: {fileID: -6725632144773131485, guid: 98c2b371bcdad924fb3de8bf27f1a529, type: 3}
+  - Id: hair.front.messy_gen01
+    Prefab: {fileID: -6725632144773131485, guid: 8b0fc79a5a399dd4ca2d772e0c682f5b, type: 3}
   - Id: hair.front.parted_gen01
     Prefab: {fileID: -6725632144773131485, guid: 30ee6d0f32178e848926359a8031a08c, type: 3}
+  - Id: hair.front.slicked_gen01
+    Prefab: {fileID: -6725632144773131485, guid: cd6c097855bff8946a05df9f301d9834, type: 3}
   - Id: hair.front.swept_gen01
     Prefab: {fileID: -6725632144773131485, guid: d645493be3aa25c48850f337af37a537, type: 3}
+  - Id: hair.front.sweptside_gen01
+    Prefab: {fileID: -6725632144773131485, guid: 21a8dcc752c326d419336fa5ecf0df76, type: 3}
   - Id: hair.front.wispy_gen01
     Prefab: {fileID: -6725632144773131485, guid: cda25bda722ddb94589fc5249c440968, type: 3}
   Patterns:

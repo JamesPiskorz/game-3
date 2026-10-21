@@ -9,6 +9,7 @@
     "#7a1f2e",
     "#1c1c1c"
   ],
+  "name": "Tank top",
   "tags": [
     "casual",
     "street",
@@ -19,6 +20,5 @@
   "weight": 1.0,
   "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261019_213432_for_texture_textured.glb",
   "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
-  "licence": "Tencent Hunyuan 3D 2.1 Community License",
-  "name": "Tank top"
+  "licence": "Tencent Hunyuan 3D 2.1 Community License"
 }

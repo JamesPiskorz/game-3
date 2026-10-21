@@ -1,5 +1,5 @@
 {
-  "_note": "Generated outfits (decision 0008): which garments each outfit image yields, their slots, and the body regions each may sit on. Colours come from the generated texture; each garment's colours (the prompt's, as hex) only settle which garment owns a colour lying where two garments meet. A garment's loosest overrides its slot's cap on how far a fitted garment stands off the body (make_generated_outfit.LOOSEST). A garment's straps (metres) adds shoulder straps that wide (so its edges can be smoothed as much as any). A garment's scoop (metres) cuts a scoop neckline that deep. A garment's band adds a belt or waistband (width in metres, colour) along its top edge. A garment's sleeve_ease (metres) is the least its sleeves stand off the arm. A garment's top (metres above the floor) is as high as it reaches. A garment's flare [metres, over metres] adds ease towards its hem (A-line shorts). A garment's gather (metres) draws its ease in over that stretch above the hem (joggers' cuffs). A garment's ease (metres) is the least it stands off the body (baggy joggers). A garment's edge_blur (metres) overrides how much its edges are smoothed (thin straps need little). A garment with hood true also takes its hood from the scan (garment_tools.extract_hood).",
+  "_note": "Generated outfits (decision 0008): which garments each outfit image yields, their slots, and the body regions each may sit on. Colours come from the generated texture; each garment's colours (the prompt's, as hex) only settle which garment owns a colour lying where two garments meet. A garment's loosest overrides its slot's cap on how far a fitted garment stands off the body (make_generated_outfit.LOOSEST). A garment's straps (metres) adds shoulder straps that wide (so its edges can be smoothed as much as any). A garment's scoop (metres) cuts a scoop neckline that deep. A garment's band adds a belt or waistband (width in metres, colour) along its top edge. A garment's sleeve_ease (metres) is the least its sleeves stand off the arm. A garment's top (metres above the floor) is as high as it reaches. A garment's flare [metres, over metres] adds ease towards its hem (A-line shorts). A garment's gather (metres) draws its ease in over that stretch above the hem (joggers' cuffs). A garment's ease (metres) is the least it stands off the body (baggy joggers). A garment's edge_blur (metres) overrides how much its edges are smoothed (thin straps need little). A garment with hood true also takes its hood from the scan (garment_tools.extract_hood). An outfit with body masculine was generated on the masculine base and is measured against the body's masculine shape. Tops and bottoms meet at one waist line (garment_tools.WAIST_ABOVE_HIPS) unless a top is tucked (metres above the hip joint its hem stops). Each garment's name, tags, lean, contexts, weight and excludes_tags are its catalog entry (update_sidecars.py).",
   "outfit-01": {
     "image": "References/character-base-images/outfits/outfit-01.png",
     "prompt": "plain crew-neck short-sleeve T-shirt in solid dusty blue with a white ribbed collar and white sleeve hems, hanging loose over the waist; loose mid-thigh shorts in solid khaki with a dark brown waistband; low white canvas sneakers with red rubber soles",
@@ -26,6 +26,51 @@
       {"id": "cloth.top.tank_gen01", "name": "Tank top", "tags": ["casual", "street", "date"], "lean": 0.3, "slot": "top", "regions": ["Neck", "UpperTorso", "LowerTorso", "UpperArmL", "UpperArmR"], "colours": ["#7a1f2e", "#1c1c1c"], "loosest": 0.012, "straps": 0.022, "scoop": 0.09, "collar": 0.006, "tucked": 0.132},
       {"id": "cloth.bottom.trousers_gen01", "name": "Jeans", "tags": ["casual", "street", "date", "gothic"], "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#1f2a4a", "#7a5230"], "loosest": 0.015, "band": {"width": 0.022, "colour": "#6b4528", "buckle": "#3a2a1c"}, "hem": 0.586, "gather": 0.1},
       {"id": "cloth.shoes.tallboots_gen01", "name": "Tall boots", "tags": ["gothic", "street", "elegant", "date"], "slot": "shoes", "regions": ["FootL", "FootR", "CalfL", "CalfR"], "colours": ["#4a3020", "#1c1c1c"], "top": 0.375, "sole": {"colour": "#1c1c1c", "height": 0.02}}
+    ]
+  },
+  "outfit-04": {
+    "image": "References/character-base-images/outfits/outfit-04.png",
+    "prompt": "fitted long-sleeve button-up blouse in solid white with a pointed collar, tucked into high-waisted tailored straight-leg trousers in solid charcoal grey with a thin black belt; black leather loafers",
+    "garments": [
+      {"id": "cloth.top.blouse_gen01", "name": "Blouse", "tags": ["elegant", "bookish", "date"], "lean": 0.5, "slot": "top", "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR", "ForearmL", "ForearmR"], "colours": ["#f2f2f2"], "tucked": 0.132},
+      {"id": "cloth.bottom.slacks_gen01", "name": "Tailored trousers", "tags": ["elegant", "bookish", "date"], "lean": 0.1, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#5f6066", "#1c1c1c"], "loosest": 0.03, "ease": 0.01, "flare": [0.025, 0.4], "band": {"width": 0.02, "colour": "#1c1c1c", "buckle": "#9a9aa0"}, "hem": 0.77},
+      {"id": "cloth.shoes.loafers_gen01", "name": "Loafers", "tags": ["elegant", "bookish", "date", "gothic"], "slot": "shoes", "regions": ["FootL", "FootR", "CalfL", "CalfR"], "colours": ["#1c1c1c"], "ease": 0.008, "top": [0.075, 0.06, 0.07], "sole": {"colour": "#101010", "height": 0.012}}
+    ]
+  },
+  "outfit-05": {
+    "image": "References/character-base-images/outfits/outfit-05.png",
+    "prompt": "knee-length belted trench coat in solid camel beige, buttoned and closed, the belt tied at the waist; straight-leg jeans in solid dark blue; ankle rain boots in solid glossy black",
+    "_generated": "The trench coat isn't made: the loose-layer path tore it apart (a knee-length coat can't be built like a top). The rain jacket comes from outfit-08.",
+    "garments": [
+      {"id": "cloth.bottom.jeans_gen01", "name": "Skinny jeans", "tags": ["casual", "street", "date"], "lean": 0.2, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#2e4a6e"], "loosest": 0.015, "hem": 0.586, "gather": 0.1},
+      {"id": "cloth.shoes.rainboots_gen01", "name": "Rain boots", "tags": ["casual", "street"], "slot": "shoes", "regions": ["FootL", "FootR", "CalfL", "CalfR"], "colours": ["#151515"], "top": 0.375, "sole": {"colour": "#0a0a0a", "height": 0.02}}
+    ]
+  },
+  "outfit-06": {
+    "image": "References/character-base-images/outfits/outfit-06.png",
+    "body": "masculine",
+    "prompt": "loose short-sleeve camp-collar shirt in solid olive green, untucked; straight-leg chino trousers in solid beige; low white canvas sneakers",
+    "garments": [
+      {"id": "cloth.top.campshirt_gen01", "name": "Camp shirt", "tags": ["casual", "street", "date"], "lean": -0.6, "slot": "top", "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR"], "colours": ["#7a8a55"], "sleeve_ease": 0.02},
+      {"id": "cloth.bottom.chinos_gen01", "name": "Chinos", "tags": ["casual", "bookish", "elegant", "street", "date"], "lean": -0.3, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#d9cba3"], "loosest": 0.03, "ease": 0.012, "flare": [0.025, 0.4], "hem": 0.75, "cuff": {"width": 0.025, "colour": "#c4b68e"}},
+      {"id": "cloth.shoes.canvas_gen01", "name": "Canvas sneakers", "tags": ["casual", "street", "sporty", "cute"], "lean": -0.2, "slot": "shoes", "regions": ["FootL", "FootR", "CalfL", "CalfR"], "colours": ["#f2f2f2"], "ease": 0.012, "top": [0.115, 0.07, 0.09], "sole": {"colour": "#e4e4e4", "height": 0.016}, "laces": {"colour": "#d0d0d0"}}
+    ]
+  },
+  "outfit-07": {
+    "image": "References/character-base-images/outfits/outfit-07.png",
+    "body": "masculine",
+    "prompt": "long-sleeve oxford button-down shirt in solid light blue, tucked into slim trousers in solid navy with a brown leather belt; brown leather derby shoes",
+    "garments": [
+      {"id": "cloth.top.oxford_gen01", "name": "Oxford shirt", "tags": ["elegant", "bookish", "date"], "lean": -0.6, "slot": "top", "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR", "ForearmL", "ForearmR"], "colours": ["#a8c3e3"], "tucked": 0.132},
+      {"id": "cloth.bottom.slimtrousers_gen01", "name": "Slim trousers", "tags": ["elegant", "bookish", "date"], "lean": -0.4, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#26304f", "#6b4528"], "loosest": 0.02, "ease": 0.008, "flare": [0.015, 0.4], "band": {"width": 0.022, "colour": "#6b4528", "buckle": "#c0a060"}, "hem": 0.77},
+      {"id": "cloth.shoes.derby_gen01", "name": "Derby shoes", "tags": ["elegant", "bookish", "date"], "lean": -0.4, "slot": "shoes", "regions": ["FootL", "FootR", "CalfL", "CalfR"], "colours": ["#6b3f22"], "ease": 0.008, "top": [0.075, 0.06, 0.07], "sole": {"colour": "#3a2412", "height": 0.012}}
+    ]
+  },
+  "outfit-08": {
+    "image": "References/character-base-images/outfits/outfit-08.png",
+    "prompt": "hip-length zipped rain jacket in solid mustard yellow with the hood down, zipped closed; slim black trousers; white sneakers",
+    "garments": [
+      {"id": "cloth.outer.rainjacket_gen01", "name": "Rain jacket", "tags": ["casual", "street", "sporty"], "excludes_tags": ["hooded", "tailored"], "slot": "outer", "fitted": true, "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR", "ForearmL", "ForearmR"], "colours": ["#d9a520"], "ease": 0.03, "sleeve_ease": 0.035}
     ]
   }
 }

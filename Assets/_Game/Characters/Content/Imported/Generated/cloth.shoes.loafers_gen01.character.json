@@ -1,0 +1,25 @@
+{
+  "kind": "part",
+  "slot": "shoes",
+  "covers": [],
+  "followsBodyShapes": true,
+  "regions": 2,
+  "outfit": "outfit-04",
+  "colours": [
+    "#1c1c1c",
+    "#101010"
+  ],
+  "name": "Loafers",
+  "tags": [
+    "elegant",
+    "bookish",
+    "date",
+    "gothic"
+  ],
+  "lean": 0.0,
+  "contexts": [],
+  "weight": 1.0,
+  "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261021_211418_for_texture_textured.glb",
+  "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
+  "licence": "Tencent Hunyuan 3D 2.1 Community License"
+}

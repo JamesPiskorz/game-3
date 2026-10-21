@@ -19,7 +19,8 @@ namespace Game.Characters.ContentAuthoring
     /// from their sidecars (Tools/Blender/make_generated_outfit.py and make_generated_hair.py write each part's tags,
     /// lean, contexts and weight from outfits.json and hairs.json). What the generated parts can't serve is left out,
     /// so the catalog validates and generation never fails: an outfit context the parts can't dress (work clothes need
-    /// an elegant or bookish top, a rainy day a coat) and face marks that have no parts. The town copes with a missing
+    /// an elegant or bookish top, a rainy day a coat) and face marks that have no parts. It adds swimming and
+    /// sleepwear occasions (<see cref="ExtraContexts"/>). The town copes with a missing
     /// context (<c>SimWorld.OutfitAt</c> falls back to everyday clothes). Which content the game uses is
     /// <see cref="GameContent"/>'s switch.
     /// Headless: unity run . -- -executeMethod Game.Characters.ContentAuthoring.GeneratedContent.Write
@@ -43,6 +44,8 @@ namespace Game.Characters.ContentAuthoring
             public string[] contexts = Array.Empty<string>();
             public float weight = 1f;
             public string[] blocksSlots = Array.Empty<string>();
+            public string[] excludesTags = Array.Empty<string>();
+            public string[] requiresTags = Array.Empty<string>();
         }
 
         public static CharacterContent Load() => AssetDatabase.LoadAssetAtPath<CharacterContent>(Path);
@@ -77,7 +80,7 @@ namespace Game.Characters.ContentAuthoring
                     Id = id, Name = string.IsNullOrEmpty(sidecar.name) ? ContentCatalog.Humanize(id) : sidecar.name,
                     Slot = sidecar.slot, Regions = Mathf.Max(1, sidecar.regions), Tags = sidecar.tags.ToList(),
                     Lean = sidecar.lean, Contexts = sidecar.contexts.ToList(), Weight = sidecar.weight > 0f ? sidecar.weight : 1f,
-                    BlocksSlots = sidecar.blocksSlots.ToList(),
+                    BlocksSlots = sidecar.blocksSlots.ToList(), ExcludesTags = sidecar.excludesTags.ToList(), RequiresTags = sidecar.requiresTags.ToList(),
                 }, prefab));
             }
 
@@ -126,6 +129,8 @@ namespace Game.Characters.ContentAuthoring
             ContentCatalog catalog = CatalogSerializer.FromJson(CatalogSerializer.ToJson(standIn));
             catalog.Parts.Clear();
             catalog.Parts.AddRange(parts);
+            foreach (OutfitContext extra in ExtraContexts())
+                if (catalog.Context(extra.Id) == null) catalog.Contexts.Add(extra);
             catalog = CatalogSerializer.FromJson(CatalogSerializer.ToJson(catalog)); // re-indexes the parts
 
             bool Fits(PartEntry part, OutfitContext context) =>
@@ -134,7 +139,8 @@ namespace Game.Characters.ContentAuthoring
 
             foreach (OutfitContext context in catalog.Contexts.ToList())
             {
-                string[] missing = new[] { Slots.Top, Slots.Bottom, Slots.Shoes }.Where(slot => !catalog.PartsInSlot(slot).Any(p => Fits(p, context))).ToArray();
+                string[] needed = context.Shoes ? new[] { Slots.Top, Slots.Bottom, Slots.Shoes } : new[] { Slots.Top, Slots.Bottom };
+                string[] missing = needed.Where(slot => !catalog.PartsInSlot(slot).Any(p => Fits(p, context))).ToArray();
                 bool coatless = context.Outer && !catalog.PartsInSlot(Slots.Outer).Any(p => Fits(p, context));
                 if (missing.Length == 0 && !coatless) continue;
                 catalog.Contexts.Remove(context);
@@ -153,6 +159,17 @@ namespace Game.Characters.ContentAuthoring
                 }
             if (marks.Count > 0) notes.Add("face marks with no parts (" + string.Join(", ", marks) + ")");
             return CatalogSerializer.FromJson(CatalogSerializer.ToJson(catalog));
+        }
+
+        /// <summary>
+        /// Occasions only the generated parts dress: swimming and sleepwear, barefoot, from parts tagged "swim" and
+        /// "sleep" only, so swimwear and lingerie never turn up in everyday outfits. The town doesn't send anyone to
+        /// either yet; the creator lists them.
+        /// </summary>
+        static IEnumerable<OutfitContext> ExtraContexts()
+        {
+            yield return new OutfitContext { Id = "swim", Name = "Swimming", TagWeights = { ["swim"] = 1f }, OnlyTags = { "swim" }, Shoes = false };
+            yield return new OutfitContext { Id = "sleep", Name = "Sleepwear", TagWeights = { ["sleep"] = 1f }, OnlyTags = { "sleep" }, Shoes = false };
         }
 
         /// <summary>

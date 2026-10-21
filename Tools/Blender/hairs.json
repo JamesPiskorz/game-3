@@ -1,5 +1,5 @@
 {
-  "_note": "Generated hairstyles (decision 0008): each image is outfit-01's with 'Bald.' swapped for the hairstyle, in vivid emerald green so the hair separates from skin and clothes by colour (the game recolours it). Each piece's tags, lean and weight are its catalog entry's (the generator's style tags and rules). Each style is split into a front piece (everything in front of the ears) and a back piece; chains are spring-bone chains fitted along hair that hangs free; squeeze draws a flared style in below the eyes and curl turns its ends under (hair_tools.tame); blunt cuts the fringe straight across (hair_tools.blunt_cut); thin draws a voluminous style in towards the scalp (hair_tools.thin); below_chin cuts it straight across that far under the chin.",
+  "_note": "Generated hairstyles (decision 0008): each image is outfit-01's (or, with body masculine, the masculine base Character_00005_'s, the style then built against the body's masculine shape) with 'Bald.' swapped for the hairstyle, in vivid emerald green so the hair separates from skin and clothes by colour (the game recolours it). Each piece's tags, lean and weight are its catalog entry's (the generator's style tags and rules). Each style is split into a front piece (everything in front of the ears) and a back piece; chains are spring-bone chains fitted along hair that hangs free; squeeze draws a flared style in below the eyes and curl turns its ends under (hair_tools.tame); blunt cuts the fringe straight across (hair_tools.blunt_cut); thin draws a voluminous style in towards the scalp (hair_tools.thin); below_chin cuts it straight across that far under the chin.",
   "hair-bob": {
     "image": "References/character-base-images/hair/hair-bob.png",
     "prompt": "Her hair is a chin-length straight bob with a thick blunt fringe cut straight across just above the eyebrows, in solid vivid emerald green.",
@@ -66,6 +66,42 @@
     "colour": "#1f9e5a",
     "front": {"id": "hair.front.parted_gen01", "name": "Side part", "tags": ["elegant", "bookish", "gothic", "casual"]},
     "back": {"id": "hair.back.wavy_gen01", "name": "Wavy", "tags": ["elegant", "cute", "casual"], "lean": 0.6},
+    "chains": []
+  },
+  "hair-crop": {
+    "image": "References/character-base-images/hair/hair-crop.png",
+    "body": "masculine",
+    "prompt": "His hair is a short textured crop with a short fringe, in solid vivid emerald green.",
+    "colour": "#1f9e5a",
+    "front": {"id": "hair.front.cropfringe_gen01", "name": "Short fringe", "tags": ["casual", "sporty", "street"]},
+    "back": {"id": "hair.back.crop_gen01", "name": "Textured crop", "tags": ["sporty", "casual", "street", "hat_ok"], "lean": -0.6},
+    "chains": []
+  },
+  "hair-sidepart": {
+    "image": "References/character-base-images/hair/hair-sidepart.png",
+    "body": "masculine",
+    "prompt": "His hair is short and neatly side-parted, swept to one side, in solid vivid emerald green.",
+    "colour": "#1f9e5a",
+    "front": {"id": "hair.front.sweptside_gen01", "name": "Side-swept", "tags": ["elegant", "bookish", "casual"]},
+    "back": {"id": "hair.back.sidepart_gen01", "name": "Side part", "tags": ["elegant", "bookish", "casual", "hat_ok"], "lean": -0.6},
+    "chains": []
+  },
+  "hair-undercut": {
+    "image": "References/character-base-images/hair/hair-undercut.png",
+    "body": "masculine",
+    "prompt": "His hair is an undercut: very short at the sides and back, with longer hair on top swept back, in solid vivid emerald green.",
+    "colour": "#1f9e5a",
+    "front": {"id": "hair.front.slicked_gen01", "name": "Swept back", "tags": ["street", "elegant", "gothic"]},
+    "back": {"id": "hair.back.undercut_gen01", "name": "Undercut", "tags": ["street", "gothic", "sporty", "hat_ok"], "lean": -0.5},
+    "chains": []
+  },
+  "hair-messy": {
+    "image": "References/character-base-images/hair/hair-messy.png",
+    "body": "masculine",
+    "prompt": "His hair is medium-length and messy, falling over his forehead and ears, in solid vivid emerald green.",
+    "colour": "#1f9e5a",
+    "front": {"id": "hair.front.messy_gen01", "name": "Messy fringe", "tags": ["casual", "street", "cute", "bookish"]},
+    "back": {"id": "hair.back.messy_gen01", "name": "Messy", "tags": ["casual", "street", "cute", "bookish", "hat_ok"], "lean": -0.3},
     "chains": []
   }
 }

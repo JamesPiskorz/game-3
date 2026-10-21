@@ -1,0 +1,24 @@
+{
+  "kind": "part",
+  "slot": "bottom",
+  "covers": [],
+  "followsBodyShapes": true,
+  "regions": 2,
+  "outfit": "outfit-05",
+  "colours": [
+    "#2e4a6e",
+    "#b18f76"
+  ],
+  "name": "Skinny jeans",
+  "tags": [
+    "casual",
+    "street",
+    "date"
+  ],
+  "lean": 0.2,
+  "contexts": [],
+  "weight": 1.0,
+  "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261021_211850_for_texture_textured.glb",
+  "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
+  "licence": "Tencent Hunyuan 3D 2.1 Community License"
+}

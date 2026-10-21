@@ -41,7 +41,16 @@ namespace Game.Characters.Tests.Generation
                     foreach (OutfitDna outfit in dna.Outfits)
                     {
                         string[] slots = outfit.Items.Select(i => catalog.Part(i.ItemId).Slot).ToArray();
-                        Assert.That(slots, Does.Contain(Slots.Top).And.Contain(Slots.Bottom).And.Contain(Slots.Shoes), $"{outfit.Context}, seed {seed}");
+                        bool dressed = slots.Contains(Slots.OnePiece) || (slots.Contains(Slots.Top) && slots.Contains(Slots.Bottom));
+                        Assert.That(dressed, $"{outfit.Context}, seed {seed}: {string.Join(", ", slots)}");
+                        if (catalog.Context(outfit.Context).Shoes) Assert.That(slots, Does.Contain(Slots.Shoes), $"{outfit.Context}, seed {seed}");
+                        // Swimwear and lingerie only where they belong.
+                        foreach (ItemDna item in outfit.Items)
+                        {
+                            PartEntry part = catalog.Part(item.ItemId);
+                            if (part.Tags.Contains("swim") && part.Tags.All(t => t == "swim")) Assert.That(outfit.Context, Is.EqualTo("swim"), part.Id);
+                            if (part.Tags.Contains("sleep") && part.Tags.All(t => t == "sleep")) Assert.That(outfit.Context, Is.EqualTo("sleep"), part.Id);
+                        }
                     }
                 }
         }

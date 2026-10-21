@@ -1,0 +1,19 @@
+{
+  "kind": "part",
+  "slot": "hair.back",
+  "followsBodyShapes": true,
+  "springChains": [],
+  "name": "Side part",
+  "tags": [
+    "elegant",
+    "bookish",
+    "casual",
+    "hat_ok"
+  ],
+  "lean": -0.6,
+  "weight": 1.0,
+  "style": "hair-sidepart",
+  "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261021_213731_for_texture_textured.glb",
+  "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
+  "licence": "Tencent Hunyuan 3D 2.1 Community License"
+}

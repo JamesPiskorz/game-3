@@ -428,6 +428,12 @@ def drop_islands(scan, garment, areas, keep_fraction=0.15):
 
 # How far each slot sits off the body. The style bible's layering order (section 3) with tighter gaps than its
 # stand-in figures (12-22 mm): those suit capsule tubes, and on the generated body they made every garment bulky.
+# Every outfit's pieces mix with every other's, so tops and bottoms meet at one waist line: every bottom reaches up to
+# it and every untucked top down past it (mixed, a T-shirt cut to sit over its own shorts' waistband left a strip of
+# midriff over another outfit's low joggers). Metres above the hip joint, in the bind pose.
+WAIST_ABOVE_HIPS = 0.175
+WAIST_OVERLAP = 0.015  # how far below the waist line an untucked top reaches
+
 LAYER_OFFSET = {"legwear": 0.002, "top": 0.006, "bottom": 0.006, "onepiece": 0.006, "shoes": 0.006, "outer": 0.016}
 
 # The bones a slot may follow (character_tools.transfer_from_body's mask), so a sleeve can't follow the torso.
@@ -869,6 +875,120 @@ def _relax_edges(part, iterations=8):
         co = moved
     part.data.vertices.foreach_set("co", co.ravel())
     part.data.update()
+
+
+def build_skirt(body, scan, garment, index, joints, name, top=None, hem=None, offset=0.012, step=0.012, segments=64,
+                legs=0.5, waist_hug=0.04, sigma=1.5):
+    """
+    A skirt (on its own, or a dress's below the waist) as one tube, which the body's surface can't make: built from
+    the body, a garment wraps each leg on its own. Each ring ``step`` metres apart, from ``top`` (default: the waist
+    line, garment_tools.WAIST_ABOVE_HIPS) down to ``hem`` (default: where the scan's skirt ends), takes the scan's
+    skirt outline there (its convex hull round the body's middle, so the image decides the flare), but never closer
+    than ``offset`` to the hull of the body in the game's relaxed pose, legs and all, so they stay inside however far
+    apart they stand. The top ``waist_hug`` metres close in to the waist. Weighted to the hips, handing up to ``legs``
+    of each side to that side's thigh down the skirt, so it moves with the legs without tearing between them. Built in
+    the pose and taken back to the bind pose, and the same for each body shape (its own tube round that shape).
+    Returns the skirt object (one recolour cluster: the scan skirt's commonest), or None if the scan has no skirt.
+    """
+    waist = float(joints["Hips"][2]) + WAIST_ABOVE_HIPS
+    top = waist if top is None else top
+    mesh = scan.data
+    centres = np.empty(len(mesh.polygons) * 3)
+    mesh.polygons.foreach_get("center", centres)
+    centres = centres.reshape(-1, 3)
+    skirt_faces = (garment == index) & (centres[:, 2] < top)
+    if skirt_faces.sum() < 50:
+        return None
+    floor = float(bt.vertices(body)[:, 2].min())
+    hem = float(np.percentile(centres[skirt_faces, 2], 1.5)) if hem is None else hem
+    hem = max(hem, floor + 0.015)
+    zs = np.arange(top, hem - 1e-6, -step)
+    if len(zs) < 3:
+        return None
+    thetas = np.linspace(-np.pi, np.pi, segments, endpoint=False)
+    kernel = np.exp(-0.5 * (np.arange(-5, 6) / sigma) ** 2)
+    kernel /= kernel.sum()
+
+    def blur(grid):
+        padded = np.concatenate([np.repeat(grid[:1], 5, axis=0), grid, np.repeat(grid[-1:], 5, axis=0)], axis=0)
+        grid = np.apply_along_axis(lambda r: np.convolve(r, kernel, mode="valid"), 0, padded)
+        padded = np.concatenate([grid[:, -5:], grid, grid[:, :5]], axis=1)
+        return np.apply_along_axis(lambda r: np.convolve(r, kernel, mode="valid"), 1, padded)
+
+    skinning = bt.pose_skinning(joints)
+    body_w, body_names = bt.weight_matrix(body)
+    lower = body_w[:, [i for i, n in enumerate(body_names) if n.startswith(("Hips", "Spine", "UpperLeg", "LowerLeg", "Foot"))]].sum(axis=1) > 0.5
+    centre_y = float(np.median(bt.vertices(body)[lower & (np.abs(bt.vertices(body)[:, 2] - float(joints["Hips"][2])) < 0.05), 1]))
+    axis = np.array([0.0, centre_y])
+
+    scan_points = np.unique(np.array([v for p, keep in zip(mesh.polygons, skirt_faces) if keep for v in p.vertices]))
+    scan_co = bt.vertices(scan)[scan_points]
+    scan_r = np.zeros((len(zs), segments))
+    for i, z in enumerate(zs):
+        slab = np.abs(scan_co[:, 2] - z) < step
+        if slab.sum() >= 6:
+            scan_r[i] = _hull_radii(scan_co[slab, :2] - axis, thetas)
+    for i in range(1, len(zs)):  # rows the scan left empty take the row above
+        if not scan_r[i].any():
+            scan_r[i] = scan_r[i - 1]
+    scan_r = blur(scan_r)
+
+    # Weights: hips, handing up to ``legs`` to each side's thigh down the skirt.
+    hip_z = float(joints["Hips"][2])
+    leg_share = legs * np.clip((top - zs) / max(top - (hip_z - 0.12), 1e-6), 0.0, 1.0)
+    side = np.cos(thetas)  # +x is the character's left
+    left = np.clip(0.5 + side * 2.0, 0.0, 1.0)
+    names = ["Hips", "UpperLeg.L", "UpperLeg.R"]
+    weights = np.zeros((len(zs) * segments, 3))
+    for i in range(len(zs)):
+        rows = slice(i * segments, (i + 1) * segments)
+        weights[rows, 0] = 1.0 - leg_share[i]
+        weights[rows, 1] = leg_share[i] * left
+        weights[rows, 2] = leg_share[i] * (1.0 - left)
+
+    def tube(body_rest):
+        posed = bt.skin_positions(body_rest, body_w, body_names, skinning)[lower]
+        body_r = np.zeros((len(zs), segments))
+        for i, z in enumerate(zs):
+            slab = np.abs(posed[:, 2] - z) < step
+            if slab.sum() >= 6:
+                body_r[i] = _hull_radii(posed[slab, :2] - axis, thetas)
+        for i in range(1, len(zs)):
+            if not body_r[i].any():
+                body_r[i] = body_r[i - 1]
+        body_r = blur(body_r)
+        r = np.maximum(scan_r, body_r + offset)
+        hug = np.clip((top - zs) / waist_hug, 0.0, 1.0)[:, None]  # in to the waist over the top few centimetres
+        r = body_r + offset * 0.75 + (r - body_r - offset * 0.75) * hug * hug * (3 - 2 * hug)
+        ring = np.stack([np.cos(thetas), np.sin(thetas)], axis=1)
+        out = np.zeros((len(zs), segments, 3))
+        out[:, :, :2] = axis + r[:, :, None] * ring[None]
+        out[:, :, 2] = zs[:, None]
+        return bt.unskin_positions(out.reshape(-1, 3), weights, names, skinning)
+
+    rest = tube(bt.vertices(body))
+    faces = [(i * segments + k, i * segments + (k + 1) % segments, (i + 1) * segments + (k + 1) % segments, (i + 1) * segments + k)
+             for i in range(len(zs) - 1) for k in range(segments)]
+    skirt_mesh = bpy.data.meshes.new(name + ".skirt")
+    skirt_mesh.from_pydata([tuple(p) for p in rest], [], faces)
+    skirt_mesh.update()
+    skirt = bpy.data.objects.new(name + ".skirt", skirt_mesh)
+    bpy.context.scene.collection.objects.link(skirt)
+    groups = [skirt.vertex_groups.new(name=n) for n in names]
+    for column, group in enumerate(groups):
+        for v in np.flatnonzero(weights[:, column] > 1e-4):
+            group.add([int(v)], float(weights[v, column]), "REPLACE")
+    if body.data.shape_keys:
+        skirt.shape_key_add(name="Basis", from_mix=False)
+        for key in body.data.shape_keys.key_blocks[1:]:
+            shaped = skirt.shape_key_add(name=key.name, from_mix=False)
+            shaped.value = 0.0
+            shaped.data.foreach_set("co", tube(_key_positions(key)).ravel())
+    labels_attr = np.empty(len(mesh.polygons), dtype=np.int32)
+    mesh.attributes["cluster"].data.foreach_get("value", labels_attr)
+    commonest = int(np.bincount(labels_attr[skirt_faces]).argmax())
+    skirt_mesh.attributes.new("vcluster", "INT", "POINT").data.foreach_set("value", np.full(len(rest), commonest, dtype=np.int32))
+    return skirt
 
 
 def stand_hood(hood, joints, rise=0.35, out=0.0):
@@ -1580,7 +1700,7 @@ def _body_adjacency(mesh):
 def project_garment(body, scan, garment, labels, index, offset, name, joints, always=None, max_loose=0.06,
                     reach_out=0.15, reach_in=0.10, edge_blur=None, drape=False, extend_down=0.0, ease=0.0,
                     straps=0.0, scoop=0.0, gather=0.0, sleeve_ease=0.0, flare=(0.0, 0.0), top=None, neck=None, hem=None,
-                    tucked=None):
+                    tucked=None, waist=None, measure_from=None):
     """
     A fitted garment built from the canonical body itself: the body's own surface over the regions the scan's
     garment covers, lifted by the layer offset, or by the scan's own looseness where it hangs further out (a flared
@@ -1610,8 +1730,16 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
     covered = np.zeros(len(co))
     loose = np.zeros(len(co))
     cluster = np.full(len(co), -1, dtype=np.int32)
+    # The body the scan is measured against: the masculine shape for an outfit generated on the masculine base, whose
+    # broader frame would otherwise read as loose cloth.
+    look_from, look_along = co, normals
+    if measure_from is not None:
+        mesh.calc_loop_triangles()
+        triangles = np.empty(len(mesh.loop_triangles) * 3, dtype=np.int64)
+        mesh.loop_triangles.foreach_get("vertices", triangles)
+        look_from, look_along = measure_from, _vertex_normals(measure_from, triangles.reshape(-1, 3))
     for i in range(len(co)):
-        point, normal = Vector(tuple(co[i])), Vector(tuple(normals[i]))
+        point, normal = Vector(tuple(look_from[i])), Vector(tuple(look_along[i]))
         _, _, out_face, out_distance = scan_tree.ray_cast(point, normal, reach_out)
         _, _, in_face, in_distance = scan_tree.ray_cast(point, -normal, reach_in)
         if out_face is None and in_face is None:
@@ -1655,6 +1783,17 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
         on_neck = np.isin(body_regions(body), ["Neck", "Head"])
         cap = float(joints["Neck"][2]) + neck
         covered = np.where(on_neck, np.clip((cap - bt.vertices(body)[:, 2]) / 0.015 + 0.5, 0.0, 1.0), covered)
+    if waist is not None:
+        torso = np.isin(body_regions(body), ["UpperTorso", "LowerTorso", "Pelvis"])
+        z = bt.vertices(body)[:, 2]
+        line = float(joints["Hips"][2]) + WAIST_ABOVE_HIPS
+        if waist == "bottom":  # up to the waist line at least, and all of the pelvis (a coat over the jeans hid it)
+            reach = np.clip((line - z) / 0.015 + 0.5, 0.0, 1.0)
+            covered = np.where(torso & (z > float(joints["Hips"][2])), np.maximum(covered, reach), covered)
+            covered = np.where(body_regions(body) == "Pelvis", 1.0, covered)
+        elif waist == "top":  # down past it at least
+            reach = np.clip((z - (line - WAIST_OVERLAP)) / 0.015 + 0.5, 0.0, 1.0)
+            covered = np.where(torso & (z < line + 0.08), np.maximum(covered, reach), covered)
     hem_drop = hem
     if hem is not None:
         # Shorts' or joggers' legs end in a level hem this far below the hip joints, covering the legs above it: the
@@ -1664,10 +1803,14 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
         covered = np.where(on_thigh, np.clip((bt.vertices(body)[:, 2] - level) / 0.015 + 0.5, 0.0, 1.0), covered)
     if tucked is not None:
         # Tucked in: a top ends in a level hem this far above the hip joint, so the belt over the bottom's waist shows
-        # (the image's tank top is tucked into its jeans; hanging over, it hid the belt).
+        # (the image's tank top is tucked into its jeans; hanging over, it hid the belt). It reaches that line too: a
+        # shirt the scan shows ending at its belt left a ragged hem above the waistband.
         on_torso = np.isin(body_regions(body), ["UpperTorso", "LowerTorso", "Pelvis"])
         level = float(joints["Hips"][2]) + tucked
-        covered = np.where(on_torso, np.minimum(covered, np.clip((bt.vertices(body)[:, 2] - level) / 0.015 + 0.5, 0.0, 1.0)), covered)
+        z = bt.vertices(body)[:, 2]
+        ramp = np.clip((z - level) / 0.015 + 0.5, 0.0, 1.0)
+        covered = np.where(on_torso, np.minimum(covered, ramp), covered)
+        covered = np.where(on_torso & (z < level + 0.1), np.maximum(covered, ramp), covered)
     if scoop > 0:
         covered = np.minimum(covered, 1.0 - _scoop(body, joints, scoop, straps))
     if straps > 0:
@@ -1709,6 +1852,15 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
         hem = float(co[inside, 2].min())
         t = np.clip((co[:, 2] - hem) / gather, 0.0, 1.0)
         lift = offset + (lift - offset) * t * t * (3 - 2 * t)
+    if waist == "bottom":
+        # Fitted from the waist line down to the top of the thigh, easing out below: any top, however short or loose,
+        # hangs over it (baggy joggers came out through a camp shirt's hem).
+        line = float(joints["Hips"][2]) + WAIST_ABOVE_HIPS
+        t = np.clip((line - 0.12 - co[:, 2]) / 0.10, 0.0, 1.0)
+        lift = offset + (lift - offset) * t * t * (3 - 2 * t)
+    if tucked is not None:  # the hem band half the layer offset off the skin: inside any bottom's waistband
+        band = co[:, 2] < float(joints["Hips"][2]) + tucked + 0.04
+        lift = np.where(band, np.minimum(lift, offset * 0.5), lift)
     if neck is not None:  # a crew neck hugs the neck: the scan's thick collar stood 2 cm off it all round
         across = np.linalg.norm(co[:, :2] - np.array([0.0, float(joints["Neck"][1])]), axis=1)
         near = np.clip((0.11 - across) / 0.03, 0.0, 1.0) * np.clip((co[:, 2] - float(joints["Neck"][2]) + 0.05) / 0.04, 0.0, 1.0)
@@ -1738,7 +1890,9 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
     _smooth_edges(part, body, body_weights, lift, cluster)
     # A strapped top drapes only below the armpits (its straps lie on the shoulders).
     drape_below = float(joints["UpperArm.L"][2]) - 0.06 if straps > 0 else None
-    _shape_in_pose(part, body, body_weights, joints, offset, drape=drape, drape_below=drape_below)
+    # Tucked in: the last few centimetres stay close and undraped, so any bottom's waistband sits outside them.
+    drape_above = float(joints["Hips"][2]) + tucked + 0.02 if tucked is not None else None
+    _shape_in_pose(part, body, body_weights, joints, offset, drape=drape, drape_below=drape_below, drape_above=drape_above)
     if hem_drop is not None:
         _level_hems(part, float(joints["UpperLeg.L"][2]) - hem_drop / 2)
         _span_crotch(part, body, joints, offset)
@@ -2083,7 +2237,7 @@ def _hull_radii(points, angles):
 
 
 def _draped(co, weights, names, joints, slope=DRAPE_SLOPE, angles=120, step=0.01, edges=None, relax=40, below=None,
-            held=None):
+            held=None, above=None):
     """
     A top hanging like cloth, in the pose (arms down). Round the torso's vertical axis, each horizontal slice of the
     torso is wrapped by its convex hull (cloth under tension spans the cleavage and the abs), each column of that
@@ -2132,6 +2286,8 @@ def _draped(co, weights, names, joints, slope=DRAPE_SLOPE, angles=120, step=0.01
     blend *= np.clip((neck + 0.01 - co[:, 2]) / 0.05, 0.0, 1.0)
     if below is not None:  # only below this height: pushed out to the shoulders' hull, a tank top's straps were fins
         blend *= np.clip((below - co[:, 2]) / 0.06, 0.0, 1.0)
+    if above is not None:  # only above this height, fading in over 10 cm: a tucked top blouses gently into the waistband
+        blend *= np.clip((co[:, 2] - above) / 0.10, 0.0, 1.0)
 
     def onto(points):  # each point out to the drape where it is (never in)
         dd = points[:, :2] - axis
@@ -2166,7 +2322,7 @@ def _draped(co, weights, names, joints, slope=DRAPE_SLOPE, angles=120, step=0.01
     return out
 
 
-def _shape_in_pose(part, body, body_weights, joints, offset, drape=False, drape_below=None):
+def _shape_in_pose(part, body, body_weights, joints, offset, drape=False, drape_below=None, drape_above=None):
     """
     The garment's final shape, made in the game's everyday pose (body_tools.RELAXED: arms down) and taken back to the
     bind pose: the body under it and the garment (the body's surface where it covers it, with its ``lift`` attribute)
@@ -2206,7 +2362,7 @@ def _shape_in_pose(part, body, body_weights, joints, offset, drape=False, drape_
         shaped = posed + _vertex_normals(posed, triangles) * lift[:, None]
         shaped = _bridged(shaped, neighbours, triangles, edge, edge_rings=mesh_edges)
         if drape:
-            shaped = _draped(shaped, weights, names, joints, edges=mesh_edges, below=drape_below, held=edge)
+            shaped = _draped(shaped, weights, names, joints, edges=mesh_edges, below=drape_below, above=drape_above, held=edge)
         shaped = _pushed_out(_fair(shaped, mesh_edges, edge), tree, offset)
         unposed = bt.unskin_positions(shaped, weights, names, skinning)
         (mesh.vertices if key is None else key.data).foreach_set("co", unposed.ravel())

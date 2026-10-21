@@ -97,7 +97,7 @@ namespace Game.Characters.Content
             if (FacePresets.Count == 0) errors.Add("No face presets.");
             if (Contexts.Count == 0) errors.Add("No outfit contexts.");
             foreach (OutfitContext context in Contexts.Where(c => c.OnlyTags.Count > 0))
-                foreach (string slot in new[] { Slots.Top, Slots.Bottom, Slots.Shoes })
+                foreach (string slot in context.Shoes ? new[] { Slots.Top, Slots.Bottom, Slots.Shoes } : new[] { Slots.Top, Slots.Bottom })
                     if (!PartsInSlot(slot).Any(p => (p.Contexts.Count == 0 || p.Contexts.Contains(context.Id)) && p.Tags.Any(context.OnlyTags.Contains)))
                         errors.Add($"Context '{context.Id}' allows only {string.Join("/", context.OnlyTags)}, but no {slot} part has those tags.");
             foreach (OutfitContext context in Contexts.Where(c => c.Outer))

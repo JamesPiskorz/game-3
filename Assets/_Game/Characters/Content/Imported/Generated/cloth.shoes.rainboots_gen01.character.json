@@ -1,0 +1,23 @@
+{
+  "kind": "part",
+  "slot": "shoes",
+  "covers": [],
+  "followsBodyShapes": true,
+  "regions": 2,
+  "outfit": "outfit-05",
+  "colours": [
+    "#151515",
+    "#0a0a0a"
+  ],
+  "name": "Rain boots",
+  "tags": [
+    "casual",
+    "street"
+  ],
+  "lean": 0.0,
+  "contexts": [],
+  "weight": 1.0,
+  "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261021_211850_for_texture_textured.glb",
+  "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
+  "licence": "Tencent Hunyuan 3D 2.1 Community License"
+}

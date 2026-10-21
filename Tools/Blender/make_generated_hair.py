@@ -45,6 +45,12 @@ def main():
     spec = ht.load_hair(args.hair)
     ct.reset_scene()
     body, skeleton, joints = gt.load_body(args.body)
+    # A style generated on the masculine base is built against the body's masculine shape (its head is 2 cm wider and
+    # 3.5 cm lower), then moved back to the basis by the shape's own offsets (masculine_to_basis).
+    feminine = bt.vertices(body) if spec.get("body") == "masculine" else None
+    if feminine is not None:
+        body.data.vertices.foreach_set("co", gt._key_positions(body.data.shape_keys.key_blocks["body.masculine"]).ravel())
+        body.data.update()
     regions_of_body = gt.body_regions(body)
     frame = ht.head_frame(body, regions_of_body)
     neck_z, shoulder_z = float(joints["Neck"][2]), float(joints["UpperArm.L"][2])
@@ -95,6 +101,9 @@ def main():
     print(f"[hair] {pt.triangle_count(hair)} triangles, {pushed} vertex moves off the body; hangs to {tip_to:.2f} m")
 
     front, back = ht.split_front_back(hair, frame, spec["front"]["id"], spec["back"]["id"], beside=spec.get("tails_beside"))
+    if feminine is not None:  # the body back in its basis for the shapes, the clearances and the weights
+        body.data.vertices.foreach_set("co", feminine.ravel())
+        body.data.update()
     bpy.data.objects.remove(hair)
     problems, made = [], []
     for piece, which in ((front, "front"), (back, "back")):
@@ -109,6 +118,8 @@ def main():
         ht.round_normals(piece, frame)  # after the ring's cuts, which would interpolate them
         planar_uvs(piece)
         ht.transfer_shapes(piece, body, regions_of_body)
+        if feminine is not None:
+            masculine_to_basis(piece)
         gt._push_out(piece, body, ht.HEAD_OFFSET)  # in every shape: the masculine chest is broader than the hair beside it
         ht.follow_head(piece, joints, shoulder_z)
         cleared = ht.clear_torso_in_pose(piece, body, joints)  # off the back with the arms down, as worn
@@ -146,6 +157,20 @@ def main():
     if problems:
         sys.exit(1)
     print(f"[hair] exported {len(made)} pieces to {args.output}")
+
+
+def masculine_to_basis(part):
+    """
+    A piece built on the masculine head, with the body's shapes just added on top: every shape moved back by the
+    masculine shape's offset, so the masculine shape is where the piece was built and the basis is where it falls on
+    the basis head.
+    """
+    keys = part.data.shape_keys.key_blocks
+    offset = gt._key_positions(keys["body.masculine"]) - gt._key_positions(keys[0])
+    for key in keys:
+        key.data.foreach_set("co", (gt._key_positions(key) - offset).ravel())
+    part.data.vertices.foreach_set("co", gt._key_positions(keys[0]).ravel())
+    part.data.update()
 
 
 def fair_piece(part, iterations=12):

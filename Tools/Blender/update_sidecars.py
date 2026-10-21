@@ -24,8 +24,9 @@ def specs():
             for spec in outfit["garments"]:
                 entry = {"name": spec.get("name"), "tags": spec.get("tags", ["casual"]), "lean": spec.get("lean", 0.0),
                          "contexts": spec.get("contexts", []), "weight": spec.get("weight", 1.0)}
-                if spec.get("blocks_slots"):
-                    entry["blocksSlots"] = spec["blocks_slots"]
+                for spec_key, field in (("blocks_slots", "blocksSlots"), ("excludes_tags", "excludesTags"), ("requires_tags", "requiresTags")):
+                    if spec.get(spec_key):
+                        entry[field] = spec[spec_key]
                 fields[spec["id"]] = entry
     with open(os.path.join(HERE, "hairs.json"), encoding="utf-8") as f:
         for key, style in json.load(f).items():

@@ -344,7 +344,7 @@ def barycentric(p, a, b, c):
 
 # ---------------------------------------------------------------------------------------------------- validation
 
-def validate_part(part, rig, body, max_triangles=12000):
+def validate_part(part, rig, body, max_triangles=12000, max_bone_distance=None):
     """Problems that would break the part in Unity. Empty list = OK to export."""
     problems = []
     bone_names = {bone.name for bone in rig.data.bones}
@@ -359,14 +359,15 @@ def validate_part(part, rig, body, max_triangles=12000):
         if len([g for g in v.groups if g.weight > 0]) > MAX_INFLUENCES:
             problems.append(f"{part.name}: vertex {v.index} has more than {MAX_INFLUENCES} influences")
             break
+    reach = MAX_BONE_DISTANCE if max_bone_distance is None else max_bone_distance
     bone_heads = {bone.name: rig.matrix_world @ bone.head_local for bone in rig.data.bones}
     bone_tails = {bone.name: rig.matrix_world @ bone.tail_local for bone in rig.data.bones}
     group_names = {g.index: g.name for g in part.vertex_groups}
     for v in part.data.vertices:
         for g in v.groups:
             name = group_names[g.group]
-            if g.weight > 0.25 and name in bone_heads and distance_to_segment(part.matrix_world @ v.co, bone_heads[name], bone_tails[name]) > MAX_BONE_DISTANCE:
-                problems.append(f"{part.name}: vertex {v.index} follows '{name}' from over {MAX_BONE_DISTANCE} m away")
+            if g.weight > 0.25 and name in bone_heads and distance_to_segment(part.matrix_world @ v.co, bone_heads[name], bone_tails[name]) > reach:
+                problems.append(f"{part.name}: vertex {v.index} follows '{name}' from over {reach} m away")
                 break
         else:
             continue
