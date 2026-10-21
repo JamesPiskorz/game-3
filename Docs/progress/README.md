@@ -155,6 +155,8 @@ No progress shots this night: the work was new clothing, reviewed on the generat
 | 304f757 | The town on generated content, every occasion |
 | 2a8e378 | Skirts wound outwards: the dark blotches on every dress are gone |
 | 0b24608 | Wedding gown (regenerated in a T-pose), playsuit, tracksuit, yoga set, sequin dress |
-| (this one) | Outfits 58-65: princess gown, one-shoulder gown, polo and culottes, bralette and boy shorts, nightshirt, swim crop set, halter swimsuit, crop top and cargos |
+| 987d4df | Outfits 58-65: princess gown, one-shoulder gown, polo and culottes, bralette and boy shorts, nightshirt, swim crop set, halter swimsuit, crop top and cargos |
 
-128 garments from 65 outfits by the end: 61 women's outfits and 4 men's.
+| (this one) | Outfits 66-68: off-shoulder crop top with denim shorts and sandals, a 1950s halter swing dress with cherry heels, a racerback swimsuit |
+
+134 garments from 68 outfits by the end: 64 women's outfits and 4 men's.

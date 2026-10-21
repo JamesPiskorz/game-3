@@ -38,6 +38,8 @@ MonoBehaviour:
     Prefab: {fileID: -6725632144773131485, guid: 68a8c05b343ff8a47b5114c324bdcb1b, type: 3}
   - Id: cloth.bottom.cyclingshorts_gen01
     Prefab: {fileID: -6725632144773131485, guid: 8a63a2435169c874a9b685e9112f649d, type: 3}
+  - Id: cloth.bottom.denimshorts_gen01
+    Prefab: {fileID: -6725632144773131485, guid: db0c12f66e821ce47b22d4612fa4f541, type: 3}
   - Id: cloth.bottom.denimskirt_gen01
     Prefab: {fileID: -6725632144773131485, guid: 199e4ecd8f5f3c144b521896f2b081c0, type: 3}
   - Id: cloth.bottom.highcutbriefs_gen01
@@ -128,6 +130,8 @@ MonoBehaviour:
     Prefab: {fileID: -6725632144773131485, guid: 891e3cfcf997b9944a358486afae1750, type: 3}
   - Id: cloth.onepiece.puffdress_gen01
     Prefab: {fileID: -6725632144773131485, guid: 2dbaa8e8e6efe49438fe2232fba72a60, type: 3}
+  - Id: cloth.onepiece.racerswimsuit_gen01
+    Prefab: {fileID: -6725632144773131485, guid: b8e58efebb532914c85f0e0c170f5fc1, type: 3}
   - Id: cloth.onepiece.robe_gen01
     Prefab: {fileID: -6725632144773131485, guid: b05222a9c618e6c44bcb9fa6cd9aa2da, type: 3}
   - Id: cloth.onepiece.romper_gen01
@@ -144,6 +148,8 @@ MonoBehaviour:
     Prefab: {fileID: -6725632144773131485, guid: 516e01ccae933a14085dae16da46d1a3, type: 3}
   - Id: cloth.onepiece.swimsuit_gen01
     Prefab: {fileID: -6725632144773131485, guid: b4c1cb78a7c0df3428a2e59b4abd590a, type: 3}
+  - Id: cloth.onepiece.swingdress_gen01
+    Prefab: {fileID: -6725632144773131485, guid: f16ac7d1bdaae0f4b95638a89386b6f2, type: 3}
   - Id: cloth.onepiece.velvetgown_gen01
     Prefab: {fileID: -6725632144773131485, guid: a3dabec18f7eb53468db3ca926fc6ffe, type: 3}
   - Id: cloth.onepiece.weddinggown_gen01
@@ -164,6 +170,8 @@ MonoBehaviour:
     Prefab: {fileID: -6725632144773131485, guid: 7bee790564d7de841a996f14b54ace8b, type: 3}
   - Id: cloth.shoes.canvaslow_gen01
     Prefab: {fileID: -6725632144773131485, guid: f67a56cac31fcae40ad9866075f11869, type: 3}
+  - Id: cloth.shoes.cherryheels_gen01
+    Prefab: {fileID: -6725632144773131485, guid: a7db4c3e0cef13a4cb237f6b7cfa2e4a, type: 3}
   - Id: cloth.shoes.chunky_gen01
     Prefab: {fileID: -6725632144773131485, guid: dd70641d159786744817c7bbeb7d37b0, type: 3}
   - Id: cloth.shoes.clogs_gen01
@@ -204,6 +212,8 @@ MonoBehaviour:
     Prefab: {fileID: -6725632144773131485, guid: f91b3937efe027d458f156f51e37523a, type: 3}
   - Id: cloth.shoes.tallboots_gen01
     Prefab: {fileID: -6725632144773131485, guid: 6edf77ae07743124fa78897d3fd35b40, type: 3}
+  - Id: cloth.shoes.tansandals_gen01
+    Prefab: {fileID: -6725632144773131485, guid: 2491a42085b8e3446a397403ef8a7083, type: 3}
   - Id: cloth.shoes.tennisshoes_gen01
     Prefab: {fileID: -6725632144773131485, guid: 5c13606b1b43ae14cb1befe65aa708f5, type: 3}
   - Id: cloth.shoes.workpumps_gen01
@@ -236,6 +246,8 @@ MonoBehaviour:
     Prefab: {fileID: -6725632144773131485, guid: 87c5840bb700dfb4d9d927e28c2cbdcd, type: 3}
   - Id: cloth.top.knitpolo_gen01
     Prefab: {fileID: -6725632144773131485, guid: f1a0964930b80814d8c69e1d6d31188c, type: 3}
+  - Id: cloth.top.offshoulder_gen01
+    Prefab: {fileID: -6725632144773131485, guid: 511547a9556813a4db55cc14190477be, type: 3}
   - Id: cloth.top.oxford_gen01
     Prefab: {fileID: -6725632144773131485, guid: 93a2bcc38fec55347aa4cc22ddeb6453, type: 3}
   - Id: cloth.top.pajamatop_gen01

@@ -633,6 +633,24 @@
       "contexts": []
     },
     {
+      "id": "cloth.bottom.denimshorts_gen01",
+      "name": "Denim shorts",
+      "slot": "bottom",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "street",
+        "cute"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.8,
+      "regions": 1,
+      "patternable": false,
+      "contexts": []
+    },
+    {
       "id": "cloth.bottom.denimskirt_gen01",
       "name": "Denim mini skirt",
       "slot": "bottom",
@@ -1486,6 +1504,24 @@
       "contexts": []
     },
     {
+      "id": "cloth.onepiece.racerswimsuit_gen01",
+      "name": "Racerback swimsuit",
+      "slot": "onepiece",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "swim"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.9,
+      "regions": 1,
+      "patternable": false,
+      "contexts": [
+        "swim"
+      ]
+    },
+    {
       "id": "cloth.onepiece.robe_gen01",
       "name": "Satin robe",
       "slot": "onepiece",
@@ -1634,6 +1670,29 @@
       "patternable": false,
       "contexts": [
         "swim"
+      ]
+    },
+    {
+      "id": "cloth.onepiece.swingdress_gen01",
+      "name": "Swing dress",
+      "slot": "onepiece",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "date",
+        "cute",
+        "elegant",
+        "formal"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.95,
+      "regions": 1,
+      "patternable": false,
+      "contexts": [
+        "date",
+        "formal",
+        "casual"
       ]
     },
     {
@@ -1828,6 +1887,25 @@
       "requiresTags": [],
       "excludesTags": [],
       "lean": 0.4,
+      "regions": 3,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "cloth.shoes.cherryheels_gen01",
+      "name": "Cherry heels",
+      "slot": "shoes",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "date",
+        "elegant",
+        "formal",
+        "cute"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.95,
       "regions": 3,
       "patternable": false,
       "contexts": []
@@ -2207,6 +2285,26 @@
       "contexts": []
     },
     {
+      "id": "cloth.shoes.tansandals_gen01",
+      "name": "Tan sandals",
+      "slot": "shoes",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "cute"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.6,
+      "regions": 2,
+      "patternable": false,
+      "contexts": [
+        "casual",
+        "date"
+      ]
+    },
+    {
       "id": "cloth.shoes.tennisshoes_gen01",
       "name": "Tennis shoes",
       "slot": "shoes",
@@ -2497,6 +2595,24 @@
       "requiresTags": [],
       "excludesTags": [],
       "lean": 0.6,
+      "regions": 1,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "cloth.top.offshoulder_gen01",
+      "name": "Off-shoulder crop top",
+      "slot": "top",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "cute",
+        "date"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.9,
       "regions": 1,
       "patternable": false,
       "contexts": []

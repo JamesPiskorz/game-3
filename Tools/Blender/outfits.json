@@ -536,5 +536,29 @@
       {"id": "cloth.bottom.cargo_gen01", "name": "Cargo trousers", "tags": ["casual", "street"], "lean": 0.3, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#b8a878"], "loosest": 0.06, "ease": 0.02, "hem": 0.8, "gather": 0.08},
       {"id": "cloth.shoes.chunky_gen01", "name": "Chunky sneakers", "tags": ["casual", "street", "sporty"], "lean": 0.4, "slot": "shoes", "regions": ["FootL", "FootR", "CalfL", "CalfR"], "colours": ["#f2f2f2"], "ease": 0.016, "top": [0.12, 0.08, 0.1], "sole": {"colour": "#e4e4e4", "height": 0.03}, "laces": {"colour": "#d0d0d0"}}
     ]
+  },
+  "outfit-66": {
+    "image": "References/character-base-images/outfits/outfit-66.png",
+    "prompt": "an off-the-shoulder cropped top in solid coral with short sleeves and high-waisted denim shorts in solid mid blue; tan flat sandals",
+    "garments": [
+      {"id": "cloth.top.offshoulder_gen01", "name": "Off-shoulder crop top", "tags": ["casual", "cute", "date"], "lean": 0.9, "slot": "top", "regions": ["UpperTorso", "LowerTorso", "UpperArmL", "UpperArmR"], "colours": ["#f07060"], "waist": false, "tucked": 0.25, "sleeve_ease": 0.02, "drape": false},
+      {"id": "cloth.bottom.denimshorts_gen01", "name": "Denim shorts", "tags": ["casual", "street", "cute"], "lean": 0.8, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#4a72a8"], "loosest": 0.012, "hem": 0.08},
+      {"id": "cloth.shoes.tansandals_gen01", "name": "Tan sandals", "tags": ["casual", "cute"], "contexts": ["casual", "date"], "lean": 0.6, "slot": "shoes", "regions": ["FootL", "FootR", "CalfL", "CalfR"], "colours": ["#b08050"], "ease": 0.004, "top": [0.05, 0.04, 0.05], "sole": {"colour": "#6b4528", "height": 0.01}}
+    ]
+  },
+  "outfit-67": {
+    "image": "References/character-base-images/outfits/outfit-67.png",
+    "prompt": "a 1950s-style halter-neck swing dress in solid cherry red with a fitted bodice and a full flared knee-length skirt; red heeled shoes",
+    "garments": [
+      {"id": "cloth.onepiece.swingdress_gen01", "name": "Swing dress", "tags": ["date", "cute", "elegant", "formal"], "contexts": ["date", "formal", "casual"], "lean": 0.95, "slot": "onepiece", "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#c8202c"], "drape": false, "halter": true, "straps": 0.03, "tucked": 0.155, "loosest": 0.012, "skirt": {"flare": true, "offset": 0.015}},
+      {"id": "cloth.shoes.cherryheels_gen01", "name": "Cherry heels", "tags": ["date", "elegant", "formal", "cute"], "lean": 0.95, "slot": "shoes", "regions": ["FootL", "FootR", "CalfL", "CalfR"], "colours": ["#c8202c"], "ease": 0.006, "top": [0.07, 0.05, 0.06], "sole": {"colour": "#2a0a0a", "height": 0.01}}
+    ]
+  },
+  "outfit-68": {
+    "image": "References/character-base-images/outfits/outfit-68.png",
+    "prompt": "a sporty racerback one-piece swimsuit in solid royal blue; barefoot",
+    "garments": [
+      {"id": "cloth.onepiece.racerswimsuit_gen01", "name": "Racerback swimsuit", "tags": ["swim"], "contexts": ["swim"], "lean": 0.9, "slot": "onepiece", "regions": ["UpperTorso", "LowerTorso", "Pelvis"], "colours": ["#2a4bb0"], "drape": false, "straps": 0.035, "scoop": 0.06, "loosest": 0.006}
+    ]
   }
 }

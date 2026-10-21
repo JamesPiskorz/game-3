@@ -1,0 +1,26 @@
+{
+  "kind": "part",
+  "slot": "shoes",
+  "covers": [],
+  "followsBodyShapes": true,
+  "regions": 2,
+  "outfit": "outfit-66",
+  "colours": [
+    "#cb938b",
+    "#6b4528"
+  ],
+  "name": "Tan sandals",
+  "tags": [
+    "casual",
+    "cute"
+  ],
+  "lean": 0.6,
+  "contexts": [
+    "casual",
+    "date"
+  ],
+  "weight": 1.0,
+  "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261022_062644_for_texture_textured.glb",
+  "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
+  "licence": "Tencent Hunyuan 3D 2.1 Community License"
+}
