@@ -1,0 +1,328 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b714e2e407fe2054781d7ec1d3286767, type: 3}
+  m_Name: GeneratedContent
+  m_EditorClassIdentifier: Game.Characters.Unity::Game.Characters.Building.CharacterContent
+  Catalog: {fileID: 4900000, guid: c530c26d03c71c5458741ad8c672d414, type: 3}
+  BodyPrefab: {fileID: -6359599782955986536, guid: 3eeb2d2da0428ac44a957080ab5c69b4, type: 3}
+  SkinPalette: {fileID: 11400000, guid: 249c629ddf8b62543bb9d085776fc466, type: 2}
+  Parts:
+  - Id: cloth.bottom.joggers_gen01
+    Prefab: {fileID: -6725632144773131485, guid: cc55471c66434c04ea15d2c02d536736, type: 3}
+  - Id: cloth.bottom.shorts_gen01
+    Prefab: {fileID: -6725632144773131485, guid: fcf972ab20a5b3642956d4009643b8e1, type: 3}
+  - Id: cloth.bottom.trousers_gen01
+    Prefab: {fileID: -6725632144773131485, guid: 79837dcb1b2ecc044b8229612275bb1d, type: 3}
+  - Id: cloth.shoes.hightops_gen01
+    Prefab: {fileID: -6725632144773131485, guid: 17dcdd34918fdfe4fb9eb32f92cc4a32, type: 3}
+  - Id: cloth.shoes.sneakers_gen01
+    Prefab: {fileID: -6725632144773131485, guid: 3ef000b7efa92d6498fdb6f57b5bbfee, type: 3}
+  - Id: cloth.shoes.tallboots_gen01
+    Prefab: {fileID: -6725632144773131485, guid: 6edf77ae07743124fa78897d3fd35b40, type: 3}
+  - Id: cloth.top.hoodie_gen01
+    Prefab: {fileID: -6725632144773131485, guid: 87c5840bb700dfb4d9d927e28c2cbdcd, type: 3}
+  - Id: cloth.top.tank_gen01
+    Prefab: {fileID: -6725632144773131485, guid: 75f73f8dd751ce644bae96fb0390ca13, type: 3}
+  - Id: cloth.top.tshirt_gen01
+    Prefab: {fileID: -6725632144773131485, guid: 4810c3036e7af114490edc7071b9b78f, type: 3}
+  - Id: hair.back.bob_gen01
+    Prefab: {fileID: -6725632144773131485, guid: ebddb35057209db4ca2a3a856323b71c, type: 3}
+  - Id: hair.back.bun_gen01
+    Prefab: {fileID: -6725632144773131485, guid: 48d47d770d2b4e3468de94ea7459825e, type: 3}
+  - Id: hair.back.long_gen01
+    Prefab: {fileID: -6725632144773131485, guid: 2443f7c7e44940f478ebab403d88ccdf, type: 3}
+  - Id: hair.back.pixie_gen01
+    Prefab: {fileID: -6725632144773131485, guid: 06f0cd9e781e7ca4a8411c8b77d93a0d, type: 3}
+  - Id: hair.back.ponytail_gen01
+    Prefab: {fileID: -6725632144773131485, guid: 716e20279889ae74c95b55d13d987672, type: 3}
+  - Id: hair.back.twintails_gen01
+    Prefab: {fileID: -6725632144773131485, guid: 5d7ae0737419c5d4296f79d817e681ff, type: 3}
+  - Id: hair.back.wavy_gen01
+    Prefab: {fileID: -6725632144773131485, guid: c52314bbfb576ab44a586538d7b9b265, type: 3}
+  - Id: hair.front.blunt_gen01
+    Prefab: {fileID: -6725632144773131485, guid: 857023154e3cab24eb0501db86f60472, type: 3}
+  - Id: hair.front.framing_gen01
+    Prefab: {fileID: -6725632144773131485, guid: fbf74d966323bc4448a0cbed9d1a536a, type: 3}
+  - Id: hair.front.fringe_gen01
+    Prefab: {fileID: -6725632144773131485, guid: 2b045c2dc3c9c7f45882c7af6a79f502, type: 3}
+  - Id: hair.front.heavy_gen01
+    Prefab: {fileID: -6725632144773131485, guid: 98c2b371bcdad924fb3de8bf27f1a529, type: 3}
+  - Id: hair.front.parted_gen01
+    Prefab: {fileID: -6725632144773131485, guid: 30ee6d0f32178e848926359a8031a08c, type: 3}
+  - Id: hair.front.swept_gen01
+    Prefab: {fileID: -6725632144773131485, guid: d645493be3aa25c48850f337af37a537, type: 3}
+  - Id: hair.front.wispy_gen01
+    Prefab: {fileID: -6725632144773131485, guid: cda25bda722ddb94589fc5249c440968, type: 3}
+  Patterns:
+  - Id: pattern.stripes_01
+    Texture: {fileID: 2800000, guid: 581ceba358bb34e46b6efc8984b13110, type: 3}
+  - Id: pattern.dots_01
+    Texture: {fileID: 2800000, guid: b69b12cc671029742aafdfe3b99c7985, type: 3}
+  - Id: pattern.plaid_01
+    Texture: {fileID: 2800000, guid: fc3499da5ac26a945a2a08e8f6dda014, type: 3}
+  - Id: pattern.check_01
+    Texture: {fileID: 2800000, guid: ce8d553dcfd36404eaf4ce58c8621097, type: 3}
+  - Id: pattern.hearts_01
+    Texture: {fileID: 2800000, guid: 6511b17faff2d654ead78ab0cc59cde5, type: 3}
+  - Id: pattern.stars_01
+    Texture: {fileID: 2800000, guid: 632b82fab99cfd3418c12eac6bef51a5, type: 3}
+  - Id: pattern.pinstripe_01
+    Texture: {fileID: 2800000, guid: ca105d60d108cfe478e4a2443b8b331d, type: 3}
+  - Id: pattern.floral_01
+    Texture: {fileID: 2800000, guid: b53d25fdb30616842aa59578b1e888d7, type: 3}
+  - Id: pattern.denim_01
+    Texture: {fileID: 2800000, guid: 418fb98f19e7cc34a88545f540822201, type: 3}
+  - Id: pattern.argyle_01
+    Texture: {fileID: 2800000, guid: 5b7c39b5ab0a97348987d8b9e95c46ae, type: 3}
+  - Id: pattern.chevron_01
+    Texture: {fileID: 2800000, guid: 7c7a7e8b6ab759248be8a41a1b1a7df4, type: 3}
+  - Id: pattern.knit_01
+    Texture: {fileID: 2800000, guid: 4d62232e7bc38ea4594066d3fcdc2f7c, type: 3}
+  Sliders:
+  - Id: body.weight
+    Kind: 0
+    Target: body.weight
+    MirrorBone: 
+    InputMin: 0
+    InputMax: 1
+    AtMin: {x: 0, y: 0, z: 0}
+    AtMax: {x: 1, y: 0, z: 0}
+  - Id: body.chest
+    Kind: 0
+    Target: body.chest
+    MirrorBone: 
+    InputMin: 0
+    InputMax: 1
+    AtMin: {x: 0, y: 0, z: 0}
+    AtMax: {x: 1, y: 0, z: 0}
+  - Id: body.hips
+    Kind: 0
+    Target: body.hips
+    MirrorBone: 
+    InputMin: 0
+    InputMax: 1
+    AtMin: {x: 0, y: 0, z: 0}
+    AtMax: {x: 1, y: 0, z: 0}
+  - Id: body.height
+    Kind: 1
+    Target: Armature
+    MirrorBone: 
+    InputMin: -1
+    InputMax: 1
+    AtMin: {x: 0.92, y: 0.92, z: 0.92}
+    AtMax: {x: 1.07, y: 1.07, z: 1.07}
+  - Id: body.shoulders
+    Kind: 2
+    Target: UpperArm.R
+    MirrorBone: UpperArm.L
+    InputMin: -1
+    InputMax: 1
+    AtMin: {x: -0.018, y: 0, z: 0}
+    AtMax: {x: 0.026, y: 0, z: 0}
+  - Id: body.legs
+    Kind: 2
+    Target: LowerLeg.R
+    MirrorBone: LowerLeg.L
+    InputMin: -1
+    InputMax: 1
+    AtMin: {x: 0, y: 0.035, z: 0}
+    AtMax: {x: 0, y: -0.045, z: 0}
+  - Id: body.legs
+    Kind: 2
+    Target: Hips
+    MirrorBone: 
+    InputMin: -1
+    InputMax: 1
+    AtMin: {x: 0, y: -0.035, z: 0}
+    AtMax: {x: 0, y: 0.045, z: 0}
+  - Id: body.head
+    Kind: 1
+    Target: Head
+    MirrorBone: 
+    InputMin: -1
+    InputMax: 1
+    AtMin: {x: 0.88, y: 0.88, z: 0.88}
+    AtMax: {x: 1.12, y: 1.12, z: 1.12}
+  - Id: eye.scale
+    Kind: 1
+    Target: Eye.R
+    MirrorBone: Eye.L
+    InputMin: -1
+    InputMax: 1
+    AtMin: {x: 0.78, y: 0.78, z: 0.78}
+    AtMax: {x: 1.22, y: 1.22, z: 1.22}
+  - Id: eye.height
+    Kind: 2
+    Target: Eye.R
+    MirrorBone: Eye.L
+    InputMin: -1
+    InputMax: 1
+    AtMin: {x: 0, y: -0.008, z: 0}
+    AtMax: {x: 0, y: 0.008, z: 0}
+  - Id: eye.spacing
+    Kind: 2
+    Target: Eye.R
+    MirrorBone: Eye.L
+    InputMin: -1
+    InputMax: 1
+    AtMin: {x: -0.006, y: 0, z: 0}
+    AtMax: {x: 0.008, y: 0, z: 0}
+  - Id: eye.tilt
+    Kind: 3
+    Target: Eye.R
+    MirrorBone: Eye.L
+    InputMin: -1
+    InputMax: 1
+    AtMin: {x: 0, y: 0, z: -14}
+    AtMax: {x: 0, y: 0, z: 14}
+  - Id: brow.height
+    Kind: 2
+    Target: Brow.R
+    MirrorBone: Brow.L
+    InputMin: -1
+    InputMax: 1
+    AtMin: {x: 0, y: -0.006, z: 0}
+    AtMax: {x: 0, y: 0.009, z: 0}
+  - Id: brow.tilt
+    Kind: 3
+    Target: Brow.R
+    MirrorBone: Brow.L
+    InputMin: -1
+    InputMax: 1
+    AtMin: {x: 0, y: 0, z: -16}
+    AtMax: {x: 0, y: 0, z: 16}
+  - Id: mouth.width
+    Kind: 1
+    Target: Mouth
+    MirrorBone: 
+    InputMin: -1
+    InputMax: 1
+    AtMin: {x: 0.7, y: 1, z: 1}
+    AtMax: {x: 1.35, y: 1, z: 1}
+  - Id: mouth.height
+    Kind: 2
+    Target: Mouth
+    MirrorBone: 
+    InputMin: -1
+    InputMax: 1
+    AtMin: {x: 0, y: -0.006, z: 0}
+    AtMax: {x: 0, y: 0.006, z: 0}
+  - Id: nose.size
+    Kind: 1
+    Target: Nose
+    MirrorBone: 
+    InputMin: -1
+    InputMax: 1
+    AtMin: {x: 0.72, y: 0.72, z: 0.72}
+    AtMax: {x: 1.3, y: 1.3, z: 1.3}
+  Styles:
+  - Id: eye.style.round
+    Tweaks:
+    - Bone: Eye.R
+      MirrorBone: Eye.L
+      Position: {x: 0, y: 0, z: 0}
+      Scale: {x: 1.06, y: 0.98, z: 1}
+      Euler: {x: 0, y: 0, z: 0}
+  - Id: eye.style.tall
+    Tweaks:
+    - Bone: Eye.R
+      MirrorBone: Eye.L
+      Position: {x: 0, y: 0, z: 0}
+      Scale: {x: 0.92, y: 1.2, z: 1}
+      Euler: {x: 0, y: 0, z: 0}
+  - Id: eye.style.narrow
+    Tweaks:
+    - Bone: Eye.R
+      MirrorBone: Eye.L
+      Position: {x: 0, y: 0, z: 0}
+      Scale: {x: 1.08, y: 0.64, z: 1}
+      Euler: {x: 0, y: 0, z: 0}
+  - Id: eye.style.droopy
+    Tweaks:
+    - Bone: Eye.R
+      MirrorBone: Eye.L
+      Position: {x: 0, y: 0, z: 0}
+      Scale: {x: 1.02, y: 0.86, z: 1}
+      Euler: {x: 0, y: 0, z: -14}
+  - Id: brow.style.thin
+    Tweaks:
+    - Bone: Brow.R
+      MirrorBone: Brow.L
+      Position: {x: 0, y: 0, z: 0}
+      Scale: {x: 1, y: 0.5, z: 1}
+      Euler: {x: 0, y: 0, z: 0}
+  - Id: brow.style.thick
+    Tweaks:
+    - Bone: Brow.R
+      MirrorBone: Brow.L
+      Position: {x: 0, y: 0, z: 0}
+      Scale: {x: 1.08, y: 1.85, z: 1.25}
+      Euler: {x: 0, y: 0, z: 0}
+  - Id: brow.style.soft
+    Tweaks:
+    - Bone: Brow.R
+      MirrorBone: Brow.L
+      Position: {x: 0, y: 0, z: 0}
+      Scale: {x: 0.9, y: 1, z: 1}
+      Euler: {x: 0, y: 0, z: -10}
+  - Id: eye.style.cat
+    Tweaks:
+    - Bone: Eye.R
+      MirrorBone: Eye.L
+      Position: {x: 0, y: 0, z: 0}
+      Scale: {x: 1.06, y: 0.78, z: 1}
+      Euler: {x: 0, y: 0, z: 16}
+  - Id: eye.style.big
+    Tweaks:
+    - Bone: Eye.R
+      MirrorBone: Eye.L
+      Position: {x: 0, y: 0, z: 0}
+      Scale: {x: 1.2, y: 1.18, z: 1}
+      Euler: {x: 0, y: 0, z: 0}
+  - Id: eye.style.almond
+    Tweaks:
+    - Bone: Eye.R
+      MirrorBone: Eye.L
+      Position: {x: 0, y: 0, z: 0}
+      Scale: {x: 1.14, y: 0.82, z: 1}
+      Euler: {x: 0, y: 0, z: 6}
+  - Id: brow.style.arched
+    Tweaks:
+    - Bone: Brow.R
+      MirrorBone: Brow.L
+      Position: {x: 0, y: 0, z: 0}
+      Scale: {x: 1.05, y: 0.8, z: 1}
+      Euler: {x: 0, y: 0, z: 14}
+  - Id: brow.style.straight
+    Tweaks:
+    - Bone: Brow.R
+      MirrorBone: Brow.L
+      Position: {x: 0, y: 0, z: 0}
+      Scale: {x: 1.14, y: 1.25, z: 1.1}
+      Euler: {x: 0, y: 0, z: -2}
+  Lighting: {fileID: 11400000, guid: 4565c3be61433be4ba0c13eb30269d76, type: 2}
+  SpringColliders:
+  - Bone: Head
+    Offset: {x: 0, y: 0.10000003, z: 0.000000020489098}
+    Radius: 0.108
+  - Bone: Neck
+    Offset: {x: 0, y: 0.03860325, z: 0.010478037}
+    Radius: 0.06
+  - Bone: Chest
+    Offset: {x: 0, y: 0.121641845, z: -0.0018075781}
+    Radius: 0.13
+  - Bone: Chest
+    Offset: {x: -0.12, y: 0.1384219, z: 0.020961473}
+    Radius: 0.07
+  - Bone: Chest
+    Offset: {x: 0.12, y: 0.1384219, z: 0.020961473}
+    Radius: 0.07

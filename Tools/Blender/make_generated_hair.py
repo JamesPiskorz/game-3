@@ -130,7 +130,9 @@ def main():
             ct.export_fbx(os.path.join(args.output, piece.name + ".fbx"), [rig, piece])
             ct.write_sidecar(os.path.join(args.output, piece.name + ".character.json"), {
                 "kind": "part", "slot": f"hair.{which}", "followsBodyShapes": True, "springChains": chains,
-                "tags": spec[which]["tags"], "style": args.hair,
+                "name": spec[which].get("name"), "tags": spec[which]["tags"], "lean": spec[which].get("lean", 0.0),
+                "weight": spec[which].get("weight", 1.0),
+                "style": args.hair,
                 "source": os.path.abspath(args.scan), "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
                 "licence": "Tencent Hunyuan 3D 2.1 Community License",
             })

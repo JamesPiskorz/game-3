@@ -35,19 +35,21 @@ What it makes is one fused solid with a painted face: no rig, no separate hair o
    - a hood (down, round the neck) stands too far off the body to fit, so it comes from the scan's own geometry and is joined to the fitted garment;
    - build the recolour mask from the generated texture's colour blocks, counting shades of one colour as one block (shading split a burgundy top into blotches), cut along smooth region edges; garment edges are straightened along their own line rather than blurred, so thin straps survive;
    - where the scan can't show a detail, the garment's entry in `outfits.json` gives it: a crew neck's height up the neck and an even collar band, a level hem with turned-up cuffs, shoes' sole and low-top collar line, and drawn details (laces, drawstrings, a fly, pockets) painted as stripes in a recolour region, cut along each straight edge;
-   - draft the catalog entry.
+   - draft the catalog entry: each part's sidecar carries its display name, style tags, lean, contexts and weight from `outfits.json` or `hairs.json` (`Tools/Blender/update_sidecars.py` refreshes them without a rebuild).
 
    The physics runs at authoring time. In game, motion stays on spring bones: runtime cloth for 40 residents doesn't fit decision 0004's budget. `GeneratedOutfitSheet` reviews the parts on the generated body (`Docs/review/generated-outfit.png`).
 5. **Everything arrives through decision 0005's path:** FBX plus a sidecar, through `CharacterModelImporter`, checked by the Blender validator, reviewed on the part sheet, the 96-character quality sheet and the lineups.
+6. **The game runs on either content.** `GeneratedContent` (Game › Characters › Content › Write Generated Content) bakes `Content/GeneratedContent.asset` and `Content/GeneratedCatalog.json` from the generated body and the sidecars. The catalog is the stand-in catalog's sliders, styles, palettes, archetypes and contexts with the generated parts, minus whatever they can't serve, so it validates and generation never fails. Today that leaves out the work outfit (no elegant or bookish top or bottom), the rainy-day outfit (no coat) and face marks. The town copes: `SimWorld` only dresses residents for contexts the catalog has. Spring colliders are re-expressed in the generated bones' axes. `GameContent` (Game › Characters › Content › Game Uses …) switches the main menu, town and creator between the two. The stand-ins stay the default and are what the tests and review sheets use. A look saved on the stand-ins loads through `DnaRepair`, which keeps the person and re-dresses them from the same seed.
 
 The images are text-to-image, not edits of one base, so no two generations share a body exactly. Aligning and conforming to the canonical body absorbs that. If it doesn't, Hunyuan3D-Omni can condition a generation on the canonical body's point cloud.
 
 ## Consequences
 
-- **Good:** the look comes from generated sculpts instead of capsules, while every system built on the stand-ins keeps working. New hair and outfits cost an image and a script run, not modelling time.
+- **Good:** the look comes from generated sculpts instead of capsules, while every system built on the stand-ins keeps working. New hair and outfits cost an image and a script run, not modelling time. The whole game loop (menu, creator, town, save, continue) runs on generated content (`Game.Town.FlowCheck`, `Docs/review/menu-generated.png`). In the town benchmark it renders faster than the stand-ins (8.1 against 11.1 ms, `Docs/review/perf-generated.md` and `perf.md`). It has 3.3 times the vertices and 1.85 times the triangles but fewer renderers (227 against 290), as draw calls are the cost. The comparison flatters it, though: generated residents wear no accessories or face marks yet.
 - **Cost:**
   - Replacing the canonical skeleton moves every joint. The 70 procedural stand-ins are built in absolute coordinates, so they misfit until they are retargeted or replaced by generated parts.
   - The PipelineTest FBXs, `character_tools.SKELETON`, spring colliders and the hard-coded head centre and radius all follow the new skeleton.
+  - Before generated content can be the default, it needs coverage: 9 garments from 3 outfits and 14 hair pieces from 7 styles, all generated from a feminine image, against 70 stand-in parts in 17 slots. Nothing generated exists yet for work clothes, coats, one-pieces, skirts, accessories or face marks, and nothing is made for masculine bodies beyond the shape key. Each top is cut to sit over its own outfit's waistband, so mixed with another outfit's bottom it can leave a strip of midriff.
 - **Risks:**
   - Generated hands are mittens with a thumb.
   - Separate generations may not align well enough to conform.

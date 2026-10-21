@@ -49,6 +49,17 @@ def arguments():
     return parser.parse_args(argv)
 
 
+def catalog_fields(spec):
+    """The catalog fields a part's sidecar carries from its spec (outfits.json or hairs.json): display name, style tags,
+    lean (-1 masculine .. +1 feminine), the outfit contexts it may appear in, a weight and the slots it blocks.
+    update_sidecars.py rewrites them in existing sidecars without rebuilding the parts."""
+    fields = {"name": spec.get("name"), "tags": spec.get("tags", ["casual"]), "lean": spec.get("lean", 0.0),
+              "contexts": spec.get("contexts", []), "weight": spec.get("weight", 1.0)}
+    if spec.get("blocks_slots"):
+        fields["blocksSlots"] = spec["blocks_slots"]
+    return fields
+
+
 def srgb_hex(linear):
     c = np.clip(np.asarray(linear, dtype=float), 0.0, 1.0)
     c = np.where(c <= 0.0031308, c * 12.92, 1.055 * np.power(c, 1 / 2.4) - 0.055)
@@ -228,6 +239,8 @@ def main():
                 "colours": ([spec["main"]] + [region_colour(k, spec) for k in region_clusters[1:]] if spec.get("main") else
                             [region_colour(k, spec) for k in region_clusters])
                            + (band_colour if isinstance(band_colour, list) else [band_colour] if band_colour else []),
+                # How the game's generator treats it (the catalog entry the content baker makes from this).
+                **catalog_fields(spec),
                 "source": os.path.abspath(args.scan), "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
                 "licence": "Tencent Hunyuan 3D 2.1 Community License",
             })

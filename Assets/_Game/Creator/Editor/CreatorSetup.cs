@@ -52,7 +52,7 @@ namespace Game.Creator
             var document = ui.AddComponent<UIDocument>();
             document.panelSettings = panelSettings;
             var screen = ui.AddComponent<CreatorScreen>();
-            screen.Content = StandInContent.Load();
+            screen.Content = GameContent.Active();
             screen.Document = document;
             screen.Style = AssetDatabase.LoadAssetAtPath<StyleSheet>(StylePath);
             screen.PreviewCamera = camera;

@@ -1,0 +1,1912 @@
+{
+  "presentation": {
+    "feminineShare": 0.46,
+    "masculineShare": 0.44,
+    "feminineCentre": 0.85,
+    "masculineCentre": 0.15,
+    "spread": 0.08
+  },
+  "bodySliders": [
+    {
+      "id": "body.weight",
+      "name": "Weight",
+      "min": 0.0,
+      "max": 1.0,
+      "meanMasculine": 0.3,
+      "meanFeminine": 0.3,
+      "spread": 0.26
+    },
+    {
+      "id": "body.chest",
+      "name": "Chest",
+      "min": 0.0,
+      "max": 1.0,
+      "meanMasculine": 0.05,
+      "meanFeminine": 0.5,
+      "spread": 0.2
+    },
+    {
+      "id": "body.hips",
+      "name": "Hips",
+      "min": 0.0,
+      "max": 1.0,
+      "meanMasculine": 0.1,
+      "meanFeminine": 0.55,
+      "spread": 0.2
+    },
+    {
+      "id": "body.height",
+      "name": "Height",
+      "min": -1.0,
+      "max": 1.0,
+      "meanMasculine": 0.35,
+      "meanFeminine": -0.25,
+      "spread": 0.35
+    },
+    {
+      "id": "body.shoulders",
+      "name": "Shoulders",
+      "min": -1.0,
+      "max": 1.0,
+      "meanMasculine": 0.5,
+      "meanFeminine": -0.4,
+      "spread": 0.28
+    },
+    {
+      "id": "body.legs",
+      "name": "Leg length",
+      "min": -1.0,
+      "max": 1.0,
+      "meanMasculine": 0.0,
+      "meanFeminine": 0.1,
+      "spread": 0.35
+    },
+    {
+      "id": "body.head",
+      "name": "Head size",
+      "min": -0.8,
+      "max": 0.45,
+      "meanMasculine": -0.05,
+      "meanFeminine": 0.05,
+      "spread": 0.22
+    }
+  ],
+  "faceSliders": [
+    {
+      "id": "eye.scale",
+      "name": "Eye size",
+      "min": -0.8,
+      "max": 0.6,
+      "meanMasculine": 0.0,
+      "meanFeminine": 0.0,
+      "spread": 0.18
+    },
+    {
+      "id": "eye.height",
+      "name": "Eye height",
+      "min": -1.0,
+      "max": 1.0,
+      "meanMasculine": 0.0,
+      "meanFeminine": 0.0,
+      "spread": 0.2
+    },
+    {
+      "id": "eye.spacing",
+      "name": "Eye spacing",
+      "min": -1.0,
+      "max": 1.0,
+      "meanMasculine": 0.0,
+      "meanFeminine": 0.0,
+      "spread": 0.2
+    },
+    {
+      "id": "eye.tilt",
+      "name": "Eye tilt",
+      "min": -1.0,
+      "max": 1.0,
+      "meanMasculine": 0.0,
+      "meanFeminine": 0.0,
+      "spread": 0.22
+    },
+    {
+      "id": "brow.height",
+      "name": "Brow height",
+      "min": -1.0,
+      "max": 1.0,
+      "meanMasculine": 0.0,
+      "meanFeminine": 0.0,
+      "spread": 0.22
+    },
+    {
+      "id": "brow.tilt",
+      "name": "Brow angle",
+      "min": -1.0,
+      "max": 1.0,
+      "meanMasculine": 0.0,
+      "meanFeminine": 0.0,
+      "spread": 0.22
+    },
+    {
+      "id": "mouth.width",
+      "name": "Mouth width",
+      "min": -1.0,
+      "max": 1.0,
+      "meanMasculine": 0.0,
+      "meanFeminine": 0.0,
+      "spread": 0.22
+    },
+    {
+      "id": "mouth.height",
+      "name": "Mouth height",
+      "min": -1.0,
+      "max": 1.0,
+      "meanMasculine": 0.0,
+      "meanFeminine": 0.0,
+      "spread": 0.18
+    },
+    {
+      "id": "nose.size",
+      "name": "Nose size",
+      "min": -1.0,
+      "max": 1.0,
+      "meanMasculine": 0.0,
+      "meanFeminine": 0.0,
+      "spread": 0.22
+    }
+  ],
+  "facePresets": [
+    {
+      "id": "face.preset.soft",
+      "name": "Soft",
+      "weight": 1.0,
+      "tags": [
+        "cute",
+        "casual",
+        "bookish"
+      ],
+      "values": {
+        "eye.scale": 0.3,
+        "eye.tilt": -0.25,
+        "brow.height": 0.1,
+        "mouth.width": -0.15,
+        "nose.size": -0.25
+      }
+    },
+    {
+      "id": "face.preset.sharp",
+      "name": "Sharp",
+      "weight": 1.0,
+      "tags": [
+        "gothic",
+        "street",
+        "elegant"
+      ],
+      "values": {
+        "eye.scale": -0.2,
+        "eye.tilt": 0.5,
+        "brow.tilt": 0.5,
+        "mouth.width": 0.1,
+        "nose.size": 0.2
+      }
+    },
+    {
+      "id": "face.preset.bright",
+      "name": "Bright",
+      "weight": 1.0,
+      "tags": [
+        "cute",
+        "sporty"
+      ],
+      "values": {
+        "eye.scale": 0.4,
+        "eye.height": 0.2,
+        "brow.height": 0.3,
+        "mouth.width": 0.2
+      }
+    },
+    {
+      "id": "face.preset.calm",
+      "name": "Calm",
+      "weight": 1.0,
+      "tags": [
+        "elegant",
+        "bookish"
+      ],
+      "values": {
+        "eye.scale": -0.1,
+        "brow.height": -0.2,
+        "mouth.width": -0.2
+      }
+    },
+    {
+      "id": "face.preset.bold",
+      "name": "Bold",
+      "weight": 1.0,
+      "tags": [
+        "street",
+        "sporty",
+        "casual"
+      ],
+      "values": {
+        "eye.scale": 0.05,
+        "eye.spacing": 0.3,
+        "brow.tilt": -0.3,
+        "mouth.width": 0.4,
+        "nose.size": 0.4
+      }
+    },
+    {
+      "id": "face.preset.delicate",
+      "name": "Delicate",
+      "weight": 1.0,
+      "tags": [
+        "elegant",
+        "cute"
+      ],
+      "values": {
+        "eye.scale": 0.2,
+        "eye.spacing": -0.2,
+        "mouth.width": -0.3,
+        "nose.size": -0.4
+      }
+    },
+    {
+      "id": "face.preset.gentle",
+      "name": "Gentle",
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "bookish",
+        "cute"
+      ],
+      "values": {
+        "eye.scale": 0.15,
+        "eye.tilt": -0.4,
+        "brow.height": 0.2,
+        "mouth.width": -0.1,
+        "nose.size": -0.1
+      }
+    },
+    {
+      "id": "face.preset.keen",
+      "name": "Keen",
+      "weight": 1.0,
+      "tags": [
+        "sporty",
+        "street",
+        "gothic"
+      ],
+      "values": {
+        "eye.scale": -0.15,
+        "eye.spacing": -0.15,
+        "eye.tilt": 0.3,
+        "brow.tilt": 0.6,
+        "nose.size": 0.1
+      }
+    },
+    {
+      "id": "face.preset.sunny",
+      "name": "Sunny",
+      "weight": 1.0,
+      "tags": [
+        "cute",
+        "casual",
+        "sporty"
+      ],
+      "values": {
+        "eye.scale": 0.25,
+        "eye.height": 0.3,
+        "brow.height": 0.4,
+        "mouth.width": 0.35,
+        "mouth.height": 0.2
+      }
+    }
+  ],
+  "eyeStyles": [
+    {
+      "id": "eye.style.round",
+      "name": "Round",
+      "weight": 1.0,
+      "tags": [
+        "cute",
+        "casual",
+        "sporty"
+      ]
+    },
+    {
+      "id": "eye.style.tall",
+      "name": "Tall",
+      "weight": 1.0,
+      "tags": [
+        "cute",
+        "elegant"
+      ]
+    },
+    {
+      "id": "eye.style.narrow",
+      "name": "Narrow",
+      "weight": 1.0,
+      "tags": [
+        "gothic",
+        "street",
+        "elegant"
+      ]
+    },
+    {
+      "id": "eye.style.droopy",
+      "name": "Droopy",
+      "weight": 1.0,
+      "tags": [
+        "bookish",
+        "casual"
+      ]
+    },
+    {
+      "id": "eye.style.cat",
+      "name": "Cat",
+      "weight": 1.0,
+      "tags": [
+        "gothic",
+        "elegant",
+        "street"
+      ]
+    },
+    {
+      "id": "eye.style.big",
+      "name": "Big",
+      "weight": 1.0,
+      "tags": [
+        "cute",
+        "casual"
+      ]
+    },
+    {
+      "id": "eye.style.almond",
+      "name": "Almond",
+      "weight": 1.0,
+      "tags": [
+        "elegant",
+        "bookish",
+        "casual"
+      ]
+    }
+  ],
+  "browStyles": [
+    {
+      "id": "brow.style.thin",
+      "name": "Thin",
+      "weight": 1.0,
+      "tags": [
+        "elegant",
+        "gothic"
+      ]
+    },
+    {
+      "id": "brow.style.thick",
+      "name": "Thick",
+      "weight": 1.0,
+      "tags": [
+        "sporty",
+        "street",
+        "casual"
+      ]
+    },
+    {
+      "id": "brow.style.soft",
+      "name": "Soft",
+      "weight": 1.0,
+      "tags": [
+        "cute",
+        "bookish"
+      ]
+    },
+    {
+      "id": "brow.style.arched",
+      "name": "Arched",
+      "weight": 1.0,
+      "tags": [
+        "elegant",
+        "cute",
+        "gothic"
+      ]
+    },
+    {
+      "id": "brow.style.straight",
+      "name": "Straight",
+      "weight": 1.0,
+      "tags": [
+        "sporty",
+        "bookish",
+        "street"
+      ]
+    }
+  ],
+  "lashStyles": [
+    {
+      "id": "lash.style.default",
+      "name": null,
+      "weight": 1.0,
+      "tags": []
+    }
+  ],
+  "parts": [
+    {
+      "id": "cloth.bottom.joggers_gen01",
+      "name": "Joggers",
+      "slot": "bottom",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "sporty",
+        "street",
+        "casual"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": -0.1,
+      "regions": 1,
+      "patternable": false,
+      "contexts": [
+        "casual",
+        "sport"
+      ]
+    },
+    {
+      "id": "cloth.bottom.shorts_gen01",
+      "name": "Shorts",
+      "slot": "bottom",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "sporty",
+        "street",
+        "bare_legs"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.0,
+      "regions": 3,
+      "patternable": false,
+      "contexts": [
+        "casual",
+        "sport"
+      ]
+    },
+    {
+      "id": "cloth.bottom.trousers_gen01",
+      "name": "Jeans",
+      "slot": "bottom",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "street",
+        "date",
+        "gothic"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.0,
+      "regions": 3,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "cloth.shoes.hightops_gen01",
+      "name": "High-tops",
+      "slot": "shoes",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "street",
+        "sporty",
+        "casual"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.0,
+      "regions": 3,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "cloth.shoes.sneakers_gen01",
+      "name": "Sneakers",
+      "slot": "shoes",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "sporty",
+        "street",
+        "cute"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.0,
+      "regions": 3,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "cloth.shoes.tallboots_gen01",
+      "name": "Tall boots",
+      "slot": "shoes",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "gothic",
+        "street",
+        "elegant",
+        "date"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.0,
+      "regions": 3,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "cloth.top.hoodie_gen01",
+      "name": "Hoodie",
+      "slot": "top",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "street",
+        "sporty",
+        "hooded"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.0,
+      "regions": 3,
+      "patternable": false,
+      "contexts": [
+        "casual",
+        "sport"
+      ]
+    },
+    {
+      "id": "cloth.top.tank_gen01",
+      "name": "Tank top",
+      "slot": "top",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "street",
+        "date"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.3,
+      "regions": 2,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "cloth.top.tshirt_gen01",
+      "name": "T-shirt",
+      "slot": "top",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "sporty",
+        "street"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.0,
+      "regions": 2,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "hair.back.bob_gen01",
+      "name": "Bob",
+      "slot": "hair.back",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "cute",
+        "bookish",
+        "elegant",
+        "casual",
+        "hat_ok"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.3,
+      "regions": 1,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "hair.back.bun_gen01",
+      "name": "Bun",
+      "slot": "hair.back",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "elegant",
+        "bookish"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.4,
+      "regions": 1,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "hair.back.long_gen01",
+      "name": "Long",
+      "slot": "hair.back",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "elegant",
+        "gothic",
+        "cute",
+        "hat_ok"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.5,
+      "regions": 1,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "hair.back.pixie_gen01",
+      "name": "Pixie cut",
+      "slot": "hair.back",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "sporty",
+        "casual",
+        "street",
+        "hat_ok"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": -0.1,
+      "regions": 1,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "hair.back.ponytail_gen01",
+      "name": "Ponytail",
+      "slot": "hair.back",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "sporty",
+        "casual",
+        "cute"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.4,
+      "regions": 1,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "hair.back.twintails_gen01",
+      "name": "Twin tails",
+      "slot": "hair.back",
+      "blocksSlots": [],
+      "weight": 0.7,
+      "tags": [
+        "cute",
+        "gothic"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.7,
+      "regions": 1,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "hair.back.wavy_gen01",
+      "name": "Wavy",
+      "slot": "hair.back",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "elegant",
+        "cute",
+        "casual"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.6,
+      "regions": 1,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "hair.front.blunt_gen01",
+      "name": "Blunt bangs",
+      "slot": "hair.front",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "cute",
+        "gothic",
+        "bookish"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.0,
+      "regions": 1,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "hair.front.framing_gen01",
+      "name": "Face-framing strands",
+      "slot": "hair.front",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "cute",
+        "elegant",
+        "casual"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.0,
+      "regions": 1,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "hair.front.fringe_gen01",
+      "name": "Straight bangs",
+      "slot": "hair.front",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "cute",
+        "gothic",
+        "bookish"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.0,
+      "regions": 1,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "hair.front.heavy_gen01",
+      "name": "Heavy bangs",
+      "slot": "hair.front",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "cute",
+        "gothic",
+        "bookish",
+        "elegant"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.0,
+      "regions": 1,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "hair.front.parted_gen01",
+      "name": "Side part",
+      "slot": "hair.front",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "elegant",
+        "bookish",
+        "gothic",
+        "casual"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.0,
+      "regions": 1,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "hair.front.swept_gen01",
+      "name": "Swept bangs",
+      "slot": "hair.front",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "elegant",
+        "street",
+        "sporty"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.0,
+      "regions": 1,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "hair.front.wispy_gen01",
+      "name": "Wispy bangs",
+      "slot": "hair.front",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "street",
+        "sporty"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.0,
+      "regions": 1,
+      "patternable": false,
+      "contexts": []
+    }
+  ],
+  "patterns": [
+    {
+      "id": "pattern.stripes_01",
+      "name": "Stripes",
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "sporty",
+        "street"
+      ],
+      "minScale": 6.0,
+      "maxScale": 12.0
+    },
+    {
+      "id": "pattern.dots_01",
+      "name": "Dots",
+      "weight": 1.0,
+      "tags": [
+        "cute",
+        "casual"
+      ],
+      "minScale": 8.0,
+      "maxScale": 14.0
+    },
+    {
+      "id": "pattern.plaid_01",
+      "name": "Plaid",
+      "weight": 1.0,
+      "tags": [
+        "bookish",
+        "elegant",
+        "gothic",
+        "street"
+      ],
+      "minScale": 4.0,
+      "maxScale": 8.0
+    },
+    {
+      "id": "pattern.check_01",
+      "name": "Check",
+      "weight": 1.0,
+      "tags": [
+        "cute",
+        "casual",
+        "gothic"
+      ],
+      "minScale": 6.0,
+      "maxScale": 10.0
+    },
+    {
+      "id": "pattern.hearts_01",
+      "name": "Hearts",
+      "weight": 1.0,
+      "tags": [
+        "cute",
+        "date"
+      ],
+      "minScale": 7.0,
+      "maxScale": 12.0
+    },
+    {
+      "id": "pattern.stars_01",
+      "name": "Stars",
+      "weight": 1.0,
+      "tags": [
+        "cute",
+        "street",
+        "casual"
+      ],
+      "minScale": 7.0,
+      "maxScale": 12.0
+    },
+    {
+      "id": "pattern.pinstripe_01",
+      "name": "Pinstripe",
+      "weight": 1.0,
+      "tags": [
+        "elegant",
+        "bookish",
+        "gothic"
+      ],
+      "minScale": 10.0,
+      "maxScale": 16.0
+    },
+    {
+      "id": "pattern.floral_01",
+      "name": "Floral",
+      "weight": 1.0,
+      "tags": [
+        "cute",
+        "elegant",
+        "casual",
+        "date"
+      ],
+      "minScale": 6.0,
+      "maxScale": 10.0
+    },
+    {
+      "id": "pattern.denim_01",
+      "name": "Denim",
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "street"
+      ],
+      "minScale": 10.0,
+      "maxScale": 16.0
+    },
+    {
+      "id": "pattern.knit_01",
+      "name": "Knit",
+      "weight": 1.0,
+      "tags": [
+        "cute",
+        "bookish",
+        "casual"
+      ],
+      "minScale": 7.0,
+      "maxScale": 11.0
+    },
+    {
+      "id": "pattern.argyle_01",
+      "name": "Argyle",
+      "weight": 1.0,
+      "tags": [
+        "bookish",
+        "elegant",
+        "casual"
+      ],
+      "minScale": 4.0,
+      "maxScale": 7.0
+    },
+    {
+      "id": "pattern.chevron_01",
+      "name": "Chevron",
+      "weight": 1.0,
+      "tags": [
+        "street",
+        "sporty",
+        "casual"
+      ],
+      "minScale": 6.0,
+      "maxScale": 10.0
+    }
+  ],
+  "palettes": [
+    {
+      "id": "hair.natural",
+      "colours": [
+        {
+          "hex": "#1B1412",
+          "neutral": false,
+          "weight": 3.0
+        },
+        {
+          "hex": "#2E1E16",
+          "neutral": false,
+          "weight": 3.0
+        },
+        {
+          "hex": "#4A2F20",
+          "neutral": false,
+          "weight": 3.0
+        },
+        {
+          "hex": "#6B4428",
+          "neutral": false,
+          "weight": 2.0
+        },
+        {
+          "hex": "#7A3B22",
+          "neutral": false,
+          "weight": 1.5
+        },
+        {
+          "hex": "#A0522D",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#C9A15C",
+          "neutral": false,
+          "weight": 1.5
+        },
+        {
+          "hex": "#E3CF9A",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#8C8178",
+          "neutral": false,
+          "weight": 0.6
+        },
+        {
+          "hex": "#C8C4C0",
+          "neutral": false,
+          "weight": 0.4
+        }
+      ]
+    },
+    {
+      "id": "hair.fantasy",
+      "colours": [
+        {
+          "hex": "#F29BB8",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#B79BE0",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#5F8FD9",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#7FD6B9",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#D8DCE6",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#C8323C",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#2F9CA0",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#7A4FB0",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "id": "makeup.lips",
+      "colours": [
+        {
+          "hex": "#C24A64",
+          "neutral": false,
+          "weight": 2.0
+        },
+        {
+          "hex": "#B11E2F",
+          "neutral": false,
+          "weight": 1.5
+        },
+        {
+          "hex": "#DD6650",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#8C2648",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#B5726A",
+          "neutral": false,
+          "weight": 1.5
+        },
+        {
+          "hex": "#E07A9A",
+          "neutral": false,
+          "weight": 1.5
+        }
+      ]
+    },
+    {
+      "id": "makeup.lips.dark",
+      "colours": [
+        {
+          "hex": "#4E1E3C",
+          "neutral": false,
+          "weight": 2.0
+        },
+        {
+          "hex": "#231A22",
+          "neutral": false,
+          "weight": 1.5
+        },
+        {
+          "hex": "#6E1B3A",
+          "neutral": false,
+          "weight": 1.5
+        },
+        {
+          "hex": "#8C1C2C",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "id": "makeup.blush",
+      "colours": [
+        {
+          "hex": "#F29AAE",
+          "neutral": false,
+          "weight": 2.0
+        },
+        {
+          "hex": "#F4AC94",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#EE8AA6",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "id": "eyes.natural",
+      "colours": [
+        {
+          "hex": "#3B2418",
+          "neutral": false,
+          "weight": 4.0
+        },
+        {
+          "hex": "#5A3820",
+          "neutral": false,
+          "weight": 3.0
+        },
+        {
+          "hex": "#7A5A2E",
+          "neutral": false,
+          "weight": 1.5
+        },
+        {
+          "hex": "#B07A30",
+          "neutral": false,
+          "weight": 0.8
+        },
+        {
+          "hex": "#4E7A4A",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#3E6E9E",
+          "neutral": false,
+          "weight": 1.2
+        },
+        {
+          "hex": "#7A8A96",
+          "neutral": false,
+          "weight": 0.8
+        }
+      ]
+    },
+    {
+      "id": "skin.reference",
+      "colours": [
+        {
+          "hex": "#FCE7DA",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#F6D2BC",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#EAB995",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#D49F78",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#B47D58",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#8F5D3E",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#6B422B",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#4B2D1E",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "id": "eyes.fantasy",
+      "colours": [
+        {
+          "hex": "#8A4FD0",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#C8303C",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#D8A830",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#2FB0A8",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#E070A8",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "id": "outfit.casual",
+      "colours": [
+        {
+          "hex": "#F2F0EB",
+          "neutral": true,
+          "weight": 1.0
+        },
+        {
+          "hex": "#BFC2C6",
+          "neutral": true,
+          "weight": 1.0
+        },
+        {
+          "hex": "#3A3D42",
+          "neutral": true,
+          "weight": 1.0
+        },
+        {
+          "hex": "#25324F",
+          "neutral": true,
+          "weight": 1.0
+        },
+        {
+          "hex": "#4A6A8E",
+          "neutral": true,
+          "weight": 1.0
+        },
+        {
+          "hex": "#D8C8A8",
+          "neutral": true,
+          "weight": 1.0
+        },
+        {
+          "hex": "#C8423A",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#D8A830",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#7FB0D8",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#3E6E4E",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#E8826A",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "id": "outfit.sporty",
+      "colours": [
+        {
+          "hex": "#F5F5F5",
+          "neutral": true,
+          "weight": 1.0
+        },
+        {
+          "hex": "#1E1E22",
+          "neutral": true,
+          "weight": 1.0
+        },
+        {
+          "hex": "#8C9096",
+          "neutral": true,
+          "weight": 1.0
+        },
+        {
+          "hex": "#E0302E",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#2860D8",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#9AD030",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#F08A20",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#20A8A0",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "id": "outfit.cute",
+      "colours": [
+        {
+          "hex": "#FFF8F0",
+          "neutral": true,
+          "weight": 1.0
+        },
+        {
+          "hex": "#F4F4F8",
+          "neutral": true,
+          "weight": 1.0
+        },
+        {
+          "hex": "#D8D4DC",
+          "neutral": true,
+          "weight": 1.0
+        },
+        {
+          "hex": "#F6D8E0",
+          "neutral": true,
+          "weight": 1.0
+        },
+        {
+          "hex": "#F2A8C0",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#C8B0E8",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#A8E0C8",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#A8C8F0",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#F8C8A8",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#F4E08A",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "id": "outfit.gothic",
+      "colours": [
+        {
+          "hex": "#121114",
+          "neutral": true,
+          "weight": 3.0
+        },
+        {
+          "hex": "#2A272E",
+          "neutral": true,
+          "weight": 1.0
+        },
+        {
+          "hex": "#4A4650",
+          "neutral": true,
+          "weight": 1.0
+        },
+        {
+          "hex": "#8E1C2C",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#4A2468",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#5E1A30",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#C8C8D0",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "id": "outfit.elegant",
+      "colours": [
+        {
+          "hex": "#F4EEDF",
+          "neutral": true,
+          "weight": 1.0
+        },
+        {
+          "hex": "#B89A72",
+          "neutral": true,
+          "weight": 1.0
+        },
+        {
+          "hex": "#1E2A44",
+          "neutral": true,
+          "weight": 1.0
+        },
+        {
+          "hex": "#16161A",
+          "neutral": true,
+          "weight": 1.0
+        },
+        {
+          "hex": "#FAFAF8",
+          "neutral": true,
+          "weight": 1.0
+        },
+        {
+          "hex": "#7A1E30",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#1E6A4E",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#C8A040",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#C88A90",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "id": "outfit.street",
+      "colours": [
+        {
+          "hex": "#18181A",
+          "neutral": true,
+          "weight": 1.0
+        },
+        {
+          "hex": "#7A7C80",
+          "neutral": true,
+          "weight": 1.0
+        },
+        {
+          "hex": "#B8A27A",
+          "neutral": true,
+          "weight": 1.0
+        },
+        {
+          "hex": "#4E5A3A",
+          "neutral": true,
+          "weight": 1.0
+        },
+        {
+          "hex": "#F0F0EE",
+          "neutral": true,
+          "weight": 1.0
+        },
+        {
+          "hex": "#F07A20",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#F0C820",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#D82830",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#2848B8",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ]
+    },
+    {
+      "id": "outfit.bookish",
+      "colours": [
+        {
+          "hex": "#6A4A32",
+          "neutral": true,
+          "weight": 1.0
+        },
+        {
+          "hex": "#C8B490",
+          "neutral": true,
+          "weight": 1.0
+        },
+        {
+          "hex": "#EEE6D2",
+          "neutral": true,
+          "weight": 1.0
+        },
+        {
+          "hex": "#26304A",
+          "neutral": true,
+          "weight": 1.0
+        },
+        {
+          "hex": "#5A6040",
+          "neutral": true,
+          "weight": 1.0
+        },
+        {
+          "hex": "#C8962A",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#A8502A",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#2E5A3A",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#6E2232",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ]
+    }
+  ],
+  "archetypes": [
+    {
+      "id": "casual",
+      "name": "Casual",
+      "weight": 1.4,
+      "tagWeights": {
+        "casual": 3.0,
+        "street": 0.6,
+        "sporty": 0.6,
+        "bookish": 0.4
+      },
+      "outfitPalette": "outfit.casual",
+      "patternChance": 0.2,
+      "fantasyHairChance": 0.08,
+      "fantasyEyeChance": 0.05,
+      "gradientChance": 0.1,
+      "glassesChance": 0.12,
+      "neckChance": 0.1,
+      "outerChance": 0.12,
+      "legwearChance": 0.1,
+      "earringChance": 0.15,
+      "bagChance": 0.15,
+      "hairAccessoryChance": 0.1,
+      "hatChance": 0.12,
+      "faceChances": {
+        "makeup.lipstick": 0.15
+      },
+      "lipPalette": null,
+      "noBangsChance": 0.3,
+      "texturedHairChance": 0.12
+    },
+    {
+      "id": "sporty",
+      "name": "Sporty",
+      "weight": 1.0,
+      "tagWeights": {
+        "sporty": 3.0,
+        "casual": 0.8,
+        "street": 0.5
+      },
+      "outfitPalette": "outfit.sporty",
+      "patternChance": 0.15,
+      "fantasyHairChance": 0.08,
+      "fantasyEyeChance": 0.05,
+      "gradientChance": 0.1,
+      "glassesChance": 0.04,
+      "neckChance": 0.04,
+      "outerChance": 0.1,
+      "legwearChance": 0.04,
+      "earringChance": 0.08,
+      "bagChance": 0.05,
+      "hairAccessoryChance": 0.08,
+      "hatChance": 0.15,
+      "faceChances": {
+        "makeup.lipstick": 0.05
+      },
+      "lipPalette": null,
+      "noBangsChance": 0.4,
+      "texturedHairChance": 0.12
+    },
+    {
+      "id": "cute",
+      "name": "Cute",
+      "weight": 1.0,
+      "tagWeights": {
+        "cute": 3.0,
+        "casual": 0.6,
+        "date": 0.4
+      },
+      "outfitPalette": "outfit.cute",
+      "patternChance": 0.35,
+      "fantasyHairChance": 0.3,
+      "fantasyEyeChance": 0.08,
+      "gradientChance": 0.3,
+      "glassesChance": 0.08,
+      "neckChance": 0.22,
+      "outerChance": 0.06,
+      "legwearChance": 0.4,
+      "earringChance": 0.3,
+      "bagChance": 0.2,
+      "hairAccessoryChance": 0.4,
+      "hatChance": 0.08,
+      "faceChances": {
+        "makeup.lipstick": 0.3
+      },
+      "lipPalette": null,
+      "noBangsChance": 0.15,
+      "texturedHairChance": 0.12
+    },
+    {
+      "id": "gothic",
+      "name": "Gothic",
+      "weight": 0.7,
+      "tagWeights": {
+        "gothic": 3.0,
+        "elegant": 0.8
+      },
+      "outfitPalette": "outfit.gothic",
+      "patternChance": 0.15,
+      "fantasyHairChance": 0.3,
+      "fantasyEyeChance": 0.12,
+      "gradientChance": 0.25,
+      "glassesChance": 0.08,
+      "neckChance": 0.32,
+      "outerChance": 0.25,
+      "legwearChance": 0.5,
+      "earringChance": 0.4,
+      "bagChance": 0.15,
+      "hairAccessoryChance": 0.25,
+      "hatChance": 0.05,
+      "faceChances": {
+        "makeup.lipstick": 0.6
+      },
+      "lipPalette": "makeup.lips.dark",
+      "noBangsChance": 0.15,
+      "texturedHairChance": 0.12
+    },
+    {
+      "id": "elegant",
+      "name": "Elegant",
+      "weight": 0.9,
+      "tagWeights": {
+        "elegant": 3.0,
+        "date": 0.6,
+        "bookish": 0.4
+      },
+      "outfitPalette": "outfit.elegant",
+      "patternChance": 0.1,
+      "fantasyHairChance": 0.06,
+      "fantasyEyeChance": 0.05,
+      "gradientChance": 0.08,
+      "glassesChance": 0.15,
+      "neckChance": 0.3,
+      "outerChance": 0.12,
+      "legwearChance": 0.3,
+      "earringChance": 0.45,
+      "bagChance": 0.2,
+      "hairAccessoryChance": 0.22,
+      "hatChance": 0.03,
+      "faceChances": {
+        "makeup.lipstick": 0.55
+      },
+      "lipPalette": null,
+      "noBangsChance": 0.35,
+      "texturedHairChance": 0.12
+    },
+    {
+      "id": "street",
+      "name": "Street",
+      "weight": 1.0,
+      "tagWeights": {
+        "street": 3.0,
+        "sporty": 0.6,
+        "casual": 0.6
+      },
+      "outfitPalette": "outfit.street",
+      "patternChance": 0.2,
+      "fantasyHairChance": 0.2,
+      "fantasyEyeChance": 0.05,
+      "gradientChance": 0.25,
+      "glassesChance": 0.08,
+      "neckChance": 0.18,
+      "outerChance": 0.3,
+      "legwearChance": 0.18,
+      "earringChance": 0.35,
+      "bagChance": 0.22,
+      "hairAccessoryChance": 0.15,
+      "hatChance": 0.3,
+      "faceChances": {
+        "makeup.lipstick": 0.25
+      },
+      "lipPalette": null,
+      "noBangsChance": 0.3,
+      "texturedHairChance": 0.12
+    },
+    {
+      "id": "bookish",
+      "name": "Bookish",
+      "weight": 0.8,
+      "tagWeights": {
+        "bookish": 3.0,
+        "elegant": 0.5,
+        "casual": 0.5
+      },
+      "outfitPalette": "outfit.bookish",
+      "patternChance": 0.3,
+      "fantasyHairChance": 0.05,
+      "fantasyEyeChance": 0.05,
+      "gradientChance": 0.05,
+      "glassesChance": 0.55,
+      "neckChance": 0.15,
+      "outerChance": 0.18,
+      "legwearChance": 0.22,
+      "earringChance": 0.2,
+      "bagChance": 0.3,
+      "hairAccessoryChance": 0.15,
+      "hatChance": 0.04,
+      "faceChances": {
+        "makeup.lipstick": 0.12
+      },
+      "lipPalette": null,
+      "noBangsChance": 0.25,
+      "texturedHairChance": 0.12
+    }
+  ],
+  "contexts": [
+    {
+      "id": "casual",
+      "name": "Casual",
+      "tagWeights": {
+        "casual": 1.0
+      },
+      "shoes": true,
+      "outer": false,
+      "onlyTags": []
+    },
+    {
+      "id": "date",
+      "name": "Date",
+      "tagWeights": {
+        "date": 1.5,
+        "elegant": 0.5
+      },
+      "shoes": true,
+      "outer": false,
+      "onlyTags": []
+    },
+    {
+      "id": "sport",
+      "name": "Workout",
+      "tagWeights": {
+        "sporty": 2.0
+      },
+      "shoes": true,
+      "outer": false,
+      "onlyTags": [
+        "sporty"
+      ]
+    }
+  ],
+  "hair": {
+    "naturalPalette": "hair.natural",
+    "fantasyPalette": "hair.fantasy"
+  },
+  "eyes": {
+    "naturalPalette": "eyes.natural",
+    "fantasyPalette": "eyes.fantasy",
+    "heterochromiaChance": 0.02
+  },
+  "skin": {
+    "referencePalette": "skin.reference",
+    "minClothingContrast": 0.2
+  }
+}

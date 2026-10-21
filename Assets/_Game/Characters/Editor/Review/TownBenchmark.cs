@@ -21,19 +21,24 @@ namespace Game.Characters.Review
     /// <summary>
     /// Town-scale cost of the character system (PLAN.md §3.10): builds a town of generated residents and times
     /// generation, building, re-applying DNA, spring simulation and rendering, with renderer statistics. Writes
-    /// Docs/review/perf.md. Editor timings on this machine are indicative, not a min-spec measurement.
-    /// unity run . -- -executeMethod Game.Characters.Review.TownBenchmark.Run
+    /// Docs/review/perf.md (stand-in content) or Docs/review/perf-generated.md (the generated body and parts, decision
+    /// 0008). Editor timings on this machine are indicative, not a min-spec measurement.
+    /// unity run . -- -executeMethod Game.Characters.Review.TownBenchmark.Run (or RunGenerated)
     /// </summary>
     public static class TownBenchmark
     {
         const int Residents = 40;
-        const string ReportPath = "Docs/review/perf.md";
 
         [MenuItem("Game/Characters/Review/Run Town Benchmark")]
-        public static void Run()
+        public static void Run() => Run(StandInContent.Load, "stand-in content", "Docs/review/perf.md");
+
+        [MenuItem("Game/Characters/Review/Run Town Benchmark (Generated Content)")]
+        public static void RunGenerated() => Run(() => GeneratedContent.Load() ?? GeneratedContent.Write(), "generated content", "Docs/review/perf-generated.md");
+
+        static void Run(Func<CharacterContent> load, string contentName, string reportPath)
         {
             EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-            CharacterContent content = StandInContent.Load();
+            CharacterContent content = load(); // after the new scene, which unloads assets nothing references
             var generator = new CharacterGenerator(content.LoadCatalog());
             var builder = new CharacterBuilder(content);
             LightingRig.Day.Apply(Array.Empty<Vector3>());
@@ -88,6 +93,8 @@ namespace Game.Characters.Review
 
             int renderers = characters.Sum(c => c.GetComponentsInChildren<Renderer>().Length);
             int vertices = characters.Sum(c => c.GetComponentsInChildren<SkinnedMeshRenderer>().Sum(r => r.sharedMesh.vertexCount));
+            long triangles = characters.Sum(c => c.GetComponentsInChildren<SkinnedMeshRenderer>()
+                .Sum(r => Enumerable.Range(0, r.sharedMesh.subMeshCount).Sum(m => (long)r.sharedMesh.GetIndexCount(m)) / 3));
             int blendShapes = characters.Sum(c => c.GetComponentsInChildren<SkinnedMeshRenderer>().Sum(r => r.sharedMesh.blendShapeCount));
             int bones = characters.Sum(c => c.GetComponentsInChildren<Transform>().Length);
 
@@ -149,7 +156,7 @@ namespace Game.Characters.Review
             camera.targetTexture = null;
             UnityEngine.Object.DestroyImmediate(target);
 
-            report.AppendLine($"Town of **{Residents}** generated residents (world seed 2026), stand-in content.").AppendLine();
+            report.AppendLine($"Town of **{Residents}** generated residents (world seed 2026), {contentName}.").AppendLine();
             report.AppendLine("| Measure | Value |").AppendLine("|---|---|");
             report.AppendLine($"| Generate the town (DNA, with lookalike rejection) | {generateMs:0.0} ms total |");
             report.AppendLine($"| Build a character (median / max) | {Median(buildTimes):0.00} / {buildTimes.Max():0.00} ms |");
@@ -165,11 +172,12 @@ namespace Game.Characters.Review
             report.AppendLine($"| Same town from 22 m, full detail | {farMs:0.00} ms |");
             report.AppendLine($"| Same town from 22 m, with CharacterLod | {farLodMs:0.00} ms |");
             report.AppendLine($"| Renderers / skinned vertices / blendshapes | {renderers} / {vertices:N0} / {blendShapes} |");
+            report.AppendLine($"| Triangles (characters, one pass) | {triangles:N0} |");
             report.AppendLine($"| Transforms under characters | {bones:N0} |");
             report.AppendLine();
 
-            Directory.CreateDirectory(Path.GetDirectoryName(ReportPath));
-            File.WriteAllText(ReportPath, report.ToString());
+            Directory.CreateDirectory(Path.GetDirectoryName(reportPath));
+            File.WriteAllText(reportPath, report.ToString());
             Debug.Log("[Benchmark]\n" + report);
         }
 

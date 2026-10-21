@@ -36,7 +36,7 @@ namespace Game.Town
             RenderSettings.sun = sun;
 
             var stage = new GameObject("Stage").AddComponent<TownStage>();
-            stage.Content = StandInContent.Load();
+            stage.Content = GameContent.Active();
             stage.Camera = camera;
             stage.Sun = sun;
             stage.PropMaterial = MaterialAsset(PropMaterialPath, "Game/Environment/Toon", new Color(0.8f, 0.8f, 0.8f));
@@ -90,7 +90,7 @@ namespace Game.Town
             var document = ui.AddComponent<UIDocument>();
             document.panelSettings = panelSettings;
             var menu = ui.AddComponent<MainMenuScreen>();
-            menu.Content = StandInContent.Load();
+            menu.Content = GameContent.Active();
             menu.Document = document;
             menu.Style = AssetDatabase.LoadAssetAtPath<StyleSheet>(StylePath);
             menu.Stage = stage;

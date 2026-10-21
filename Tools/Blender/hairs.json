@@ -1,5 +1,5 @@
 {
-  "_note": "Generated hairstyles (decision 0008): each image is outfit-01's with 'Bald.' swapped for the hairstyle, in vivid emerald green so the hair separates from skin and clothes by colour (the game recolours it). Each style is split into a front piece (everything in front of the ears) and a back piece; chains are spring-bone chains fitted along hair that hangs free; squeeze draws a flared style in below the eyes and curl turns its ends under (hair_tools.tame); blunt cuts the fringe straight across (hair_tools.blunt_cut); thin draws a voluminous style in towards the scalp (hair_tools.thin); below_chin cuts it straight across that far under the chin.",
+  "_note": "Generated hairstyles (decision 0008): each image is outfit-01's with 'Bald.' swapped for the hairstyle, in vivid emerald green so the hair separates from skin and clothes by colour (the game recolours it). Each piece's tags, lean and weight are its catalog entry's (the generator's style tags and rules). Each style is split into a front piece (everything in front of the ears) and a back piece; chains are spring-bone chains fitted along hair that hangs free; squeeze draws a flared style in below the eyes and curl turns its ends under (hair_tools.tame); blunt cuts the fringe straight across (hair_tools.blunt_cut); thin draws a voluminous style in towards the scalp (hair_tools.thin); below_chin cuts it straight across that far under the chin.",
   "hair-bob": {
     "image": "References/character-base-images/hair/hair-bob.png",
     "prompt": "Her hair is a chin-length straight bob with a thick blunt fringe cut straight across just above the eyebrows, in solid vivid emerald green.",
@@ -9,8 +9,8 @@
     "thin": 0.6,
     "blunt": true,
     "below_chin": 0.008,
-    "front": {"id": "hair.front.blunt_gen01", "tags": ["blunt"]},
-    "back": {"id": "hair.back.bob_gen01", "tags": ["short", "hat_ok"]},
+    "front": {"id": "hair.front.blunt_gen01", "name": "Blunt bangs", "tags": ["cute", "gothic", "bookish"]},
+    "back": {"id": "hair.back.bob_gen01", "name": "Bob", "tags": ["cute", "bookish", "elegant", "casual", "hat_ok"], "lean": 0.3},
     "chains": []
   },
   "hair-long": {
@@ -18,16 +18,16 @@
     "prompt": "Her hair is long and straight with a centre parting, falling behind her shoulders to the middle of her back, in solid vivid emerald green.",
     "_generated": "The image came out hip-length with a heavy fringe instead of a parting; the pieces are named for what it made.",
     "colour": "#1f9e5a",
-    "front": {"id": "hair.front.heavy_gen01", "tags": ["heavy"]},
-    "back": {"id": "hair.back.long_gen01", "tags": ["long", "hat_ok"]},
+    "front": {"id": "hair.front.heavy_gen01", "name": "Heavy bangs", "tags": ["cute", "gothic", "bookish", "elegant"]},
+    "back": {"id": "hair.back.long_gen01", "name": "Long", "tags": ["elegant", "gothic", "cute", "hat_ok"], "lean": 0.5},
     "chains": []
   },
   "hair-ponytail": {
     "image": "References/character-base-images/hair/hair-ponytail.png",
     "prompt": "Her hair is pulled back into a high ponytail tied at the crown that hangs down to between the shoulder blades, with a short side-swept fringe, in solid vivid emerald green.",
     "colour": "#1f9e5a",
-    "front": {"id": "hair.front.swept_gen01", "tags": ["swept"]},
-    "back": {"id": "hair.back.ponytail_gen01", "tags": ["tied", "hat_ok"]},
+    "front": {"id": "hair.front.swept_gen01", "name": "Swept bangs", "tags": ["casual", "elegant", "street", "sporty"]},
+    "back": {"id": "hair.back.ponytail_gen01", "name": "Ponytail", "tags": ["sporty", "casual", "cute"], "lean": 0.4},
     "chains": [{"name": "Hair.Ponytail", "bones": 3}]
   },
   "hair-twintails": {
@@ -38,8 +38,8 @@
     "squeeze": 0.4,
     "tails_beside": 0.095,
     "tubes": true,
-    "front": {"id": "hair.front.fringe_gen01", "tags": ["blunt"]},
-    "back": {"id": "hair.back.twintails_gen01", "tags": ["tied", "long"]},
+    "front": {"id": "hair.front.fringe_gen01", "name": "Straight bangs", "tags": ["cute", "gothic", "bookish"]},
+    "back": {"id": "hair.back.twintails_gen01", "name": "Twin tails", "tags": ["cute", "gothic"], "lean": 0.7, "weight": 0.7},
     "chains": [{"name": "Hair.TailL", "bones": 3, "side": 1}, {"name": "Hair.TailR", "bones": 3, "side": -1}]
   },
   "hair-pixie": {
@@ -47,8 +47,8 @@
     "prompt": "Her hair is a short tousled pixie cut, short at the back and sides with longer messy layers on top and a wispy side-swept fringe, in solid vivid emerald green.",
     "colour": "#1f9e5a",
     "thin": 0.7,
-    "front": {"id": "hair.front.wispy_gen01", "tags": ["swept"]},
-    "back": {"id": "hair.back.pixie_gen01", "tags": ["short", "hat_ok"]},
+    "front": {"id": "hair.front.wispy_gen01", "name": "Wispy bangs", "tags": ["casual", "street", "sporty"]},
+    "back": {"id": "hair.back.pixie_gen01", "name": "Pixie cut", "tags": ["sporty", "casual", "street", "hat_ok"], "lean": -0.1},
     "chains": []
   },
   "hair-bun": {
@@ -56,16 +56,16 @@
     "prompt": "Her hair is pulled up into a round high bun on top of the head, with a few loose strands framing the face and a short side-swept fringe, in solid vivid emerald green.",
     "_generated": "The image came out with the bun on top of chin-length hair at the sides.",
     "colour": "#1f9e5a",
-    "front": {"id": "hair.front.framing_gen01", "tags": ["swept"]},
-    "back": {"id": "hair.back.bun_gen01", "tags": ["tied", "short"]},
+    "front": {"id": "hair.front.framing_gen01", "name": "Face-framing strands", "tags": ["cute", "elegant", "casual"]},
+    "back": {"id": "hair.back.bun_gen01", "name": "Bun", "tags": ["elegant", "bookish"], "lean": 0.4},
     "chains": []
   },
   "hair-wavy": {
     "image": "References/character-base-images/hair/hair-wavy.png",
     "prompt": "Her hair is shoulder-length and softly wavy with a side parting, the ends resting on her shoulders, in solid vivid emerald green.",
     "colour": "#1f9e5a",
-    "front": {"id": "hair.front.parted_gen01", "tags": ["parted"]},
-    "back": {"id": "hair.back.wavy_gen01", "tags": ["medium", "hat_ok"]},
+    "front": {"id": "hair.front.parted_gen01", "name": "Side part", "tags": ["elegant", "bookish", "gothic", "casual"]},
+    "back": {"id": "hair.back.wavy_gen01", "name": "Wavy", "tags": ["elegant", "cute", "casual"], "lean": 0.6},
     "chains": []
   }
 }

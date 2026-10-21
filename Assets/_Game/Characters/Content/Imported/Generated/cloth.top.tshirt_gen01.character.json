@@ -9,7 +9,16 @@
     "#7894bd",
     "#f7f4f5"
   ],
+  "tags": [
+    "casual",
+    "sporty",
+    "street"
+  ],
+  "lean": 0.0,
+  "contexts": [],
+  "weight": 1.0,
   "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261019_141731_for_texture_textured.glb",
   "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
-  "licence": "Tencent Hunyuan 3D 2.1 Community License"
+  "licence": "Tencent Hunyuan 3D 2.1 Community License",
+  "name": "T-shirt"
 }
