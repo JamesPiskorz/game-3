@@ -154,7 +154,7 @@ def main():
                                   offset=skirt_spec.get("offset", 0.012), legs=skirt_spec.get("legs", 0.5),
                                   pleats=skirt_spec.get("pleats", 0), pleat_depth=skirt_spec.get("pleat_depth", 0.008),
                                   flare=skirt_spec.get("flare", False), smooth=skirt_spec.get("smooth", 0),
-                                  straight=skirt_spec.get("straight", False))
+                                  straight=skirt_spec.get("straight", False), widest=skirt_spec.get("widest"))
             if part is None:
                 problems.append(f"{spec['id']}: the scan shows no skirt")
                 continue
@@ -192,7 +192,7 @@ def main():
                                        offset=skirt_spec.get("offset", 0.012), legs=skirt_spec.get("legs", 0.5),
                                   pleats=skirt_spec.get("pleats", 0), pleat_depth=skirt_spec.get("pleat_depth", 0.008),
                                   flare=skirt_spec.get("flare", False), smooth=skirt_spec.get("smooth", 0),
-                                  straight=skirt_spec.get("straight", False))
+                                  straight=skirt_spec.get("straight", False), widest=skirt_spec.get("widest"))
                 if skirt is None:
                     problems.append(f"{spec['id']}: the scan shows no skirt")
                 else:

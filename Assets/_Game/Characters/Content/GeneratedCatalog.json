@@ -976,6 +976,24 @@
       "contexts": []
     },
     {
+      "id": "cloth.bottom.trackpants_gen01",
+      "name": "Track pants",
+      "slot": "bottom",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "sporty",
+        "street",
+        "casual"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.1,
+      "regions": 1,
+      "patternable": false,
+      "contexts": []
+    },
+    {
       "id": "cloth.bottom.trousers_gen01",
       "name": "Jeans",
       "slot": "bottom",
@@ -991,6 +1009,23 @@
       "excludesTags": [],
       "lean": 0.0,
       "regions": 3,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "cloth.bottom.yogapants_gen01",
+      "name": "Yoga pants",
+      "slot": "bottom",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "sporty",
+        "casual"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.8,
+      "regions": 1,
       "patternable": false,
       "contexts": []
     },
@@ -1322,6 +1357,45 @@
       ]
     },
     {
+      "id": "cloth.onepiece.romper_gen01",
+      "name": "Playsuit",
+      "slot": "onepiece",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "cute",
+        "date"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.9,
+      "regions": 1,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "cloth.onepiece.sequindress_gen01",
+      "name": "Sequin dress",
+      "slot": "onepiece",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "formal",
+        "date",
+        "elegant"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.95,
+      "regions": 1,
+      "patternable": false,
+      "contexts": [
+        "date",
+        "formal"
+      ]
+    },
+    {
       "id": "cloth.onepiece.shirtdress_gen01",
       "name": "Shirt dress",
       "slot": "onepiece",
@@ -1425,6 +1499,25 @@
         "formal",
         "elegant",
         "gothic"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.95,
+      "regions": 1,
+      "patternable": false,
+      "contexts": [
+        "formal"
+      ]
+    },
+    {
+      "id": "cloth.onepiece.weddinggown_gen01",
+      "name": "Wedding gown",
+      "slot": "onepiece",
+      "blocksSlots": [],
+      "weight": 0.3,
+      "tags": [
+        "formal",
+        "elegant"
       ],
       "requiresTags": [],
       "excludesTags": [],
@@ -2407,6 +2500,24 @@
       "contexts": []
     },
     {
+      "id": "cloth.top.trackjacket_gen01",
+      "name": "Track jacket",
+      "slot": "top",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "sporty",
+        "street",
+        "casual"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.2,
+      "regions": 1,
+      "patternable": false,
+      "contexts": []
+    },
+    {
       "id": "cloth.top.tshirt_gen01",
       "name": "T-shirt",
       "slot": "top",
@@ -2457,6 +2568,23 @@
       "requiresTags": [],
       "excludesTags": [],
       "lean": 0.9,
+      "regions": 1,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "cloth.top.yogatank_gen01",
+      "name": "Cropped racerback tank",
+      "slot": "top",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "sporty",
+        "casual"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.8,
       "regions": 1,
       "patternable": false,
       "contexts": []

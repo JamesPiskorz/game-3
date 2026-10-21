@@ -896,7 +896,7 @@ def _upper_envelope(x, y):
 
 
 def build_skirt(body, scan, garment, index, joints, name, top=None, hem=None, offset=0.012, step=0.012, segments=64,
-                legs=0.5, waist_hug=0.04, sigma=1.5, pleats=0, pleat_depth=0.008, flare=False, smooth=0, straight=False):
+                legs=0.5, waist_hug=0.04, sigma=1.5, pleats=0, pleat_depth=0.008, flare=False, smooth=0, straight=False, widest=None):
     """
     A skirt (on its own, or a dress's below the waist) as one tube, which the body's surface can't make: built from
     the body, a garment wraps each leg on its own. Each ring ``step`` metres apart, from ``top`` (default: the waist
@@ -909,7 +909,8 @@ def build_skirt(body, scan, garment, index, joints, name, top=None, hem=None, of
     ``pleats``, the outline below the waist folds in and out that many times round, ``pleat_depth`` deep, opening out
     down the skirt (a pleated skirt; the scan's pleats are shading, not shape). The outline is the same on both sides
     (the scan's is lopsided), and with ``flare`` only ever widens going down and is smoothed harder (an A-line skirt
-    or a gown: the scan's folds made a lumpy sack).
+    or a gown: the scan's folds made a lumpy sack). With ``widest`` (metres), it stands at most that far off the body
+    at the hem, less in proportion further up (a wedding gown's sheer overlay and train made a tent of it).
     Returns the skirt object (one recolour cluster: the scan skirt's commonest), or None if the scan has no skirt.
     """
     waist = float(joints["Hips"][2]) + WAIST_ABOVE_HIPS
@@ -1022,6 +1023,9 @@ def build_skirt(body, scan, garment, index, joints, name, top=None, hem=None, of
         elif straight:
             for k in range(segments):
                 r[hips_row:, k] = _upper_envelope(-zs[hips_row:], r[hips_row:, k])
+        if widest is not None:
+            t = np.clip((hip_z - zs) / max(hip_z - zs[-1], 1e-6), 0.0, 1.0)[:, None]
+            r = np.minimum(r, body_r + offset + widest * t)
         # Each ring convex: where a ring dipped in (between a leg's outline and the scan's), its sides turned away
         # from the camera, and the outline pass drew them through the front of the skirt as dark streaks.
         ring_xy = np.stack([np.cos(thetas), np.sin(thetas)], axis=1)
