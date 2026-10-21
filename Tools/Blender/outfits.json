@@ -486,7 +486,7 @@
     "prompt": "a one-shoulder floor-length evening gown in solid emerald green, fitted at the waist, with a flowing skirt reaching the floor",
     "legs_hidden": true,
     "garments": [
-      {"id": "cloth.onepiece.oneshouldergown_gen01", "name": "One-shoulder gown", "tags": ["formal", "elegant"], "contexts": ["formal", "date"], "lean": 0.95, "weight": 0.5, "slot": "onepiece", "regions": ["UpperTorso", "LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR", "FootL", "FootR"], "colours": ["#1f8a5a"], "drape": false, "tucked": 0.155, "loosest": 0.01, "skirt": {"offset": 0.015, "flare": true}}
+      {"id": "cloth.onepiece.oneshouldergown_gen01", "name": "One-shoulder gown", "tags": ["formal", "elegant"], "contexts": ["formal", "date"], "lean": 0.95, "weight": 0.5, "slot": "onepiece", "regions": ["UpperTorso", "LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR", "FootL", "FootR"], "colours": ["#1f8a5a"], "drape": false, "tucked": 0.155, "loosest": 0.01, "skirt": {"offset": 0.012, "smooth": 2, "straight": true}}
     ]
   },
   "outfit-60": {
@@ -516,23 +516,24 @@
     "image": "References/character-base-images/outfits/outfit-63.png",
     "prompt": "a sporty two-piece swimsuit in solid black: a high-neck crop swim top and swim briefs; barefoot",
     "garments": [
-      {"id": "cloth.top.cropswim_gen01", "name": "Crop swim top", "tags": ["swim"], "contexts": ["swim"], "lean": 0.9, "slot": "top", "regions": ["Neck", "UpperTorso"], "colours": ["#151515"], "waist": false, "drape": false, "loosest": 0.006, "tucked": 0.27},
+      {"id": "cloth.top.cropswim_gen01", "name": "Crop swim top", "tags": ["swim"], "contexts": ["swim"], "lean": 0.9, "slot": "top", "regions": ["Neck", "UpperTorso"], "colours": ["#151515"], "waist": false, "drape": false, "loosest": 0.006, "tucked": 0.27, "neck": 0.05},
       {"id": "cloth.bottom.swimbriefs_gen01", "name": "Swim briefs", "tags": ["swim"], "contexts": ["swim"], "lean": 0.9, "slot": "bottom", "regions": ["Pelvis", "LowerTorso"], "colours": ["#151515"], "waist": false, "ring": {"at": "top", "width": 0.02}, "loosest": 0.006}
     ]
   },
   "outfit-64": {
     "image": "References/character-base-images/outfits/outfit-64.png",
     "prompt": "a strapless bandeau one-piece swimsuit in solid red; barefoot",
+    "_generated": "The image came out with thin halter straps rather than a bandeau.",
     "garments": [
-      {"id": "cloth.onepiece.bandeauswimsuit_gen01", "name": "Bandeau swimsuit", "tags": ["swim"], "contexts": ["swim"], "lean": 0.95, "slot": "onepiece", "regions": ["UpperTorso", "LowerTorso", "Pelvis"], "colours": ["#c81e28"], "drape": false, "loosest": 0.006}
+      {"id": "cloth.onepiece.bandeauswimsuit_gen01", "name": "Plunge halter swimsuit", "tags": ["swim"], "contexts": ["swim"], "lean": 0.95, "slot": "onepiece", "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis"], "colours": ["#c81e28"], "drape": false, "loosest": 0.006, "halter": true, "straps": 0.014}
     ]
   },
   "outfit-65": {
     "image": "References/character-base-images/outfits/outfit-65.png",
     "prompt": "a fitted ribbed crop top in solid white and loose cargo trousers in solid khaki with side pockets; chunky white sneakers",
     "garments": [
-      {"id": "cloth.top.ribbedcrop_gen01", "name": "Ribbed crop top", "tags": ["casual", "street", "sporty"], "lean": 0.8, "slot": "top", "regions": ["Neck", "UpperTorso", "LowerTorso"], "colours": ["#f2f2f2"], "waist": false, "loosest": 0.006},
-      {"id": "cloth.bottom.cargo_gen01", "name": "Cargo trousers", "tags": ["casual", "street"], "lean": 0.3, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#b8a878"], "loosest": 0.06, "ease": 0.02, "hem": 0.8},
+      {"id": "cloth.top.ribbedcrop_gen01", "name": "Ribbed crop top", "tags": ["casual", "street", "sporty"], "lean": 0.8, "slot": "top", "regions": ["Neck", "UpperTorso", "LowerTorso"], "colours": ["#f2f2f2"], "waist": false, "loosest": 0.006, "fill": ["UpperTorso"], "neck": 0.05, "tucked": 0.24},
+      {"id": "cloth.bottom.cargo_gen01", "name": "Cargo trousers", "tags": ["casual", "street"], "lean": 0.3, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#b8a878"], "loosest": 0.06, "ease": 0.02, "hem": 0.8, "gather": 0.08},
       {"id": "cloth.shoes.chunky_gen01", "name": "Chunky sneakers", "tags": ["casual", "street", "sporty"], "lean": 0.4, "slot": "shoes", "regions": ["FootL", "FootR", "CalfL", "CalfR"], "colours": ["#f2f2f2"], "ease": 0.016, "top": [0.12, 0.08, 0.1], "sole": {"colour": "#e4e4e4", "height": 0.03}, "laces": {"colour": "#d0d0d0"}}
     ]
   }

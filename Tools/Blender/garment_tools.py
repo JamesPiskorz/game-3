@@ -1037,7 +1037,9 @@ def build_skirt(body, scan, garment, index, joints, name, top=None, hem=None, of
         return bt.unskin_positions(out.reshape(-1, 3), weights, names, skinning)
 
     rest = tube(bt.vertices(body))
-    faces = [(i * segments + k, i * segments + (k + 1) % segments, (i + 1) * segments + (k + 1) % segments, (i + 1) * segments + k)
+    # Wound to face outwards. Wound inwards, the skirt's front was drawn by the outline pass (cloth is double-sided)
+    # at its own depth, and came out in dark blotches and streaks wherever the outline won.
+    faces = [(i * segments + k, (i + 1) * segments + k, (i + 1) * segments + (k + 1) % segments, i * segments + (k + 1) % segments)
              for i in range(len(zs) - 1) for k in range(segments)]
     skirt_mesh = bpy.data.meshes.new(name + ".skirt")
     skirt_mesh.from_pydata([tuple(p) for p in rest], [], faces)
