@@ -1,0 +1,17 @@
+{
+  "kind": "part",
+  "slot": "hair.back",
+  "followsBodyShapes": true,
+  "springChains": [
+    "Hair.TailL.1",
+    "Hair.TailR.1"
+  ],
+  "tags": [
+    "tied",
+    "long"
+  ],
+  "style": "hair-twintails",
+  "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261021_155250_for_texture_textured.glb",
+  "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
+  "licence": "Tencent Hunyuan 3D 2.1 Community License"
+}

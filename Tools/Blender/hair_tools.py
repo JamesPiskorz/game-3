@@ -26,7 +26,7 @@ import prop_tools as pt
 HAIRS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "hairs.json")
 
 HEAD_OFFSET = 0.004   # metres hair stands off the scalp at least
-BODY_OFFSET = 0.022   # and off the torso: outside a coat (style bible §3: outer layers sit at 16 mm)
+BODY_OFFSET = 0.04   # and off the torso: outside a coat (style bible §3: 16 mm) and a loose top (2.5 cm of ease poked through)
 RING = (0.25, 0.272)  # the angel ring, as a share of the way from the top of the head to the bottom: a narrow sheen
 RING_TEETH, RING_DEPTH = 16, 0.032  # its lower edge zigzags down in this many teeth round the head, this deep
 
@@ -480,12 +480,16 @@ def round_normals(part, frame, strength=0.75, forward=0.45, up=0.35):
     normals = normals.reshape(-1, 3)
     facing = np.sign((normals * sphere).sum(axis=1))[:, None]  # the underside of a lock faces in: keep it so
     facing[facing == 0] = 1.0
+    # Only near the head: tails hanging half a metre below it flipped between facing towards and away from its centre
+    # in jagged bands.
+    near = np.clip((0.28 - np.linalg.norm(co - frame["centre"], axis=1)) / 0.1, 0.0, 1.0)[:, None]
+    strength = strength * near
     mixed = normals * (1.0 - strength) + sphere * facing * strength
     # Leaning towards the viewer, as the face's do, so the toon step leaves most of the hair lit and shades its far
     # side and underneath, as in the references (round alone, half the bob was in shade).
-    mixed[:, 1] -= forward * (facing[:, 0] > 0)
+    mixed[:, 1] -= forward * (facing[:, 0] > 0) * near[:, 0]
     # And up, towards the sun, so the back of the head isn't half in shade from behind.
-    mixed[:, 2] += up * (facing[:, 0] > 0)
+    mixed[:, 2] += up * (facing[:, 0] > 0) * near[:, 0]
     mixed /= np.maximum(np.linalg.norm(mixed, axis=1), 1e-9)[:, None]
     mesh.polygons.foreach_set("use_smooth", np.ones(len(mesh.polygons), dtype=bool))
     mesh.normals_split_custom_set_from_vertices([tuple(n) for n in mixed])
@@ -524,14 +528,80 @@ def smooth(part, iterations=2, factor=0.5):
     part.data.update()
 
 
-def split_front_back(hair, frame, front_name, back_name):
+def tube_tails(part, frame, beside, step=0.015, segments=20, sigma=1.5):
+    """
+    Rebuilds tails hanging beside the head (twin tails, more than ``beside`` metres out from its middle) from just under
+    their ties as closed tubes: each horizontal slice ``step`` metres deep is the convex hull of the scan's tail
+    there, the hulls blurred down the tail, closing to a point at its tip. The scan's tails were thin sheets torn
+    open where the texture shaded them out of the hair's colour. Returns the tubes made.
+    """
+    co = bt.vertices(part)
+    top = float(frame["crown"]) - 0.04  # from just under the ties: the scan tore the tails open right up to them
+    thetas = np.linspace(-np.pi, np.pi, segments, endpoint=False)
+    kernel = np.exp(-0.5 * (np.arange(-4, 5) / sigma) ** 2)
+    kernel /= kernel.sum()
+    bm = bmesh.new()
+    bm.from_mesh(part.data)
+    bm.verts.ensure_lookup_table()
+    made = 0
+    doomed = set()
+    for side in (1.0, -1.0):
+        tail = ((co[:, 0] - frame["centre"][0]) * side > beside) & (co[:, 2] < top)
+        if tail.sum() < 50:
+            continue
+        z = co[tail, 2]
+        zs = np.arange(top, float(z.min()) - 1e-6, -step)
+        centres, radii, keep = [], [], []
+        for zz in zs:
+            slab = tail & (np.abs(co[:, 2] - zz) < step)
+            if slab.sum() < 4:
+                continue
+            centre = co[slab, :2].mean(axis=0)
+            centres.append(centre)
+            radii.append(np.maximum(gt._hull_radii(co[slab, :2] - centre, thetas), 0.006))
+            keep.append(zz)
+        if len(keep) < 4:
+            continue
+        centres, radii, keep = np.array(centres), np.array(radii), np.array(keep)
+        padded = np.concatenate([np.repeat(radii[:1], 4, axis=0), radii, np.repeat(radii[-1:], 4, axis=0)], axis=0)
+        radii = np.apply_along_axis(lambda r: np.convolve(r, kernel, mode="valid"), 0, padded)
+        padded = np.concatenate([np.repeat(centres[:1], 4, axis=0), centres, np.repeat(centres[-1:], 4, axis=0)], axis=0)
+        centres = np.apply_along_axis(lambda r: np.convolve(r, kernel, mode="valid"), 0, padded)
+        taper = np.clip((keep - keep[-1]) / 0.06, 0.25, 1.0)  # the last 6 cm close to a point
+        rings = []
+        for c, r, zz, t in zip(centres, radii, keep, taper):
+            rings.append([bm.verts.new((c[0] + np.cos(a) * ri * t, c[1] + np.sin(a) * ri * t, zz)) for a, ri in zip(thetas, r)])
+        for upper, lower in zip(rings[:-1], rings[1:]):
+            for k in range(segments):
+                bm.faces.new((upper[k], upper[(k + 1) % segments], lower[(k + 1) % segments], lower[k]))
+        tip = bm.verts.new((centres[-1][0], centres[-1][1], keep[-1] - step * 0.5))
+        for k in range(segments):
+            bm.faces.new((rings[-1][k], rings[-1][(k + 1) % segments], tip))
+        doomed |= set(np.flatnonzero(tail & (co[:, 2] < top - step)).tolist())
+        made += 1
+    bm.verts.ensure_lookup_table()
+    gone = [f for f in bm.faces if all(v.index in doomed for v in f.verts)]
+    bmesh.ops.delete(bm, geom=gone, context="FACES")
+    bmesh.ops.delete(bm, geom=[v for v in bm.verts if not v.link_faces], context="VERTS")
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces[:])
+    bm.to_mesh(part.data)
+    bm.free()
+    part.data.update()
+    return made
+
+
+def split_front_back(hair, frame, front_name, back_name, beside=None):
     """
     The front piece (in front of the ears and below the top of the head: fringe and the locks framing the face) and
-    the back piece (the rest), cut apart along a smooth line so they meet without a gap when worn together.
+    the back piece (the rest), cut apart along a smooth line so they meet without a gap when worn together. With
+    ``beside``, hair more than that many metres out from the head's middle goes to the back piece too: twin tails hang
+    beside the head, and the cut at its middle sliced each one lengthwise between the pieces.
     """
     co = bt.vertices(hair)
     middle_y, hairline_z = frame["centre"][1], frame["crown"] - 0.045
     field = np.minimum(middle_y - co[:, 1], hairline_z - co[:, 2])
+    if beside is not None:
+        field = np.minimum(field, beside - np.abs(co[:, 0] - frame["centre"][0]))
     bm = bmesh.new()
     bm.from_mesh(hair.data)
     value = gt._cut_along(bm, np.where(np.abs(field) < 1e-5, 1e-5, field), 0.0)
@@ -648,14 +718,81 @@ def follow_head(part, joints, shoulder_z):
                 groups[name].add([i], float(weight), "REPLACE")
 
 
-def fit_chain(part, frame, name, count):
+def clear_torso_in_pose(part, body, joints, offset=BODY_OFFSET, step=0.02, angles=72):
     """
-    A spring chain along hair that hangs free behind the head (a ponytail): its centreline, from z-slices of the hair
-    out past the back of the skull, cut into ``count`` bones. Gives those vertices chain weights (fading to Head at
-    the root) and returns the bones as (name, parent, Blender position), or [] if nothing hangs there.
+    Hair below the neck pushed out, in the game's relaxed pose (body_tools.RELAXED), to ``offset`` metres outside the
+    torso's outline there (each horizontal slice's convex hull, arms left out), then taken back to the bind pose. Built
+    in the T-pose, long hair cleared the back by its offset; with the arms down the shoulder blades and a top's cloth
+    stretched across them came out through it. Every shape key alike, against the body in that shape. Returns the
+    vertices moved in the basis.
+    """
+    from garment_tools import _hull_radii, _key_positions
+    skinning = bt.pose_skinning(joints)
+    hair_w, hair_names = bt.weight_matrix(part)
+    body_w, body_names = bt.weight_matrix(body)
+    torso = body_w[:, [i for i, n in enumerate(body_names) if n in ("Hips", "Spine", "Chest", "Neck")]].sum(axis=1) > 0.3  # with the shoulders
+    neck = float(joints["Neck"][2])
+    thetas = np.linspace(-np.pi, np.pi, angles, endpoint=False)
+    body_keys = {k.name: k for k in body.data.shape_keys.key_blocks} if body.data.shape_keys else {}
+    mesh = part.data
+    keys = list(mesh.shape_keys.key_blocks) if mesh.shape_keys else [None]
+    moved_basis = 0
+    for key in keys:
+        rest = bt.vertices(part) if key is None else _key_positions(key)
+        body_rest = bt.vertices(body) if key is None or key.name not in body_keys else _key_positions(body_keys[key.name])
+        posed_body = bt.skin_positions(body_rest, body_w, body_names, skinning)[torso]
+        posed = bt.skin_positions(rest, hair_w, hair_names, skinning)
+        below = np.flatnonzero(posed[:, 2] < neck - 0.02)
+        if not len(below):
+            continue
+        zs = np.arange(float(posed_body[:, 2].min()), neck, step)
+        centres = np.full((len(zs), 2), np.nan)
+        hulls = np.zeros((len(zs), angles))
+        for i, z in enumerate(zs):
+            slab = np.abs(posed_body[:, 2] - z) < step
+            if slab.sum() >= 8:
+                centres[i] = posed_body[slab, :2].mean(axis=0)
+                hulls[i] = _hull_radii(posed_body[slab, :2] - centres[i], thetas)
+        good = ~np.isnan(centres[:, 0])
+        if good.sum() < 2:
+            continue
+        p = posed[below]
+        fi = np.clip(np.interp(p[:, 2], zs[good], np.arange(good.sum())), 0, good.sum() - 1.001)
+        i0, ti = fi.astype(int), fi - fi.astype(int)
+        c, h = centres[good], hulls[good]
+        centre = c[i0] * (1 - ti)[:, None] + c[i0 + 1] * ti[:, None]
+        d = p[:, :2] - centre
+        radius = np.linalg.norm(d, axis=1)
+        fj = ((np.arctan2(d[:, 1], d[:, 0]) + np.pi) / (2 * np.pi) * angles) % angles
+        j0, tj = fj.astype(int), fj - fj.astype(int)
+        j1 = (j0 + 1) % angles
+        hull = (h[i0, j0] * (1 - ti) * (1 - tj) + h[i0 + 1, j0] * ti * (1 - tj)
+                + h[i0, j1] * (1 - ti) * tj + h[i0 + 1, j1] * ti * tj)
+        inside = radius < hull + offset
+        p[inside, :2] = centre[inside] + d[inside] / np.maximum(radius[inside], 1e-9)[:, None] * (hull[inside] + offset)[:, None]
+        posed[below] = p
+        unposed = bt.unskin_positions(posed, hair_w, hair_names, skinning)
+        (mesh.vertices if key is None else key.data).foreach_set("co", unposed.ravel())
+        if key is None or key == mesh.shape_keys.reference_key:
+            moved_basis = int(inside.sum())
+    if mesh.shape_keys:
+        mesh.vertices.foreach_set("co", _key_positions(mesh.shape_keys.reference_key).ravel())
+    mesh.update()
+    return moved_basis
+
+
+def fit_chain(part, frame, name, count, side=0, beside=0.085):
+    """
+    A spring chain along hair that hangs free behind the head (a ponytail), or with ``side`` (1 left, -1 right) beside
+    it, more than ``beside`` metres out from the head's middle (a twin tail): its centreline, from z-slices of that
+    hair, cut into ``count`` bones. Gives those vertices chain weights (fading to Head at the root) and returns the
+    bones as (name, parent, Blender position), or [] if nothing hangs there.
     """
     co = bt.vertices(part)
-    tail = np.flatnonzero(co[:, 1] > frame["back"] + 0.01)
+    if side:
+        tail = np.flatnonzero((co[:, 0] - frame["centre"][0]) * side > beside)
+    else:
+        tail = np.flatnonzero(co[:, 1] > frame["back"] + 0.01)
     if len(tail) < 20:
         return []
     points = co[tail]

@@ -1246,13 +1246,14 @@ def fill_missing_weights(obj):
 AIM = {"UpperArm": "LowerArm", "LowerArm": "Hand", "Hand": None, "UpperLeg": "LowerLeg", "LowerLeg": "Foot"}
 
 
-def align_to_skeleton(obj, own, target):
+def align_to_skeleton(obj, own, target, off_arms=None):
     """
     Moves a scan so its joints land on ``target``'s: skin it to a rig at its own fitted joints, then give each bone
     the rigid motion taking its joint to the target joint and turning its limb to the target limb's direction, and
     blend those by the skin weights. Two bases then differ in their flesh, not in where their joints are, so one
     canonical skeleton serves both. Translating alone shears a limb instead of swinging it: a scan standing with one
-    foot 20 cm wider got a bent shin.
+    foot 20 cm wider got a bent shin. Vertices in ``off_arms`` (a per-vertex mask: a hairstyle) ignore the arm bones:
+    twin tails hanging beside the arms were swung out with them when the arms were raised to the T-pose.
     """
     import character_tools as ct
     from mathutils import Vector
@@ -1280,6 +1281,15 @@ def align_to_skeleton(obj, own, target):
         return np.array(a.rotation_difference(b).to_matrix())
 
     co = vertices(obj)
+    if off_arms is not None:
+        arms = [i for i, n in enumerate(names) if n.startswith(("UpperArm", "LowerArm", "Hand"))]
+        weights = weights.copy()
+        held = weights[off_arms]
+        held[:, arms] = 0.0
+        head = names.index("Head") if "Head" in names else None
+        if head is not None:
+            held[held.sum(axis=1) < 1e-6, head] = 1.0  # wholly on an arm: with the head instead
+        weights[off_arms] = held
     moved = np.zeros_like(co)
     for column, name in enumerate(names):
         w = weights[:, column]

@@ -1,0 +1,13 @@
+{
+  "kind": "part",
+  "slot": "hair.front",
+  "followsBodyShapes": true,
+  "springChains": [],
+  "tags": [
+    "parted"
+  ],
+  "style": "hair-wavy",
+  "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261021_190705_for_texture_textured.glb",
+  "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
+  "licence": "Tencent Hunyuan 3D 2.1 Community License"
+}

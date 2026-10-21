@@ -29,5 +29,43 @@
     "front": {"id": "hair.front.swept_gen01", "tags": ["swept"]},
     "back": {"id": "hair.back.ponytail_gen01", "tags": ["tied", "hat_ok"]},
     "chains": [{"name": "Hair.Ponytail", "bones": 3}]
+  },
+  "hair-twintails": {
+    "image": "References/character-base-images/hair/hair-twintails.png",
+    "prompt": "Her hair is in twin tails: two long pigtails tied high on each side of the head that hang down past her shoulders, with a straight fringe just above the eyebrows, in solid vivid emerald green.",
+    "colour": "#1f9e5a",
+    "blunt": true,
+    "squeeze": 0.4,
+    "tails_beside": 0.095,
+    "tubes": true,
+    "front": {"id": "hair.front.fringe_gen01", "tags": ["blunt"]},
+    "back": {"id": "hair.back.twintails_gen01", "tags": ["tied", "long"]},
+    "chains": [{"name": "Hair.TailL", "bones": 3, "side": 1}, {"name": "Hair.TailR", "bones": 3, "side": -1}]
+  },
+  "hair-pixie": {
+    "image": "References/character-base-images/hair/hair-pixie.png",
+    "prompt": "Her hair is a short tousled pixie cut, short at the back and sides with longer messy layers on top and a wispy side-swept fringe, in solid vivid emerald green.",
+    "colour": "#1f9e5a",
+    "thin": 0.7,
+    "front": {"id": "hair.front.wispy_gen01", "tags": ["swept"]},
+    "back": {"id": "hair.back.pixie_gen01", "tags": ["short", "hat_ok"]},
+    "chains": []
+  },
+  "hair-bun": {
+    "image": "References/character-base-images/hair/hair-bun.png",
+    "prompt": "Her hair is pulled up into a round high bun on top of the head, with a few loose strands framing the face and a short side-swept fringe, in solid vivid emerald green.",
+    "_generated": "The image came out with the bun on top of chin-length hair at the sides.",
+    "colour": "#1f9e5a",
+    "front": {"id": "hair.front.framing_gen01", "tags": ["swept"]},
+    "back": {"id": "hair.back.bun_gen01", "tags": ["tied", "short"]},
+    "chains": []
+  },
+  "hair-wavy": {
+    "image": "References/character-base-images/hair/hair-wavy.png",
+    "prompt": "Her hair is shoulder-length and softly wavy with a side parting, the ends resting on her shoulders, in solid vivid emerald green.",
+    "colour": "#1f9e5a",
+    "front": {"id": "hair.front.parted_gen01", "tags": ["parted"]},
+    "back": {"id": "hair.back.wavy_gen01", "tags": ["medium", "hat_ok"]},
+    "chains": []
   }
 }

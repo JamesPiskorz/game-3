@@ -61,7 +61,11 @@ def main():
           f"({areas[mask == 0].sum() / areas.sum():.0%} of the surface), skin cluster {skin_cluster}")
 
     scan_joints, _ = bt.fit_body_joints(scan, crotch=float(joints["UpperLeg.L"][2]) - 0.06)
-    bt.align_to_skeleton(scan, scan_joints, joints)
+    hair_vertices = np.zeros(len(scan.data.vertices), dtype=bool)  # the hair doesn't swing with the arms
+    for polygon in scan.data.polygons:
+        if mask[polygon.index] == 0:
+            hair_vertices[list(polygon.vertices)] = True
+    bt.align_to_skeleton(scan, scan_joints, joints, off_arms=hair_vertices)
     offset = ht.fit_head(scan, body, regions_of_body, skin_cluster, labels, neck_z, shoulder_z)
     print(f"[hair] head fitted to the canonical head: moved {np.linalg.norm(offset) * 100:.1f} cm {np.round(offset * 100, 1)}")
 
@@ -81,6 +85,8 @@ def main():
     pushed = ht.push_off_body(hair, body, neck_z, joints)
     chest = ht.off_the_chest(hair, body, regions_of_body, shoulder_z)
     scalp = ht.cover_scalp(hair, body, regions_of_body, frame, joints)
+    if spec.get("tubes"):  # twin tails: solid tubes rather than the scan's torn sheets
+        print(f"[hair] {ht.tube_tails(hair, frame, spec['tails_beside'])} tails rebuilt as tubes")
     print(f"[hair] filled {holes} holes, dropped {loose} loose pieces and {chest} faces on the chest, "
           f"fringe raised {lifted * 100:.1f} cm off the eyes, {scalp} faces of bare scalp covered")
     scan.hide_render = True
@@ -88,7 +94,7 @@ def main():
     tip_from, tip_to = float(frame["centre"][2]) - 0.02, float(co[:, 2].min())
     print(f"[hair] {pt.triangle_count(hair)} triangles, {pushed} vertex moves off the body; hangs to {tip_to:.2f} m")
 
-    front, back = ht.split_front_back(hair, frame, spec["front"]["id"], spec["back"]["id"])
+    front, back = ht.split_front_back(hair, frame, spec["front"]["id"], spec["back"]["id"], beside=spec.get("tails_beside"))
     bpy.data.objects.remove(hair)
     problems, made = [], []
     for piece, which in ((front, "front"), (back, "back")):
@@ -105,10 +111,11 @@ def main():
         ht.transfer_shapes(piece, body, regions_of_body)
         gt._push_out(piece, body, ht.HEAD_OFFSET)  # in every shape: the masculine chest is broader than the hair beside it
         ht.follow_head(piece, joints, shoulder_z)
+        cleared = ht.clear_torso_in_pose(piece, body, joints)  # off the back with the arms down, as worn
         chain_bones = []
-        if which == "back":
-            for chain in spec.get("chains", []):
-                chain_bones += ht.fit_chain(piece, frame, chain["name"], chain["bones"])
+        for chain in spec.get("chains", []):
+            if chain.get("piece", "back") == which:
+                chain_bones += ht.fit_chain(piece, frame, chain["name"], chain["bones"], side=chain.get("side", 0))
         gt.limit_influences(piece)
         for old in [o for o in bpy.context.scene.objects if o.type == "ARMATURE"]:
             bpy.data.objects.remove(old)
@@ -117,7 +124,7 @@ def main():
         found = ct.validate_part(piece, rig, body, max_triangles=12000)
         problems += found
         chains = sorted({n.rsplit(".", 1)[0] + ".1" for n, _, _ in chain_bones})
-        print(f"[hair] {piece.name}: {pt.triangle_count(piece)} triangles, highlight ring on {ring} faces"
+        print(f"[hair] {piece.name}: {pt.triangle_count(piece)} triangles, highlight ring on {ring} faces, {cleared} vertices off the back"
               + (f", spring chains {chains}" if chains else "") + (f", {len(found)} problems" if found else ""))
         if not found:
             ct.export_fbx(os.path.join(args.output, piece.name + ".fbx"), [rig, piece])
