@@ -1,0 +1,24 @@
+{
+  "kind": "part",
+  "slot": "bottom",
+  "covers": [],
+  "followsBodyShapes": true,
+  "regions": 1,
+  "outfit": "outfit-53",
+  "colours": [
+    "#151515"
+  ],
+  "name": "Running shorts",
+  "tags": [
+    "sporty"
+  ],
+  "lean": 0.6,
+  "contexts": [
+    "sport",
+    "casual"
+  ],
+  "weight": 1.0,
+  "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261022_041513_for_texture_textured.glb",
+  "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
+  "licence": "Tencent Hunyuan 3D 2.1 Community License"
+}

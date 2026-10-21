@@ -1964,8 +1964,16 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
         on_arm = body_weights[0][:, arm].sum(axis=1)
         lift = np.where(inside, np.maximum(lift, sleeve_ease * np.clip(on_arm, 0.0, 1.0)), lift)
     lift = _even_limb_slack(co, body_weights[0], body_weights[1], joints, lift, inside)
-    # Even, so the garment is as smooth as the body; blended only between parts that move together.
-    lift = np.maximum(_blur(_surface_neighbours(body, CLOSING, affinity=body_weights[0]), lift), offset)
+    # Even, so the garment is as smooth as the body; blended only between parts that move together. A flared garment
+    # is blurred over itself alone: blended with the bare skin's offset beyond its hem, wide trousers curled in at
+    # the ankle like harem trousers.
+    neighbours = _surface_neighbours(body, CLOSING, affinity=body_weights[0])
+    if flare[0] > 0 and inside.any():
+        share = _blur(neighbours, inside.astype(float))
+        lift = np.where(share > 1e-6, _blur(neighbours, np.where(inside, lift, 0.0)) / np.maximum(share, 1e-6), offset)
+        lift = np.maximum(np.where(inside, lift, offset), offset)
+    else:
+        lift = np.maximum(_blur(neighbours, lift), offset)
     if flare[0] > 0 and inside.any():  # flared at the hem (A-line shorts): more ease over the last stretch
         hem = float(co[inside, 2].min())
         t = np.clip((hem + flare[1] - co[:, 2]) / flare[1], 0.0, 1.0)
@@ -2039,7 +2047,8 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
     drape_below = float(joints["UpperArm.L"][2]) - 0.06 if straps > 0 else None
     # Tucked in: the last few centimetres stay close and undraped, so any bottom's waistband sits outside them.
     drape_above = float(joints["Hips"][2]) + tucked + 0.02 if tucked is not None else None
-    _shape_in_pose(part, body, body_weights, joints, offset, drape=drape, drape_below=drape_below, drape_above=drape_above)
+    _shape_in_pose(part, body, body_weights, joints, offset, drape=drape, drape_below=drape_below, drape_above=drape_above,
+                   open_hems=flare[0] > 0)
     if hem_drop is not None:
         _level_hems(part, float(joints["UpperLeg.L"][2]) - hem_drop / 2)
         _span_crotch(part, body, joints, offset)
@@ -2469,14 +2478,15 @@ def _draped(co, weights, names, joints, slope=DRAPE_SLOPE, angles=120, step=0.01
     return out
 
 
-def _shape_in_pose(part, body, body_weights, joints, offset, drape=False, drape_below=None, drape_above=None):
+def _shape_in_pose(part, body, body_weights, joints, offset, drape=False, drape_below=None, drape_above=None, open_hems=False):
     """
     The garment's final shape, made in the game's everyday pose (body_tools.RELAXED: arms down) and taken back to the
     bind pose: the body under it and the garment (the body's surface where it covers it, with its ``lift`` attribute)
     are both skinned into the pose; there the garment is lifted off the posed surface, its hollows bridged and any
     point inside the body pushed out; then each point is unskinned. Skinned back into that pose in the game, it is
     exactly that shape, instead of a T-pose fit bent by the bones (which bunched the shoulders). Every shape key the
-    same way, against the body in that shape.
+    same way, against the body in that shape. With ``open_hems`` (wide trousers), the legs' hems move out with the
+    cloth above them instead of being held where the lift put them, which curled them in like harem trousers.
     """
     mesh = part.data
     skinning = bt.pose_skinning(joints)
@@ -2501,6 +2511,8 @@ def _shape_in_pose(part, body, body_weights, joints, offset, drape=False, drape_
     keys = list(mesh.shape_keys.key_blocks) if mesh.shape_keys else [None]
     posed_basis = bt.skin_positions(bt.vertices(part), weights, names, skinning)
     neighbours = _surface_neighbours(part, BRIDGE, affinity=weights, co=posed_basis)
+    if open_hems:
+        edge = edge & (posed_basis[:, 2] > float(joints["UpperLeg.L"][2]) - 0.15)
     for key in keys:
         rest = bt.vertices(part) if key is None else _key_positions(key)
         body_rest = bt.vertices(body) if key is None or key.name not in body_keys else _key_positions(body_keys[key.name])

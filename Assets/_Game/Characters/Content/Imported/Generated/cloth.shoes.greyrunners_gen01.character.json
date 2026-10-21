@@ -1,0 +1,23 @@
+{
+  "kind": "part",
+  "slot": "shoes",
+  "covers": [],
+  "followsBodyShapes": true,
+  "regions": 3,
+  "outfit": "outfit-53",
+  "colours": [
+    "#8a8a90",
+    "#c0c0c8"
+  ],
+  "name": "Trail runners",
+  "tags": [
+    "sporty",
+    "casual"
+  ],
+  "lean": 0.2,
+  "contexts": [],
+  "weight": 1.0,
+  "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261022_041513_for_texture_textured.glb",
+  "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
+  "licence": "Tencent Hunyuan 3D 2.1 Community License"
+}
