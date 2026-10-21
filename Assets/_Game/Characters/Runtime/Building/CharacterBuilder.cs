@@ -146,15 +146,17 @@ namespace Game.Characters.Building
                 }
             }
 
+            // Frames before any bone moves (so each is its bone's rest) and after the shapes (which move the features).
+            var frames = offsets.Keys.ToDictionary(bone => bone, bone => BoneFrame.Of(character.transform, bone, character.Body));
             foreach (KeyValuePair<Transform, BoneOffset> pair in offsets)
-            {
-                RestPose.Pose pose = rest.Of(pair.Key);
-                pair.Key.localPosition = pose.Position + pair.Value.Position;
-                pair.Key.localRotation = pose.Rotation * Quaternion.Euler(pair.Value.Euler);
-                pair.Key.localScale = Vector3.Scale(pose.Scale, pair.Value.Scale);
-            }
+                frames[pair.Key].Move(pair.Key, rest.Of(pair.Key), pair.Value.Position, pair.Value.Euler, pair.Value.Scale);
         }
 
+        /// <summary>
+        /// Adds a slider's or style's effect on a bone. Effects are in the character's axes (x across, y up, z out of the
+        /// face), so they do the same on any rig whatever way its bones rest (<see cref="BoneFrame"/>), and the mirror
+        /// bone's is mirrored across the character's middle.
+        /// </summary>
         static void Accumulate(RestPose rest, Dictionary<Transform, BoneOffset> offsets, string boneName, SliderKind kind, Vector3 effect, bool mirrored)
         {
             Transform bone = rest.Find(boneName);

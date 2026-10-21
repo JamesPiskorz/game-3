@@ -27,15 +27,8 @@ namespace Game.Characters.Review
         public static void Render()
         {
             EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-            var body = AssetDatabase.LoadAssetAtPath<ModularCharacter>(BodyPath);
-            if (body == null)
-            {
-                Debug.LogError($"[Review] No generated body at {BodyPath}");
-                return;
-            }
-            CharacterContent content = Object.Instantiate(StandInContent.Load());
-            content.BodyPrefab = body;
-            content.Parts = new List<PartBinding>();
+            CharacterContent content = Content();
+            if (content == null) return;
 
             var generator = new CharacterGenerator(content.LoadCatalog());
             List<CharacterDna> people = new PopulationGenerator(generator).Generate(31, 6);
@@ -82,6 +75,24 @@ namespace Game.Characters.Review
             string path = GeneratedLineup.Folder + "/generated-body.png";
             Snapshot.Save(Snapshot.StackVertically(rows, Color.black), path);
             Debug.Log($"[Review] Wrote {path}: {people.Count} people on {BodyPath}; expressions " + string.Join(", ", FaceExpression.Poses.Keys));
+        }
+
+        /// <summary>
+        /// A copy of the content with only the body swapped for the generated one, and no parts (the stand-in parts
+        /// don't fit its skeleton). Null, with the reason logged, if there's no generated body.
+        /// </summary>
+        internal static CharacterContent Content()
+        {
+            var body = AssetDatabase.LoadAssetAtPath<ModularCharacter>(BodyPath);
+            if (body == null)
+            {
+                Debug.LogError($"[Review] No generated body at {BodyPath}");
+                return null;
+            }
+            CharacterContent content = Object.Instantiate(StandInContent.Load());
+            content.BodyPrefab = body;
+            content.Parts = new List<PartBinding>();
+            return content;
         }
     }
 }
