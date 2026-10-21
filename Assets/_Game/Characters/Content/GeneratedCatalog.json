@@ -505,6 +505,24 @@
       ]
     },
     {
+      "id": "cloth.bottom.boyshorts_gen01",
+      "name": "Boy shorts",
+      "slot": "bottom",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "sleep"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.9,
+      "regions": 1,
+      "patternable": false,
+      "contexts": [
+        "sleep"
+      ]
+    },
+    {
       "id": "cloth.bottom.briefs_gen01",
       "name": "Briefs",
       "slot": "bottom",
@@ -521,6 +539,23 @@
       "contexts": [
         "sleep"
       ]
+    },
+    {
+      "id": "cloth.bottom.cargo_gen01",
+      "name": "Cargo trousers",
+      "slot": "bottom",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "street"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.3,
+      "regions": 1,
+      "patternable": false,
+      "contexts": []
     },
     {
       "id": "cloth.bottom.chiffonmaxi_gen01",
@@ -558,6 +593,24 @@
       "excludesTags": [],
       "lean": -0.3,
       "regions": 2,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "cloth.bottom.culottes_gen01",
+      "name": "Culottes",
+      "slot": "bottom",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "bookish",
+        "elegant",
+        "casual"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.8,
+      "regions": 1,
       "patternable": false,
       "contexts": []
     },
@@ -920,6 +973,24 @@
       "contexts": []
     },
     {
+      "id": "cloth.bottom.swimbriefs_gen01",
+      "name": "Swim briefs",
+      "slot": "bottom",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "swim"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.9,
+      "regions": 1,
+      "patternable": false,
+      "contexts": [
+        "swim"
+      ]
+    },
+    {
       "id": "cloth.bottom.swimshorts_gen01",
       "name": "Swim shorts",
       "slot": "bottom",
@@ -1126,6 +1197,24 @@
       ]
     },
     {
+      "id": "cloth.onepiece.bandeauswimsuit_gen01",
+      "name": "Plunge halter swimsuit",
+      "slot": "onepiece",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "swim"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.95,
+      "regions": 1,
+      "patternable": false,
+      "contexts": [
+        "swim"
+      ]
+    },
+    {
       "id": "cloth.onepiece.cheongsam_gen01",
       "name": "Cheongsam",
       "slot": "onepiece",
@@ -1282,6 +1371,24 @@
       ]
     },
     {
+      "id": "cloth.onepiece.nightshirt_gen01",
+      "name": "Nightshirt",
+      "slot": "onepiece",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "sleep"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.6,
+      "regions": 1,
+      "patternable": false,
+      "contexts": [
+        "sleep"
+      ]
+    },
+    {
       "id": "cloth.onepiece.oneshoulder_gen01",
       "name": "One-shoulder swimsuit",
       "slot": "onepiece",
@@ -1297,6 +1404,26 @@
       "patternable": false,
       "contexts": [
         "swim"
+      ]
+    },
+    {
+      "id": "cloth.onepiece.oneshouldergown_gen01",
+      "name": "One-shoulder gown",
+      "slot": "onepiece",
+      "blocksSlots": [],
+      "weight": 0.5,
+      "tags": [
+        "formal",
+        "elegant"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.95,
+      "regions": 1,
+      "patternable": false,
+      "contexts": [
+        "formal",
+        "date"
       ]
     },
     {
@@ -1317,6 +1444,26 @@
       "patternable": false,
       "contexts": [
         "date",
+        "formal"
+      ]
+    },
+    {
+      "id": "cloth.onepiece.princessgown_gen01",
+      "name": "Princess gown",
+      "slot": "onepiece",
+      "blocksSlots": [],
+      "weight": 0.4,
+      "tags": [
+        "formal",
+        "elegant",
+        "cute"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.95,
+      "regions": 1,
+      "patternable": false,
+      "contexts": [
         "formal"
       ]
     },
@@ -1677,6 +1824,24 @@
         "casual",
         "street",
         "cute"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.4,
+      "regions": 3,
+      "patternable": false,
+      "contexts": []
+    },
+    {
+      "id": "cloth.shoes.chunky_gen01",
+      "name": "Chunky sneakers",
+      "slot": "shoes",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "street",
+        "sporty"
       ],
       "requiresTags": [],
       "excludesTags": [],
@@ -2168,6 +2333,24 @@
       ]
     },
     {
+      "id": "cloth.top.bralette_gen01",
+      "name": "Bralette",
+      "slot": "top",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "sleep"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.95,
+      "regions": 1,
+      "patternable": false,
+      "contexts": [
+        "sleep"
+      ]
+    },
+    {
       "id": "cloth.top.campshirt_gen01",
       "name": "Camp shirt",
       "slot": "top",
@@ -2243,6 +2426,24 @@
       "contexts": []
     },
     {
+      "id": "cloth.top.cropswim_gen01",
+      "name": "Crop swim top",
+      "slot": "top",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "swim"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.9,
+      "regions": 1,
+      "patternable": false,
+      "contexts": [
+        "swim"
+      ]
+    },
+    {
       "id": "cloth.top.croptank_gen01",
       "name": "Cropped tank",
       "slot": "top",
@@ -2281,6 +2482,24 @@
         "casual",
         "sport"
       ]
+    },
+    {
+      "id": "cloth.top.knitpolo_gen01",
+      "name": "Knit polo",
+      "slot": "top",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "bookish",
+        "elegant",
+        "casual"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.6,
+      "regions": 1,
+      "patternable": false,
+      "contexts": []
     },
     {
       "id": "cloth.top.oxford_gen01",
@@ -2354,6 +2573,24 @@
       "contexts": [
         "swim"
       ]
+    },
+    {
+      "id": "cloth.top.ribbedcrop_gen01",
+      "name": "Ribbed crop top",
+      "slot": "top",
+      "blocksSlots": [],
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "street",
+        "sporty"
+      ],
+      "requiresTags": [],
+      "excludesTags": [],
+      "lean": 0.8,
+      "regions": 1,
+      "patternable": false,
+      "contexts": []
     },
     {
       "id": "cloth.top.runningtop_gen01",

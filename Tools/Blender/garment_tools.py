@@ -1023,9 +1023,10 @@ def build_skirt(body, scan, garment, index, joints, name, top=None, hem=None, of
         elif straight:
             for k in range(segments):
                 r[hips_row:, k] = _upper_envelope(-zs[hips_row:], r[hips_row:, k])
-        if widest is not None:
+        if widest is not None:  # the cap is the skirt itself where it binds, an even cone off the hips
             t = np.clip((hip_z - zs) / max(hip_z - zs[-1], 1e-6), 0.0, 1.0)[:, None]
             r = np.minimum(r, body_r + offset + widest * t)
+            r[hips_row:] = np.maximum.accumulate(blur(blur(r))[hips_row:], axis=0)
         # Each ring convex: where a ring dipped in (between a leg's outline and the scan's), its sides turned away
         # from the camera, and the outline pass drew them through the front of the skirt as dark streaks.
         ring_xy = np.stack([np.cos(thetas), np.sin(thetas)], axis=1)

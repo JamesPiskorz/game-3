@@ -141,3 +141,20 @@ Milestones worth comparing: 20261019-2207 (baseline), 20261020-0113 (anime eyes,
 | 20261021-151442.png | (between commits) | Hood stood up 15%: a cowl round the neck |
 | 20261021-151805.png | 2542782 | Shorts' cuffs a darker khaki, a band like the target's; all outfits rebuilt |
 | 20261021-192808.png | 70a9358 | Four new hairstyles built (twin tails, pixie, bun, wavy; see Docs/review/generated-hair.png); long hair clears the back with the arms down |
+
+## 2026-10-22 overnight: women's clothes
+
+No progress shots this night: the work was new clothing, reviewed on the generated outfit sheets instead (`Docs/review/generated-outfits/<outfit>.png`, every top over every bottom in `Docs/review/generated-mix.png`, and the town dressed for each occasion in `Docs/review/generated-lineup-<occasion>.png`).
+
+| Commit | What changed |
+|---|---|
+| a240a67 | Outfits 09-25: lingerie, swimwear, sports bra, pyjamas, babydoll; cocktail, sun, slip, maxi, sweater and party dresses, cheongsam, ball gown, mermaid gown; skirts that hang straight, gowns aligned with hidden legs, straps cut along their edges, one region for one-colour garments, a formal occasion |
+| 3603098 | Outfits 26-41: bandeau bikini, jumpsuit, leather jacket, tennis set, robe, balconette set and stockings, swimsuits, puffer, peasant blouse, turtleneck with tights, scrubs, nightgown; men's swim and sleepwear |
+| d801635 | Halter necks (jumpsuit, swimsuit, party dress) |
+| c0afecb | Outfits 42-53: corset with chiffon maxi, cropped hoodie, wrap dress, puff dress, blazer suit, palazzos, tankini, lace bodysuit, one-shoulder swimsuit, velvet gown, shirt dress, running set; wide trouser hems stay open |
+| 304f757 | The town on generated content, every occasion |
+| 2a8e378 | Skirts wound outwards: the dark blotches on every dress are gone |
+| 0b24608 | Wedding gown (regenerated in a T-pose), playsuit, tracksuit, yoga set, sequin dress |
+| (this one) | Outfits 58-65: princess gown, one-shoulder gown, polo and culottes, bralette and boy shorts, nightshirt, swim crop set, halter swimsuit, crop top and cargos |
+
+128 garments from 65 outfits by the end: 61 women's outfits and 4 men's.

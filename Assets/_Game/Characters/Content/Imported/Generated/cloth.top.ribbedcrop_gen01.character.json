@@ -1,0 +1,25 @@
+{
+  "kind": "part",
+  "slot": "top",
+  "covers": [
+    "UpperTorso"
+  ],
+  "followsBodyShapes": true,
+  "regions": 1,
+  "outfit": "outfit-65",
+  "colours": [
+    "#f6f5f5"
+  ],
+  "name": "Ribbed crop top",
+  "tags": [
+    "casual",
+    "street",
+    "sporty"
+  ],
+  "lean": 0.8,
+  "contexts": [],
+  "weight": 1.0,
+  "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261022_060004_for_texture_textured.glb",
+  "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
+  "licence": "Tencent Hunyuan 3D 2.1 Community License"
+}

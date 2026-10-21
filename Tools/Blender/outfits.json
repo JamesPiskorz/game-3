@@ -478,7 +478,7 @@
     "prompt": "a strapless floor-length princess ball gown in solid pastel pink with a fitted bodice and a very full tulle skirt reaching the floor",
     "legs_hidden": true,
     "garments": [
-      {"id": "cloth.onepiece.princessgown_gen01", "name": "Princess gown", "tags": ["formal", "elegant", "cute"], "contexts": ["formal"], "lean": 0.95, "weight": 0.4, "slot": "onepiece", "regions": ["UpperTorso", "LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR", "FootL", "FootR"], "colours": ["#f0b8c8"], "drape": false, "tucked": 0.155, "loosest": 0.01, "skirt": {"offset": 0.03, "flare": true}}
+      {"id": "cloth.onepiece.princessgown_gen01", "name": "Princess gown", "tags": ["formal", "elegant", "cute"], "contexts": ["formal"], "lean": 0.95, "weight": 0.4, "slot": "onepiece", "regions": ["UpperTorso", "LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR", "FootL", "FootR"], "colours": ["#f0b8c8"], "drape": false, "tucked": 0.155, "loosest": 0.01, "skirt": {"offset": 0.03, "flare": true, "widest": 0.3}, "fill": ["UpperTorso", "LowerTorso"]}
     ]
   },
   "outfit-59": {
@@ -502,22 +502,22 @@
     "prompt": "a matching cotton underwear set in solid heather grey: a bralette and boy-short briefs; barefoot",
     "garments": [
       {"id": "cloth.top.bralette_gen01", "name": "Bralette", "tags": ["sleep"], "contexts": ["sleep"], "lean": 0.95, "slot": "top", "regions": ["UpperTorso"], "colours": ["#9a9aa0"], "waist": false, "drape": false, "straps": 0.016, "ring": {"at": "bottom", "width": 0.03, "back": "band"}, "loosest": 0.006},
-      {"id": "cloth.bottom.boyshorts_gen01", "name": "Boy shorts", "tags": ["sleep"], "contexts": ["sleep"], "lean": 0.9, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR"], "colours": ["#9a9aa0"], "waist": false, "loosest": 0.006, "hem": 0.06}
+      {"id": "cloth.bottom.boyshorts_gen01", "name": "Boy shorts", "tags": ["sleep"], "contexts": ["sleep"], "lean": 0.9, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR"], "colours": ["#9a9aa0"], "waist": false, "loosest": 0.006, "hem": 0.08, "main": "#9a9aa0"}
     ]
   },
   "outfit-62": {
     "image": "References/character-base-images/outfits/outfit-62.png",
     "prompt": "a long-sleeve button-up flannel nightshirt in solid red falling to mid-thigh; barefoot",
     "garments": [
-      {"id": "cloth.onepiece.nightshirt_gen01", "name": "Nightshirt", "tags": ["sleep"], "contexts": ["sleep"], "lean": 0.6, "slot": "onepiece", "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR", "ForearmL", "ForearmR", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#b02a30"], "drape": false, "sleeve_ease": 0.02, "tucked": 0.155, "loosest": 0.02, "skirt": {"offset": 0.015}}
+      {"id": "cloth.onepiece.nightshirt_gen01", "name": "Nightshirt", "tags": ["sleep"], "contexts": ["sleep"], "lean": 0.6, "slot": "onepiece", "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR", "ForearmL", "ForearmR", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#b02a30"], "drape": false, "sleeve_ease": 0.02, "tucked": 0.155, "loosest": 0.02, "skirt": {"offset": 0.012, "smooth": 2, "straight": true}}
     ]
   },
   "outfit-63": {
     "image": "References/character-base-images/outfits/outfit-63.png",
     "prompt": "a sporty two-piece swimsuit in solid black: a high-neck crop swim top and swim briefs; barefoot",
     "garments": [
-      {"id": "cloth.top.cropswim_gen01", "name": "Crop swim top", "tags": ["swim"], "contexts": ["swim"], "lean": 0.9, "slot": "top", "regions": ["Neck", "UpperTorso"], "colours": ["#151515"], "waist": false, "drape": false, "loosest": 0.006, "tucked": 0.27, "neck": 0.05},
-      {"id": "cloth.bottom.swimbriefs_gen01", "name": "Swim briefs", "tags": ["swim"], "contexts": ["swim"], "lean": 0.9, "slot": "bottom", "regions": ["Pelvis", "LowerTorso"], "colours": ["#151515"], "waist": false, "ring": {"at": "top", "width": 0.02}, "loosest": 0.006}
+      {"id": "cloth.top.cropswim_gen01", "name": "Crop swim top", "tags": ["swim"], "contexts": ["swim"], "lean": 0.9, "slot": "top", "regions": ["Neck", "UpperTorso"], "colours": ["#151515"], "waist": false, "drape": false, "loosest": 0.006, "tucked": 0.25, "neck": 0.05},
+      {"id": "cloth.bottom.swimbriefs_gen01", "name": "Swim briefs", "tags": ["swim"], "contexts": ["swim"], "lean": 0.9, "slot": "bottom", "regions": ["Pelvis"], "colours": ["#151515"], "waist": false, "ring": {"at": "top", "width": 0.02}, "loosest": 0.006}
     ]
   },
   "outfit-64": {
