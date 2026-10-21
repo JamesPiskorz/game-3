@@ -137,3 +137,6 @@ Milestones worth comparing: 20261019-2207 (baseline), 20261020-0113 (anime eyes,
 | 20261020-064605.png | (rejected) | Blunt cut 2 cm past the eyes (was 3): no gap by the fringe, but the side lock covers the eye's corner with holes |
 | 20261020-064659.png | (rejected) | Blunt cut 2.5 cm past the eyes: still a ragged side lock over the eye's corner; 3 cm kept |
 | 20261021-073540.png | 64b89f7 | Shorts in a greener khaki (outfits.json "main" overrides the image's colour, whose lighting turned khaki brown) |
+| 20261021-151246.png | (between commits) | Hood stood up 35% round the neck (towers over the shoulders); boot shafts wrapped in their slices' hull |
+| 20261021-151442.png | (between commits) | Hood stood up 15%: a cowl round the neck |
+| 20261021-151805.png | (next) | Shorts' cuffs a darker khaki, a band like the target's; all outfits rebuilt |

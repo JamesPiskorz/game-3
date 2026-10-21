@@ -871,6 +871,32 @@ def _relax_edges(part, iterations=8):
     part.data.update()
 
 
+def stand_hood(hood, joints, rise=0.35, out=0.0):
+    """
+    A hood (down) made to stand up round the neck like a cowl: stretched up from its base by ``rise`` of its height
+    and out from the neck by ``out``, more towards its top. The scan's hood lay flat on the shoulders as a thin ruff;
+    the image's stands up beside the neck with its lining showing at the front. The basis and every shape key alike.
+    """
+    mesh = hood.data
+    co = bt.vertices(hood)
+    base = float(co[:, 2].min())
+    height = max(float(co[:, 2].max()) - base, 1e-6)
+    axis = np.asarray(joints["Neck"], dtype=float)[:2]
+
+    def stood(points):
+        t = np.clip((points[:, 2] - base) / height, 0.0, 1.0)
+        points = points.copy()
+        points[:, 2] = base + (points[:, 2] - base) * (1.0 + rise)
+        points[:, :2] = axis + (points[:, :2] - axis) * (1.0 + out * t)[:, None]
+        return points
+
+    keys = list(mesh.shape_keys.key_blocks) if mesh.shape_keys else []
+    for key in keys:
+        key.data.foreach_set("co", stood(_key_positions(key)).ravel())
+    mesh.vertices.foreach_set("co", (stood(co) if not keys else _key_positions(mesh.shape_keys.reference_key)).ravel())
+    mesh.update()
+
+
 def join_into(part, extra):
     """Joins ``extra`` into ``part``: vertex groups, shape keys and attributes are matched by name."""
     bpy.ops.object.select_all(action="DESELECT")
@@ -1309,6 +1335,64 @@ def collar_normals(part, region, joints, strength=0.85, lift=1.0):
     mesh.normals_split_custom_set_from_vertices([tuple(n) for n in mixed])
     mesh.update()
     return int(collar.sum())
+
+
+def round_shaft(part, above=0.1, step=0.008, angles=72, sigma=2.0):
+    """
+    A boot's shaft wrapped like the stiff tube it is: above ``above`` metres off the floor, each horizontal slice of
+    each boot is pushed out to its convex hull round its centre, the hulls blurred up the shaft and round it, eased in
+    over the first 4 cm so the ankle blends. The scan's folds and the calf's shape showed through as lumps. Only
+    outwards. The basis and every shape key alike. Returns the largest move in metres.
+    """
+    mesh = part.data
+    co = bt.vertices(part)
+    floor = float(co[:, 2].min())
+    thetas = np.linspace(-np.pi, np.pi, angles, endpoint=False)
+    kernel = np.exp(-0.5 * (np.arange(-6, 7) / sigma) ** 2)
+    kernel /= kernel.sum()
+    shift = np.zeros_like(co)
+    for side in (1.0, -1.0):
+        shaft = np.nonzero((co[:, 0] * side > 0) & (co[:, 2] > floor + above))[0]
+        if len(shaft) < 30:
+            continue
+        z = co[shaft, 2]
+        zs = np.arange(z.min(), z.max() + step, step)
+        centres = np.zeros((len(zs), 2))
+        grid = np.zeros((len(zs), angles))
+        for i, zz in enumerate(zs):
+            slab = np.abs(z - zz) < step
+            centres[i] = co[shaft][slab][:, :2].mean(axis=0) if slab.sum() >= 3 else np.nan
+        good = ~np.isnan(centres[:, 0])
+        for k in (0, 1):
+            centres[:, k] = np.interp(zs, zs[good], centres[good, k])
+        for i, zz in enumerate(zs):
+            slab = np.abs(z - zz) < step
+            if slab.sum() >= 3:
+                grid[i] = _hull_radii(co[shaft][slab][:, :2] - centres[i], thetas)
+        padded = np.concatenate([np.repeat(grid[:1], 6, axis=0), grid, np.repeat(grid[-1:], 6, axis=0)], axis=0)
+        grid = np.apply_along_axis(lambda r: np.convolve(r, kernel, mode="valid"), 0, padded)
+        padded = np.concatenate([grid[:, -6:], grid, grid[:, :6]], axis=1)
+        grid = np.apply_along_axis(lambda r: np.convolve(r, kernel, mode="valid"), 1, padded)
+        fi = np.clip((z - zs[0]) / step, 0, len(zs) - 1.001)
+        i0, ti = fi.astype(int), fi - fi.astype(int)
+        i1 = np.minimum(i0 + 1, len(zs) - 1)
+        centre = centres[i0] * (1 - ti)[:, None] + centres[i1] * ti[:, None]
+        d = co[shaft, :2] - centre
+        radius = np.linalg.norm(d, axis=1)
+        fj = ((np.arctan2(d[:, 1], d[:, 0]) + np.pi) / (2 * np.pi) * angles) % angles
+        j0, tj = fj.astype(int), fj - fj.astype(int)
+        j1 = (j0 + 1) % angles
+        hull = (grid[i0, j0] * (1 - ti) * (1 - tj) + grid[i1, j0] * ti * (1 - tj)
+                + grid[i0, j1] * (1 - ti) * tj + grid[i1, j1] * ti * tj)
+        ease = np.clip((z - floor - above) / 0.04, 0.0, 1.0)
+        grow = np.maximum(hull - radius, 0.0) * ease
+        shift[shaft, :2] += d / np.maximum(radius, 1e-9)[:, None] * grow[:, None]
+    keys = list(mesh.shape_keys.key_blocks) if mesh.shape_keys else []
+    for key in keys:
+        key.data.foreach_set("co", (_key_positions(key) + shift).ravel())
+    mesh.vertices.foreach_set("co", (co + shift).ravel())
+    mesh.update()
+    return float(np.linalg.norm(shift, axis=1).max())
 
 
 def trim_region(part):

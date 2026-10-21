@@ -138,8 +138,13 @@ def main():
                 gt._push_out(part, body, offset)  # the toe box mustn't dip into the toes
                 gt.level_soles(part)
                 gt.round_shoe(part)  # over the lumps the toes pushed up
+                if spec.get("top") is not None and np.max(spec["top"]) > 0.2:  # a boot's shaft: a smooth tube
+                    print(f"[outfit] {spec['id']}: shaft wrapped (up to {gt.round_shaft(part) * 1000:.0f} mm)")
             hood = gt.extract_hood(scan, garment, index, body, joints, areas, spec["id"]) if spec.get("hood") else None
             if hood is not None:
+                if spec.get("hood_rise"):  # standing up round the neck, as the image's
+                    gt.stand_hood(hood, joints, rise=spec["hood_rise"])
+                    gt._push_out(hood, body, gt.LAYER_OFFSET["outer"])
                 gt.join_into(part, hood)
             # No decimation: it keeps the body's density, which is what makes it deform exactly like the skin under
             # it (and Blender can't decimate a mesh with shape keys). The validator still caps it at 12k triangles.
