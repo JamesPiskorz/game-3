@@ -178,7 +178,7 @@ def main():
                                          waist=None if spec.get("waist", True) is False else
                                                "bottom" if slot == "bottom" else "top" if slot == "top" and spec.get("tucked") is None else None,
                                          measure_from=masculine_body if outfit.get("body") == "masculine" else None,
-                                         ring=spec.get("ring"))
+                                         ring=spec.get("ring"), halter=spec.get("halter", False))
 
             if slot == "shoes":
                 gt.flare_sole(part)

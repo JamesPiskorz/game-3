@@ -1733,21 +1733,23 @@ def _scoop(body, joints, depth, straps, soft=0.015):
     return np.where(front & (co[:, 2] > neck[2] - depth - 0.02), np.clip((co[:, 2] - edge) / soft + 0.5, 0.0, 1.0), 0.0)
 
 
-def _straps(body, joints, width, soft=0.015):
+def _straps(body, joints, width, soft=0.015, halter=False):
     """
     Shoulder straps ``width`` metres wide as a coverage field: a band over each shoulder, centred halfway between the
     neck and the shoulder joint, from the chest up over the top of the shoulder and down the back. A tank top's straps
     are too thin for the scan to show (it painted them on the skin, or not at all).
     """
-    zone, side = _strap_lines(body, joints, width)
+    zone, side = _strap_lines(body, joints, width, halter)
     band = np.clip((width / 2 - np.abs(side)) / soft + 0.5, 0.0, 1.0)
     return np.where(zone, band, 0.0)
 
 
-def _strap_lines(body, joints, width):
+def _strap_lines(body, joints, width, halter=False):
     """
     Where shoulder straps ``width`` wide may lie (a mask of body vertices) and each vertex's signed distance across
     the strap's centre line (inside within half the width either way): the band's two edges are straight lines in it.
+    With ``halter``, the straps rise from the bust to the sides of the neck and a band of the same width goes round it,
+    with nothing over the shoulders or down the back.
     """
     co = bt.vertices(body)
     weights, names = bt.weight_matrix(body)
@@ -1764,7 +1766,17 @@ def _strap_lines(body, joints, width):
     # Up over the top of the shoulder (the highest torso skin under the strap), and no further up the neck.
     under = on_torso & (np.abs(side) < width)
     high = float(co[under, 2].max()) + 0.005 if under.any() else float(joints["Neck"][2]) + 0.03
-    return on_torso & (co[:, 2] > low) & (co[:, 2] < high), side
+    if not halter:
+        return on_torso & (co[:, 2] > low) & (co[:, 2] < high), side
+    collar = float(joints["Neck"][2]) + 0.03
+    neck_side = 0.035  # the strap's centre where it reaches the neck, from the middle
+    t = np.clip((posed[:, 2] - low) / max(collar - low, 1e-6), 0.0, 1.0)
+    front = posed[:, 1] < float(joints["Neck"][1])  # -y is the front
+    rising = on_torso & front & (co[:, 2] > low) & (co[:, 2] < collar)
+    on_neck = weights[:, [i for i, n in enumerate(names) if n == "Neck"]].sum(axis=1) > 0.5
+    ring = on_neck & (np.abs(co[:, 2] - collar) < width)
+    side = np.where(ring, co[:, 2] - collar, np.abs(posed[:, 0]) - (centre + (neck_side - centre) * t))
+    return rising | ring, side
 
 
 def _extended_down(body, covered, distance):
@@ -1794,7 +1806,7 @@ def _body_adjacency(mesh):
 def project_garment(body, scan, garment, labels, index, offset, name, joints, always=None, max_loose=0.06,
                     reach_out=0.15, reach_in=0.10, edge_blur=None, drape=False, extend_down=0.0, ease=0.0,
                     straps=0.0, scoop=0.0, gather=0.0, sleeve_ease=0.0, flare=(0.0, 0.0), top=None, neck=None, hem=None,
-                    tucked=None, waist=None, measure_from=None, ring=None):
+                    tucked=None, waist=None, measure_from=None, ring=None, halter=False):
     """
     A fitted garment built from the canonical body itself: the body's own surface over the regions the scan's
     garment covers, lifted by the layer offset, or by the scan's own looseness where it hangs further out (a flared
@@ -1933,7 +1945,7 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
         # snapping to the triangles' edges: a strap cut from a 4 mm ramp had sawtooth edges.
         covered = np.minimum(covered, np.clip((top_line - co_body[:, 2]) / 0.015 + 0.5, 0.0, 1.0))
         unstrapped = covered.copy()
-        covered = np.maximum(covered, _straps(body, joints, straps))
+        covered = np.maximum(covered, _straps(body, joints, straps, halter=halter))
     covered = np.where(np.abs(covered - 0.5) < 1e-4, 0.5 + 1e-4, covered)
     inside = covered > 0.5
     for _ in range(4):  # vertices the smoothing covered take a neighbour's colour
@@ -2003,7 +2015,7 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
     if straps > 0:
         # Each strap's edges cut along their own straight lines: cut as one band's level line, a strap about as narrow
         # as the body's triangles lost its middle wherever two vertices straddled it, and came out as a string of beads.
-        zone, side = _strap_lines(body, joints, straps)
+        zone, side = _strap_lines(body, joints, straps, halter)
         bm.verts.ensure_lookup_table()
         fields = {"cover": {v: unstrapped[v.index] for v in bm.verts},
                   "left": {v: side[v.index] + straps / 2 for v in bm.verts},
