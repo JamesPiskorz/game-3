@@ -1,0 +1,29 @@
+{
+  "kind": "part",
+  "slot": "onepiece",
+  "covers": [
+    "LowerTorso",
+    "Pelvis"
+  ],
+  "followsBodyShapes": true,
+  "regions": 1,
+  "outfit": "outfit-13",
+  "colours": [
+    "#2a4bb0"
+  ],
+  "name": "Ball gown",
+  "tags": [
+    "date",
+    "elegant",
+    "formal"
+  ],
+  "lean": 0.95,
+  "contexts": [
+    "date",
+    "formal"
+  ],
+  "weight": 0.4,
+  "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261021_230109_for_texture_textured.glb",
+  "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
+  "licence": "Tencent Hunyuan 3D 2.1 Community License"
+}

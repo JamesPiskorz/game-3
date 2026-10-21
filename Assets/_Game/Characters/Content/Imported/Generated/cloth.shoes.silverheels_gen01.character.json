@@ -1,0 +1,27 @@
+{
+  "kind": "part",
+  "slot": "shoes",
+  "covers": [],
+  "followsBodyShapes": true,
+  "regions": 2,
+  "outfit": "outfit-28",
+  "colours": [
+    "#c8c8d0",
+    "#808088"
+  ],
+  "name": "Silver heels",
+  "tags": [
+    "formal",
+    "date",
+    "elegant"
+  ],
+  "lean": 0.95,
+  "contexts": [
+    "date",
+    "formal"
+  ],
+  "weight": 1.0,
+  "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261022_014643_for_texture_textured.glb",
+  "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
+  "licence": "Tencent Hunyuan 3D 2.1 Community License"
+}

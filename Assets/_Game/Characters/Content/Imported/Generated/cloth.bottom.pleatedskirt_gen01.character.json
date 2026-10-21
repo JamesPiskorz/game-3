@@ -1,0 +1,27 @@
+{
+  "kind": "part",
+  "slot": "bottom",
+  "covers": [
+    "Pelvis"
+  ],
+  "followsBodyShapes": true,
+  "regions": 1,
+  "outfit": "outfit-15",
+  "colours": [
+    "#424785"
+  ],
+  "name": "Pleated skirt",
+  "tags": [
+    "cute",
+    "bookish",
+    "casual",
+    "date",
+    "bare_legs"
+  ],
+  "lean": 0.9,
+  "contexts": [],
+  "weight": 1.0,
+  "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261021_231122_for_texture_textured.glb",
+  "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
+  "licence": "Tencent Hunyuan 3D 2.1 Community License"
+}

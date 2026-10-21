@@ -1,0 +1,23 @@
+{
+  "kind": "part",
+  "slot": "top",
+  "covers": [],
+  "followsBodyShapes": true,
+  "regions": 1,
+  "outfit": "outfit-09",
+  "colours": [
+    "#f0b5c0"
+  ],
+  "name": "Lace bra",
+  "tags": [
+    "sleep"
+  ],
+  "lean": 0.9,
+  "contexts": [
+    "sleep"
+  ],
+  "weight": 1.0,
+  "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261021_224417_for_texture_textured.glb",
+  "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
+  "licence": "Tencent Hunyuan 3D 2.1 Community License"
+}

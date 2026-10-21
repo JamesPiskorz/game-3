@@ -18,7 +18,8 @@ namespace Game.Characters.Review
     /// <summary>
     /// The generated outfits (Tools/Blender/make_generated_outfit.py, decision 0008) on the generated body as the game
     /// builds it, each in the colours its image gave it: per outfit, people from very feminine to very masculine from
-    /// the front, then the two ends close up from four sides (Docs/review/generated-outfit.png).
+    /// the front, then the two ends close up from four sides (Docs/review/generated-outfits/&lt;outfit&gt;.png), and every
+    /// outfit's front row on one contact sheet (Docs/review/generated-outfit.png).
     /// Like <see cref="GeneratedBodySheet"/>, it uses a copy of the content with the body swapped, and catalog entries
     /// made from the parts' sidecars.
     /// Headless: unity run . -- -executeMethod Game.Characters.Review.GeneratedOutfitSheet.Render
@@ -67,9 +68,11 @@ namespace Game.Characters.Review
             LightingRig.Day.Apply(positions);
             Camera camera = Snapshot.CreateCamera(LightingRig.Day.Background, 26f);
 
-            var rows = new List<Texture2D>();
+            var fronts = new List<Texture2D>();
+            Directory.CreateDirectory(GeneratedLineup.Folder + "/generated-outfits");
             foreach (GeneratedOutfit outfit in outfits)
             {
+                var rows = new List<Texture2D>();
                 var characters = new List<ModularCharacter>();
                 for (int i = 0; i < Femininity.Length; i++)
                 {
@@ -96,11 +99,78 @@ namespace Game.Characters.Review
                 }
                 rows.Add(Snapshot.Grid(closeUps, 8, Color.black));
                 foreach (ModularCharacter character in characters) UnityEngine.Object.DestroyImmediate(character.gameObject);
+                Snapshot.Save(Snapshot.StackVertically(rows, Color.black), $"{GeneratedLineup.Folder}/generated-outfits/{outfit.Name}.png");
+                fronts.Add(rows[0]);
             }
+            // The contact sheet: every outfit's front row, two to a row.
             string path = GeneratedLineup.Folder + "/generated-outfit.png";
-            Snapshot.Save(Snapshot.StackVertically(rows, Color.black), path);
+            Snapshot.Save(Snapshot.Grid(fronts.Select(f => Resize(f, 770, 310)).ToList(), 2, Color.black), path);
             Debug.Log($"[Review] Wrote {path}: {Femininity.Length} people on {GeneratedBodySheet.BodyPath} in " +
                       string.Join("; ", outfits.Select(o => $"{o.Name} = {string.Join(" + ", o.Items.Select(i => i.ItemId))}")));
+        }
+
+        /// <summary>
+        /// One outfit large (the command line's -outfit, e.g. outfit-20), on the most feminine and the most masculine
+        /// body, front and three-quarter, written to Logs/closeup-&lt;outfit&gt;.png: for problems too small for the sheet.
+        /// Headless: unity run . -- -executeMethod Game.Characters.Review.GeneratedOutfitSheet.RenderCloseUp -outfit outfit-20
+        /// </summary>
+        public static void RenderCloseUp()
+        {
+            string[] args = Environment.GetCommandLineArgs();
+            int at = Array.IndexOf(args, "-outfit");
+            string name = at >= 0 && at + 1 < args.Length ? args[at + 1] : "outfit-01";
+            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            CharacterContent content = Content(out List<GeneratedOutfit> outfits, out _);
+            GeneratedOutfit outfit = outfits.FirstOrDefault(o => o.Name == name);
+            if (content == null || outfit == null)
+            {
+                Debug.LogError($"[Review] No generated outfit '{name}'.");
+                return;
+            }
+            var generator = new CharacterGenerator(StandInContent.Load().LoadCatalog());
+            var builder = new CharacterBuilder(content);
+            LightingRig.Day.Apply(new[] { Vector3.zero });
+            Camera camera = Snapshot.CreateCamera(LightingRig.Day.Background, 26f);
+            var shots = new List<Texture2D>();
+            foreach (int i in new[] { 0, Femininity.Length - 1 })
+            {
+                CharacterDna dna = generator.Generate((ulong)(41 + i), new GenerationRequest { Archetype = "casual", FemininityMin = Femininity[i], FemininityMax = Femininity[i] });
+                dna.Hair.PieceIds = new List<string>();
+                dna.Outfits = new List<OutfitDna> { new OutfitDna { Context = "casual", Items = outfit.Items } };
+                ModularCharacter character = builder.Build(dna, "casual");
+                Poses.Relaxed(character.transform);
+                foreach (SkinnedMeshRenderer renderer in character.GetComponentsInChildren<SkinnedMeshRenderer>())
+                {
+                    renderer.forceMatrixRecalculationPerRender = true;
+                    // -nooutline and -nobody take out the outlines or the body, to tell what shows through what.
+                    if (args.Contains("-nooutline"))
+                        foreach (Material material in renderer.materials) material.SetFloat("_OutlineWidth", 0f);
+                    if (args.Contains("-nobody") && renderer.sharedMesh != null && renderer.sharedMesh.name.Contains("GeneratedBody"))
+                        renderer.enabled = false;
+                }
+                Vector3 target = new Vector3(0f, 0.86f, 0f);
+                foreach (Vector3 direction in new[] { new Vector3(0f, 0.05f, 1f), new Vector3(0.7f, 0.05f, 0.7f) })
+                    shots.Add(Snapshot.Shoot(camera, target + direction.normalized * 3.6f, target, 600, 1250));
+                UnityEngine.Object.DestroyImmediate(character.gameObject);
+            }
+            string path = $"Logs/closeup-{name}.png";
+            Snapshot.Save(Snapshot.Grid(shots, 4, Color.black), path);
+            Debug.Log($"[Review] Wrote {path}");
+        }
+
+        static Texture2D Resize(Texture2D source, int width, int height)
+        {
+            RenderTexture target = RenderTexture.GetTemporary(width, height, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.sRGB);
+            source.filterMode = FilterMode.Bilinear;
+            Graphics.Blit(source, target);
+            RenderTexture previous = RenderTexture.active;
+            RenderTexture.active = target;
+            var resized = new Texture2D(width, height, TextureFormat.RGBA32, false);
+            resized.ReadPixels(new Rect(0, 0, width, height), 0, 0);
+            resized.Apply();
+            RenderTexture.active = previous;
+            RenderTexture.ReleaseTemporary(target);
+            return resized;
         }
 
         /// <summary>

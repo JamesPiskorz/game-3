@@ -1,0 +1,24 @@
+{
+  "kind": "part",
+  "slot": "shoes",
+  "covers": [],
+  "followsBodyShapes": true,
+  "regions": 3,
+  "outfit": "outfit-22",
+  "colours": [
+    "#f5f5f8",
+    "#d0d0d0"
+  ],
+  "name": "Canvas sneakers",
+  "tags": [
+    "casual",
+    "street",
+    "cute"
+  ],
+  "lean": 0.4,
+  "contexts": [],
+  "weight": 1.0,
+  "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261022_001900_for_texture_textured.glb",
+  "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
+  "licence": "Tencent Hunyuan 3D 2.1 Community License"
+}

@@ -1,0 +1,28 @@
+{
+  "kind": "part",
+  "slot": "shoes",
+  "covers": [],
+  "followsBodyShapes": true,
+  "regions": 3,
+  "outfit": "outfit-16",
+  "colours": [
+    "#151515",
+    "#151515",
+    "#0a0a0a"
+  ],
+  "name": "Strappy heels",
+  "tags": [
+    "date",
+    "elegant",
+    "formal"
+  ],
+  "lean": 0.95,
+  "contexts": [
+    "date",
+    "formal"
+  ],
+  "weight": 1.0,
+  "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261021_231602_for_texture_textured.glb",
+  "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
+  "licence": "Tencent Hunyuan 3D 2.1 Community License"
+}

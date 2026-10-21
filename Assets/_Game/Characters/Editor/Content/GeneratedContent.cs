@@ -19,8 +19,8 @@ namespace Game.Characters.ContentAuthoring
     /// from their sidecars (Tools/Blender/make_generated_outfit.py and make_generated_hair.py write each part's tags,
     /// lean, contexts and weight from outfits.json and hairs.json). What the generated parts can't serve is left out,
     /// so the catalog validates and generation never fails: an outfit context the parts can't dress (work clothes need
-    /// an elegant or bookish top, a rainy day a coat) and face marks that have no parts. It adds swimming and
-    /// sleepwear occasions (<see cref="ExtraContexts"/>). The town copes with a missing
+    /// an elegant or bookish top, a rainy day a coat) and face marks that have no parts. It adds swimming, sleepwear
+    /// and formal occasions (<see cref="ExtraContexts"/>), and uniforms to work clothes. The town copes with a missing
     /// context (<c>SimWorld.OutfitAt</c> falls back to everyday clothes). Which content the game uses is
     /// <see cref="GameContent"/>'s switch.
     /// Headless: unity run . -- -executeMethod Game.Characters.ContentAuthoring.GeneratedContent.Write
@@ -131,6 +131,7 @@ namespace Game.Characters.ContentAuthoring
             catalog.Parts.AddRange(parts);
             foreach (OutfitContext extra in ExtraContexts())
                 if (catalog.Context(extra.Id) == null) catalog.Contexts.Add(extra);
+            AddUniforms(catalog);
             catalog = CatalogSerializer.FromJson(CatalogSerializer.ToJson(catalog)); // re-indexes the parts
 
             bool Fits(PartEntry part, OutfitContext context) =>
@@ -163,13 +164,26 @@ namespace Game.Characters.ContentAuthoring
 
         /// <summary>
         /// Occasions only the generated parts dress: swimming and sleepwear, barefoot, from parts tagged "swim" and
-        /// "sleep" only, so swimwear and lingerie never turn up in everyday outfits. The town doesn't send anyone to
-        /// either yet; the creator lists them.
+        /// "sleep" only, so swimwear and lingerie never turn up in everyday outfits; and formal wear (gowns, a wedding
+        /// dress, a dress shirt and trousers), from parts tagged "formal". The town doesn't send anyone to them yet; the
+        /// creator lists them.
         /// </summary>
         static IEnumerable<OutfitContext> ExtraContexts()
         {
             yield return new OutfitContext { Id = "swim", Name = "Swimming", TagWeights = { ["swim"] = 1f }, OnlyTags = { "swim" }, Shoes = false };
             yield return new OutfitContext { Id = "sleep", Name = "Sleepwear", TagWeights = { ["sleep"] = 1f }, OnlyTags = { "sleep" }, Shoes = false };
+            yield return new OutfitContext { Id = "formal", Name = "Formal", TagWeights = { ["formal"] = 1f }, OnlyTags = { "formal" }, Shoes = true };
+        }
+
+        /// <summary>
+        /// Work clothes the stand-ins have no tag for: uniforms (scrubs) go to work alongside elegant and bookish clothes.
+        /// </summary>
+        static void AddUniforms(ContentCatalog catalog)
+        {
+            OutfitContext work = catalog.Context("work");
+            if (work == null || work.OnlyTags.Contains("uniform")) return;
+            work.OnlyTags.Add("uniform");
+            work.TagWeights["uniform"] = 1f;
         }
 
         /// <summary>

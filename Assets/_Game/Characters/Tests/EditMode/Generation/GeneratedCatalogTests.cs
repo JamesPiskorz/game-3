@@ -56,6 +56,27 @@ namespace Game.Characters.Tests.Generation
         }
 
         [Test]
+        public void GownsHaveAnOccasionAndUniformsGoToWork()
+        {
+            ContentCatalog catalog = Catalogs.Generated();
+            OutfitContext formal = catalog.Context("formal");
+            Assert.That(formal, Is.Not.Null, "Gowns and the wedding dress need an occasion to be worn to.");
+            Assert.That(formal.OnlyTags, Is.EquivalentTo(new[] { "formal" }));
+            Assert.That(catalog.Context("work").OnlyTags, Does.Contain("uniform"));
+
+            // Scrub trousers come only with a scrub top.
+            var generator = new CharacterGenerator(catalog);
+            for (ulong seed = 1; seed <= 300; seed++)
+                foreach (OutfitDna outfit in generator.Generate(seed * 104729, GenerationRequest.Any).Outfits)
+                {
+                    List<PartEntry> worn = outfit.Items.Select(i => catalog.Part(i.ItemId)).ToList();
+                    foreach (PartEntry part in worn)
+                        Assert.That(part.RequiresTags.All(tag => worn.Any(other => other != part && other.Tags.Contains(tag))),
+                                    $"{part.Id} in {outfit.Context}, seed {seed}");
+                }
+        }
+
+        [Test]
         public void ALookMadeWithTheStandInsLoads()
         {
             var standIn = new CharacterGenerator(Catalogs.Project());

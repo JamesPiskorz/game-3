@@ -117,6 +117,12 @@ def main():
     # its own crotch is hidden by the garments (loose shorts read as hips 10 cm low, stretching them up the torso), and
     # an oversized hoodie's sleeves hide its armpits.
     scan_joints, _ = bt.fit_body_joints(scan, crotch=float(joints["UpperLeg.L"][2]) - 0.06, shoulder=joints["UpperArm.L"])
+    if outfit.get("legs_hidden"):
+        # A floor-length gown hides the legs, so the joints found for them are guesses (feet 20 cm out), and their bones
+        # dragged the hem in. The legs take the canonical joints, moved with the hips: the skirt moves with the hips.
+        shift = scan_joints["Hips"] - joints["Hips"]
+        for n in [n for n in scan_joints if n.startswith(("UpperLeg", "LowerLeg", "Foot", "Toes"))]:
+            scan_joints[n] = joints[n] + shift
     moves = {n: float(np.linalg.norm(joints[n] - scan_joints[n])) for n in scan_joints}
     moved = max(moves.values())
     print("[outfit] joint moves (cm): " + ", ".join(f"{n} {d * 100:.0f}" for n, d in sorted(moves.items(), key=lambda m: -m[1])[:6]))
@@ -144,14 +150,20 @@ def main():
         if skirt_spec is not None and slot == "bottom":
             # A skirt on its own: one tube from the waist to the scan's hem (gt.build_skirt).
             part = gt.build_skirt(body, scan, garment, index, joints, spec["id"], hem=skirt_spec.get("hem"),
-                                  offset=skirt_spec.get("offset", 0.012), legs=skirt_spec.get("legs", 0.5))
+                                  offset=skirt_spec.get("offset", 0.012), legs=skirt_spec.get("legs", 0.5),
+                                  pleats=skirt_spec.get("pleats", 0), pleat_depth=skirt_spec.get("pleat_depth", 0.008),
+                                  flare=skirt_spec.get("flare", False), smooth=skirt_spec.get("smooth", 0),
+                                  straight=skirt_spec.get("straight", False))
             if part is None:
                 problems.append(f"{spec['id']}: the scan shows no skirt")
                 continue
             part.name = part.data.name = spec["id"]
         elif fitted:
             # Built from the body: its surface, weights and shapes, lifted by the offset or the scan's looseness.
-            always = np.isin(regions_of_body, ["FootL", "FootR"]) if slot == "shoes" else None
+            # Shoes enclose the whole foot, and tights ("fill") the regions they list, whatever the scan shows: under a
+            # skirt the scan shows the skirt.
+            filled = (["FootL", "FootR"] if slot == "shoes" else []) + spec.get("fill", [])
+            always = np.isin(regions_of_body, filled) if filled else None
             part, _ = gt.project_garment(body, scan, garment, labels, index, offset, spec["id"], joints, always,
                                          max_loose=spec.get("loosest", LOOSEST.get(slot, 0.06)),
                                          edge_blur=spec.get("edge_blur"), drape=spec.get("drape", slot in ("top", "outer")),
@@ -164,7 +176,8 @@ def main():
                                          # (not for swimwear, lingerie or crop tops: "waist": false)
                                          waist=None if spec.get("waist", True) is False else
                                                "bottom" if slot == "bottom" else "top" if slot == "top" and spec.get("tucked") is None else None,
-                                         measure_from=masculine_body if outfit.get("body") == "masculine" else None)
+                                         measure_from=masculine_body if outfit.get("body") == "masculine" else None,
+                                         ring=spec.get("ring"))
 
             if slot == "shoes":
                 gt.flare_sole(part)
@@ -175,7 +188,10 @@ def main():
                     print(f"[outfit] {spec['id']}: shaft wrapped (up to {gt.round_shaft(part) * 1000:.0f} mm)")
             if skirt_spec is not None:  # a dress: the fitted bodice, and a skirt from the waist down (gt.build_skirt)
                 skirt = gt.build_skirt(body, scan, garment, index, joints, spec["id"], hem=skirt_spec.get("hem"),
-                                       offset=skirt_spec.get("offset", 0.012), legs=skirt_spec.get("legs", 0.5))
+                                       offset=skirt_spec.get("offset", 0.012), legs=skirt_spec.get("legs", 0.5),
+                                  pleats=skirt_spec.get("pleats", 0), pleat_depth=skirt_spec.get("pleat_depth", 0.008),
+                                  flare=skirt_spec.get("flare", False), smooth=skirt_spec.get("smooth", 0),
+                                  straight=skirt_spec.get("straight", False))
                 if skirt is None:
                     problems.append(f"{spec['id']}: the scan shows no skirt")
                 else:
@@ -205,7 +221,10 @@ def main():
         cluster = gt.read_vertex_clusters(part)
         palette = gt.palette_clusters(outfit, lab, index, skin)
         own = {k: float(areas[(garment == index) & (labels == k)].sum()) for k in set(cluster.tolist()) if k in palette}
-        recolour = len(region_clusters := gt.recolour_mask(part, cluster, own, lab, sole=slot == "shoes"))
+        # One colour in the prompt, one region (unless "solid": false): the rest is shading and stray patches. Shoes
+        # keep their soles' region.
+        solid = spec.get("solid", len(spec.get("colours", [])) == 1 and slot != "shoes")
+        recolour = len(region_clusters := gt.recolour_mask(part, cluster, own, lab, sole=slot == "shoes", most=1 if solid else 3))
         band_colour = None
         if spec.get("band") and recolour < 3:  # a belt or waistband the scan has no colour block for
             gt.add_band(part, spec["band"]["width"], recolour)
@@ -251,12 +270,15 @@ def main():
             bpy.data.objects.remove(old)
         rig = ct.build_armature("Armature", skeleton)
         ct.bind_to_rig(part, rig)
-        covers = gt.covered_regions(part, body, regions_of_body, spec["regions"])
+        # A gown claims the feet only for its hem's scan faces (they lie nearest the feet): it never hides them.
+        hides = [r for r in spec["regions"] if slot in ("shoes", "legwear") or r not in ("FootL", "FootR")]
+        covers = gt.covered_regions(part, body, regions_of_body, hides,
+                                    skirt_axis=joints["Hips"] if skirt_spec is not None else None)
         # Fitted garments keep the body's density (they can't be decimated with shape keys); budgets are set aside
         # for now (decision 0008), so they get room for a hoodie that covers most of the body.
         # A long skirt hangs far from the bones it follows (a gown's hem is a metre below the hips).
         found = ct.validate_part(part, rig, body, max_triangles=20000 if fitted or skirt_spec is not None else 12000,
-                                 max_bone_distance=1.0 if skirt_spec is not None else ct.MAX_BONE_DISTANCE)
+                                 max_bone_distance=1.3 if skirt_spec is not None else ct.MAX_BONE_DISTANCE)
         problems += found
         print(f"[outfit] {spec['id']}: {pt.triangle_count(part)} triangles, {recolour} recolour regions, "
               + (f"settled with {pinned:.0%} pinned, " if pinned is not None else "") + f"covers {covers or 'nothing'}" + (f", {len(found)} problems" if found else ""))

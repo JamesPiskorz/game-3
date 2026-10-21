@@ -3,11 +3,10 @@
   "slot": "bottom",
   "covers": [],
   "followsBodyShapes": true,
-  "regions": 2,
+  "regions": 1,
   "outfit": "outfit-05",
   "colours": [
-    "#2e4a6e",
-    "#b18f76"
+    "#2e4a6e"
   ],
   "name": "Skinny jeans",
   "tags": [

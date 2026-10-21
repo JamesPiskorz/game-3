@@ -1,0 +1,31 @@
+{
+  "kind": "part",
+  "slot": "onepiece",
+  "covers": [
+    "UpperTorso",
+    "LowerTorso",
+    "Pelvis"
+  ],
+  "followsBodyShapes": true,
+  "regions": 2,
+  "outfit": "outfit-19",
+  "colours": [
+    "#b81d2a",
+    "#b57d74"
+  ],
+  "name": "Cheongsam",
+  "tags": [
+    "date",
+    "elegant",
+    "formal"
+  ],
+  "lean": 0.95,
+  "contexts": [
+    "date",
+    "formal"
+  ],
+  "weight": 1.0,
+  "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261022_000343_for_texture_textured.glb",
+  "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
+  "licence": "Tencent Hunyuan 3D 2.1 Community License"
+}

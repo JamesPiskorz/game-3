@@ -3,12 +3,10 @@
   "slot": "outer",
   "covers": [],
   "followsBodyShapes": true,
-  "regions": 3,
+  "regions": 1,
   "outfit": "outfit-08",
   "colours": [
-    "#f9a900",
-    "#be935a",
-    "#2e2936"
+    "#f9a900"
   ],
   "name": "Rain jacket",
   "tags": [
