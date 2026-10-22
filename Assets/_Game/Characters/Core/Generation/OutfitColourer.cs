@@ -98,10 +98,21 @@ namespace Game.Characters.Generation
                 // A print, at times, of those its fabric takes (only knitted ones on a knit, animal ones on leather);
                 // on shoes less often (leopard pumps are a statement).
                 List<PatternEntry> prints = catalog.PrintsFor(part, item.FabricId);
-                if (prints.Count > 0 && rng.Chance(archetype.PatternChance * (part.Slot == Slots.Shoes ? ShoePatternShare : 1f)))
+                // A graphic (a tee's chest print, a back print) is its own choice, not just one print among many: a
+                // casual top that can take one has one about GraphicChance of the time, on top of other prints.
+                List<PatternEntry> graphics = prints.Where(p => p.Placement == "chest" || p.Placement == "back").ToList();
+                bool graphic = graphics.Count > 0 && rng.Chance(GraphicChance);
+                if (graphic) prints = graphics;
+                if (prints.Count > 0 && (graphic || rng.Chance(archetype.PatternChance * (part.Slot == Slots.Shoes ? ShoePatternShare : 1f))))
                 {
-                    // By style and by occasion: clouds and bunnies on pyjamas, tropical leaves on swimwear, damask at a gala.
-                    PatternEntry pattern = rng.PickWeighted(prints, p => p.Weight * Affinity.Of(archetype, p.Tags) * Affinity.Of(context, p.Tags));
+                    // First what kind of print: one placed once (a graphic tee, a badge, a dye, a border) about as
+                    // often as PlacedPrintShare, whatever their number, so the many graphics don't each vanish among
+                    // the repeats; then which, by style and by occasion: clouds and bunnies on pyjamas, tropical leaves
+                    // on swimwear, damask at a gala.
+                    List<PatternEntry> placed = prints.Where(p => p.Placement != null).ToList();
+                    List<PatternEntry> repeats = prints.Where(p => p.Placement == null).ToList();
+                    List<PatternEntry> kind = placed.Count > 0 && (repeats.Count == 0 || rng.Chance(PlacedPrintShare)) ? placed : repeats;
+                    PatternEntry pattern = rng.PickWeighted(kind, p => p.Weight * Affinity.Of(archetype, p.Tags) * Affinity.Of(context, p.Tags));
                     if (pattern != null)
                     {
                         // In the trim, unless the item took its fabric's own colour and that matches the trim.
@@ -168,6 +179,12 @@ namespace Game.Characters.Generation
         /// <summary>How often pyjamas, swimwear and lingerie are a matching set, and other outfits with a printed top a co-ord.</summary>
         public const float SleepSetChance = 0.7f;
         public const float CoordChance = 0.08f;
+
+        /// <summary>How often a casual top or dress that can take a graphic (a chest or back print) wears one.</summary>
+        public const float GraphicChance = 0.12f;
+
+        /// <summary>How often a printed item that can take a placed print (a graphic, a badge, a dye, a border) gets one.</summary>
+        public const float PlacedPrintShare = 0.3f;
 
         /// <summary>How much less often than other items shoes are printed.</summary>
         public const float ShoePatternShare = 0.4f;
