@@ -139,23 +139,33 @@ namespace Game.Characters.Generation
         }
 
         /// <summary>
-        /// Pyjamas mostly, and now and then a casual co-ord, are a matching set: a printed top's print, and its colour
-        /// under it, carried on to the bottom, where the bottom takes that print.
+        /// Pyjamas, bikinis and lingerie mostly, and now and then a casual co-ord, are a matching set: the top's colour,
+        /// and its print where the bottom takes it, carried on to the bottom. Casual co-ords only when the top is
+        /// printed; pyjamas, swimwear and lingerie plain or printed.
         /// </summary>
         static void MatchSet(Pcg32 rng, ContentCatalog catalog, OutfitDna outfit)
         {
-            ItemDna top = outfit.Items.FirstOrDefault(i => catalog.Part(i.ItemId)?.Slot == Slots.Top && i.PatternId != null);
+            ItemDna top = outfit.Items.FirstOrDefault(i => catalog.Part(i.ItemId)?.Slot == Slots.Top);
             ItemDna bottom = outfit.Items.FirstOrDefault(i => catalog.Part(i.ItemId)?.Slot == Slots.Bottom);
-            if (top == null || bottom == null || bottom.RegionColors.Count == 0) return;
-            if (!rng.Chance(outfit.Context == "sleep" ? SleepSetChance : CoordChance)) return;
-            if (!catalog.TakesPrint(catalog.Part(bottom.ItemId), bottom.FabricId, top.PatternId)) return;
-            bottom.PatternId = top.PatternId;
-            bottom.PatternScale = top.PatternScale;
-            bottom.PatternColor = top.PatternColor;
+            if (top == null || bottom == null || top.RegionColors.Count == 0 || bottom.RegionColors.Count == 0) return;
+            bool sets = outfit.Context == "sleep" || outfit.Context == "swim";
+            if (!sets && top.PatternId == null) return;
+            if (!rng.Chance(sets ? SleepSetChance : CoordChance)) return;
+            if (top.PatternId != null && !catalog.TakesPrint(catalog.Part(bottom.ItemId), bottom.FabricId, top.PatternId))
+            {
+                if (!sets) return;
+                // A plain bottom in the top's colour still makes a set.
+            }
+            else
+            {
+                bottom.PatternId = top.PatternId;
+                bottom.PatternScale = top.PatternScale;
+                bottom.PatternColor = top.PatternColor;
+            }
             bottom.RegionColors[0] = top.RegionColors[0];
         }
 
-        /// <summary>How often pyjamas with a printed top are a matching set, and other outfits a co-ord.</summary>
+        /// <summary>How often pyjamas, swimwear and lingerie are a matching set, and other outfits with a printed top a co-ord.</summary>
         public const float SleepSetChance = 0.7f;
         public const float CoordChance = 0.08f;
 
