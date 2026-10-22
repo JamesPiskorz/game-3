@@ -39,6 +39,7 @@ namespace Game.Characters.Review
         {
             RenderFabrics();
             RenderPrints();
+            RenderLegwear();
         }
 
         public static void RenderFabrics()
@@ -97,6 +98,67 @@ namespace Game.Characters.Review
             string path = GeneratedLineup.Folder + "/generated-prints.png";
             Snapshot.Save(Snapshot.Grid(tiles, 8, Color.black), path);
             Debug.Log($"[Review] Wrote {path}: {catalog.Patterns.Count} prints, on a dress and a T-shirt in turn: {string.Join(", ", catalog.Patterns.Select(p => p.Id))}");
+        }
+
+        /// <summary>
+        /// Legwear and shoes in their fabrics and prints, which the torso close-ups don't show: tights and stockings in
+        /// each fabric they come in and a few prints, knee socks, and shoes in animal prints, each the legs from the
+        /// knee down under a short skirt, the shoes closer to the ground (Docs/review/generated-legwear.png).
+        /// </summary>
+        [MenuItem("Game/Characters/Review/Render Generated Legwear Sheet")]
+        public static void RenderLegwear()
+        {
+            Session(out CharacterContent content, out CharacterGenerator generator, out CharacterBuilder builder, out Camera camera);
+            if (content == null) return;
+            ContentCatalog catalog = content.LoadCatalog();
+            var skirt = Item("cloth.bottom.pencilskirt_gen01", new HsvColor(0.6f, 0.2f, 0.25f));
+            var top = Item(Shirt, new HsvColor(0f, 0f, 0.9f));
+            var tiles = new List<Texture2D>();
+            var labels = new List<string>();
+            void Shoot(string label, float height, params ItemDna[] items)
+            {
+                ModularCharacter character = Dressed(generator, builder, new[] { top, skirt }.Concat(items));
+                Vector3 target = new Vector3(0f, height, 0f);
+                tiles.Add(Snapshot.Shoot(camera, target + new Vector3(0.45f, 0.12f, 1.15f), target, 300, 300));
+                labels.Add(label);
+                UnityEngine.Object.DestroyImmediate(character.gameObject);
+            }
+            HsvColor black = new HsvColor(0f, 0f, 0.12f), red = new HsvColor(0.98f, 0.7f, 0.6f), tan = new HsvColor(0.08f, 0.45f, 0.75f);
+            var pumps = Item("cloth.shoes.pumps_gen01", black);
+            foreach (string legwear in new[] { "cloth.legwear.tights_gen01", "cloth.legwear.stockings_gen01", "cloth.legwear.socks_gen01" })
+            {
+                PartEntry part = catalog.Part(legwear);
+                if (part == null) continue;
+                foreach (string fabric in part.Fabrics)
+                {
+                    ItemDna item = Item(legwear, black);
+                    item.FabricId = fabric == part.Fabrics[0] ? null : fabric;
+                    Shoot($"{part.Name}: {fabric}", 0.32f, item, pumps);
+                }
+                foreach (string print in new[] { "pattern.dots_01", "pattern.stripes_01", "pattern.hearts_01", "pattern.argyle_01" })
+                {
+                    if (!catalog.TakesPrint(part, null, print)) continue;
+                    ItemDna item = Item(legwear, black);
+                    item.PatternId = print;
+                    item.PatternScale = 6f;
+                    item.PatternColor = red;
+                    Shoot($"{part.Name}: {print}", 0.32f, item, pumps);
+                }
+            }
+            foreach (string shoe in new[] { "cloth.shoes.pumps_gen01", "cloth.shoes.ankleboots_gen01", "cloth.shoes.loafers_gen01", "cloth.shoes.canvas_gen01" })
+                foreach (string print in new[] { "pattern.leopard_01", "pattern.zebra_01", "pattern.snakeskin_01", "pattern.dots_01" })
+                {
+                    PartEntry part = catalog.Part(shoe);
+                    if (part == null || !catalog.TakesPrint(part, null, print)) continue;
+                    ItemDna item = Item(shoe, tan);
+                    item.PatternId = print;
+                    item.PatternScale = 4f;
+                    item.PatternColor = black;
+                    Shoot($"{part.Name}: {print}", 0.1f, item);
+                }
+            string path = GeneratedLineup.Folder + "/generated-legwear.png";
+            Snapshot.Save(Snapshot.Grid(tiles, 8, Color.black), path);
+            Debug.Log($"[Review] Wrote {path}: {string.Join(", ", labels)}");
         }
 
         static void Session(out CharacterContent content, out CharacterGenerator generator, out CharacterBuilder builder, out Camera camera)
