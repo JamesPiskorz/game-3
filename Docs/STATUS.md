@@ -2,6 +2,11 @@
 
 _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full plan and [decisions/](decisions/) for why things are the way they are._
 
+## Generated characters (2026-10-22)
+
+- **The game runs on generated characters by default** ([decision 0008](decisions/0008-generated-characters.md)): a body, 22 hair pieces and 134 garments from 68 outfits made with Hunyuan3D, from everyday clothes to lingerie, swimwear and gowns. They have no accessories or face marks yet. **Game › Characters › Content › Game Uses Stand-in Content** switches back.
+- **Town:** nightwear at home at night, a beach (Sandpiper Cove) in swimwear, and an occasional formal event (the Harbour Gala at The Night Owl, a garden party in the park). `FlowCheck` and the player smoke test pass on it.
+
 ## New overnight (2026-10-18)
 
 - **Generation:** freckles, beauty marks, blush and lipstick by style; three textured hairstyles (afro, puffs, locs), a hime cut and twin braids; square and cat-eye glasses; a beret and a sun hat; a turtleneck, a sweater, a cardigan, a pinafore, wide trousers, loafers and high-tops, drop earrings, a flower pin, a choker and a backpack; argyle and chevron patterns; eye and brow styles pushed apart, fuller builds that read, catch-lights, an "angel ring" sheen on the hair; freckles run in families. New review sheets: face styles, body range, and hair over a coat.

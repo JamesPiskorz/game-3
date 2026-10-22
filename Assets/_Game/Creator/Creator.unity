@@ -451,7 +451,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4e6f564e81d0684cb2429c070cd0826, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Creator::Game.Creator.CreatorScreen
-  Content: {fileID: 11400000, guid: 1e65a4ac24582644183e7648e691b13a, type: 2}
+  Content: {fileID: 11400000, guid: d3108b29b059b814ebd4b983b7078e10, type: 2}
   Document: {fileID: 1657857667}
   Style: {fileID: 7433441132597879392, guid: d758ddbf04eb2ee40b4d9bd4133ea834, type: 3}
   PreviewCamera: {fileID: 1543486768}

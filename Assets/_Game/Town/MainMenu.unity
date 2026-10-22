@@ -149,11 +149,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c2831007adcd4b4a9f335470859d346, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Town::Game.Town.MainMenuScreen
-  Content: {fileID: 11400000, guid: 1e65a4ac24582644183e7648e691b13a, type: 2}
+  Content: {fileID: 11400000, guid: d3108b29b059b814ebd4b983b7078e10, type: 2}
   Document: {fileID: 75780115}
   Style: {fileID: 7433441132597879392, guid: 51ae9dbf5102b9643bfa9e63f9abd5b0, type: 3}
   Stage: {fileID: 1348973149}
   Cast: 5
+  SwapSeconds: 4.5
   CastSeed: 0
 --- !u!114 &75780115
 MonoBehaviour:

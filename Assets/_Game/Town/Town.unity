@@ -231,7 +231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57dccc4696e52c44ba0ced7317182440, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Town::Game.Town.TownStage
-  Content: {fileID: 11400000, guid: 1e65a4ac24582644183e7648e691b13a, type: 2}
+  Content: {fileID: 11400000, guid: d3108b29b059b814ebd4b983b7078e10, type: 2}
   PropMaterial: {fileID: 2100000, guid: 774bf75bf6b4e8f4fa6c2c1ec97bef47, type: 2}
   HighlightMaterial: {fileID: 2100000, guid: 3e8e775c46384f44b811255506c3e687, type: 2}
   Camera: {fileID: 101974767}
@@ -283,7 +283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 225aa41dcfbd5864ca935fc866f7306e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Game.Town::Game.Town.TownScreen
-  Content: {fileID: 11400000, guid: 1e65a4ac24582644183e7648e691b13a, type: 2}
+  Content: {fileID: 11400000, guid: d3108b29b059b814ebd4b983b7078e10, type: 2}
   SimCatalogJson: {fileID: 4900000, guid: b1f476bec09bb5a49b9b9a96c1939114, type: 3}
   Document: {fileID: 748772343}
   Style: {fileID: 7433441132597879392, guid: 51ae9dbf5102b9643bfa9e63f9abd5b0, type: 3}

@@ -8,8 +8,8 @@ using UnityEngine.SceneManagement;
 namespace Game.Characters.ContentAuthoring
 {
     /// <summary>
-    /// Which character content the game runs on: the stand-ins (Content/CharacterContent.asset, the default) or the
-    /// generated body and parts (<see cref="GeneratedContent"/>). The choice is kept in ProjectSettings/GameContent.txt,
+    /// Which character content the game runs on: the generated body and parts (<see cref="GeneratedContent"/>, the
+    /// default since 2026-10-22) or the stand-ins (Content/CharacterContent.asset). The choice is kept in ProjectSettings/GameContent.txt,
     /// so scene setup (TownSetup, CreatorSetup) keeps it, and switching repoints every CharacterContent field in the
     /// main menu, town and creator scenes. Tests and the review sheets don't depend on it.
     /// Headless: unity run . -- -executeMethod Game.Characters.ContentAuthoring.GameContent.UseGenerated (or UseStandIn)
