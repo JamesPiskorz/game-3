@@ -3675,6 +3675,66 @@
    "placement": null,
    "colourwayChance": 0.0,
    "colourways": []
+  },
+  {
+   "id": "pattern.artdeco_01",
+   "name": "Art deco fans",
+   "tags": [
+    "elegant",
+    "date",
+    "formal"
+   ],
+   "minScale": 3,
+   "maxScale": 5,
+   "weight": 0.5,
+   "accent": "gold",
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
+  },
+  {
+   "id": "pattern.bandana_01",
+   "name": "Bandana",
+   "tags": [
+    "street",
+    "casual"
+   ],
+   "minScale": 2.5,
+   "maxScale": 4,
+   "weight": 0.5,
+   "accent": null,
+   "placement": null,
+   "colourwayChance": 0.6,
+   "colourways": [
+    {
+     "base": "#b5232b",
+     "print": "#f4f1ea"
+    },
+    {
+     "base": "#22305a",
+     "print": "#f4f1ea"
+    },
+    {
+     "base": "#151515",
+     "print": "#f4f1ea"
+    }
+   ]
+  },
+  {
+   "id": "pattern.linebotanical_01",
+   "name": "Botanical sketches",
+   "tags": [
+    "bookish",
+    "elegant",
+    "casual"
+   ],
+   "minScale": 2.5,
+   "maxScale": 4,
+   "weight": 0.5,
+   "accent": null,
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   }
  ]
 }
