@@ -271,7 +271,7 @@ namespace Game.Characters.Building
                         PatternEntry print = _catalog.Patterns.FirstOrDefault(p => p.Id == item.PatternId);
                         HsvColor accent = print?.AccentFor(item.PatternColor.Value) ?? item.PatternColor.Value;
                         ToonMaterial.SetPattern(material, pattern, ToColour(item.PatternColor.Value), 1f, item.PatternScale, new Vector4(1f, 0f, 0f, 0f),
-                                                ToColour(accent), Placed(print?.Placement, entry, item.PatternScale));
+                                                ToColour(accent), Placed(print?.Placement, entry, item.PatternScale), RepeatOffset(dna.Seed, item.ItemId));
                     }
                     else
                         ToonMaterial.ClearPattern(material);
@@ -286,6 +286,17 @@ namespace Game.Characters.Building
         static readonly Vector4 Chest = new Vector4(0f, 1.24f, 0.1f, 0.1f);
         static readonly Vector4 Badge = new Vector4(0.085f, 1.3f, 0.055f, 0.055f);
         static readonly Vector4 Back = new Vector4(10f, 1.24f, 0.12f, 0.12f);
+
+        /// <summary>
+        /// Where a wearer's repeat of a print starts (in tiles), from their seed and the item: the same for that person
+        /// every time, different from the next person in the same print.
+        /// </summary>
+        static Vector2 RepeatOffset(ulong seed, string itemId)
+        {
+            ulong h = seed ^ 0x9E3779B97F4A7C15UL;
+            foreach (char c in itemId) h = (h ^ c) * 0x100000001B3UL;
+            return new Vector2((h & 0xFFFF) / 65536f, ((h >> 16) & 0xFFFF) / 65536f);
+        }
 
         // How much skin shows through an open fabric's holes on clothes that are usually lined.
         const float LinedSheer = 0.5f;

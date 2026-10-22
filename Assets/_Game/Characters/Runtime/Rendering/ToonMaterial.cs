@@ -16,6 +16,7 @@ namespace Game.Characters.Rendering
         public static readonly int PatternColor = Shader.PropertyToID("_PatternColor");
         public static readonly int PatternAccent = Shader.PropertyToID("_PatternAccent");
         public static readonly int PatternPlace = Shader.PropertyToID("_PatternPlace");
+        public static readonly int PatternOffset = Shader.PropertyToID("_PatternOffset");
         public static readonly int BaseMap = Shader.PropertyToID("_BaseMap");
         public static readonly int BaseGain = Shader.PropertyToID("_BaseGain");
         public static readonly int BaseLift = Shader.PropertyToID("_BaseLift");
@@ -66,11 +67,13 @@ namespace Game.Characters.Rendering
         /// <paramref name="colour"/>, its blue in <paramref name="accent"/> (its second colour; the print colour if none).
         /// <paramref name="placed"/> draws it once rather than repeated (xy its centre, zw its half size, in metres of the
         /// garment's fabric UVs; zero to repeat it; z negative for a band repeating round the garment at y, w either side).
+        /// <paramref name="offset"/> shifts a repeat (in tiles), so two people in one print don't wear it the same.
         /// </summary>
         public static void SetPattern(Material material, Texture pattern, Color colour, float strength, float tilesPerMetre, Vector4 regions,
-                                      Color? accent = null, Vector4 placed = default)
+                                      Color? accent = null, Vector4 placed = default, Vector2 offset = default)
         {
             material.SetTexture(PatternMap, pattern);
+            material.SetVector(PatternOffset, offset);
             material.SetVector(PatternPlace, placed);
             material.SetColor(PatternAccent, accent ?? colour);
             colour.a = pattern == null ? 0f : strength;

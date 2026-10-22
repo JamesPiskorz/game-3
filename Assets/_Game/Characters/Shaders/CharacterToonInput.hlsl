@@ -29,6 +29,7 @@ CBUFFER_START(UnityPerMaterial)
     half4 _PatternColor;
     half4 _PatternAccent;
     float4 _PatternPlace;
+    float4 _PatternOffset;
     half4 _PatternRegions;
     half _PatternScale;
     half _PatternInk;
@@ -104,7 +105,7 @@ void ToonAlbedo(float2 uv, float2 uv1, half4 vertexColour, out half3 lit, out ha
     half baseWeight = saturate(1.0 - mask.r - mask.g - mask.b - mask.a);
     half3 regions = _Color1.rgb * mask.r + _Color2.rgb * mask.g + _Color3.rgb * mask.b + _Color4.rgb * mask.a;
 
-    float2 printUV = uv * _PatternScale;
+    float2 printUV = uv * _PatternScale + _PatternOffset.xy; // each wearer's repeat starts somewhere else
     half placed = 1.0;
     if (_PatternPlace.z > 0.0)
     {
@@ -113,7 +114,7 @@ void ToonAlbedo(float2 uv, float2 uv1, half4 vertexColour, out half3 lit, out ha
     }
     else if (_PatternPlace.z < 0.0)
     {
-        printUV.y = (uv.y - _PatternPlace.y) / (2.0 * _PatternPlace.w) + 0.5;
+        printUV.y = (uv.y - _PatternPlace.y) / (2.0 * _PatternPlace.w) + 0.5; // a band: offset round the garment only
         placed = step(0.0, printUV.y) * step(printUV.y, 1.0);
     }
     half3 print = SAMPLE_TEXTURE2D(_PatternMap, sampler_PatternMap, printUV).rgb * placed;

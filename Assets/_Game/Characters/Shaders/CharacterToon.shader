@@ -37,6 +37,7 @@ Shader "Game/Characters/Toon"
         _PatternMap ("Pattern (R = colour, G = ink, B = second colour)", 2D) = "white" {}
         _PatternColor ("Pattern Colour (A = strength)", Color) = (1, 1, 1, 0)
         _PatternAccent ("Pattern Second Colour", Color) = (1, 1, 1, 1)
+        _PatternOffset ("Pattern Offset (xy, in tiles)", Vector) = (0, 0, 0, 0)
         _PatternPlace ("Pattern Placed Once (xy centre, zw half size, metres; z 0 repeats, z < 0 a band)", Vector) = (0, 0, 0, 0)
         _PatternRegions ("Pattern Regions (weights for regions 1-4)", Vector) = (1, 0, 0, 0)
         _PatternScale ("Pattern Tiles Per Metre", Float) = 8
