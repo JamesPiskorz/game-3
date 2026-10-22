@@ -9339,6 +9339,22 @@
       "placement": null,
       "colourways": [],
       "colourwayChance": 0.0
+    },
+    {
+      "id": "pattern.avocados_01",
+      "name": "Avocados",
+      "weight": 0.5,
+      "tags": [
+        "cute",
+        "casual",
+        "street"
+      ],
+      "minScale": 2.2,
+      "maxScale": 3.5,
+      "accent": "contrast",
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     }
   ],
   "fabrics": [

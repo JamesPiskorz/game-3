@@ -1937,6 +1937,23 @@ def dragonflies(size, seed):
     return _scatter_shapes(size, shapes, 9, seed, size / 4)
 
 
+def avocados(size, seed):
+    """Avocados: halves with a dark skin round the flesh and the stone in the second colour, tossed every which way."""
+    def avocado(px):
+        def pear(x, y, grow):
+            bottom = np.hypot(x, y - 0.2) - (0.5 + grow)
+            top = np.hypot(x, y + 0.32) - (0.32 + grow)
+            k = 0.25  # a smooth union: the top and bottom run into one pear
+            h = np.clip(0.5 + 0.5 * (top - bottom) / k, 0, 1)
+            return top * (1 - h) + bottom * h - k * h * (1 - h)
+        whole = _shape(px, lambda x, y: _soft(pear(x, y, 0.0), px / 2))
+        flesh = _shape(px, lambda x, y: _soft(pear(x, y, -0.08), px / 2))
+        stone = _shape(px, lambda x, y: _soft(np.hypot(x, y - 0.22) - 0.22, px / 2))
+        return np.clip(flesh - stone, 0, 1), np.clip(whole - flesh + _outline(stone, 1) * 0.4, 0, 1), stone
+    shapes = [avocado(int(size / 4.2)), avocado(int(size / 5))]
+    return _scatter_shapes(size, shapes, 10, seed, size / 4.2)
+
+
 # ------------------------------------------------------------------------------- placed prints: chest graphics
 
 def _graphic(size, layers):
@@ -3457,6 +3474,7 @@ PRINTS = {
     "celestial": (celestial, "Suns and moons", ["casual", "gothic", "date", "cute"], (2.5, 4), 0.7),
     "clovers": (clovers, "Clovers", ["cute", "casual"], (3, 5), 0.6),
     "dragonflies": (dragonflies, "Dragonflies", ["cute", "elegant", "casual", "date"], (2.5, 4), 0.6),
+    "avocados": (avocados, "Avocados", ["cute", "casual", "street"], (2.2, 3.5), 0.5),
 }
 
 # How each print's second colour (its accent: leaves, hearts, wafers) follows its first: "leaf" (a natural green),
@@ -3469,7 +3487,7 @@ ACCENT = {
     "cacti": "leaf", "medallions": "contrast", "groovy": "contrast", "flowerpower": "gold", "dinosaurs": "contrast",
     "sailboats": "contrast", "umbrellas": "contrast", "liberty": "contrast", "lavender": "leaf", "maple": "gold",
     "pineapples": "leaf", "memphis": "contrast", "regimental": "contrast", "quilt": "contrast", "graffiti": "contrast",
-    "swooshes": "contrast", "thorns": "leaf", "rosebuds": "leaf", "triplestripes": "contrast", "artdeco": "gold", "dogs": "contrast", "frogs": "leaf", "pearls": "light", "swallows": "light", "foulard": "contrast", "azulejo": "light", "whales": "light", "celestial": "gold", "dragonflies": "light",
+    "swooshes": "contrast", "thorns": "leaf", "rosebuds": "leaf", "triplestripes": "contrast", "artdeco": "gold", "dogs": "contrast", "frogs": "leaf", "pearls": "light", "swallows": "light", "foulard": "contrast", "azulejo": "light", "whales": "light", "celestial": "gold", "dragonflies": "light", "avocados": "contrast",
     "tee_heart": "light", "tee_star": "light", "tee_cherries": "leaf", "tee_rose": "leaf", "tee_sunset": "gold",
     "tee_cat": "light", "tee_rainbow": "contrast", "tee_planet": "contrast", "tee_daisy": "gold", "tee_mountains": "light",
     "tee_butterfly": "contrast", "tee_moon": "gold", "tee_crown": "contrast", "tee_ghost": "light", "tee_palm": "leaf",
