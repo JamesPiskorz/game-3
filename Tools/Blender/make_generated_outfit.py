@@ -171,14 +171,17 @@ def main():
                                          ease=spec.get("ease", 0.0), straps=spec.get("straps", 0.0),
                                          scoop=spec.get("scoop", 0.0), gather=spec.get("gather", 0.0),
                                          sleeve_ease=spec.get("sleeve_ease", 0.0), flare=tuple(spec.get("flare", (0.0, 0.0))),
-                                         top=spec.get("top"), neck=spec.get("neck"), hem=spec.get("hem"), tucked=spec.get("tucked"),
+                                         top=spec.get("top"), neck=spec.get("neck"), hem=spec.get("hem"),
+                                         # "length": a level hem at that height above the hip joint, not tucked in (a jacket)
+                                         tucked=spec.get("tucked", spec.get("length")), tuck_in=spec.get("tucked") is not None,
                                          extend_down=spec.get("overlap", OVERLAP) if slot == "top" and any(g["slot"] == "bottom" for g in outfit["garments"]) else 0.0,
                                          # one waist line for every outfit, so any top meets any bottom (gt.WAIST_ABOVE_HIPS)
                                          # (not for swimwear, lingerie or crop tops: "waist": false)
                                          waist=None if spec.get("waist", True) is False else
                                                "bottom" if slot == "bottom" else "top" if slot == "top" and spec.get("tucked") is None else None,
                                          measure_from=masculine_body if outfit.get("body") == "masculine" else None,
-                                         ring=spec.get("ring"), halter=spec.get("halter", False))
+                                         ring=spec.get("ring"), halter=spec.get("halter", False),
+                                         one_shoulder=spec.get("one_shoulder"))
 
             if slot == "shoes":
                 gt.flare_sole(part)
@@ -224,7 +227,9 @@ def main():
         own = {k: float(areas[(garment == index) & (labels == k)].sum()) for k in set(cluster.tolist()) if k in palette}
         # One colour in the prompt, one region (unless "solid": false): the rest is shading and stray patches. Shoes
         # keep their soles' region.
-        solid = spec.get("solid", len(spec.get("colours", [])) == 1 and slot != "shoes")
+        # A belt is drawn (spec "band"), not taken from the scan: its colour in "colours" is no block of its own
+        # (taken as one, the slim trousers' shading came out in belt-coloured patches down the legs).
+        solid = spec.get("solid", len(spec.get("colours", [])) - (1 if spec.get("band") else 0) <= 1 and slot != "shoes")
         recolour = len(region_clusters := gt.recolour_mask(part, cluster, own, lab, sole=slot == "shoes", most=1 if solid else 3))
         band_colour = None
         if spec.get("band") and recolour < 3:  # a belt or waistband the scan has no colour block for
@@ -263,6 +268,8 @@ def main():
             if spec.get("neck"):  # a crew neck's collar is a ring round the neck: shaded as one
                 print(f"[outfit] {spec['id']}: collar normals on {gt.collar_normals(part, trim, joints)} vertices")
         gt.limit_influences(part)  # vertices made by the cuts blend two vertices' weights
+        if fitted or skirt_spec is not None:
+            print(f"[outfit] {spec['id']}: {gt.keep_shapes_clear(part, body)} vertices kept clear of the body's shapes")
         planar_uvs(part)
         if not fitted and skirt_spec is None:
             ct.transfer_from_body(part, body, bones=gt.FOLLOWS[slot])

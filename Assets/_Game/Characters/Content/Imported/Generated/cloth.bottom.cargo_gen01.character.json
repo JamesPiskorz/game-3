@@ -1,7 +1,10 @@
 {
   "kind": "part",
   "slot": "bottom",
-  "covers": [],
+  "covers": [
+    "ThighL",
+    "ThighR"
+  ],
   "followsBodyShapes": true,
   "regions": 1,
   "outfit": "outfit-65",
@@ -11,7 +14,8 @@
   "name": "Cargo trousers",
   "tags": [
     "casual",
-    "street"
+    "street",
+    "long_legs"
   ],
   "lean": 0.3,
   "contexts": [],

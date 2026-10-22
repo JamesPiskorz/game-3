@@ -1,7 +1,10 @@
 {
   "kind": "part",
   "slot": "bottom",
-  "covers": [],
+  "covers": [
+    "ThighL",
+    "ThighR"
+  ],
   "followsBodyShapes": true,
   "regions": 1,
   "outfit": "outfit-17",
@@ -10,7 +13,8 @@
   ],
   "name": "Pyjama trousers",
   "tags": [
-    "sleep"
+    "sleep",
+    "long_legs"
   ],
   "lean": 0.3,
   "contexts": [

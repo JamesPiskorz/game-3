@@ -77,6 +77,22 @@ namespace Game.Characters.Tests.Generation
         }
 
         [Test]
+        public void TallBootsAreNeverWornWithAnkleLengthTrousers()
+        {
+            ContentCatalog catalog = Catalogs.Generated();
+            List<PartEntry> tall = catalog.PartsInSlot(Slots.Shoes).Where(p => p.ExcludesTags.Contains("long_legs")).ToList();
+            Assert.That(tall, Is.Not.Empty, "Tall boots exclude ankle-length trousers (their shafts came through them).");
+            var generator = new CharacterGenerator(catalog);
+            for (ulong seed = 1; seed <= 400; seed++)
+                foreach (OutfitDna outfit in generator.Generate(seed * 6151, GenerationRequest.Any).Outfits)
+                {
+                    List<PartEntry> worn = outfit.Items.Select(i => catalog.Part(i.ItemId)).ToList();
+                    if (worn.Any(tall.Contains))
+                        Assert.That(worn.SelectMany(p => p.Tags), Has.None.EqualTo("long_legs"), $"{outfit.Context}, seed {seed}");
+                }
+        }
+
+        [Test]
         public void ALookMadeWithTheStandInsLoads()
         {
             var standIn = new CharacterGenerator(Catalogs.Project());

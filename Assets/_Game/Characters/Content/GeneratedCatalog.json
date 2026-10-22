@@ -548,7 +548,8 @@
       "weight": 1.0,
       "tags": [
         "casual",
-        "street"
+        "street",
+        "long_legs"
       ],
       "requiresTags": [],
       "excludesTags": [],
@@ -587,7 +588,8 @@
         "bookish",
         "elegant",
         "street",
-        "date"
+        "date",
+        "long_legs"
       ],
       "requiresTags": [],
       "excludesTags": [],
@@ -715,7 +717,8 @@
       "tags": [
         "sporty",
         "street",
-        "casual"
+        "casual",
+        "long_legs"
       ],
       "requiresTags": [],
       "excludesTags": [],
@@ -736,7 +739,8 @@
       "tags": [
         "sporty",
         "casual",
-        "street"
+        "street",
+        "long_legs"
       ],
       "requiresTags": [],
       "excludesTags": [],
@@ -752,7 +756,8 @@
       "blocksSlots": [],
       "weight": 1.0,
       "tags": [
-        "sleep"
+        "sleep",
+        "long_legs"
       ],
       "requiresTags": [],
       "excludesTags": [],
@@ -772,7 +777,8 @@
       "tags": [
         "elegant",
         "date",
-        "casual"
+        "casual",
+        "long_legs"
       ],
       "requiresTags": [],
       "excludesTags": [],
@@ -845,7 +851,8 @@
       "blocksSlots": [],
       "weight": 1.0,
       "tags": [
-        "uniform"
+        "uniform",
+        "long_legs"
       ],
       "requiresTags": [
         "uniform"
@@ -889,7 +896,8 @@
       "tags": [
         "casual",
         "street",
-        "date"
+        "date",
+        "long_legs"
       ],
       "requiresTags": [],
       "excludesTags": [],
@@ -907,7 +915,8 @@
       "tags": [
         "elegant",
         "bookish",
-        "date"
+        "date",
+        "long_legs"
       ],
       "requiresTags": [],
       "excludesTags": [],
@@ -923,7 +932,8 @@
       "blocksSlots": [],
       "weight": 1.0,
       "tags": [
-        "sleep"
+        "sleep",
+        "long_legs"
       ],
       "requiresTags": [],
       "excludesTags": [],
@@ -944,7 +954,8 @@
         "casual",
         "elegant",
         "street",
-        "bookish"
+        "bookish",
+        "long_legs"
       ],
       "requiresTags": [],
       "excludesTags": [],
@@ -963,7 +974,8 @@
         "elegant",
         "bookish",
         "date",
-        "formal"
+        "formal",
+        "long_legs"
       ],
       "requiresTags": [],
       "excludesTags": [],
@@ -981,7 +993,8 @@
       "tags": [
         "elegant",
         "bookish",
-        "formal"
+        "formal",
+        "long_legs"
       ],
       "requiresTags": [],
       "excludesTags": [],
@@ -1073,7 +1086,8 @@
       "tags": [
         "sporty",
         "street",
-        "casual"
+        "casual",
+        "long_legs"
       ],
       "requiresTags": [],
       "excludesTags": [],
@@ -1109,7 +1123,8 @@
       "weight": 1.0,
       "tags": [
         "sporty",
-        "casual"
+        "casual",
+        "long_legs"
       ],
       "requiresTags": [],
       "excludesTags": [],
@@ -1303,7 +1318,8 @@
         "formal",
         "elegant",
         "date",
-        "gothic"
+        "gothic",
+        "long_legs"
       ],
       "requiresTags": [],
       "excludesTags": [],
@@ -2032,7 +2048,9 @@
         "date"
       ],
       "requiresTags": [],
-      "excludesTags": [],
+      "excludesTags": [
+        "long_legs"
+      ],
       "lean": 0.9,
       "regions": 2,
       "patternable": false,
@@ -2124,7 +2142,9 @@
         "street"
       ],
       "requiresTags": [],
-      "excludesTags": [],
+      "excludesTags": [
+        "long_legs"
+      ],
       "lean": 0.0,
       "regions": 2,
       "patternable": false,
@@ -2278,7 +2298,9 @@
         "date"
       ],
       "requiresTags": [],
-      "excludesTags": [],
+      "excludesTags": [
+        "long_legs"
+      ],
       "lean": 0.0,
       "regions": 3,
       "patternable": false,

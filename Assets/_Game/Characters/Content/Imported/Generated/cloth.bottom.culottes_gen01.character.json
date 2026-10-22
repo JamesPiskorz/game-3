@@ -1,7 +1,10 @@
 {
   "kind": "part",
   "slot": "bottom",
-  "covers": [],
+  "covers": [
+    "ThighL",
+    "ThighR"
+  ],
   "followsBodyShapes": true,
   "regions": 1,
   "outfit": "outfit-60",

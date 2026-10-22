@@ -1659,6 +1659,68 @@ def add_band(part, width, region, edge="top"):
     return len(banded)
 
 
+def keep_shapes_clear(part, body, reach=0.03):
+    """
+    Every body shape moves the garment out at least as far as it moves the skin under it, along the skin's normal,
+    so no blend of shapes brings the skin through: shaped shape by shape, the masculine calves came 2-4 mm through
+    tight leggings, the garment's masculine shape as little as 2 mm off the skin where its basis keeps 6. For the
+    garment's vertices within ``reach`` of the skin, in every shape the body has. Each is matched to the nearest skin
+    on its own main bone, facing its way: in the bind pose the inner calves touch, and matched to the other leg's
+    skin, cloth was pushed into its own leg. Returns how many vertices moved.
+    """
+    from mathutils.kdtree import KDTree
+    if not part.data.shape_keys or not body.data.shape_keys:
+        return 0
+    body_keys = {k.name: k for k in body.data.shape_keys.key_blocks}
+    b0 = _key_positions(body.data.shape_keys.reference_key)
+    normals = np.empty(len(b0) * 3)
+    body.data.vertices.foreach_get("normal", normals)
+    normals = normals.reshape(-1, 3)
+    body_w, body_names = bt.weight_matrix(body)
+    part_w, part_names = bt.weight_matrix(part)
+    body_bone = np.array(body_names)[body_w.argmax(axis=1)]
+    part_bone = np.array(part_names)[part_w.argmax(axis=1)] if len(part_names) else np.full(len(part.data.vertices), "")
+    trees = {}
+    for bone in set(body_bone.tolist()):
+        members = np.flatnonzero(body_bone == bone)
+        tree = KDTree(len(members))
+        for i in members:
+            tree.insert(b0[i], int(i))
+        tree.balance()
+        trees[bone] = tree
+    reference = part.data.shape_keys.reference_key
+    g0 = _key_positions(reference)
+    part_normals = np.empty(len(g0) * 3)
+    part.data.vertices.foreach_get("normal", part_normals)
+    part_normals = part_normals.reshape(-1, 3)
+    nearest = np.zeros(len(g0), dtype=np.int64)
+    near = np.zeros(len(g0), dtype=bool)
+    for j, p in enumerate(g0):
+        tree = trees.get(part_bone[j])
+        if tree is None:
+            continue
+        _, i, distance = tree.find(p)
+        nearest[j] = i
+        near[j] = distance < reach and np.dot(normals[i], part_normals[j]) > 0.5
+    n = normals[nearest]
+    moved = np.zeros(len(g0), dtype=bool)
+    for key in part.data.shape_keys.key_blocks:
+        if key == reference or key.name not in body_keys:
+            continue
+        bk = _key_positions(body_keys[key.name])
+        gk = _key_positions(key)
+        skin = np.einsum("ij,ij->i", bk[nearest] - b0[nearest], n)
+        cloth = np.einsum("ij,ij->i", gk - g0, n)
+        short = np.where(near, np.maximum(skin - cloth, 0.0), 0.0)
+        if not short.any():
+            continue
+        gk = gk + n * short[:, None]
+        key.data.foreach_set("co", gk.ravel())
+        moved |= short > 1e-5
+    part.data.update()
+    return int(moved.sum())
+
+
 def limit_influences(part):
     """At most character_tools.MAX_INFLUENCES bones per vertex, normalised, as the validator requires."""
     if not part.vertex_groups:  # not skinned yet (loose layers get their weights by transfer later)
@@ -1670,6 +1732,30 @@ def limit_influences(part):
     bpy.ops.object.vertex_group_normalize_all(group_select_mode="ALL", lock_active=False)
 
 
+# Full-length trousers measured 91-98% (the rest is the crease between the legs, under the crotch's cloth); the
+# longest shorts, 81%.
+THIGH_SHARE = 0.9
+
+
+def _covered_round(tree, point, normal, reach):
+    """
+    Whether skin whose own normal misses the garment is still covered: level rays turned 60 degrees either way about
+    the vertical both meet it. The inner thighs face each other (and masculine or heavier ones overlap in the relaxed
+    pose, so trousers can't stay outside both and the skin came through); a garment spans them in front and behind.
+    Skin below a hem doesn't count: level rays there pass under it.
+    """
+    flat = np.array([normal[0], normal[1], 0.0])
+    if np.linalg.norm(flat) < 1e-6:
+        return False
+    flat /= np.linalg.norm(flat)
+    for angle in (np.pi / 3, -np.pi / 3):
+        c, s = np.cos(angle), np.sin(angle)
+        ray = Vector((flat[0] * c - flat[1] * s, flat[0] * s + flat[1] * c, 0.0))
+        if tree.ray_cast(Vector(tuple(point)), ray, reach)[0] is None:
+            return False
+    return True
+
+
 def covered_regions(part, body, regions, candidates, reach=0.08, share=0.995, skirt_axis=None):
     """
     Body regions the part hides: those (among ``candidates``) where at least ``share`` of the skin, looking out along
@@ -1678,7 +1764,8 @@ def covered_regions(part, body, regions, candidates, reach=0.08, share=0.995, sk
     A skirt hangs clear of the legs, so with ``skirt_axis`` (a point on its vertical axis) the trunk's skin also counts
     as covered where it meets the part looking straight out from that axis, within a skirt's reach: looking along the
     normal, the crotch never met the tube, and the uncovered pelvis's outline showed through a sundress as black
-    blotches. Not the legs: a knee striding through a skirt's front would vanish.
+    blotches. Not the legs: a knee striding through a skirt's front would vanish. A thigh in trousers also counts skin
+    found looking round the leg (_covered_round), with the crease between the legs aside (``THIGH_SHARE``).
     """
     tree = BVHTree.FromPolygons([tuple(v) for v in bt.vertices(part)], [tuple(p.vertices) for p in part.data.polygons])
     co = bt.vertices(body)
@@ -1686,8 +1773,10 @@ def covered_regions(part, body, regions, candidates, reach=0.08, share=0.995, sk
     body.data.vertices.foreach_get("normal", normals)
     normals = normals.reshape(-1, 3)
 
-    def meets(i, trunk):
+    def meets(i, trunk, thigh):
         if tree.ray_cast(Vector(tuple(co[i])), Vector(tuple(normals[i])), reach)[0] is not None:
+            return True
+        if thigh and _covered_round(tree, co[i], normals[i], reach):
             return True
         if skirt_axis is None or not trunk:
             return False
@@ -1701,8 +1790,13 @@ def covered_regions(part, body, regions, candidates, reach=0.08, share=0.995, sk
         members = np.flatnonzero(regions == region)
         if not len(members):
             continue
-        hits = sum(1 for i in members if meets(i, region in ("LowerTorso", "Pelvis")))
-        if hits >= share * len(members):
+        thigh = region.startswith("Thigh") and skirt_axis is None
+        hits = sum(1 for i in members if meets(i, region in ("LowerTorso", "Pelvis"), thigh))
+        # A thigh in trousers counts as covered with the crease between the legs aside (THIGH_SHARE): that skin
+        # faces into the crease, where no ray finds the cloth spanning below. Not under a skirt (a striding thigh
+        # must show), nor a calf (bare ankle below a hem would vanish).
+        needed = THIGH_SHARE if thigh else share
+        if hits >= needed * len(members):
             covered.append(region)
     return covered
 
@@ -1740,24 +1834,32 @@ def _scoop(body, joints, depth, straps, soft=0.015):
     return np.where(front & (co[:, 2] > neck[2] - depth - 0.02), np.clip((co[:, 2] - edge) / soft + 0.5, 0.0, 1.0), 0.0)
 
 
-def _straps(body, joints, width, soft=0.015, halter=False):
+def _straps(body, joints, width, soft=0.015, halter=False, one_shoulder=None):
     """
     Shoulder straps ``width`` metres wide as a coverage field: a band over each shoulder, centred halfway between the
     neck and the shoulder joint, from the chest up over the top of the shoulder and down the back. A tank top's straps
     are too thin for the scan to show (it painted them on the skin, or not at all).
     """
-    zone, side = _strap_lines(body, joints, width, halter)
+    zone, side = _strap_lines(body, joints, width, halter, one_shoulder)
     band = np.clip((width / 2 - np.abs(side)) / soft + 0.5, 0.0, 1.0)
     return np.where(zone, band, 0.0)
 
 
-def _strap_lines(body, joints, width, halter=False):
+def _strap_lines(body, joints, width, halter=False, one_shoulder=None):
     """
     Where shoulder straps ``width`` wide may lie (a mask of body vertices) and each vertex's signed distance across
     the strap's centre line (inside within half the width either way): the band's two edges are straight lines in it.
     With ``halter``, the straps rise from the bust to the sides of the neck and a band of the same width goes round it,
-    with nothing over the shoulders or down the back.
+    with nothing over the shoulders or down the back. With ``one_shoulder`` ("left" or "right"), only that strap.
     """
+    zone, side = _both_strap_lines(body, joints, width, halter)
+    if one_shoulder is not None:  # the character's left is +x
+        co = bt.vertices(body)
+        zone = zone & ((co[:, 0] > 0) if one_shoulder == "left" else (co[:, 0] < 0))
+    return zone, side
+
+
+def _both_strap_lines(body, joints, width, halter):
     co = bt.vertices(body)
     weights, names = bt.weight_matrix(body)
     torso = [i for i, n in enumerate(names) if n in ("Chest", "Spine", "Neck")]
@@ -1813,7 +1915,7 @@ def _body_adjacency(mesh):
 def project_garment(body, scan, garment, labels, index, offset, name, joints, always=None, max_loose=0.06,
                     reach_out=0.15, reach_in=0.10, edge_blur=None, drape=False, extend_down=0.0, ease=0.0,
                     straps=0.0, scoop=0.0, gather=0.0, sleeve_ease=0.0, flare=(0.0, 0.0), top=None, neck=None, hem=None,
-                    tucked=None, waist=None, measure_from=None, ring=None, halter=False):
+                    tucked=None, waist=None, measure_from=None, ring=None, halter=False, tuck_in=True, one_shoulder=None):
     """
     A fitted garment built from the canonical body itself: the body's own surface over the regions the scan's
     garment covers, lifted by the layer offset, or by the scan's own looseness where it hangs further out (a flared
@@ -1952,7 +2054,7 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
         # snapping to the triangles' edges: a strap cut from a 4 mm ramp had sawtooth edges.
         covered = np.minimum(covered, np.clip((top_line - co_body[:, 2]) / 0.015 + 0.5, 0.0, 1.0))
         unstrapped = covered.copy()
-        covered = np.maximum(covered, _straps(body, joints, straps, halter=halter))
+        covered = np.maximum(covered, _straps(body, joints, straps, halter=halter, one_shoulder=one_shoulder))
     covered = np.where(np.abs(covered - 0.5) < 1e-4, 0.5 + 1e-4, covered)
     inside = covered > 0.5
     for _ in range(4):  # vertices the smoothing covered take a neighbour's colour
@@ -1988,6 +2090,14 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
         outward = np.clip(0.4 + normals[:, 0] * np.sign(co[:, 0]), 0.0, 1.0)
         outward = _blur(_surface_neighbours(body, 0.03), outward)  # the inner thigh's normals made the hem bulge
         lift = np.where(inside, lift + flare[0] * t * t * (3 - 2 * t) * outward, lift)
+        # The rings just past the hem take its lift, so the edge cut between them (where _smooth_edges samples the
+        # lift) stays out with the flare: blended with the bare skin's offset, wide trousers gathered at the ankle.
+        a, b = _body_adjacency(mesh)
+        for _ in range(3):
+            grown = lift.copy()
+            np.maximum.at(grown, a, lift[b])
+            np.maximum.at(grown, b, lift[a])
+            lift = np.where(inside, lift, grown)
     if gather > 0 and inside.any():  # gathered at the hem (joggers' ankle cuffs): the ease goes over the last stretch
         hem = float(co[inside, 2].min())
         t = np.clip((co[:, 2] - hem) / gather, 0.0, 1.0)
@@ -2004,7 +2114,7 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
         line = float(joints["Hips"][2]) + WAIST_ABOVE_HIPS
         t = np.clip((line + 0.06 - co[:, 2]) / 0.04, 0.0, 1.0)
         lift = np.maximum(lift, offset + 0.004 * t * t * (3 - 2 * t))
-    if tucked is not None:  # the hem band half the layer offset off the skin: inside any bottom's waistband
+    if tucked is not None and tuck_in:  # the hem band half the layer offset off the skin: inside any bottom's waistband
         band = co[:, 2] < float(joints["Hips"][2]) + tucked + 0.04
         lift = np.where(band, np.minimum(lift, offset * 0.5), lift)
     if neck is not None:  # a crew neck hugs the neck: the scan's thick collar stood 2 cm off it all round
@@ -2030,7 +2140,7 @@ def project_garment(body, scan, garment, labels, index, offset, name, joints, al
     if straps > 0:
         # Each strap's edges cut along their own straight lines: cut as one band's level line, a strap about as narrow
         # as the body's triangles lost its middle wherever two vertices straddled it, and came out as a string of beads.
-        zone, side = _strap_lines(body, joints, straps, halter)
+        zone, side = _strap_lines(body, joints, straps, halter, one_shoulder)
         bm.verts.ensure_lookup_table()
         fields = {"cover": {v: unstrapped[v.index] for v in bm.verts},
                   "left": {v: side[v.index] + straps / 2 for v in bm.verts},

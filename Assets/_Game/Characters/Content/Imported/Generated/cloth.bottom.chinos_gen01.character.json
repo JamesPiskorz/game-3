@@ -1,7 +1,10 @@
 {
   "kind": "part",
   "slot": "bottom",
-  "covers": [],
+  "covers": [
+    "ThighL",
+    "ThighR"
+  ],
   "followsBodyShapes": true,
   "regions": 2,
   "outfit": "outfit-06",
@@ -15,7 +18,8 @@
     "bookish",
     "elegant",
     "street",
-    "date"
+    "date",
+    "long_legs"
   ],
   "lean": -0.3,
   "contexts": [],

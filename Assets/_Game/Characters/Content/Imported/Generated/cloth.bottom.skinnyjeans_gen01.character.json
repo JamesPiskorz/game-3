@@ -1,7 +1,10 @@
 {
   "kind": "part",
   "slot": "bottom",
-  "covers": [],
+  "covers": [
+    "ThighL",
+    "ThighR"
+  ],
   "followsBodyShapes": true,
   "regions": 1,
   "outfit": "outfit-29",
@@ -12,7 +15,8 @@
   "tags": [
     "casual",
     "street",
-    "date"
+    "date",
+    "long_legs"
   ],
   "lean": 0.7,
   "contexts": [],

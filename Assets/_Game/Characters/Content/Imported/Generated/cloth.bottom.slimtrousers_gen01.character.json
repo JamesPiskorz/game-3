@@ -1,21 +1,25 @@
 {
   "kind": "part",
   "slot": "bottom",
-  "covers": [],
+  "covers": [
+    "ThighL",
+    "ThighR"
+  ],
   "followsBodyShapes": true,
   "regions": 3,
   "outfit": "outfit-07",
   "colours": [
     "#26304f",
-    "#26304f",
-    "#6b4528"
+    "#6b4528",
+    "#c0a060"
   ],
   "name": "Slim trousers",
   "tags": [
     "elegant",
     "bookish",
     "date",
-    "formal"
+    "formal",
+    "long_legs"
   ],
   "lean": -0.4,
   "contexts": [],

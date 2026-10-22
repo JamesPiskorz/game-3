@@ -1,7 +1,10 @@
 {
   "kind": "part",
   "slot": "bottom",
-  "covers": [],
+  "covers": [
+    "ThighL",
+    "ThighR"
+  ],
   "followsBodyShapes": true,
   "regions": 1,
   "outfit": "outfit-38",
@@ -10,7 +13,8 @@
   ],
   "name": "Scrub trousers",
   "tags": [
-    "uniform"
+    "uniform",
+    "long_legs"
   ],
   "lean": 0.0,
   "contexts": [

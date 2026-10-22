@@ -2,6 +2,8 @@
   "kind": "part",
   "slot": "legwear",
   "covers": [
+    "ThighL",
+    "ThighR",
     "CalfL",
     "CalfR",
     "FootL",

@@ -1,5 +1,5 @@
 {
-  "_note": "Generated outfits (decision 0008): which garments each outfit image yields, their slots, and the body regions each may sit on. Colours come from the generated texture; each garment's colours (the prompt's, as hex) only settle which garment owns a colour lying where two garments meet. A garment's loosest overrides its slot's cap on how far a fitted garment stands off the body (make_generated_outfit.LOOSEST). A garment's straps (metres) adds shoulder straps that wide (so its edges can be smoothed as much as any). A garment's scoop (metres) cuts a scoop neckline that deep. A garment's band adds a belt or waistband (width in metres, colour) along its top edge. A garment's sleeve_ease (metres) is the least its sleeves stand off the arm. A garment's top (metres above the floor) is as high as it reaches. A garment's flare [metres, over metres] adds ease towards its hem (A-line shorts). A garment's gather (metres) draws its ease in over that stretch above the hem (joggers' cuffs). A garment's ease (metres) is the least it stands off the body (baggy joggers). A garment's edge_blur (metres) overrides how much its edges are smoothed (thin straps need little). A garment with halter true has its straps rise from the bust to a band round the neck instead of going over the shoulders. A garment with hood true also takes its hood from the scan (garment_tools.extract_hood). An outfit with body masculine was generated on the masculine base and is measured against the body's masculine shape. Tops and bottoms meet at one waist line (garment_tools.WAIST_ABOVE_HIPS) unless a top is tucked (metres above the hip joint its hem stops), or opts out with waist false (swimwear, lingerie, crop tops). A garment's ring adds a level band at its top or bottom edge (width in metres; back band also closes it round the back, as a bra's). A garment's neck (metres) is how far up the neck its collar reaches, and hem (metres below the hip joints) where its legs end. A garment with a skirt is built as one tube from the waist line (garment_tools.build_skirt): its offset, flare (widening only, down to the hem), straight (no widening below the hips), smooth, pleats and pleat_depth, and hem (metres above the floor, where the scan's is unclear), and widest (metres it may stand off the body at the hem: a sheer overlay scans as a tent); a fitted garment with a skirt is a dress, its bodice cut at tucked. A garment's fill lists body regions it covers whatever the scan shows (tights under a skirt; a cream blouse whose highlights read as skin). A garment with one colour has one recolour region unless solid is false. An outfit with legs_hidden (a floor-length gown) aligns its scan with the legs where ours are, moved with the hips: the joints found for hidden legs are guesses, and they dragged the hem in. Each garment's name, tags, lean, contexts, weight, excludes_tags and requires_tags are its catalog entry (update_sidecars.py).",
+  "_note": "Generated outfits (decision 0008): which garments each outfit image yields, their slots, and the body regions each may sit on. Colours come from the generated texture; each garment's colours (the prompt's, as hex) only settle which garment owns a colour lying where two garments meet. A garment's loosest overrides its slot's cap on how far a fitted garment stands off the body (make_generated_outfit.LOOSEST). A garment's straps (metres) adds shoulder straps that wide (so its edges can be smoothed as much as any). A garment's scoop (metres) cuts a scoop neckline that deep. A garment's band adds a belt or waistband (width in metres, colour) along its top edge. A garment's sleeve_ease (metres) is the least its sleeves stand off the arm. A garment's top (metres above the floor) is as high as it reaches. A garment's flare [metres, over metres] adds ease towards its hem (A-line shorts). A garment's gather (metres) draws its ease in over that stretch above the hem (joggers' cuffs). A garment's ease (metres) is the least it stands off the body (baggy joggers). A garment's edge_blur (metres) overrides how much its edges are smoothed (thin straps need little). A garment's length (metres above the hip joint) is a level hem it stops at, not tucked in (a hip-length jacket). A garment with one_shoulder (left or right) has only that strap. A garment with halter true has its straps rise from the bust to a band round the neck instead of going over the shoulders. A garment with hood true also takes its hood from the scan (garment_tools.extract_hood). An outfit with body masculine was generated on the masculine base and is measured against the body's masculine shape. Tops and bottoms meet at one waist line (garment_tools.WAIST_ABOVE_HIPS) unless a top is tucked (metres above the hip joint its hem stops), or opts out with waist false (swimwear, lingerie, crop tops). A garment's ring adds a level band at its top or bottom edge (width in metres; back band also closes it round the back, as a bra's). A garment's neck (metres) is how far up the neck its collar reaches, and hem (metres below the hip joints) where its legs end. A garment with a skirt is built as one tube from the waist line (garment_tools.build_skirt): its offset, flare (widening only, down to the hem), straight (no widening below the hips), smooth, pleats and pleat_depth, and hem (metres above the floor, where the scan's is unclear), and widest (metres it may stand off the body at the hem: a sheer overlay scans as a tent); a fitted garment with a skirt is a dress, its bodice cut at tucked. A garment's fill lists body regions it covers whatever the scan shows (tights under a skirt; a cream blouse whose highlights read as skin). A garment with one colour has one recolour region unless solid is false. An outfit with legs_hidden (a floor-length gown) aligns its scan with the legs where ours are, moved with the hips: the joints found for hidden legs are guesses, and they dragged the hem in. Each garment's name, tags, lean, contexts, weight, excludes_tags and requires_tags are its catalog entry (update_sidecars.py). Rule tags: long_legs marks trousers that reach the ankle, which tall boots exclude (both sit the same layer off the skin, so the shafts came through the trouser legs); jeans cut to tuck into boots aren't long_legs.",
   "outfit-01": {
     "image": "References/character-base-images/outfits/outfit-01.png",
     "prompt": "plain crew-neck short-sleeve T-shirt in solid dusty blue with a white ribbed collar and white sleeve hems, hanging loose over the waist; loose mid-thigh shorts in solid khaki with a dark brown waistband; low white canvas sneakers with red rubber soles",
@@ -14,7 +14,7 @@
     "prompt": "oversized pullover hoodie in solid charcoal grey with mint green ribbed cuffs and hem, the hood down and resting on the back of the neck; slim jogger trousers in solid black, gathered at the ankles; high-top sneakers in solid white with black soles",
     "garments": [
       {"id": "cloth.top.hoodie_gen01", "name": "Hoodie", "tags": ["casual", "street", "sporty", "hooded"], "contexts": ["casual", "sport"], "slot": "top", "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR", "ForearmL", "ForearmR", "Head"], "colours": ["#4a4a4f", "#a8e6cf"], "hood": true, "hood_rise": 0.15, "ease": 0.025, "cords": {"colour": "#f2f2f2"}, "collar": 0.025},
-      {"id": "cloth.bottom.joggers_gen01", "name": "Joggers", "tags": ["sporty", "street", "casual"], "contexts": ["casual", "sport"], "lean": -0.1, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#1c1c1c"], "loosest": 0.06, "ease": 0.045, "gather": 0.12, "hem": 0.69},
+      {"id": "cloth.bottom.joggers_gen01", "name": "Joggers", "tags": ["sporty", "street", "casual", "long_legs"], "contexts": ["casual", "sport"], "lean": -0.1, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#1c1c1c"], "loosest": 0.05, "ease": 0.03, "gather": 0.12, "hem": 0.69},
       {"id": "cloth.shoes.hightops_gen01", "name": "High-tops", "tags": ["street", "sporty", "casual"], "slot": "shoes", "regions": ["FootL", "FootR", "CalfL", "CalfR"], "colours": ["#f2f2f2", "#1c1c1c"], "ease": 0.01, "laces": {"colour": "#2a2a2e", "lines": 6}}
     ]
   },
@@ -25,7 +25,7 @@
     "garments": [
       {"id": "cloth.top.tank_gen01", "name": "Tank top", "tags": ["casual", "street", "date"], "lean": 0.3, "slot": "top", "regions": ["Neck", "UpperTorso", "LowerTorso", "UpperArmL", "UpperArmR"], "colours": ["#7a1f2e", "#1c1c1c"], "loosest": 0.012, "straps": 0.022, "scoop": 0.09, "collar": 0.006, "tucked": 0.132},
       {"id": "cloth.bottom.trousers_gen01", "name": "Jeans", "tags": ["casual", "street", "date", "gothic"], "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#1f2a4a", "#7a5230"], "loosest": 0.015, "band": {"width": 0.022, "colour": "#6b4528", "buckle": "#3a2a1c"}, "hem": 0.586, "gather": 0.1},
-      {"id": "cloth.shoes.tallboots_gen01", "name": "Tall boots", "tags": ["gothic", "street", "elegant", "date"], "slot": "shoes", "regions": ["FootL", "FootR", "CalfL", "CalfR"], "colours": ["#4a3020", "#1c1c1c"], "top": 0.375, "sole": {"colour": "#1c1c1c", "height": 0.02}}
+      {"id": "cloth.shoes.tallboots_gen01", "name": "Tall boots", "tags": ["gothic", "street", "elegant", "date"], "slot": "shoes", "regions": ["FootL", "FootR", "CalfL", "CalfR"], "colours": ["#4a3020", "#1c1c1c"], "top": 0.375, "sole": {"colour": "#1c1c1c", "height": 0.02}, "excludes_tags": ["long_legs"]}
     ]
   },
   "outfit-04": {
@@ -33,7 +33,7 @@
     "prompt": "fitted long-sleeve button-up blouse in solid white with a pointed collar, tucked into high-waisted tailored straight-leg trousers in solid charcoal grey with a thin black belt; black leather loafers",
     "garments": [
       {"id": "cloth.top.blouse_gen01", "name": "Blouse", "tags": ["elegant", "bookish", "date"], "lean": 0.5, "slot": "top", "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR", "ForearmL", "ForearmR"], "colours": ["#f2f2f2"], "tucked": 0.132},
-      {"id": "cloth.bottom.slacks_gen01", "name": "Tailored trousers", "tags": ["elegant", "bookish", "date"], "lean": 0.1, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#5f6066", "#1c1c1c"], "loosest": 0.03, "ease": 0.01, "flare": [0.025, 0.4], "band": {"width": 0.02, "colour": "#1c1c1c", "buckle": "#9a9aa0"}, "hem": 0.77},
+      {"id": "cloth.bottom.slacks_gen01", "name": "Tailored trousers", "tags": ["elegant", "bookish", "date", "long_legs"], "lean": 0.1, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#5f6066", "#1c1c1c"], "loosest": 0.03, "ease": 0.01, "flare": [0.025, 0.4], "band": {"width": 0.02, "colour": "#1c1c1c", "buckle": "#9a9aa0"}, "hem": 0.77},
       {"id": "cloth.shoes.loafers_gen01", "name": "Loafers", "tags": ["elegant", "bookish", "date", "gothic"], "slot": "shoes", "regions": ["FootL", "FootR", "CalfL", "CalfR"], "colours": ["#1c1c1c"], "ease": 0.008, "top": [0.075, 0.06, 0.07], "sole": {"colour": "#101010", "height": 0.012}}
     ]
   },
@@ -43,7 +43,7 @@
     "_generated": "The trench coat isn't made: the loose-layer path tore it apart (a knee-length coat can't be built like a top). The rain jacket comes from outfit-08.",
     "garments": [
       {"id": "cloth.bottom.jeans_gen01", "name": "Skinny jeans", "tags": ["casual", "street", "date"], "lean": 0.2, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#2e4a6e"], "loosest": 0.015, "hem": 0.586, "gather": 0.1},
-      {"id": "cloth.shoes.rainboots_gen01", "name": "Rain boots", "tags": ["casual", "street"], "slot": "shoes", "regions": ["FootL", "FootR", "CalfL", "CalfR"], "colours": ["#151515"], "top": 0.375, "sole": {"colour": "#0a0a0a", "height": 0.02}}
+      {"id": "cloth.shoes.rainboots_gen01", "name": "Rain boots", "tags": ["casual", "street"], "slot": "shoes", "regions": ["FootL", "FootR", "CalfL", "CalfR"], "colours": ["#151515"], "top": 0.375, "sole": {"colour": "#0a0a0a", "height": 0.02}, "excludes_tags": ["long_legs"]}
     ]
   },
   "outfit-06": {
@@ -51,8 +51,8 @@
     "body": "masculine",
     "prompt": "loose short-sleeve camp-collar shirt in solid olive green, untucked; straight-leg chino trousers in solid beige; low white canvas sneakers",
     "garments": [
-      {"id": "cloth.top.campshirt_gen01", "name": "Camp shirt", "tags": ["casual", "street", "date"], "lean": -0.6, "slot": "top", "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR"], "colours": ["#7a8a55"], "sleeve_ease": 0.02},
-      {"id": "cloth.bottom.chinos_gen01", "name": "Chinos", "tags": ["casual", "bookish", "elegant", "street", "date"], "lean": -0.3, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#d9cba3"], "loosest": 0.03, "ease": 0.012, "flare": [0.025, 0.4], "hem": 0.75, "cuff": {"width": 0.025, "colour": "#c4b68e"}},
+      {"id": "cloth.top.campshirt_gen01", "name": "Camp shirt", "tags": ["casual", "street", "date"], "lean": -0.6, "slot": "top", "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR"], "colours": ["#7a8a55"], "sleeve_ease": 0.02, "length": 0.11},
+      {"id": "cloth.bottom.chinos_gen01", "name": "Chinos", "tags": ["casual", "bookish", "elegant", "street", "date", "long_legs"], "lean": -0.3, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#d9cba3"], "loosest": 0.03, "ease": 0.012, "flare": [0.025, 0.4], "hem": 0.75, "cuff": {"width": 0.025, "colour": "#c4b68e"}},
       {"id": "cloth.shoes.canvas_gen01", "name": "Canvas sneakers", "tags": ["casual", "street", "sporty", "cute"], "lean": -0.2, "slot": "shoes", "regions": ["FootL", "FootR", "CalfL", "CalfR"], "colours": ["#f2f2f2"], "ease": 0.012, "top": [0.115, 0.07, 0.09], "sole": {"colour": "#e4e4e4", "height": 0.016}, "laces": {"colour": "#d0d0d0"}}
     ]
   },
@@ -62,7 +62,7 @@
     "prompt": "long-sleeve oxford button-down shirt in solid light blue, tucked into slim trousers in solid navy with a brown leather belt; brown leather derby shoes",
     "garments": [
       {"id": "cloth.top.oxford_gen01", "name": "Oxford shirt", "tags": ["elegant", "bookish", "date", "formal"], "lean": -0.6, "slot": "top", "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR", "ForearmL", "ForearmR"], "colours": ["#a8c3e3"], "tucked": 0.132},
-      {"id": "cloth.bottom.slimtrousers_gen01", "name": "Slim trousers", "tags": ["elegant", "bookish", "date", "formal"], "lean": -0.4, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#26304f", "#6b4528"], "loosest": 0.02, "ease": 0.008, "flare": [0.015, 0.4], "band": {"width": 0.022, "colour": "#6b4528", "buckle": "#c0a060"}, "hem": 0.77},
+      {"id": "cloth.bottom.slimtrousers_gen01", "name": "Slim trousers", "tags": ["elegant", "bookish", "date", "formal", "long_legs"], "lean": -0.4, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#26304f", "#6b4528"], "loosest": 0.02, "ease": 0.008, "flare": [0.015, 0.4], "band": {"width": 0.022, "colour": "#6b4528", "buckle": "#c0a060"}, "hem": 0.77},
       {"id": "cloth.shoes.derby_gen01", "name": "Derby shoes", "tags": ["elegant", "bookish", "date", "formal"], "lean": -0.4, "slot": "shoes", "regions": ["FootL", "FootR", "CalfL", "CalfR"], "colours": ["#6b3f22"], "ease": 0.008, "top": [0.075, 0.06, 0.07], "sole": {"colour": "#3a2412", "height": 0.012}}
     ]
   },
@@ -70,7 +70,7 @@
     "image": "References/character-base-images/outfits/outfit-08.png",
     "prompt": "hip-length zipped rain jacket in solid mustard yellow with the hood down, zipped closed; slim black trousers; white sneakers",
     "garments": [
-      {"id": "cloth.outer.rainjacket_gen01", "name": "Rain jacket", "tags": ["casual", "street", "sporty"], "excludes_tags": ["hooded", "tailored"], "slot": "outer", "fitted": true, "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR", "ForearmL", "ForearmR"], "colours": ["#d9a520"], "ease": 0.03, "sleeve_ease": 0.035}
+      {"id": "cloth.outer.rainjacket_gen01", "name": "Rain jacket", "tags": ["casual", "street", "sporty"], "excludes_tags": ["hooded", "tailored"], "slot": "outer", "fitted": true, "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR", "ForearmL", "ForearmR"], "colours": ["#d9a520"], "ease": 0.03, "sleeve_ease": 0.035, "length": 0.0}
     ]
   },
   "outfit-09": {
@@ -144,7 +144,7 @@
     "prompt": "satin pajama set in solid pale lilac: a short-sleeve button-up pajama shirt and long loose pajama trousers; barefoot",
     "garments": [
       {"id": "cloth.top.pajamatop_gen01", "name": "Pyjama shirt", "tags": ["sleep"], "contexts": ["sleep"], "lean": 0.4, "slot": "top", "regions": ["UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR"], "colours": ["#cbb8e6"], "sleeve_ease": 0.02},
-      {"id": "cloth.bottom.pajamapants_gen01", "name": "Pyjama trousers", "tags": ["sleep"], "contexts": ["sleep"], "lean": 0.3, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#cbb8e6"], "loosest": 0.05, "ease": 0.03, "hem": 0.81}
+      {"id": "cloth.bottom.pajamapants_gen01", "name": "Pyjama trousers", "tags": ["sleep", "long_legs"], "contexts": ["sleep"], "lean": 0.3, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#cbb8e6"], "loosest": 0.05, "ease": 0.03, "hem": 0.81}
     ]
   },
   "outfit-18": {
@@ -152,7 +152,7 @@
     "prompt": "racerback sports bra in solid teal and full-length tight leggings in solid black; white running shoes",
     "garments": [
       {"id": "cloth.top.sportsbra_gen01", "name": "Sports bra", "tags": ["sporty"], "contexts": ["sport"], "lean": 0.8, "slot": "top", "regions": ["UpperTorso", "LowerTorso"], "colours": ["#2fb3a8"], "waist": false, "drape": false, "straps": 0.03, "loosest": 0.006, "tucked": 0.27},
-      {"id": "cloth.bottom.leggings_gen01", "name": "Leggings", "tags": ["sporty", "casual", "street"], "lean": 0.8, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#151515"], "loosest": 0.004, "hem": 0.78},
+      {"id": "cloth.bottom.leggings_gen01", "name": "Leggings", "tags": ["sporty", "casual", "street", "long_legs"], "lean": 0.8, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#151515"], "loosest": 0.004, "hem": 0.78},
       {"id": "cloth.shoes.runners_gen01", "name": "Running shoes", "tags": ["sporty", "casual", "street"], "lean": 0.3, "slot": "shoes", "regions": ["FootL", "FootR", "CalfL", "CalfR"], "colours": ["#f2f2f2"], "ease": 0.012, "top": [0.11, 0.07, 0.09], "sole": {"colour": "#e4e4e4", "height": 0.02}, "laces": {"colour": "#d0d0d0"}}
     ]
   },
@@ -196,7 +196,7 @@
     "prompt": "off-the-shoulder knit sweater dress in solid cream falling to mid-thigh, with long sleeves; brown knee-high boots",
     "garments": [
       {"id": "cloth.onepiece.sweaterdress_gen01", "name": "Sweater dress", "tags": ["casual", "cute", "date"], "lean": 0.9, "slot": "onepiece", "regions": ["UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR", "ForearmL", "ForearmR", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#eee3cc"], "drape": false, "tucked": 0.155, "loosest": 0.02, "skirt": {"offset": 0.012, "smooth": 2, "straight": true}},
-      {"id": "cloth.shoes.kneeboots_gen01", "name": "Knee boots", "tags": ["casual", "elegant", "gothic", "date"], "lean": 0.9, "slot": "shoes", "regions": ["FootL", "FootR", "CalfL", "CalfR"], "colours": ["#6b4528"], "ease": 0.008, "top": 0.45, "sole": {"colour": "#2a1a10", "height": 0.015}}
+      {"id": "cloth.shoes.kneeboots_gen01", "name": "Knee boots", "tags": ["casual", "elegant", "gothic", "date"], "lean": 0.9, "slot": "shoes", "regions": ["FootL", "FootR", "CalfL", "CalfR"], "colours": ["#6b4528"], "ease": 0.008, "top": 0.45, "sole": {"colour": "#2a1a10", "height": 0.015}, "excludes_tags": ["long_legs"]}
     ]
   },
   "outfit-24": {
@@ -236,7 +236,7 @@
     "image": "References/character-base-images/outfits/outfit-28.png",
     "prompt": "sleeveless halter-neck jumpsuit in solid black with wide flowing full-length trouser legs, fitted at the waist; silver strappy high-heeled sandals",
     "garments": [
-      {"id": "cloth.onepiece.jumpsuit_gen01", "name": "Jumpsuit", "tags": ["formal", "elegant", "date", "gothic"], "lean": 0.9, "slot": "onepiece", "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#151515"], "drape": false, "loosest": 0.06, "ease": 0.015, "flare": [0.05, 0.5], "hem": 0.8, "straps": 0.02, "halter": true},
+      {"id": "cloth.onepiece.jumpsuit_gen01", "name": "Jumpsuit", "tags": ["formal", "elegant", "date", "gothic", "long_legs"], "lean": 0.9, "slot": "onepiece", "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#151515"], "drape": false, "loosest": 0.06, "ease": 0.015, "flare": [0.05, 0.5], "hem": 0.8, "straps": 0.02, "halter": true},
       {"id": "cloth.shoes.silverheels_gen01", "name": "Silver heels", "tags": ["formal", "date", "elegant"], "contexts": ["date", "formal"], "lean": 0.95, "slot": "shoes", "regions": ["FootL", "FootR", "CalfL", "CalfR"], "colours": ["#c8c8d0"], "ease": 0.004, "top": [0.06, 0.05, 0.06], "sole": {"colour": "#808088", "height": 0.01}}
     ]
   },
@@ -245,7 +245,7 @@
     "prompt": "cropped black leather biker jacket with long sleeves, zipped closed; skinny jeans in solid light blue; black ankle boots",
     "garments": [
       {"id": "cloth.outer.leatherjacket_gen01", "name": "Leather jacket", "tags": ["casual", "street", "gothic"], "excludes_tags": ["hooded"], "lean": 0.6, "slot": "outer", "fitted": true, "regions": ["Neck", "UpperTorso", "LowerTorso", "UpperArmL", "UpperArmR", "ForearmL", "ForearmR"], "colours": ["#1a1a1a"], "ease": 0.015, "sleeve_ease": 0.015, "tucked": 0.25},
-      {"id": "cloth.bottom.skinnyjeans_gen01", "name": "Skinny jeans", "tags": ["casual", "street", "date"], "lean": 0.7, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#8fb0d8"], "loosest": 0.008, "hem": 0.76},
+      {"id": "cloth.bottom.skinnyjeans_gen01", "name": "Skinny jeans", "tags": ["casual", "street", "date", "long_legs"], "lean": 0.7, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#8fb0d8"], "loosest": 0.008, "hem": 0.76},
       {"id": "cloth.shoes.ankleboots_gen01", "name": "Ankle boots", "tags": ["casual", "street", "gothic", "date"], "lean": 0.6, "slot": "shoes", "regions": ["FootL", "FootR", "CalfL", "CalfR"], "colours": ["#151515"], "ease": 0.008, "top": 0.15, "sole": {"colour": "#0a0a0a", "height": 0.015}}
     ]
   },
@@ -286,7 +286,7 @@
     "prompt": "hip-length quilted puffer jacket in solid olive green with a high collar, zipped closed; slim black trousers; tan suede ankle boots",
     "garments": [
       {"id": "cloth.outer.puffer_gen01", "name": "Puffer jacket", "tags": ["casual", "street", "sporty"], "excludes_tags": ["hooded", "tailored"], "lean": 0.3, "slot": "outer", "fitted": true, "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR", "ForearmL", "ForearmR"], "colours": ["#5f6b3a"], "ease": 0.05, "sleeve_ease": 0.05, "loosest": 0.09, "neck": 0.06},
-      {"id": "cloth.bottom.slimblack_gen01", "name": "Slim black trousers", "tags": ["casual", "elegant", "street", "bookish"], "lean": 0.5, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#151515"], "loosest": 0.012, "ease": 0.006, "hem": 0.77},
+      {"id": "cloth.bottom.slimblack_gen01", "name": "Slim black trousers", "tags": ["casual", "elegant", "street", "bookish", "long_legs"], "lean": 0.5, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#151515"], "loosest": 0.012, "ease": 0.006, "hem": 0.77},
       {"id": "cloth.shoes.suedeboots_gen01", "name": "Suede ankle boots", "tags": ["casual", "street", "bookish"], "lean": 0.6, "slot": "shoes", "regions": ["FootL", "FootR", "CalfL", "CalfR"], "colours": ["#b08050"], "ease": 0.008, "top": 0.15, "sole": {"colour": "#3a2a1c", "height": 0.015}}
     ]
   },
@@ -319,7 +319,7 @@
     "prompt": "short-sleeve V-neck medical scrub top and matching straight-leg scrub trousers in solid teal; white clogs",
     "garments": [
       {"id": "cloth.top.scrubtop_gen01", "name": "Scrub top", "tags": ["uniform"], "contexts": ["work"], "lean": 0.2, "weight": 0.5, "slot": "top", "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR"], "colours": ["#2a9a98"], "sleeve_ease": 0.02, "loosest": 0.03},
-      {"id": "cloth.bottom.scrubpants_gen01", "name": "Scrub trousers", "tags": ["uniform"], "contexts": ["work"], "requires_tags": ["uniform"], "lean": 0.0, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#2a9a98"], "loosest": 0.04, "ease": 0.02, "hem": 0.78},
+      {"id": "cloth.bottom.scrubpants_gen01", "name": "Scrub trousers", "tags": ["uniform", "long_legs"], "contexts": ["work"], "requires_tags": ["uniform"], "lean": 0.0, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#2a9a98"], "loosest": 0.04, "ease": 0.02, "hem": 0.78},
       {"id": "cloth.shoes.clogs_gen01", "name": "Clogs", "tags": ["uniform", "casual"], "lean": 0.0, "slot": "shoes", "regions": ["FootL", "FootR", "CalfL", "CalfR"], "colours": ["#f2f2f2"], "ease": 0.012, "top": [0.09, 0.07, 0.08], "sole": {"colour": "#d8d8d8", "height": 0.025}}
     ]
   },
@@ -345,8 +345,8 @@
     "prompt": "pyjamas: a loose short-sleeve crew-neck T-shirt in solid heather grey and long loose pyjama trousers in solid navy blue; barefoot",
     "body": "masculine",
     "garments": [
-      {"id": "cloth.top.sleeptee_gen01", "name": "Sleep T-shirt", "tags": ["sleep"], "contexts": ["sleep"], "lean": -0.7, "slot": "top", "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR"], "colours": ["#9a9aa0"], "sleeve_ease": 0.02, "neck": 0.02},
-      {"id": "cloth.bottom.sleeppants_gen01", "name": "Pyjama trousers", "tags": ["sleep"], "contexts": ["sleep"], "lean": -0.7, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#26304f"], "loosest": 0.05, "ease": 0.03, "hem": 0.81}
+      {"id": "cloth.top.sleeptee_gen01", "name": "Sleep T-shirt", "tags": ["sleep"], "contexts": ["sleep"], "lean": -0.7, "slot": "top", "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR"], "colours": ["#9a9aa0"], "sleeve_ease": 0.02, "neck": 0.02, "length": 0.11},
+      {"id": "cloth.bottom.sleeppants_gen01", "name": "Pyjama trousers", "tags": ["sleep", "long_legs"], "contexts": ["sleep"], "lean": -0.7, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#26304f"], "loosest": 0.05, "ease": 0.03, "hem": 0.81}
     ]
   },
   "outfit-42": {
@@ -386,7 +386,7 @@
     "prompt": "a tailored hip-length blazer in solid charcoal grey with long sleeves, buttoned closed; matching straight-leg tailored trousers in solid charcoal grey; black pointed pumps",
     "garments": [
       {"id": "cloth.outer.blazer_gen01", "name": "Blazer", "tags": ["elegant", "bookish", "tailored", "formal"], "excludes_tags": ["hooded"], "lean": 0.4, "slot": "outer", "fitted": true, "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR", "ForearmL", "ForearmR"], "colours": ["#4a4c52"], "ease": 0.02, "sleeve_ease": 0.02},
-      {"id": "cloth.bottom.suittrousers_gen01", "name": "Suit trousers", "tags": ["elegant", "bookish", "formal"], "lean": 0.3, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#4a4c52"], "loosest": 0.025, "ease": 0.01, "flare": [0.02, 0.4], "hem": 0.78}
+      {"id": "cloth.bottom.suittrousers_gen01", "name": "Suit trousers", "tags": ["elegant", "bookish", "formal", "long_legs"], "lean": 0.3, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#4a4c52"], "loosest": 0.025, "ease": 0.01, "flare": [0.02, 0.4], "hem": 0.78}
     ]
   },
   "outfit-47": {
@@ -394,7 +394,7 @@
     "prompt": "a long-sleeve satin wrap blouse in solid burgundy tucked into high-waisted wide-leg palazzo trousers in solid cream; tan heeled sandals",
     "garments": [
       {"id": "cloth.top.wrapblouse_gen01", "name": "Wrap blouse", "tags": ["elegant", "date", "bookish"], "lean": 0.9, "slot": "top", "regions": ["UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR", "ForearmL", "ForearmR"], "colours": ["#7a1f2e"], "tucked": 0.132, "sleeve_ease": 0.02, "drape": true},
-      {"id": "cloth.bottom.palazzo_gen01", "name": "Palazzo trousers", "tags": ["elegant", "date", "casual"], "lean": 0.9, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#efe6d2"], "loosest": 0.08, "ease": 0.03, "flare": [0.08, 0.6], "hem": 0.8, "fill": ["Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"]}
+      {"id": "cloth.bottom.palazzo_gen01", "name": "Palazzo trousers", "tags": ["elegant", "date", "casual", "long_legs"], "lean": 0.9, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#efe6d2"], "loosest": 0.08, "ease": 0.03, "flare": [0.08, 0.6], "hem": 0.8, "fill": ["Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"]}
     ]
   },
   "outfit-48": {
@@ -416,7 +416,7 @@
     "image": "References/character-base-images/outfits/outfit-50.png",
     "prompt": "a one-shoulder one-piece swimsuit in solid emerald green; barefoot",
     "garments": [
-      {"id": "cloth.onepiece.oneshoulder_gen01", "name": "One-shoulder swimsuit", "tags": ["swim"], "contexts": ["swim"], "lean": 0.95, "slot": "onepiece", "regions": ["UpperTorso", "LowerTorso", "Pelvis"], "colours": ["#1f8a5a"], "drape": false, "loosest": 0.006}
+      {"id": "cloth.onepiece.oneshoulder_gen01", "name": "One-shoulder swimsuit", "tags": ["swim"], "contexts": ["swim"], "lean": 0.95, "slot": "onepiece", "regions": ["UpperTorso", "LowerTorso", "Pelvis"], "colours": ["#1f8a5a"], "drape": false, "loosest": 0.006, "straps": 0.03, "one_shoulder": "right"}
     ]
   },
   "outfit-51": {
@@ -455,7 +455,7 @@
     "prompt": "a fitted racerback tank top in solid sage green and flared full-length yoga pants in solid charcoal grey; white trainers",
     "garments": [
       {"id": "cloth.top.yogatank_gen01", "name": "Cropped racerback tank", "tags": ["sporty", "casual"], "lean": 0.8, "slot": "top", "regions": ["UpperTorso", "LowerTorso"], "colours": ["#9ab890"], "loosest": 0.008, "straps": 0.03, "waist": false, "tucked": 0.25},
-      {"id": "cloth.bottom.yogapants_gen01", "name": "Yoga pants", "tags": ["sporty", "casual"], "lean": 0.8, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#4a4c52"], "loosest": 0.04, "flare": [0.05, 0.35], "hem": 0.8}
+      {"id": "cloth.bottom.yogapants_gen01", "name": "Yoga pants", "tags": ["sporty", "casual", "long_legs"], "lean": 0.8, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#4a4c52"], "loosest": 0.04, "flare": [0.05, 0.35], "hem": 0.8}
     ]
   },
   "outfit-56": {
@@ -463,7 +463,7 @@
     "prompt": "a zip-up track jacket in solid navy blue with long sleeves, zipped closed, and matching loose track pants in solid navy blue; white sneakers",
     "garments": [
       {"id": "cloth.top.trackjacket_gen01", "name": "Track jacket", "tags": ["sporty", "street", "casual"], "lean": 0.2, "slot": "top", "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR", "ForearmL", "ForearmR"], "colours": ["#26304f"], "sleeve_ease": 0.02, "neck": 0.05},
-      {"id": "cloth.bottom.trackpants_gen01", "name": "Track pants", "tags": ["sporty", "street", "casual"], "lean": 0.1, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#26304f"], "loosest": 0.04, "ease": 0.02, "hem": 0.8, "gather": 0.08}
+      {"id": "cloth.bottom.trackpants_gen01", "name": "Track pants", "tags": ["sporty", "street", "casual", "long_legs"], "lean": 0.1, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#26304f"], "loosest": 0.04, "ease": 0.02, "hem": 0.8, "gather": 0.08}
     ]
   },
   "outfit-57": {
@@ -486,7 +486,7 @@
     "prompt": "a one-shoulder floor-length evening gown in solid emerald green, fitted at the waist, with a flowing skirt reaching the floor",
     "legs_hidden": true,
     "garments": [
-      {"id": "cloth.onepiece.oneshouldergown_gen01", "name": "One-shoulder gown", "tags": ["formal", "elegant"], "contexts": ["formal", "date"], "lean": 0.95, "weight": 0.5, "slot": "onepiece", "regions": ["UpperTorso", "LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR", "FootL", "FootR"], "colours": ["#1f8a5a"], "drape": false, "tucked": 0.155, "loosest": 0.01, "skirt": {"offset": 0.012, "smooth": 2, "straight": true}}
+      {"id": "cloth.onepiece.oneshouldergown_gen01", "name": "One-shoulder gown", "tags": ["formal", "elegant"], "contexts": ["formal", "date"], "lean": 0.95, "weight": 0.5, "slot": "onepiece", "regions": ["UpperTorso", "LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR", "FootL", "FootR"], "colours": ["#1f8a5a"], "drape": false, "tucked": 0.155, "loosest": 0.01, "skirt": {"offset": 0.012, "smooth": 2, "straight": true}, "straps": 0.03, "one_shoulder": "left"}
     ]
   },
   "outfit-60": {
@@ -502,7 +502,7 @@
     "prompt": "a matching cotton underwear set in solid heather grey: a bralette and boy-short briefs; barefoot",
     "garments": [
       {"id": "cloth.top.bralette_gen01", "name": "Bralette", "tags": ["sleep"], "contexts": ["sleep"], "lean": 0.95, "slot": "top", "regions": ["UpperTorso"], "colours": ["#9a9aa0"], "waist": false, "drape": false, "straps": 0.016, "ring": {"at": "bottom", "width": 0.03, "back": "band"}, "loosest": 0.006},
-      {"id": "cloth.bottom.boyshorts_gen01", "name": "Boy shorts", "tags": ["sleep"], "contexts": ["sleep"], "lean": 0.9, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR"], "colours": ["#9a9aa0"], "waist": false, "loosest": 0.006, "hem": 0.08, "main": "#9a9aa0"}
+      {"id": "cloth.bottom.boyshorts_gen01", "name": "Boy shorts", "tags": ["sleep"], "contexts": ["sleep"], "lean": 0.9, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR"], "colours": ["#9a9aa0"], "waist": false, "loosest": 0.006, "hem": 0.13, "main": "#9a9aa0"}
     ]
   },
   "outfit-62": {
@@ -533,7 +533,7 @@
     "prompt": "a fitted ribbed crop top in solid white and loose cargo trousers in solid khaki with side pockets; chunky white sneakers",
     "garments": [
       {"id": "cloth.top.ribbedcrop_gen01", "name": "Ribbed crop top", "tags": ["casual", "street", "sporty"], "lean": 0.8, "slot": "top", "regions": ["Neck", "UpperTorso", "LowerTorso"], "colours": ["#f2f2f2"], "waist": false, "loosest": 0.006, "fill": ["UpperTorso"], "neck": 0.05, "tucked": 0.24},
-      {"id": "cloth.bottom.cargo_gen01", "name": "Cargo trousers", "tags": ["casual", "street"], "lean": 0.3, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#b8a878"], "loosest": 0.06, "ease": 0.02, "hem": 0.8, "gather": 0.08},
+      {"id": "cloth.bottom.cargo_gen01", "name": "Cargo trousers", "tags": ["casual", "street", "long_legs"], "lean": 0.3, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#b8a878"], "loosest": 0.06, "ease": 0.02, "hem": 0.8, "gather": 0.08},
       {"id": "cloth.shoes.chunky_gen01", "name": "Chunky sneakers", "tags": ["casual", "street", "sporty"], "lean": 0.4, "slot": "shoes", "regions": ["FootL", "FootR", "CalfL", "CalfR"], "colours": ["#f2f2f2"], "ease": 0.016, "top": [0.12, 0.08, 0.1], "sole": {"colour": "#e4e4e4", "height": 0.03}, "laces": {"colour": "#d0d0d0"}}
     ]
   },
@@ -542,7 +542,7 @@
     "prompt": "an off-the-shoulder cropped top in solid coral with short sleeves and high-waisted denim shorts in solid mid blue; tan flat sandals",
     "garments": [
       {"id": "cloth.top.offshoulder_gen01", "name": "Off-shoulder crop top", "tags": ["casual", "cute", "date"], "lean": 0.9, "slot": "top", "regions": ["UpperTorso", "LowerTorso", "UpperArmL", "UpperArmR"], "colours": ["#f07060"], "waist": false, "tucked": 0.25, "sleeve_ease": 0.02, "drape": false},
-      {"id": "cloth.bottom.denimshorts_gen01", "name": "Denim shorts", "tags": ["casual", "street", "cute"], "lean": 0.8, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#4a72a8"], "loosest": 0.012, "hem": 0.08},
+      {"id": "cloth.bottom.denimshorts_gen01", "name": "Denim shorts", "tags": ["casual", "street", "cute"], "lean": 0.8, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#4a72a8"], "loosest": 0.012, "hem": 0.11},
       {"id": "cloth.shoes.tansandals_gen01", "name": "Tan sandals", "tags": ["casual", "cute"], "contexts": ["casual", "date"], "lean": 0.6, "slot": "shoes", "regions": ["FootL", "FootR", "CalfL", "CalfR"], "colours": ["#b08050"], "ease": 0.004, "top": [0.05, 0.04, 0.05], "sole": {"colour": "#6b4528", "height": 0.01}}
     ]
   },
