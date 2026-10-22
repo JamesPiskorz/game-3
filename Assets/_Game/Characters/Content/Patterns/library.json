@@ -3920,6 +3920,23 @@
      "print": "#1c6b8a"
     }
    ]
+  },
+  {
+   "id": "pattern.whales_01",
+   "name": "Whales",
+   "tags": [
+    "cute",
+    "casual",
+    "sleep",
+    "swim"
+   ],
+   "minScale": 2.5,
+   "maxScale": 4,
+   "weight": 0.6,
+   "accent": "light",
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   }
  ]
 }

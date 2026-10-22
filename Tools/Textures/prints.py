@@ -1804,6 +1804,46 @@ def azulejo(size, seed):
     return colour, grout * 0.35, accent
 
 
+def whales(size, seed):
+    """Whales: round cartoon whales swimming either way, a spout over the head and a pale belly in the second colour
+    (pyjamas, kids' clothes, swimwear)."""
+    spots = tk.scatter(size * 4, 7, seed, size * 4 / 3.2)
+
+    def each(d, n, part):
+        for k, (cx, cy) in enumerate(spots):
+            s, f = n * (0.2 if k % 3 else 0.16), (1 if k % 2 else -1)
+
+            def p(px, py):
+                return (cx + f * px * s, cy + py * s)
+            for dx in (-n, 0, n):
+                for dy in (-n, 0, n):
+                    cx, cy = spots[k][0] + dx, spots[k][1] + dy
+                    if part == "body":
+                        box = [p(-0.35, -0.3), p(0.5, 0.24)]
+                        d.ellipse([min(box[0][0], box[1][0]), box[0][1], max(box[0][0], box[1][0]), box[1][1]], fill=255)
+                        d.polygon([p(-0.2, -0.22), p(-0.66, -0.05), p(-0.66, 0.03), p(-0.2, 0.18)], fill=255)
+                        d.polygon([p(-0.62, -0.02), p(-0.86, -0.22), p(-0.76, -0.01), p(-0.88, 0.12), p(-0.62, 0.03)], fill=255)
+                    elif part == "belly":
+                        box = [p(-0.3, 0.02), p(0.48, 0.23)]
+                        d.ellipse([min(box[0][0], box[1][0]), box[0][1], max(box[0][0], box[1][0]), box[1][1]], fill=255)
+                        for sx in (-0.12, 0.0, 0.12):  # the spout
+                            end = p(0.18 + sx * 1.6, -0.62 + abs(sx))
+                            d.line([p(0.18, -0.3), end], fill=255, width=max(3, int(s * 0.05)))
+                            d.ellipse([end[0] - s * 0.04, end[1] - s * 0.04, end[0] + s * 0.04, end[1] + s * 0.04], fill=255)
+                    else:
+                        ex, ey = p(0.3, -0.06)
+                        d.ellipse([ex - s * 0.035, ey - s * 0.035, ex + s * 0.035, ey + s * 0.035], fill=255)
+                        d.arc([min(p(0.25, -0.02)[0], p(0.47, 0.1)[0]), p(0.25, -0.02)[1], max(p(0.25, -0.02)[0], p(0.47, 0.1)[0]),
+                               p(0.47, 0.1)[1]], 20, 160, fill=255, width=max(2, int(s * 0.03)))
+    body = _drawn(size, lambda d, n: each(d, n, "body"))
+    extra = _drawn(size, lambda d, n: each(d, n, "belly"))
+    face = _drawn(size, lambda d, n: each(d, n, "face"))
+    spout = extra * (1 - tk.blur_small(body, 1) > 0.5)
+    belly = extra * body
+    accent = np.clip(belly + spout, 0, 1)
+    return np.clip(body - belly, 0, 1), np.clip(_outline(body, 1) * 0.5 + face, 0, 1), accent
+
+
 # ------------------------------------------------------------------------------- placed prints: chest graphics
 
 def _graphic(size, layers):
@@ -3320,6 +3360,7 @@ PRINTS = {
     "foulard": (foulard, "Foulard", ["elegant", "bookish"], (4, 6), 0.6),
     "toile": (toile, "Toile", ["elegant", "bookish", "cute", "date"], (2.2, 3.2), 0.6),
     "azulejo": (azulejo, "Azulejo tiles", ["elegant", "casual", "date"], (2, 3), 0.6),
+    "whales": (whales, "Whales", ["cute", "casual"], (2.5, 4), 0.6),
 }
 
 # How each print's second colour (its accent: leaves, hearts, wafers) follows its first: "leaf" (a natural green),
@@ -3332,7 +3373,7 @@ ACCENT = {
     "cacti": "leaf", "medallions": "contrast", "groovy": "contrast", "flowerpower": "gold", "dinosaurs": "contrast",
     "sailboats": "contrast", "umbrellas": "contrast", "liberty": "contrast", "lavender": "leaf", "maple": "gold",
     "pineapples": "leaf", "memphis": "contrast", "regimental": "contrast", "quilt": "contrast", "graffiti": "contrast",
-    "swooshes": "contrast", "thorns": "leaf", "rosebuds": "leaf", "triplestripes": "contrast", "artdeco": "gold", "dogs": "contrast", "frogs": "leaf", "pearls": "light", "swallows": "light", "foulard": "contrast", "azulejo": "light",
+    "swooshes": "contrast", "thorns": "leaf", "rosebuds": "leaf", "triplestripes": "contrast", "artdeco": "gold", "dogs": "contrast", "frogs": "leaf", "pearls": "light", "swallows": "light", "foulard": "contrast", "azulejo": "light", "whales": "light",
     "tee_heart": "light", "tee_star": "light", "tee_cherries": "leaf", "tee_rose": "leaf", "tee_sunset": "gold",
     "tee_cat": "light", "tee_rainbow": "contrast", "tee_planet": "contrast", "tee_daisy": "gold", "tee_mountains": "light",
     "tee_butterfly": "contrast", "tee_moon": "gold", "tee_crown": "contrast", "tee_ghost": "light", "tee_palm": "leaf",
@@ -3364,11 +3405,11 @@ KNITTED = {"stripes", "breton", "argyle", "knit", "snowflakes", "rugby", "hearts
 # The occasions prints suit, as extra tags the outfit contexts weight (sleep, swim, formal): pyjama prints, beach
 # prints, gala prints.
 CONTEXT_TAGS = {
-    "sleep": ["foulard", "toile", "clouds", "moons", "stars", "hearts", "dots", "pindots", "gingham", "check", "pyjama", "bunnies", "cats",
+    "sleep": ["whales", "foulard", "toile", "clouds", "moons", "stars", "hearts", "dots", "pindots", "gingham", "check", "pyjama", "bunnies", "cats",
               "raindrops", "snowflakes", "plaid", "buffalo", "candystripe", "floral", "daisies", "cherries",
               "strawberries", "bows", "paws", "rainbows", "planets", "sakura", "ticking", "notes", "smileys", "seigaiha",
               "dinosaurs", "sailboats", "rosebuds", "dogs", "frogs"],
-    "swim": ["azulejo", "pineapples", "sailboats", "tropical", "hibiscus", "stripes", "breton", "waves", "scales", "shells", "fish", "seagulls", "anchors",
+    "swim": ["whales", "azulejo", "pineapples", "sailboats", "tropical", "hibiscus", "stripes", "breton", "waves", "scales", "shells", "fish", "seagulls", "anchors",
              "lemons", "watermelon", "floral", "bigfloral", "dots", "gingham", "leopard", "zebra", "cheetah", "tiedye",
              "cherries", "strawberries", "daisies", "sunsetfade", "ombre", "colourblock", "ricrac", "tee_palm", "icecream"],
     "rain": ["raindrops", "clouds", "umbrellas", "check", "gingham", "plaid", "buffalo", "houndstooth", "dots",

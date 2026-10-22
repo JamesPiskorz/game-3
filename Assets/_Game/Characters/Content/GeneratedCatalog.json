@@ -9262,6 +9262,23 @@
         }
       ],
       "colourwayChance": 0.6
+    },
+    {
+      "id": "pattern.whales_01",
+      "name": "Whales",
+      "weight": 0.6,
+      "tags": [
+        "cute",
+        "casual",
+        "sleep",
+        "swim"
+      ],
+      "minScale": 2.5,
+      "maxScale": 4.0,
+      "accent": "light",
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     }
   ],
   "fabrics": [
