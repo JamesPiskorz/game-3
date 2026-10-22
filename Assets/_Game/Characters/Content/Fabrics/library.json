@@ -1846,6 +1846,25 @@
    "weight": 1.0,
    "gloss": 0.3,
    "sheen": 0.0
+  },
+  {
+   "id": "fishnet",
+   "name": "Fishnet",
+   "mean": 0.3418,
+   "tileMetres": 0.25,
+   "tags": [
+    "gothic",
+    "street",
+    "date"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.1,
+   "colourChance": 0.0,
+   "colours": [],
+   "weight": 0.5,
+   "gloss": 0.0,
+   "sheen": 0.0
   }
  ]
 }

@@ -23,5 +23,10 @@
   "patternable": true,
   "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261021_231122_for_texture_textured.glb",
   "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
-  "licence": "Tencent Hunyuan 3D 2.1 Community License"
+  "licence": "Tencent Hunyuan 3D 2.1 Community License",
+  "fabrics": [
+    "knit",
+    "jersey",
+    "fishnet"
+  ]
 }

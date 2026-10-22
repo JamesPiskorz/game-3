@@ -107,6 +107,10 @@ namespace Game.Characters.Generation
                         // In the trim, unless the item took its fabric's own colour and that matches the trim.
                         HsvColor worn = item.RegionColors.Count > 0 ? item.RegionColors[0] : main;
                         HsvColor ink = HsvColor.Distance(trim, worn) >= 0.15f ? trim : Colours.Shift(worn, 0f, 0f, worn.V > 0.5f ? -0.35f : 0.35f);
+                        // Or tone on tone, at times: a deeper or paler shade of the cloth's own colour (a smart floral,
+                        // a self-coloured check), more often for elegant styles.
+                        if (rng.Chance(TonalPrintChance * (archetype.TagWeights.TryGetValue("elegant", out float elegant) ? 1f + elegant : 1f)))
+                            ink = Colours.Shift(worn, 0f, 0.05f, worn.V > 0.45f ? -0.22f : 0.22f);
                         // Or, now and then, in its classic colours (navy Breton stripes on white, leopard in tan and
                         // black), where that ground stands apart from the skin and the other half of the outfit.
                         if (pattern.Colourways.Count > 0 && item.RegionColors.Count > 0 && rng.Chance(pattern.ColourwayChance))
@@ -135,6 +139,9 @@ namespace Game.Characters.Generation
 
         /// <summary>How much less often than other items shoes are printed.</summary>
         public const float ShoePatternShare = 0.4f;
+
+        /// <summary>How often a print is tone on tone (a shade of the cloth's own colour), before style.</summary>
+        public const float TonalPrintChance = 0.12f;
 
         /// <summary>How often an item that can be made in several fabrics isn't made in its own.</summary>
         public const float FabricVariety = 0.5f;

@@ -1645,7 +1645,10 @@
       "regions": 1,
       "patternable": true,
       "fabrics": [
-        "rib_knit"
+        "rib_knit",
+        "knit",
+        "jersey",
+        "fishnet"
       ],
       "clothBottom": -0.00118968147,
       "clothTop": 0.2514822,
@@ -1669,7 +1672,10 @@
       "regions": 1,
       "patternable": true,
       "fabrics": [
-        "chiffon"
+        "chiffon",
+        "fishnet",
+        "lace",
+        "lycra"
       ],
       "clothBottom": 0.0172364283,
       "clothTop": 0.6701789,
@@ -1694,7 +1700,10 @@
       "regions": 1,
       "patternable": true,
       "fabrics": [
-        "chiffon"
+        "chiffon",
+        "fishnet",
+        "lace",
+        "lycra"
       ],
       "clothBottom": -0.00486085052,
       "clothTop": 1.07792413,
@@ -10435,6 +10444,20 @@
         "sporty"
       ],
       "printable": true,
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
+    },
+    {
+      "id": "fishnet",
+      "name": "Fishnet",
+      "weight": 0.5,
+      "tags": [
+        "gothic",
+        "street",
+        "date"
+      ],
+      "printable": false,
       "printTags": [],
       "colours": [],
       "colourChance": 0.0

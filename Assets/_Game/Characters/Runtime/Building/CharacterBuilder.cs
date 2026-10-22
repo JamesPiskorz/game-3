@@ -249,9 +249,9 @@ namespace Game.Characters.Building
             {
                 PartEntry entry = _catalog.Part(item.ItemId);
                 if (entry == null) continue;
-                // Lace, mesh and crochet show the skin through their holes: lingerie and swimwear wholly, other
-                // clothes as if lined, part of it.
-                float sheer = entry.Tags.Contains("sleep") || entry.Tags.Contains("swim") ? 1f : LinedSheer;
+                // Lace, mesh, crochet and fishnet show the skin through their holes: lingerie, swimwear and legwear
+                // wholly, other clothes as if lined, part of it.
+                float sheer = entry.Tags.Contains("sleep") || entry.Tags.Contains("swim") || entry.Slot == Slots.Legwear ? 1f : LinedSheer;
                 // The fabric it's made in: another fabric's surface, or (back to) the part's own.
                 Material fabric = _content.Fabric(item.FabricId) ?? OwnMaterial(item.ItemId);
                 foreach (Material material in character.PartMaterials(entry.Slot))

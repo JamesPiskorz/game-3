@@ -127,7 +127,7 @@
     "garments": [
       {"id": "cloth.top.cardigan_gen01", "name": "Cropped cardigan", "tags": ["cute", "bookish", "casual"], "lean": 0.7, "slot": "top", "regions": ["UpperTorso", "LowerTorso", "UpperArmL", "UpperArmR", "ForearmL", "ForearmR"], "colours": ["#b9a3dc"], "waist": false, "fabric": "knit", "patternable": true, "fabrics": ["cable_knit", "chunky_knit", "wide_rib", "boucle", "rib_knit", "crochet", "pointelle", "mohair", "seed_stitch", "chenille", "lurex_knit"]},
       {"id": "cloth.bottom.pleatedskirt_gen01", "name": "Pleated skirt", "tags": ["cute", "bookish", "casual", "date", "bare_legs"], "lean": 0.9, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#26304f"], "skirt": {"pleats": 28, "pleat_depth": 0.01, "flare": true, "hem": 0.8}, "fabric": "pleated", "patternable": true, "fabrics": ["twill", "chiffon", "satin", "crepe", "metallic"]},
-      {"id": "cloth.legwear.socks_gen01", "name": "Knee socks", "tags": ["cute", "casual", "bookish"], "lean": 0.8, "slot": "legwear", "regions": ["FootL", "FootR", "CalfL", "CalfR"], "colours": ["#f2f2f2"], "top": 0.46, "fabric": "rib_knit", "patternable": true},
+      {"id": "cloth.legwear.socks_gen01", "name": "Knee socks", "tags": ["cute", "casual", "bookish"], "lean": 0.8, "slot": "legwear", "regions": ["FootL", "FootR", "CalfL", "CalfR"], "colours": ["#f2f2f2"], "top": 0.46, "fabric": "rib_knit", "patternable": true, "fabrics": ["knit", "jersey", "fishnet"]},
       {"id": "cloth.shoes.maryjanes_gen01", "name": "Mary Janes", "tags": ["cute", "bookish", "date"], "lean": 0.9, "slot": "shoes", "regions": ["FootL", "FootR", "CalfL", "CalfR"], "colours": ["#151515"], "ease": 0.006, "top": [0.07, 0.05, 0.06], "sole": {"colour": "#0a0a0a", "height": 0.01}, "fabric": "patent", "patternable": true, "fabrics": ["leather", "suede", "croc", "metallic", "velvet", "vinyl", "glitter", "snake"]}
     ]
   },
@@ -271,7 +271,7 @@
     "garments": [
       {"id": "cloth.top.balconette_gen01", "name": "Balconette bra", "tags": ["sleep"], "contexts": ["sleep"], "lean": 0.95, "slot": "top", "regions": ["UpperTorso"], "colours": ["#a01428"], "waist": false, "drape": false, "straps": 0.014, "edge_blur": 0.008, "ring": {"at": "bottom", "width": 0.025, "back": "band"}, "loosest": 0.006, "fabric": "satin", "patternable": true, "fabrics": ["velvet", "chiffon", "lace", "shantung", "satin_stripe", "sateen"]},
       {"id": "cloth.bottom.highcutbriefs_gen01", "name": "High-cut briefs", "tags": ["sleep"], "contexts": ["sleep"], "lean": 0.95, "slot": "bottom", "regions": ["Pelvis", "LowerTorso"], "colours": ["#a01428"], "waist": false, "ring": {"at": "top", "width": 0.02}, "loosest": 0.006, "fabric": "lace", "patternable": false, "fabrics": ["satin", "mesh", "jersey", "velvet"]},
-      {"id": "cloth.legwear.stockings_gen01", "name": "Thigh-high stockings", "tags": ["sleep", "elegant", "date", "gothic"], "lean": 0.95, "slot": "legwear", "regions": ["FootL", "FootR", "CalfL", "CalfR", "ThighL", "ThighR"], "colours": ["#151515"], "top": 0.66, "loosest": 0.003, "fabric": "chiffon", "patternable": true}
+      {"id": "cloth.legwear.stockings_gen01", "name": "Thigh-high stockings", "tags": ["sleep", "elegant", "date", "gothic"], "lean": 0.95, "slot": "legwear", "regions": ["FootL", "FootR", "CalfL", "CalfR", "ThighL", "ThighR"], "colours": ["#151515"], "top": 0.66, "loosest": 0.003, "fabric": "chiffon", "patternable": true, "fabrics": ["fishnet", "lace", "lycra"]}
     ]
   },
   "outfit-33": {
@@ -304,7 +304,7 @@
     "garments": [
       {"id": "cloth.top.turtleneck_gen01", "name": "Turtleneck", "tags": ["elegant", "bookish", "casual", "gothic"], "lean": 0.5, "slot": "top", "regions": ["Neck", "UpperTorso", "LowerTorso", "Pelvis", "UpperArmL", "UpperArmR", "ForearmL", "ForearmR"], "colours": ["#151515"], "tucked": 0.132, "neck": 0.07, "fabric": "rib_knit", "patternable": true, "fabrics": ["jersey", "marl", "wide_rib", "knit", "waffle", "crochet", "pointelle", "mohair", "lurex_knit"]},
       {"id": "cloth.bottom.alineskirt_gen01", "name": "A-line skirt", "tags": ["bookish", "casual", "cute", "date", "bare_legs"], "lean": 0.9, "slot": "bottom", "regions": ["LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR"], "colours": ["#a87a4a"], "skirt": {"flare": true, "offset": 0.01}, "fabric": "corduroy", "patternable": false, "fabrics": ["denim", "tweed", "suede", "twill", "leather", "velvet", "patchwork", "needlecord", "jumbo_cord"]},
-      {"id": "cloth.legwear.tights_gen01", "name": "Tights", "tags": ["bookish", "cute", "casual", "gothic", "elegant"], "lean": 0.9, "slot": "legwear", "regions": ["Pelvis", "ThighL", "ThighR", "CalfL", "CalfR", "FootL", "FootR"], "colours": ["#6a1a2a"], "fill": ["Pelvis", "ThighL", "ThighR", "CalfL", "CalfR", "FootL", "FootR"], "loosest": 0.003, "fabric": "chiffon", "patternable": true}
+      {"id": "cloth.legwear.tights_gen01", "name": "Tights", "tags": ["bookish", "cute", "casual", "gothic", "elegant"], "lean": 0.9, "slot": "legwear", "regions": ["Pelvis", "ThighL", "ThighR", "CalfL", "CalfR", "FootL", "FootR"], "colours": ["#6a1a2a"], "fill": ["Pelvis", "ThighL", "ThighR", "CalfL", "CalfR", "FootL", "FootR"], "loosest": 0.003, "fabric": "chiffon", "patternable": true, "fabrics": ["fishnet", "lace", "lycra"]}
     ]
   },
   "outfit-37": {
