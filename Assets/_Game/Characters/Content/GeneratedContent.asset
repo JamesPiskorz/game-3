@@ -687,6 +687,12 @@ MonoBehaviour:
     Texture: {fileID: 2800000, guid: e377f8f4487485b4fbf4c9ea4af65b57, type: 3}
   - Id: pattern.folkyoke_01
     Texture: {fileID: 2800000, guid: b684a40c5dff9ca43ac268a89da88775, type: 3}
+  - Id: pattern.newsprint_01
+    Texture: {fileID: 2800000, guid: 49d88adfa5fc9504a807d3db050a61b8, type: 3}
+  - Id: pattern.script_01
+    Texture: {fileID: 2800000, guid: eca6b117789c5ce4fb1c0e1fca8d02c6, type: 3}
+  - Id: pattern.birds_01
+    Texture: {fileID: 2800000, guid: 45804c2e84feca54a81935fb492dc5c4, type: 3}
   Fabrics:
   - Id: plain
     Material: {fileID: 2100000, guid: 438e55e3cc9afa740b5c2f26ae972251, type: 2}

@@ -3102,6 +3102,54 @@
    "placement": "yoke",
    "colourwayChance": 0.0,
    "colourways": []
+  },
+  {
+   "id": "pattern.newsprint_01",
+   "name": "Newsprint",
+   "tags": [
+    "street",
+    "bookish",
+    "casual"
+   ],
+   "minScale": 2,
+   "maxScale": 3,
+   "weight": 0.4,
+   "accent": null,
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
+  },
+  {
+   "id": "pattern.script_01",
+   "name": "Script",
+   "tags": [
+    "date",
+    "elegant",
+    "cute"
+   ],
+   "minScale": 2,
+   "maxScale": 3,
+   "weight": 0.4,
+   "accent": null,
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
+  },
+  {
+   "id": "pattern.birds_01",
+   "name": "Birds on branches",
+   "tags": [
+    "elegant",
+    "bookish",
+    "cute"
+   ],
+   "minScale": 2.5,
+   "maxScale": 4,
+   "weight": 0.5,
+   "accent": null,
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   }
  ]
 }

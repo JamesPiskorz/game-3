@@ -2147,6 +2147,112 @@ def yoke_flowers(size, seed):
     return np.clip(colour + tk.blur_small(dots.astype(float), 0.8), 0, 1), ink, accent
 
 
+
+# ------------------------------------------------------------------------------------------- lettering, line art
+
+def _letters(size, rows, cols, seed, height, gap, bold=False):
+    """Rows of tiny 'letters' (little strokes and loops, a word at a time), as small print looks from arm's length:
+    ``rows`` lines down the tile in ``cols`` columns, each line ``height`` of a row tall."""
+    rng = np.random.default_rng(seed)
+    canvas = np.zeros((size, size))
+    row_h = size / rows
+    col_w = size / cols
+    for r in range(rows):
+        for c in range(cols):
+            x = c * col_w + gap
+            end = (c + 1) * col_w - gap
+            if rng.random() < 0.08:  # a short line ends a paragraph
+                end = x + (end - x) * rng.uniform(0.3, 0.7)
+            y0 = int(r * row_h + row_h * (1 - height) / 2)
+            y1 = int(y0 + row_h * height)
+            while x < end:
+                word = rng.integers(2, 8)
+                for _ in range(word):
+                    w = rng.uniform(0.5, 0.9) * row_h * height
+                    if x + w > end:
+                        break
+                    rise = rng.random() < 0.25  # an ascender
+                    top = y0 - int(row_h * 0.15) if rise else y0 + int(row_h * height * 0.3)
+                    canvas[max(top, 0):y1, int(x):int(x + w * (0.7 if not bold else 0.9))] = 1.0
+                    x += w
+                x += row_h * height * 0.8  # the space between words
+    return tk.blur_small(canvas, 0.6)
+
+
+def newsprint(size, seed):
+    """Newsprint: columns of small print under bold headlines, as on a newspaper."""
+    body = _letters(size, 30, 3, seed, 0.45, size / 40)
+    heads = _letters(size, 6, 1, seed + 1, 0.6, size / 30, bold=True)
+    y = np.arange(size)[:, None] / size
+    headline_rows = ((y * 2) % 1.0 < 0.17)
+    ink = np.where(np.repeat(headline_rows, size, axis=1), heads, body)
+    rules = np.zeros((size, size))
+    for k in (1, 2):
+        rules[:, int(k * size / 3) - 1:int(k * size / 3) + 1] = 0.6
+    return np.clip(ink + rules * ~np.repeat(headline_rows, size, axis=1), 0, 1), _zero(size)
+
+
+def _drawn(size, draw_fn, scale=4):
+    """A tile drawn with PIL at ``scale`` times its size (draw_fn(draw, size) draws white on black, its own wrapping),
+    brought down to the tile's size: smooth lines for line art."""
+    from PIL import Image, ImageDraw
+    big = Image.new("L", (size * scale, size * scale), 0)
+    draw_fn(ImageDraw.Draw(big), size * scale)
+    return np.asarray(big.resize((size, size), Image.LANCZOS), dtype=float) / 255.0
+
+
+def script(size, seed):
+    """Script: lines of looping handwriting, as on a love letter, a word at a time."""
+    rng = np.random.default_rng(seed)
+
+    def draw(d, n):
+        lines = 7
+        for k in range(lines):
+            base = (k + 0.65) / lines * n
+            x = rng.random() * n * 0.1
+            while x < n * 1.05:
+                letters = rng.integers(3, 8)
+                points = []
+                for t in np.linspace(0, letters * 2 * np.pi, letters * 16):
+                    tall = 1.0 + (0.9 if np.sin(t * 0.37 + k) > 0.8 else 0.0)  # now and then an l or a d
+                    px = x + (t - 1.25 * np.sin(t)) * n * 0.0045
+                    py = base - (1 - np.cos(t)) * n * 0.012 * tall
+                    points.append((px, py))
+                for dx in (-n, 0, n):  # wrapping round the tile
+                    d.line([(px + dx, py) for px, py in points], fill=255, width=max(1, n // 220), joint="curve")
+                x = points[-1][0] + n * 0.03
+    return _drawn(size, draw), _zero(size)
+
+
+def birds(size, seed):
+    """Birds on branches: a toile of little birds perched on leafy sprigs, in the print colour."""
+    rng = np.random.default_rng(seed)
+
+    def sprig(d, cx, cy, s, flip):
+        f = -1 if flip else 1
+        stem = [(cx + f * (t - 0.5) * s * 1.6, cy + ((t - 0.5) ** 2) * s * 0.5) for t in np.linspace(0, 1, 20)]
+        d.line(stem, fill=255, width=max(1, int(s * 0.03)))
+        for t in np.linspace(0.1, 0.9, 6):
+            lx, ly = cx + f * (t - 0.5) * s * 1.6, cy + ((t - 0.5) ** 2) * s * 0.5
+            dy = -s * 0.1 if int(t * 10) % 2 else s * 0.1
+            d.ellipse([lx - s * 0.08, ly + dy - s * 0.045, lx + s * 0.08, ly + dy + s * 0.045], fill=200)
+        bx, by = cx, cy - s * 0.2
+        d.ellipse([bx - s * 0.22, by - s * 0.13, bx + s * 0.22, by + s * 0.13], fill=255)  # the body
+        hx = bx + f * s * 0.22
+        d.ellipse([hx - s * 0.1, by - s * 0.24, hx + s * 0.1, by - s * 0.04], fill=255)  # the head
+        d.polygon([(bx - f * s * 0.18, by - s * 0.02), (bx - f * s * 0.48, by - s * 0.14), (bx - f * s * 0.44, by + s * 0.04)], fill=255)
+        d.polygon([(bx + f * s * 0.31, by - s * 0.15), (bx + f * s * 0.41, by - s * 0.12), (bx + f * s * 0.31, by - s * 0.09)], fill=255)
+
+    def draw(d, n):
+        for i, (cx, cy) in enumerate(tk.scatter(n, 7, seed, n / 3.2)):
+            s = n / (2.6 if i % 2 else 3.4)
+            flip = rng.random() < 0.5
+            for dx in (-n, 0, n):  # wrapping round the tile
+                for dy in (-n, 0, n):
+                    sprig(d, cx + dx, cy + dy, s, flip)
+    shape = _drawn(size, draw)
+    return shape, _outline(np.clip(shape * 1.5, 0, 1), 1) * 0.5
+
 # name, tags, tiles per metre (min, max), weight
 PRINTS = {
     # Patterns the stand-ins share (their catalog lists these ids).
@@ -2337,6 +2443,9 @@ PRINTS = {
     "ricrac": (ric_rac, "Ric-rac trim", ["cute", "casual"], (12, 18), 0.4),
     "yokeflowers": (yoke_flowers, "Embroidered yoke", ["cute", "casual", "date"], (7, 9), 0.4),
     "folkyoke": (folk_band, "Folk embroidery yoke", ["cute", "casual", "bookish"], (7, 10), 0.3),
+    "newsprint": (newsprint, "Newsprint", ["street", "bookish", "casual"], (2, 3), 0.4),
+    "script": (script, "Script", ["date", "elegant", "cute"], (2, 3), 0.4),
+    "birds": (birds, "Birds on branches", ["elegant", "bookish", "cute"], (2.5, 4), 0.5),
 }
 
 # How each print's second colour (its accent: leaves, hearts, wafers) follows its first: "leaf" (a natural green),
