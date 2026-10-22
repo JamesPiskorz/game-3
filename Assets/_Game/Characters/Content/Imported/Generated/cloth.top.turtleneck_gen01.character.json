@@ -32,7 +32,10 @@
     "crochet",
     "pointelle",
     "mohair",
-    "lurex_knit"
+    "lurex_knit",
+    "cable_knit",
+    "chunky_knit",
+    "seed_stitch"
   ],
   "patternable": true,
   "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261022_021940_for_texture_textured.glb",

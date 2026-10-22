@@ -24,6 +24,8 @@
   "fabric": "ripstop",
   "fabrics": [
     "quilted",
+    "diamond_quilt",
+    "gloss_puffer",
     "canvas",
     "satin",
     "fleece",

@@ -58,27 +58,28 @@ OWN = {
 # By the garment's own fabric: what else the same cut is made in.
 ALTERNATIVES = {
     "jersey": ["marl", "slub_jersey", "rib_knit", "waffle", "pique", "fleece", "velvet", "pointelle"],
-    "rib_knit": ["jersey", "marl", "wide_rib", "knit", "waffle", "crochet", "pointelle", "mohair", "lurex_knit"],
+    "rib_knit": ["jersey", "marl", "wide_rib", "knit", "waffle", "crochet", "pointelle", "mohair", "lurex_knit", "cable_knit",
+                 "chunky_knit", "seed_stitch"],
     "wide_rib": ["knit", "cable_knit", "chunky_knit", "rib_knit", "boucle", "mohair", "chenille", "seed_stitch", "lurex_knit"],
     "knit": ["cable_knit", "chunky_knit", "wide_rib", "boucle", "rib_knit", "crochet", "pointelle", "mohair", "seed_stitch", "chenille", "lurex_knit"],
     "fleece": ["marl", "jersey", "terry", "velvet", "waffle", "faux_fur", "sherpa", "chenille", "tricot"],
-    "twill": ["denim", "black_denim", "corduroy", "needlecord", "linen", "canvas", "flannel", "tweed", "leather", "stonewash", "ottoman", "pinstripe_wool", "houndstooth_wool"],
+    "twill": ["denim", "black_denim", "corduroy", "needlecord", "herringbone", "felt", "boucle", "linen", "canvas", "flannel", "tweed", "leather", "stonewash", "ottoman", "pinstripe_wool", "houndstooth_wool"],
     "denim": ["stonewash", "acid_wash", "black_denim", "ripped_denim", "twill", "corduroy", "canvas", "leather", "chambray", "patchwork"],
     "poplin": ["oxford", "chambray", "linen", "satin", "seersucker", "flannel", "lace", "dobby", "crinkle", "shantung", "satin_stripe", "sateen", "dotted_swiss"],
     "oxford": ["poplin", "chambray", "linen", "flannel", "seersucker", "dobby", "satin_stripe"],
     "linen": ["poplin", "gauze", "chambray", "seersucker", "canvas", "crochet", "crinkle", "smocked"],
     "satin": ["crepe", "velvet", "chiffon", "jacquard", "lace", "metallic", "shantung", "moire", "taffeta", "satin_stripe", "brocade", "sateen", "plisse", "crushed_velvet", "burnout_velvet"],
-    "crepe": ["satin", "velvet", "jersey", "lace", "guipure", "scuba", "plisse", "foil", "crushed_velvet", "sequins", "jacquard", "metallic", "taffeta", "beaded", "glitter", "ottoman", "vinyl"],
+    "crepe": ["satin", "velvet", "jersey", "lace", "guipure", "scuba", "plisse", "foil", "crushed_velvet", "boucle", "felt", "sequins", "jacquard", "metallic", "taffeta", "beaded", "glitter", "ottoman", "vinyl"],
     "chiffon": ["satin", "crepe", "tulle", "lace", "gauze", "organza", "crinkle", "pleated", "dotted_swiss", "plisse"],
     "lycra": ["rib_lycra", "shimmer_lycra", "athletic_knit", "foil", "metallic", "crochet", "seersucker", "velvet", "mesh", "vinyl", "glitter", "smocked", "scuba"],
     "lace": ["satin", "mesh", "jersey", "velvet", "pointelle", "guipure"],
     "leather": ["suede", "patent", "croc", "canvas", "velvet", "snake", "vinyl", "perforated", "straw"],
     "patent": ["leather", "suede", "croc", "metallic", "velvet", "vinyl", "glitter", "snake"],
-    "canvas": ["leather", "suede", "denim", "corduroy", "mesh", "straw", "perforated", "waxed"],
+    "canvas": ["leather", "suede", "denim", "corduroy", "jumbo_cord", "mesh", "straw", "perforated", "waxed"],
     "mesh": ["canvas", "leather", "ripstop", "knit", "perforated", "nylon"],
     "suede": ["leather", "velvet", "corduroy", "croc", "snake", "sherpa"],
     "rubber": ["patent", "vinyl"],
-    "ripstop": ["quilted", "canvas", "satin", "fleece", "denim", "nylon", "waxed", "vinyl", "oilskin"],
+    "ripstop": ["quilted", "diamond_quilt", "gloss_puffer", "canvas", "satin", "fleece", "denim", "nylon", "waxed", "vinyl", "oilskin"],
     "nylon": ["tricot", "ripstop", "lycra", "athletic_knit", "satin", "velvet", "fleece", "mesh", "hex_mesh"],
     "quilted": ["diamond_quilt", "ripstop", "faux_fur", "corduroy", "nylon", "sherpa", "gloss_puffer"],
     "tweed": ["herringbone", "corduroy", "jumbo_cord", "velvet", "boucle", "twill", "denim", "leather", "ottoman", "felt", "pinstripe_wool", "houndstooth_wool"],
@@ -159,6 +160,12 @@ for k, v in o.items():
             options = [f for f in options if f not in ("mesh", "hex_mesh")]
         if g["slot"] == "bottom":
             options = [f for f in options if f != "faux_fur"]
+        # Felt and bouclé for jackets, skirts, dresses and smart trousers, not shorts, chinos or palazzo pants.
+        if any(w in name for w in ("shorts", "chinos", "palazzo", "jumpsuit")):
+            options = [f for f in options if f not in ("felt", "boucle")]
+        # Cable and chunky knits for sweaters, cardigans and turtlenecks, not a tank or a crop top.
+        if any(w in name for w in ("tank", "crop", "bra")) and "cardigan" not in name:
+            options = [f for f in options if f not in ("cable_knit", "chunky_knit")]
         g["fabrics"] = options
         counts.append(len(options))
 save(o)
