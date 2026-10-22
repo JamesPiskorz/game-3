@@ -1844,6 +1844,55 @@ def whales(size, seed):
     return np.clip(body - belly, 0, 1), np.clip(_outline(body, 1) * 0.5 + face, 0, 1), accent
 
 
+def celestial(size, seed):
+    """Celestial: rayed suns and crescent moons with stars and sparkles round them in the second colour (boho dresses,
+    pyjamas)."""
+    big = tk.scatter(size * 4, 10, seed, size * 4 / 3.6)
+    small = tk.scatter(size * 4, 26, seed + 1, size * 4 / 9)
+
+    def star(d, x0, y0, r, points=5):
+        pts = []
+        for j in range(points * 2):
+            a = np.pi * j / points - np.pi / 2
+            rr = r if j % 2 == 0 else r * (0.42 if points == 5 else 0.25)
+            pts.append((x0 + rr * np.cos(a), y0 + rr * np.sin(a)))
+        d.polygon(pts, fill=255)
+
+    def draw(d, n, part):
+        for k, (cx, cy) in enumerate(big):
+            kind = k % 3
+            for dx in (-n, 0, n):
+                for dy in (-n, 0, n):
+                    x0, y0 = cx + dx, cy + dy
+                    if kind == 0 and part == "sun":
+                        r = n * 0.055
+                        d.ellipse([x0 - r, y0 - r, x0 + r, y0 + r], fill=255)
+                        for j in range(12):
+                            a, b = 2 * np.pi * j / 12, np.pi / 12
+                            reach = r * (2.0 if j % 2 == 0 else 1.6)
+                            d.polygon([(x0 + r * 1.2 * np.cos(a - b * 0.6), y0 + r * 1.2 * np.sin(a - b * 0.6)),
+                                       (x0 + reach * np.cos(a), y0 + reach * np.sin(a)),
+                                       (x0 + r * 1.2 * np.cos(a + b * 0.6), y0 + r * 1.2 * np.sin(a + b * 0.6))], fill=255)
+                    elif kind == 1 and part == "moon":
+                        r = n * 0.075
+                        d.ellipse([x0 - r, y0 - r, x0 + r, y0 + r], fill=255)
+                        d.ellipse([x0 - r * 0.45, y0 - r * 1.1, x0 + r * 1.35, y0 + r * 0.7], fill=0)
+                    elif kind == 2 and part == "stars":
+                        star(d, x0, y0, n * 0.05)
+                        star(d, x0 + n * 0.06, y0 - n * 0.05, n * 0.022)
+        if part == "stars":
+            for cx, cy in small:
+                for dx in (-n, 0, n):
+                    for dy in (-n, 0, n):
+                        star(d, cx + dx, cy + dy, n * 0.018, points=4)
+    sun = _drawn(size, lambda d, n: draw(d, n, "sun"))
+    moon = _drawn(size, lambda d, n: draw(d, n, "moon"))
+    stars = _drawn(size, lambda d, n: draw(d, n, "stars"))
+    colour = np.clip(sun + moon, 0, 1)
+    accent = stars * (1 - colour)
+    return colour, _outline(colour, 1) * 0.45, accent
+
+
 # ------------------------------------------------------------------------------- placed prints: chest graphics
 
 def _graphic(size, layers):
@@ -3361,6 +3410,7 @@ PRINTS = {
     "toile": (toile, "Toile", ["elegant", "bookish", "cute", "date"], (2.2, 3.2), 0.6),
     "azulejo": (azulejo, "Azulejo tiles", ["elegant", "casual", "date"], (2, 3), 0.6),
     "whales": (whales, "Whales", ["cute", "casual"], (2.5, 4), 0.6),
+    "celestial": (celestial, "Suns and moons", ["casual", "gothic", "date", "cute"], (2.5, 4), 0.7),
 }
 
 # How each print's second colour (its accent: leaves, hearts, wafers) follows its first: "leaf" (a natural green),
@@ -3373,7 +3423,7 @@ ACCENT = {
     "cacti": "leaf", "medallions": "contrast", "groovy": "contrast", "flowerpower": "gold", "dinosaurs": "contrast",
     "sailboats": "contrast", "umbrellas": "contrast", "liberty": "contrast", "lavender": "leaf", "maple": "gold",
     "pineapples": "leaf", "memphis": "contrast", "regimental": "contrast", "quilt": "contrast", "graffiti": "contrast",
-    "swooshes": "contrast", "thorns": "leaf", "rosebuds": "leaf", "triplestripes": "contrast", "artdeco": "gold", "dogs": "contrast", "frogs": "leaf", "pearls": "light", "swallows": "light", "foulard": "contrast", "azulejo": "light", "whales": "light",
+    "swooshes": "contrast", "thorns": "leaf", "rosebuds": "leaf", "triplestripes": "contrast", "artdeco": "gold", "dogs": "contrast", "frogs": "leaf", "pearls": "light", "swallows": "light", "foulard": "contrast", "azulejo": "light", "whales": "light", "celestial": "gold",
     "tee_heart": "light", "tee_star": "light", "tee_cherries": "leaf", "tee_rose": "leaf", "tee_sunset": "gold",
     "tee_cat": "light", "tee_rainbow": "contrast", "tee_planet": "contrast", "tee_daisy": "gold", "tee_mountains": "light",
     "tee_butterfly": "contrast", "tee_moon": "gold", "tee_crown": "contrast", "tee_ghost": "light", "tee_palm": "leaf",
@@ -3405,7 +3455,7 @@ KNITTED = {"stripes", "breton", "argyle", "knit", "snowflakes", "rugby", "hearts
 # The occasions prints suit, as extra tags the outfit contexts weight (sleep, swim, formal): pyjama prints, beach
 # prints, gala prints.
 CONTEXT_TAGS = {
-    "sleep": ["whales", "foulard", "toile", "clouds", "moons", "stars", "hearts", "dots", "pindots", "gingham", "check", "pyjama", "bunnies", "cats",
+    "sleep": ["celestial", "whales", "foulard", "toile", "clouds", "moons", "stars", "hearts", "dots", "pindots", "gingham", "check", "pyjama", "bunnies", "cats",
               "raindrops", "snowflakes", "plaid", "buffalo", "candystripe", "floral", "daisies", "cherries",
               "strawberries", "bows", "paws", "rainbows", "planets", "sakura", "ticking", "notes", "smileys", "seigaiha",
               "dinosaurs", "sailboats", "rosebuds", "dogs", "frogs"],
@@ -3420,6 +3470,7 @@ CONTEXT_TAGS = {
 
 # Classic colourways: (how often an item with the print takes one, [(the cloth's colour, the print's)]).
 COLOURWAYS = {
+    "celestial": (0.4, [("#1d2147", "#f2dc9b"), ("#141414", "#e8d08a")]),
     "azulejo": (0.6, [("#f5f3ee", "#1f4e9c"), ("#f6f1e4", "#1c6b8a")]),
     "toile": (0.6, [("#f1ebdd", "#2a3f73"), ("#f2ebe0", "#9b2335"), ("#f4f1ea", "#222222")]),
     "leopard": (0.6, [("#c79a5b", "#2b1c12"), ("#d8c9b0", "#3a3a3a"), ("#b08850", "#1a1410")]),

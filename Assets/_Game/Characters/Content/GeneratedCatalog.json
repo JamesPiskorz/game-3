@@ -9279,6 +9279,33 @@
       "placement": null,
       "colourways": [],
       "colourwayChance": 0.0
+    },
+    {
+      "id": "pattern.celestial_01",
+      "name": "Suns and moons",
+      "weight": 0.7,
+      "tags": [
+        "casual",
+        "gothic",
+        "date",
+        "cute",
+        "sleep"
+      ],
+      "minScale": 2.5,
+      "maxScale": 4.0,
+      "accent": "gold",
+      "placement": null,
+      "colourways": [
+        {
+          "base": "#1d2147",
+          "print": "#f2dc9b"
+        },
+        {
+          "base": "#141414",
+          "print": "#e8d08a"
+        }
+      ],
+      "colourwayChance": 0.4
     }
   ],
   "fabrics": [
