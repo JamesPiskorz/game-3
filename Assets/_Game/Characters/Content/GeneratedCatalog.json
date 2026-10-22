@@ -8891,6 +8891,84 @@
       "placement": null,
       "colourways": [],
       "colourwayChance": 0.0
+    },
+    {
+      "id": "pattern.chains_01",
+      "name": "Chain links",
+      "weight": 0.5,
+      "tags": [
+        "date",
+        "street",
+        "elegant",
+        "formal"
+      ],
+      "minScale": 2.5,
+      "maxScale": 4.0,
+      "accent": null,
+      "placement": null,
+      "colourways": [
+        {
+          "base": "#f4efe4",
+          "print": "#b8902e"
+        },
+        {
+          "base": "#1c1c1f",
+          "print": "#c9a24a"
+        },
+        {
+          "base": "#22305a",
+          "print": "#c9a24a"
+        }
+      ],
+      "colourwayChance": 0.6
+    },
+    {
+      "id": "pattern.rosebuds_01",
+      "name": "Rosebuds",
+      "weight": 0.6,
+      "tags": [
+        "date",
+        "cute",
+        "elegant",
+        "sleep",
+        "formal"
+      ],
+      "minScale": 3.0,
+      "maxScale": 5.0,
+      "accent": "leaf",
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
+    },
+    {
+      "id": "pattern.keys_01",
+      "name": "Skeleton keys",
+      "weight": 0.4,
+      "tags": [
+        "gothic",
+        "bookish"
+      ],
+      "minScale": 2.5,
+      "maxScale": 4.0,
+      "accent": null,
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
+    },
+    {
+      "id": "pattern.triplestripes_01",
+      "name": "Triple stripes",
+      "weight": 0.5,
+      "tags": [
+        "sporty",
+        "street"
+      ],
+      "minScale": 3.0,
+      "maxScale": 5.0,
+      "accent": "contrast",
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     }
   ],
   "fabrics": [

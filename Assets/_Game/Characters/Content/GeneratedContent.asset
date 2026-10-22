@@ -747,6 +747,14 @@ MonoBehaviour:
     Texture: {fileID: 2800000, guid: 1290dd1a4d7fc934b94e94fcbb3fc29c, type: 3}
   - Id: pattern.thorns_01
     Texture: {fileID: 2800000, guid: b6ab01497eb69a6498b231ea08448dd3, type: 3}
+  - Id: pattern.chains_01
+    Texture: {fileID: 2800000, guid: dac9396d559c43b478f7e2fb0e9420f6, type: 3}
+  - Id: pattern.rosebuds_01
+    Texture: {fileID: 2800000, guid: cd40dfc440db9a14a8f772241dc38a9e, type: 3}
+  - Id: pattern.keys_01
+    Texture: {fileID: 2800000, guid: 13fc3b9374794ce45962bee6e3ec8178, type: 3}
+  - Id: pattern.triplestripes_01
+    Texture: {fileID: 2800000, guid: 096ae83d977af5b44812f241514531c9, type: 3}
   Fabrics:
   - Id: plain
     Material: {fileID: 2100000, guid: 438e55e3cc9afa740b5c2f26ae972251, type: 2}

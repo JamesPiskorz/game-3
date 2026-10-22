@@ -2657,6 +2657,68 @@ def thorns(size, seed):
     return np.clip(np.maximum(vines, roses) * (1 - leaves), 0, 1), np.clip(rose_ink, 0, 1), leaves
 
 
+
+def chains(size, seed):
+    """Chain links: interlocking oval links in diagonal runs, as on a silk scarf, outlined in ink."""
+    def draw(d, n):
+        # The chains run 2 across for 1 down, so each wraps after sqrt(5) tiles of length: 26 links to that, an even
+        # number so the alternating links meet themselves.
+        step = n * np.sqrt(5) / 26
+        for chain in range(3):
+            for k in range(0, 26):
+                along = k * step
+                cx = along * 0.894 + chain * n / 3  # the chains run at 26.6 degrees (2 across, 1 down), so they repeat
+                cy = along * 0.447
+                w, h = (step * 0.62, step * 0.34) if k % 2 == 0 else (step * 0.5, step * 0.2)
+                for dx in (-n, 0, n):
+                    for dy in (-n, 0, n):
+                        x0, y0 = cx % n + dx, cy % n + dy
+                        box = [(x0 + px * 0.894 - py * 0.447, y0 + px * 0.447 + py * 0.894) for px, py in
+                               [(w * np.cos(t), h * np.sin(t)) for t in np.linspace(0, 2 * np.pi, 24)]]
+                        d.line(box + [box[0]], fill=255, width=max(3, n // 60))
+    links = _drawn(size, draw)
+    return links, _outline(links, 1) * 0.5
+
+
+def rosebuds(size, seed):
+    """Rosebuds: tiny closed roses on short stems with a pair of leaves, scattered close (date dresses, lingerie)."""
+    def bud(px):
+        r = px // 2
+        y, x = np.mgrid[-r:r + 1, -r:r + 1].astype(float) / max(r, 1)
+        head = np.hypot(x / 0.3, (y + 0.3) / 0.38) < 1
+        swirl = head & (np.abs(np.sin((x + 0.3 * y) * 14)) < 0.25)
+        stem = (np.abs(x) < 0.04) & (y > 0.05) & (y < 0.9)
+        leaves = (np.hypot((x - 0.18) / 0.18, (y - 0.4) / 0.08) < 1) | (np.hypot((x + 0.18) / 0.18, (y - 0.55) / 0.08) < 1)
+        colour = tk.blur_small(head.astype(float), 0.7)
+        green = tk.blur_small((stem | leaves).astype(float), 0.7) * (1 - colour)
+        return colour, np.clip(swirl * 0.6 + _outline(colour, 1) * 0.4, 0, 1), green
+    return _scatter_shapes(size, [bud(int(size / 6)), bud(int(size / 7.5))], 34, seed, size / 7.5)
+
+
+def keys(size, seed):
+    """Skeleton keys: old ornate keys with looped bows, tumbling about (gothic, bookish)."""
+    def key(px):
+        r = px // 2
+        y, x = np.mgrid[-r:r + 1, -r:r + 1].astype(float) / max(r, 1)
+        bow = np.abs(np.hypot(x, y + 0.6) - 0.22) < 0.07
+        bow |= np.abs(np.hypot(x - 0.17, y + 0.75) - 0.08) < 0.04
+        shaft = (np.abs(x) < 0.05) & (y > -0.4) & (y < 0.85)
+        bit = (x > 0) & (x < 0.25) & (((y > 0.55) & (y < 0.65)) | ((y > 0.72) & (y < 0.85)))
+        collar = (np.abs(x) < 0.1) & (np.abs(y + 0.3) < 0.04)
+        shape = tk.blur_small((bow | shaft | bit | collar).astype(float), 0.7)
+        return shape, _outline(shape, 1) * 0.5
+    return _scatter_shapes(size, [key(int(size / 4)), key(int(size / 5.5))], 12, seed, size / 4.5)
+
+
+def triple_stripes(size, seed):
+    """Triple stripes: sets of three narrow stripes down the cloth, as on track wear, in two colours."""
+    x, y = tk.grid(size)
+    u = x * 2
+    first = np.maximum(_band(u, 0.38, 0.04, 0.006), _band(u, 0.5, 0.04, 0.006))
+    second = _band(u, 0.62, 0.04, 0.006)
+    return first, _zero(size), second
+
+
 # name, tags, tiles per metre (min, max), weight
 PRINTS = {
     # Patterns the stand-ins share (their catalog lists these ids).
@@ -2877,6 +2939,10 @@ PRINTS = {
     "graffiti": (graffiti, "Graffiti", ["street", "sporty"], (2, 3.5), 0.5),
     "swooshes": (swooshes, "Speed swooshes", ["sporty", "street"], (2, 3.5), 0.5),
     "thorns": (thorns, "Thorny vines", ["gothic", "elegant"], (2, 3.5), 0.5),
+    "chains": (chains, "Chain links", ["date", "street", "elegant"], (2.5, 4), 0.5),
+    "rosebuds": (rosebuds, "Rosebuds", ["date", "cute", "elegant"], (3, 5), 0.6),
+    "keys": (keys, "Skeleton keys", ["gothic", "bookish"], (2.5, 4), 0.4),
+    "triplestripes": (triple_stripes, "Triple stripes", ["sporty", "street"], (3, 5), 0.5),
 }
 
 # How each print's second colour (its accent: leaves, hearts, wafers) follows its first: "leaf" (a natural green),
@@ -2889,7 +2955,7 @@ ACCENT = {
     "cacti": "leaf", "medallions": "contrast", "groovy": "contrast", "flowerpower": "gold", "dinosaurs": "contrast",
     "sailboats": "contrast", "umbrellas": "contrast", "liberty": "contrast", "lavender": "leaf", "maple": "gold",
     "pineapples": "leaf", "memphis": "contrast", "regimental": "contrast", "quilt": "contrast", "graffiti": "contrast",
-    "swooshes": "contrast", "thorns": "leaf",
+    "swooshes": "contrast", "thorns": "leaf", "rosebuds": "leaf", "triplestripes": "contrast",
     "tee_heart": "light", "tee_star": "light", "tee_cherries": "leaf", "tee_rose": "leaf", "tee_sunset": "gold",
     "tee_cat": "light", "tee_rainbow": "contrast", "tee_planet": "contrast", "tee_daisy": "gold", "tee_mountains": "light",
     "tee_butterfly": "contrast", "tee_moon": "gold", "tee_crown": "contrast", "tee_ghost": "light", "tee_palm": "leaf",
@@ -2924,13 +2990,13 @@ CONTEXT_TAGS = {
     "sleep": ["clouds", "moons", "stars", "hearts", "dots", "pindots", "gingham", "check", "pyjama", "bunnies", "cats",
               "raindrops", "snowflakes", "plaid", "buffalo", "candystripe", "floral", "daisies", "cherries",
               "strawberries", "bows", "paws", "rainbows", "planets", "sakura", "ticking", "notes", "smileys", "seigaiha",
-              "dinosaurs", "sailboats"],
+              "dinosaurs", "sailboats", "rosebuds"],
     "swim": ["pineapples", "sailboats", "tropical", "hibiscus", "stripes", "breton", "waves", "scales", "shells", "fish", "seagulls", "anchors",
              "lemons", "watermelon", "floral", "bigfloral", "dots", "gingham", "leopard", "zebra", "cheetah", "tiedye",
              "cherries", "strawberries", "daisies", "sunsetfade", "ombre", "colourblock", "ricrac", "tee_palm", "icecream"],
     "rain": ["raindrops", "clouds", "umbrellas", "check", "gingham", "plaid", "buffalo", "houndstooth", "dots",
              "stripes", "breton", "anchors", "fish"],
-    "formal": ["damask", "bigfloral", "roses", "ombre", "sunsetfade", "scallop", "greekkey", "medallions", "fleurdelis",
+    "formal": ["chains", "rosebuds", "damask", "bigfloral", "roses", "ombre", "sunsetfade", "scallop", "greekkey", "medallions", "fleurdelis",
                "paisley", "seigaiha", "shippo", "quatrefoil", "lattice", "starlattice", "watercolour", "hemflowers"],
 }
 
@@ -2964,6 +3030,7 @@ COLOURWAYS = {
     "festive": (0.6, [("#a51f27", "#f4f1ea"), ("#1e5a36", "#f4f1ea")]),
     "anchors": (0.4, [("#f4f1ea", "#22305a"), ("#22305a", "#f4f1ea")]),
     "ticking": (0.5, [("#f1ece0", "#2a3f6e")]),
+    "chains": (0.6, [("#f4efe4", "#b8902e"), ("#1c1c1f", "#c9a24a"), ("#22305a", "#c9a24a")]),
 }
 
 # Animal skins and hides: the only prints a leather takes (fabrics.PRINT_TAGS). They carry the tag "animal".
