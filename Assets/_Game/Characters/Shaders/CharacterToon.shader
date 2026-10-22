@@ -10,6 +10,9 @@ Shader "Game/Characters/Toon"
         _BaseLift ("Base Map Lift (its structure as light, on dark colours)", Range(0, 1)) = 0
         _Gloss ("Gloss (a toon highlight on shiny cloth; 0 matte)", Range(0, 1)) = 0
         _Sheen ("Sheen (a soft glow at the edges of pile: velvet, faux fur)", Range(0, 1)) = 0
+        _Sheer ("Sheer (how much skin shows through the base map's holes, its alpha)", Range(0, 1)) = 0
+        _SkinLit ("Skin Showing Through (lit)", Color) = (0.96, 0.8, 0.7, 1)
+        _SkinShade ("Skin Showing Through (shade)", Color) = (0.8, 0.6, 0.55, 1)
         [MainColor] _BaseColor ("Base Colour", Color) = (1, 1, 1, 1)
         _BaseShade ("Base Shade Colour", Color) = (0.7, 0.62, 0.68, 1)
 

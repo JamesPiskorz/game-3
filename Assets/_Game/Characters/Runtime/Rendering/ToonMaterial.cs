@@ -21,6 +21,9 @@ namespace Game.Characters.Rendering
         public static readonly int BaseLift = Shader.PropertyToID("_BaseLift");
         public static readonly int Gloss = Shader.PropertyToID("_Gloss");
         public static readonly int Sheen = Shader.PropertyToID("_Sheen");
+        public static readonly int Sheer = Shader.PropertyToID("_Sheer");
+        public static readonly int SkinLit = Shader.PropertyToID("_SkinLit");
+        public static readonly int SkinShade = Shader.PropertyToID("_SkinShade");
         public static readonly int PatternRegions = Shader.PropertyToID("_PatternRegions");
         public static readonly int PatternScale = Shader.PropertyToID("_PatternScale");
         public static readonly int OutlineWidth = Shader.PropertyToID("_OutlineWidth");
@@ -89,6 +92,17 @@ namespace Game.Characters.Rendering
             material.SetFloat(BaseLift, fabric.HasFloat(BaseLift) ? fabric.GetFloat(BaseLift) : 0f);
             material.SetFloat(Gloss, fabric.HasFloat(Gloss) ? fabric.GetFloat(Gloss) : 0f);
             material.SetFloat(Sheen, fabric.HasFloat(Sheen) ? fabric.GetFloat(Sheen) : 0f);
+        }
+
+        /// <summary>
+        /// How much of the wearer's skin (<paramref name="skin"/>) shows through an open fabric's holes (lace, mesh,
+        /// crochet, eyelets: its base map's alpha), from 0 (none) to 1.
+        /// </summary>
+        public static void SetSheer(Material material, float sheer, SkinTonePalette.Stop skin)
+        {
+            material.SetFloat(Sheer, sheer);
+            material.SetColor(SkinLit, skin.Base);
+            material.SetColor(SkinShade, skin.Shade);
         }
 
         public static void ClearPattern(Material material)

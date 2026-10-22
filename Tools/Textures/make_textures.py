@@ -35,7 +35,12 @@ def write_fabrics():
     for i, (fid, fn) in enumerate(fabrics.FABRICS.items()):
         tile = np.clip(fn(FABRIC_SIZE, 1000 + i), 0, 1)
         grey = (tile * 255).round().astype(np.uint8)
-        Image.fromarray(np.stack([grey] * 3, axis=-1), "RGB").save(os.path.join(folder, f"fabric.{fid}.png"))
+        if fid in fabrics.HOLES:  # alpha: 0 in an open fabric's holes, where the skin shows
+            threshold = fabrics.HOLES[fid]
+            alpha = (np.clip((tile - (threshold - 0.06)) / 0.06, 0, 1) * 255).round().astype(np.uint8)
+            Image.fromarray(np.stack([grey] * 3 + [alpha], axis=-1), "RGBA").save(os.path.join(folder, f"fabric.{fid}.png"))
+        else:
+            Image.fromarray(np.stack([grey] * 3, axis=-1), "RGB").save(os.path.join(folder, f"fabric.{fid}.png"))
         entries.append({"id": fid, "name": _title(fn), "mean": round(float(tile.mean()), 4), "tileMetres": fabrics.TILE_METRES,
                         "tags": fabrics.TAGS.get(fid, ["casual"]) + [o for o, ids in fabrics.CONTEXT_TAGS.items() if fid in ids],
                         "printable": fid not in fabrics.NO_PRINT,

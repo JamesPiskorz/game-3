@@ -542,7 +542,7 @@
         "ripstop",
         "satin"
       ],
-      "clothBottom": 0.5795268,
+      "clothBottom": 0.5792446,
       "clothTop": 1.1138171,
       "contexts": [
         "swim"
@@ -628,7 +628,7 @@
         "mesh",
         "waxed"
       ],
-      "clothBottom": 0.127143964,
+      "clothBottom": 0.126404658,
       "clothTop": 1.1155839,
       "contexts": []
     },
@@ -699,7 +699,7 @@
         "pinstripe_wool",
         "houndstooth_wool"
       ],
-      "clothBottom": 0.139993578,
+      "clothBottom": 0.1390248,
       "clothTop": 1.1138171,
       "contexts": []
     },
@@ -758,7 +758,7 @@
         "mesh",
         "scuba"
       ],
-      "clothBottom": 0.580692,
+      "clothBottom": 0.58063525,
       "clothTop": 1.12001359,
       "contexts": []
     },
@@ -912,7 +912,7 @@
         "sherpa",
         "chenille"
       ],
-      "clothBottom": 0.190808669,
+      "clothBottom": 0.190623879,
       "clothTop": 1.1138171,
       "contexts": [
         "casual",
@@ -945,7 +945,7 @@
         "mesh",
         "scuba"
       ],
-      "clothBottom": 0.128415689,
+      "clothBottom": 0.128183261,
       "clothTop": 1.11674929,
       "contexts": []
     },
@@ -1107,7 +1107,7 @@
         "fleece",
         "mesh"
       ],
-      "clothBottom": 0.7571191,
+      "clothBottom": 0.757019162,
       "clothTop": 1.12387872,
       "contexts": [
         "sport",
@@ -1220,7 +1220,7 @@
         "chambray",
         "patchwork"
       ],
-      "clothBottom": 0.13680242,
+      "clothBottom": 0.136795342,
       "clothTop": 1.1184957,
       "contexts": []
     },
@@ -1281,7 +1281,7 @@
         "fleece",
         "marl"
       ],
-      "clothBottom": 0.124234654,
+      "clothBottom": 0.124028921,
       "clothTop": 1.1138171,
       "contexts": [
         "sleep"
@@ -1451,7 +1451,7 @@
         "glitter",
         "scuba"
       ],
-      "clothBottom": 0.757744968,
+      "clothBottom": 0.757614732,
       "clothTop": 1.07631159,
       "contexts": [
         "swim"
@@ -1543,7 +1543,7 @@
         "fleece",
         "mesh"
       ],
-      "clothBottom": 0.127039328,
+      "clothBottom": 0.1262987,
       "clothTop": 1.11382389,
       "contexts": []
     },
@@ -1604,7 +1604,7 @@
         "mesh",
         "scuba"
       ],
-      "clothBottom": 0.129391134,
+      "clothBottom": 0.128279954,
       "clothTop": 1.11589944,
       "contexts": []
     },
@@ -2342,7 +2342,7 @@
         "crinkle",
         "smocked"
       ],
-      "clothBottom": 0.7574486,
+      "clothBottom": 0.7571924,
       "clothTop": 1.44086468,
       "contexts": []
     },
@@ -8336,6 +8336,72 @@
       "minScale": 2.5,
       "maxScale": 4.0,
       "accent": null,
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
+    },
+    {
+      "id": "pattern.groovy_01",
+      "name": "Groovy waves",
+      "weight": 0.4,
+      "tags": [
+        "street",
+        "casual",
+        "cute"
+      ],
+      "minScale": 1.5,
+      "maxScale": 3.0,
+      "accent": "contrast",
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
+    },
+    {
+      "id": "pattern.flowerpower_01",
+      "name": "Flower power",
+      "weight": 0.5,
+      "tags": [
+        "cute",
+        "casual",
+        "street"
+      ],
+      "minScale": 2.0,
+      "maxScale": 3.5,
+      "accent": "gold",
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
+    },
+    {
+      "id": "pattern.dinosaurs_01",
+      "name": "Dinosaurs",
+      "weight": 0.3,
+      "tags": [
+        "cute",
+        "casual",
+        "sleep"
+      ],
+      "minScale": 2.5,
+      "maxScale": 4.0,
+      "accent": "contrast",
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
+    },
+    {
+      "id": "pattern.sailboats_01",
+      "name": "Sailboats",
+      "weight": 0.4,
+      "tags": [
+        "casual",
+        "cute",
+        "bookish",
+        "sleep",
+        "swim"
+      ],
+      "minScale": 2.5,
+      "maxScale": 4.0,
+      "accent": "contrast",
       "placement": null,
       "colourways": [],
       "colourwayChance": 0.0

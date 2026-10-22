@@ -2761,10 +2761,28 @@ UV_BAND = 0.02  # metres: the slices fabric UVs measure round
 # only shifts along the side seams, where the panels already meet), so a print placed on the front (a T-shirt's
 # chest graphic, round u = 0) isn't also on the back.
 BACK_PANEL_U = 10.0
-# Each limb's u starts further along still (whole numbers of tiles again), so a placed print can't land on a sleeve or
-# a trouser leg as well as the body.
+# Each limb's u starts further along still (whole numbers of tiles again), so a placed print can't land on a sleeve as
+# well as the body. A trouser leg's is only a fallback: it lines up with the hips' instead (_leg_alignment).
 LIMB_U = {"arm.L": 20.0, "arm.R": 30.0, "leg.L": 40.0, "leg.R": 50.0, "foot.L": 60.0, "foot.R": 70.0}
 UV_SECTORS = 72
+
+
+def _leg_alignment(torso, points, u, outward, along, fallback):
+    """The offset that makes a leg tube's u match the body's at the front of the thigh, where the leg meets it: the
+    leg's u along its front line at the top, against the front panel's u just above at the same x. ``fallback`` if
+    either can't be found (a garment that is all leg)."""
+    front = (outward @ np.array([0.0, -1.0, 0.0])) > 0.9
+    top = front & (along < along.min() + 0.06)
+    if top.sum() < 3:
+        return fallback
+    x, z = points[top, 0].mean(), points[top, 2].mean()
+    body_points, body_u, body_back = torso
+    near = (np.abs(body_points[:, 0] - x) < 0.025) & (body_points[:, 2] > z) & (body_points[:, 2] < z + 0.08)
+    if body_back is not None:
+        near &= ~body_back
+    if near.sum() < 3:
+        return fallback
+    return float(np.median(body_u[near]) - np.median(u[top]))
 
 
 def _arc_lengths(bands, t, angle, radius, count, back=None):
@@ -2839,8 +2857,9 @@ def fabric_uvs(part, joints, torso_only=False, layer="UVMap"):
     down every side. With ``torso_only`` (a skirt), it's all one tube round the hips.
 
     The layout placed prints rely on (CharacterBuilder): the body's front panel has u = 0 at the centre front (the
-    wearer's left positive), the back panel u = BACK_PANEL_U at the centre back, each limb its own LIMB_U; v is the
-    height in metres in the bind pose, down a limb its root's height less the distance along it.
+    wearer's left positive), the back panel u = BACK_PANEL_U at the centre back, each sleeve and foot its own LIMB_U,
+    each trouser leg lined up with the hips down the front of the thigh; v is the height in metres in the bind pose,
+    down a limb its root's height less the distance along it.
     """
     mesh = part.data
     co = bt.vertices(part)
@@ -2891,6 +2910,7 @@ def fabric_uvs(part, joints, torso_only=False, layer="UVMap"):
         return np.array([foot[0], foot[1], 0.0]), np.array([0.0, 0.0, 1.0]), np.array([0.0, -1.0, 0.0])
 
     uv = np.zeros((len(loop_vertex), 2))
+    torso = None
     for c, chain in enumerate(chains):
         loops = np.flatnonzero(loop_chain == c)
         if not len(loops):
@@ -2941,7 +2961,15 @@ def fabric_uvs(part, joints, torso_only=False, layer="UVMap"):
         uv[loops, 0] = _arc_lengths(bands, t, angle, radius, count, back)
         if back is not None:
             uv[loops, 0] += np.where(back, BACK_PANEL_U, 0.0)
-        uv[loops, 0] += LIMB_U.get(chain, 0.0)
+        if chain == "torso":
+            torso = (co[loop_vertex[loops]], uv[loops, 0].copy(), back)
+        # A trouser leg's u lines up with the hips' down the front of the thigh, so a vertical stripe or a check
+        # carries on across the seam where the leg meets the body; sleeves and feet keep their own offsets.
+        offset = LIMB_U.get(chain, 0.0)
+        if chain.startswith("leg") and torso is not None:
+            offset = _leg_alignment(torso, co[loop_vertex[loops]], uv[loops, 0], radial / np.maximum(radius, 1e-6)[:, None],
+                                    along, offset)
+        uv[loops, 0] += offset
         # Up the torso and feet, v is the height (z); down the limbs, the limb root's height less the distance along
         # it, so a leg's v carries on from the hips' (a stripe round the hips meets itself round the thigh) and v is
         # height in metres all over a standing garment.

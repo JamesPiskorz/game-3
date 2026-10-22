@@ -57,7 +57,8 @@ namespace Game.Characters.ContentAuthoring
         /// <summary>
         /// The height range of a generated part's cloth: its fabric UVs' v (height in metres, garment_tools.fabric_uvs)
         /// over the body's panels and the legs, not the sleeves (whose v runs out along the arm) or the feet (u: the
-        /// front panel round 0, the back round 10, the arms 20-40, the legs 40-60, the feet beyond).
+        /// front panel and the legs lined up with it round 0, the back round 10, the arms 20-40, a leg that couldn't be
+        /// lined up 40-60, the feet beyond).
         /// </summary>
         static (float Bottom, float Top) ClothHeights(CharacterPart prefab)
         {

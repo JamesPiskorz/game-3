@@ -695,6 +695,14 @@ MonoBehaviour:
     Texture: {fileID: 2800000, guid: eca6b117789c5ce4fb1c0e1fca8d02c6, type: 3}
   - Id: pattern.birds_01
     Texture: {fileID: 2800000, guid: 45804c2e84feca54a81935fb492dc5c4, type: 3}
+  - Id: pattern.groovy_01
+    Texture: {fileID: 2800000, guid: a74ef6e127bddc541a55167bc96b1ea7, type: 3}
+  - Id: pattern.flowerpower_01
+    Texture: {fileID: 2800000, guid: bbe8ce7df19d6b542853783c0610c5b5, type: 3}
+  - Id: pattern.dinosaurs_01
+    Texture: {fileID: 2800000, guid: f2a6b9c99134c394a8f4a52097e9245a, type: 3}
+  - Id: pattern.sailboats_01
+    Texture: {fileID: 2800000, guid: 352e85c034b965147951b235c4d61985, type: 3}
   Fabrics:
   - Id: plain
     Material: {fileID: 2100000, guid: 438e55e3cc9afa740b5c2f26ae972251, type: 2}

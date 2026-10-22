@@ -10,6 +10,9 @@ CBUFFER_START(UnityPerMaterial)
     half _BaseLift;
     half _Gloss;
     half _Sheen;
+    half _Sheer;
+    half4 _SkinLit;
+    half4 _SkinShade;
     half4 _BaseColor;
     half4 _BaseShade;
     half4 _Color1;
@@ -89,12 +92,14 @@ half4 ToonMask(float2 uv, float2 uv1, half4 vertexColour)
 // the point (u, v) = .xy, rather than repeated: the generated garments' UVs are metres of cloth, u from the centre front.
 // A band (.z < 0: a hem's border, an embroidered yoke) repeats round the garment at _PatternScale tiles per metre and
 // is placed up it, .w metres either side of the height .y.
+// The base map's alpha marks an open fabric's holes, which show the skin (_Sheer, _SkinLit, _SkinShade).
 // _BaseLift adds the fabric's structure as light too, the more the darker the cloth, since darkening alone can't show
 // on black: the stitches of a black knit, the flecks of a charcoal tweed, the glint of black patent.
 void ToonAlbedo(float2 uv, float2 uv1, half4 vertexColour, out half3 lit, out half3 shade)
 {
     half gain = _BaseGain > 0.0 ? _BaseGain : 1.0; // shaders and materials without the property keep the texture as is
-    half3 texel = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, TRANSFORM_TEX(uv, _BaseMap)).rgb * gain;
+    half4 surface = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, TRANSFORM_TEX(uv, _BaseMap));
+    half3 texel = surface.rgb * gain;
     half4 mask = saturate(ToonMask(uv, uv1, vertexColour));
     half baseWeight = saturate(1.0 - mask.r - mask.g - mask.b - mask.a);
     half3 regions = _Color1.rgb * mask.r + _Color2.rgb * mask.g + _Color3.rgb * mask.b + _Color4.rgb * mask.a;
@@ -124,6 +129,12 @@ void ToonAlbedo(float2 uv, float2 uv1, half4 vertexColour, out half3 lit, out ha
     const half3 luma = half3(0.2126, 0.7152, 0.0722);
     lit = max(texel * litColour + lift * (1.0 - saturate(dot(litColour, luma))), 0.0);
     shade = max(texel * shadeColour + lift * 0.6 * (1.0 - saturate(dot(shadeColour, luma))), 0.0);
+
+    // An open fabric's holes (its base map's alpha: lace's net, a crochet's gaps, eyelets) show the wearer's skin, by
+    // _Sheer: all of it on lingerie and swimwear, part of it on a lined dress or blouse.
+    half open = (1.0 - surface.a) * _Sheer;
+    lit = lerp(lit, _SkinLit.rgb, open);
+    shade = lerp(shade, _SkinShade.rgb, open);
 }
 
 #endif

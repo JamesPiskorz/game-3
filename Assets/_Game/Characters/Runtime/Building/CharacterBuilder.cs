@@ -244,15 +244,20 @@ namespace Game.Characters.Building
             }
 
             if (outfit == null) return;
+            SkinTonePalette.Stop skin = _content.SkinPalette.Evaluate(dna.Skin.Tone, dna.Skin.Undertone);
             foreach (ItemDna item in outfit.Items)
             {
                 PartEntry entry = _catalog.Part(item.ItemId);
                 if (entry == null) continue;
+                // Lace, mesh and crochet show the skin through their holes: lingerie and swimwear wholly, other
+                // clothes as if lined, part of it.
+                float sheer = entry.Tags.Contains("sleep") || entry.Tags.Contains("swim") ? 1f : LinedSheer;
                 // The fabric it's made in: another fabric's surface, or (back to) the part's own.
                 Material fabric = _content.Fabric(item.FabricId) ?? OwnMaterial(item.ItemId);
                 foreach (Material material in character.PartMaterials(entry.Slot))
                 {
                     ToonMaterial.SetFabric(material, fabric);
+                    ToonMaterial.SetSheer(material, sheer, skin);
                     for (int region = 0; region < item.RegionColors.Count && region < 4; region++)
                         ToonMaterial.SetRegionColour(material, region, ToColour(item.RegionColors[region]));
                     // Unused regions take region 1's colour, so stand-in masks never show template colours.
@@ -281,6 +286,9 @@ namespace Game.Characters.Building
         static readonly Vector4 Chest = new Vector4(0f, 1.24f, 0.1f, 0.1f);
         static readonly Vector4 Badge = new Vector4(0.085f, 1.3f, 0.045f, 0.045f);
         static readonly Vector4 Back = new Vector4(10f, 1.24f, 0.12f, 0.12f);
+
+        // How much skin shows through an open fabric's holes on clothes that are usually lined.
+        const float LinedSheer = 0.5f;
 
         static Vector4 Sized(Vector4 place, float scale)
         {

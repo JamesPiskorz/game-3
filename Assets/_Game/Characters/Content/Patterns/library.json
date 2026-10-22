@@ -3166,6 +3166,72 @@
    "placement": null,
    "colourwayChance": 0.0,
    "colourways": []
+  },
+  {
+   "id": "pattern.groovy_01",
+   "name": "Groovy waves",
+   "tags": [
+    "street",
+    "casual",
+    "cute"
+   ],
+   "minScale": 1.5,
+   "maxScale": 3,
+   "weight": 0.4,
+   "accent": "contrast",
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
+  },
+  {
+   "id": "pattern.flowerpower_01",
+   "name": "Flower power",
+   "tags": [
+    "cute",
+    "casual",
+    "street"
+   ],
+   "minScale": 2,
+   "maxScale": 3.5,
+   "weight": 0.5,
+   "accent": "gold",
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
+  },
+  {
+   "id": "pattern.dinosaurs_01",
+   "name": "Dinosaurs",
+   "tags": [
+    "cute",
+    "casual",
+    "sleep"
+   ],
+   "minScale": 2.5,
+   "maxScale": 4,
+   "weight": 0.3,
+   "accent": "contrast",
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
+  },
+  {
+   "id": "pattern.sailboats_01",
+   "name": "Sailboats",
+   "tags": [
+    "casual",
+    "cute",
+    "bookish",
+    "sleep",
+    "swim"
+   ],
+   "minScale": 2.5,
+   "maxScale": 4,
+   "weight": 0.4,
+   "accent": "contrast",
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   }
  ]
 }

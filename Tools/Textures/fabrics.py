@@ -1077,6 +1077,9 @@ CONTEXT_TAGS = {
               "chenille", "sherpa", "plain", "poplin", "crinkle", "sateen", "dotted_swiss"],
 }
 
+# Open fabrics: the shade below which a pixel is a hole, where the wearer's skin shows (the texture's alpha).
+HOLES = {"lace": 0.47, "mesh": 0.6, "crochet": 0.5, "eyelet": 0.55, "guipure": 0.5}
+
 # How glossy each shiny fabric is (the shader's _Gloss: a toon highlight, smaller and brighter the glossier); the rest
 # are matte.
 GLOSS = {
