@@ -898,6 +898,12 @@ MonoBehaviour:
     Material: {fileID: 2100000, guid: 9d41c113bfc18714781ae77691ce6b45, type: 2}
   - Id: sateen
     Material: {fileID: 2100000, guid: a7cf21148f469174fa83bca313b2d77b, type: 2}
+  - Id: black_denim
+    Material: {fileID: 2100000, guid: dc7ef0044f57afa45b1cf7ed180c0643, type: 2}
+  - Id: ripped_denim
+    Material: {fileID: 2100000, guid: 5a2f72bb21eb3b941af8b1de5a9722b7, type: 2}
+  - Id: athletic_knit
+    Material: {fileID: 2100000, guid: 67db124dc9c0cd247a2a642f8919e750, type: 2}
   Sliders:
   - Id: body.weight
     Kind: 0

@@ -687,6 +687,7 @@
       "fabrics": [
         "twill",
         "denim",
+        "black_denim",
         "corduroy",
         "needlecord",
         "linen",
@@ -751,6 +752,7 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "athletic_knit",
         "metallic",
         "crochet",
         "seersucker",
@@ -782,6 +784,8 @@
         "denim",
         "stonewash",
         "acid_wash",
+        "black_denim",
+        "ripped_denim",
         "twill",
         "corduroy",
         "canvas",
@@ -815,6 +819,8 @@
         "denim",
         "stonewash",
         "acid_wash",
+        "black_denim",
+        "ripped_denim",
         "twill",
         "corduroy",
         "canvas",
@@ -873,6 +879,8 @@
         "denim",
         "stonewash",
         "acid_wash",
+        "black_denim",
+        "ripped_denim",
         "twill",
         "corduroy",
         "canvas",
@@ -938,6 +946,7 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "athletic_knit",
         "metallic",
         "crochet",
         "seersucker",
@@ -1102,6 +1111,7 @@
         "nylon",
         "ripstop",
         "lycra",
+        "athletic_knit",
         "satin",
         "velvet",
         "fleece",
@@ -1173,6 +1183,7 @@
       "fabrics": [
         "twill",
         "denim",
+        "black_denim",
         "corduroy",
         "needlecord",
         "linen",
@@ -1213,6 +1224,8 @@
         "denim",
         "stonewash",
         "acid_wash",
+        "black_denim",
+        "ripped_denim",
         "twill",
         "corduroy",
         "canvas",
@@ -1308,6 +1321,7 @@
       "fabrics": [
         "twill",
         "denim",
+        "black_denim",
         "corduroy",
         "needlecord",
         "linen",
@@ -1345,6 +1359,7 @@
       "fabrics": [
         "twill",
         "denim",
+        "black_denim",
         "corduroy",
         "needlecord",
         "linen",
@@ -1381,6 +1396,7 @@
       "fabrics": [
         "twill",
         "denim",
+        "black_denim",
         "corduroy",
         "needlecord",
         "linen",
@@ -1538,6 +1554,7 @@
         "nylon",
         "ripstop",
         "lycra",
+        "athletic_knit",
         "satin",
         "velvet",
         "fleece",
@@ -1568,6 +1585,8 @@
         "denim",
         "stonewash",
         "acid_wash",
+        "black_denim",
+        "ripped_denim",
         "twill",
         "corduroy",
         "canvas",
@@ -1597,6 +1616,7 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "athletic_knit",
         "metallic",
         "crochet",
         "seersucker",
@@ -4304,6 +4324,7 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "athletic_knit",
         "metallic",
         "crochet",
         "seersucker",
@@ -4435,6 +4456,7 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "athletic_knit",
         "metallic",
         "crochet",
         "seersucker",
@@ -4559,6 +4581,7 @@
         "nylon",
         "ripstop",
         "lycra",
+        "athletic_knit",
         "satin",
         "velvet",
         "fleece",
@@ -10280,6 +10303,87 @@
         "casual",
         "bookish",
         "sleep"
+      ],
+      "printable": true,
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
+    },
+    {
+      "id": "black_denim",
+      "name": "Black or grey denim",
+      "weight": 1.0,
+      "tags": [
+        "street",
+        "gothic",
+        "casual"
+      ],
+      "printable": false,
+      "printTags": [],
+      "colours": [
+        {
+          "hex": "#1c1c1f",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#2a2a2e",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#55565c",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#7a7b80",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ],
+      "colourChance": 0.9
+    },
+    {
+      "id": "ripped_denim",
+      "name": "Distressed denim",
+      "weight": 1.0,
+      "tags": [
+        "street",
+        "casual"
+      ],
+      "printable": false,
+      "printTags": [],
+      "colours": [
+        {
+          "hex": "#3d5f8f",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#5a7caa",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#7898c0",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#2f4670",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ],
+      "colourChance": 0.8
+    },
+    {
+      "id": "athletic_knit",
+      "name": "Performance knit",
+      "weight": 1.0,
+      "tags": [
+        "sporty"
       ],
       "printable": true,
       "printTags": [],

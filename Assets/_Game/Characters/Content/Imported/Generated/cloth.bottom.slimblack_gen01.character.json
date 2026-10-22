@@ -25,6 +25,7 @@
   "fabric": "twill",
   "fabrics": [
     "denim",
+    "black_denim",
     "corduroy",
     "needlecord",
     "linen",

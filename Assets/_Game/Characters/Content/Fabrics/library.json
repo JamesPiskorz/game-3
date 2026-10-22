@@ -1782,6 +1782,70 @@
    "weight": 1.0,
    "gloss": 0.2,
    "sheen": 0.0
+  },
+  {
+   "id": "black_denim",
+   "name": "Black or grey denim",
+   "mean": 0.8297,
+   "tileMetres": 0.25,
+   "tags": [
+    "street",
+    "gothic",
+    "casual"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.22,
+   "colourChance": 0.9,
+   "colours": [
+    "#1c1c1f",
+    "#2a2a2e",
+    "#55565c",
+    "#7a7b80"
+   ],
+   "weight": 1.0,
+   "gloss": 0.0,
+   "sheen": 0.0
+  },
+  {
+   "id": "ripped_denim",
+   "name": "Distressed denim",
+   "mean": 0.7692,
+   "tileMetres": 0.25,
+   "tags": [
+    "street",
+    "casual"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.25,
+   "colourChance": 0.8,
+   "colours": [
+    "#3d5f8f",
+    "#5a7caa",
+    "#7898c0",
+    "#2f4670"
+   ],
+   "weight": 1.0,
+   "gloss": 0.0,
+   "sheen": 0.0
+  },
+  {
+   "id": "athletic_knit",
+   "name": "Performance knit",
+   "mean": 0.8238,
+   "tileMetres": 0.25,
+   "tags": [
+    "sporty"
+   ],
+   "printable": true,
+   "printTags": [],
+   "lift": 0.3,
+   "colourChance": 0.0,
+   "colours": [],
+   "weight": 1.0,
+   "gloss": 0.3,
+   "sheen": 0.0
   }
  ]
 }
