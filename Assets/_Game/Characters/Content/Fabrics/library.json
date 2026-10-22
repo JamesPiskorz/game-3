@@ -2004,6 +2004,69 @@
    "weight": 1.0,
    "gloss": 0.25,
    "sheen": 0.0
+  },
+  {
+   "id": "burnout_velvet",
+   "name": "Burnout",
+   "mean": 0.2787,
+   "tileMetres": 0.25,
+   "tags": [
+    "gothic",
+    "elegant",
+    "date",
+    "formal"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.2,
+   "colourChance": 0.0,
+   "colours": [],
+   "weight": 1.0,
+   "gloss": 0.0,
+   "sheen": 0.45
+  },
+  {
+   "id": "brushed_cotton",
+   "name": "Brushed cotton",
+   "mean": 0.9105,
+   "tileMetres": 0.25,
+   "tags": [
+    "casual",
+    "cute",
+    "sleep"
+   ],
+   "printable": true,
+   "printTags": [],
+   "lift": 0.1,
+   "colourChance": 0.0,
+   "colours": [],
+   "weight": 1.0,
+   "gloss": 0.0,
+   "sheen": 0.0
+  },
+  {
+   "id": "oilskin",
+   "name": "Oilskin",
+   "mean": 0.85,
+   "tileMetres": 0.25,
+   "tags": [
+    "casual",
+    "bookish",
+    "rain"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.4,
+   "colourChance": 0.8,
+   "colours": [
+    "#e3b52a",
+    "#2d4a3a",
+    "#2a3346",
+    "#b8312a"
+   ],
+   "weight": 1.0,
+   "gloss": 0.55,
+   "sheen": 0.0
   }
  ]
 }

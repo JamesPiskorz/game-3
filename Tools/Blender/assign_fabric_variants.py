@@ -67,7 +67,7 @@ ALTERNATIVES = {
     "poplin": ["oxford", "chambray", "linen", "satin", "seersucker", "flannel", "lace", "dobby", "crinkle", "shantung", "satin_stripe", "sateen", "dotted_swiss"],
     "oxford": ["poplin", "chambray", "linen", "flannel", "seersucker", "dobby", "satin_stripe"],
     "linen": ["poplin", "gauze", "chambray", "seersucker", "canvas", "crochet", "crinkle", "smocked"],
-    "satin": ["crepe", "velvet", "chiffon", "jacquard", "lace", "metallic", "shantung", "moire", "taffeta", "satin_stripe", "brocade", "sateen", "plisse", "crushed_velvet"],
+    "satin": ["crepe", "velvet", "chiffon", "jacquard", "lace", "metallic", "shantung", "moire", "taffeta", "satin_stripe", "brocade", "sateen", "plisse", "crushed_velvet", "burnout_velvet"],
     "crepe": ["satin", "velvet", "jersey", "lace", "guipure", "scuba", "plisse", "foil", "crushed_velvet", "sequins", "jacquard", "metallic", "taffeta", "beaded", "glitter", "ottoman", "vinyl"],
     "chiffon": ["satin", "crepe", "tulle", "lace", "gauze", "organza", "crinkle", "pleated", "dotted_swiss", "plisse"],
     "lycra": ["rib_lycra", "shimmer_lycra", "athletic_knit", "foil", "metallic", "crochet", "seersucker", "velvet", "mesh", "vinyl", "glitter", "smocked", "scuba"],
@@ -78,20 +78,20 @@ ALTERNATIVES = {
     "mesh": ["canvas", "leather", "ripstop", "knit", "perforated", "nylon"],
     "suede": ["leather", "velvet", "corduroy", "croc", "snake", "sherpa"],
     "rubber": ["patent", "vinyl"],
-    "ripstop": ["quilted", "canvas", "satin", "fleece", "denim", "nylon", "waxed", "vinyl"],
+    "ripstop": ["quilted", "canvas", "satin", "fleece", "denim", "nylon", "waxed", "vinyl", "oilskin"],
     "nylon": ["tricot", "ripstop", "lycra", "athletic_knit", "satin", "velvet", "fleece", "mesh", "hex_mesh"],
     "quilted": ["diamond_quilt", "ripstop", "faux_fur", "corduroy", "nylon", "sherpa", "gloss_puffer"],
     "tweed": ["herringbone", "corduroy", "jumbo_cord", "velvet", "boucle", "twill", "denim", "leather", "ottoman", "felt", "pinstripe_wool", "houndstooth_wool"],
     "herringbone": ["tweed", "flannel", "twill", "corduroy", "velvet", "linen", "ottoman", "felt", "pinstripe_wool", "houndstooth_wool"],
-    "velvet": ["satin", "jacquard", "crepe", "lace", "moire", "taffeta", "brocade", "crushed_velvet"],
+    "velvet": ["satin", "jacquard", "crepe", "lace", "moire", "taffeta", "brocade", "crushed_velvet", "burnout_velvet"],
     "sequins": ["metallic", "velvet", "satin", "lace", "glitter", "beaded", "foil", "crushed_velvet"],
     "tulle": ["satin", "chiffon", "lace", "organza", "taffeta", "glitter"],
     "eyelet": ["linen", "gauze", "poplin", "seersucker", "crochet", "smocked", "crinkle"],
     "gauze": ["linen", "crochet", "eyelet", "chiffon", "crinkle", "smocked"],
     "chambray": ["denim", "linen", "poplin", "oxford", "stonewash", "dobby", "patchwork"],
     "pique": ["jersey", "knit", "rib_knit", "waffle", "marl", "hex_mesh"],
-    "flannel": ["jersey", "satin", "waffle", "fleece", "marl"],
-    "plain": ["linen", "poplin", "eyelet", "seersucker", "jersey", "smocked", "crinkle", "pointelle", "patchwork", "dotted_swiss", "sateen"],
+    "flannel": ["jersey", "satin", "waffle", "fleece", "marl", "brushed_cotton"],
+    "plain": ["linen", "poplin", "eyelet", "seersucker", "jersey", "smocked", "crinkle", "pointelle", "patchwork", "dotted_swiss", "sateen", "brushed_cotton"],
     "jacquard": ["satin", "velvet", "crepe", "lace", "moire", "shantung", "vinyl", "brocade"],
     "corduroy": ["denim", "tweed", "suede", "twill", "leather", "velvet", "patchwork", "needlecord", "jumbo_cord"],
     "metallic": ["leather", "patent", "satin", "glitter", "foil"],
@@ -104,7 +104,7 @@ NOT_FOR = {
               "crinkle", "dobby", "waxed", "stonewash", "acid_wash", "ottoman", "satin_stripe", "lurex_knit", "felt", "pinstripe_wool", "houndstooth_wool", "patchwork",
               "needlecord", "jumbo_cord", "guipure", "scuba", "gloss_puffer", "dotted_swiss", "sateen",
               "black_denim", "ripped_denim", "athletic_knit", "plisse", "crushed_velvet", "foil",
-              "rib_lycra", "shimmer_lycra", "hex_mesh", "tricot"},
+              "rib_lycra", "shimmer_lycra", "hex_mesh", "tricot", "burnout_velvet", "brushed_cotton", "oilskin"},
     "legwear": set(),
     "outer": {"chiffon", "lace", "lycra", "tulle", "organza", "pleated", "smocked", "crinkle", "pointelle", "guipure", "scuba", "dotted_swiss"},
     "top": {"pleated", "straw", "perforated"},
@@ -114,7 +114,7 @@ NOT_FOR = {
 SWIM = {"metallic", "crochet", "seersucker", "velvet", "mesh", "satin", "glitter", "smocked", "crinkle", "scuba", "foil",
         "rib_lycra", "shimmer_lycra"}
 SLEEP = {"satin", "jersey", "waffle", "flannel", "lace", "velvet", "mesh", "chiffon", "fleece", "terry", "poplin", "linen",
-         "pointelle", "marl", "slub_jersey", "sherpa", "chenille", "crinkle", "smocked", "shantung", "seersucker", "satin_stripe", "sateen", "dotted_swiss"}
+         "pointelle", "marl", "slub_jersey", "sherpa", "chenille", "crinkle", "smocked", "shantung", "seersucker", "satin_stripe", "sateen", "dotted_swiss", "brushed_cotton"}
 
 o = load()
 counts, moved = [], []

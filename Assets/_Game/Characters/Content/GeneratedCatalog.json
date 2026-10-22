@@ -1308,7 +1308,8 @@
         "satin",
         "waffle",
         "fleece",
-        "marl"
+        "marl",
+        "brushed_cotton"
       ],
       "clothBottom": 0.124028921,
       "clothTop": 1.1138171,
@@ -1794,7 +1795,8 @@
         "brocade",
         "sateen",
         "plisse",
-        "crushed_velvet"
+        "crushed_velvet",
+        "burnout_velvet"
       ],
       "clothBottom": -0.00421840046,
       "clothTop": 1.32625711,
@@ -2084,7 +2086,8 @@
         "brocade",
         "sateen",
         "plisse",
-        "crushed_velvet"
+        "crushed_velvet",
+        "burnout_velvet"
       ],
       "clothBottom": 0.002297825,
       "clothTop": 1.437294,
@@ -2117,7 +2120,8 @@
         "crinkle",
         "pointelle",
         "dotted_swiss",
-        "sateen"
+        "sateen",
+        "brushed_cotton"
       ],
       "clothBottom": 0.26396066,
       "clothTop": 1.43657291,
@@ -2145,7 +2149,8 @@
         "satin",
         "waffle",
         "fleece",
-        "marl"
+        "marl",
+        "brushed_cotton"
       ],
       "clothBottom": 0.625550568,
       "clothTop": 1.43732584,
@@ -2217,7 +2222,8 @@
         "brocade",
         "sateen",
         "plisse",
-        "crushed_velvet"
+        "crushed_velvet",
+        "burnout_velvet"
       ],
       "clothBottom": 0.009966197,
       "clothTop": 1.43791485,
@@ -2328,7 +2334,8 @@
         "pointelle",
         "patchwork",
         "dotted_swiss",
-        "sateen"
+        "sateen",
+        "brushed_cotton"
       ],
       "clothBottom": 0.7420717,
       "clothTop": 1.42070413,
@@ -2524,7 +2531,8 @@
         "brocade",
         "sateen",
         "plisse",
-        "crushed_velvet"
+        "crushed_velvet",
+        "burnout_velvet"
       ],
       "clothBottom": 0.313146025,
       "clothTop": 1.43455255,
@@ -2695,7 +2703,8 @@
         "moire",
         "taffeta",
         "brocade",
-        "crushed_velvet"
+        "crushed_velvet",
+        "burnout_velvet"
       ],
       "clothBottom": 0.009966197,
       "clothTop": 1.4353646,
@@ -2733,7 +2742,8 @@
         "brocade",
         "sateen",
         "plisse",
-        "crushed_velvet"
+        "crushed_velvet",
+        "burnout_velvet"
       ],
       "clothBottom": -0.00295538967,
       "clothTop": 1.33172786,
@@ -2913,7 +2923,8 @@
         "denim",
         "nylon",
         "waxed",
-        "vinyl"
+        "vinyl",
+        "oilskin"
       ],
       "clothBottom": 0.9242803,
       "clothTop": 1.45856869,
@@ -4485,7 +4496,8 @@
         "brocade",
         "sateen",
         "plisse",
-        "crushed_velvet"
+        "crushed_velvet",
+        "burnout_velvet"
       ],
       "clothBottom": 1.06618941,
       "clothTop": 1.43134117,
@@ -4773,7 +4785,8 @@
         "brocade",
         "sateen",
         "plisse",
-        "crushed_velvet"
+        "crushed_velvet",
+        "burnout_velvet"
       ],
       "clothBottom": 1.06618941,
       "clothTop": 1.43261886,
@@ -10977,6 +10990,70 @@
       "printTags": [],
       "colours": [],
       "colourChance": 0.0
+    },
+    {
+      "id": "burnout_velvet",
+      "name": "Burnout",
+      "weight": 1.0,
+      "tags": [
+        "gothic",
+        "elegant",
+        "date",
+        "formal"
+      ],
+      "printable": false,
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
+    },
+    {
+      "id": "brushed_cotton",
+      "name": "Brushed cotton",
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "cute",
+        "sleep"
+      ],
+      "printable": true,
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
+    },
+    {
+      "id": "oilskin",
+      "name": "Oilskin",
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "bookish",
+        "rain"
+      ],
+      "printable": false,
+      "printTags": [],
+      "colours": [
+        {
+          "hex": "#e3b52a",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#2d4a3a",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#2a3346",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#b8312a",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ],
+      "colourChance": 0.8
     }
   ],
   "palettes": [

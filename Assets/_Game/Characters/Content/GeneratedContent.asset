@@ -962,6 +962,12 @@ MonoBehaviour:
     Material: {fileID: 2100000, guid: 710cd326d28154a46b641f8cca4b06b8, type: 2}
   - Id: tricot
     Material: {fileID: 2100000, guid: df45991b747c86c49a823946e42634f2, type: 2}
+  - Id: burnout_velvet
+    Material: {fileID: 2100000, guid: b1c03c9d4a0377444a8f0bea57c387ac, type: 2}
+  - Id: brushed_cotton
+    Material: {fileID: 2100000, guid: fa1bb58f82abe6f4fb0352bd0f8f3dbf, type: 2}
+  - Id: oilskin
+    Material: {fileID: 2100000, guid: 9a860580730f2fe439fe540d814abf1f, type: 2}
   Sliders:
   - Id: body.weight
     Kind: 0
