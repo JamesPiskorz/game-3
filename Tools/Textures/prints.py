@@ -2850,6 +2850,82 @@ def knitted_stripes(size, seed):
     return _chart(rows, size, 12)
 
 
+
+def pearls(size, seed):
+    """Strings of pearls: swags of round beads, each with a highlight, looping across the cloth (date, elegant)."""
+    x, y = tk.grid(size)
+    colour, ink = _zero(size), _zero(size)
+    bead = tk.disc(size / 70, 1.0)
+    shine = tk.disc(size / 220, 0.8)
+    for row in range(3):
+        for k in range(72):
+            t = k / 72
+            cx = t * size
+            cy = (row + 0.35 + 0.18 * np.sin(2 * np.pi * t * 2)) / 3 * size
+            tk.stamp(colour, bead, cx, cy)
+            tk.stamp(ink, tk.ring(size / 70 + 0.6, size / 70 - 0.6) * 0.5, cx, cy)
+            tk.stamp(colour, shine * 0.0, cx, cy)
+    highlight = _zero(size)
+    for row in range(3):
+        for k in range(72):
+            t = k / 72
+            tk.stamp(highlight, shine, t * size - size / 200, (row + 0.35 + 0.18 * np.sin(2 * np.pi * t * 2)) / 3 * size - size / 200)
+    return np.clip(colour - highlight * 0.6, 0, 1), np.clip(ink, 0, 1), np.clip(highlight, 0, 1)
+
+
+def ravens(size, seed):
+    """Ravens: black birds in flight and perched, wings spread (gothic)."""
+    def draw_bird(d, x0, y0, s, perched):
+        if perched:
+            d.ellipse([x0 - s * 0.35, y0 - s * 0.2, x0 + s * 0.35, y0 + s * 0.25], fill=255)  # body
+            d.ellipse([x0 + s * 0.2, y0 - s * 0.4, x0 + s * 0.48, y0 - s * 0.12], fill=255)  # head
+            d.polygon([(x0 + s * 0.46, y0 - s * 0.3), (x0 + s * 0.68, y0 - s * 0.24), (x0 + s * 0.46, y0 - s * 0.2)], fill=255)
+            d.polygon([(x0 - s * 0.3, y0), (x0 - s * 0.75, y0 + s * 0.3), (x0 - s * 0.6, y0 + s * 0.05)], fill=255)  # tail
+            d.line([(x0 - s * 0.05, y0 + s * 0.22), (x0 - s * 0.05, y0 + s * 0.42)], fill=255, width=max(2, int(s * 0.05)))
+            d.line([(x0 + s * 0.12, y0 + s * 0.22), (x0 + s * 0.12, y0 + s * 0.42)], fill=255, width=max(2, int(s * 0.05)))
+        else:
+            wing = [(x0, y0), (x0 - s * 0.3, y0 - s * 0.35), (x0 - s * 0.8, y0 - s * 0.3), (x0 - s * 0.55, y0 - s * 0.12),
+                    (x0 - s * 0.75, y0 - s * 0.05), (x0 - s * 0.3, y0 + s * 0.05)]
+            d.polygon(wing, fill=255)
+            d.polygon([(2 * x0 - px, py) for px, py in wing], fill=255)
+            d.ellipse([x0 - s * 0.12, y0 - s * 0.12, x0 + s * 0.12, y0 + s * 0.2], fill=255)
+
+    def draw(d, n):
+        for k, (cx, cy) in enumerate(tk.scatter(n, 9, seed, n / 3.6)):
+            s = n * (0.14 if k % 2 else 0.11)
+            for dx in (-n, 0, n):
+                for dy in (-n, 0, n):
+                    draw_bird(d, cx + dx, cy + dy, s, k % 3 == 0)
+    birds = _drawn(size, draw)
+    return birds, _outline(birds, 1) * 0.4
+
+
+def swallows(size, seed):
+    """Swallows: tattoo-style birds in flight, swept-back wings and a forked tail, the breast in the second colour."""
+    rng = np.random.default_rng(seed)
+    # The silhouette from above, facing right, in units of its length: crescent wings swept back to their tips, long
+    # forked tail streamers; then the breast.
+    outline = [(0.48, 0.0), (0.35, -0.07), (0.15, -0.08), (0.1, -0.35), (-0.05, -0.6), (-0.35, -0.8), (-0.15, -0.45),
+               (-0.08, -0.12), (-0.25, -0.05), (-0.8, -0.26), (-0.45, 0.0), (-0.8, 0.26), (-0.25, 0.05), (-0.08, 0.12),
+               (-0.15, 0.45), (-0.35, 0.8), (-0.05, 0.6), (0.1, 0.35), (0.15, 0.08), (0.35, 0.07)]
+    breast = [(0.45, 0.02), (0.3, 0.07), (0.12, 0.08), (0.2, 0.0), (0.35, -0.02)]
+
+    def layer(points):
+        def draw(d, n):
+            for k, (cx, cy) in enumerate(tk.scatter(n, 9, seed, n / 3.6)):
+                s_ = n * (0.26 if k % 2 else 0.2)
+                a = rng.random() * 0.8 - 0.4
+                ca, sa = np.cos(a), np.sin(a)
+                for dx in (-n, 0, n):
+                    for dy in (-n, 0, n):
+                        d.polygon([(cx + dx + s_ * (ca * px - sa * py), cy + dy + s_ * (sa * px + ca * py)) for px, py in points], fill=255)
+        return _drawn(size, draw)
+    rng_state = rng.bit_generator.state
+    body = layer(outline)
+    rng.bit_generator.state = rng_state  # the same angles for the breasts
+    chest = layer(breast) * body
+    return np.clip(body - chest, 0, 1), _outline(body, 1) * 0.7, chest
+
 # name, tags, tiles per metre (min, max), weight
 PRINTS = {
     # Patterns the stand-ins share (their catalog lists these ids).
@@ -3081,6 +3157,9 @@ PRINTS = {
     "linebotanical": (line_botanicals, "Botanical sketches", ["bookish", "elegant", "casual"], (1.8, 3), 0.5),
     "dogs": (dogs, "Dogs", ["cute", "casual"], (3, 5), 0.5),
     "frogs": (frogs, "Frogs", ["cute", "casual"], (3, 5), 0.4),
+    "pearls": (pearls, "Pearls", ["date", "elegant"], (2.5, 4), 0.5),
+    "ravens": (ravens, "Ravens", ["gothic"], (2.5, 4), 0.5),
+    "swallows": (swallows, "Swallows", ["street", "date", "gothic"], (2.5, 4), 0.5),
 }
 
 # How each print's second colour (its accent: leaves, hearts, wafers) follows its first: "leaf" (a natural green),
@@ -3093,7 +3172,7 @@ ACCENT = {
     "cacti": "leaf", "medallions": "contrast", "groovy": "contrast", "flowerpower": "gold", "dinosaurs": "contrast",
     "sailboats": "contrast", "umbrellas": "contrast", "liberty": "contrast", "lavender": "leaf", "maple": "gold",
     "pineapples": "leaf", "memphis": "contrast", "regimental": "contrast", "quilt": "contrast", "graffiti": "contrast",
-    "swooshes": "contrast", "thorns": "leaf", "rosebuds": "leaf", "triplestripes": "contrast", "artdeco": "gold", "dogs": "contrast", "frogs": "leaf",
+    "swooshes": "contrast", "thorns": "leaf", "rosebuds": "leaf", "triplestripes": "contrast", "artdeco": "gold", "dogs": "contrast", "frogs": "leaf", "pearls": "light", "swallows": "light",
     "tee_heart": "light", "tee_star": "light", "tee_cherries": "leaf", "tee_rose": "leaf", "tee_sunset": "gold",
     "tee_cat": "light", "tee_rainbow": "contrast", "tee_planet": "contrast", "tee_daisy": "gold", "tee_mountains": "light",
     "tee_butterfly": "contrast", "tee_moon": "gold", "tee_crown": "contrast", "tee_ghost": "light", "tee_palm": "leaf",
@@ -3134,7 +3213,7 @@ CONTEXT_TAGS = {
              "cherries", "strawberries", "daisies", "sunsetfade", "ombre", "colourblock", "ricrac", "tee_palm", "icecream"],
     "rain": ["raindrops", "clouds", "umbrellas", "check", "gingham", "plaid", "buffalo", "houndstooth", "dots",
              "stripes", "breton", "anchors", "fish", "frogs"],
-    "formal": ["artdeco", "chains", "rosebuds", "damask", "bigfloral", "roses", "ombre", "sunsetfade", "scallop", "greekkey", "medallions", "fleurdelis",
+    "formal": ["pearls", "artdeco", "chains", "rosebuds", "damask", "bigfloral", "roses", "ombre", "sunsetfade", "scallop", "greekkey", "medallions", "fleurdelis",
                "paisley", "seigaiha", "shippo", "quatrefoil", "lattice", "starlattice", "watercolour", "hemflowers"],
 }
 

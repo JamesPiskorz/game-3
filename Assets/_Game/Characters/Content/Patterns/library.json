@@ -3800,6 +3800,52 @@
    "placement": null,
    "colourwayChance": 0.0,
    "colourways": []
+  },
+  {
+   "id": "pattern.pearls_01",
+   "name": "Pearls",
+   "tags": [
+    "date",
+    "elegant",
+    "formal"
+   ],
+   "minScale": 2.5,
+   "maxScale": 4,
+   "weight": 0.5,
+   "accent": "light",
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
+  },
+  {
+   "id": "pattern.ravens_01",
+   "name": "Ravens",
+   "tags": [
+    "gothic"
+   ],
+   "minScale": 2.5,
+   "maxScale": 4,
+   "weight": 0.5,
+   "accent": null,
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
+  },
+  {
+   "id": "pattern.swallows_01",
+   "name": "Swallows",
+   "tags": [
+    "street",
+    "date",
+    "gothic"
+   ],
+   "minScale": 2.5,
+   "maxScale": 4,
+   "weight": 0.5,
+   "accent": "light",
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   }
  ]
 }

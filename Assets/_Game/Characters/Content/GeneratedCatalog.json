@@ -9126,6 +9126,52 @@
       "placement": null,
       "colourways": [],
       "colourwayChance": 0.0
+    },
+    {
+      "id": "pattern.pearls_01",
+      "name": "Pearls",
+      "weight": 0.5,
+      "tags": [
+        "date",
+        "elegant",
+        "formal"
+      ],
+      "minScale": 2.5,
+      "maxScale": 4.0,
+      "accent": "light",
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
+    },
+    {
+      "id": "pattern.ravens_01",
+      "name": "Ravens",
+      "weight": 0.5,
+      "tags": [
+        "gothic"
+      ],
+      "minScale": 2.5,
+      "maxScale": 4.0,
+      "accent": null,
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
+    },
+    {
+      "id": "pattern.swallows_01",
+      "name": "Swallows",
+      "weight": 0.5,
+      "tags": [
+        "street",
+        "date",
+        "gothic"
+      ],
+      "minScale": 2.5,
+      "maxScale": 4.0,
+      "accent": "light",
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     }
   ],
   "fabrics": [
