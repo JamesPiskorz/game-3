@@ -11,6 +11,7 @@ The fabrics and prints the generated characters' clothes are made of (decision 0
   chest, badge, back, body, hem, yoke), its classic colourways (`COLOURWAYS`), the occasions it suits
   (`CONTEXT_TAGS`), and the knitted and animal sets.
 - `texture_kit.py`: tileable building blocks (noise, cells, shapes, stamping).
+- `LIBRARY.md`: an index of every fabric and print (written by `make_textures.py`).
 
 ## Adding a fabric or a print
 
