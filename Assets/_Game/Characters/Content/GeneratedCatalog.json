@@ -480,6 +480,8 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "rib_lycra",
+        "shimmer_lycra",
         "foil",
         "metallic",
         "crochet",
@@ -511,6 +513,8 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "rib_lycra",
+        "shimmer_lycra",
         "foil",
         "metallic",
         "crochet",
@@ -755,6 +759,8 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "rib_lycra",
+        "shimmer_lycra",
         "athletic_knit",
         "metallic",
         "crochet",
@@ -949,6 +955,8 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "rib_lycra",
+        "shimmer_lycra",
         "athletic_knit",
         "metallic",
         "crochet",
@@ -1438,6 +1446,8 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "rib_lycra",
+        "shimmer_lycra",
         "foil",
         "metallic",
         "crochet",
@@ -1469,6 +1479,8 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "rib_lycra",
+        "shimmer_lycra",
         "foil",
         "metallic",
         "crochet",
@@ -1627,6 +1639,8 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "rib_lycra",
+        "shimmer_lycra",
         "athletic_knit",
         "metallic",
         "crochet",
@@ -1805,6 +1819,8 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "rib_lycra",
+        "shimmer_lycra",
         "foil",
         "metallic",
         "crochet",
@@ -1915,6 +1931,8 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "rib_lycra",
+        "shimmer_lycra",
         "foil",
         "metallic",
         "crochet",
@@ -2151,6 +2169,8 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "rib_lycra",
+        "shimmer_lycra",
         "foil",
         "metallic",
         "crochet",
@@ -2330,6 +2350,8 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "rib_lycra",
+        "shimmer_lycra",
         "foil",
         "metallic",
         "crochet",
@@ -2589,6 +2611,8 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "rib_lycra",
+        "shimmer_lycra",
         "foil",
         "metallic",
         "crochet",
@@ -3781,6 +3805,8 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "rib_lycra",
+        "shimmer_lycra",
         "foil",
         "metallic",
         "crochet",
@@ -3813,6 +3839,8 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "rib_lycra",
+        "shimmer_lycra",
         "foil",
         "metallic",
         "crochet",
@@ -4068,6 +4096,8 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "rib_lycra",
+        "shimmer_lycra",
         "foil",
         "metallic",
         "crochet",
@@ -4315,6 +4345,8 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "rib_lycra",
+        "shimmer_lycra",
         "foil",
         "metallic",
         "crochet",
@@ -4379,6 +4411,8 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "rib_lycra",
+        "shimmer_lycra",
         "athletic_knit",
         "metallic",
         "crochet",
@@ -4513,6 +4547,8 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "rib_lycra",
+        "shimmer_lycra",
         "athletic_knit",
         "metallic",
         "crochet",
@@ -4576,6 +4612,8 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "rib_lycra",
+        "shimmer_lycra",
         "foil",
         "metallic",
         "crochet",
@@ -10678,6 +10716,34 @@
         }
       ],
       "colourChance": 0.7
+    },
+    {
+      "id": "rib_lycra",
+      "name": "Ribbed swim lycra",
+      "weight": 1.0,
+      "tags": [
+        "sporty",
+        "cute",
+        "casual"
+      ],
+      "printable": true,
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
+    },
+    {
+      "id": "shimmer_lycra",
+      "name": "Shimmer lycra",
+      "weight": 1.0,
+      "tags": [
+        "date",
+        "cute",
+        "street"
+      ],
+      "printable": true,
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     }
   ],
   "palettes": [

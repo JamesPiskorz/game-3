@@ -930,6 +930,10 @@ MonoBehaviour:
     Material: {fileID: 2100000, guid: 0d8e1760e55b7444893417fbbd98cb06, type: 2}
   - Id: foil
     Material: {fileID: 2100000, guid: 35d8073b9b884214aa74d41c5f86c4ff, type: 2}
+  - Id: rib_lycra
+    Material: {fileID: 2100000, guid: cc9164f458200ee48a493faee1835885, type: 2}
+  - Id: shimmer_lycra
+    Material: {fileID: 2100000, guid: 4ca84a96c03b88f47a14a87ab7537db0, type: 2}
   Sliders:
   - Id: body.weight
     Kind: 0

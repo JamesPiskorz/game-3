@@ -19,6 +19,8 @@
   "weight": 1.0,
   "fabric": "lycra",
   "fabrics": [
+    "rib_lycra",
+    "shimmer_lycra",
     "foil",
     "metallic",
     "crochet",

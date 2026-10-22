@@ -928,6 +928,20 @@ def foil(size, seed):
     return np.clip(facets * (0.9 + 0.1 * edges), 0, 1)
 
 
+def rib_lycra(size, seed):
+    """Ribbed swim lycra: fine raised ribs across a stretchy, shiny cloth (ribbed swimsuits and bikinis)."""
+    x, y = tk.grid(size)
+    rib = np.sin(np.pi * ((y * 50) % 1.0)) ** 0.6
+    return np.clip(_sheen(size, seed, 4, 0.82, 2.0) * (0.8 + 0.2 * rib), 0, 1)
+
+
+def shimmer_lycra(size, seed):
+    """Shimmer lycra: swim lycra knitted with a metallic thread, a fine glitter over its sheen."""
+    rng = np.random.default_rng(seed)
+    specks = np.clip(tk.blur_small((rng.random((size, size)) < 0.008).astype(float), 1) * 9, 0, 1)  # 3-pixel glints
+    return np.clip(_sheen(size, seed + 1, 4, 0.86, 2.0) * 0.9 + 0.18 * specks, 0, 1)
+
+
 def rubber(size, seed):
     """Rubber (rain boots, clogs): smooth and glossy with soft reflections."""
     return np.clip(_sheen(size, seed, 3, 0.78, 3.0), 0, 1)
@@ -1061,7 +1075,7 @@ FABRICS = {
     "needlecord": needlecord, "jumbo_cord": jumbo_cord, "scuba": scuba, "gloss_puffer": gloss_puffer, "guipure": guipure,
     "dotted_swiss": dotted_swiss, "brocade": brocade, "sateen": sateen,
     "black_denim": black_denim, "ripped_denim": ripped_denim, "athletic_knit": athletic_knit, "fishnet": fishnet,
-    "plisse": plisse, "crushed_velvet": crushed_velvet, "foil": foil,
+    "plisse": plisse, "crushed_velvet": crushed_velvet, "foil": foil, "rib_lycra": rib_lycra, "shimmer_lycra": shimmer_lycra,
 }
 
 # Each fabric's catalog entry: the style tags archetypes weight it by, whether a print goes on it, and how common it is.
@@ -1112,6 +1126,7 @@ TAGS = {
     "sateen": ["elegant", "casual", "bookish"], "black_denim": ["street", "gothic", "casual"],
     "ripped_denim": ["street", "casual"], "athletic_knit": ["sporty"], "fishnet": ["gothic", "street", "date"],
     "plisse": ["elegant", "date"], "crushed_velvet": ["gothic", "date", "elegant"], "foil": ["date", "street"],
+    "rib_lycra": ["sporty", "cute", "casual"], "shimmer_lycra": ["date", "cute", "street"],
 }
 
 # Fabrics that usually come in their own colours, and how often an item made in one is: (chance, hex colours). Denim
@@ -1171,7 +1186,7 @@ GLOSS = {
     "vinyl": 1.0, "patent": 0.9, "rubber": 0.7, "metallic": 0.75, "gloss_puffer": 0.6, "sequins": 0.6, "satin": 0.5,
     "taffeta": 0.45, "lycra": 0.45, "moire": 0.4, "croc": 0.4, "glitter": 0.4, "beaded": 0.4, "satin_stripe": 0.35,
     "nylon": 0.35, "shantung": 0.3, "leather": 0.3, "snake": 0.3, "scuba": 0.25, "waxed": 0.25, "organza": 0.2,
-    "lurex_knit": 0.2, "perforated": 0.2, "brocade": 0.3, "sateen": 0.2, "athletic_knit": 0.3, "foil": 0.75,
+    "lurex_knit": 0.2, "perforated": 0.2, "brocade": 0.3, "sateen": 0.2, "athletic_knit": 0.3, "foil": 0.75, "rib_lycra": 0.45, "shimmer_lycra": 0.5,
 }
 
 # How much each pile fabric glows toward its edges (the shader's _Sheen: velvet's look); the rest have none.
@@ -1195,5 +1210,5 @@ LIFT = {
     "satin_stripe": 0.3, "felt": 0.1, "lurex_knit": 0.4, "pinstripe_wool": 0.35, "houndstooth_wool": 0.3, "patchwork": 0.25,
     "needlecord": 0.2, "jumbo_cord": 0.22, "scuba": 0.35, "gloss_puffer": 0.5, "guipure": 0.08,
     "dotted_swiss": 0.12, "brocade": 0.35, "sateen": 0.3, "black_denim": 0.22, "ripped_denim": 0.25, "athletic_knit": 0.3, "fishnet": 0.1,
-    "plisse": 0.2, "crushed_velvet": 0.3, "foil": 0.3,
+    "plisse": 0.2, "crushed_velvet": 0.3, "foil": 0.3, "rib_lycra": 0.3, "shimmer_lycra": 0.25,
 }

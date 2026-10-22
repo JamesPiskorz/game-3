@@ -23,6 +23,8 @@
   "weight": 1.0,
   "fabric": "lycra",
   "fabrics": [
+    "rib_lycra",
+    "shimmer_lycra",
     "athletic_knit",
     "metallic",
     "crochet",

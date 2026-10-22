@@ -1929,6 +1929,44 @@
    "weight": 0.5,
    "gloss": 0.75,
    "sheen": 0.0
+  },
+  {
+   "id": "rib_lycra",
+   "name": "Ribbed swim lycra",
+   "mean": 0.8377,
+   "tileMetres": 0.25,
+   "tags": [
+    "sporty",
+    "cute",
+    "casual"
+   ],
+   "printable": true,
+   "printTags": [],
+   "lift": 0.3,
+   "colourChance": 0.0,
+   "colours": [],
+   "weight": 1.0,
+   "gloss": 0.45,
+   "sheen": 0.0
+  },
+  {
+   "id": "shimmer_lycra",
+   "name": "Shimmer lycra",
+   "mean": 0.8629,
+   "tileMetres": 0.25,
+   "tags": [
+    "date",
+    "cute",
+    "street"
+   ],
+   "printable": true,
+   "printTags": [],
+   "lift": 0.25,
+   "colourChance": 0.0,
+   "colours": [],
+   "weight": 1.0,
+   "gloss": 0.5,
+   "sheen": 0.0
   }
  ]
 }
