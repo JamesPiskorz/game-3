@@ -2108,6 +2108,26 @@
    "weight": 1.0,
    "gloss": 0.0,
    "sheen": 0.0
+  },
+  {
+   "id": "diamante",
+   "name": "Diamant\u00e9 mesh",
+   "mean": 0.2128,
+   "tileMetres": 0.25,
+   "tags": [
+    "date",
+    "street",
+    "elegant",
+    "formal"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.5,
+   "colourChance": 0.0,
+   "colours": [],
+   "weight": 1.0,
+   "gloss": 0.6,
+   "sheen": 0.0
   }
  ]
 }

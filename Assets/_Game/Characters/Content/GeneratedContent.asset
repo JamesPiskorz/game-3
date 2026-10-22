@@ -992,6 +992,8 @@ MonoBehaviour:
     Material: {fileID: 2100000, guid: d63541e6af7f55c42b9e848c7a4b2aa6, type: 2}
   - Id: cloque
     Material: {fileID: 2100000, guid: 2fb6c5e51b5c44447a4da662606bae10, type: 2}
+  - Id: diamante
+    Material: {fileID: 2100000, guid: 95767f69a0dd88b48bbe5c479f1f4a17, type: 2}
   Sliders:
   - Id: body.weight
     Kind: 0

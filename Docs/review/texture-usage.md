@@ -1,13 +1,14 @@
 # Texture usage
 
-_3000 generated people, every outfit: 64129 items, 7493 printed (12%). Written by `TextureUsageReport`; rarest first._
+_3000 generated people, every outfit: 64129 items, 7496 printed (12%). Written by `TextureUsageReport`; rarest first._
 
-## Fabrics (103)
+## Fabrics (104)
 
 | Fabric | Items | Share |
 |---|---|---|
 | `acid_wash` | 15 | 0.02% |
-| `beaded` | 28 | 0.04% |
+| `diamante` | 24 | 0.04% |
+| `beaded` | 25 | 0.04% |
 | `organza` | 36 | 0.06% |
 | `moire` | 40 | 0.06% |
 | `faux_fur` | 42 | 0.07% |
@@ -28,22 +29,22 @@ _3000 generated people, every outfit: 64129 items, 7493 printed (12%). Written b
 | `gloss_puffer` | 97 | 0.15% |
 | `tulle` | 98 | 0.15% |
 | `ripped_denim` | 98 | 0.15% |
-| `foil` | 98 | 0.15% |
 | `waxed` | 100 | 0.16% |
 | `pointelle` | 102 | 0.16% |
 | `brushed_cotton` | 102 | 0.16% |
 | `straw` | 107 | 0.17% |
+| `foil` | 107 | 0.17% |
+| `boucle` | 112 | 0.17% |
 | `shantung` | 112 | 0.17% |
-| `boucle` | 113 | 0.18% |
 | `houndstooth_wool` | 115 | 0.18% |
 | `jumbo_cord` | 115 | 0.18% |
 | `cloque` | 119 | 0.19% |
 | `patchwork` | 122 | 0.19% |
 | `athletic_knit` | 125 | 0.19% |
-| `crushed_velvet` | 130 | 0.20% |
+| `crushed_velvet` | 127 | 0.20% |
 | `seed_stitch` | 147 | 0.23% |
 | `dotted_swiss` | 152 | 0.24% |
-| `sequins` | 159 | 0.25% |
+| `sequins` | 154 | 0.24% |
 | `mohair` | 160 | 0.25% |
 | `needlecord` | 169 | 0.26% |
 | `dobby` | 181 | 0.28% |
@@ -63,19 +64,19 @@ _3000 generated people, every outfit: 64129 items, 7493 printed (12%). Written b
 | `eyelet` | 270 | 0.42% |
 | `velour` | 272 | 0.42% |
 | `smocked` | 322 | 0.50% |
-| `felt` | 323 | 0.50% |
+| `felt` | 322 | 0.50% |
 | `waffle` | 353 | 0.55% |
-| `croc` | 365 | 0.57% |
+| `croc` | 363 | 0.57% |
 | `vinyl` | 369 | 0.58% |
+| `glitter` | 419 | 0.65% |
 | `wide_rib` | 421 | 0.66% |
 | `plain` | 428 | 0.67% |
-| `glitter` | 432 | 0.67% |
-| `perforated` | 444 | 0.69% |
+| `perforated` | 446 | 0.70% |
 | `rib_lycra` | 482 | 0.75% |
 | `snake` | 483 | 0.75% |
 | `scuba` | 494 | 0.77% |
 | `sateen` | 516 | 0.80% |
-| `metallic` | 554 | 0.86% |
+| `metallic` | 555 | 0.87% |
 | `jacquard` | 572 | 0.89% |
 | `pleated` | 614 | 0.96% |
 | `rubber` | 629 | 0.98% |
@@ -86,29 +87,29 @@ _3000 generated people, every outfit: 64129 items, 7493 printed (12%). Written b
 | `knit` | 715 | 1.11% |
 | `pique` | 718 | 1.12% |
 | `marl` | 776 | 1.21% |
-| `quilted` | 810 | 1.26% |
+| `quilted` | 809 | 1.26% |
 | `poplin` | 911 | 1.42% |
-| `tweed` | 1002 | 1.56% |
-| `corduroy` | 1011 | 1.58% |
+| `tweed` | 1003 | 1.56% |
+| `corduroy` | 1012 | 1.58% |
 | `nylon` | 1176 | 1.83% |
 | `linen` | 1249 | 1.95% |
 | `fleece` | 1263 | 1.97% |
 | `ripstop` | 1292 | 2.01% |
 | `mesh` | 1378 | 2.15% |
-| `denim` | 1548 | 2.41% |
+| `denim` | 1547 | 2.41% |
 | `crepe` | 1555 | 2.42% |
-| `lace` | 1697 | 2.65% |
+| `lace` | 1695 | 2.64% |
 | `jersey` | 1790 | 2.79% |
-| `satin` | 1847 | 2.88% |
-| `velvet` | 1993 | 3.11% |
+| `satin` | 1840 | 2.87% |
+| `velvet` | 1996 | 3.11% |
 | `twill` | 2121 | 3.31% |
 | `rib_knit` | 2315 | 3.61% |
-| `chiffon` | 2507 | 3.91% |
-| `patent` | 2563 | 4.00% |
-| `suede` | 2726 | 4.25% |
+| `chiffon` | 2506 | 3.91% |
+| `patent` | 2564 | 4.00% |
+| `suede` | 2723 | 4.25% |
 | `lycra` | 3271 | 5.10% |
 | `canvas` | 3513 | 5.48% |
-| `leather` | 4420 | 6.89% |
+| `leather` | 4421 | 6.89% |
 
 ## Prints (228)
 
@@ -177,7 +178,6 @@ _3000 generated people, every outfit: 64129 items, 7493 printed (12%). Written b
 | `pattern.tee_bow_01` | 15 | 0.20% |
 | `pattern.badge_heart_01` | 15 | 0.20% |
 | `pattern.birds_01` | 15 | 0.20% |
-| `pattern.memphis_01` | 15 | 0.20% |
 | `pattern.chains_01` | 15 | 0.20% |
 | `pattern.artdeco_01` | 15 | 0.20% |
 | `pattern.frogs_01` | 15 | 0.20% |
@@ -185,6 +185,7 @@ _3000 generated people, every outfit: 64129 items, 7493 printed (12%). Written b
 | `pattern.rainbows_01` | 16 | 0.21% |
 | `pattern.fleurdelis_01` | 16 | 0.21% |
 | `pattern.cacti_01` | 16 | 0.21% |
+| `pattern.memphis_01` | 16 | 0.21% |
 | `pattern.circles_01` | 17 | 0.23% |
 | `pattern.vine_01` | 17 | 0.23% |
 | `pattern.paws_01` | 17 | 0.23% |
@@ -299,9 +300,9 @@ _3000 generated people, every outfit: 64129 items, 7493 printed (12%). Written b
 | `pattern.buffalo_01` | 42 | 0.56% |
 | `pattern.candystripe_01` | 43 | 0.57% |
 | `pattern.daisies_01` | 43 | 0.57% |
-| `pattern.tiger_01` | 43 | 0.57% |
 | `pattern.pindots_01` | 43 | 0.57% |
 | `pattern.roses_01` | 43 | 0.57% |
+| `pattern.tiger_01` | 44 | 0.59% |
 | `pattern.tee_sunset_01` | 46 | 0.61% |
 | `pattern.dots_01` | 47 | 0.63% |
 | `pattern.knitstripes_01` | 48 | 0.64% |
@@ -335,10 +336,10 @@ _3000 generated people, every outfit: 64129 items, 7493 printed (12%). Written b
 | `pattern.dalmatian_01` | 110 | 1.47% |
 | `pattern.knitflakes_01` | 116 | 1.55% |
 | `pattern.giraffe_01` | 134 | 1.79% |
-| `pattern.breton_01` | 139 | 1.86% |
+| `pattern.breton_01` | 139 | 1.85% |
 | `pattern.stripes_01` | 140 | 1.87% |
-| `pattern.colourblock_01` | 141 | 1.88% |
+| `pattern.colourblock_01` | 142 | 1.89% |
 | `pattern.ombre_01` | 147 | 1.96% |
 | `pattern.leopard_01` | 149 | 1.99% |
-| `pattern.hemstripes_01` | 175 | 2.34% |
+| `pattern.hemstripes_01` | 175 | 2.33% |
 | `pattern.snakeskin_01` | 194 | 2.59% |

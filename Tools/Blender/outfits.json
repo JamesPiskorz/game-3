@@ -470,7 +470,7 @@
     "image": "References/character-base-images/outfits/outfit-57.png",
     "prompt": "a long-sleeve sequinned bodycon mini dress in solid gold; black strappy high heels",
     "garments": [
-      {"id": "cloth.onepiece.sequindress_gen01", "name": "Sequin dress", "tags": ["formal", "date", "elegant"], "contexts": ["date", "formal"], "lean": 0.95, "slot": "onepiece", "regions": ["UpperTorso", "LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR", "UpperArmL", "UpperArmR", "ForearmL", "ForearmR"], "colours": ["#d4a64a"], "drape": false, "sleeve_ease": 0.006, "tucked": 0.155, "loosest": 0.01, "skirt": {"offset": 0.006, "smooth": 2, "straight": true, "hem": 0.62}, "fill": ["UpperTorso", "LowerTorso", "UpperArmL", "UpperArmR", "ForearmL", "ForearmR"], "fabric": "sequins", "patternable": false, "fabrics": ["metallic", "velvet", "satin", "lace", "glitter", "beaded", "foil", "crushed_velvet"]}
+      {"id": "cloth.onepiece.sequindress_gen01", "name": "Sequin dress", "tags": ["formal", "date", "elegant"], "contexts": ["date", "formal"], "lean": 0.95, "slot": "onepiece", "regions": ["UpperTorso", "LowerTorso", "Pelvis", "ThighL", "ThighR", "CalfL", "CalfR", "UpperArmL", "UpperArmR", "ForearmL", "ForearmR"], "colours": ["#d4a64a"], "drape": false, "sleeve_ease": 0.006, "tucked": 0.155, "loosest": 0.01, "skirt": {"offset": 0.006, "smooth": 2, "straight": true, "hem": 0.62}, "fill": ["UpperTorso", "LowerTorso", "UpperArmL", "UpperArmR", "ForearmL", "ForearmR"], "fabric": "sequins", "patternable": false, "fabrics": ["metallic", "velvet", "satin", "lace", "glitter", "beaded", "foil", "crushed_velvet", "diamante"]}
     ]
   },
   "outfit-58": {

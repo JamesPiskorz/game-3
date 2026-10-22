@@ -2486,7 +2486,8 @@
         "glitter",
         "beaded",
         "foil",
-        "crushed_velvet"
+        "crushed_velvet",
+        "diamante"
       ],
       "clothBottom": 0.625910938,
       "clothTop": 1.42536283,
@@ -11320,6 +11321,21 @@
         "elegant",
         "date",
         "cute",
+        "formal"
+      ],
+      "printable": false,
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
+    },
+    {
+      "id": "diamante",
+      "name": "Diamanté mesh",
+      "weight": 1.0,
+      "tags": [
+        "date",
+        "street",
+        "elegant",
         "formal"
       ],
       "printable": false,
