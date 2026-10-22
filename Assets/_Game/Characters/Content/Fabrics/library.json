@@ -2067,6 +2067,27 @@
    "weight": 1.0,
    "gloss": 0.55,
    "sheen": 0.0
+  },
+  {
+   "id": "velour",
+   "name": "Velour",
+   "mean": 0.8474,
+   "tileMetres": 0.25,
+   "tags": [
+    "casual",
+    "sporty",
+    "street",
+    "cute",
+    "sleep"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.12,
+   "colourChance": 0.0,
+   "colours": [],
+   "weight": 1.0,
+   "gloss": 0.0,
+   "sheen": 0.35
   }
  ]
 }

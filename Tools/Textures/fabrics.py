@@ -989,6 +989,18 @@ def brushed_cotton(size, seed):
     return _shade(tk.normalise(0.35 * weave + 0.65 * nap), 0.16)
 
 
+def velour(size, seed):
+    """Velour: a knitted velvet (tracksuits, loungewear, robes), a short even pile brushed one way into soft streaks over
+    fine knit wales, with a gentle sheen."""
+    x, _ = tk.grid(size)
+    noise = tk.value_noise(size, 48, seed, octaves=2)
+    streaks = sum(np.roll(noise, k, axis=0) for k in range(-14, 15, 2)) / 15  # brushed down the cloth
+    pile = tk.value_noise(size, 110, seed + 1, 1)
+    wales = 0.5 + 0.5 * np.cos(2 * np.pi * x * 44)
+    patches = tk.value_noise(size, 3, seed + 2, octaves=3)
+    return _shade(tk.normalise(0.45 * tk.normalise(streaks) + 0.2 * pile + 0.12 * wales + 0.23 * patches), 0.3)
+
+
 def oilskin(size, seed):
     """Oilskin (fishermen's raincoats, sou'westers): a stiff coated cotton, glossy, crumpled into creases."""
     return np.clip(0.7 + 0.3 * _crumple(size, seed, 3, 3, 1.0), 0, 1)
@@ -1129,7 +1141,7 @@ FABRICS = {
     "black_denim": black_denim, "ripped_denim": ripped_denim, "athletic_knit": athletic_knit, "fishnet": fishnet,
     "plisse": plisse, "crushed_velvet": crushed_velvet, "foil": foil, "rib_lycra": rib_lycra, "shimmer_lycra": shimmer_lycra,
     "hex_mesh": hex_mesh, "tricot": tricot,
-    "burnout_velvet": burnout_velvet, "brushed_cotton": brushed_cotton, "oilskin": oilskin,
+    "burnout_velvet": burnout_velvet, "brushed_cotton": brushed_cotton, "oilskin": oilskin, "velour": velour,
 }
 
 # Each fabric's catalog entry: the style tags archetypes weight it by, whether a print goes on it, and how common it is.
@@ -1138,7 +1150,7 @@ NO_PRINT = {"denim", "croc", "sequins", "lace", "quilted", "diamond_quilt", "cor
             "herringbone", "jacquard", "velvet", "boucle", "seersucker", "terry", "waffle",
             "stonewash", "acid_wash", "waxed", "pointelle", "seed_stitch", "sherpa", "chenille", "moire",
             "glitter", "beaded", "perforated", "vinyl", "snake", "ottoman", "straw", "smocked", "marl", "satin_stripe", "pinstripe_wool", "houndstooth_wool", "patchwork",
-            "jumbo_cord", "gloss_puffer", "guipure", "dotted_swiss", "brocade", "black_denim", "ripped_denim", "fishnet", "crushed_velvet", "foil", "hex_mesh", "burnout_velvet", "oilskin"}
+            "jumbo_cord", "gloss_puffer", "guipure", "dotted_swiss", "brocade", "black_denim", "ripped_denim", "fishnet", "crushed_velvet", "foil", "hex_mesh", "burnout_velvet", "oilskin", "velour"}
 # Fabrics that take only some prints: a knit takes only what is knitted into it (Fair Isle, stripes, argyle), not a
 # printed floral; a leather only an animal print. Prints with one of these tags (prints.KNITTED's "knitted",
 # prints.ANIMAL's "animal").
@@ -1183,6 +1195,7 @@ TAGS = {
     "rib_lycra": ["sporty", "cute", "casual"], "shimmer_lycra": ["date", "cute", "street"],
     "hex_mesh": ["sporty", "street"], "tricot": ["sporty", "street", "casual"],
     "burnout_velvet": ["gothic", "elegant", "date"], "brushed_cotton": ["casual", "cute"], "oilskin": ["casual", "bookish"],
+    "velour": ["casual", "sporty", "street", "cute"],
 }
 
 # Fabrics that usually come in their own colours, and how often an item made in one is: (chance, hex colours). Denim
@@ -1234,7 +1247,7 @@ CONTEXT_TAGS = {
     "rain": ["oilskin", "ripstop", "nylon", "waxed", "rubber", "vinyl", "patent", "gloss_puffer", "quilted", "fleece", "tweed",
              "corduroy", "denim", "knit", "cable_knit", "marl"],
     "sleep": ["flannel", "satin", "jersey", "waffle", "fleece", "terry", "marl", "pointelle", "seersucker", "smocked",
-              "chenille", "sherpa", "plain", "poplin", "crinkle", "sateen", "dotted_swiss", "brushed_cotton"],
+              "chenille", "sherpa", "plain", "poplin", "crinkle", "sateen", "dotted_swiss", "brushed_cotton", "velour"],
 }
 
 # Open fabrics: the shade below which a pixel is a hole, where the wearer's skin shows (the texture's alpha).
@@ -1253,7 +1266,7 @@ GLOSS = {
 # How much each pile fabric glows toward its edges (the shader's _Sheen: velvet's look); the rest have none.
 SHEEN = {
     "velvet": 0.55, "crushed_velvet": 0.55, "burnout_velvet": 0.45, "chenille": 0.35, "faux_fur": 0.4, "mohair": 0.35, "sherpa": 0.3, "suede": 0.25, "boucle": 0.2,
-    "fleece": 0.15, "terry": 0.15, "felt": 0.1, "corduroy": 0.15, "jumbo_cord": 0.2, "needlecord": 0.1,
+    "velour": 0.35, "fleece": 0.15, "terry": 0.15, "felt": 0.1, "corduroy": 0.15, "jumbo_cord": 0.2, "needlecord": 0.1,
 }
 
 # How much of each fabric's structure is added as light (the shader's _BaseLift), so it reads on dark cloth: the

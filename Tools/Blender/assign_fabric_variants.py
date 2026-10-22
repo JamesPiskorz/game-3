@@ -57,12 +57,12 @@ OWN = {
 
 # By the garment's own fabric: what else the same cut is made in.
 ALTERNATIVES = {
-    "jersey": ["marl", "slub_jersey", "rib_knit", "waffle", "pique", "fleece", "velvet", "pointelle"],
+    "jersey": ["marl", "slub_jersey", "rib_knit", "waffle", "pique", "fleece", "velvet", "pointelle", "velour"],
     "rib_knit": ["jersey", "marl", "wide_rib", "knit", "waffle", "crochet", "pointelle", "mohair", "lurex_knit", "cable_knit",
                  "chunky_knit", "seed_stitch"],
     "wide_rib": ["knit", "cable_knit", "chunky_knit", "rib_knit", "boucle", "mohair", "chenille", "seed_stitch", "lurex_knit"],
     "knit": ["cable_knit", "chunky_knit", "wide_rib", "boucle", "rib_knit", "crochet", "pointelle", "mohair", "seed_stitch", "chenille", "lurex_knit"],
-    "fleece": ["marl", "jersey", "terry", "velvet", "waffle", "faux_fur", "sherpa", "chenille", "tricot"],
+    "fleece": ["marl", "jersey", "terry", "velvet", "waffle", "faux_fur", "sherpa", "chenille", "tricot", "velour"],
     "twill": ["denim", "black_denim", "corduroy", "needlecord", "herringbone", "felt", "boucle", "linen", "canvas", "flannel", "tweed", "leather", "stonewash", "ottoman", "pinstripe_wool", "houndstooth_wool"],
     "denim": ["stonewash", "acid_wash", "black_denim", "ripped_denim", "twill", "corduroy", "canvas", "leather", "chambray", "patchwork"],
     "poplin": ["oxford", "chambray", "linen", "satin", "seersucker", "flannel", "lace", "dobby", "crinkle", "shantung", "satin_stripe", "sateen", "dotted_swiss"],
@@ -105,7 +105,7 @@ NOT_FOR = {
               "crinkle", "dobby", "waxed", "stonewash", "acid_wash", "ottoman", "satin_stripe", "lurex_knit", "felt", "pinstripe_wool", "houndstooth_wool", "patchwork",
               "needlecord", "jumbo_cord", "guipure", "scuba", "gloss_puffer", "dotted_swiss", "sateen",
               "black_denim", "ripped_denim", "athletic_knit", "plisse", "crushed_velvet", "foil",
-              "rib_lycra", "shimmer_lycra", "hex_mesh", "tricot", "burnout_velvet", "brushed_cotton", "oilskin"},
+              "rib_lycra", "shimmer_lycra", "hex_mesh", "tricot", "burnout_velvet", "brushed_cotton", "oilskin", "velour"},
     "legwear": set(),
     "outer": {"chiffon", "lace", "lycra", "tulle", "organza", "pleated", "smocked", "crinkle", "pointelle", "guipure", "scuba", "dotted_swiss"},
     "top": {"pleated", "straw", "perforated"},
@@ -115,7 +115,7 @@ NOT_FOR = {
 SWIM = {"metallic", "crochet", "seersucker", "velvet", "mesh", "satin", "glitter", "smocked", "crinkle", "scuba", "foil",
         "rib_lycra", "shimmer_lycra"}
 SLEEP = {"satin", "jersey", "waffle", "flannel", "lace", "velvet", "mesh", "chiffon", "fleece", "terry", "poplin", "linen",
-         "pointelle", "marl", "slub_jersey", "sherpa", "chenille", "crinkle", "smocked", "shantung", "seersucker", "satin_stripe", "sateen", "dotted_swiss", "brushed_cotton"}
+         "pointelle", "marl", "slub_jersey", "sherpa", "chenille", "crinkle", "smocked", "shantung", "seersucker", "satin_stripe", "sateen", "dotted_swiss", "brushed_cotton", "velour"}
 
 o = load()
 counts, moved = [], []

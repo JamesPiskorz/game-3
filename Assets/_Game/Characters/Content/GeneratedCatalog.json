@@ -574,7 +574,8 @@
         "slub_jersey",
         "waffle",
         "fleece",
-        "velvet"
+        "velvet",
+        "velour"
       ],
       "clothBottom": 0.749064147,
       "clothTop": 1.07688665,
@@ -927,7 +928,8 @@
         "waffle",
         "sherpa",
         "chenille",
-        "tricot"
+        "tricot",
+        "velour"
       ],
       "clothBottom": 0.190623879,
       "clothTop": 1.1138171,
@@ -3964,7 +3966,8 @@
         "waffle",
         "fleece",
         "velvet",
-        "pointelle"
+        "pointelle",
+        "velour"
       ],
       "clothBottom": 1.19020033,
       "clothTop": 1.43783391,
@@ -4097,7 +4100,8 @@
         "faux_fur",
         "sherpa",
         "chenille",
-        "tricot"
+        "tricot",
+        "velour"
       ],
       "clothBottom": 1.13044274,
       "clothTop": 1.47413826,
@@ -4196,7 +4200,8 @@
         "faux_fur",
         "sherpa",
         "chenille",
-        "tricot"
+        "tricot",
+        "velour"
       ],
       "clothBottom": 0.957957,
       "clothTop": 1.52776051,
@@ -4259,7 +4264,8 @@
         "pique",
         "fleece",
         "velvet",
-        "pointelle"
+        "pointelle",
+        "velour"
       ],
       "clothBottom": 1.18220389,
       "clothTop": 1.42384541,
@@ -4548,7 +4554,8 @@
         "waffle",
         "fleece",
         "velvet",
-        "pointelle"
+        "pointelle",
+        "velour"
       ],
       "clothBottom": 1.04213691,
       "clothTop": 1.41915965,
@@ -4740,7 +4747,8 @@
         "pique",
         "fleece",
         "velvet",
-        "pointelle"
+        "pointelle",
+        "velour"
       ],
       "clothBottom": 1.09071159,
       "clothTop": 1.4198873,
@@ -11209,6 +11217,22 @@
         }
       ],
       "colourChance": 0.8
+    },
+    {
+      "id": "velour",
+      "name": "Velour",
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "sporty",
+        "street",
+        "cute",
+        "sleep"
+      ],
+      "printable": false,
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     }
   ],
   "palettes": [
