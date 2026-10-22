@@ -6192,7 +6192,7 @@
     {
       "id": "pattern.crosses_01",
       "name": "Crosses",
-      "weight": 0.5,
+      "weight": 1.0,
       "tags": [
         "gothic"
       ],
@@ -6221,7 +6221,7 @@
     {
       "id": "pattern.spiderweb_01",
       "name": "Spiderweb",
-      "weight": 0.4,
+      "weight": 1.0,
       "tags": [
         "gothic"
       ],
@@ -6780,7 +6780,7 @@
     {
       "id": "pattern.opart_01",
       "name": "Op art squares",
-      "weight": 0.3,
+      "weight": 0.7,
       "tags": [
         "street",
         "gothic"
@@ -7050,7 +7050,7 @@
     {
       "id": "pattern.bunnies_01",
       "name": "Bunnies",
-      "weight": 0.5,
+      "weight": 0.9,
       "tags": [
         "cute",
         "sleep"
@@ -7081,7 +7081,7 @@
     {
       "id": "pattern.eyes_01",
       "name": "Eyes",
-      "weight": 0.4,
+      "weight": 0.8,
       "tags": [
         "gothic",
         "street"
@@ -9037,7 +9037,7 @@
     {
       "id": "pattern.artdeco_01",
       "name": "Art deco fans",
-      "weight": 0.5,
+      "weight": 0.9,
       "tags": [
         "elegant",
         "date",
