@@ -3964,6 +3964,21 @@
      "print": "#e8d08a"
     }
    ]
+  },
+  {
+   "id": "pattern.clovers_01",
+   "name": "Clovers",
+   "tags": [
+    "cute",
+    "casual"
+   ],
+   "minScale": 3,
+   "maxScale": 5,
+   "weight": 0.6,
+   "accent": null,
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   }
  ]
 }

@@ -1893,6 +1893,29 @@ def celestial(size, seed):
     return colour, _outline(colour, 1) * 0.45, accent
 
 
+def clovers(size, seed):
+    """Clovers: lucky four-leaf clovers, each leaf a heart, on a curving stem, scattered every which way, with the odd
+    three-leaf one among them."""
+    def clover(px, leaves):
+        def leaf_fn(x, y):
+            cover = np.zeros_like(x)
+            for j in range(leaves):
+                a = 2 * np.pi * j / leaves + np.pi / 4
+                ux, uy = np.cos(a), np.sin(a)
+                along, across = x * ux + y * uy, -x * uy + y * ux
+                # a heart pointing in: two lobes side by side, tapering to the middle
+                lobe = np.minimum(np.hypot(along - 0.42, across - 0.1), np.hypot(along - 0.42, across + 0.1))
+                taper = (np.abs(across) < along * 0.42) & (along > 0.03) & (along < 0.44)
+                cover = np.maximum(cover, np.maximum(_soft(lobe - 0.12, px / 2), taper.astype(float)))
+            return cover
+        leaf = _shape(px, leaf_fn)
+        stem = _shape(px, lambda x, y: _soft(np.abs(x - 0.12 * (y - 0.1) ** 2) - 0.035, px / 2) * (y > 0.05) * (y < 0.9))
+        colour = np.clip(leaf + stem, 0, 1)
+        return colour, _outline(colour, 1) * 0.55
+    shapes = [clover(int(size / 4.5), 4), clover(int(size / 5.2), 4), clover(int(size / 5.5), 3)]
+    return _scatter_shapes(size, shapes, 12, seed, size / 4.6)
+
+
 # ------------------------------------------------------------------------------- placed prints: chest graphics
 
 def _graphic(size, layers):
@@ -3411,6 +3434,7 @@ PRINTS = {
     "azulejo": (azulejo, "Azulejo tiles", ["elegant", "casual", "date"], (2, 3), 0.6),
     "whales": (whales, "Whales", ["cute", "casual"], (2.5, 4), 0.6),
     "celestial": (celestial, "Suns and moons", ["casual", "gothic", "date", "cute"], (2.5, 4), 0.7),
+    "clovers": (clovers, "Clovers", ["cute", "casual"], (3, 5), 0.6),
 }
 
 # How each print's second colour (its accent: leaves, hearts, wafers) follows its first: "leaf" (a natural green),

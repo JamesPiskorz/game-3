@@ -9307,6 +9307,21 @@
         }
       ],
       "colourwayChance": 0.4
+    },
+    {
+      "id": "pattern.clovers_01",
+      "name": "Clovers",
+      "weight": 0.6,
+      "tags": [
+        "cute",
+        "casual"
+      ],
+      "minScale": 3.0,
+      "maxScale": 5.0,
+      "accent": null,
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     }
   ],
   "fabrics": [
