@@ -19,7 +19,9 @@ The fabrics and prints the generated characters' clothes are made of (decision 0
 2. Look at it: `python Tools/Textures/swatches.py fabrics out.png` or `... prints out.png`.
 3. Write the library: `python Tools/Textures/make_textures.py all` (textures and `library.json` in
    `Assets/_Game/Characters/Content/Fabrics` and `Patterns`).
-4. Give garments a new fabric in `Tools/Blender/outfits.json` (`fabric`, `fabrics`), then
+4. Give garments a new fabric: add it to `ALTERNATIVES` (and its filters) in
+   `Tools/Blender/assign_fabric_variants.py` and run it, which writes each garment's `fabrics` in
+   `Tools/Blender/outfits.json` (a garment's own `fabric` is set there by hand), then
    `python Tools/Blender/update_sidecars.py`.
 5. Bring it into the game: `unity run . -- -executeMethod Game.Characters.ContentAuthoring.FabricTextures.BuildAll`
    (fabric materials, print import settings, parts reimported, generated content written).

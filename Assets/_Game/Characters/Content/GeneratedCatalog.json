@@ -631,7 +631,6 @@
         "suede",
         "denim",
         "corduroy",
-        "mesh",
         "waxed"
       ],
       "clothBottom": 0.126404658,
@@ -763,7 +762,6 @@
         "shimmer_lycra",
         "athletic_knit",
         "metallic",
-        "crochet",
         "seersucker",
         "velvet",
         "mesh",
@@ -925,7 +923,6 @@
         "terry",
         "velvet",
         "waffle",
-        "faux_fur",
         "sherpa",
         "chenille",
         "tricot"
@@ -960,7 +957,6 @@
         "shimmer_lycra",
         "athletic_knit",
         "metallic",
-        "crochet",
         "seersucker",
         "velvet",
         "mesh",
@@ -1648,7 +1644,6 @@
         "shimmer_lycra",
         "athletic_knit",
         "metallic",
-        "crochet",
         "seersucker",
         "velvet",
         "mesh",
@@ -2851,8 +2846,7 @@
         "velvet",
         "snake",
         "vinyl",
-        "perforated",
-        "straw"
+        "perforated"
       ],
       "clothBottom": 1.17541111,
       "clothTop": 1.4570148,
@@ -2951,8 +2945,7 @@
         "velvet",
         "snake",
         "vinyl",
-        "perforated",
-        "straw"
+        "perforated"
       ],
       "clothBottom": -0.017358575,
       "clothTop": 0.163509592,
@@ -2982,7 +2975,6 @@
         "denim",
         "corduroy",
         "mesh",
-        "straw",
         "perforated"
       ],
       "clothBottom": -0.01627259,
@@ -3012,7 +3004,6 @@
         "denim",
         "corduroy",
         "mesh",
-        "straw",
         "perforated"
       ],
       "clothBottom": -0.0219418742,
@@ -3076,8 +3067,7 @@
         "velvet",
         "snake",
         "vinyl",
-        "perforated",
-        "straw"
+        "perforated"
       ],
       "clothBottom": -0.0272318311,
       "clothTop": 0.120557927,
@@ -3133,8 +3123,7 @@
         "velvet",
         "snake",
         "vinyl",
-        "perforated",
-        "straw"
+        "perforated"
       ],
       "clothBottom": -0.0268533938,
       "clothTop": 0.08045389,
@@ -3224,7 +3213,6 @@
         "denim",
         "corduroy",
         "mesh",
-        "straw",
         "perforated"
       ],
       "clothBottom": -0.0156579316,
@@ -3563,7 +3551,6 @@
         "denim",
         "corduroy",
         "mesh",
-        "straw",
         "perforated"
       ],
       "clothBottom": -0.021084588,
@@ -3662,8 +3649,7 @@
         "velvet",
         "snake",
         "vinyl",
-        "perforated",
-        "straw"
+        "perforated"
       ],
       "clothBottom": -0.0269505735,
       "clothTop": 0.381305575,
@@ -3725,7 +3711,6 @@
         "denim",
         "corduroy",
         "mesh",
-        "straw",
         "perforated"
       ],
       "clothBottom": -0.0169954151,
@@ -3758,8 +3743,7 @@
         "velvet",
         "snake",
         "vinyl",
-        "perforated",
-        "straw"
+        "perforated"
       ],
       "clothBottom": -0.00485822232,
       "clothTop": 0.07503734,
@@ -4143,7 +4127,6 @@
         "wide_rib",
         "knit",
         "waffle",
-        "crochet",
         "pointelle",
         "mohair",
         "lurex_knit"
@@ -4394,7 +4377,6 @@
         "wide_rib",
         "knit",
         "waffle",
-        "crochet",
         "pointelle",
         "mohair",
         "lurex_knit"
@@ -4423,7 +4405,6 @@
         "shimmer_lycra",
         "athletic_knit",
         "metallic",
-        "crochet",
         "seersucker",
         "velvet",
         "mesh",
@@ -4559,7 +4540,6 @@
         "shimmer_lycra",
         "athletic_knit",
         "metallic",
-        "crochet",
         "seersucker",
         "velvet",
         "mesh",
@@ -4821,7 +4801,6 @@
         "wide_rib",
         "knit",
         "waffle",
-        "crochet",
         "pointelle",
         "mohair",
         "lurex_knit"
