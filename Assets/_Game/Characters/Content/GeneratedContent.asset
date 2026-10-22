@@ -723,6 +723,12 @@ MonoBehaviour:
     Texture: {fileID: 2800000, guid: 352e85c034b965147951b235c4d61985, type: 3}
   - Id: pattern.umbrellas_01
     Texture: {fileID: 2800000, guid: 6d5d99c67f6032e49a48c17a4b14ec9c, type: 3}
+  - Id: pattern.liberty_01
+    Texture: {fileID: 2800000, guid: 9b0241aacc5dc674dbb4c46489b6e3ce, type: 3}
+  - Id: pattern.poppies_01
+    Texture: {fileID: 2800000, guid: c227aa6710d3cd645b2dddd9504d10fe, type: 3}
+  - Id: pattern.lavender_01
+    Texture: {fileID: 2800000, guid: 4b51cff888f2bb644a7c2b9717756ba7, type: 3}
   Fabrics:
   - Id: plain
     Material: {fileID: 2100000, guid: 438e55e3cc9afa740b5c2f26ae972251, type: 2}

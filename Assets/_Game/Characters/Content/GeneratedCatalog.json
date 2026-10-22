@@ -8602,6 +8602,55 @@
       "placement": null,
       "colourways": [],
       "colourwayChance": 0.0
+    },
+    {
+      "id": "pattern.liberty_01",
+      "name": "Small floral",
+      "weight": 0.9,
+      "tags": [
+        "cute",
+        "bookish",
+        "elegant",
+        "date"
+      ],
+      "minScale": 3.0,
+      "maxScale": 5.0,
+      "accent": "contrast",
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
+    },
+    {
+      "id": "pattern.poppies_01",
+      "name": "Poppies",
+      "weight": 0.5,
+      "tags": [
+        "cute",
+        "casual",
+        "date"
+      ],
+      "minScale": 2.0,
+      "maxScale": 3.5,
+      "accent": null,
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
+    },
+    {
+      "id": "pattern.lavender_01",
+      "name": "Lavender",
+      "weight": 0.5,
+      "tags": [
+        "cute",
+        "bookish",
+        "elegant"
+      ],
+      "minScale": 1.6,
+      "maxScale": 2.6,
+      "accent": "leaf",
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     }
   ],
   "fabrics": [

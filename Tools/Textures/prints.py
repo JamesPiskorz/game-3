@@ -2441,6 +2441,53 @@ def snowflake_yoke(size, seed):
     return _chart(rows, size)
 
 
+
+def liberty(size, seed):
+    """A dense small-scale floral, as in the classic lawn prints: tiny five-petalled blooms crowded together in two
+    colours, little leaves filling the gaps."""
+    rng = np.random.default_rng(seed)
+    shapes = []
+    for k in range(6):
+        b, i = _petal_flower(int(size / (11 + 4 * rng.random())), 5, 0.5)
+        none = np.zeros_like(b)
+        shapes.append((b, i * 0.6, none) if k % 3 else (none, i * 0.6, b))
+    lb, li = _leaf_shape(int(size / 16))
+    shapes += [(lb * 0.45, li * 0.5, np.zeros_like(lb))] * 2
+    return _scatter_shapes(size, shapes, 70, seed, size / 13)
+
+
+def poppies(size, seed):
+    """Poppies: wide four-petalled cups with a dark heart, on wiry stems with buds."""
+    def poppy(px):
+        r = px // 2
+        y, x = np.mgrid[-r:r + 1, -r:r + 1].astype(float) / max(r, 1)
+        rad, ang = np.hypot(x, y + 0.2), np.arctan2(y + 0.2, x)
+        cup = _soft(rad - (0.5 + 0.12 * np.cos(ang * 4)), r)
+        heart = _soft(rad - 0.14, r)
+        stem = (np.abs(x - 0.06 * np.sin((y - 0.3) * 4)) < 0.025) & (y > 0.25) & (y < 0.98)
+        bud = np.hypot((x - 0.32) / 0.08, (y - 0.55) / 0.12) < 1
+        return np.clip(cup - heart, 0, 1), np.clip(heart * 0.9 + stem * 0.9 + _outline(cup, 1) * 0.4 + bud * 0.7, 0, 1)
+    return _scatter_shapes(size, [poppy(int(size / 3.2)), poppy(int(size / 4.4))], 9, seed, size / 3.6, rotate=False)
+
+
+def lavender(size, seed):
+    """Lavender sprigs: slender stems topped with spikes of little flowers, in the print colour, the stems green."""
+    def sprig(px):
+        r = px // 2
+        y, x = np.mgrid[-r:r + 1, -r:r + 1].astype(float) / max(r, 1)
+        stem = (np.abs(x + 0.05 * y) < 0.025) & (y > -0.2) & (y < 0.95)
+        florets = np.zeros_like(x)
+        for k in range(9):
+            fy = -0.9 + k * 0.09
+            for side in (-1, 1):
+                fx = side * (0.07 - 0.03 * (k / 9))
+                florets = np.maximum(florets, (np.hypot((x - fx + 0.05 * fy) / 0.06, (y - fy) / 0.045) < 1).astype(float))
+        leaves = (np.hypot((x - 0.15) / 0.2, (y - 0.45) / 0.04) < 1) | (np.hypot((x + 0.17) / 0.2, (y - 0.6) / 0.04) < 1)
+        green = tk.blur_small((stem | leaves).astype(float), 0.8)
+        return tk.blur_small(florets, 0.8), _outline(florets, 1) * 0.3, green * (1 - florets)
+    return _scatter_shapes(size, [sprig(int(size / 3.2)), sprig(int(size / 4))], 12, seed, size / 5.5, rotate=False)
+
+
 # name, tags, tiles per metre (min, max), weight
 PRINTS = {
     # Patterns the stand-ins share (their catalog lists these ids).
@@ -2649,6 +2696,9 @@ PRINTS = {
     "dinosaurs": (dinosaurs, "Dinosaurs", ["cute", "casual"], (2.5, 4), 0.3),
     "sailboats": (sailboats, "Sailboats", ["casual", "cute", "bookish"], (2.5, 4), 0.4),
     "umbrellas": (umbrellas, "Umbrellas", ["cute", "casual", "bookish"], (2.5, 4), 0.4),
+    "liberty": (liberty, "Small floral", ["cute", "bookish", "elegant", "date"], (3, 5), 0.9),
+    "poppies": (poppies, "Poppies", ["cute", "casual", "date"], (2, 3.5), 0.5),
+    "lavender": (lavender, "Lavender", ["cute", "bookish", "elegant"], (1.6, 2.6), 0.5),
 }
 
 # How each print's second colour (its accent: leaves, hearts, wafers) follows its first: "leaf" (a natural green),
@@ -2659,7 +2709,7 @@ ACCENT = {
     "doughnuts": "gold", "mushrooms": "light", "bees": "light", "planets": "contrast", "rainbows": "contrast",
     "plaid": "contrast", "glenplaid": "contrast", "argyle": "contrast", "madras": "contrast",
     "cacti": "leaf", "medallions": "contrast", "groovy": "contrast", "flowerpower": "gold", "dinosaurs": "contrast",
-    "sailboats": "contrast", "umbrellas": "contrast",
+    "sailboats": "contrast", "umbrellas": "contrast", "liberty": "contrast", "lavender": "leaf",
     "tee_heart": "light", "tee_star": "light", "tee_cherries": "leaf", "tee_rose": "leaf", "tee_sunset": "gold",
     "tee_cat": "light", "tee_rainbow": "contrast", "tee_planet": "contrast", "tee_daisy": "gold", "tee_mountains": "light",
     "tee_butterfly": "contrast", "tee_moon": "gold", "tee_crown": "contrast", "tee_ghost": "light", "tee_palm": "leaf",
