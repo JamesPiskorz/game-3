@@ -8711,6 +8711,55 @@
       "placement": null,
       "colourways": [],
       "colourwayChance": 0.0
+    },
+    {
+      "id": "pattern.maple_01",
+      "name": "Autumn leaves",
+      "weight": 0.4,
+      "tags": [
+        "cute",
+        "bookish",
+        "casual"
+      ],
+      "minScale": 2.5,
+      "maxScale": 4.0,
+      "accent": "gold",
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
+    },
+    {
+      "id": "pattern.pineapples_01",
+      "name": "Pineapples",
+      "weight": 0.4,
+      "tags": [
+        "cute",
+        "casual",
+        "sporty",
+        "swim"
+      ],
+      "minScale": 2.5,
+      "maxScale": 4.0,
+      "accent": "leaf",
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
+    },
+    {
+      "id": "pattern.memphis_01",
+      "name": "Memphis",
+      "weight": 0.4,
+      "tags": [
+        "street",
+        "cute",
+        "casual"
+      ],
+      "minScale": 2.0,
+      "maxScale": 3.5,
+      "accent": "contrast",
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     }
   ],
   "fabrics": [

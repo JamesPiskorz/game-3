@@ -2488,6 +2488,67 @@ def lavender(size, seed):
     return _scatter_shapes(size, [sprig(int(size / 3.2)), sprig(int(size / 4))], 12, seed, size / 5.5, rotate=False)
 
 
+
+def maple_leaves(size, seed):
+    """Autumn leaves: five-pointed maple leaves tumbling about, in the print colour and the second."""
+    def leaf(px):
+        r = px // 2
+        y, x = np.mgrid[-r:r + 1, -r:r + 1].astype(float) / max(r, 1)
+        rad, ang = np.hypot(x, y + 0.1), np.arctan2(y + 0.1, x) + np.pi / 2
+        lobes = 0.45 + 0.4 * np.abs(np.cos(ang * 2.5)) ** 0.6 + 0.08 * np.cos(ang * 15)
+        body = _soft(rad - lobes * (y < 0.45), r * 0.8)
+        stalk = ((np.abs(x) < 0.03) & (y > 0.3) & (y < 0.95)).astype(float)
+        veins = (np.abs(np.sin(ang * 2.5)) < 0.08) & (rad < lobes * 0.9)
+        shape = np.clip(body + stalk, 0, 1)
+        return shape, np.clip(veins * 0.5 + _outline(shape, 1) * 0.4, 0, 1)
+    a = leaf(int(size / 4))
+    b = leaf(int(size / 5.5))
+    none_a, none_b = np.zeros_like(a[0]), np.zeros_like(b[0])
+    return _scatter_shapes(size, [a, (none_a, a[1], a[0]), b, (none_b, b[1], b[0])], 12, seed, size / 4.2)
+
+
+def pineapples(size, seed):
+    """Pineapples: criss-crossed fruit under a spiky green crown."""
+    def fruit(px):
+        r = px // 2
+        y, x = np.mgrid[-r:r + 1, -r:r + 1].astype(float) / max(r, 1)
+        body = np.hypot(x / 0.42, (y - 0.25) / 0.58) < 1
+        grid = body & ((np.abs(np.sin((x + y) * 12)) < 0.18) | (np.abs(np.sin((x - y) * 12)) < 0.18))
+        crown = np.zeros_like(x, dtype=bool)
+        for k, a in enumerate(np.linspace(-0.7, 0.7, 5)):
+            u, v = x - np.sin(a) * 0.1, y + 0.32
+            t = np.radians(a * 40)
+            ru, rv = np.cos(t) * u + np.sin(t) * v, -np.sin(t) * u + np.cos(t) * v
+            crown |= (np.abs(ru) < 0.07 * (1 + rv / 0.6)) & (rv < 0) & (rv > -0.6 + 0.1 * abs(k - 2))
+        colour = tk.blur_small(body.astype(float), 0.8)
+        green = tk.blur_small(crown.astype(float), 0.8) * (1 - colour)
+        return colour, np.clip(grid * 0.5 + _outline(colour, 1) * 0.5, 0, 1), green
+    return _scatter_shapes(size, [fruit(int(size / 3.6)), fruit(int(size / 5))], 9, seed, size / 4, rotate=False)
+
+
+def memphis(size, seed):
+    """Memphis: an 80s jumble of squiggles, triangles, dots and half circles in two colours."""
+    rng = np.random.default_rng(seed)
+    shapes = []
+    for k in range(8):
+        px = int(size / 6) | 1
+        h = px // 2
+        yy, xx = np.mgrid[-h:h + 1, -h:h + 1].astype(float) / h
+        kind = k % 4
+        if kind == 0:
+            m = (np.abs(yy - 0.3 * np.sin(xx * 7)) < 0.12) & (np.abs(xx) < 0.9)
+        elif kind == 1:
+            m = (yy > -0.6) & (yy < 0.6) & (np.abs(xx) < (yy + 0.6) * 0.7)
+        elif kind == 2:
+            m = (np.hypot(xx, yy) < 0.7) & (yy < 0)
+        else:
+            m = (np.hypot(((xx * 2) % 1.0) - 0.5, ((yy * 2) % 1.0) - 0.5) < 0.18) & (np.abs(xx) < 0.9) & (np.abs(yy) < 0.9)
+        m = tk.blur_small(m.astype(float), 0.8)
+        none = np.zeros_like(m)
+        shapes.append((m, _outline(m, 1) * 0.6, none) if k % 2 else (none, _outline(m, 1) * 0.6, m))
+    return _scatter_shapes(size, shapes, 22, seed, size / 6.5)
+
+
 # name, tags, tiles per metre (min, max), weight
 PRINTS = {
     # Patterns the stand-ins share (their catalog lists these ids).
@@ -2699,6 +2760,9 @@ PRINTS = {
     "liberty": (liberty, "Small floral", ["cute", "bookish", "elegant", "date"], (3, 5), 0.9),
     "poppies": (poppies, "Poppies", ["cute", "casual", "date"], (2, 3.5), 0.5),
     "lavender": (lavender, "Lavender", ["cute", "bookish", "elegant"], (1.6, 2.6), 0.5),
+    "maple": (maple_leaves, "Autumn leaves", ["cute", "bookish", "casual"], (2.5, 4), 0.4),
+    "pineapples": (pineapples, "Pineapples", ["cute", "casual", "sporty"], (2.5, 4), 0.4),
+    "memphis": (memphis, "Memphis", ["street", "cute", "casual"], (2, 3.5), 0.4),
 }
 
 # How each print's second colour (its accent: leaves, hearts, wafers) follows its first: "leaf" (a natural green),
@@ -2709,7 +2773,8 @@ ACCENT = {
     "doughnuts": "gold", "mushrooms": "light", "bees": "light", "planets": "contrast", "rainbows": "contrast",
     "plaid": "contrast", "glenplaid": "contrast", "argyle": "contrast", "madras": "contrast",
     "cacti": "leaf", "medallions": "contrast", "groovy": "contrast", "flowerpower": "gold", "dinosaurs": "contrast",
-    "sailboats": "contrast", "umbrellas": "contrast", "liberty": "contrast", "lavender": "leaf",
+    "sailboats": "contrast", "umbrellas": "contrast", "liberty": "contrast", "lavender": "leaf", "maple": "gold",
+    "pineapples": "leaf", "memphis": "contrast",
     "tee_heart": "light", "tee_star": "light", "tee_cherries": "leaf", "tee_rose": "leaf", "tee_sunset": "gold",
     "tee_cat": "light", "tee_rainbow": "contrast", "tee_planet": "contrast", "tee_daisy": "gold", "tee_mountains": "light",
     "tee_butterfly": "contrast", "tee_moon": "gold", "tee_crown": "contrast", "tee_ghost": "light", "tee_palm": "leaf",
@@ -2745,7 +2810,7 @@ CONTEXT_TAGS = {
               "raindrops", "snowflakes", "plaid", "buffalo", "candystripe", "floral", "daisies", "cherries",
               "strawberries", "bows", "paws", "rainbows", "planets", "sakura", "ticking", "notes", "smileys", "seigaiha",
               "dinosaurs", "sailboats"],
-    "swim": ["sailboats", "tropical", "hibiscus", "stripes", "breton", "waves", "scales", "shells", "fish", "seagulls", "anchors",
+    "swim": ["pineapples", "sailboats", "tropical", "hibiscus", "stripes", "breton", "waves", "scales", "shells", "fish", "seagulls", "anchors",
              "lemons", "watermelon", "floral", "bigfloral", "dots", "gingham", "leopard", "zebra", "cheetah", "tiedye",
              "cherries", "strawberries", "daisies", "sunsetfade", "ombre", "colourblock", "ricrac", "tee_palm", "icecream"],
     "rain": ["raindrops", "clouds", "umbrellas", "check", "gingham", "plaid", "buffalo", "houndstooth", "dots",

@@ -729,6 +729,12 @@ MonoBehaviour:
     Texture: {fileID: 2800000, guid: c227aa6710d3cd645b2dddd9504d10fe, type: 3}
   - Id: pattern.lavender_01
     Texture: {fileID: 2800000, guid: 4b51cff888f2bb644a7c2b9717756ba7, type: 3}
+  - Id: pattern.maple_01
+    Texture: {fileID: 2800000, guid: 62d0eb0d7bab9db4cbc0996ada295914, type: 3}
+  - Id: pattern.pineapples_01
+    Texture: {fileID: 2800000, guid: 1d87ee399c2da3e4f8dc7bcac70b6017, type: 3}
+  - Id: pattern.memphis_01
+    Texture: {fileID: 2800000, guid: fa74756fa81dc9443bd4c74e2f580046, type: 3}
   Fabrics:
   - Id: plain
     Material: {fileID: 2100000, guid: 438e55e3cc9afa740b5c2f26ae972251, type: 2}
