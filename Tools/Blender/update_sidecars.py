@@ -1,5 +1,5 @@
 """Rewrites the catalog fields of existing generated parts' sidecars from Tools/Blender/outfits.json and hairs.json,
-without rebuilding the parts (decision 0008): name, tags, lean, contexts and weight, as make_generated_outfit.py and
+without rebuilding the parts (decision 0008): name, tags, lean, contexts, weight, fabric and whether it takes a print, as make_generated_outfit.py and
 make_generated_hair.py write them. Run it after retuning those fields, then write the generated content in Unity
 (Game > Characters > Content > Write Generated Content).
 
@@ -24,9 +24,11 @@ def specs():
             for spec in outfit["garments"]:
                 entry = {"name": spec.get("name"), "tags": spec.get("tags", ["casual"]), "lean": spec.get("lean", 0.0),
                          "contexts": spec.get("contexts", []), "weight": spec.get("weight", 1.0)}
-                for spec_key, field in (("blocks_slots", "blocksSlots"), ("excludes_tags", "excludesTags"), ("requires_tags", "requiresTags")):
+                for spec_key, field in (("blocks_slots", "blocksSlots"), ("excludes_tags", "excludesTags"), ("requires_tags", "requiresTags"),
+                                        ("fabric", "fabric"), ("fabrics", "fabrics")):
                     if spec.get(spec_key):
                         entry[field] = spec[spec_key]
+                entry["patternable"] = bool(spec.get("patternable", False))
                 fields[spec["id"]] = entry
     with open(os.path.join(HERE, "hairs.json"), encoding="utf-8") as f:
         for key, style in json.load(f).items():

@@ -1,117 +1,69 @@
-using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using Game.Characters.Content;
+using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
 
 namespace Game.Characters.ContentAuthoring
 {
     /// <summary>
-    /// Procedural tiling pattern masks (white = pattern colour) for clothing. Written as linear, repeating PNGs; the
-    /// Toon shader reads the red channel and tiles it per metre.
+    /// The print library: tiling patterns for clothing, drawn by Tools/Textures/make_textures.py (prints.py) into
+    /// Content/Patterns as pattern.&lt;id&gt;_01.png, red = how much of the pattern colour shows, green = ink (the print's
+    /// drawn lines and shading), and listed with their catalog entries (name, style tags, tiles per metre, weight) in
+    /// Patterns/library.json. The stand-ins' catalog uses twelve of them; the generated content's uses them all.
     /// </summary>
     public static class PatternTextures
     {
         public const string Folder = "Assets/_Game/Characters/Content/Patterns";
-        const int Size = 128;
+        public const string LibraryPath = Folder + "/library.json";
 
-        public static readonly (string Id, Func<float, float, float> Shape)[] All =
+        sealed class Library
         {
-            ("pattern.stripes_01", (u, v) => Band(v, 0.5f, 0.32f)),
-            ("pattern.dots_01", (u, v) => Dot(u, v, 0.22f)),
-            ("pattern.plaid_01", (u, v) => Mathf.Max(Band(u, 0.25f, 0.18f), Band(v, 0.25f, 0.18f)) * 0.75f + Mathf.Max(Band(u, 0.75f, 0.05f), Band(v, 0.75f, 0.05f)) * 0.25f),
-            ("pattern.check_01", (u, v) => (u < 0.5f) ^ (v < 0.5f) ? 1f : 0f),
-            ("pattern.hearts_01", (u, v) => Heart((u - 0.5f) * 3.2f, (v - 0.45f) * 3.2f)),
-            ("pattern.stars_01", (u, v) => Polar(u, v, (r, a) => InStar(r, a + Mathf.PI / 5f, 0.24f, 0.1f))),
-            ("pattern.pinstripe_01", (u, v) => Band(u, 0.5f, 0.05f)),
-            ("pattern.floral_01", (u, v) => Mathf.Max(
-                Polar(u, v, (r, a) => r < 0.27f * (0.45f + 0.55f * Mathf.Abs(Mathf.Cos(2.5f * a)))),
-                Polar(u, v, (r, a) => r < 0.07f) * 0.5f)),
-            // Denim: a fine diagonal twill, half strength so it reads as texture rather than stripes.
-            ("pattern.denim_01", (u, v) => Band(Mathf.Repeat((u + v) * 6f, 1f), 0.5f, 0.16f) * 0.4f),
-            // Argyle: a diamond, and thin diagonal lines crossing over it.
-            ("pattern.argyle_01", (u, v) => Mathf.Max(Mathf.Abs(u - 0.5f) + Mathf.Abs(v - 0.5f) < 0.47f ? 0.7f : 0f,
-                Mathf.Max(Band(Mathf.Repeat(u + v, 1f), 0.5f, 0.035f), Band(Mathf.Repeat(u - v, 1f), 0.5f, 0.035f)))),
-            // Chevron: broad zigzag bands.
-            ("pattern.chevron_01", (u, v) => Band(Mathf.Repeat(v * 2f + Mathf.Abs(Mathf.Repeat(u * 2f, 1f) - 0.5f), 1f), 0.5f, 0.28f)),
-            // Knit: soft vertical ribs, with a chevron of stitches down each.
-            ("pattern.knit_01", (u, v) => 0.22f * (0.5f + 0.5f * Mathf.Cos(u * 4f * Mathf.PI))
-                + 0.32f * Band(Mathf.Repeat(v * 6f + Mathf.Abs(Mathf.Repeat(u * 2f, 1f) - 0.5f) * 1.2f, 1f), 0.5f, 0.13f)),
-        };
+            public List<PatternEntry> Patterns = new List<PatternEntry>();
+        }
+
+        /// <summary>Every print in the library, as catalog entries (copies: changing them changes nothing else).</summary>
+        public static List<PatternEntry> Entries()
+        {
+            if (!File.Exists(LibraryPath)) return new List<PatternEntry>();
+            Library library = JsonConvert.DeserializeObject<Library>(File.ReadAllText(LibraryPath),
+                new JsonSerializerSettings { ContractResolver = new Newtonsoft.Json.Serialization.DefaultContractResolver
+                    { NamingStrategy = new Newtonsoft.Json.Serialization.CamelCaseNamingStrategy() } });
+            return library?.Patterns ?? new List<PatternEntry>();
+        }
+
+        /// <summary>Every print's ID.</summary>
+        public static IEnumerable<string> All => Entries().Select(e => e.Id);
 
         public static Texture2D Load(string id) => AssetDatabase.LoadAssetAtPath<Texture2D>($"{Folder}/{id}.png");
 
-        [MenuItem("Game/Characters/Content/Generate Pattern Textures")]
+        /// <summary>Sets every print's import settings: linear data, repeating, mipmapped, uncompressed (the two
+        /// channels are independent, and compression bled one into the other). The textures themselves come from
+        /// Tools/Textures/make_textures.py.</summary>
+        [MenuItem("Game/Characters/Content/Import Pattern Textures")]
         public static void Generate()
         {
-            Directory.CreateDirectory(Folder);
-            foreach ((string id, Func<float, float, float> shape) in All)
+            AssetDatabase.Refresh();
+            foreach (string id in All)
             {
-                var texture = new Texture2D(Size, Size, TextureFormat.RGBA32, false, linear: true);
-                var pixels = new Color32[Size * Size];
-                for (int y = 0; y < Size; y++)
-                    for (int x = 0; x < Size; x++)
-                    {
-                        // 4×4 supersampling keeps edges soft at any tiling scale.
-                        float sum = 0f;
-                        for (int sy = 0; sy < 4; sy++)
-                            for (int sx = 0; sx < 4; sx++)
-                                sum += shape((x + (sx + 0.5f) / 4f) / Size, (y + (sy + 0.5f) / 4f) / Size);
-                        byte value = (byte)Mathf.RoundToInt(sum / 16f * 255f);
-                        pixels[y * Size + x] = new Color32(value, value, value, 255);
-                    }
-                texture.SetPixels32(pixels);
                 string path = $"{Folder}/{id}.png";
-                File.WriteAllBytes(path, texture.EncodeToPNG());
-                UnityEngine.Object.DestroyImmediate(texture);
-
-                AssetDatabase.ImportAsset(path);
-                var importer = (TextureImporter)AssetImporter.GetAtPath(path);
+                if (!(AssetImporter.GetAtPath(path) is TextureImporter importer))
+                {
+                    Debug.LogError($"[Content] No print texture at {path}: run Tools/Textures/make_textures.py.");
+                    continue;
+                }
+                bool changed = importer.sRGBTexture || importer.wrapMode != TextureWrapMode.Repeat || !importer.mipmapEnabled
+                    || importer.textureCompression != TextureImporterCompression.Uncompressed || importer.anisoLevel != 4;
+                if (!changed) continue;
                 importer.sRGBTexture = false;
                 importer.wrapMode = TextureWrapMode.Repeat;
                 importer.mipmapEnabled = true;
                 importer.textureCompression = TextureImporterCompression.Uncompressed;
+                importer.anisoLevel = 4;
                 importer.SaveAndReimport();
             }
-        }
-
-        /// <summary>The classic heart curve, (x² + y² - 1)³ - x²y³ &lt; 0, upright.</summary>
-        static float Heart(float x, float y)
-        {
-            float q = x * x + y * y - 1f;
-            return q * q * q - x * x * y * y * y < 0f ? 1f : 0f;
-        }
-
-        /// <summary>
-        /// Inside a five-pointed star with straight edges: fold the angle into the half-sector between a point and
-        /// the next notch, then test which side of that edge the point is on.
-        /// </summary>
-        static bool InStar(float r, float a, float outer, float inner)
-        {
-            float sector = 2f * Mathf.PI / 5f;
-            float phi = Mathf.Repeat(a, sector);
-            if (phi > sector / 2f) phi = sector - phi;
-            var p = new Vector2(r * Mathf.Cos(phi), r * Mathf.Sin(phi));
-            var tip = new Vector2(outer, 0f);
-            var notch = new Vector2(inner * Mathf.Cos(sector / 2f), inner * Mathf.Sin(sector / 2f));
-            Vector2 edge = notch - tip;
-            float side = edge.x * (p.y - tip.y) - edge.y * (p.x - tip.x);
-            float origin = edge.x * (0f - tip.y) - edge.y * (0f - tip.x);
-            return side * origin >= 0f;
-        }
-
-        /// <summary>A shape described in polar terms around the tile's centre.</summary>
-        static float Polar(float u, float v, Func<float, float, bool> inside)
-        {
-            float du = u - 0.5f, dv = v - 0.5f;
-            return inside(Mathf.Sqrt(du * du + dv * dv), Mathf.Atan2(dv, du) + Mathf.PI / 2f) ? 1f : 0f;
-        }
-
-        static float Band(float t, float centre, float halfWidth) => Mathf.Abs(t - centre) < halfWidth ? 1f : 0f;
-
-        static float Dot(float u, float v, float radius)
-        {
-            float du = u - 0.5f, dv = v - 0.5f;
-            return du * du + dv * dv < radius * radius ? 1f : 0f;
         }
     }
 }

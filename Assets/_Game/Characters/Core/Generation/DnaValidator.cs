@@ -107,9 +107,12 @@ namespace Game.Characters.Generation
                     errors.Add($"'{item.ItemId}' in {where} has {item.RegionColors.Count} colours; it uses {part.Regions}.");
                 for (int i = 0; i < item.RegionColors.Count; i++)
                     CheckColour(errors, item.RegionColors[i], $"'{item.ItemId}' region {i + 1}");
+                if (item.FabricId != null && !part.Fabrics.Contains(item.FabricId))
+                    errors.Add($"'{item.ItemId}' can't be made in '{item.FabricId}'.");
                 if (item.PatternId != null)
                 {
                     if (!part.Patternable) errors.Add($"'{item.ItemId}' can't take a pattern.");
+                    if (!(catalog.FabricOf(part, item.FabricId)?.Printable ?? true)) errors.Add($"'{item.ItemId}' in {item.FabricId} can't take a print.");
                     if (catalog.Patterns.All(p => p.Id != item.PatternId)) errors.Add($"Unknown pattern '{item.PatternId}'.");
                     if (item.PatternColor.HasValue) CheckColour(errors, item.PatternColor.Value, $"'{item.ItemId}' pattern");
                 }

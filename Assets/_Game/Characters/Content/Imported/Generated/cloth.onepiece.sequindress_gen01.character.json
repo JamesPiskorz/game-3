@@ -24,6 +24,14 @@
     "formal"
   ],
   "weight": 1.0,
+  "fabric": "sequins",
+  "fabrics": [
+    "metallic",
+    "velvet",
+    "satin",
+    "lace"
+  ],
+  "patternable": false,
   "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261022_052627_for_texture_textured.glb",
   "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
   "licence": "Tencent Hunyuan 3D 2.1 Community License"

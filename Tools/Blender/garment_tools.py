@@ -2741,3 +2741,191 @@ def _cut_along(bm, field, level, near=None):
         made.append(vertex)
     bmesh.ops.connect_verts(bm, verts=made)
     return value
+
+
+# ------------------------------------------------------------------------------------------------------------ fabric UVs
+
+# Body parts a garment's fabric wraps round, each by the bones that move it. A face takes the part most of its
+# vertices follow, so seams fall between faces where real garments have them: the armholes, the waist of a jumpsuit,
+# where a shoe meets the leg.
+FABRIC_CHAINS = {
+    "torso": ("Hips", "Spine", "Chest", "Neck", "Head"),
+    "arm.L": ("UpperArm.L", "LowerArm.L", "Hand.L"), "arm.R": ("UpperArm.R", "LowerArm.R", "Hand.R"),
+    "leg.L": ("UpperLeg.L", "LowerLeg.L"), "leg.R": ("UpperLeg.R", "LowerLeg.R"),
+    "foot.L": ("Foot.L",), "foot.R": ("Foot.R",),
+}
+
+
+UV_BAND = 0.02  # metres: the slices fabric UVs measure round
+UV_SECTORS = 72
+
+
+def _arc_lengths(bands, t, angle, radius, count, back=None):
+    """
+    Distance round each slice from angle 0 to each point's angle (which may run past pi, round the seam), from the
+    slice's radius profile: the points' mean radius in each of UV_SECTORS sectors, filled in and smoothed, integrated
+    as arc length. Blended between a point's slice and the next by ``t``. Points in ``back`` (a mask) are measured
+    from angle pi instead: a back panel, centred on the back as the front panel is on the front.
+    """
+    width = 2 * np.pi / UV_SECTORS
+    sector = np.clip(((np.mod(angle + np.pi, 2 * np.pi)) / width).astype(int), 0, UV_SECTORS - 1)
+    total = np.zeros((count, UV_SECTORS))
+    hits = np.zeros((count, UV_SECTORS))
+    np.add.at(total, (bands, sector), radius)
+    np.add.at(hits, (bands, sector), 1)
+    profile = np.where(hits > 0, total / np.maximum(hits, 1), np.nan)
+    centres = -np.pi + (np.arange(UV_SECTORS) + 0.5) * width
+    known_rows = []
+    for b in range(count):
+        row = profile[b]
+        ok = ~np.isnan(row)
+        if ok.sum() >= 3:
+            ext = np.r_[centres[ok] - 2 * np.pi, centres[ok], centres[ok] + 2 * np.pi]
+            profile[b] = np.interp(centres, ext, np.r_[row[ok], row[ok], row[ok]])
+            known_rows.append(b)
+    if not known_rows:
+        return angle * np.nanmean(radius)
+    for b in range(count):  # slices with too few points take their neighbours'
+        if b not in known_rows:
+            nearest = min(known_rows, key=lambda k: abs(k - b))
+            profile[b] = profile[nearest]
+    kernel = np.ones(5) / 5
+    profile = np.array([np.convolve(np.r_[row[-2:], row, row[:2]], kernel, mode="valid") for row in profile])
+    if count > 2:
+        profile = np.array([np.convolve(np.pad(profile[:, k], 1, mode="edge"), np.ones(3) / 3, mode="valid")
+                            for k in range(UV_SECTORS)]).T
+    # Arc length between sector centres, then from angle 0.
+    nxt = np.roll(profile, -1, axis=1)
+    step = np.sqrt(((profile + nxt) / 2) ** 2 * width ** 2 + (nxt - profile) ** 2)
+    arc = np.concatenate([np.zeros((count, 1)), np.cumsum(step, axis=1)], axis=1)  # at centres 0..N (N = 0 again)
+    perimeter = arc[:, -1]
+    nodes = np.r_[centres, centres[0] + 2 * np.pi]
+    zero_at = np.array([np.interp(0.0, nodes, arc[b]) for b in range(count)])
+    arc = arc - zero_at[:, None]
+
+    def along_slice(b, a):
+        ext_nodes = np.r_[nodes - 2 * np.pi, nodes[1:], nodes[1:] + 2 * np.pi]
+        ext_arc = np.r_[arc[b] - perimeter[b], arc[b, 1:], arc[b, 1:] + perimeter[b]]
+        return np.interp(a, ext_nodes, ext_arc)
+
+    if back is None:
+        back = np.zeros(len(angle), dtype=bool)
+    a = np.where(back, np.mod(angle, 2 * np.pi), angle)
+    u = np.zeros(len(angle))
+    for b in range(count):
+        here = bands == b
+        if here.any():
+            nb = min(b + 1, count - 1)
+            pi_here = along_slice(b, np.pi) * (1 - t[here]) + along_slice(nb, np.pi) * t[here]
+            u[here] = along_slice(b, a[here]) * (1 - t[here]) + along_slice(nb, a[here]) * t[here]
+            u[here] = np.where(back[here], u[here] - pi_here, u[here])
+    return u
+
+
+def fabric_uvs(part, joints, torso_only=False, layer="UVMap"):
+    """
+    UV0 for fabric textures, in metres of cloth: each body part's fabric is wrapped round it like a tube (the torso and
+    feet round the vertical, an arm or leg round its bone), ``u`` round the tube and ``v`` along it, so stripes run
+    round the body and down the limbs, and a print keeps its size everywhere. ``u`` is the angle times the tube's mean
+    radius at that height, so the cloth isn't sheared where the body narrows. The wrap's seam is where a garment's
+    would be: at the centre back, under the arm, the inside leg. Projected from the front instead, a texture streaked
+    down every side. With ``torso_only`` (a skirt), it's all one tube round the hips.
+    """
+    mesh = part.data
+    co = bt.vertices(part)
+    weights, names = bt.weight_matrix(part)
+    chains = list(FABRIC_CHAINS)
+    if torso_only or not len(names):
+        vertex_chain = np.zeros(len(co), dtype=np.int64)
+    else:
+        share = np.zeros((len(co), len(chains)))
+        for c, chain in enumerate(chains):
+            columns = [names.index(b) for b in FABRIC_CHAINS[chain] if b in names]
+            if columns:
+                share[:, c] = weights[:, columns].sum(axis=1)
+        share[:, 0] *= 1.01  # ties (a skirt's hem, half hips, half thigh) go to the torso
+        vertex_chain = share.argmax(axis=1)
+    loop_vertex = np.empty(len(mesh.loops), dtype=np.int64)
+    mesh.loops.foreach_get("vertex_index", loop_vertex)
+    starts = np.empty(len(mesh.polygons), dtype=np.int64)
+    mesh.polygons.foreach_get("loop_start", starts)
+    totals = np.empty(len(mesh.polygons), dtype=np.int64)
+    mesh.polygons.foreach_get("loop_total", totals)
+    face_of_loop = np.repeat(np.arange(len(starts)), totals)
+    # Each face's part: the one most of its vertices follow.
+    face_chain = np.array([np.bincount(vertex_chain[loop_vertex[s:s + t]], minlength=len(chains)).argmax()
+                           for s, t in zip(starts, totals)])
+    loop_chain = face_chain[face_of_loop]
+
+    def frame(chain):
+        """(origin, axis, reference direction for angle 0) of a part's tube, in Blender coordinates."""
+        if chain == "torso":
+            return np.array([0.0, float(joints["Spine"][1]), 0.0]), np.array([0.0, 0.0, 1.0]), np.array([0.0, -1.0, 0.0])
+        side = chain[-2:]
+        if chain.startswith("arm"):
+            a, b = np.asarray(joints["UpperArm" + side], float), np.asarray(joints["Hand" + side], float)
+            return a, (b - a) / np.linalg.norm(b - a), np.array([0.0, 0.0, 1.0])  # 0 on top: the seam runs underneath
+        if chain.startswith("leg"):
+            a, b = np.asarray(joints["UpperLeg" + side], float), np.asarray(joints["Foot" + side], float)
+            outward = np.array([1.0 if side == ".L" else -1.0, 0.0, 0.0])  # +x is the character's left
+            return a, (b - a) / np.linalg.norm(b - a), outward  # 0 on the outside: the seam runs down the inside leg
+        foot = np.asarray(joints["Foot" + side], float)
+        return np.array([foot[0], foot[1], 0.0]), np.array([0.0, 0.0, 1.0]), np.array([0.0, -1.0, 0.0])
+
+    uv = np.zeros((len(loop_vertex), 2))
+    for c, chain in enumerate(chains):
+        loops = np.flatnonzero(loop_chain == c)
+        if not len(loops):
+            continue
+        origin, axis, zero = frame(chain)
+        zero = zero - axis * np.dot(zero, axis)
+        zero /= np.linalg.norm(zero)
+        side = np.cross(axis, zero)
+        p = co[loop_vertex[loops]] - origin
+        along = p @ axis
+        flat = p - along[:, None] * axis
+        # Each 2 cm slice is centred on its own middle (the spine joint sits near the back, and the cloth there
+        # was squeezed), and u is the true distance round the slice from the front (or top) line, so the cloth
+        # keeps its size round a flat torso as well as a round arm.
+        band_f = along / UV_BAND
+        bmin = int(np.floor(band_f.min()))
+        bands = np.floor(band_f).astype(int) - bmin
+        count = bands.max() + 2
+        centre = np.zeros((count, 3))
+        filled = np.zeros(count, dtype=bool)
+        for b in range(count):
+            members = bands == b
+            if members.any():
+                centre[b] = flat[members].mean(axis=0)
+                filled[b] = True
+        if filled.any():
+            for k in range(3):
+                centre[:, k] = np.interp(np.arange(count), np.flatnonzero(filled), centre[filled, k])
+            centre = np.array([np.convolve(np.pad(centre[:, k], 2, mode="edge"), np.ones(5) / 5, mode="valid") for k in range(3)]).T
+        t = band_f - bmin - bands
+        mid = centre[bands] * (1 - t)[:, None] + centre[np.minimum(bands + 1, count - 1)] * t[:, None]
+        radial = flat - mid
+        angle = np.arctan2(radial @ side, radial @ zero)  # -pi..pi, the seam at pi
+        radius = np.linalg.norm(radial, axis=1)
+        # Faces that straddle the seam: their loops on the far side go round once more. (A face's loops are
+        # contiguous, so each face is one run.)
+        faces = face_of_loop[loops]
+        runs = np.flatnonzero(np.r_[True, faces[1:] != faces[:-1]])
+        lengths = np.diff(np.r_[runs, len(loops)])
+        straddles = np.maximum.reduceat(angle, runs) - np.minimum.reduceat(angle, runs) > np.pi
+        angle = np.where(np.repeat(straddles, lengths) & (angle < 0), angle + 2 * np.pi, angle)
+        # The torso and feet are cut as a front and a back panel joined at the side seams, as clothes are, so both
+        # centre lines are clean (one tube's back seam pinched the cloth beside it); limbs are one tube each.
+        back = None
+        if chain == "torso" or chain.startswith("foot"):
+            facing = np.add.reduceat(np.cos(angle), runs) / lengths
+            back = np.repeat(facing < 0, lengths)
+        uv[loops, 0] = _arc_lengths(bands, t, angle, radius, count, back)
+        # Up the torso and feet, v grows upwards (z); down the limbs, away from the body.
+        uv[loops, 1] = co[loop_vertex[loops], 2] if chain == "torso" or chain.startswith("foot") else -along
+    while mesh.uv_layers:
+        mesh.uv_layers.remove(mesh.uv_layers[0])
+    mesh.uv_layers.new(name=layer).data.foreach_set("uv", uv.ravel())
+    region4 = mesh.uv_layers.new(name="Region4")
+    region4.data.foreach_set("uv", np.zeros(len(mesh.loops) * 2))
+    return {chains[c]: int((face_chain == c).sum()) for c in range(len(chains)) if (face_chain == c).any()}

@@ -45,7 +45,7 @@ namespace Game.Characters.ContentAuthoring
                 content.Parts.Add(new PartBinding { Id = recipe.Id, Prefab = AssetDatabase.LoadAssetAtPath<CharacterPart>(StandInLibrary.PartPath(recipe.Id)) });
 
             content.Patterns = new List<PatternBinding>();
-            foreach ((string id, _) in PatternTextures.All)
+            foreach (string id in PatternTextures.All)
                 content.Patterns.Add(new PatternBinding { Id = id, Texture = PatternTextures.Load(id) });
 
             content.Sliders = Sliders();

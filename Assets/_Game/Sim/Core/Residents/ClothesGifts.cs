@@ -35,7 +35,7 @@ namespace Game.Sim.Residents
                 PartEntry other = catalog.Part(worn.ItemId);
                 return other == null || other.Slot == part.Slot || part.BlocksSlots.Contains(other.Slot) || other.BlocksSlots.Contains(part.Slot);
             });
-            outfit.Items.Add(new ItemDna { ItemId = item.ItemId, RegionColors = item.RegionColors.ToList(), PatternId = item.PatternId, PatternScale = item.PatternScale, PatternColor = item.PatternColor });
+            outfit.Items.Add(new ItemDna { ItemId = item.ItemId, RegionColors = item.RegionColors.ToList(), FabricId = item.FabricId, PatternId = item.PatternId, PatternScale = item.PatternScale, PatternColor = item.PatternColor });
             new CharacterGenerator(catalog).DropIncompatibleParts(dna);
             bool kept = outfit.Items.Any(i => i.ItemId == item.ItemId);
             return kept && DnaValidator.Validate(catalog, dna).Count == 0 ? dna : null;

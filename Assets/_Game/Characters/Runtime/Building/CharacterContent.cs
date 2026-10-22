@@ -21,6 +21,9 @@ namespace Game.Characters.Building
         public SkinTonePalette SkinPalette;
         public List<PartBinding> Parts = new List<PartBinding>();
         public List<PatternBinding> Patterns = new List<PatternBinding>();
+
+        [Tooltip("Each catalog fabric's material: its surface texture, tiling and gain are copied onto parts made in it.")]
+        public List<FabricBinding> Fabrics = new List<FabricBinding>();
         public List<SliderBinding> Sliders = new List<SliderBinding>();
         public List<StyleBinding> Styles = new List<StyleBinding>();
 
@@ -39,6 +42,7 @@ namespace Game.Characters.Building
 
         public CharacterPart Part(string id) => Parts.FirstOrDefault(p => p.Id == id)?.Prefab;
         public Texture Pattern(string id) => Patterns.FirstOrDefault(p => p.Id == id)?.Texture;
+        public Material Fabric(string id) => id == null ? null : Fabrics.FirstOrDefault(f => f.Id == id)?.Material;
         public StyleBinding Style(string id) => Styles.FirstOrDefault(s => s.Id == id);
 
         /// <summary>Catalog IDs that have no binding here, and bindings whose asset is missing.</summary>
@@ -50,6 +54,8 @@ namespace Game.Characters.Building
                 if (Part(part.Id) == null) errors.Add($"Part '{part.Id}' has no prefab.");
             foreach (PatternEntry pattern in catalog.Patterns)
                 if (Pattern(pattern.Id) == null) errors.Add($"Pattern '{pattern.Id}' has no texture.");
+            foreach (FabricEntry fabric in catalog.Fabrics)
+                if (Fabric(fabric.Id) == null) errors.Add($"Fabric '{fabric.Id}' has no material.");
             foreach (SliderEntry slider in catalog.BodySliders.Concat(catalog.FaceSliders))
                 if (Sliders.All(s => s.Id != slider.Id)) errors.Add($"Slider '{slider.Id}' has no binding.");
             foreach (StyleEntry style in catalog.EyeStyles.Concat(catalog.BrowStyles))
@@ -58,6 +64,13 @@ namespace Game.Characters.Building
             if (SkinPalette == null) errors.Add("No skin palette.");
             return errors;
         }
+    }
+
+    [Serializable]
+    public sealed class FabricBinding
+    {
+        public string Id;
+        public Material Material;
     }
 
     [Serializable]

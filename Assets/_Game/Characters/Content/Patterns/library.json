@@ -1,0 +1,744 @@
+{
+ "patterns": [
+  {
+   "id": "pattern.stripes_01",
+   "name": "Stripes",
+   "tags": [
+    "casual",
+    "sporty",
+    "street"
+   ],
+   "minScale": 6,
+   "maxScale": 10,
+   "weight": 1.2
+  },
+  {
+   "id": "pattern.dots_01",
+   "name": "Polka dots",
+   "tags": [
+    "cute",
+    "casual"
+   ],
+   "minScale": 6,
+   "maxScale": 10,
+   "weight": 1.2
+  },
+  {
+   "id": "pattern.plaid_01",
+   "name": "Tartan",
+   "tags": [
+    "bookish",
+    "elegant",
+    "gothic",
+    "street"
+   ],
+   "minScale": 3,
+   "maxScale": 6,
+   "weight": 1.2
+  },
+  {
+   "id": "pattern.check_01",
+   "name": "Check",
+   "tags": [
+    "cute",
+    "casual",
+    "gothic"
+   ],
+   "minScale": 6,
+   "maxScale": 10,
+   "weight": 0.8
+  },
+  {
+   "id": "pattern.hearts_01",
+   "name": "Hearts",
+   "tags": [
+    "cute",
+    "date"
+   ],
+   "minScale": 4,
+   "maxScale": 7,
+   "weight": 0.8
+  },
+  {
+   "id": "pattern.stars_01",
+   "name": "Stars",
+   "tags": [
+    "cute",
+    "street",
+    "casual"
+   ],
+   "minScale": 4,
+   "maxScale": 7,
+   "weight": 0.8
+  },
+  {
+   "id": "pattern.pinstripe_01",
+   "name": "Pinstripe",
+   "tags": [
+    "elegant",
+    "bookish",
+    "gothic"
+   ],
+   "minScale": 10,
+   "maxScale": 16,
+   "weight": 1.0
+  },
+  {
+   "id": "pattern.floral_01",
+   "name": "Ditsy floral",
+   "tags": [
+    "cute",
+    "elegant",
+    "casual",
+    "date"
+   ],
+   "minScale": 4,
+   "maxScale": 7,
+   "weight": 1.4
+  },
+  {
+   "id": "pattern.denim_01",
+   "name": "Diagonal stripes",
+   "tags": [
+    "casual",
+    "street"
+   ],
+   "minScale": 5,
+   "maxScale": 9,
+   "weight": 0.6
+  },
+  {
+   "id": "pattern.knit_01",
+   "name": "Zigzag",
+   "tags": [
+    "cute",
+    "bookish",
+    "casual"
+   ],
+   "minScale": 4,
+   "maxScale": 7,
+   "weight": 0.6
+  },
+  {
+   "id": "pattern.argyle_01",
+   "name": "Argyle",
+   "tags": [
+    "bookish",
+    "elegant",
+    "casual"
+   ],
+   "minScale": 4,
+   "maxScale": 7,
+   "weight": 0.8
+  },
+  {
+   "id": "pattern.chevron_01",
+   "name": "Chevron",
+   "tags": [
+    "street",
+    "sporty",
+    "casual"
+   ],
+   "minScale": 5,
+   "maxScale": 9,
+   "weight": 0.7
+  },
+  {
+   "id": "pattern.breton_01",
+   "name": "Breton stripes",
+   "tags": [
+    "casual",
+    "elegant",
+    "bookish"
+   ],
+   "minScale": 5,
+   "maxScale": 8,
+   "weight": 1.0
+  },
+  {
+   "id": "pattern.chalkstripe_01",
+   "name": "Chalk stripe",
+   "tags": [
+    "elegant",
+    "bookish"
+   ],
+   "minScale": 7,
+   "maxScale": 10,
+   "weight": 0.6
+  },
+  {
+   "id": "pattern.awning_01",
+   "name": "Awning stripes",
+   "tags": [
+    "casual",
+    "cute",
+    "street"
+   ],
+   "minScale": 3,
+   "maxScale": 5,
+   "weight": 0.6
+  },
+  {
+   "id": "pattern.candystripe_01",
+   "name": "Candy stripes",
+   "tags": [
+    "cute",
+    "casual",
+    "bookish"
+   ],
+   "minScale": 6,
+   "maxScale": 9,
+   "weight": 0.7
+  },
+  {
+   "id": "pattern.gingham_01",
+   "name": "Gingham",
+   "tags": [
+    "cute",
+    "casual",
+    "date"
+   ],
+   "minScale": 6,
+   "maxScale": 10,
+   "weight": 1.2
+  },
+  {
+   "id": "pattern.buffalo_01",
+   "name": "Buffalo check",
+   "tags": [
+    "street",
+    "casual",
+    "gothic"
+   ],
+   "minScale": 3,
+   "maxScale": 5,
+   "weight": 0.8
+  },
+  {
+   "id": "pattern.windowpane_01",
+   "name": "Windowpane",
+   "tags": [
+    "elegant",
+    "bookish"
+   ],
+   "minScale": 4,
+   "maxScale": 7,
+   "weight": 0.6
+  },
+  {
+   "id": "pattern.houndstooth_01",
+   "name": "Houndstooth",
+   "tags": [
+    "elegant",
+    "bookish",
+    "gothic"
+   ],
+   "minScale": 8,
+   "maxScale": 14,
+   "weight": 1.0
+  },
+  {
+   "id": "pattern.harlequin_01",
+   "name": "Harlequin",
+   "tags": [
+    "gothic",
+    "cute",
+    "street"
+   ],
+   "minScale": 4,
+   "maxScale": 7,
+   "weight": 0.5
+  },
+  {
+   "id": "pattern.triangles_01",
+   "name": "Triangles",
+   "tags": [
+    "street",
+    "sporty",
+    "casual"
+   ],
+   "minScale": 3,
+   "maxScale": 5,
+   "weight": 0.5
+  },
+  {
+   "id": "pattern.hexagons_01",
+   "name": "Honeycomb",
+   "tags": [
+    "street",
+    "sporty"
+   ],
+   "minScale": 3,
+   "maxScale": 5,
+   "weight": 0.4
+  },
+  {
+   "id": "pattern.waves_01",
+   "name": "Waves",
+   "tags": [
+    "casual",
+    "sporty",
+    "cute"
+   ],
+   "minScale": 3,
+   "maxScale": 5,
+   "weight": 0.6
+  },
+  {
+   "id": "pattern.scales_01",
+   "name": "Mermaid scales",
+   "tags": [
+    "cute",
+    "elegant",
+    "street"
+   ],
+   "minScale": 4,
+   "maxScale": 8,
+   "weight": 0.5
+  },
+  {
+   "id": "pattern.lattice_01",
+   "name": "Lattice",
+   "tags": [
+    "elegant",
+    "bookish"
+   ],
+   "minScale": 4,
+   "maxScale": 7,
+   "weight": 0.5
+  },
+  {
+   "id": "pattern.circles_01",
+   "name": "Circles",
+   "tags": [
+    "street",
+    "casual"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.4
+  },
+  {
+   "id": "pattern.bigdots_01",
+   "name": "Big dots",
+   "tags": [
+    "cute",
+    "casual",
+    "street"
+   ],
+   "minScale": 3,
+   "maxScale": 5,
+   "weight": 0.6
+  },
+  {
+   "id": "pattern.confetti_01",
+   "name": "Confetti",
+   "tags": [
+    "cute",
+    "casual",
+    "street"
+   ],
+   "minScale": 3,
+   "maxScale": 5,
+   "weight": 0.6
+  },
+  {
+   "id": "pattern.bigfloral_01",
+   "name": "Big florals",
+   "tags": [
+    "elegant",
+    "date",
+    "cute"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 1.0
+  },
+  {
+   "id": "pattern.daisies_01",
+   "name": "Daisies",
+   "tags": [
+    "cute",
+    "casual"
+   ],
+   "minScale": 3,
+   "maxScale": 6,
+   "weight": 0.9
+  },
+  {
+   "id": "pattern.sakura_01",
+   "name": "Cherry blossom",
+   "tags": [
+    "cute",
+    "elegant",
+    "date"
+   ],
+   "minScale": 3,
+   "maxScale": 6,
+   "weight": 0.8
+  },
+  {
+   "id": "pattern.hibiscus_01",
+   "name": "Hibiscus",
+   "tags": [
+    "casual",
+    "street",
+    "sporty"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.8
+  },
+  {
+   "id": "pattern.tropical_01",
+   "name": "Tropical leaves",
+   "tags": [
+    "casual",
+    "street",
+    "sporty"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.8
+  },
+  {
+   "id": "pattern.leaves_01",
+   "name": "Leaves",
+   "tags": [
+    "casual",
+    "bookish",
+    "cute"
+   ],
+   "minScale": 3,
+   "maxScale": 6,
+   "weight": 0.7
+  },
+  {
+   "id": "pattern.vine_01",
+   "name": "Trailing vine",
+   "tags": [
+    "elegant",
+    "bookish",
+    "cute"
+   ],
+   "minScale": 3,
+   "maxScale": 5,
+   "weight": 0.6
+  },
+  {
+   "id": "pattern.paisley_01",
+   "name": "Paisley",
+   "tags": [
+    "elegant",
+    "bookish",
+    "gothic",
+    "street"
+   ],
+   "minScale": 3,
+   "maxScale": 5,
+   "weight": 0.8
+  },
+  {
+   "id": "pattern.moons_01",
+   "name": "Moons and stars",
+   "tags": [
+    "cute",
+    "gothic"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.6
+  },
+  {
+   "id": "pattern.clouds_01",
+   "name": "Clouds",
+   "tags": [
+    "cute",
+    "casual"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.6
+  },
+  {
+   "id": "pattern.cherries_01",
+   "name": "Cherries",
+   "tags": [
+    "cute",
+    "date",
+    "casual"
+   ],
+   "minScale": 3,
+   "maxScale": 6,
+   "weight": 0.7
+  },
+  {
+   "id": "pattern.bows_01",
+   "name": "Bows",
+   "tags": [
+    "cute",
+    "elegant"
+   ],
+   "minScale": 3,
+   "maxScale": 6,
+   "weight": 0.6
+  },
+  {
+   "id": "pattern.butterflies_01",
+   "name": "Butterflies",
+   "tags": [
+    "cute",
+    "casual",
+    "date"
+   ],
+   "minScale": 3,
+   "maxScale": 5,
+   "weight": 0.6
+  },
+  {
+   "id": "pattern.paws_01",
+   "name": "Paw prints",
+   "tags": [
+    "cute",
+    "casual"
+   ],
+   "minScale": 3,
+   "maxScale": 6,
+   "weight": 0.5
+  },
+  {
+   "id": "pattern.strawberries_01",
+   "name": "Strawberries",
+   "tags": [
+    "cute",
+    "casual"
+   ],
+   "minScale": 3,
+   "maxScale": 6,
+   "weight": 0.6
+  },
+  {
+   "id": "pattern.raindrops_01",
+   "name": "Raindrops",
+   "tags": [
+    "cute",
+    "casual"
+   ],
+   "minScale": 4,
+   "maxScale": 7,
+   "weight": 0.4
+  },
+  {
+   "id": "pattern.snowflakes_01",
+   "name": "Snowflakes",
+   "tags": [
+    "cute",
+    "casual",
+    "bookish"
+   ],
+   "minScale": 3,
+   "maxScale": 6,
+   "weight": 0.4
+  },
+  {
+   "id": "pattern.skulls_01",
+   "name": "Skulls",
+   "tags": [
+    "gothic",
+    "street"
+   ],
+   "minScale": 3,
+   "maxScale": 6,
+   "weight": 0.7
+  },
+  {
+   "id": "pattern.crosses_01",
+   "name": "Crosses",
+   "tags": [
+    "gothic"
+   ],
+   "minScale": 4,
+   "maxScale": 7,
+   "weight": 0.5
+  },
+  {
+   "id": "pattern.bats_01",
+   "name": "Bats",
+   "tags": [
+    "gothic",
+    "cute"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.5
+  },
+  {
+   "id": "pattern.spiderweb_01",
+   "name": "Spiderweb",
+   "tags": [
+    "gothic"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.4
+  },
+  {
+   "id": "pattern.lightning_01",
+   "name": "Lightning bolts",
+   "tags": [
+    "street",
+    "sporty"
+   ],
+   "minScale": 3,
+   "maxScale": 6,
+   "weight": 0.5
+  },
+  {
+   "id": "pattern.flames_01",
+   "name": "Flames",
+   "tags": [
+    "street",
+    "gothic"
+   ],
+   "minScale": 2,
+   "maxScale": 3,
+   "weight": 0.4
+  },
+  {
+   "id": "pattern.camo_01",
+   "name": "Camouflage",
+   "tags": [
+    "street",
+    "sporty"
+   ],
+   "minScale": 1.5,
+   "maxScale": 3,
+   "weight": 0.8
+  },
+  {
+   "id": "pattern.skatecheck_01",
+   "name": "Checkerboard",
+   "tags": [
+    "street",
+    "sporty"
+   ],
+   "minScale": 3,
+   "maxScale": 5,
+   "weight": 0.6
+  },
+  {
+   "id": "pattern.leopard_01",
+   "name": "Leopard",
+   "tags": [
+    "street",
+    "gothic",
+    "date"
+   ],
+   "minScale": 3,
+   "maxScale": 5,
+   "weight": 0.9
+  },
+  {
+   "id": "pattern.zebra_01",
+   "name": "Zebra",
+   "tags": [
+    "street",
+    "gothic"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.6
+  },
+  {
+   "id": "pattern.tiger_01",
+   "name": "Tiger",
+   "tags": [
+    "street"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.4
+  },
+  {
+   "id": "pattern.cow_01",
+   "name": "Cow print",
+   "tags": [
+    "cute",
+    "street"
+   ],
+   "minScale": 2,
+   "maxScale": 3,
+   "weight": 0.4
+  },
+  {
+   "id": "pattern.snakeskin_01",
+   "name": "Snakeskin",
+   "tags": [
+    "street",
+    "gothic",
+    "elegant"
+   ],
+   "minScale": 5,
+   "maxScale": 9,
+   "weight": 0.6
+  },
+  {
+   "id": "pattern.tiedye_01",
+   "name": "Tie-dye",
+   "tags": [
+    "casual",
+    "street",
+    "sporty"
+   ],
+   "minScale": 1.5,
+   "maxScale": 3,
+   "weight": 0.6
+  },
+  {
+   "id": "pattern.marble_01",
+   "name": "Marble",
+   "tags": [
+    "elegant",
+    "street"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.4
+  },
+  {
+   "id": "pattern.brushstrokes_01",
+   "name": "Brushstrokes",
+   "tags": [
+    "street",
+    "casual"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.5
+  },
+  {
+   "id": "pattern.terrazzo_01",
+   "name": "Terrazzo",
+   "tags": [
+    "casual",
+    "street",
+    "cute"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.5
+  },
+  {
+   "id": "pattern.squiggles_01",
+   "name": "Squiggles",
+   "tags": [
+    "street",
+    "cute",
+    "casual"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.5
+  }
+ ]
+}

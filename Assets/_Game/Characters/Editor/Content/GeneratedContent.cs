@@ -46,6 +46,9 @@ namespace Game.Characters.ContentAuthoring
             public string[] blocksSlots = Array.Empty<string>();
             public string[] excludesTags = Array.Empty<string>();
             public string[] requiresTags = Array.Empty<string>();
+            public bool patternable;
+            public string fabric;
+            public string[] fabrics = Array.Empty<string>();
         }
 
         public static CharacterContent Load() => AssetDatabase.LoadAssetAtPath<CharacterContent>(Path);
@@ -81,6 +84,10 @@ namespace Game.Characters.ContentAuthoring
                     Slot = sidecar.slot, Regions = Mathf.Max(1, sidecar.regions), Tags = sidecar.tags.ToList(),
                     Lean = sidecar.lean, Contexts = sidecar.contexts.ToList(), Weight = sidecar.weight > 0f ? sidecar.weight : 1f,
                     BlocksSlots = sidecar.blocksSlots.ToList(), ExcludesTags = sidecar.excludesTags.ToList(), RequiresTags = sidecar.requiresTags.ToList(),
+                    Patternable = sidecar.patternable,
+                    // Its own fabric first, then the others it can be made in.
+                    Fabrics = string.IsNullOrEmpty(sidecar.fabric) ? new List<string>()
+                        : new[] { sidecar.fabric }.Concat(sidecar.fabrics.Where(f => f != sidecar.fabric)).Distinct().ToList(),
                 }, prefab));
             }
 
@@ -101,7 +108,8 @@ namespace Game.Characters.ContentAuthoring
             content.BodyPrefab = body;
             content.SkinPalette = standIn.SkinPalette;
             content.Lighting = standIn.Lighting;
-            content.Patterns = standIn.Patterns.ToList();
+            content.Patterns = PatternTextures.All.Select(id => new PatternBinding { Id = id, Texture = PatternTextures.Load(id) }).ToList();
+            content.Fabrics = FabricTextures.Ids.Select(id => new FabricBinding { Id = id, Material = FabricTextures.Material(id) }).ToList();
             content.Sliders = standIn.Sliders.ToList();
             content.Styles = standIn.Styles.ToList();
             content.SpringColliders = InBoneAxes(standIn.SpringColliders, body.transform);
@@ -129,6 +137,20 @@ namespace Game.Characters.ContentAuthoring
             ContentCatalog catalog = CatalogSerializer.FromJson(CatalogSerializer.ToJson(standIn));
             catalog.Parts.Clear();
             catalog.Parts.AddRange(parts);
+            // The whole print library (Tools/Textures/prints.py), where the stand-ins use a dozen, and the fabric
+            // library (Tools/Textures/fabrics.py) the parts are made in.
+            List<PatternEntry> prints = PatternTextures.Entries();
+            if (prints.Count > 0)
+            {
+                catalog.Patterns.Clear();
+                catalog.Patterns.AddRange(prints);
+            }
+            catalog.Fabrics.Clear();
+            catalog.Fabrics.AddRange(FabricTextures.Entries().Select(f => new FabricEntry
+                { Id = f.Id, Name = f.Name, Tags = f.Tags.ToList(), Printable = f.Printable, Weight = f.Weight }));
+            // Fabric choices the library lacks are dropped, so the catalog validates.
+            foreach (PartEntry part in catalog.Parts)
+                part.Fabrics.RemoveAll(f => catalog.Fabric(f) == null);
             foreach (OutfitContext extra in ExtraContexts())
                 if (catalog.Context(extra.Id) == null) catalog.Contexts.Add(extra);
             AddUniforms(catalog);

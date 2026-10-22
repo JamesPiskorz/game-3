@@ -22,6 +22,9 @@ namespace Game.Characters.Content
         public List<StyleEntry> LashStyles = new List<StyleEntry>();
         public List<PartEntry> Parts = new List<PartEntry>();
         public List<PatternEntry> Patterns = new List<PatternEntry>();
+
+        /// <summary>Fabrics parts can be made in (their surface texture): denim, a rib knit, satin, leather...</summary>
+        public List<FabricEntry> Fabrics = new List<FabricEntry>();
         public List<ColourPalette> Palettes = new List<ColourPalette>();
         public List<StyleArchetype> Archetypes = new List<StyleArchetype>();
         public List<OutfitContext> Contexts = new List<OutfitContext>();
@@ -30,6 +33,11 @@ namespace Game.Characters.Content
         public SkinRules Skin = new SkinRules();
 
         public PartEntry Part(string id) => Parts.FirstOrDefault(p => p.Id == id);
+        public FabricEntry Fabric(string id) => id == null ? null : Fabrics.FirstOrDefault(f => f.Id == id);
+
+        /// <summary>The fabric an item is made in: its own choice, else the part's own (its first), else none.</summary>
+        public FabricEntry FabricOf(PartEntry part, string fabricId) =>
+            Fabric(fabricId) ?? (part != null && part.Fabrics.Count > 0 ? Fabric(part.Fabrics[0]) : null);
         public ColourPalette Palette(string id) => Palettes.FirstOrDefault(p => p.Id == id);
 
         /// <summary>"cloth.top.tshirt_01" → "Tshirt": the last ID segment without its variant number, capitalised.</summary>
@@ -62,6 +70,7 @@ namespace Game.Characters.Content
             Unique(BodySliders.Concat(FaceSliders), s => s.Id, "slider");
             Unique(FacePresets, p => p.Id, "face preset");
             Unique(Patterns, p => p.Id, "pattern");
+            Unique(Fabrics, f => f.Id, "fabric");
             Unique(Contexts, c => c.Id, "context");
 
             foreach (SliderEntry slider in BodySliders.Concat(FaceSliders))
@@ -88,6 +97,8 @@ namespace Game.Characters.Content
             foreach (PartEntry part in Parts)
             {
                 if (string.IsNullOrEmpty(part.Slot)) errors.Add($"Part '{part.Id}' has no slot.");
+                foreach (string fabric in part.Fabrics)
+                    if (Fabric(fabric) == null) errors.Add($"Part '{part.Id}' can be made in unknown fabric '{fabric}'.");
                 foreach (string context in part.Contexts)
                     if (Context(context) == null) errors.Add($"Part '{part.Id}' names unknown context '{context}'.");
             }
@@ -240,6 +251,12 @@ namespace Game.Characters.Content
         /// <summary>Whether region 1 can take a pattern.</summary>
         public bool Patternable;
 
+        /// <summary>
+        /// Fabrics it can be made in (catalog fabric IDs), the one it was modelled in first; empty: only that one. The
+        /// generator picks one per item (<see cref="Game.Characters.Dna.ItemDna.FabricId"/>).
+        /// </summary>
+        public List<string> Fabrics = new List<string>();
+
         /// <summary>Outfit contexts the item can appear in; empty means any.</summary>
         public List<string> Contexts = new List<string>();
     }
@@ -254,6 +271,22 @@ namespace Game.Characters.Content
         public List<string> Tags = new List<string>();
         public float MinScale = 6f;
         public float MaxScale = 12f;
+    }
+
+    /// <summary>A fabric: a cloth's surface (its weave, stitches or grain), which parts are made in.</summary>
+    public sealed class FabricEntry
+    {
+        public string Id;
+
+        /// <summary>Display name for the creator; null falls back to a name made from the ID.</summary>
+        public string Name;
+        public float Weight = 1f;
+
+        /// <summary>Style tags that archetypes weight (leather for street and gothic, tweed for bookish...).</summary>
+        public List<string> Tags = new List<string>();
+
+        /// <summary>Whether a print goes on it (not on lace, sequins, leather, a cable knit...).</summary>
+        public bool Printable = true;
     }
 
     public sealed class ColourPalette

@@ -52,7 +52,8 @@ def arguments():
 
 def catalog_fields(spec):
     """The catalog fields a part's sidecar carries from its spec (outfits.json or hairs.json): display name, style tags,
-    lean (-1 masculine .. +1 feminine), the outfit contexts it may appear in, a weight and the slots it blocks.
+    lean (-1 masculine .. +1 feminine), the outfit contexts it may appear in, a weight, the slots it blocks, its fabric
+    and whether it can take a print.
     update_sidecars.py rewrites them in existing sidecars without rebuilding the parts."""
     fields = {"name": spec.get("name"), "tags": spec.get("tags", ["casual"]), "lean": spec.get("lean", 0.0),
               "contexts": spec.get("contexts", []), "weight": spec.get("weight", 1.0)}
@@ -62,6 +63,11 @@ def catalog_fields(spec):
         fields["excludesTags"] = spec["excludes_tags"]
     if spec.get("requires_tags"):
         fields["requiresTags"] = spec["requires_tags"]
+    if spec.get("fabric"):  # what it's made of: its material's surface (Tools/Textures/fabrics.py)
+        fields["fabric"] = spec["fabric"]
+    if spec.get("fabrics"):  # the other fabrics the same garment can be made in
+        fields["fabrics"] = spec["fabrics"]
+    fields["patternable"] = bool(spec.get("patternable", False))  # whether its main fabric can take a print
     return fields
 
 
@@ -270,7 +276,9 @@ def main():
         gt.limit_influences(part)  # vertices made by the cuts blend two vertices' weights
         if fitted or skirt_spec is not None:
             print(f"[outfit] {spec['id']}: {gt.keep_shapes_clear(part, body)} vertices kept clear of the body's shapes")
-        planar_uvs(part)
+        # Fabric UVs in metres, wrapped round each body part (a skirt round the hips), so fabric textures and prints
+        # follow the body: projected from the front, they streaked down every side.
+        print(f"[outfit] {spec['id']}: fabric UVs {gt.fabric_uvs(part, joints, torso_only=skirt_spec is not None and slot == 'bottom')}")
         if not fitted and skirt_spec is None:
             ct.transfer_from_body(part, body, bones=gt.FOLLOWS[slot])
             gt.limit_influences(part)

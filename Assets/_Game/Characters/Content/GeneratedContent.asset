@@ -347,12 +347,211 @@ MonoBehaviour:
     Texture: {fileID: 2800000, guid: b53d25fdb30616842aa59578b1e888d7, type: 3}
   - Id: pattern.denim_01
     Texture: {fileID: 2800000, guid: 418fb98f19e7cc34a88545f540822201, type: 3}
+  - Id: pattern.knit_01
+    Texture: {fileID: 2800000, guid: 4d62232e7bc38ea4594066d3fcdc2f7c, type: 3}
   - Id: pattern.argyle_01
     Texture: {fileID: 2800000, guid: 5b7c39b5ab0a97348987d8b9e95c46ae, type: 3}
   - Id: pattern.chevron_01
     Texture: {fileID: 2800000, guid: 7c7a7e8b6ab759248be8a41a1b1a7df4, type: 3}
-  - Id: pattern.knit_01
-    Texture: {fileID: 2800000, guid: 4d62232e7bc38ea4594066d3fcdc2f7c, type: 3}
+  - Id: pattern.breton_01
+    Texture: {fileID: 2800000, guid: 16dda71143a57454fb1025a320acdad5, type: 3}
+  - Id: pattern.chalkstripe_01
+    Texture: {fileID: 2800000, guid: 8ef5f26a9ecce8d499b06b1ce102d4dc, type: 3}
+  - Id: pattern.awning_01
+    Texture: {fileID: 2800000, guid: e79225e972d52914ab6e392e31017047, type: 3}
+  - Id: pattern.candystripe_01
+    Texture: {fileID: 2800000, guid: 2795e78ce365ecd4688af79544a42d62, type: 3}
+  - Id: pattern.gingham_01
+    Texture: {fileID: 2800000, guid: ae2c8a82fd464bc4a802c267bb801e94, type: 3}
+  - Id: pattern.buffalo_01
+    Texture: {fileID: 2800000, guid: 919c6b8f93d5ddb448c78c8f03da23e8, type: 3}
+  - Id: pattern.windowpane_01
+    Texture: {fileID: 2800000, guid: a03db85695abde94e9a4f0f2417f43a6, type: 3}
+  - Id: pattern.houndstooth_01
+    Texture: {fileID: 2800000, guid: 4c478b3cd82214743a0daa20c6bad52b, type: 3}
+  - Id: pattern.harlequin_01
+    Texture: {fileID: 2800000, guid: bd83554f76c99524ea89760147849015, type: 3}
+  - Id: pattern.triangles_01
+    Texture: {fileID: 2800000, guid: d7bc3062e5fb74a48bff3506891b2e68, type: 3}
+  - Id: pattern.hexagons_01
+    Texture: {fileID: 2800000, guid: 64b2e9e36a7c9eb418b00452bbab9907, type: 3}
+  - Id: pattern.waves_01
+    Texture: {fileID: 2800000, guid: fdfea47e1e19f6444a8842e5d7ed2f17, type: 3}
+  - Id: pattern.scales_01
+    Texture: {fileID: 2800000, guid: 1e977f4309fd848489c22f0e1d9150fd, type: 3}
+  - Id: pattern.lattice_01
+    Texture: {fileID: 2800000, guid: 365c074463d0d9649985e887d640c3d7, type: 3}
+  - Id: pattern.circles_01
+    Texture: {fileID: 2800000, guid: 470ff364d56f83a4bbc838e92163b4e1, type: 3}
+  - Id: pattern.bigdots_01
+    Texture: {fileID: 2800000, guid: 7ea622de39df0b0408d8d1d2840228ac, type: 3}
+  - Id: pattern.confetti_01
+    Texture: {fileID: 2800000, guid: 5b72e83e431da3d42a50cd7636a6dd45, type: 3}
+  - Id: pattern.bigfloral_01
+    Texture: {fileID: 2800000, guid: 0f73e2228c2637f4481c6310cba32090, type: 3}
+  - Id: pattern.daisies_01
+    Texture: {fileID: 2800000, guid: 5f6856119714dbf4baa5d9028ec006b2, type: 3}
+  - Id: pattern.sakura_01
+    Texture: {fileID: 2800000, guid: 7eddea3a02ffb554f8e7fc1767b47952, type: 3}
+  - Id: pattern.hibiscus_01
+    Texture: {fileID: 2800000, guid: 06eafee4658115f41a82db0f742a821e, type: 3}
+  - Id: pattern.tropical_01
+    Texture: {fileID: 2800000, guid: 1b706e1cb91f34847b93413b0129c65c, type: 3}
+  - Id: pattern.leaves_01
+    Texture: {fileID: 2800000, guid: 4612e4b04c59c304e9d1ac02729337de, type: 3}
+  - Id: pattern.vine_01
+    Texture: {fileID: 2800000, guid: 361aff84a4d74904fa334179021c28c9, type: 3}
+  - Id: pattern.paisley_01
+    Texture: {fileID: 2800000, guid: eb780176d3ac38542b4d40c9e4500bbb, type: 3}
+  - Id: pattern.moons_01
+    Texture: {fileID: 2800000, guid: baf8a6c443036a8438a24a1859654121, type: 3}
+  - Id: pattern.clouds_01
+    Texture: {fileID: 2800000, guid: 53084507473fab54c81019b73e4381d9, type: 3}
+  - Id: pattern.cherries_01
+    Texture: {fileID: 2800000, guid: ceaede546ca3e8a44890504eba42da88, type: 3}
+  - Id: pattern.bows_01
+    Texture: {fileID: 2800000, guid: 7482cce6a78ba5b43a40cf789cf26b4d, type: 3}
+  - Id: pattern.butterflies_01
+    Texture: {fileID: 2800000, guid: f1853a3c0ed1c7d4287737e6bfad3bc5, type: 3}
+  - Id: pattern.paws_01
+    Texture: {fileID: 2800000, guid: 6da5dafc89ddaa5439507037eb885410, type: 3}
+  - Id: pattern.strawberries_01
+    Texture: {fileID: 2800000, guid: aa5821c0e4c922b40ba1bc12a04222ea, type: 3}
+  - Id: pattern.raindrops_01
+    Texture: {fileID: 2800000, guid: 34f6a533ffe35da4daf22ba9ebda0a64, type: 3}
+  - Id: pattern.snowflakes_01
+    Texture: {fileID: 2800000, guid: dc5b35d4c93519540a112f1f2f51c879, type: 3}
+  - Id: pattern.skulls_01
+    Texture: {fileID: 2800000, guid: aec59194183c0fb40b717ca777c183ce, type: 3}
+  - Id: pattern.crosses_01
+    Texture: {fileID: 2800000, guid: bc347d39cc4460945bb9ff9585d12fd3, type: 3}
+  - Id: pattern.bats_01
+    Texture: {fileID: 2800000, guid: 475ad60ccefdb024e9cf6645c2d5f9c2, type: 3}
+  - Id: pattern.spiderweb_01
+    Texture: {fileID: 2800000, guid: 4f840c11b7242f9408ae3eb2b7356652, type: 3}
+  - Id: pattern.lightning_01
+    Texture: {fileID: 2800000, guid: 8cf3ef4e49366754f9ee90746c155a72, type: 3}
+  - Id: pattern.flames_01
+    Texture: {fileID: 2800000, guid: d653853a7d726ba4ba9bcd2c31049632, type: 3}
+  - Id: pattern.camo_01
+    Texture: {fileID: 2800000, guid: cbfb16315da1c6d4f8fbdc5d37d01614, type: 3}
+  - Id: pattern.skatecheck_01
+    Texture: {fileID: 2800000, guid: b3c11239c7df875459c7f01cb97306af, type: 3}
+  - Id: pattern.leopard_01
+    Texture: {fileID: 2800000, guid: 6eb219a73a292a94c92c5c1b197d6ac9, type: 3}
+  - Id: pattern.zebra_01
+    Texture: {fileID: 2800000, guid: 469fcf0980fcacb45accffc2a6f74c77, type: 3}
+  - Id: pattern.tiger_01
+    Texture: {fileID: 2800000, guid: f4bef4ce3793da344b2dad1501cd6d32, type: 3}
+  - Id: pattern.cow_01
+    Texture: {fileID: 2800000, guid: a23c18ba68cb5e84bacf5e88fa04412f, type: 3}
+  - Id: pattern.snakeskin_01
+    Texture: {fileID: 2800000, guid: 3272321b108e2ab4ab052b6ecc79e8ff, type: 3}
+  - Id: pattern.tiedye_01
+    Texture: {fileID: 2800000, guid: df2d7b93109351c4eb5d1aa26c20854b, type: 3}
+  - Id: pattern.marble_01
+    Texture: {fileID: 2800000, guid: 16046e3c6cddb364e95d48ad54a4cc69, type: 3}
+  - Id: pattern.brushstrokes_01
+    Texture: {fileID: 2800000, guid: c5b6b6b03d48d46499585e5a19a46c49, type: 3}
+  - Id: pattern.terrazzo_01
+    Texture: {fileID: 2800000, guid: faf5e94df6c1ff743aefb7f27089e178, type: 3}
+  - Id: pattern.squiggles_01
+    Texture: {fileID: 2800000, guid: ee67a868801bed54597d16f9dbd56769, type: 3}
+  Fabrics:
+  - Id: plain
+    Material: {fileID: 2100000, guid: 438e55e3cc9afa740b5c2f26ae972251, type: 2}
+  - Id: poplin
+    Material: {fileID: 2100000, guid: d14ecf819d2d21f4d9a430263c30b409, type: 2}
+  - Id: oxford
+    Material: {fileID: 2100000, guid: 225942ef28e74d144b40d6da7fa3b59a, type: 2}
+  - Id: chambray
+    Material: {fileID: 2100000, guid: ddafc0c38f4fec04a92e181e09e2d463, type: 2}
+  - Id: canvas
+    Material: {fileID: 2100000, guid: 0ed109822b72bf34f9e71917f143905a, type: 2}
+  - Id: linen
+    Material: {fileID: 2100000, guid: 822c18c1915594242b2b093dcbd48d1e, type: 2}
+  - Id: gauze
+    Material: {fileID: 2100000, guid: 79b6b4d9a49df6f43ad067845f5bbae8, type: 2}
+  - Id: seersucker
+    Material: {fileID: 2100000, guid: 8fdbeda75ab41c84a8d7d0f0244e8bb6, type: 2}
+  - Id: eyelet
+    Material: {fileID: 2100000, guid: cb1e46230dd031741bab20dafa5d2d91, type: 2}
+  - Id: denim
+    Material: {fileID: 2100000, guid: c70af38c79f92a74eac2b4fd4d41acc4, type: 2}
+  - Id: twill
+    Material: {fileID: 2100000, guid: b62c3289157bc2c43aa0bcb4420ce6c4, type: 2}
+  - Id: flannel
+    Material: {fileID: 2100000, guid: 9a49c3e003dd2a74a81a052862386c06, type: 2}
+  - Id: herringbone
+    Material: {fileID: 2100000, guid: 42e6af08434f4cf49a71c76e2876ebae, type: 2}
+  - Id: tweed
+    Material: {fileID: 2100000, guid: 8a9e9bde5823edb47b403e5673a7e140, type: 2}
+  - Id: ripstop
+    Material: {fileID: 2100000, guid: 839c880d0521b6a4d92ef83bdc4c05e1, type: 2}
+  - Id: jersey
+    Material: {fileID: 2100000, guid: 4e77e785142b62a409b561f5412d89f0, type: 2}
+  - Id: knit
+    Material: {fileID: 2100000, guid: 2084b67eafb6fed45b22ca63ff34b773, type: 2}
+  - Id: chunky_knit
+    Material: {fileID: 2100000, guid: 0dd9fc4404642bc4baf3202a43810e33, type: 2}
+  - Id: rib_knit
+    Material: {fileID: 2100000, guid: 237e16ad36057854993d43f25bdd39e9, type: 2}
+  - Id: wide_rib
+    Material: {fileID: 2100000, guid: 4a99de98fe456bb4688efe819808d892, type: 2}
+  - Id: cable_knit
+    Material: {fileID: 2100000, guid: 14f0620d0a9d0ba4e89421f3dfecbc9a, type: 2}
+  - Id: waffle
+    Material: {fileID: 2100000, guid: bd4875c4070d5d74fb7a8bcd7018353e, type: 2}
+  - Id: pique
+    Material: {fileID: 2100000, guid: d0f145d3b6952c44b966e8b6e6b6d0b7, type: 2}
+  - Id: crochet
+    Material: {fileID: 2100000, guid: c0cf81c84e30c584aa0cec14e90ebd1b, type: 2}
+  - Id: fleece
+    Material: {fileID: 2100000, guid: 6596e9b3780199347aadecaebcb38e98, type: 2}
+  - Id: boucle
+    Material: {fileID: 2100000, guid: 45073fd9b31b5e44ab09934ae7c70c54, type: 2}
+  - Id: terry
+    Material: {fileID: 2100000, guid: e2df1e9d4a6320e41b98b2b490810c0a, type: 2}
+  - Id: faux_fur
+    Material: {fileID: 2100000, guid: c7490bc6ac37dd045a6d99a173a6856f, type: 2}
+  - Id: satin
+    Material: {fileID: 2100000, guid: 7fadf88e8581e4649aeeb565e6ec2024, type: 2}
+  - Id: crepe
+    Material: {fileID: 2100000, guid: ce2ae7560491394449d2f597c405e34a, type: 2}
+  - Id: chiffon
+    Material: {fileID: 2100000, guid: af17a2b7c9b418147a3236cae554eb71, type: 2}
+  - Id: tulle
+    Material: {fileID: 2100000, guid: 582c2f4f862075840aa61d102e611193, type: 2}
+  - Id: lycra
+    Material: {fileID: 2100000, guid: e82a6799dca28284ab6c3bdfcb799611, type: 2}
+  - Id: velvet
+    Material: {fileID: 2100000, guid: d95f7eb05a9797940a632c8aa137841f, type: 2}
+  - Id: metallic
+    Material: {fileID: 2100000, guid: 6d210dc211e44fe4d8adb887b43f5fcf, type: 2}
+  - Id: sequins
+    Material: {fileID: 2100000, guid: 12d34b8d3449c14418e413f2a8b1125a, type: 2}
+  - Id: lace
+    Material: {fileID: 2100000, guid: 5fe30074f54526b42ae44d8332580f94, type: 2}
+  - Id: jacquard
+    Material: {fileID: 2100000, guid: eeaa4fa7a7e838742abc3015faa10b10, type: 2}
+  - Id: leather
+    Material: {fileID: 2100000, guid: 8a9da463a224cfb4a8c095a54e5c7726, type: 2}
+  - Id: patent
+    Material: {fileID: 2100000, guid: 655e80d329ccfba4f9edf7e188847f70, type: 2}
+  - Id: croc
+    Material: {fileID: 2100000, guid: 1dfb433fb248ab548823b1b2a84390c7, type: 2}
+  - Id: suede
+    Material: {fileID: 2100000, guid: 6ea7158498b8c0943b2fd913b7605499, type: 2}
+  - Id: corduroy
+    Material: {fileID: 2100000, guid: a8484ed39c25173409eeaa5be57e7818, type: 2}
+  - Id: rubber
+    Material: {fileID: 2100000, guid: d423c4343223c964184701f78eb97c44, type: 2}
+  - Id: mesh
+    Material: {fileID: 2100000, guid: ab331bf605bafe946afc171dd7037711, type: 2}
+  - Id: quilted
+    Material: {fileID: 2100000, guid: c233b89d7e8088842a97ee174e52ca02, type: 2}
+  - Id: diamond_quilt
+    Material: {fileID: 2100000, guid: af9b7403a787f084b93b1c8a6a15a72b, type: 2}
   Sliders:
   - Id: body.weight
     Kind: 0

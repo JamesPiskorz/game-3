@@ -21,7 +21,17 @@
   "lean": 0.9,
   "contexts": [],
   "weight": 1.0,
+  "fabric": "corduroy",
+  "patternable": false,
   "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261022_021940_for_texture_textured.glb",
   "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
-  "licence": "Tencent Hunyuan 3D 2.1 Community License"
+  "licence": "Tencent Hunyuan 3D 2.1 Community License",
+  "fabrics": [
+    "denim",
+    "tweed",
+    "suede",
+    "twill",
+    "leather",
+    "velvet"
+  ]
 }

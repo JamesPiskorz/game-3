@@ -448,6 +448,15 @@
       "lean": 0.9,
       "regions": 1,
       "patternable": false,
+      "fabrics": [
+        "corduroy",
+        "denim",
+        "tweed",
+        "suede",
+        "twill",
+        "leather",
+        "velvet"
+      ],
       "contexts": []
     },
     {
@@ -463,7 +472,15 @@
       "excludesTags": [],
       "lean": 0.95,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "lycra",
+        "metallic",
+        "crochet",
+        "seersucker",
+        "velvet",
+        "mesh"
+      ],
       "contexts": [
         "swim"
       ]
@@ -481,7 +498,15 @@
       "excludesTags": [],
       "lean": 0.95,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "lycra",
+        "metallic",
+        "crochet",
+        "seersucker",
+        "velvet",
+        "mesh"
+      ],
       "contexts": [
         "swim"
       ]
@@ -499,7 +524,11 @@
       "excludesTags": [],
       "lean": -0.9,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "ripstop",
+        "satin"
+      ],
       "contexts": [
         "swim"
       ]
@@ -517,7 +546,13 @@
       "excludesTags": [],
       "lean": 0.9,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "jersey",
+        "waffle",
+        "fleece",
+        "velvet"
+      ],
       "contexts": [
         "sleep"
       ]
@@ -536,6 +571,13 @@
       "lean": 0.9,
       "regions": 1,
       "patternable": false,
+      "fabrics": [
+        "lace",
+        "satin",
+        "mesh",
+        "jersey",
+        "velvet"
+      ],
       "contexts": [
         "sleep"
       ]
@@ -555,7 +597,15 @@
       "excludesTags": [],
       "lean": 0.3,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "canvas",
+        "leather",
+        "suede",
+        "denim",
+        "corduroy",
+        "mesh"
+      ],
       "contexts": []
     },
     {
@@ -574,7 +624,15 @@
       "excludesTags": [],
       "lean": 0.95,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "chiffon",
+        "satin",
+        "crepe",
+        "tulle",
+        "lace",
+        "gauze"
+      ],
       "contexts": []
     },
     {
@@ -595,7 +653,17 @@
       "excludesTags": [],
       "lean": -0.3,
       "regions": 2,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "twill",
+        "denim",
+        "corduroy",
+        "linen",
+        "canvas",
+        "flannel",
+        "tweed",
+        "leather"
+      ],
       "contexts": []
     },
     {
@@ -613,7 +681,16 @@
       "excludesTags": [],
       "lean": 0.8,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "linen",
+        "poplin",
+        "gauze",
+        "chambray",
+        "seersucker",
+        "canvas",
+        "crochet"
+      ],
       "contexts": []
     },
     {
@@ -631,7 +708,15 @@
       "excludesTags": [],
       "lean": 0.8,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "lycra",
+        "metallic",
+        "crochet",
+        "seersucker",
+        "velvet",
+        "mesh"
+      ],
       "contexts": []
     },
     {
@@ -650,6 +735,14 @@
       "lean": 0.8,
       "regions": 1,
       "patternable": false,
+      "fabrics": [
+        "denim",
+        "twill",
+        "corduroy",
+        "canvas",
+        "leather",
+        "chambray"
+      ],
       "contexts": []
     },
     {
@@ -670,6 +763,14 @@
       "lean": 0.9,
       "regions": 1,
       "patternable": false,
+      "fabrics": [
+        "denim",
+        "twill",
+        "corduroy",
+        "canvas",
+        "leather",
+        "chambray"
+      ],
       "contexts": []
     },
     {
@@ -686,6 +787,13 @@
       "lean": 0.95,
       "regions": 1,
       "patternable": false,
+      "fabrics": [
+        "lace",
+        "satin",
+        "mesh",
+        "jersey",
+        "velvet"
+      ],
       "contexts": [
         "sleep"
       ]
@@ -706,6 +814,14 @@
       "lean": 0.2,
       "regions": 1,
       "patternable": false,
+      "fabrics": [
+        "denim",
+        "twill",
+        "corduroy",
+        "canvas",
+        "leather",
+        "chambray"
+      ],
       "contexts": []
     },
     {
@@ -724,7 +840,15 @@
       "excludesTags": [],
       "lean": -0.1,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "fleece",
+        "jersey",
+        "terry",
+        "velvet",
+        "waffle",
+        "faux_fur"
+      ],
       "contexts": [
         "casual",
         "sport"
@@ -746,7 +870,15 @@
       "excludesTags": [],
       "lean": 0.8,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "lycra",
+        "metallic",
+        "crochet",
+        "seersucker",
+        "velvet",
+        "mesh"
+      ],
       "contexts": []
     },
     {
@@ -763,7 +895,13 @@
       "excludesTags": [],
       "lean": 0.3,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "satin",
+        "velvet",
+        "chiffon",
+        "lace"
+      ],
       "contexts": [
         "sleep"
       ]
@@ -784,7 +922,17 @@
       "excludesTags": [],
       "lean": 0.9,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "crepe",
+        "satin",
+        "velvet",
+        "jersey",
+        "lace",
+        "sequins",
+        "jacquard",
+        "metallic"
+      ],
       "contexts": []
     },
     {
@@ -802,7 +950,17 @@
       "excludesTags": [],
       "lean": 0.9,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "crepe",
+        "satin",
+        "velvet",
+        "jersey",
+        "lace",
+        "sequins",
+        "jacquard",
+        "metallic"
+      ],
       "contexts": []
     },
     {
@@ -822,7 +980,17 @@
       "excludesTags": [],
       "lean": 0.9,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "twill",
+        "denim",
+        "corduroy",
+        "linen",
+        "canvas",
+        "flannel",
+        "tweed",
+        "leather"
+      ],
       "contexts": []
     },
     {
@@ -838,7 +1006,15 @@
       "excludesTags": [],
       "lean": 0.6,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "ripstop",
+        "quilted",
+        "canvas",
+        "satin",
+        "fleece",
+        "denim"
+      ],
       "contexts": [
         "sport",
         "casual"
@@ -860,7 +1036,17 @@
       "excludesTags": [],
       "lean": 0.0,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "poplin",
+        "oxford",
+        "chambray",
+        "linen",
+        "satin",
+        "seersucker",
+        "flannel",
+        "lace"
+      ],
       "contexts": [
         "work"
       ]
@@ -881,7 +1067,17 @@
       "excludesTags": [],
       "lean": 0.0,
       "regions": 3,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "twill",
+        "denim",
+        "corduroy",
+        "linen",
+        "canvas",
+        "flannel",
+        "tweed",
+        "leather"
+      ],
       "contexts": [
         "casual",
         "sport"
@@ -904,6 +1100,14 @@
       "lean": 0.7,
       "regions": 1,
       "patternable": false,
+      "fabrics": [
+        "denim",
+        "twill",
+        "corduroy",
+        "canvas",
+        "leather",
+        "chambray"
+      ],
       "contexts": []
     },
     {
@@ -923,6 +1127,15 @@
       "lean": 0.1,
       "regions": 3,
       "patternable": false,
+      "fabrics": [
+        "herringbone",
+        "tweed",
+        "flannel",
+        "twill",
+        "corduroy",
+        "velvet",
+        "linen"
+      ],
       "contexts": []
     },
     {
@@ -939,7 +1152,14 @@
       "excludesTags": [],
       "lean": -0.7,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "flannel",
+        "jersey",
+        "satin",
+        "waffle",
+        "fleece"
+      ],
       "contexts": [
         "sleep"
       ]
@@ -961,7 +1181,17 @@
       "excludesTags": [],
       "lean": 0.5,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "twill",
+        "denim",
+        "corduroy",
+        "linen",
+        "canvas",
+        "flannel",
+        "tweed",
+        "leather"
+      ],
       "contexts": []
     },
     {
@@ -981,7 +1211,17 @@
       "excludesTags": [],
       "lean": -0.4,
       "regions": 3,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "twill",
+        "denim",
+        "corduroy",
+        "linen",
+        "canvas",
+        "flannel",
+        "tweed",
+        "leather"
+      ],
       "contexts": []
     },
     {
@@ -1000,7 +1240,17 @@
       "excludesTags": [],
       "lean": 0.3,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "twill",
+        "denim",
+        "corduroy",
+        "linen",
+        "canvas",
+        "flannel",
+        "tweed",
+        "leather"
+      ],
       "contexts": []
     },
     {
@@ -1016,7 +1266,15 @@
       "excludesTags": [],
       "lean": 0.9,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "lycra",
+        "metallic",
+        "crochet",
+        "seersucker",
+        "velvet",
+        "mesh"
+      ],
       "contexts": [
         "swim"
       ]
@@ -1034,7 +1292,15 @@
       "excludesTags": [],
       "lean": 0.7,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "lycra",
+        "metallic",
+        "crochet",
+        "seersucker",
+        "velvet",
+        "mesh"
+      ],
       "contexts": [
         "swim"
       ]
@@ -1055,7 +1321,17 @@
       "excludesTags": [],
       "lean": 0.95,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "twill",
+        "denim",
+        "corduroy",
+        "linen",
+        "canvas",
+        "flannel",
+        "tweed",
+        "leather"
+      ],
       "contexts": []
     },
     {
@@ -1074,7 +1350,16 @@
       "excludesTags": [],
       "lean": 0.95,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "linen",
+        "poplin",
+        "gauze",
+        "chambray",
+        "seersucker",
+        "canvas",
+        "crochet"
+      ],
       "contexts": []
     },
     {
@@ -1093,7 +1378,15 @@
       "excludesTags": [],
       "lean": 0.1,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "ripstop",
+        "quilted",
+        "canvas",
+        "satin",
+        "fleece",
+        "denim"
+      ],
       "contexts": []
     },
     {
@@ -1113,6 +1406,14 @@
       "lean": 0.0,
       "regions": 3,
       "patternable": false,
+      "fabrics": [
+        "denim",
+        "twill",
+        "corduroy",
+        "canvas",
+        "leather",
+        "chambray"
+      ],
       "contexts": []
     },
     {
@@ -1130,7 +1431,15 @@
       "excludesTags": [],
       "lean": 0.8,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "lycra",
+        "metallic",
+        "crochet",
+        "seersucker",
+        "velvet",
+        "mesh"
+      ],
       "contexts": []
     },
     {
@@ -1149,6 +1458,9 @@
       "lean": 0.8,
       "regions": 1,
       "patternable": false,
+      "fabrics": [
+        "rib_knit"
+      ],
       "contexts": []
     },
     {
@@ -1168,6 +1480,9 @@
       "lean": 0.95,
       "regions": 1,
       "patternable": false,
+      "fabrics": [
+        "chiffon"
+      ],
       "contexts": []
     },
     {
@@ -1188,6 +1503,9 @@
       "lean": 0.9,
       "regions": 1,
       "patternable": false,
+      "fabrics": [
+        "chiffon"
+      ],
       "contexts": []
     },
     {
@@ -1203,7 +1521,13 @@
       "excludesTags": [],
       "lean": 0.95,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "satin",
+        "velvet",
+        "chiffon",
+        "lace"
+      ],
       "contexts": [
         "sleep"
       ]
@@ -1223,7 +1547,16 @@
       "excludesTags": [],
       "lean": 0.95,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "satin",
+        "crepe",
+        "velvet",
+        "chiffon",
+        "jacquard",
+        "lace",
+        "metallic"
+      ],
       "contexts": [
         "date",
         "formal"
@@ -1242,7 +1575,15 @@
       "excludesTags": [],
       "lean": 0.95,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "lycra",
+        "metallic",
+        "crochet",
+        "seersucker",
+        "velvet",
+        "mesh"
+      ],
       "contexts": [
         "swim"
       ]
@@ -1263,6 +1604,13 @@
       "lean": 0.95,
       "regions": 2,
       "patternable": false,
+      "fabrics": [
+        "jacquard",
+        "satin",
+        "velvet",
+        "crepe",
+        "lace"
+      ],
       "contexts": [
         "date",
         "formal"
@@ -1284,7 +1632,17 @@
       "excludesTags": [],
       "lean": 0.9,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "crepe",
+        "satin",
+        "velvet",
+        "jersey",
+        "lace",
+        "sequins",
+        "jacquard",
+        "metallic"
+      ],
       "contexts": [
         "date",
         "formal"
@@ -1303,7 +1661,15 @@
       "excludesTags": [],
       "lean": 0.95,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "lycra",
+        "metallic",
+        "crochet",
+        "seersucker",
+        "velvet",
+        "mesh"
+      ],
       "contexts": [
         "swim"
       ]
@@ -1325,7 +1691,17 @@
       "excludesTags": [],
       "lean": 0.9,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "crepe",
+        "satin",
+        "velvet",
+        "jersey",
+        "lace",
+        "sequins",
+        "jacquard",
+        "metallic"
+      ],
       "contexts": []
     },
     {
@@ -1342,6 +1718,13 @@
       "lean": 0.95,
       "regions": 1,
       "patternable": false,
+      "fabrics": [
+        "lace",
+        "satin",
+        "mesh",
+        "jersey",
+        "velvet"
+      ],
       "contexts": [
         "sleep"
       ]
@@ -1361,7 +1744,15 @@
       "excludesTags": [],
       "lean": 0.9,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "chiffon",
+        "satin",
+        "crepe",
+        "tulle",
+        "lace",
+        "gauze"
+      ],
       "contexts": []
     },
     {
@@ -1380,7 +1771,16 @@
       "excludesTags": [],
       "lean": 0.95,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "satin",
+        "crepe",
+        "velvet",
+        "chiffon",
+        "jacquard",
+        "lace",
+        "metallic"
+      ],
       "contexts": [
         "date",
         "formal"
@@ -1399,7 +1799,13 @@
       "excludesTags": [],
       "lean": 0.95,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "plain",
+        "linen",
+        "poplin",
+        "jersey"
+      ],
       "contexts": [
         "sleep"
       ]
@@ -1417,7 +1823,14 @@
       "excludesTags": [],
       "lean": 0.6,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "flannel",
+        "jersey",
+        "satin",
+        "waffle",
+        "fleece"
+      ],
       "contexts": [
         "sleep"
       ]
@@ -1435,7 +1848,15 @@
       "excludesTags": [],
       "lean": 0.95,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "lycra",
+        "metallic",
+        "crochet",
+        "seersucker",
+        "velvet",
+        "mesh"
+      ],
       "contexts": [
         "swim"
       ]
@@ -1454,7 +1875,16 @@
       "excludesTags": [],
       "lean": 0.95,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "satin",
+        "crepe",
+        "velvet",
+        "chiffon",
+        "jacquard",
+        "lace",
+        "metallic"
+      ],
       "contexts": [
         "formal",
         "date"
@@ -1475,7 +1905,17 @@
       "excludesTags": [],
       "lean": 0.95,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "crepe",
+        "satin",
+        "velvet",
+        "jersey",
+        "lace",
+        "sequins",
+        "jacquard",
+        "metallic"
+      ],
       "contexts": [
         "date",
         "formal"
@@ -1497,6 +1937,12 @@
       "lean": 0.95,
       "regions": 1,
       "patternable": false,
+      "fabrics": [
+        "tulle",
+        "satin",
+        "chiffon",
+        "lace"
+      ],
       "contexts": [
         "formal"
       ]
@@ -1516,7 +1962,15 @@
       "excludesTags": [],
       "lean": 0.95,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "plain",
+        "linen",
+        "poplin",
+        "eyelet",
+        "seersucker",
+        "jersey"
+      ],
       "contexts": []
     },
     {
@@ -1532,7 +1986,15 @@
       "excludesTags": [],
       "lean": 0.9,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "lycra",
+        "metallic",
+        "crochet",
+        "seersucker",
+        "velvet",
+        "mesh"
+      ],
       "contexts": [
         "swim"
       ]
@@ -1550,7 +2012,13 @@
       "excludesTags": [],
       "lean": 0.7,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "satin",
+        "velvet",
+        "chiffon",
+        "lace"
+      ],
       "contexts": [
         "sleep"
       ]
@@ -1570,7 +2038,16 @@
       "excludesTags": [],
       "lean": 0.9,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "linen",
+        "poplin",
+        "gauze",
+        "chambray",
+        "seersucker",
+        "canvas",
+        "crochet"
+      ],
       "contexts": []
     },
     {
@@ -1589,6 +2066,13 @@
       "lean": 0.95,
       "regions": 1,
       "patternable": false,
+      "fabrics": [
+        "sequins",
+        "metallic",
+        "velvet",
+        "satin",
+        "lace"
+      ],
       "contexts": [
         "date",
         "formal"
@@ -1609,7 +2093,14 @@
       "excludesTags": [],
       "lean": 0.9,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "chambray",
+        "denim",
+        "linen",
+        "poplin",
+        "oxford"
+      ],
       "contexts": []
     },
     {
@@ -1628,7 +2119,16 @@
       "excludesTags": [],
       "lean": 0.95,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "satin",
+        "crepe",
+        "velvet",
+        "chiffon",
+        "jacquard",
+        "lace",
+        "metallic"
+      ],
       "contexts": [
         "date",
         "formal"
@@ -1650,6 +2150,14 @@
       "lean": 0.9,
       "regions": 1,
       "patternable": false,
+      "fabrics": [
+        "eyelet",
+        "linen",
+        "gauze",
+        "poplin",
+        "seersucker",
+        "crochet"
+      ],
       "contexts": []
     },
     {
@@ -1668,6 +2176,14 @@
       "lean": 0.9,
       "regions": 1,
       "patternable": false,
+      "fabrics": [
+        "wide_rib",
+        "knit",
+        "cable_knit",
+        "chunky_knit",
+        "rib_knit",
+        "boucle"
+      ],
       "contexts": []
     },
     {
@@ -1683,7 +2199,15 @@
       "excludesTags": [],
       "lean": 0.9,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "lycra",
+        "metallic",
+        "crochet",
+        "seersucker",
+        "velvet",
+        "mesh"
+      ],
       "contexts": [
         "swim"
       ]
@@ -1704,7 +2228,17 @@
       "excludesTags": [],
       "lean": 0.95,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "poplin",
+        "oxford",
+        "chambray",
+        "linen",
+        "satin",
+        "seersucker",
+        "flannel",
+        "lace"
+      ],
       "contexts": [
         "date",
         "formal",
@@ -1727,6 +2261,13 @@
       "lean": 0.95,
       "regions": 1,
       "patternable": false,
+      "fabrics": [
+        "velvet",
+        "satin",
+        "jacquard",
+        "crepe",
+        "lace"
+      ],
       "contexts": [
         "formal"
       ]
@@ -1745,7 +2286,16 @@
       "excludesTags": [],
       "lean": 0.95,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "satin",
+        "crepe",
+        "velvet",
+        "chiffon",
+        "jacquard",
+        "lace",
+        "metallic"
+      ],
       "contexts": [
         "formal"
       ]
@@ -1765,7 +2315,17 @@
       "excludesTags": [],
       "lean": 0.95,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "crepe",
+        "satin",
+        "velvet",
+        "jersey",
+        "lace",
+        "sequins",
+        "jacquard",
+        "metallic"
+      ],
       "contexts": []
     },
     {
@@ -1787,6 +2347,16 @@
       "lean": 0.4,
       "regions": 1,
       "patternable": false,
+      "fabrics": [
+        "tweed",
+        "herringbone",
+        "corduroy",
+        "velvet",
+        "boucle",
+        "twill",
+        "denim",
+        "leather"
+      ],
       "contexts": []
     },
     {
@@ -1807,6 +2377,14 @@
       "lean": 0.6,
       "regions": 1,
       "patternable": false,
+      "fabrics": [
+        "leather",
+        "suede",
+        "patent",
+        "croc",
+        "canvas",
+        "velvet"
+      ],
       "contexts": []
     },
     {
@@ -1828,6 +2406,13 @@
       "lean": 0.3,
       "regions": 1,
       "patternable": false,
+      "fabrics": [
+        "quilted",
+        "diamond_quilt",
+        "ripstop",
+        "faux_fur",
+        "corduroy"
+      ],
       "contexts": []
     },
     {
@@ -1848,7 +2433,15 @@
       ],
       "lean": 0.0,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "ripstop",
+        "quilted",
+        "canvas",
+        "satin",
+        "fleece",
+        "denim"
+      ],
       "contexts": []
     },
     {
@@ -1868,6 +2461,14 @@
       "lean": 0.6,
       "regions": 3,
       "patternable": false,
+      "fabrics": [
+        "leather",
+        "suede",
+        "patent",
+        "croc",
+        "canvas",
+        "velvet"
+      ],
       "contexts": []
     },
     {
@@ -1886,7 +2487,15 @@
       "excludesTags": [],
       "lean": -0.2,
       "regions": 3,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "canvas",
+        "leather",
+        "suede",
+        "denim",
+        "corduroy",
+        "mesh"
+      ],
       "contexts": []
     },
     {
@@ -1904,7 +2513,15 @@
       "excludesTags": [],
       "lean": 0.4,
       "regions": 3,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "canvas",
+        "leather",
+        "suede",
+        "denim",
+        "corduroy",
+        "mesh"
+      ],
       "contexts": []
     },
     {
@@ -1924,6 +2541,14 @@
       "lean": 0.95,
       "regions": 3,
       "patternable": false,
+      "fabrics": [
+        "patent",
+        "leather",
+        "suede",
+        "croc",
+        "metallic",
+        "velvet"
+      ],
       "contexts": []
     },
     {
@@ -1942,6 +2567,14 @@
       "lean": 0.4,
       "regions": 3,
       "patternable": false,
+      "fabrics": [
+        "leather",
+        "suede",
+        "patent",
+        "croc",
+        "canvas",
+        "velvet"
+      ],
       "contexts": []
     },
     {
@@ -1959,6 +2592,10 @@
       "lean": 0.0,
       "regions": 2,
       "patternable": false,
+      "fabrics": [
+        "rubber",
+        "patent"
+      ],
       "contexts": []
     },
     {
@@ -1978,6 +2615,14 @@
       "lean": -0.4,
       "regions": 2,
       "patternable": false,
+      "fabrics": [
+        "leather",
+        "suede",
+        "patent",
+        "croc",
+        "canvas",
+        "velvet"
+      ],
       "contexts": []
     },
     {
@@ -1995,6 +2640,14 @@
       "lean": 0.6,
       "regions": 2,
       "patternable": false,
+      "fabrics": [
+        "leather",
+        "suede",
+        "patent",
+        "croc",
+        "canvas",
+        "velvet"
+      ],
       "contexts": [
         "casual",
         "date"
@@ -2015,6 +2668,12 @@
       "lean": 0.2,
       "regions": 3,
       "patternable": false,
+      "fabrics": [
+        "mesh",
+        "canvas",
+        "leather",
+        "ripstop"
+      ],
       "contexts": []
     },
     {
@@ -2032,7 +2691,15 @@
       "excludesTags": [],
       "lean": 0.0,
       "regions": 3,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "canvas",
+        "leather",
+        "suede",
+        "denim",
+        "corduroy",
+        "mesh"
+      ],
       "contexts": []
     },
     {
@@ -2054,6 +2721,13 @@
       "lean": 0.9,
       "regions": 2,
       "patternable": false,
+      "fabrics": [
+        "suede",
+        "leather",
+        "velvet",
+        "corduroy",
+        "croc"
+      ],
       "contexts": []
     },
     {
@@ -2073,6 +2747,14 @@
       "lean": 0.0,
       "regions": 2,
       "patternable": false,
+      "fabrics": [
+        "leather",
+        "suede",
+        "patent",
+        "croc",
+        "canvas",
+        "velvet"
+      ],
       "contexts": []
     },
     {
@@ -2091,6 +2773,14 @@
       "lean": 0.9,
       "regions": 2,
       "patternable": false,
+      "fabrics": [
+        "patent",
+        "leather",
+        "suede",
+        "croc",
+        "metallic",
+        "velvet"
+      ],
       "contexts": []
     },
     {
@@ -2110,6 +2800,14 @@
       "lean": 0.95,
       "regions": 2,
       "patternable": false,
+      "fabrics": [
+        "patent",
+        "leather",
+        "suede",
+        "croc",
+        "metallic",
+        "velvet"
+      ],
       "contexts": []
     },
     {
@@ -2129,6 +2827,14 @@
       "lean": 0.9,
       "regions": 3,
       "patternable": false,
+      "fabrics": [
+        "patent",
+        "leather",
+        "suede",
+        "croc",
+        "metallic",
+        "velvet"
+      ],
       "contexts": []
     },
     {
@@ -2148,6 +2854,10 @@
       "lean": 0.0,
       "regions": 2,
       "patternable": false,
+      "fabrics": [
+        "rubber",
+        "patent"
+      ],
       "contexts": []
     },
     {
@@ -2166,6 +2876,14 @@
       "lean": 0.9,
       "regions": 3,
       "patternable": false,
+      "fabrics": [
+        "patent",
+        "leather",
+        "suede",
+        "croc",
+        "metallic",
+        "velvet"
+      ],
       "contexts": []
     },
     {
@@ -2184,6 +2902,12 @@
       "lean": 0.3,
       "regions": 3,
       "patternable": false,
+      "fabrics": [
+        "mesh",
+        "canvas",
+        "leather",
+        "ripstop"
+      ],
       "contexts": []
     },
     {
@@ -2201,6 +2925,14 @@
       "lean": 0.6,
       "regions": 2,
       "patternable": false,
+      "fabrics": [
+        "leather",
+        "suede",
+        "patent",
+        "croc",
+        "canvas",
+        "velvet"
+      ],
       "contexts": [
         "casual",
         "date"
@@ -2222,6 +2954,11 @@
       "lean": 0.95,
       "regions": 2,
       "patternable": false,
+      "fabrics": [
+        "metallic",
+        "leather",
+        "patent"
+      ],
       "contexts": [
         "date",
         "formal"
@@ -2243,7 +2980,15 @@
       "excludesTags": [],
       "lean": 0.0,
       "regions": 3,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "canvas",
+        "leather",
+        "suede",
+        "denim",
+        "corduroy",
+        "mesh"
+      ],
       "contexts": []
     },
     {
@@ -2262,6 +3007,14 @@
       "lean": 0.95,
       "regions": 3,
       "patternable": false,
+      "fabrics": [
+        "leather",
+        "suede",
+        "patent",
+        "croc",
+        "canvas",
+        "velvet"
+      ],
       "contexts": [
         "date",
         "formal"
@@ -2283,6 +3036,13 @@
       "lean": 0.6,
       "regions": 2,
       "patternable": false,
+      "fabrics": [
+        "suede",
+        "leather",
+        "velvet",
+        "corduroy",
+        "croc"
+      ],
       "contexts": []
     },
     {
@@ -2304,6 +3064,14 @@
       "lean": 0.0,
       "regions": 3,
       "patternable": false,
+      "fabrics": [
+        "leather",
+        "suede",
+        "patent",
+        "croc",
+        "canvas",
+        "velvet"
+      ],
       "contexts": []
     },
     {
@@ -2321,6 +3089,14 @@
       "lean": 0.6,
       "regions": 2,
       "patternable": false,
+      "fabrics": [
+        "leather",
+        "suede",
+        "patent",
+        "croc",
+        "canvas",
+        "velvet"
+      ],
       "contexts": [
         "casual",
         "date"
@@ -2340,7 +3116,15 @@
       "excludesTags": [],
       "lean": 0.5,
       "regions": 3,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "canvas",
+        "leather",
+        "suede",
+        "denim",
+        "corduroy",
+        "mesh"
+      ],
       "contexts": []
     },
     {
@@ -2360,6 +3144,14 @@
       "lean": 0.9,
       "regions": 3,
       "patternable": false,
+      "fabrics": [
+        "leather",
+        "suede",
+        "patent",
+        "croc",
+        "canvas",
+        "velvet"
+      ],
       "contexts": []
     },
     {
@@ -2375,7 +3167,13 @@
       "excludesTags": [],
       "lean": 0.95,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "satin",
+        "velvet",
+        "chiffon",
+        "lace"
+      ],
       "contexts": [
         "sleep"
       ]
@@ -2393,7 +3191,15 @@
       "excludesTags": [],
       "lean": 0.95,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "lycra",
+        "metallic",
+        "crochet",
+        "seersucker",
+        "velvet",
+        "mesh"
+      ],
       "contexts": [
         "swim"
       ]
@@ -2411,7 +3217,15 @@
       "excludesTags": [],
       "lean": 0.95,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "lycra",
+        "metallic",
+        "crochet",
+        "seersucker",
+        "velvet",
+        "mesh"
+      ],
       "contexts": [
         "swim"
       ]
@@ -2431,7 +3245,17 @@
       "excludesTags": [],
       "lean": 0.5,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "poplin",
+        "oxford",
+        "chambray",
+        "linen",
+        "satin",
+        "seersucker",
+        "flannel",
+        "lace"
+      ],
       "contexts": []
     },
     {
@@ -2448,6 +3272,13 @@
       "lean": 0.9,
       "regions": 1,
       "patternable": false,
+      "fabrics": [
+        "lace",
+        "satin",
+        "mesh",
+        "jersey",
+        "velvet"
+      ],
       "contexts": [
         "sleep"
       ]
@@ -2465,7 +3296,13 @@
       "excludesTags": [],
       "lean": 0.95,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "jersey",
+        "waffle",
+        "fleece",
+        "velvet"
+      ],
       "contexts": [
         "sleep"
       ]
@@ -2485,7 +3322,16 @@
       "excludesTags": [],
       "lean": -0.6,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "linen",
+        "poplin",
+        "gauze",
+        "chambray",
+        "seersucker",
+        "canvas",
+        "crochet"
+      ],
       "contexts": []
     },
     {
@@ -2504,6 +3350,15 @@
       "lean": 0.7,
       "regions": 1,
       "patternable": false,
+      "fabrics": [
+        "knit",
+        "cable_knit",
+        "chunky_knit",
+        "wide_rib",
+        "boucle",
+        "rib_knit",
+        "crochet"
+      ],
       "contexts": []
     },
     {
@@ -2523,6 +3378,13 @@
       "lean": 0.95,
       "regions": 1,
       "patternable": false,
+      "fabrics": [
+        "jacquard",
+        "satin",
+        "velvet",
+        "crepe",
+        "lace"
+      ],
       "contexts": []
     },
     {
@@ -2542,7 +3404,15 @@
       "excludesTags": [],
       "lean": 0.8,
       "regions": 2,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "fleece",
+        "jersey",
+        "terry",
+        "velvet",
+        "waffle",
+        "faux_fur"
+      ],
       "contexts": []
     },
     {
@@ -2558,7 +3428,15 @@
       "excludesTags": [],
       "lean": 0.9,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "lycra",
+        "metallic",
+        "crochet",
+        "seersucker",
+        "velvet",
+        "mesh"
+      ],
       "contexts": [
         "swim"
       ]
@@ -2579,6 +3457,14 @@
       "lean": 0.8,
       "regions": 1,
       "patternable": false,
+      "fabrics": [
+        "rib_knit",
+        "jersey",
+        "wide_rib",
+        "knit",
+        "waffle",
+        "crochet"
+      ],
       "contexts": []
     },
     {
@@ -2597,7 +3483,15 @@
       "excludesTags": [],
       "lean": 0.0,
       "regions": 3,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "fleece",
+        "jersey",
+        "terry",
+        "velvet",
+        "waffle",
+        "faux_fur"
+      ],
       "contexts": [
         "casual",
         "sport"
@@ -2618,7 +3512,14 @@
       "excludesTags": [],
       "lean": 0.6,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "pique",
+        "jersey",
+        "knit",
+        "rib_knit",
+        "waffle"
+      ],
       "contexts": []
     },
     {
@@ -2636,7 +3537,15 @@
       "excludesTags": [],
       "lean": 0.9,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "jersey",
+        "rib_knit",
+        "waffle",
+        "pique",
+        "fleece",
+        "velvet"
+      ],
       "contexts": []
     },
     {
@@ -2655,7 +3564,15 @@
       "excludesTags": [],
       "lean": -0.6,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "oxford",
+        "poplin",
+        "chambray",
+        "linen",
+        "flannel",
+        "seersucker"
+      ],
       "contexts": []
     },
     {
@@ -2671,7 +3588,13 @@
       "excludesTags": [],
       "lean": 0.4,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "satin",
+        "velvet",
+        "chiffon",
+        "lace"
+      ],
       "contexts": [
         "sleep"
       ]
@@ -2691,7 +3614,14 @@
       "excludesTags": [],
       "lean": 0.9,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "gauze",
+        "linen",
+        "crochet",
+        "eyelet",
+        "chiffon"
+      ],
       "contexts": []
     },
     {
@@ -2707,7 +3637,15 @@
       "excludesTags": [],
       "lean": -0.8,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "lycra",
+        "metallic",
+        "crochet",
+        "seersucker",
+        "velvet",
+        "mesh"
+      ],
       "contexts": [
         "swim"
       ]
@@ -2728,6 +3666,14 @@
       "lean": 0.8,
       "regions": 1,
       "patternable": false,
+      "fabrics": [
+        "rib_knit",
+        "jersey",
+        "wide_rib",
+        "knit",
+        "waffle",
+        "crochet"
+      ],
       "contexts": []
     },
     {
@@ -2743,7 +3689,15 @@
       "excludesTags": [],
       "lean": 0.8,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "lycra",
+        "metallic",
+        "crochet",
+        "seersucker",
+        "velvet",
+        "mesh"
+      ],
       "contexts": [
         "sport",
         "casual"
@@ -2762,7 +3716,17 @@
       "excludesTags": [],
       "lean": 0.2,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "poplin",
+        "oxford",
+        "chambray",
+        "linen",
+        "satin",
+        "seersucker",
+        "flannel",
+        "lace"
+      ],
       "contexts": [
         "work"
       ]
@@ -2782,7 +3746,16 @@
       "excludesTags": [],
       "lean": 0.8,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "satin",
+        "crepe",
+        "velvet",
+        "chiffon",
+        "jacquard",
+        "lace",
+        "metallic"
+      ],
       "contexts": []
     },
     {
@@ -2798,7 +3771,13 @@
       "excludesTags": [],
       "lean": -0.7,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "jersey",
+        "waffle",
+        "fleece",
+        "velvet"
+      ],
       "contexts": [
         "sleep"
       ]
@@ -2816,7 +3795,15 @@
       "excludesTags": [],
       "lean": 0.8,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "lycra",
+        "metallic",
+        "crochet",
+        "seersucker",
+        "velvet",
+        "mesh"
+      ],
       "contexts": [
         "sport"
       ]
@@ -2837,6 +3824,14 @@
       "lean": 0.3,
       "regions": 2,
       "patternable": false,
+      "fabrics": [
+        "rib_knit",
+        "jersey",
+        "wide_rib",
+        "knit",
+        "waffle",
+        "crochet"
+      ],
       "contexts": []
     },
     {
@@ -2852,7 +3847,15 @@
       "excludesTags": [],
       "lean": 0.9,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "lycra",
+        "metallic",
+        "crochet",
+        "seersucker",
+        "velvet",
+        "mesh"
+      ],
       "contexts": [
         "swim"
       ]
@@ -2871,7 +3874,14 @@
       "excludesTags": [],
       "lean": 0.8,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "pique",
+        "jersey",
+        "knit",
+        "rib_knit",
+        "waffle"
+      ],
       "contexts": []
     },
     {
@@ -2889,7 +3899,15 @@
       "excludesTags": [],
       "lean": 0.2,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "ripstop",
+        "quilted",
+        "canvas",
+        "satin",
+        "fleece",
+        "denim"
+      ],
       "contexts": []
     },
     {
@@ -2907,7 +3925,15 @@
       "excludesTags": [],
       "lean": 0.0,
       "regions": 2,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "jersey",
+        "rib_knit",
+        "waffle",
+        "pique",
+        "fleece",
+        "velvet"
+      ],
       "contexts": []
     },
     {
@@ -2927,6 +3953,14 @@
       "lean": 0.5,
       "regions": 1,
       "patternable": false,
+      "fabrics": [
+        "rib_knit",
+        "jersey",
+        "wide_rib",
+        "knit",
+        "waffle",
+        "crochet"
+      ],
       "contexts": []
     },
     {
@@ -2944,7 +3978,16 @@
       "excludesTags": [],
       "lean": 0.9,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
+      "fabrics": [
+        "satin",
+        "crepe",
+        "velvet",
+        "chiffon",
+        "jacquard",
+        "lace",
+        "metallic"
+      ],
       "contexts": []
     },
     {
@@ -2962,6 +4005,14 @@
       "lean": 0.8,
       "regions": 1,
       "patternable": false,
+      "fabrics": [
+        "rib_knit",
+        "jersey",
+        "wide_rib",
+        "knit",
+        "waffle",
+        "crochet"
+      ],
       "contexts": []
     },
     {
@@ -2982,6 +4033,7 @@
       "lean": 0.3,
       "regions": 1,
       "patternable": false,
+      "fabrics": [],
       "contexts": []
     },
     {
@@ -2999,6 +4051,7 @@
       "lean": 0.4,
       "regions": 1,
       "patternable": false,
+      "fabrics": [],
       "contexts": []
     },
     {
@@ -3018,6 +4071,7 @@
       "lean": -0.6,
       "regions": 1,
       "patternable": false,
+      "fabrics": [],
       "contexts": []
     },
     {
@@ -3037,6 +4091,7 @@
       "lean": 0.5,
       "regions": 1,
       "patternable": false,
+      "fabrics": [],
       "contexts": []
     },
     {
@@ -3057,6 +4112,7 @@
       "lean": -0.3,
       "regions": 1,
       "patternable": false,
+      "fabrics": [],
       "contexts": []
     },
     {
@@ -3076,6 +4132,7 @@
       "lean": -0.1,
       "regions": 1,
       "patternable": false,
+      "fabrics": [],
       "contexts": []
     },
     {
@@ -3094,6 +4151,7 @@
       "lean": 0.4,
       "regions": 1,
       "patternable": false,
+      "fabrics": [],
       "contexts": []
     },
     {
@@ -3113,6 +4171,7 @@
       "lean": -0.6,
       "regions": 1,
       "patternable": false,
+      "fabrics": [],
       "contexts": []
     },
     {
@@ -3130,6 +4189,7 @@
       "lean": 0.7,
       "regions": 1,
       "patternable": false,
+      "fabrics": [],
       "contexts": []
     },
     {
@@ -3149,6 +4209,7 @@
       "lean": -0.5,
       "regions": 1,
       "patternable": false,
+      "fabrics": [],
       "contexts": []
     },
     {
@@ -3167,6 +4228,7 @@
       "lean": 0.6,
       "regions": 1,
       "patternable": false,
+      "fabrics": [],
       "contexts": []
     },
     {
@@ -3185,6 +4247,7 @@
       "lean": 0.0,
       "regions": 1,
       "patternable": false,
+      "fabrics": [],
       "contexts": []
     },
     {
@@ -3203,6 +4266,7 @@
       "lean": 0.0,
       "regions": 1,
       "patternable": false,
+      "fabrics": [],
       "contexts": []
     },
     {
@@ -3221,6 +4285,7 @@
       "lean": 0.0,
       "regions": 1,
       "patternable": false,
+      "fabrics": [],
       "contexts": []
     },
     {
@@ -3239,6 +4304,7 @@
       "lean": 0.0,
       "regions": 1,
       "patternable": false,
+      "fabrics": [],
       "contexts": []
     },
     {
@@ -3258,6 +4324,7 @@
       "lean": 0.0,
       "regions": 1,
       "patternable": false,
+      "fabrics": [],
       "contexts": []
     },
     {
@@ -3277,6 +4344,7 @@
       "lean": 0.0,
       "regions": 1,
       "patternable": false,
+      "fabrics": [],
       "contexts": []
     },
     {
@@ -3296,6 +4364,7 @@
       "lean": 0.0,
       "regions": 1,
       "patternable": false,
+      "fabrics": [],
       "contexts": []
     },
     {
@@ -3314,6 +4383,7 @@
       "lean": 0.0,
       "regions": 1,
       "patternable": false,
+      "fabrics": [],
       "contexts": []
     },
     {
@@ -3333,6 +4403,7 @@
       "lean": 0.0,
       "regions": 1,
       "patternable": false,
+      "fabrics": [],
       "contexts": []
     },
     {
@@ -3351,6 +4422,7 @@
       "lean": 0.0,
       "regions": 1,
       "patternable": false,
+      "fabrics": [],
       "contexts": []
     },
     {
@@ -3369,6 +4441,7 @@
       "lean": 0.0,
       "regions": 1,
       "patternable": false,
+      "fabrics": [],
       "contexts": []
     }
   ],
@@ -3376,43 +4449,43 @@
     {
       "id": "pattern.stripes_01",
       "name": "Stripes",
-      "weight": 1.0,
+      "weight": 1.2,
       "tags": [
         "casual",
         "sporty",
         "street"
       ],
       "minScale": 6.0,
-      "maxScale": 12.0
+      "maxScale": 10.0
     },
     {
       "id": "pattern.dots_01",
-      "name": "Dots",
-      "weight": 1.0,
+      "name": "Polka dots",
+      "weight": 1.2,
       "tags": [
         "cute",
         "casual"
       ],
-      "minScale": 8.0,
-      "maxScale": 14.0
+      "minScale": 6.0,
+      "maxScale": 10.0
     },
     {
       "id": "pattern.plaid_01",
-      "name": "Plaid",
-      "weight": 1.0,
+      "name": "Tartan",
+      "weight": 1.2,
       "tags": [
         "bookish",
         "elegant",
         "gothic",
         "street"
       ],
-      "minScale": 4.0,
-      "maxScale": 8.0
+      "minScale": 3.0,
+      "maxScale": 6.0
     },
     {
       "id": "pattern.check_01",
       "name": "Check",
-      "weight": 1.0,
+      "weight": 0.8,
       "tags": [
         "cute",
         "casual",
@@ -3424,25 +4497,25 @@
     {
       "id": "pattern.hearts_01",
       "name": "Hearts",
-      "weight": 1.0,
+      "weight": 0.8,
       "tags": [
         "cute",
         "date"
       ],
-      "minScale": 7.0,
-      "maxScale": 12.0
+      "minScale": 4.0,
+      "maxScale": 7.0
     },
     {
       "id": "pattern.stars_01",
       "name": "Stars",
-      "weight": 1.0,
+      "weight": 0.8,
       "tags": [
         "cute",
         "street",
         "casual"
       ],
-      "minScale": 7.0,
-      "maxScale": 12.0
+      "minScale": 4.0,
+      "maxScale": 7.0
     },
     {
       "id": "pattern.pinstripe_01",
@@ -3458,44 +4531,44 @@
     },
     {
       "id": "pattern.floral_01",
-      "name": "Floral",
-      "weight": 1.0,
+      "name": "Ditsy floral",
+      "weight": 1.4,
       "tags": [
         "cute",
         "elegant",
         "casual",
         "date"
       ],
-      "minScale": 6.0,
-      "maxScale": 10.0
+      "minScale": 4.0,
+      "maxScale": 7.0
     },
     {
       "id": "pattern.denim_01",
-      "name": "Denim",
-      "weight": 1.0,
+      "name": "Diagonal stripes",
+      "weight": 0.6,
       "tags": [
         "casual",
         "street"
       ],
-      "minScale": 10.0,
-      "maxScale": 16.0
+      "minScale": 5.0,
+      "maxScale": 9.0
     },
     {
       "id": "pattern.knit_01",
-      "name": "Knit",
-      "weight": 1.0,
+      "name": "Zigzag",
+      "weight": 0.6,
       "tags": [
         "cute",
         "bookish",
         "casual"
       ],
-      "minScale": 7.0,
-      "maxScale": 11.0
+      "minScale": 4.0,
+      "maxScale": 7.0
     },
     {
       "id": "pattern.argyle_01",
       "name": "Argyle",
-      "weight": 1.0,
+      "weight": 0.8,
       "tags": [
         "bookish",
         "elegant",
@@ -3507,14 +4580,1098 @@
     {
       "id": "pattern.chevron_01",
       "name": "Chevron",
-      "weight": 1.0,
+      "weight": 0.7,
       "tags": [
         "street",
         "sporty",
         "casual"
       ],
+      "minScale": 5.0,
+      "maxScale": 9.0
+    },
+    {
+      "id": "pattern.breton_01",
+      "name": "Breton stripes",
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "elegant",
+        "bookish"
+      ],
+      "minScale": 5.0,
+      "maxScale": 8.0
+    },
+    {
+      "id": "pattern.chalkstripe_01",
+      "name": "Chalk stripe",
+      "weight": 0.6,
+      "tags": [
+        "elegant",
+        "bookish"
+      ],
+      "minScale": 7.0,
+      "maxScale": 10.0
+    },
+    {
+      "id": "pattern.awning_01",
+      "name": "Awning stripes",
+      "weight": 0.6,
+      "tags": [
+        "casual",
+        "cute",
+        "street"
+      ],
+      "minScale": 3.0,
+      "maxScale": 5.0
+    },
+    {
+      "id": "pattern.candystripe_01",
+      "name": "Candy stripes",
+      "weight": 0.7,
+      "tags": [
+        "cute",
+        "casual",
+        "bookish"
+      ],
+      "minScale": 6.0,
+      "maxScale": 9.0
+    },
+    {
+      "id": "pattern.gingham_01",
+      "name": "Gingham",
+      "weight": 1.2,
+      "tags": [
+        "cute",
+        "casual",
+        "date"
+      ],
       "minScale": 6.0,
       "maxScale": 10.0
+    },
+    {
+      "id": "pattern.buffalo_01",
+      "name": "Buffalo check",
+      "weight": 0.8,
+      "tags": [
+        "street",
+        "casual",
+        "gothic"
+      ],
+      "minScale": 3.0,
+      "maxScale": 5.0
+    },
+    {
+      "id": "pattern.windowpane_01",
+      "name": "Windowpane",
+      "weight": 0.6,
+      "tags": [
+        "elegant",
+        "bookish"
+      ],
+      "minScale": 4.0,
+      "maxScale": 7.0
+    },
+    {
+      "id": "pattern.houndstooth_01",
+      "name": "Houndstooth",
+      "weight": 1.0,
+      "tags": [
+        "elegant",
+        "bookish",
+        "gothic"
+      ],
+      "minScale": 8.0,
+      "maxScale": 14.0
+    },
+    {
+      "id": "pattern.harlequin_01",
+      "name": "Harlequin",
+      "weight": 0.5,
+      "tags": [
+        "gothic",
+        "cute",
+        "street"
+      ],
+      "minScale": 4.0,
+      "maxScale": 7.0
+    },
+    {
+      "id": "pattern.triangles_01",
+      "name": "Triangles",
+      "weight": 0.5,
+      "tags": [
+        "street",
+        "sporty",
+        "casual"
+      ],
+      "minScale": 3.0,
+      "maxScale": 5.0
+    },
+    {
+      "id": "pattern.hexagons_01",
+      "name": "Honeycomb",
+      "weight": 0.4,
+      "tags": [
+        "street",
+        "sporty"
+      ],
+      "minScale": 3.0,
+      "maxScale": 5.0
+    },
+    {
+      "id": "pattern.waves_01",
+      "name": "Waves",
+      "weight": 0.6,
+      "tags": [
+        "casual",
+        "sporty",
+        "cute"
+      ],
+      "minScale": 3.0,
+      "maxScale": 5.0
+    },
+    {
+      "id": "pattern.scales_01",
+      "name": "Mermaid scales",
+      "weight": 0.5,
+      "tags": [
+        "cute",
+        "elegant",
+        "street"
+      ],
+      "minScale": 4.0,
+      "maxScale": 8.0
+    },
+    {
+      "id": "pattern.lattice_01",
+      "name": "Lattice",
+      "weight": 0.5,
+      "tags": [
+        "elegant",
+        "bookish"
+      ],
+      "minScale": 4.0,
+      "maxScale": 7.0
+    },
+    {
+      "id": "pattern.circles_01",
+      "name": "Circles",
+      "weight": 0.4,
+      "tags": [
+        "street",
+        "casual"
+      ],
+      "minScale": 2.0,
+      "maxScale": 4.0
+    },
+    {
+      "id": "pattern.bigdots_01",
+      "name": "Big dots",
+      "weight": 0.6,
+      "tags": [
+        "cute",
+        "casual",
+        "street"
+      ],
+      "minScale": 3.0,
+      "maxScale": 5.0
+    },
+    {
+      "id": "pattern.confetti_01",
+      "name": "Confetti",
+      "weight": 0.6,
+      "tags": [
+        "cute",
+        "casual",
+        "street"
+      ],
+      "minScale": 3.0,
+      "maxScale": 5.0
+    },
+    {
+      "id": "pattern.bigfloral_01",
+      "name": "Big florals",
+      "weight": 1.0,
+      "tags": [
+        "elegant",
+        "date",
+        "cute"
+      ],
+      "minScale": 2.0,
+      "maxScale": 4.0
+    },
+    {
+      "id": "pattern.daisies_01",
+      "name": "Daisies",
+      "weight": 0.9,
+      "tags": [
+        "cute",
+        "casual"
+      ],
+      "minScale": 3.0,
+      "maxScale": 6.0
+    },
+    {
+      "id": "pattern.sakura_01",
+      "name": "Cherry blossom",
+      "weight": 0.8,
+      "tags": [
+        "cute",
+        "elegant",
+        "date"
+      ],
+      "minScale": 3.0,
+      "maxScale": 6.0
+    },
+    {
+      "id": "pattern.hibiscus_01",
+      "name": "Hibiscus",
+      "weight": 0.8,
+      "tags": [
+        "casual",
+        "street",
+        "sporty"
+      ],
+      "minScale": 2.0,
+      "maxScale": 4.0
+    },
+    {
+      "id": "pattern.tropical_01",
+      "name": "Tropical leaves",
+      "weight": 0.8,
+      "tags": [
+        "casual",
+        "street",
+        "sporty"
+      ],
+      "minScale": 2.0,
+      "maxScale": 4.0
+    },
+    {
+      "id": "pattern.leaves_01",
+      "name": "Leaves",
+      "weight": 0.7,
+      "tags": [
+        "casual",
+        "bookish",
+        "cute"
+      ],
+      "minScale": 3.0,
+      "maxScale": 6.0
+    },
+    {
+      "id": "pattern.vine_01",
+      "name": "Trailing vine",
+      "weight": 0.6,
+      "tags": [
+        "elegant",
+        "bookish",
+        "cute"
+      ],
+      "minScale": 3.0,
+      "maxScale": 5.0
+    },
+    {
+      "id": "pattern.paisley_01",
+      "name": "Paisley",
+      "weight": 0.8,
+      "tags": [
+        "elegant",
+        "bookish",
+        "gothic",
+        "street"
+      ],
+      "minScale": 3.0,
+      "maxScale": 5.0
+    },
+    {
+      "id": "pattern.moons_01",
+      "name": "Moons and stars",
+      "weight": 0.6,
+      "tags": [
+        "cute",
+        "gothic"
+      ],
+      "minScale": 2.0,
+      "maxScale": 4.0
+    },
+    {
+      "id": "pattern.clouds_01",
+      "name": "Clouds",
+      "weight": 0.6,
+      "tags": [
+        "cute",
+        "casual"
+      ],
+      "minScale": 2.0,
+      "maxScale": 4.0
+    },
+    {
+      "id": "pattern.cherries_01",
+      "name": "Cherries",
+      "weight": 0.7,
+      "tags": [
+        "cute",
+        "date",
+        "casual"
+      ],
+      "minScale": 3.0,
+      "maxScale": 6.0
+    },
+    {
+      "id": "pattern.bows_01",
+      "name": "Bows",
+      "weight": 0.6,
+      "tags": [
+        "cute",
+        "elegant"
+      ],
+      "minScale": 3.0,
+      "maxScale": 6.0
+    },
+    {
+      "id": "pattern.butterflies_01",
+      "name": "Butterflies",
+      "weight": 0.6,
+      "tags": [
+        "cute",
+        "casual",
+        "date"
+      ],
+      "minScale": 3.0,
+      "maxScale": 5.0
+    },
+    {
+      "id": "pattern.paws_01",
+      "name": "Paw prints",
+      "weight": 0.5,
+      "tags": [
+        "cute",
+        "casual"
+      ],
+      "minScale": 3.0,
+      "maxScale": 6.0
+    },
+    {
+      "id": "pattern.strawberries_01",
+      "name": "Strawberries",
+      "weight": 0.6,
+      "tags": [
+        "cute",
+        "casual"
+      ],
+      "minScale": 3.0,
+      "maxScale": 6.0
+    },
+    {
+      "id": "pattern.raindrops_01",
+      "name": "Raindrops",
+      "weight": 0.4,
+      "tags": [
+        "cute",
+        "casual"
+      ],
+      "minScale": 4.0,
+      "maxScale": 7.0
+    },
+    {
+      "id": "pattern.snowflakes_01",
+      "name": "Snowflakes",
+      "weight": 0.4,
+      "tags": [
+        "cute",
+        "casual",
+        "bookish"
+      ],
+      "minScale": 3.0,
+      "maxScale": 6.0
+    },
+    {
+      "id": "pattern.skulls_01",
+      "name": "Skulls",
+      "weight": 0.7,
+      "tags": [
+        "gothic",
+        "street"
+      ],
+      "minScale": 3.0,
+      "maxScale": 6.0
+    },
+    {
+      "id": "pattern.crosses_01",
+      "name": "Crosses",
+      "weight": 0.5,
+      "tags": [
+        "gothic"
+      ],
+      "minScale": 4.0,
+      "maxScale": 7.0
+    },
+    {
+      "id": "pattern.bats_01",
+      "name": "Bats",
+      "weight": 0.5,
+      "tags": [
+        "gothic",
+        "cute"
+      ],
+      "minScale": 2.0,
+      "maxScale": 4.0
+    },
+    {
+      "id": "pattern.spiderweb_01",
+      "name": "Spiderweb",
+      "weight": 0.4,
+      "tags": [
+        "gothic"
+      ],
+      "minScale": 2.0,
+      "maxScale": 4.0
+    },
+    {
+      "id": "pattern.lightning_01",
+      "name": "Lightning bolts",
+      "weight": 0.5,
+      "tags": [
+        "street",
+        "sporty"
+      ],
+      "minScale": 3.0,
+      "maxScale": 6.0
+    },
+    {
+      "id": "pattern.flames_01",
+      "name": "Flames",
+      "weight": 0.4,
+      "tags": [
+        "street",
+        "gothic"
+      ],
+      "minScale": 2.0,
+      "maxScale": 3.0
+    },
+    {
+      "id": "pattern.camo_01",
+      "name": "Camouflage",
+      "weight": 0.8,
+      "tags": [
+        "street",
+        "sporty"
+      ],
+      "minScale": 1.5,
+      "maxScale": 3.0
+    },
+    {
+      "id": "pattern.skatecheck_01",
+      "name": "Checkerboard",
+      "weight": 0.6,
+      "tags": [
+        "street",
+        "sporty"
+      ],
+      "minScale": 3.0,
+      "maxScale": 5.0
+    },
+    {
+      "id": "pattern.leopard_01",
+      "name": "Leopard",
+      "weight": 0.9,
+      "tags": [
+        "street",
+        "gothic",
+        "date"
+      ],
+      "minScale": 3.0,
+      "maxScale": 5.0
+    },
+    {
+      "id": "pattern.zebra_01",
+      "name": "Zebra",
+      "weight": 0.6,
+      "tags": [
+        "street",
+        "gothic"
+      ],
+      "minScale": 2.0,
+      "maxScale": 4.0
+    },
+    {
+      "id": "pattern.tiger_01",
+      "name": "Tiger",
+      "weight": 0.4,
+      "tags": [
+        "street"
+      ],
+      "minScale": 2.0,
+      "maxScale": 4.0
+    },
+    {
+      "id": "pattern.cow_01",
+      "name": "Cow print",
+      "weight": 0.4,
+      "tags": [
+        "cute",
+        "street"
+      ],
+      "minScale": 2.0,
+      "maxScale": 3.0
+    },
+    {
+      "id": "pattern.snakeskin_01",
+      "name": "Snakeskin",
+      "weight": 0.6,
+      "tags": [
+        "street",
+        "gothic",
+        "elegant"
+      ],
+      "minScale": 5.0,
+      "maxScale": 9.0
+    },
+    {
+      "id": "pattern.tiedye_01",
+      "name": "Tie-dye",
+      "weight": 0.6,
+      "tags": [
+        "casual",
+        "street",
+        "sporty"
+      ],
+      "minScale": 1.5,
+      "maxScale": 3.0
+    },
+    {
+      "id": "pattern.marble_01",
+      "name": "Marble",
+      "weight": 0.4,
+      "tags": [
+        "elegant",
+        "street"
+      ],
+      "minScale": 2.0,
+      "maxScale": 4.0
+    },
+    {
+      "id": "pattern.brushstrokes_01",
+      "name": "Brushstrokes",
+      "weight": 0.5,
+      "tags": [
+        "street",
+        "casual"
+      ],
+      "minScale": 2.0,
+      "maxScale": 4.0
+    },
+    {
+      "id": "pattern.terrazzo_01",
+      "name": "Terrazzo",
+      "weight": 0.5,
+      "tags": [
+        "casual",
+        "street",
+        "cute"
+      ],
+      "minScale": 2.0,
+      "maxScale": 4.0
+    },
+    {
+      "id": "pattern.squiggles_01",
+      "name": "Squiggles",
+      "weight": 0.5,
+      "tags": [
+        "street",
+        "cute",
+        "casual"
+      ],
+      "minScale": 2.0,
+      "maxScale": 4.0
+    }
+  ],
+  "fabrics": [
+    {
+      "id": "plain",
+      "name": "Smooth cotton",
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "cute"
+      ],
+      "printable": true
+    },
+    {
+      "id": "poplin",
+      "name": "Poplin shirting",
+      "weight": 1.0,
+      "tags": [
+        "elegant",
+        "bookish",
+        "casual"
+      ],
+      "printable": true
+    },
+    {
+      "id": "oxford",
+      "name": "Oxford cloth",
+      "weight": 1.0,
+      "tags": [
+        "bookish",
+        "elegant"
+      ],
+      "printable": true
+    },
+    {
+      "id": "chambray",
+      "name": "Chambray",
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "bookish"
+      ],
+      "printable": true
+    },
+    {
+      "id": "canvas",
+      "name": "Canvas",
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "street"
+      ],
+      "printable": true
+    },
+    {
+      "id": "linen",
+      "name": "Linen",
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "elegant",
+        "bookish"
+      ],
+      "printable": true
+    },
+    {
+      "id": "gauze",
+      "name": "Cotton gauze and cheesecloth",
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "cute"
+      ],
+      "printable": true
+    },
+    {
+      "id": "seersucker",
+      "name": "Seersucker",
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "cute",
+        "bookish"
+      ],
+      "printable": false
+    },
+    {
+      "id": "eyelet",
+      "name": "Broderie anglaise",
+      "weight": 1.0,
+      "tags": [
+        "cute",
+        "date"
+      ],
+      "printable": false
+    },
+    {
+      "id": "denim",
+      "name": "Denim",
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "street"
+      ],
+      "printable": false
+    },
+    {
+      "id": "twill",
+      "name": "Chino and gabardine twill",
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "bookish"
+      ],
+      "printable": true
+    },
+    {
+      "id": "flannel",
+      "name": "Flannel",
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "street",
+        "bookish"
+      ],
+      "printable": true
+    },
+    {
+      "id": "herringbone",
+      "name": "Herringbone wool",
+      "weight": 1.0,
+      "tags": [
+        "bookish",
+        "elegant"
+      ],
+      "printable": false
+    },
+    {
+      "id": "tweed",
+      "name": "Tweed",
+      "weight": 1.0,
+      "tags": [
+        "bookish",
+        "elegant"
+      ],
+      "printable": false
+    },
+    {
+      "id": "ripstop",
+      "name": "Ripstop nylon",
+      "weight": 1.0,
+      "tags": [
+        "sporty",
+        "street"
+      ],
+      "printable": true
+    },
+    {
+      "id": "jersey",
+      "name": "Cotton jersey",
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "sporty"
+      ],
+      "printable": true
+    },
+    {
+      "id": "knit",
+      "name": "Stockinette knit",
+      "weight": 1.0,
+      "tags": [
+        "cute",
+        "bookish",
+        "casual"
+      ],
+      "printable": false
+    },
+    {
+      "id": "chunky_knit",
+      "name": "A chunky hand knit",
+      "weight": 1.0,
+      "tags": [
+        "cute",
+        "casual"
+      ],
+      "printable": false
+    },
+    {
+      "id": "rib_knit",
+      "name": "Rib knit",
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "street",
+        "elegant"
+      ],
+      "printable": false
+    },
+    {
+      "id": "wide_rib",
+      "name": "A wide rib",
+      "weight": 1.0,
+      "tags": [
+        "cute",
+        "elegant",
+        "casual"
+      ],
+      "printable": false
+    },
+    {
+      "id": "cable_knit",
+      "name": "Cable knit",
+      "weight": 1.0,
+      "tags": [
+        "bookish",
+        "cute"
+      ],
+      "printable": false
+    },
+    {
+      "id": "waffle",
+      "name": "Waffle knit",
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "sporty"
+      ],
+      "printable": false
+    },
+    {
+      "id": "pique",
+      "name": "Piqué",
+      "weight": 1.0,
+      "tags": [
+        "sporty",
+        "bookish",
+        "casual"
+      ],
+      "printable": true
+    },
+    {
+      "id": "crochet",
+      "name": "Crochet",
+      "weight": 1.0,
+      "tags": [
+        "cute",
+        "casual"
+      ],
+      "printable": false
+    },
+    {
+      "id": "fleece",
+      "name": "Fleece and sweatshirt fleece",
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "sporty",
+        "street"
+      ],
+      "printable": true
+    },
+    {
+      "id": "boucle",
+      "name": "Bouclé",
+      "weight": 1.0,
+      "tags": [
+        "elegant",
+        "cute"
+      ],
+      "printable": false
+    },
+    {
+      "id": "terry",
+      "name": "Terry towelling",
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "sporty"
+      ],
+      "printable": false
+    },
+    {
+      "id": "faux_fur",
+      "name": "Faux fur and shearling",
+      "weight": 1.0,
+      "tags": [
+        "street",
+        "elegant",
+        "gothic"
+      ],
+      "printable": false
+    },
+    {
+      "id": "satin",
+      "name": "Satin and silk",
+      "weight": 1.0,
+      "tags": [
+        "elegant",
+        "date"
+      ],
+      "printable": true
+    },
+    {
+      "id": "crepe",
+      "name": "Crêpe",
+      "weight": 1.0,
+      "tags": [
+        "elegant",
+        "date"
+      ],
+      "printable": true
+    },
+    {
+      "id": "chiffon",
+      "name": "Chiffon and voile",
+      "weight": 1.0,
+      "tags": [
+        "elegant",
+        "cute",
+        "date"
+      ],
+      "printable": true
+    },
+    {
+      "id": "tulle",
+      "name": "Tulle and net",
+      "weight": 1.0,
+      "tags": [
+        "cute",
+        "elegant"
+      ],
+      "printable": false
+    },
+    {
+      "id": "lycra",
+      "name": "Lycra and spandex",
+      "weight": 1.0,
+      "tags": [
+        "sporty"
+      ],
+      "printable": true
+    },
+    {
+      "id": "velvet",
+      "name": "Velvet and velour",
+      "weight": 1.0,
+      "tags": [
+        "gothic",
+        "elegant",
+        "date"
+      ],
+      "printable": false
+    },
+    {
+      "id": "metallic",
+      "name": "Lurex and lamé",
+      "weight": 1.0,
+      "tags": [
+        "date",
+        "street"
+      ],
+      "printable": false
+    },
+    {
+      "id": "sequins",
+      "name": "Sequins",
+      "weight": 1.0,
+      "tags": [
+        "date",
+        "elegant"
+      ],
+      "printable": false
+    },
+    {
+      "id": "lace",
+      "name": "Lace",
+      "weight": 1.0,
+      "tags": [
+        "elegant",
+        "gothic",
+        "date",
+        "cute"
+      ],
+      "printable": false
+    },
+    {
+      "id": "jacquard",
+      "name": "Jacquard and brocade",
+      "weight": 1.0,
+      "tags": [
+        "elegant",
+        "gothic"
+      ],
+      "printable": false
+    },
+    {
+      "id": "leather",
+      "name": "Leather",
+      "weight": 1.0,
+      "tags": [
+        "street",
+        "gothic"
+      ],
+      "printable": false
+    },
+    {
+      "id": "patent",
+      "name": "Patent leather",
+      "weight": 1.0,
+      "tags": [
+        "gothic",
+        "elegant",
+        "date"
+      ],
+      "printable": false
+    },
+    {
+      "id": "croc",
+      "name": "Embossed croc",
+      "weight": 1.0,
+      "tags": [
+        "elegant",
+        "street"
+      ],
+      "printable": false
+    },
+    {
+      "id": "suede",
+      "name": "Suede",
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "bookish",
+        "street"
+      ],
+      "printable": false
+    },
+    {
+      "id": "corduroy",
+      "name": "Corduroy",
+      "weight": 1.0,
+      "tags": [
+        "bookish",
+        "casual"
+      ],
+      "printable": false
+    },
+    {
+      "id": "rubber",
+      "name": "Rubber",
+      "weight": 1.0,
+      "tags": [
+        "casual"
+      ],
+      "printable": false
+    },
+    {
+      "id": "mesh",
+      "name": "Athletic mesh",
+      "weight": 1.0,
+      "tags": [
+        "sporty",
+        "street"
+      ],
+      "printable": false
+    },
+    {
+      "id": "quilted",
+      "name": "Quilted puffer fabric",
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "street",
+        "sporty"
+      ],
+      "printable": false
+    },
+    {
+      "id": "diamond_quilt",
+      "name": "Diamond quilting",
+      "weight": 1.0,
+      "tags": [
+        "elegant",
+        "casual"
+      ],
+      "printable": false
     }
   ],
   "palettes": [

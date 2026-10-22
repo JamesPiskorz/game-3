@@ -248,8 +248,11 @@ namespace Game.Characters.Building
             {
                 PartEntry entry = _catalog.Part(item.ItemId);
                 if (entry == null) continue;
+                // The fabric it's made in: another fabric's surface, or (back to) the part's own.
+                Material fabric = _content.Fabric(item.FabricId) ?? OwnMaterial(item.ItemId);
                 foreach (Material material in character.PartMaterials(entry.Slot))
                 {
+                    ToonMaterial.SetFabric(material, fabric);
                     for (int region = 0; region < item.RegionColors.Count && region < 4; region++)
                         ToonMaterial.SetRegionColour(material, region, ToColour(item.RegionColors[region]));
                     // Unused regions take region 1's colour, so stand-in masks never show template colours.
@@ -263,6 +266,15 @@ namespace Game.Characters.Building
                         ToonMaterial.ClearPattern(material);
                 }
             }
+        }
+
+        /// <summary>The material a part was imported with (its own fabric), from its prefab.</summary>
+        Material OwnMaterial(string partId)
+        {
+            CharacterPart prefab = _content.Part(partId);
+            if (prefab == null) return null;
+            Renderer renderer = prefab.GetComponentInChildren<Renderer>(true);
+            return renderer != null ? renderer.sharedMaterial : null;
         }
 
         // Brows, lash lines and pupils: the hair's colour, deep enough to read as the dark lines anime faces are drawn with.

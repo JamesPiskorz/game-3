@@ -25,5 +25,15 @@
   "weight": 0.4,
   "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261021_230109_for_texture_textured.glb",
   "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
-  "licence": "Tencent Hunyuan 3D 2.1 Community License"
+  "licence": "Tencent Hunyuan 3D 2.1 Community License",
+  "fabric": "satin",
+  "fabrics": [
+    "crepe",
+    "velvet",
+    "chiffon",
+    "jacquard",
+    "lace",
+    "metallic"
+  ],
+  "patternable": true
 }

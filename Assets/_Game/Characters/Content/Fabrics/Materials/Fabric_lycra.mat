@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Fabric_lycra
+  m_Shader: {fileID: 4800000, guid: 3bce4474abeb70f43b9ff4e028651d81, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _MASK_VERTEX_COLOUR
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: 453f28daa93b458459bf97780aa13f2c, type: 3}
+        m_Scale: {x: 4, y: 4}
+        m_Offset: {x: 0, y: 0}
+    - _MaskMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _PatternMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints:
+    - _HiddenRegions: 0
+    m_Floats:
+    - _AmbientStrength: 1
+    - _BaseGain: 1.0213461
+    - _Cull: 0
+    - _LitAmbient: 0.35
+    - _MaskFromVertexColour: 1
+    - _OutlineWidth: 2
+    - _PatternInk: 0.7
+    - _PatternScale: 8
+    - _RimWidth: 0.25
+    - _ShadeSoftness: 0.03
+    - _ShadeThreshold: 0.5
+    m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseShade: {r: 0.7, g: 0.66, b: 0.74, a: 1}
+    - _Color1: {r: 0.55, g: 0.6, b: 0.75, a: 1}
+    - _Color2: {r: 0.25, g: 0.22, b: 0.2, a: 1}
+    - _Color3: {r: 1, g: 1, b: 1, a: 1}
+    - _Color4: {r: 1, g: 1, b: 1, a: 1}
+    - _OutlineColor: {r: 0.34999996, g: 0.29999998, b: 0.31999996, a: 1}
+    - _PatternColor: {r: 1, g: 1, b: 1, a: 0}
+    - _PatternRegions: {r: 1, g: 0, b: 0, a: 0}
+    - _RimColor: {r: 0.24999997, g: 0.21999997, b: 0.19999996, a: 1}
+    - _ShadeTint: {r: 0.7, g: 0.74, b: 0.82, a: 1}
+    - _ShadowAnchor: {r: 0, g: 0, b: 0, a: -1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

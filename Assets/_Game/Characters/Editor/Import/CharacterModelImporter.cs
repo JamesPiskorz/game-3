@@ -13,7 +13,7 @@ namespace Game.Characters.Import
     /// with no hand set-up (PLAN.md §4):
     /// - import settings: generic rig, blendshapes kept with authored normals, no imported materials or tangents;
     /// - smoothed outline normals baked into tangents (decision 0002);
-    /// - toon material templates assigned;
+    /// - toon material templates assigned (a part made of a library fabric gets its fabric's material);
     /// - the sidecar &lt;name&gt;.character.json turned into a ModularCharacter (body) or CharacterPart (slot, covered
     ///   regions, blocked slots, spring chains).
     /// </summary>
@@ -22,9 +22,10 @@ namespace Game.Characters.Import
         public const string Folder = "Assets/_Game/Characters/Content/Imported/";
         const string SkinTemplate = "Assets/_Game/Characters/Content/StandIn/Materials/StandIn_Skin.mat";
         const string ClothTemplate = "Assets/_Game/Characters/Content/StandIn/Materials/StandIn_Cloth.mat";
+        const string FabricFolder = "Assets/_Game/Characters/Content/Fabrics/Materials";
 
         // Bump to reimport every character model when this importer's behaviour changes.
-        public override uint GetVersion() => 2;
+        public override uint GetVersion() => 3;
 
         bool Applies => assetPath.StartsWith(Folder, StringComparison.Ordinal) && assetPath.EndsWith(".fbx", StringComparison.OrdinalIgnoreCase);
 
@@ -38,6 +39,7 @@ namespace Game.Characters.Import
             public string[] springChains = Array.Empty<string>();
             public bool followsBodyShapes = true;
             public bool small;
+            public string fabric;
         }
 
         void OnPreprocessModel()
@@ -72,6 +74,15 @@ namespace Game.Characters.Import
 
             bool body = sidecar.kind == "body";
             var template = AssetDatabase.LoadAssetAtPath<Material>(body ? SkinTemplate : ClothTemplate);
+            // A part made of a fabric in the library wears that fabric's material (the cloth template with its surface).
+            if (!body && !string.IsNullOrEmpty(sidecar.fabric))
+            {
+                string fabricPath = $"{FabricFolder}/Fabric_{sidecar.fabric}.mat";
+                context.DependsOnSourceAsset(fabricPath);
+                var fabric = AssetDatabase.LoadAssetAtPath<Material>(fabricPath);
+                if (fabric != null) template = fabric;
+                else context.LogImportWarning($"No fabric material {fabricPath} (Game > Characters > Content > Write Fabric Materials); plain cloth instead.");
+            }
             SkinnedMeshRenderer[] renderers = root.GetComponentsInChildren<SkinnedMeshRenderer>(true);
             foreach (SkinnedMeshRenderer renderer in renderers)
             {

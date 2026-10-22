@@ -1,0 +1,536 @@
+{
+ "fabrics": [
+  {
+   "id": "plain",
+   "name": "Smooth cotton",
+   "mean": 0.964,
+   "tileMetres": 0.25,
+   "tags": [
+    "casual",
+    "cute"
+   ],
+   "printable": true
+  },
+  {
+   "id": "poplin",
+   "name": "Poplin shirting",
+   "mean": 0.9584,
+   "tileMetres": 0.25,
+   "tags": [
+    "elegant",
+    "bookish",
+    "casual"
+   ],
+   "printable": true
+  },
+  {
+   "id": "oxford",
+   "name": "Oxford cloth",
+   "mean": 0.9098,
+   "tileMetres": 0.25,
+   "tags": [
+    "bookish",
+    "elegant"
+   ],
+   "printable": true
+  },
+  {
+   "id": "chambray",
+   "name": "Chambray",
+   "mean": 0.8781,
+   "tileMetres": 0.25,
+   "tags": [
+    "casual",
+    "bookish"
+   ],
+   "printable": true
+  },
+  {
+   "id": "canvas",
+   "name": "Canvas",
+   "mean": 0.8384,
+   "tileMetres": 0.25,
+   "tags": [
+    "casual",
+    "street"
+   ],
+   "printable": true
+  },
+  {
+   "id": "linen",
+   "name": "Linen",
+   "mean": 0.8269,
+   "tileMetres": 0.25,
+   "tags": [
+    "casual",
+    "elegant",
+    "bookish"
+   ],
+   "printable": true
+  },
+  {
+   "id": "gauze",
+   "name": "Cotton gauze and cheesecloth",
+   "mean": 0.8837,
+   "tileMetres": 0.25,
+   "tags": [
+    "casual",
+    "cute"
+   ],
+   "printable": true
+  },
+  {
+   "id": "seersucker",
+   "name": "Seersucker",
+   "mean": 0.9163,
+   "tileMetres": 0.25,
+   "tags": [
+    "casual",
+    "cute",
+    "bookish"
+   ],
+   "printable": false
+  },
+  {
+   "id": "eyelet",
+   "name": "Broderie anglaise",
+   "mean": 0.8554,
+   "tileMetres": 0.25,
+   "tags": [
+    "cute",
+    "date"
+   ],
+   "printable": false
+  },
+  {
+   "id": "denim",
+   "name": "Denim",
+   "mean": 0.8391,
+   "tileMetres": 0.25,
+   "tags": [
+    "casual",
+    "street"
+   ],
+   "printable": false
+  },
+  {
+   "id": "twill",
+   "name": "Chino and gabardine twill",
+   "mean": 0.926,
+   "tileMetres": 0.25,
+   "tags": [
+    "casual",
+    "bookish"
+   ],
+   "printable": true
+  },
+  {
+   "id": "flannel",
+   "name": "Flannel",
+   "mean": 0.9118,
+   "tileMetres": 0.25,
+   "tags": [
+    "casual",
+    "street",
+    "bookish"
+   ],
+   "printable": true
+  },
+  {
+   "id": "herringbone",
+   "name": "Herringbone wool",
+   "mean": 0.8604,
+   "tileMetres": 0.25,
+   "tags": [
+    "bookish",
+    "elegant"
+   ],
+   "printable": false
+  },
+  {
+   "id": "tweed",
+   "name": "Tweed",
+   "mean": 0.8502,
+   "tileMetres": 0.25,
+   "tags": [
+    "bookish",
+    "elegant"
+   ],
+   "printable": false
+  },
+  {
+   "id": "ripstop",
+   "name": "Ripstop nylon",
+   "mean": 0.9487,
+   "tileMetres": 0.25,
+   "tags": [
+    "sporty",
+    "street"
+   ],
+   "printable": true
+  },
+  {
+   "id": "jersey",
+   "name": "Cotton jersey",
+   "mean": 0.9047,
+   "tileMetres": 0.25,
+   "tags": [
+    "casual",
+    "sporty"
+   ],
+   "printable": true
+  },
+  {
+   "id": "knit",
+   "name": "Stockinette knit",
+   "mean": 0.7557,
+   "tileMetres": 0.25,
+   "tags": [
+    "cute",
+    "bookish",
+    "casual"
+   ],
+   "printable": false
+  },
+  {
+   "id": "chunky_knit",
+   "name": "A chunky hand knit",
+   "mean": 0.7075,
+   "tileMetres": 0.25,
+   "tags": [
+    "cute",
+    "casual"
+   ],
+   "printable": false
+  },
+  {
+   "id": "rib_knit",
+   "name": "Rib knit",
+   "mean": 0.85,
+   "tileMetres": 0.25,
+   "tags": [
+    "casual",
+    "street",
+    "elegant"
+   ],
+   "printable": false
+  },
+  {
+   "id": "wide_rib",
+   "name": "A wide rib",
+   "mean": 0.8254,
+   "tileMetres": 0.25,
+   "tags": [
+    "cute",
+    "elegant",
+    "casual"
+   ],
+   "printable": false
+  },
+  {
+   "id": "cable_knit",
+   "name": "Cable knit",
+   "mean": 0.7616,
+   "tileMetres": 0.25,
+   "tags": [
+    "bookish",
+    "cute"
+   ],
+   "printable": false
+  },
+  {
+   "id": "waffle",
+   "name": "Waffle knit",
+   "mean": 0.8605,
+   "tileMetres": 0.25,
+   "tags": [
+    "casual",
+    "sporty"
+   ],
+   "printable": false
+  },
+  {
+   "id": "pique",
+   "name": "Piqu\u00e9",
+   "mean": 0.9447,
+   "tileMetres": 0.25,
+   "tags": [
+    "sporty",
+    "bookish",
+    "casual"
+   ],
+   "printable": true
+  },
+  {
+   "id": "crochet",
+   "name": "Crochet",
+   "mean": 0.6474,
+   "tileMetres": 0.25,
+   "tags": [
+    "cute",
+    "casual"
+   ],
+   "printable": false
+  },
+  {
+   "id": "fleece",
+   "name": "Fleece and sweatshirt fleece",
+   "mean": 0.9152,
+   "tileMetres": 0.25,
+   "tags": [
+    "casual",
+    "sporty",
+    "street"
+   ],
+   "printable": true
+  },
+  {
+   "id": "boucle",
+   "name": "Boucl\u00e9",
+   "mean": 0.8513,
+   "tileMetres": 0.25,
+   "tags": [
+    "elegant",
+    "cute"
+   ],
+   "printable": false
+  },
+  {
+   "id": "terry",
+   "name": "Terry towelling",
+   "mean": 0.8065,
+   "tileMetres": 0.25,
+   "tags": [
+    "casual",
+    "sporty"
+   ],
+   "printable": false
+  },
+  {
+   "id": "faux_fur",
+   "name": "Faux fur and shearling",
+   "mean": 0.8415,
+   "tileMetres": 0.25,
+   "tags": [
+    "street",
+    "elegant",
+    "gothic"
+   ],
+   "printable": false
+  },
+  {
+   "id": "satin",
+   "name": "Satin and silk",
+   "mean": 0.9587,
+   "tileMetres": 0.25,
+   "tags": [
+    "elegant",
+    "date"
+   ],
+   "printable": true
+  },
+  {
+   "id": "crepe",
+   "name": "Cr\u00eape",
+   "mean": 0.9434,
+   "tileMetres": 0.25,
+   "tags": [
+    "elegant",
+    "date"
+   ],
+   "printable": true
+  },
+  {
+   "id": "chiffon",
+   "name": "Chiffon and voile",
+   "mean": 0.9597,
+   "tileMetres": 0.25,
+   "tags": [
+    "elegant",
+    "cute",
+    "date"
+   ],
+   "printable": true
+  },
+  {
+   "id": "tulle",
+   "name": "Tulle and net",
+   "mean": 0.8781,
+   "tileMetres": 0.25,
+   "tags": [
+    "cute",
+    "elegant"
+   ],
+   "printable": false
+  },
+  {
+   "id": "lycra",
+   "name": "Lycra and spandex",
+   "mean": 0.9791,
+   "tileMetres": 0.25,
+   "tags": [
+    "sporty"
+   ],
+   "printable": true
+  },
+  {
+   "id": "velvet",
+   "name": "Velvet and velour",
+   "mean": 0.8194,
+   "tileMetres": 0.25,
+   "tags": [
+    "gothic",
+    "elegant",
+    "date"
+   ],
+   "printable": false
+  },
+  {
+   "id": "metallic",
+   "name": "Lurex and lam\u00e9",
+   "mean": 0.9166,
+   "tileMetres": 0.25,
+   "tags": [
+    "date",
+    "street"
+   ],
+   "printable": false
+  },
+  {
+   "id": "sequins",
+   "name": "Sequins",
+   "mean": 0.6224,
+   "tileMetres": 0.25,
+   "tags": [
+    "date",
+    "elegant"
+   ],
+   "printable": false
+  },
+  {
+   "id": "lace",
+   "name": "Lace",
+   "mean": 0.5033,
+   "tileMetres": 0.25,
+   "tags": [
+    "elegant",
+    "gothic",
+    "date",
+    "cute"
+   ],
+   "printable": false
+  },
+  {
+   "id": "jacquard",
+   "name": "Jacquard and brocade",
+   "mean": 0.8969,
+   "tileMetres": 0.25,
+   "tags": [
+    "elegant",
+    "gothic"
+   ],
+   "printable": false
+  },
+  {
+   "id": "leather",
+   "name": "Leather",
+   "mean": 0.9175,
+   "tileMetres": 0.25,
+   "tags": [
+    "street",
+    "gothic"
+   ],
+   "printable": false
+  },
+  {
+   "id": "patent",
+   "name": "Patent leather",
+   "mean": 0.9635,
+   "tileMetres": 0.25,
+   "tags": [
+    "gothic",
+    "elegant",
+    "date"
+   ],
+   "printable": false
+  },
+  {
+   "id": "croc",
+   "name": "Embossed croc",
+   "mean": 0.8773,
+   "tileMetres": 0.25,
+   "tags": [
+    "elegant",
+    "street"
+   ],
+   "printable": false
+  },
+  {
+   "id": "suede",
+   "name": "Suede",
+   "mean": 0.8918,
+   "tileMetres": 0.25,
+   "tags": [
+    "casual",
+    "bookish",
+    "street"
+   ],
+   "printable": false
+  },
+  {
+   "id": "corduroy",
+   "name": "Corduroy",
+   "mean": 0.8738,
+   "tileMetres": 0.25,
+   "tags": [
+    "bookish",
+    "casual"
+   ],
+   "printable": false
+  },
+  {
+   "id": "rubber",
+   "name": "Rubber",
+   "mean": 0.969,
+   "tileMetres": 0.25,
+   "tags": [
+    "casual"
+   ],
+   "printable": false
+  },
+  {
+   "id": "mesh",
+   "name": "Athletic mesh",
+   "mean": 0.904,
+   "tileMetres": 0.25,
+   "tags": [
+    "sporty",
+    "street"
+   ],
+   "printable": false
+  },
+  {
+   "id": "quilted",
+   "name": "Quilted puffer fabric",
+   "mean": 0.8815,
+   "tileMetres": 0.25,
+   "tags": [
+    "casual",
+    "street",
+    "sporty"
+   ],
+   "printable": false
+  },
+  {
+   "id": "diamond_quilt",
+   "name": "Diamond quilting",
+   "mean": 0.8227,
+   "tileMetres": 0.25,
+   "tags": [
+    "elegant",
+    "casual"
+   ],
+   "printable": false
+  }
+ ]
+}

@@ -379,6 +379,21 @@ namespace Game.Characters.Creator
             });
         }
 
+        /// <summary>Makes the item in <paramref name="slot"/> in another of its fabrics (null: its own); a print it can't take goes.</summary>
+        public void SetItemFabric(string slot, string fabricId) => Commit(dna =>
+        {
+            ItemDna item = dna.Outfits.First(o => o.Context == Context).Items.FirstOrDefault(i => _catalog.Part(i.ItemId)?.Slot == slot);
+            PartEntry part = item == null ? null : _catalog.Part(item.ItemId);
+            if (part == null || (fabricId != null && !part.Fabrics.Contains(fabricId))) return dna;
+            item.FabricId = part.Fabrics.Count > 0 && fabricId == part.Fabrics[0] ? null : fabricId;
+            if (!(_catalog.FabricOf(part, item.FabricId)?.Printable ?? true))
+            {
+                item.PatternId = null;
+                item.PatternColor = null;
+            }
+            return dna;
+        });
+
         public void SetItemPattern(string slot, string patternId, HsvColor colour, float scale) => Commit(dna =>
         {
             ItemDna item = dna.Outfits.First(o => o.Context == Context).Items.FirstOrDefault(i => _catalog.Part(i.ItemId)?.Slot == slot);

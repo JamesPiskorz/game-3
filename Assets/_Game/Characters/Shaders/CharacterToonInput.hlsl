@@ -6,6 +6,7 @@
 // Shared by every pass so the material stays SRP Batcher compatible.
 CBUFFER_START(UnityPerMaterial)
     float4 _BaseMap_ST;
+    half _BaseGain;
     half4 _BaseColor;
     half4 _BaseShade;
     half4 _Color1;
@@ -22,6 +23,7 @@ CBUFFER_START(UnityPerMaterial)
     half4 _PatternColor;
     half4 _PatternRegions;
     half _PatternScale;
+    half _PatternInk;
     half4 _OutlineColor;
     half _OutlineWidth;
     int _HiddenRegions;
@@ -73,20 +75,25 @@ half4 ToonMask(float2 uv, float2 uv1, half4 vertexColour)
 }
 
 // Lit and shaded albedo at a surface point: grayscale-authored texture × region colours, then the pattern.
-// The unmasked base region shades to _BaseShade (hand-picked, e.g. from the skin palette);
-// recoloured regions shade to their colour × _ShadeTint.
+// The base map is a fabric's surface (its weave, stitches or grain) as shading, brightened by _BaseGain so the cloth
+// keeps its colour on average. The unmasked base region shades to _BaseShade (hand-picked, e.g. from the skin palette);
+// recoloured regions shade to their colour × _ShadeTint. A pattern's red channel is how much of the pattern colour
+// shows; its green channel is ink (outlines and shading drawn in the print), darkening by up to _PatternInk.
 void ToonAlbedo(float2 uv, float2 uv1, half4 vertexColour, out half3 lit, out half3 shade)
 {
-    half3 texel = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, TRANSFORM_TEX(uv, _BaseMap)).rgb;
+    half gain = _BaseGain > 0.0 ? _BaseGain : 1.0; // shaders and materials without the property keep the texture as is
+    half3 texel = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, TRANSFORM_TEX(uv, _BaseMap)).rgb * gain;
     half4 mask = saturate(ToonMask(uv, uv1, vertexColour));
     half baseWeight = saturate(1.0 - mask.r - mask.g - mask.b - mask.a);
     half3 regions = _Color1.rgb * mask.r + _Color2.rgb * mask.g + _Color3.rgb * mask.b + _Color4.rgb * mask.a;
 
-    half pattern = SAMPLE_TEXTURE2D(_PatternMap, sampler_PatternMap, uv * _PatternScale).r
-        * _PatternColor.a * dot(mask, _PatternRegions);
+    half2 print = SAMPLE_TEXTURE2D(_PatternMap, sampler_PatternMap, uv * _PatternScale).rg;
+    half strength = _PatternColor.a * dot(mask, _PatternRegions);
+    half pattern = print.r * strength;
+    half ink = 1.0 - print.g * strength * _PatternInk;
 
-    lit = texel * lerp(_BaseColor.rgb * baseWeight + regions, _PatternColor.rgb, pattern);
-    shade = texel * lerp(_BaseShade.rgb * baseWeight + regions * _ShadeTint.rgb, _PatternColor.rgb * _ShadeTint.rgb, pattern);
+    lit = texel * ink * lerp(_BaseColor.rgb * baseWeight + regions, _PatternColor.rgb, pattern);
+    shade = texel * ink * lerp(_BaseShade.rgb * baseWeight + regions * _ShadeTint.rgb, _PatternColor.rgb * _ShadeTint.rgb, pattern);
 }
 
 #endif

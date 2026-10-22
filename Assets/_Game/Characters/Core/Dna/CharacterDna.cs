@@ -104,6 +104,9 @@ namespace Game.Characters.Dna
         /// <summary>Colours for the item's recolourable mask regions (up to 4).</summary>
         public List<HsvColor> RegionColors = new List<HsvColor>();
 
+        /// <summary>The fabric it's made in (a catalog fabric the part allows); null for the one it was modelled in.</summary>
+        public string FabricId;
+
         /// <summary>Pattern for the item's pattern regions; null for plain.</summary>
         public string PatternId;
         public float PatternScale = 1f;

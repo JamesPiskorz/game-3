@@ -177,13 +177,14 @@ namespace Game.Sim.Sandbox
         }
 
         static bool Same(ItemDna a, ItemDna b) =>
-            a.ItemId == b.ItemId && a.PatternId == b.PatternId && a.RegionColors.Count == b.RegionColors.Count
+            a.ItemId == b.ItemId && a.FabricId == b.FabricId && a.PatternId == b.PatternId && a.RegionColors.Count == b.RegionColors.Count
             && a.RegionColors.Zip(b.RegionColors, (x, y) => HsvColor.Distance(x, y) < 1e-3f).All(same => same);
 
         static ItemDna Copy(ItemDna item) => new ItemDna
         {
             ItemId = item.ItemId,
             RegionColors = item.RegionColors.ToList(),
+            FabricId = item.FabricId,
             PatternId = item.PatternId,
             PatternScale = item.PatternScale,
             PatternColor = item.PatternColor,

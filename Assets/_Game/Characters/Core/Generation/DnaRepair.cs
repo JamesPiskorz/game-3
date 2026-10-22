@@ -152,7 +152,9 @@ namespace Game.Characters.Generation
             while (item.RegionColors.Count < part.Regions) item.RegionColors.Add(item.RegionColors.Count > 0 ? item.RegionColors[0] : new HsvColor(0f, 0f, 0.5f));
             if (item.RegionColors.Count > part.Regions) item.RegionColors.RemoveRange(part.Regions, item.RegionColors.Count - part.Regions);
             for (int i = 0; i < item.RegionColors.Count; i++) item.RegionColors[i] = Clamp(item.RegionColors[i]);
-            if (item.PatternId != null && (!part.Patternable || catalog.Patterns.All(p => p.Id != item.PatternId)))
+            if (item.FabricId != null && !part.Fabrics.Contains(item.FabricId)) item.FabricId = null;
+            bool printable = catalog.FabricOf(part, item.FabricId)?.Printable ?? true;
+            if (item.PatternId != null && (!part.Patternable || !printable || catalog.Patterns.All(p => p.Id != item.PatternId)))
             {
                 item.PatternId = null;
                 item.PatternColor = null;

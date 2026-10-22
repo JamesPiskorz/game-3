@@ -93,6 +93,48 @@ namespace Game.Characters.Tests.Generation
         }
 
         [Test]
+        public void EveryGarmentIsMadeOfAFabricFromTheLibrary()
+        {
+            ContentCatalog catalog = Catalogs.Generated();
+            Assert.That(catalog.Fabrics.Count, Is.GreaterThanOrEqualTo(40), "A broad fabric library.");
+            Assert.That(catalog.Patterns.Count, Is.GreaterThanOrEqualTo(60), "A broad print library.");
+            foreach (PartEntry part in catalog.Parts.Where(p => p.Id.StartsWith("cloth.")))
+            {
+                Assert.That(part.Fabrics, Is.Not.Empty, $"{part.Id} has no fabric.");
+                Assert.That(part.Fabrics.Select(catalog.Fabric), Has.None.Null, part.Id);
+                if (part.Patternable) Assert.That(catalog.Fabric(part.Fabrics[0]).Printable, part.Id + " takes prints on a fabric that doesn't.");
+            }
+        }
+
+        [Test]
+        public void ThePopulationWearsABroadRangeOfFabricsAndPrints()
+        {
+            ContentCatalog catalog = Catalogs.Generated();
+            var generator = new CharacterGenerator(catalog);
+            var fabrics = new HashSet<string>();
+            var prints = new HashSet<string>();
+            int items = 0, varied = 0;
+            for (ulong seed = 1; seed <= 400; seed++)
+                foreach (OutfitDna outfit in generator.Generate(seed * 2654435761UL, GenerationRequest.Any).Outfits)
+                    foreach (ItemDna item in outfit.Items)
+                    {
+                        PartEntry part = catalog.Part(item.ItemId);
+                        if (part.Fabrics.Count == 0) continue;
+                        items++;
+                        if (item.FabricId != null) varied++;
+                        fabrics.Add(catalog.FabricOf(part, item.FabricId).Id);
+                        if (item.PatternId != null)
+                        {
+                            prints.Add(item.PatternId);
+                            Assert.That(catalog.FabricOf(part, item.FabricId).Printable, $"{item.PatternId} on {item.FabricId ?? part.Fabrics[0]}");
+                        }
+                    }
+            Assert.That(fabrics.Count, Is.GreaterThanOrEqualTo(35), "Most of the fabric library turns up.");
+            Assert.That(prints.Count, Is.GreaterThanOrEqualTo(45), "Most of the print library turns up.");
+            Assert.That(varied / (float)items, Is.InRange(0.2f, 0.6f), "Items are often, but not mostly, in another fabric.");
+        }
+
+        [Test]
         public void ALookMadeWithTheStandInsLoads()
         {
             var standIn = new CharacterGenerator(Catalogs.Project());

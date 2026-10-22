@@ -377,7 +377,13 @@ namespace Game.Creator
                     AddSwatches($"{label}: {RegionNames[Math.Min(r, RegionNames.Length - 1)].ToLowerInvariant()}", clothing,
                         () => _session.Item(slot)?.RegionColors[r] ?? default, c => _session.SetItemColour(slot, r, c), compact: true);
                 }
-                if (part.Patternable)
+                if (part.Fabrics.Count > 1)
+                {
+                    var fabrics = part.Fabrics.Select(id => (id, _catalog.Fabric(id)?.Name ?? ContentCatalog.Humanize(id))).ToList();
+                    AddDropdown("fabric-" + slot, $"{label}: fabric", fabrics,
+                        () => _session.Item(slot)?.FabricId ?? part.Fabrics[0], id => _session.SetItemFabric(slot, id));
+                }
+                if (part.Patternable && (_catalog.FabricOf(part, _session.Item(slot)?.FabricId)?.Printable ?? true))
                 {
                     var patterns = new List<(string, string)> { (null, "Plain") };
                     patterns.AddRange(_catalog.Patterns.Select(p => (p.Id, p.Name ?? ContentCatalog.Humanize(p.Id))));
