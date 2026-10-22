@@ -13,7 +13,14 @@
    "maxScale": 10,
    "weight": 1.2,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.3,
+   "colourways": [
+    {
+     "base": "#f4f1ea",
+     "print": "#22305a"
+    }
+   ]
   },
   {
    "id": "pattern.dots_01",
@@ -26,7 +33,22 @@
    "maxScale": 10,
    "weight": 1.2,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.4,
+   "colourways": [
+    {
+     "base": "#1f2a44",
+     "print": "#f4f1ea"
+    },
+    {
+     "base": "#b0232a",
+     "print": "#f4f1ea"
+    },
+    {
+     "base": "#151515",
+     "print": "#f4f1ea"
+    }
+   ]
   },
   {
    "id": "pattern.plaid_01",
@@ -41,7 +63,9 @@
    "maxScale": 6,
    "weight": 1.2,
    "accent": "contrast",
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.check_01",
@@ -55,7 +79,9 @@
    "maxScale": 10,
    "weight": 0.8,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.hearts_01",
@@ -69,7 +95,9 @@
    "maxScale": 7,
    "weight": 0.8,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.stars_01",
@@ -84,7 +112,9 @@
    "maxScale": 7,
    "weight": 0.8,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.pinstripe_01",
@@ -98,7 +128,18 @@
    "maxScale": 16,
    "weight": 1.0,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.5,
+   "colourways": [
+    {
+     "base": "#1f2a44",
+     "print": "#e8e8e8"
+    },
+    {
+     "base": "#3a3a3e",
+     "print": "#e8e8e8"
+    }
+   ]
   },
   {
    "id": "pattern.floral_01",
@@ -113,7 +154,9 @@
    "maxScale": 7,
    "weight": 1.4,
    "accent": "leaf",
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.denim_01",
@@ -126,7 +169,9 @@
    "maxScale": 9,
    "weight": 0.6,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.knit_01",
@@ -141,7 +186,9 @@
    "maxScale": 7,
    "weight": 0.6,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.argyle_01",
@@ -156,7 +203,9 @@
    "maxScale": 7,
    "weight": 0.8,
    "accent": "contrast",
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.chevron_01",
@@ -170,7 +219,9 @@
    "maxScale": 9,
    "weight": 0.7,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.breton_01",
@@ -185,7 +236,18 @@
    "maxScale": 8,
    "weight": 1.0,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.6,
+   "colourways": [
+    {
+     "base": "#f4f1ea",
+     "print": "#22305a"
+    },
+    {
+     "base": "#f4f1ea",
+     "print": "#b0232a"
+    }
+   ]
   },
   {
    "id": "pattern.chalkstripe_01",
@@ -198,7 +260,18 @@
    "maxScale": 10,
    "weight": 0.6,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.5,
+   "colourways": [
+    {
+     "base": "#2f3036",
+     "print": "#e8e6e0"
+    },
+    {
+     "base": "#1f2a44",
+     "print": "#e8e6e0"
+    }
+   ]
   },
   {
    "id": "pattern.awning_01",
@@ -212,7 +285,9 @@
    "maxScale": 5,
    "weight": 0.6,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.candystripe_01",
@@ -226,7 +301,9 @@
    "maxScale": 9,
    "weight": 0.7,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.gingham_01",
@@ -240,7 +317,22 @@
    "maxScale": 10,
    "weight": 1.2,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.5,
+   "colourways": [
+    {
+     "base": "#f6f4ef",
+     "print": "#c22a33"
+    },
+    {
+     "base": "#f6f4ef",
+     "print": "#2e5ea8"
+    },
+    {
+     "base": "#f6f4ef",
+     "print": "#1c1c1c"
+    }
+   ]
   },
   {
    "id": "pattern.buffalo_01",
@@ -254,7 +346,18 @@
    "maxScale": 5,
    "weight": 0.8,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.6,
+   "colourways": [
+    {
+     "base": "#b5232b",
+     "print": "#151515"
+    },
+    {
+     "base": "#1c1c1c",
+     "print": "#d8d8d8"
+    }
+   ]
   },
   {
    "id": "pattern.windowpane_01",
@@ -267,7 +370,9 @@
    "maxScale": 7,
    "weight": 0.6,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.houndstooth_01",
@@ -281,7 +386,14 @@
    "maxScale": 14,
    "weight": 1.0,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.5,
+   "colourways": [
+    {
+     "base": "#efece4",
+     "print": "#1a1a1a"
+    }
+   ]
   },
   {
    "id": "pattern.harlequin_01",
@@ -295,7 +407,9 @@
    "maxScale": 7,
    "weight": 0.5,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.triangles_01",
@@ -309,7 +423,9 @@
    "maxScale": 5,
    "weight": 0.5,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.hexagons_01",
@@ -322,7 +438,9 @@
    "maxScale": 5,
    "weight": 0.4,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.waves_01",
@@ -336,7 +454,9 @@
    "maxScale": 5,
    "weight": 0.6,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.scales_01",
@@ -350,7 +470,9 @@
    "maxScale": 8,
    "weight": 0.5,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.lattice_01",
@@ -363,7 +485,9 @@
    "maxScale": 7,
    "weight": 0.5,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.circles_01",
@@ -376,7 +500,9 @@
    "maxScale": 4,
    "weight": 0.4,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.bigdots_01",
@@ -390,7 +516,9 @@
    "maxScale": 5,
    "weight": 0.6,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.confetti_01",
@@ -404,7 +532,9 @@
    "maxScale": 5,
    "weight": 0.6,
    "accent": "contrast",
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.bigfloral_01",
@@ -418,7 +548,9 @@
    "maxScale": 4,
    "weight": 1.0,
    "accent": "leaf",
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.daisies_01",
@@ -431,7 +563,9 @@
    "maxScale": 6,
    "weight": 0.9,
    "accent": "gold",
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.sakura_01",
@@ -445,7 +579,9 @@
    "maxScale": 6,
    "weight": 0.8,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.hibiscus_01",
@@ -459,7 +595,9 @@
    "maxScale": 4,
    "weight": 0.8,
    "accent": "leaf",
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.tropical_01",
@@ -473,7 +611,9 @@
    "maxScale": 4,
    "weight": 0.8,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.leaves_01",
@@ -487,7 +627,9 @@
    "maxScale": 6,
    "weight": 0.7,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.vine_01",
@@ -501,7 +643,9 @@
    "maxScale": 5,
    "weight": 0.6,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.paisley_01",
@@ -516,7 +660,9 @@
    "maxScale": 5,
    "weight": 0.8,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.moons_01",
@@ -529,7 +675,9 @@
    "maxScale": 4,
    "weight": 0.6,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.clouds_01",
@@ -542,7 +690,9 @@
    "maxScale": 4,
    "weight": 0.6,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.cherries_01",
@@ -556,7 +706,9 @@
    "maxScale": 6,
    "weight": 0.7,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.bows_01",
@@ -569,7 +721,9 @@
    "maxScale": 6,
    "weight": 0.6,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.butterflies_01",
@@ -583,7 +737,9 @@
    "maxScale": 5,
    "weight": 0.6,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.paws_01",
@@ -596,7 +752,9 @@
    "maxScale": 6,
    "weight": 0.5,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.strawberries_01",
@@ -609,7 +767,9 @@
    "maxScale": 6,
    "weight": 0.6,
    "accent": "leaf",
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.raindrops_01",
@@ -622,7 +782,9 @@
    "maxScale": 7,
    "weight": 0.4,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.snowflakes_01",
@@ -637,7 +799,9 @@
    "maxScale": 6,
    "weight": 0.4,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.skulls_01",
@@ -650,7 +814,9 @@
    "maxScale": 6,
    "weight": 0.7,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.crosses_01",
@@ -662,7 +828,9 @@
    "maxScale": 7,
    "weight": 0.5,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.bats_01",
@@ -675,7 +843,9 @@
    "maxScale": 4,
    "weight": 0.5,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.spiderweb_01",
@@ -687,7 +857,9 @@
    "maxScale": 4,
    "weight": 0.4,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.lightning_01",
@@ -700,7 +872,9 @@
    "maxScale": 6,
    "weight": 0.5,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.flames_01",
@@ -713,7 +887,9 @@
    "maxScale": 6,
    "weight": 0.4,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.camo_01",
@@ -726,7 +902,18 @@
    "maxScale": 3,
    "weight": 0.8,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.6,
+   "colourways": [
+    {
+     "base": "#5d6440",
+     "print": "#b3a47a"
+    },
+    {
+     "base": "#6b6f5a",
+     "print": "#3b3a2c"
+    }
+   ]
   },
   {
    "id": "pattern.skatecheck_01",
@@ -739,7 +926,9 @@
    "maxScale": 5,
    "weight": 0.6,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.leopard_01",
@@ -754,7 +943,22 @@
    "maxScale": 5,
    "weight": 0.9,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.6,
+   "colourways": [
+    {
+     "base": "#c79a5b",
+     "print": "#2b1c12"
+    },
+    {
+     "base": "#d8c9b0",
+     "print": "#3a3a3a"
+    },
+    {
+     "base": "#b08850",
+     "print": "#1a1410"
+    }
+   ]
   },
   {
    "id": "pattern.zebra_01",
@@ -768,7 +972,14 @@
    "maxScale": 4,
    "weight": 0.6,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.6,
+   "colourways": [
+    {
+     "base": "#f2efe8",
+     "print": "#161616"
+    }
+   ]
   },
   {
    "id": "pattern.tiger_01",
@@ -781,7 +992,14 @@
    "maxScale": 4,
    "weight": 0.4,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.6,
+   "colourways": [
+    {
+     "base": "#e08a2e",
+     "print": "#1c1410"
+    }
+   ]
   },
   {
    "id": "pattern.cow_01",
@@ -795,7 +1013,18 @@
    "maxScale": 3,
    "weight": 0.4,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.6,
+   "colourways": [
+    {
+     "base": "#f4f1ea",
+     "print": "#1d1d1d"
+    },
+    {
+     "base": "#f2ede3",
+     "print": "#6b3f22"
+    }
+   ]
   },
   {
    "id": "pattern.snakeskin_01",
@@ -810,7 +1039,18 @@
    "maxScale": 9,
    "weight": 0.6,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.5,
+   "colourways": [
+    {
+     "base": "#d7c6a5",
+     "print": "#5a4632"
+    },
+    {
+     "base": "#9a9a96",
+     "print": "#232323"
+    }
+   ]
   },
   {
    "id": "pattern.tiedye_01",
@@ -824,7 +1064,9 @@
    "maxScale": 3,
    "weight": 0.6,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.marble_01",
@@ -837,7 +1079,9 @@
    "maxScale": 4,
    "weight": 0.4,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.brushstrokes_01",
@@ -850,7 +1094,9 @@
    "maxScale": 4,
    "weight": 0.5,
    "accent": "contrast",
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.terrazzo_01",
@@ -864,7 +1110,9 @@
    "maxScale": 4,
    "weight": 0.5,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.squiggles_01",
@@ -878,7 +1126,9 @@
    "maxScale": 4,
    "weight": 0.5,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.ticking_01",
@@ -891,7 +1141,14 @@
    "maxScale": 7,
    "weight": 0.5,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.5,
+   "colourways": [
+    {
+     "base": "#f1ece0",
+     "print": "#2a3f6e"
+    }
+   ]
   },
   {
    "id": "pattern.rugby_01",
@@ -906,7 +1163,18 @@
    "maxScale": 5,
    "weight": 0.6,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.4,
+   "colourways": [
+    {
+     "base": "#1f2c56",
+     "print": "#f2ede0"
+    },
+    {
+     "base": "#13472f",
+     "print": "#f2ede0"
+    }
+   ]
   },
   {
    "id": "pattern.pyjama_01",
@@ -920,7 +1188,9 @@
    "maxScale": 7,
    "weight": 0.6,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.glenplaid_01",
@@ -933,7 +1203,14 @@
    "maxScale": 5,
    "weight": 0.7,
    "accent": "contrast",
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.5,
+   "colourways": [
+    {
+     "base": "#d9d6cf",
+     "print": "#3a3a3d"
+    }
+   ]
   },
   {
    "id": "pattern.madras_01",
@@ -947,7 +1224,9 @@
    "maxScale": 4,
    "weight": 0.6,
    "accent": "contrast",
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.tattersall_01",
@@ -960,7 +1239,9 @@
    "maxScale": 5,
    "weight": 0.5,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.graph_01",
@@ -973,7 +1254,9 @@
    "maxScale": 4,
    "weight": 0.4,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.wavycheck_01",
@@ -987,7 +1270,9 @@
    "maxScale": 4,
    "weight": 0.5,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.pindots_01",
@@ -1001,7 +1286,18 @@
    "maxScale": 5,
    "weight": 0.6,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.4,
+   "colourways": [
+    {
+     "base": "#1f2a44",
+     "print": "#f4f1ea"
+    },
+    {
+     "base": "#151515",
+     "print": "#f4f1ea"
+    }
+   ]
   },
   {
    "id": "pattern.halftone_01",
@@ -1014,7 +1310,9 @@
    "maxScale": 4,
    "weight": 0.4,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.plus_01",
@@ -1028,7 +1326,9 @@
    "maxScale": 6,
    "weight": 0.4,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.seigaiha_01",
@@ -1041,7 +1341,14 @@
    "maxScale": 6,
    "weight": 0.5,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.4,
+   "colourways": [
+    {
+     "base": "#22305a",
+     "print": "#f2efe8"
+    }
+   ]
   },
   {
    "id": "pattern.quatrefoil_01",
@@ -1054,7 +1361,9 @@
    "maxScale": 5,
    "weight": 0.5,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.ikat_01",
@@ -1068,7 +1377,9 @@
    "maxScale": 4,
    "weight": 0.5,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.aztec_01",
@@ -1082,7 +1393,9 @@
    "maxScale": 4,
    "weight": 0.5,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.opart_01",
@@ -1095,7 +1408,9 @@
    "maxScale": 4,
    "weight": 0.3,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.roses_01",
@@ -1110,7 +1425,9 @@
    "maxScale": 4,
    "weight": 0.9,
    "accent": "leaf",
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.sunflowers_01",
@@ -1123,7 +1440,9 @@
    "maxScale": 4,
    "weight": 0.6,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.tulips_01",
@@ -1137,7 +1456,9 @@
    "maxScale": 4,
    "weight": 0.6,
    "accent": "leaf",
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.lemons_01",
@@ -1151,7 +1472,9 @@
    "maxScale": 4,
    "weight": 0.6,
    "accent": "leaf",
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.mushrooms_01",
@@ -1164,7 +1487,9 @@
    "maxScale": 4,
    "weight": 0.5,
    "accent": "light",
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.ferns_01",
@@ -1178,7 +1503,9 @@
    "maxScale": 4,
    "weight": 0.5,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.holly_01",
@@ -1191,7 +1518,9 @@
    "maxScale": 4,
    "weight": 0.3,
    "accent": "leaf",
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.anchors_01",
@@ -1205,7 +1534,18 @@
    "maxScale": 5,
    "weight": 0.5,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.4,
+   "colourways": [
+    {
+     "base": "#f4f1ea",
+     "print": "#22305a"
+    },
+    {
+     "base": "#22305a",
+     "print": "#f4f1ea"
+    }
+   ]
   },
   {
    "id": "pattern.cats_01",
@@ -1218,7 +1558,9 @@
    "maxScale": 5,
    "weight": 0.6,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.notes_01",
@@ -1232,7 +1574,9 @@
    "maxScale": 5,
    "weight": 0.4,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.rainbows_01",
@@ -1245,7 +1589,9 @@
    "maxScale": 4,
    "weight": 0.5,
    "accent": "contrast",
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.lips_01",
@@ -1259,7 +1605,9 @@
    "maxScale": 5,
    "weight": 0.4,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.planets_01",
@@ -1273,7 +1621,9 @@
    "maxScale": 4,
    "weight": 0.5,
    "accent": "contrast",
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.fish_01",
@@ -1287,7 +1637,9 @@
    "maxScale": 5,
    "weight": 0.4,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.seagulls_01",
@@ -1300,7 +1652,9 @@
    "maxScale": 5,
    "weight": 0.4,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.bunnies_01",
@@ -1312,7 +1666,9 @@
    "maxScale": 5,
    "weight": 0.5,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.pumpkins_01",
@@ -1326,7 +1682,9 @@
    "maxScale": 4,
    "weight": 0.3,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.eyes_01",
@@ -1339,7 +1697,9 @@
    "maxScale": 4,
    "weight": 0.4,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.bees_01",
@@ -1352,7 +1712,9 @@
    "maxScale": 5,
    "weight": 0.5,
    "accent": "light",
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.ladybugs_01",
@@ -1364,7 +1726,9 @@
    "maxScale": 5,
    "weight": 0.5,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.shells_01",
@@ -1378,7 +1742,9 @@
    "maxScale": 4,
    "weight": 0.5,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.smileys_01",
@@ -1392,7 +1758,9 @@
    "maxScale": 5,
    "weight": 0.5,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.giraffe_01",
@@ -1406,7 +1774,14 @@
    "maxScale": 4,
    "weight": 0.4,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.6,
+   "colourways": [
+    {
+     "base": "#efe0c0",
+     "print": "#9a6232"
+    }
+   ]
   },
   {
    "id": "pattern.dalmatian_01",
@@ -1421,7 +1796,14 @@
    "maxScale": 4,
    "weight": 0.5,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.6,
+   "colourways": [
+    {
+     "base": "#f6f4ef",
+     "print": "#141414"
+    }
+   ]
   },
   {
    "id": "pattern.cheetah_01",
@@ -1435,7 +1817,14 @@
    "maxScale": 5,
    "weight": 0.5,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.6,
+   "colourways": [
+    {
+     "base": "#d1a666",
+     "print": "#24180f"
+    }
+   ]
   },
   {
    "id": "pattern.splatter_01",
@@ -1448,7 +1837,9 @@
    "maxScale": 4,
    "weight": 0.4,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.shibori_01",
@@ -1461,7 +1852,9 @@
    "maxScale": 4,
    "weight": 0.5,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.batik_01",
@@ -1474,7 +1867,9 @@
    "maxScale": 3,
    "weight": 0.4,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.pixelcamo_01",
@@ -1487,7 +1882,18 @@
    "maxScale": 4,
    "weight": 0.4,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.5,
+   "colourways": [
+    {
+     "base": "#6f7766",
+     "print": "#3f4a3a"
+    },
+    {
+     "base": "#7d8aa0",
+     "print": "#3a4558"
+    }
+   ]
   },
   {
    "id": "pattern.watercolour_01",
@@ -1501,7 +1907,9 @@
    "maxScale": 3,
    "weight": 0.5,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.fairisle_01",
@@ -1516,7 +1924,18 @@
    "maxScale": 3.5,
    "weight": 0.7,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.4,
+   "colourways": [
+    {
+     "base": "#efe7d6",
+     "print": "#8a1f2b"
+    },
+    {
+     "base": "#22305a",
+     "print": "#efe7d6"
+    }
+   ]
   },
   {
    "id": "pattern.nordic_01",
@@ -1531,7 +1950,18 @@
    "maxScale": 3.5,
    "weight": 0.6,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.5,
+   "colourways": [
+    {
+     "base": "#9d1d26",
+     "print": "#f4f1ea"
+    },
+    {
+     "base": "#22305a",
+     "print": "#f4f1ea"
+    }
+   ]
   },
   {
    "id": "pattern.festive_01",
@@ -1545,7 +1975,18 @@
    "maxScale": 3.5,
    "weight": 0.3,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.6,
+   "colourways": [
+    {
+     "base": "#a51f27",
+     "print": "#f4f1ea"
+    },
+    {
+     "base": "#1e5a36",
+     "print": "#f4f1ea"
+    }
+   ]
   },
   {
    "id": "pattern.damask_01",
@@ -1559,7 +2000,9 @@
    "maxScale": 6,
    "weight": 0.6,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.fleurdelis_01",
@@ -1572,7 +2015,9 @@
    "maxScale": 5,
    "weight": 0.4,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.icecream_01",
@@ -1585,7 +2030,9 @@
    "maxScale": 4,
    "weight": 0.4,
    "accent": "gold",
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.doughnuts_01",
@@ -1599,7 +2046,9 @@
    "maxScale": 4,
    "weight": 0.4,
    "accent": "gold",
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.watermelon_01",
@@ -1613,7 +2062,9 @@
    "maxScale": 4,
    "weight": 0.4,
    "accent": "leaf",
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.shippo_01",
@@ -1626,7 +2077,18 @@
    "maxScale": 5,
    "weight": 0.4,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.4,
+   "colourways": [
+    {
+     "base": "#22305a",
+     "print": "#f2efe8"
+    },
+    {
+     "base": "#8a1f2b",
+     "print": "#e9c46a"
+    }
+   ]
   },
   {
    "id": "pattern.starlattice_01",
@@ -1639,7 +2101,9 @@
    "maxScale": 3,
    "weight": 0.4,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.cacti_01",
@@ -1652,7 +2116,9 @@
    "maxScale": 4,
    "weight": 0.4,
    "accent": "leaf",
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.feathers_01",
@@ -1666,7 +2132,9 @@
    "maxScale": 3.5,
    "weight": 0.4,
    "accent": null,
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.medallions_01",
@@ -1680,7 +2148,9 @@
    "maxScale": 4,
    "weight": 0.5,
    "accent": "contrast",
-   "placement": null
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.tee_heart_01",
@@ -1694,7 +2164,9 @@
    "maxScale": 1,
    "weight": 0.4,
    "accent": "light",
-   "placement": "chest"
+   "placement": "chest",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.tee_star_01",
@@ -1708,7 +2180,9 @@
    "maxScale": 1,
    "weight": 0.4,
    "accent": "light",
-   "placement": "chest"
+   "placement": "chest",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.tee_smiley_01",
@@ -1722,7 +2196,9 @@
    "maxScale": 1,
    "weight": 0.4,
    "accent": null,
-   "placement": "chest"
+   "placement": "chest",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.tee_cherries_01",
@@ -1735,7 +2211,9 @@
    "maxScale": 1,
    "weight": 0.3,
    "accent": "leaf",
-   "placement": "chest"
+   "placement": "chest",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.tee_rose_01",
@@ -1749,7 +2227,9 @@
    "maxScale": 1,
    "weight": 0.3,
    "accent": "leaf",
-   "placement": "chest"
+   "placement": "chest",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.tee_sunset_01",
@@ -1763,7 +2243,9 @@
    "maxScale": 1,
    "weight": 0.4,
    "accent": "gold",
-   "placement": "chest"
+   "placement": "chest",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.tee_lightning_01",
@@ -1776,7 +2258,9 @@
    "maxScale": 1,
    "weight": 0.3,
    "accent": null,
-   "placement": "chest"
+   "placement": "chest",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.tee_skull_01",
@@ -1789,7 +2273,9 @@
    "maxScale": 1,
    "weight": 0.4,
    "accent": null,
-   "placement": "chest"
+   "placement": "chest",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.tee_cat_01",
@@ -1802,7 +2288,9 @@
    "maxScale": 1,
    "weight": 0.4,
    "accent": "light",
-   "placement": "chest"
+   "placement": "chest",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.tee_rainbow_01",
@@ -1815,7 +2303,9 @@
    "maxScale": 1,
    "weight": 0.3,
    "accent": "contrast",
-   "placement": "chest"
+   "placement": "chest",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.tee_planet_01",
@@ -1829,7 +2319,9 @@
    "maxScale": 1,
    "weight": 0.3,
    "accent": "contrast",
-   "placement": "chest"
+   "placement": "chest",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.tee_daisy_01",
@@ -1842,7 +2334,9 @@
    "maxScale": 1,
    "weight": 0.3,
    "accent": "gold",
-   "placement": "chest"
+   "placement": "chest",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.tee_mountains_01",
@@ -1856,7 +2350,9 @@
    "maxScale": 1,
    "weight": 0.3,
    "accent": "light",
-   "placement": "chest"
+   "placement": "chest",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.tee_paw_01",
@@ -1870,7 +2366,9 @@
    "maxScale": 1,
    "weight": 0.3,
    "accent": null,
-   "placement": "chest"
+   "placement": "chest",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.tee_butterfly_01",
@@ -1884,7 +2382,9 @@
    "maxScale": 1,
    "weight": 0.3,
    "accent": "contrast",
-   "placement": "chest"
+   "placement": "chest",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.tee_bow_01",
@@ -1897,7 +2397,9 @@
    "maxScale": 1,
    "weight": 0.3,
    "accent": null,
-   "placement": "chest"
+   "placement": "chest",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.tee_moon_01",
@@ -1911,7 +2413,9 @@
    "maxScale": 1,
    "weight": 0.3,
    "accent": "gold",
-   "placement": "chest"
+   "placement": "chest",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.tee_crown_01",
@@ -1925,7 +2429,9 @@
    "maxScale": 1,
    "weight": 0.3,
    "accent": "contrast",
-   "placement": "chest"
+   "placement": "chest",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.tee_ghost_01",
@@ -1938,7 +2444,9 @@
    "maxScale": 1,
    "weight": 0.3,
    "accent": "light",
-   "placement": "chest"
+   "placement": "chest",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.tee_palm_01",
@@ -1951,7 +2459,9 @@
    "maxScale": 1,
    "weight": 0.3,
    "accent": "leaf",
-   "placement": "chest"
+   "placement": "chest",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.tee_anchor_01",
@@ -1964,7 +2474,9 @@
    "maxScale": 1,
    "weight": 0.3,
    "accent": "gold",
-   "placement": "chest"
+   "placement": "chest",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.tee_strawberry_01",
@@ -1977,7 +2489,9 @@
    "maxScale": 1,
    "weight": 0.3,
    "accent": "leaf",
-   "placement": "chest"
+   "placement": "chest",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.tee_toadstool_01",
@@ -1990,7 +2504,9 @@
    "maxScale": 1,
    "weight": 0.3,
    "accent": "light",
-   "placement": "chest"
+   "placement": "chest",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.tee_flame_01",
@@ -2004,7 +2520,9 @@
    "maxScale": 1,
    "weight": 0.3,
    "accent": "gold",
-   "placement": "chest"
+   "placement": "chest",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.tee_lips_01",
@@ -2017,7 +2535,9 @@
    "maxScale": 1,
    "weight": 0.3,
    "accent": "light",
-   "placement": "chest"
+   "placement": "chest",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.tee_notes_01",
@@ -2031,7 +2551,9 @@
    "maxScale": 1,
    "weight": 0.3,
    "accent": null,
-   "placement": "chest"
+   "placement": "chest",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.tee_eye_01",
@@ -2044,7 +2566,9 @@
    "maxScale": 1,
    "weight": 0.3,
    "accent": "contrast",
-   "placement": "chest"
+   "placement": "chest",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.badge_crown_01",
@@ -2058,7 +2582,9 @@
    "maxScale": 1,
    "weight": 0.3,
    "accent": "contrast",
-   "placement": "badge"
+   "placement": "badge",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.badge_anchor_01",
@@ -2072,7 +2598,9 @@
    "maxScale": 1,
    "weight": 0.3,
    "accent": "gold",
-   "placement": "badge"
+   "placement": "badge",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.badge_heart_01",
@@ -2086,7 +2614,9 @@
    "maxScale": 1,
    "weight": 0.3,
    "accent": "light",
-   "placement": "badge"
+   "placement": "badge",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.badge_star_01",
@@ -2100,7 +2630,9 @@
    "maxScale": 1,
    "weight": 0.3,
    "accent": "light",
-   "placement": "badge"
+   "placement": "badge",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.badge_cherries_01",
@@ -2113,7 +2645,9 @@
    "maxScale": 1,
    "weight": 0.2,
    "accent": "leaf",
-   "placement": "badge"
+   "placement": "badge",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.badge_paw_01",
@@ -2126,7 +2660,9 @@
    "maxScale": 1,
    "weight": 0.2,
    "accent": null,
-   "placement": "badge"
+   "placement": "badge",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.badge_bow_01",
@@ -2139,7 +2675,9 @@
    "maxScale": 1,
    "weight": 0.2,
    "accent": null,
-   "placement": "badge"
+   "placement": "badge",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.badge_moon_01",
@@ -2153,7 +2691,9 @@
    "maxScale": 1,
    "weight": 0.2,
    "accent": "gold",
-   "placement": "badge"
+   "placement": "badge",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.back_skull_01",
@@ -2166,7 +2706,9 @@
    "maxScale": 1,
    "weight": 0.3,
    "accent": null,
-   "placement": "back"
+   "placement": "back",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.back_flame_01",
@@ -2180,7 +2722,9 @@
    "maxScale": 1,
    "weight": 0.3,
    "accent": "gold",
-   "placement": "back"
+   "placement": "back",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.back_crown_01",
@@ -2193,7 +2737,9 @@
    "maxScale": 1,
    "weight": 0.2,
    "accent": "contrast",
-   "placement": "back"
+   "placement": "back",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.back_star_01",
@@ -2207,7 +2753,9 @@
    "maxScale": 1,
    "weight": 0.3,
    "accent": "light",
-   "placement": "back"
+   "placement": "back",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.back_lightning_01",
@@ -2220,7 +2768,9 @@
    "maxScale": 1,
    "weight": 0.2,
    "accent": null,
-   "placement": "back"
+   "placement": "back",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.back_sunset_01",
@@ -2234,7 +2784,9 @@
    "maxScale": 1,
    "weight": 0.3,
    "accent": "gold",
-   "placement": "back"
+   "placement": "back",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.back_mountains_01",
@@ -2247,7 +2799,9 @@
    "maxScale": 1,
    "weight": 0.2,
    "accent": "light",
-   "placement": "back"
+   "placement": "back",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.back_rose_01",
@@ -2261,7 +2815,9 @@
    "maxScale": 1,
    "weight": 0.2,
    "accent": "leaf",
-   "placement": "back"
+   "placement": "back",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.back_butterfly_01",
@@ -2275,7 +2831,9 @@
    "maxScale": 1,
    "weight": 0.2,
    "accent": "contrast",
-   "placement": "back"
+   "placement": "back",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.ombre_01",
@@ -2290,7 +2848,9 @@
    "maxScale": 1,
    "weight": 0.6,
    "accent": null,
-   "placement": "body"
+   "placement": "body",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.dipdye_01",
@@ -2304,7 +2864,9 @@
    "maxScale": 1,
    "weight": 0.5,
    "accent": null,
-   "placement": "body"
+   "placement": "body",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.sunsetfade_01",
@@ -2318,7 +2880,9 @@
    "maxScale": 1,
    "weight": 0.4,
    "accent": "contrast",
-   "placement": "body"
+   "placement": "body",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.colourblock_01",
@@ -2332,7 +2896,9 @@
    "maxScale": 1,
    "weight": 0.5,
    "accent": "contrast",
-   "placement": "body"
+   "placement": "body",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.hemstripes_01",
@@ -2347,7 +2913,9 @@
    "maxScale": 1,
    "weight": 0.5,
    "accent": null,
-   "placement": "body"
+   "placement": "body",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.hemflowers_01",
@@ -2362,7 +2930,9 @@
    "maxScale": 8,
    "weight": 0.5,
    "accent": "leaf",
-   "placement": "hem"
+   "placement": "hem",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.scallop_01",
@@ -2376,7 +2946,9 @@
    "maxScale": 14,
    "weight": 0.5,
    "accent": null,
-   "placement": "hem"
+   "placement": "hem",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.greekkey_01",
@@ -2389,7 +2961,9 @@
    "maxScale": 11,
    "weight": 0.4,
    "accent": null,
-   "placement": "hem"
+   "placement": "hem",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.folkband_01",
@@ -2403,7 +2977,9 @@
    "maxScale": 9,
    "weight": 0.4,
    "accent": "contrast",
-   "placement": "hem"
+   "placement": "hem",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.ricrac_01",
@@ -2416,7 +2992,9 @@
    "maxScale": 18,
    "weight": 0.4,
    "accent": "contrast",
-   "placement": "hem"
+   "placement": "hem",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.yokeflowers_01",
@@ -2430,7 +3008,9 @@
    "maxScale": 9,
    "weight": 0.4,
    "accent": "leaf",
-   "placement": "yoke"
+   "placement": "yoke",
+   "colourwayChance": 0.0,
+   "colourways": []
   },
   {
    "id": "pattern.folkyoke_01",
@@ -2444,7 +3024,9 @@
    "maxScale": 10,
    "weight": 0.3,
    "accent": "contrast",
-   "placement": "yoke"
+   "placement": "yoke",
+   "colourwayChance": 0.0,
+   "colourways": []
   }
  ]
 }

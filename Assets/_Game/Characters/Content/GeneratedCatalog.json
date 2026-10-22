@@ -5150,7 +5150,14 @@
       "minScale": 6.0,
       "maxScale": 10.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [
+        {
+          "base": "#f4f1ea",
+          "print": "#22305a"
+        }
+      ],
+      "colourwayChance": 0.3
     },
     {
       "id": "pattern.dots_01",
@@ -5163,7 +5170,22 @@
       "minScale": 6.0,
       "maxScale": 10.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [
+        {
+          "base": "#1f2a44",
+          "print": "#f4f1ea"
+        },
+        {
+          "base": "#b0232a",
+          "print": "#f4f1ea"
+        },
+        {
+          "base": "#151515",
+          "print": "#f4f1ea"
+        }
+      ],
+      "colourwayChance": 0.4
     },
     {
       "id": "pattern.plaid_01",
@@ -5178,7 +5200,9 @@
       "minScale": 3.0,
       "maxScale": 6.0,
       "accent": "contrast",
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.check_01",
@@ -5192,7 +5216,9 @@
       "minScale": 6.0,
       "maxScale": 10.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.hearts_01",
@@ -5206,7 +5232,9 @@
       "minScale": 4.0,
       "maxScale": 7.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.stars_01",
@@ -5221,7 +5249,9 @@
       "minScale": 4.0,
       "maxScale": 7.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.pinstripe_01",
@@ -5235,7 +5265,18 @@
       "minScale": 10.0,
       "maxScale": 16.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [
+        {
+          "base": "#1f2a44",
+          "print": "#e8e8e8"
+        },
+        {
+          "base": "#3a3a3e",
+          "print": "#e8e8e8"
+        }
+      ],
+      "colourwayChance": 0.5
     },
     {
       "id": "pattern.floral_01",
@@ -5250,7 +5291,9 @@
       "minScale": 4.0,
       "maxScale": 7.0,
       "accent": "leaf",
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.denim_01",
@@ -5263,7 +5306,9 @@
       "minScale": 5.0,
       "maxScale": 9.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.knit_01",
@@ -5278,7 +5323,9 @@
       "minScale": 4.0,
       "maxScale": 7.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.argyle_01",
@@ -5293,7 +5340,9 @@
       "minScale": 4.0,
       "maxScale": 7.0,
       "accent": "contrast",
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.chevron_01",
@@ -5307,7 +5356,9 @@
       "minScale": 5.0,
       "maxScale": 9.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.breton_01",
@@ -5322,7 +5373,18 @@
       "minScale": 5.0,
       "maxScale": 8.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [
+        {
+          "base": "#f4f1ea",
+          "print": "#22305a"
+        },
+        {
+          "base": "#f4f1ea",
+          "print": "#b0232a"
+        }
+      ],
+      "colourwayChance": 0.6
     },
     {
       "id": "pattern.chalkstripe_01",
@@ -5335,7 +5397,18 @@
       "minScale": 7.0,
       "maxScale": 10.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [
+        {
+          "base": "#2f3036",
+          "print": "#e8e6e0"
+        },
+        {
+          "base": "#1f2a44",
+          "print": "#e8e6e0"
+        }
+      ],
+      "colourwayChance": 0.5
     },
     {
       "id": "pattern.awning_01",
@@ -5349,7 +5422,9 @@
       "minScale": 3.0,
       "maxScale": 5.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.candystripe_01",
@@ -5363,7 +5438,9 @@
       "minScale": 6.0,
       "maxScale": 9.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.gingham_01",
@@ -5377,7 +5454,22 @@
       "minScale": 6.0,
       "maxScale": 10.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [
+        {
+          "base": "#f6f4ef",
+          "print": "#c22a33"
+        },
+        {
+          "base": "#f6f4ef",
+          "print": "#2e5ea8"
+        },
+        {
+          "base": "#f6f4ef",
+          "print": "#1c1c1c"
+        }
+      ],
+      "colourwayChance": 0.5
     },
     {
       "id": "pattern.buffalo_01",
@@ -5391,7 +5483,18 @@
       "minScale": 3.0,
       "maxScale": 5.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [
+        {
+          "base": "#b5232b",
+          "print": "#151515"
+        },
+        {
+          "base": "#1c1c1c",
+          "print": "#d8d8d8"
+        }
+      ],
+      "colourwayChance": 0.6
     },
     {
       "id": "pattern.windowpane_01",
@@ -5404,7 +5507,9 @@
       "minScale": 4.0,
       "maxScale": 7.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.houndstooth_01",
@@ -5418,7 +5523,14 @@
       "minScale": 8.0,
       "maxScale": 14.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [
+        {
+          "base": "#efece4",
+          "print": "#1a1a1a"
+        }
+      ],
+      "colourwayChance": 0.5
     },
     {
       "id": "pattern.harlequin_01",
@@ -5432,7 +5544,9 @@
       "minScale": 4.0,
       "maxScale": 7.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.triangles_01",
@@ -5446,7 +5560,9 @@
       "minScale": 3.0,
       "maxScale": 5.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.hexagons_01",
@@ -5459,7 +5575,9 @@
       "minScale": 3.0,
       "maxScale": 5.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.waves_01",
@@ -5473,7 +5591,9 @@
       "minScale": 3.0,
       "maxScale": 5.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.scales_01",
@@ -5487,7 +5607,9 @@
       "minScale": 4.0,
       "maxScale": 8.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.lattice_01",
@@ -5500,7 +5622,9 @@
       "minScale": 4.0,
       "maxScale": 7.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.circles_01",
@@ -5513,7 +5637,9 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.bigdots_01",
@@ -5527,7 +5653,9 @@
       "minScale": 3.0,
       "maxScale": 5.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.confetti_01",
@@ -5541,7 +5669,9 @@
       "minScale": 3.0,
       "maxScale": 5.0,
       "accent": "contrast",
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.bigfloral_01",
@@ -5555,7 +5685,9 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": "leaf",
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.daisies_01",
@@ -5568,7 +5700,9 @@
       "minScale": 3.0,
       "maxScale": 6.0,
       "accent": "gold",
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.sakura_01",
@@ -5582,7 +5716,9 @@
       "minScale": 3.0,
       "maxScale": 6.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.hibiscus_01",
@@ -5596,7 +5732,9 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": "leaf",
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.tropical_01",
@@ -5610,7 +5748,9 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.leaves_01",
@@ -5624,7 +5764,9 @@
       "minScale": 3.0,
       "maxScale": 6.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.vine_01",
@@ -5638,7 +5780,9 @@
       "minScale": 3.0,
       "maxScale": 5.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.paisley_01",
@@ -5653,7 +5797,9 @@
       "minScale": 3.0,
       "maxScale": 5.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.moons_01",
@@ -5666,7 +5812,9 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.clouds_01",
@@ -5679,7 +5827,9 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.cherries_01",
@@ -5693,7 +5843,9 @@
       "minScale": 3.0,
       "maxScale": 6.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.bows_01",
@@ -5706,7 +5858,9 @@
       "minScale": 3.0,
       "maxScale": 6.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.butterflies_01",
@@ -5720,7 +5874,9 @@
       "minScale": 3.0,
       "maxScale": 5.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.paws_01",
@@ -5733,7 +5889,9 @@
       "minScale": 3.0,
       "maxScale": 6.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.strawberries_01",
@@ -5746,7 +5904,9 @@
       "minScale": 3.0,
       "maxScale": 6.0,
       "accent": "leaf",
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.raindrops_01",
@@ -5759,7 +5919,9 @@
       "minScale": 4.0,
       "maxScale": 7.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.snowflakes_01",
@@ -5774,7 +5936,9 @@
       "minScale": 3.0,
       "maxScale": 6.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.skulls_01",
@@ -5787,7 +5951,9 @@
       "minScale": 3.0,
       "maxScale": 6.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.crosses_01",
@@ -5799,7 +5965,9 @@
       "minScale": 4.0,
       "maxScale": 7.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.bats_01",
@@ -5812,7 +5980,9 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.spiderweb_01",
@@ -5824,7 +5994,9 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.lightning_01",
@@ -5837,7 +6009,9 @@
       "minScale": 3.0,
       "maxScale": 6.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.flames_01",
@@ -5850,7 +6024,9 @@
       "minScale": 4.0,
       "maxScale": 6.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.camo_01",
@@ -5863,7 +6039,18 @@
       "minScale": 1.5,
       "maxScale": 3.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [
+        {
+          "base": "#5d6440",
+          "print": "#b3a47a"
+        },
+        {
+          "base": "#6b6f5a",
+          "print": "#3b3a2c"
+        }
+      ],
+      "colourwayChance": 0.6
     },
     {
       "id": "pattern.skatecheck_01",
@@ -5876,7 +6063,9 @@
       "minScale": 3.0,
       "maxScale": 5.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.leopard_01",
@@ -5891,7 +6080,22 @@
       "minScale": 3.0,
       "maxScale": 5.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [
+        {
+          "base": "#c79a5b",
+          "print": "#2b1c12"
+        },
+        {
+          "base": "#d8c9b0",
+          "print": "#3a3a3a"
+        },
+        {
+          "base": "#b08850",
+          "print": "#1a1410"
+        }
+      ],
+      "colourwayChance": 0.6
     },
     {
       "id": "pattern.zebra_01",
@@ -5905,7 +6109,14 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [
+        {
+          "base": "#f2efe8",
+          "print": "#161616"
+        }
+      ],
+      "colourwayChance": 0.6
     },
     {
       "id": "pattern.tiger_01",
@@ -5918,7 +6129,14 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [
+        {
+          "base": "#e08a2e",
+          "print": "#1c1410"
+        }
+      ],
+      "colourwayChance": 0.6
     },
     {
       "id": "pattern.cow_01",
@@ -5932,7 +6150,18 @@
       "minScale": 2.0,
       "maxScale": 3.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [
+        {
+          "base": "#f4f1ea",
+          "print": "#1d1d1d"
+        },
+        {
+          "base": "#f2ede3",
+          "print": "#6b3f22"
+        }
+      ],
+      "colourwayChance": 0.6
     },
     {
       "id": "pattern.snakeskin_01",
@@ -5947,7 +6176,18 @@
       "minScale": 5.0,
       "maxScale": 9.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [
+        {
+          "base": "#d7c6a5",
+          "print": "#5a4632"
+        },
+        {
+          "base": "#9a9a96",
+          "print": "#232323"
+        }
+      ],
+      "colourwayChance": 0.5
     },
     {
       "id": "pattern.tiedye_01",
@@ -5961,7 +6201,9 @@
       "minScale": 1.5,
       "maxScale": 3.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.marble_01",
@@ -5974,7 +6216,9 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.brushstrokes_01",
@@ -5987,7 +6231,9 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": "contrast",
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.terrazzo_01",
@@ -6001,7 +6247,9 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.squiggles_01",
@@ -6015,7 +6263,9 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.ticking_01",
@@ -6028,7 +6278,14 @@
       "minScale": 4.0,
       "maxScale": 7.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [
+        {
+          "base": "#f1ece0",
+          "print": "#2a3f6e"
+        }
+      ],
+      "colourwayChance": 0.5
     },
     {
       "id": "pattern.rugby_01",
@@ -6043,7 +6300,18 @@
       "minScale": 3.0,
       "maxScale": 5.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [
+        {
+          "base": "#1f2c56",
+          "print": "#f2ede0"
+        },
+        {
+          "base": "#13472f",
+          "print": "#f2ede0"
+        }
+      ],
+      "colourwayChance": 0.4
     },
     {
       "id": "pattern.pyjama_01",
@@ -6057,7 +6325,9 @@
       "minScale": 4.0,
       "maxScale": 7.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.glenplaid_01",
@@ -6070,7 +6340,14 @@
       "minScale": 3.0,
       "maxScale": 5.0,
       "accent": "contrast",
-      "placement": null
+      "placement": null,
+      "colourways": [
+        {
+          "base": "#d9d6cf",
+          "print": "#3a3a3d"
+        }
+      ],
+      "colourwayChance": 0.5
     },
     {
       "id": "pattern.madras_01",
@@ -6084,7 +6361,9 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": "contrast",
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.tattersall_01",
@@ -6097,7 +6376,9 @@
       "minScale": 3.0,
       "maxScale": 5.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.graph_01",
@@ -6110,7 +6391,9 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.wavycheck_01",
@@ -6124,7 +6407,9 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.pindots_01",
@@ -6138,7 +6423,18 @@
       "minScale": 3.0,
       "maxScale": 5.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [
+        {
+          "base": "#1f2a44",
+          "print": "#f4f1ea"
+        },
+        {
+          "base": "#151515",
+          "print": "#f4f1ea"
+        }
+      ],
+      "colourwayChance": 0.4
     },
     {
       "id": "pattern.halftone_01",
@@ -6151,7 +6447,9 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.plus_01",
@@ -6165,7 +6463,9 @@
       "minScale": 3.0,
       "maxScale": 6.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.seigaiha_01",
@@ -6178,7 +6478,14 @@
       "minScale": 3.0,
       "maxScale": 6.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [
+        {
+          "base": "#22305a",
+          "print": "#f2efe8"
+        }
+      ],
+      "colourwayChance": 0.4
     },
     {
       "id": "pattern.quatrefoil_01",
@@ -6191,7 +6498,9 @@
       "minScale": 3.0,
       "maxScale": 5.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.ikat_01",
@@ -6205,7 +6514,9 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.aztec_01",
@@ -6219,7 +6530,9 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.opart_01",
@@ -6232,7 +6545,9 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.roses_01",
@@ -6247,7 +6562,9 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": "leaf",
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.sunflowers_01",
@@ -6260,7 +6577,9 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.tulips_01",
@@ -6274,7 +6593,9 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": "leaf",
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.lemons_01",
@@ -6288,7 +6609,9 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": "leaf",
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.mushrooms_01",
@@ -6301,7 +6624,9 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": "light",
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.ferns_01",
@@ -6315,7 +6640,9 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.holly_01",
@@ -6328,7 +6655,9 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": "leaf",
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.anchors_01",
@@ -6342,7 +6671,18 @@
       "minScale": 3.0,
       "maxScale": 5.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [
+        {
+          "base": "#f4f1ea",
+          "print": "#22305a"
+        },
+        {
+          "base": "#22305a",
+          "print": "#f4f1ea"
+        }
+      ],
+      "colourwayChance": 0.4
     },
     {
       "id": "pattern.cats_01",
@@ -6355,7 +6695,9 @@
       "minScale": 3.0,
       "maxScale": 5.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.notes_01",
@@ -6369,7 +6711,9 @@
       "minScale": 3.0,
       "maxScale": 5.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.rainbows_01",
@@ -6382,7 +6726,9 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": "contrast",
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.lips_01",
@@ -6396,7 +6742,9 @@
       "minScale": 3.0,
       "maxScale": 5.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.planets_01",
@@ -6410,7 +6758,9 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": "contrast",
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.fish_01",
@@ -6424,7 +6774,9 @@
       "minScale": 3.0,
       "maxScale": 5.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.seagulls_01",
@@ -6437,7 +6789,9 @@
       "minScale": 3.0,
       "maxScale": 5.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.bunnies_01",
@@ -6449,7 +6803,9 @@
       "minScale": 3.0,
       "maxScale": 5.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.pumpkins_01",
@@ -6463,7 +6819,9 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.eyes_01",
@@ -6476,7 +6834,9 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.bees_01",
@@ -6489,7 +6849,9 @@
       "minScale": 3.0,
       "maxScale": 5.0,
       "accent": "light",
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.ladybugs_01",
@@ -6501,7 +6863,9 @@
       "minScale": 3.0,
       "maxScale": 5.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.shells_01",
@@ -6515,7 +6879,9 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.smileys_01",
@@ -6529,7 +6895,9 @@
       "minScale": 3.0,
       "maxScale": 5.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.giraffe_01",
@@ -6543,7 +6911,14 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [
+        {
+          "base": "#efe0c0",
+          "print": "#9a6232"
+        }
+      ],
+      "colourwayChance": 0.6
     },
     {
       "id": "pattern.dalmatian_01",
@@ -6558,7 +6933,14 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [
+        {
+          "base": "#f6f4ef",
+          "print": "#141414"
+        }
+      ],
+      "colourwayChance": 0.6
     },
     {
       "id": "pattern.cheetah_01",
@@ -6572,7 +6954,14 @@
       "minScale": 3.0,
       "maxScale": 5.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [
+        {
+          "base": "#d1a666",
+          "print": "#24180f"
+        }
+      ],
+      "colourwayChance": 0.6
     },
     {
       "id": "pattern.splatter_01",
@@ -6585,7 +6974,9 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.shibori_01",
@@ -6598,7 +6989,9 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.batik_01",
@@ -6611,7 +7004,9 @@
       "minScale": 2.0,
       "maxScale": 3.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.pixelcamo_01",
@@ -6624,7 +7019,18 @@
       "minScale": 2.0,
       "maxScale": 4.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [
+        {
+          "base": "#6f7766",
+          "print": "#3f4a3a"
+        },
+        {
+          "base": "#7d8aa0",
+          "print": "#3a4558"
+        }
+      ],
+      "colourwayChance": 0.5
     },
     {
       "id": "pattern.watercolour_01",
@@ -6638,7 +7044,9 @@
       "minScale": 1.5,
       "maxScale": 3.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.fairisle_01",
@@ -6653,7 +7061,18 @@
       "minScale": 2.5,
       "maxScale": 3.5,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [
+        {
+          "base": "#efe7d6",
+          "print": "#8a1f2b"
+        },
+        {
+          "base": "#22305a",
+          "print": "#efe7d6"
+        }
+      ],
+      "colourwayChance": 0.4
     },
     {
       "id": "pattern.nordic_01",
@@ -6668,7 +7087,18 @@
       "minScale": 2.5,
       "maxScale": 3.5,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [
+        {
+          "base": "#9d1d26",
+          "print": "#f4f1ea"
+        },
+        {
+          "base": "#22305a",
+          "print": "#f4f1ea"
+        }
+      ],
+      "colourwayChance": 0.5
     },
     {
       "id": "pattern.festive_01",
@@ -6682,7 +7112,18 @@
       "minScale": 2.5,
       "maxScale": 3.5,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [
+        {
+          "base": "#a51f27",
+          "print": "#f4f1ea"
+        },
+        {
+          "base": "#1e5a36",
+          "print": "#f4f1ea"
+        }
+      ],
+      "colourwayChance": 0.6
     },
     {
       "id": "pattern.damask_01",
@@ -6696,7 +7137,9 @@
       "minScale": 4.0,
       "maxScale": 6.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.fleurdelis_01",
@@ -6709,7 +7152,9 @@
       "minScale": 3.0,
       "maxScale": 5.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.icecream_01",
@@ -6722,7 +7167,9 @@
       "minScale": 2.5,
       "maxScale": 4.0,
       "accent": "gold",
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.doughnuts_01",
@@ -6736,7 +7183,9 @@
       "minScale": 2.5,
       "maxScale": 4.0,
       "accent": "gold",
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.watermelon_01",
@@ -6750,7 +7199,9 @@
       "minScale": 2.5,
       "maxScale": 4.0,
       "accent": "leaf",
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.shippo_01",
@@ -6763,7 +7214,18 @@
       "minScale": 3.0,
       "maxScale": 5.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [
+        {
+          "base": "#22305a",
+          "print": "#f2efe8"
+        },
+        {
+          "base": "#8a1f2b",
+          "print": "#e9c46a"
+        }
+      ],
+      "colourwayChance": 0.4
     },
     {
       "id": "pattern.starlattice_01",
@@ -6776,7 +7238,9 @@
       "minScale": 2.0,
       "maxScale": 3.0,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.cacti_01",
@@ -6789,7 +7253,9 @@
       "minScale": 2.5,
       "maxScale": 4.0,
       "accent": "leaf",
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.feathers_01",
@@ -6803,7 +7269,9 @@
       "minScale": 2.0,
       "maxScale": 3.5,
       "accent": null,
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.medallions_01",
@@ -6817,7 +7285,9 @@
       "minScale": 2.5,
       "maxScale": 4.0,
       "accent": "contrast",
-      "placement": null
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.tee_heart_01",
@@ -6831,7 +7301,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "light",
-      "placement": "chest"
+      "placement": "chest",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.tee_star_01",
@@ -6845,7 +7317,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "light",
-      "placement": "chest"
+      "placement": "chest",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.tee_smiley_01",
@@ -6859,7 +7333,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": null,
-      "placement": "chest"
+      "placement": "chest",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.tee_cherries_01",
@@ -6872,7 +7348,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "leaf",
-      "placement": "chest"
+      "placement": "chest",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.tee_rose_01",
@@ -6886,7 +7364,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "leaf",
-      "placement": "chest"
+      "placement": "chest",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.tee_sunset_01",
@@ -6900,7 +7380,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "gold",
-      "placement": "chest"
+      "placement": "chest",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.tee_lightning_01",
@@ -6913,7 +7395,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": null,
-      "placement": "chest"
+      "placement": "chest",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.tee_skull_01",
@@ -6926,7 +7410,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": null,
-      "placement": "chest"
+      "placement": "chest",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.tee_cat_01",
@@ -6939,7 +7425,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "light",
-      "placement": "chest"
+      "placement": "chest",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.tee_rainbow_01",
@@ -6952,7 +7440,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "contrast",
-      "placement": "chest"
+      "placement": "chest",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.tee_planet_01",
@@ -6966,7 +7456,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "contrast",
-      "placement": "chest"
+      "placement": "chest",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.tee_daisy_01",
@@ -6979,7 +7471,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "gold",
-      "placement": "chest"
+      "placement": "chest",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.tee_mountains_01",
@@ -6993,7 +7487,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "light",
-      "placement": "chest"
+      "placement": "chest",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.tee_paw_01",
@@ -7007,7 +7503,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": null,
-      "placement": "chest"
+      "placement": "chest",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.tee_butterfly_01",
@@ -7021,7 +7519,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "contrast",
-      "placement": "chest"
+      "placement": "chest",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.tee_bow_01",
@@ -7034,7 +7534,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": null,
-      "placement": "chest"
+      "placement": "chest",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.tee_moon_01",
@@ -7048,7 +7550,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "gold",
-      "placement": "chest"
+      "placement": "chest",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.tee_crown_01",
@@ -7062,7 +7566,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "contrast",
-      "placement": "chest"
+      "placement": "chest",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.tee_ghost_01",
@@ -7075,7 +7581,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "light",
-      "placement": "chest"
+      "placement": "chest",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.tee_palm_01",
@@ -7088,7 +7596,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "leaf",
-      "placement": "chest"
+      "placement": "chest",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.tee_anchor_01",
@@ -7101,7 +7611,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "gold",
-      "placement": "chest"
+      "placement": "chest",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.tee_strawberry_01",
@@ -7114,7 +7626,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "leaf",
-      "placement": "chest"
+      "placement": "chest",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.tee_toadstool_01",
@@ -7127,7 +7641,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "light",
-      "placement": "chest"
+      "placement": "chest",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.tee_flame_01",
@@ -7141,7 +7657,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "gold",
-      "placement": "chest"
+      "placement": "chest",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.tee_lips_01",
@@ -7154,7 +7672,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "light",
-      "placement": "chest"
+      "placement": "chest",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.tee_notes_01",
@@ -7168,7 +7688,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": null,
-      "placement": "chest"
+      "placement": "chest",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.tee_eye_01",
@@ -7181,7 +7703,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "contrast",
-      "placement": "chest"
+      "placement": "chest",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.badge_crown_01",
@@ -7195,7 +7719,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "contrast",
-      "placement": "badge"
+      "placement": "badge",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.badge_anchor_01",
@@ -7209,7 +7735,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "gold",
-      "placement": "badge"
+      "placement": "badge",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.badge_heart_01",
@@ -7223,7 +7751,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "light",
-      "placement": "badge"
+      "placement": "badge",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.badge_star_01",
@@ -7237,7 +7767,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "light",
-      "placement": "badge"
+      "placement": "badge",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.badge_cherries_01",
@@ -7250,7 +7782,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "leaf",
-      "placement": "badge"
+      "placement": "badge",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.badge_paw_01",
@@ -7263,7 +7797,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": null,
-      "placement": "badge"
+      "placement": "badge",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.badge_bow_01",
@@ -7276,7 +7812,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": null,
-      "placement": "badge"
+      "placement": "badge",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.badge_moon_01",
@@ -7290,7 +7828,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "gold",
-      "placement": "badge"
+      "placement": "badge",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.back_skull_01",
@@ -7303,7 +7843,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": null,
-      "placement": "back"
+      "placement": "back",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.back_flame_01",
@@ -7317,7 +7859,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "gold",
-      "placement": "back"
+      "placement": "back",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.back_crown_01",
@@ -7330,7 +7874,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "contrast",
-      "placement": "back"
+      "placement": "back",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.back_star_01",
@@ -7344,7 +7890,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "light",
-      "placement": "back"
+      "placement": "back",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.back_lightning_01",
@@ -7357,7 +7905,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": null,
-      "placement": "back"
+      "placement": "back",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.back_sunset_01",
@@ -7371,7 +7921,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "gold",
-      "placement": "back"
+      "placement": "back",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.back_mountains_01",
@@ -7384,7 +7936,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "light",
-      "placement": "back"
+      "placement": "back",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.back_rose_01",
@@ -7398,7 +7952,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "leaf",
-      "placement": "back"
+      "placement": "back",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.back_butterfly_01",
@@ -7412,7 +7968,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "contrast",
-      "placement": "back"
+      "placement": "back",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.ombre_01",
@@ -7427,7 +7985,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": null,
-      "placement": "body"
+      "placement": "body",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.dipdye_01",
@@ -7441,7 +8001,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": null,
-      "placement": "body"
+      "placement": "body",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.sunsetfade_01",
@@ -7455,7 +8017,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "contrast",
-      "placement": "body"
+      "placement": "body",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.colourblock_01",
@@ -7469,7 +8033,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": "contrast",
-      "placement": "body"
+      "placement": "body",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.hemstripes_01",
@@ -7484,7 +8050,9 @@
       "minScale": 1.0,
       "maxScale": 1.0,
       "accent": null,
-      "placement": "body"
+      "placement": "body",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.hemflowers_01",
@@ -7499,7 +8067,9 @@
       "minScale": 6.0,
       "maxScale": 8.0,
       "accent": "leaf",
-      "placement": "hem"
+      "placement": "hem",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.scallop_01",
@@ -7513,7 +8083,9 @@
       "minScale": 10.0,
       "maxScale": 14.0,
       "accent": null,
-      "placement": "hem"
+      "placement": "hem",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.greekkey_01",
@@ -7526,7 +8098,9 @@
       "minScale": 8.0,
       "maxScale": 11.0,
       "accent": null,
-      "placement": "hem"
+      "placement": "hem",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.folkband_01",
@@ -7540,7 +8114,9 @@
       "minScale": 6.0,
       "maxScale": 9.0,
       "accent": "contrast",
-      "placement": "hem"
+      "placement": "hem",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.ricrac_01",
@@ -7553,7 +8129,9 @@
       "minScale": 12.0,
       "maxScale": 18.0,
       "accent": "contrast",
-      "placement": "hem"
+      "placement": "hem",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.yokeflowers_01",
@@ -7567,7 +8145,9 @@
       "minScale": 7.0,
       "maxScale": 9.0,
       "accent": "leaf",
-      "placement": "yoke"
+      "placement": "yoke",
+      "colourways": [],
+      "colourwayChance": 0.0
     },
     {
       "id": "pattern.folkyoke_01",
@@ -7581,7 +8161,9 @@
       "minScale": 7.0,
       "maxScale": 10.0,
       "accent": "contrast",
-      "placement": "yoke"
+      "placement": "yoke",
+      "colourways": [],
+      "colourwayChance": 0.0
     }
   ],
   "fabrics": [

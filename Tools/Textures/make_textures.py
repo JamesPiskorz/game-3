@@ -60,7 +60,9 @@ def write_prints():
         tags = tags + ["knitted"] if pid in prints.KNITTED else tags
         tags = tags + ["animal"] if pid in prints.ANIMAL else tags
         entries.append({"id": f"pattern.{pid}_01", "name": name, "tags": tags, "minScale": scales[0], "maxScale": scales[1],
-                        "weight": weight, "accent": prints.ACCENT.get(pid), "placement": prints.PLACED.get(pid)})
+                        "weight": weight, "accent": prints.ACCENT.get(pid), "placement": prints.PLACED.get(pid),
+                        "colourwayChance": prints.COLOURWAYS.get(pid, (0.0, []))[0],
+                        "colourways": [{"base": b, "print": c} for b, c in prints.COLOURWAYS.get(pid, (0.0, []))[1]]})
     with open(os.path.join(folder, "library.json"), "w", encoding="utf-8", newline="\n") as f:
         json.dump({"patterns": entries}, f, indent=1)
     print(f"[textures] {len(entries)} prints in {os.path.normpath(folder)}")

@@ -187,6 +187,27 @@ namespace Game.Characters.Tests.Generation
         }
 
         [Test]
+        public void ClassicPrintsOftenComeInTheirClassicColours()
+        {
+            ContentCatalog catalog = Catalogs.Generated();
+            PatternEntry leopard = catalog.Patterns.First(p => p.Id == "pattern.leopard_01");
+            Assert.That(leopard.Colourways, Is.Not.Empty, "Leopard comes in tan and black.");
+            var generator = new CharacterGenerator(catalog);
+            int printed = 0, classic = 0;
+            for (ulong seed = 1; seed <= 600; seed++)
+                foreach (OutfitDna outfit in generator.Generate(seed * 15485863, GenerationRequest.Any).Outfits)
+                    foreach (ItemDna item in outfit.Items)
+                    {
+                        PatternEntry pattern = catalog.Patterns.FirstOrDefault(p => p.Id == item.PatternId);
+                        if (pattern == null || pattern.Colourways.Count == 0) continue;
+                        printed++;
+                        if (pattern.Colourways.Any(w => HsvColor.Distance(HsvColor.FromHex(w.Print), item.PatternColor.Value) < 0.09f)) classic++;
+                    }
+            Assert.That(printed, Is.GreaterThan(20));
+            Assert.That(classic / (float)printed, Is.InRange(0.15f, 0.8f), $"{classic} of {printed} in a classic colourway.");
+        }
+
+        [Test]
         public void DenimMostlyComesInItsOwnColours()
         {
             ContentCatalog catalog = Catalogs.Generated();

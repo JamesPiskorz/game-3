@@ -103,6 +103,23 @@ namespace Game.Characters.Generation
                         // In the trim, unless the item took its fabric's own colour and that matches the trim.
                         HsvColor worn = item.RegionColors.Count > 0 ? item.RegionColors[0] : main;
                         HsvColor ink = HsvColor.Distance(trim, worn) >= 0.15f ? trim : Colours.Shift(worn, 0f, 0f, worn.V > 0.5f ? -0.35f : 0.35f);
+                        // Or, now and then, in its classic colours (navy Breton stripes on white, leopard in tan and
+                        // black), where that ground stands apart from the skin and the other half of the outfit.
+                        if (pattern.Colourways.Count > 0 && item.RegionColors.Count > 0 && rng.Chance(pattern.ColourwayChance))
+                        {
+                            PrintColourway way = rng.Pick(pattern.Colourways);
+                            HsvColor ground = HsvColor.FromHex(way.Base);
+                            bool isTop = part.Slot == Slots.Top || part.Slot == Slots.OnePiece, isBottom = part.Slot == Slots.Bottom;
+                            bool apart = (!isTop || HsvColor.Distance(ground, wornBottom) >= MinTopBottomContrast) &&
+                                         (!isBottom || HsvColor.Distance(ground, wornTop) >= MinTopBottomContrast);
+                            if (apart && HsvColor.Distance(ground, skin) >= skinContrast + JitterMargin)
+                            {
+                                item.RegionColors[0] = Colours.Jitter(rng, ground, 0.006f, 0.04f, 0.04f);
+                                ink = HsvColor.FromHex(way.Print);
+                                if (isTop) wornTop = ground;
+                                if (isBottom) wornBottom = ground;
+                            }
+                        }
                         item.PatternId = pattern.Id;
                         item.PatternScale = rng.Range(pattern.MinScale, pattern.MaxScale);
                         item.PatternColor = Colours.Jitter(rng, ink, 0.006f, 0.04f, 0.04f);

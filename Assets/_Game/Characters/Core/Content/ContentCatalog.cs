@@ -103,6 +103,10 @@ namespace Game.Characters.Content
                 errors.Add($"Pattern '{pattern.Id}' has an unknown second colour '{pattern.Accent}'.");
             foreach (PatternEntry pattern in Patterns.Where(p => p.Placement != null && !PatternEntry.Placements.Contains(p.Placement)))
                 errors.Add($"Pattern '{pattern.Id}' is placed at unknown '{pattern.Placement}'.");
+            foreach (PatternEntry pattern in Patterns)
+                foreach (PrintColourway way in pattern.Colourways)
+                    if (!HsvColor.TryParseHex(way.Base, out _) || !HsvColor.TryParseHex(way.Print, out _))
+                        errors.Add($"Pattern '{pattern.Id}' has a colourway that isn't two hex colours.");
             Unique(Fabrics, f => f.Id, "fabric");
             Unique(Contexts, c => c.Id, "context");
 
@@ -334,6 +338,13 @@ namespace Game.Characters.Content
 
         public static readonly string[] Placements = { "chest", "badge", "back", "body", "hem", "yoke" };
 
+        /// <summary>
+        /// Its classic colourways (navy Breton stripes on white, leopard in tan and black), if it has any: the cloth's
+        /// colour and the print's. An item with it takes one this often, where the ground stands apart from the skin.
+        /// </summary>
+        public List<PrintColourway> Colourways = new List<PrintColourway>();
+        public float ColourwayChance;
+
         /// <summary>The second colour for a print in <paramref name="print"/> by <see cref="Accent"/>.</summary>
         public HsvColor AccentFor(HsvColor print)
         {
@@ -352,6 +363,13 @@ namespace Game.Characters.Content
                 accent = new HsvColor(accent.H, Math.Min(1f, accent.S + 0.2f), accent.V > 0.5f ? accent.V - 0.35f : accent.V + 0.35f);
             return accent.Normalized();
         }
+    }
+
+    /// <summary>A print's classic colouring: the cloth under it and the print itself, as hex colours.</summary>
+    public sealed class PrintColourway
+    {
+        public string Base;
+        public string Print;
     }
 
     /// <summary>A fabric: a cloth's surface (its weave, stitches or grain), which parts are made in.</summary>

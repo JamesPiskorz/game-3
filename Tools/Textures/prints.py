@@ -2374,5 +2374,37 @@ PLACED.update({pid: "yoke" for pid in ("yokeflowers", "folkyoke")})
 # (fabrics.PRINT_TAGS). They carry the tag "knitted" in the library.
 KNITTED = {"stripes", "breton", "argyle", "knit", "snowflakes", "rugby", "hearts", "stars", "fairisle", "nordic", "festive"}
 
+# Classic colourways: (how often an item with the print takes one, [(the cloth's colour, the print's)]).
+COLOURWAYS = {
+    "leopard": (0.6, [("#c79a5b", "#2b1c12"), ("#d8c9b0", "#3a3a3a"), ("#b08850", "#1a1410")]),
+    "cheetah": (0.6, [("#d1a666", "#24180f")]),
+    "zebra": (0.6, [("#f2efe8", "#161616")]),
+    "tiger": (0.6, [("#e08a2e", "#1c1410")]),
+    "cow": (0.6, [("#f4f1ea", "#1d1d1d"), ("#f2ede3", "#6b3f22")]),
+    "dalmatian": (0.6, [("#f6f4ef", "#141414")]),
+    "giraffe": (0.6, [("#efe0c0", "#9a6232")]),
+    "snakeskin": (0.5, [("#d7c6a5", "#5a4632"), ("#9a9a96", "#232323")]),
+    "camo": (0.6, [("#5d6440", "#b3a47a"), ("#6b6f5a", "#3b3a2c")]),
+    "pixelcamo": (0.5, [("#6f7766", "#3f4a3a"), ("#7d8aa0", "#3a4558")]),
+    "breton": (0.6, [("#f4f1ea", "#22305a"), ("#f4f1ea", "#b0232a")]),
+    "stripes": (0.3, [("#f4f1ea", "#22305a")]),
+    "rugby": (0.4, [("#1f2c56", "#f2ede0"), ("#13472f", "#f2ede0")]),
+    "gingham": (0.5, [("#f6f4ef", "#c22a33"), ("#f6f4ef", "#2e5ea8"), ("#f6f4ef", "#1c1c1c")]),
+    "buffalo": (0.6, [("#b5232b", "#151515"), ("#1c1c1c", "#d8d8d8")]),
+    "houndstooth": (0.5, [("#efece4", "#1a1a1a")]),
+    "pinstripe": (0.5, [("#1f2a44", "#e8e8e8"), ("#3a3a3e", "#e8e8e8")]),
+    "chalkstripe": (0.5, [("#2f3036", "#e8e6e0"), ("#1f2a44", "#e8e6e0")]),
+    "glenplaid": (0.5, [("#d9d6cf", "#3a3a3d")]),
+    "dots": (0.4, [("#1f2a44", "#f4f1ea"), ("#b0232a", "#f4f1ea"), ("#151515", "#f4f1ea")]),
+    "pindots": (0.4, [("#1f2a44", "#f4f1ea"), ("#151515", "#f4f1ea")]),
+    "seigaiha": (0.4, [("#22305a", "#f2efe8")]),
+    "shippo": (0.4, [("#22305a", "#f2efe8"), ("#8a1f2b", "#e9c46a")]),
+    "fairisle": (0.4, [("#efe7d6", "#8a1f2b"), ("#22305a", "#efe7d6")]),
+    "nordic": (0.5, [("#9d1d26", "#f4f1ea"), ("#22305a", "#f4f1ea")]),
+    "festive": (0.6, [("#a51f27", "#f4f1ea"), ("#1e5a36", "#f4f1ea")]),
+    "anchors": (0.4, [("#f4f1ea", "#22305a"), ("#22305a", "#f4f1ea")]),
+    "ticking": (0.5, [("#f1ece0", "#2a3f6e")]),
+}
+
 # Animal skins and hides: the only prints a leather takes (fabrics.PRINT_TAGS). They carry the tag "animal".
 ANIMAL = {"leopard", "zebra", "tiger", "cow", "snakeskin", "giraffe", "dalmatian", "cheetah"}
