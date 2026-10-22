@@ -1036,6 +1036,12 @@ GLOSS = {
     "lurex_knit": 0.2, "perforated": 0.2,
 }
 
+# How much each pile fabric glows toward its edges (the shader's _Sheen: velvet's look); the rest have none.
+SHEEN = {
+    "velvet": 0.55, "chenille": 0.35, "faux_fur": 0.4, "mohair": 0.35, "sherpa": 0.3, "suede": 0.25, "boucle": 0.2,
+    "fleece": 0.15, "terry": 0.15, "felt": 0.1, "corduroy": 0.15, "jumbo_cord": 0.2, "needlecord": 0.1,
+}
+
 # How much of each fabric's structure is added as light (the shader's _BaseLift), so it reads on dark cloth: the
 # shiny ones most, their highlights being the light they reflect.
 DEFAULT_LIFT = 0.12

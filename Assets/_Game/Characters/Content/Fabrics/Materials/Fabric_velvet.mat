@@ -52,6 +52,7 @@ Material:
     - _RimWidth: 0.25
     - _ShadeSoftness: 0.03
     - _ShadeThreshold: 0.5
+    - _Sheen: 0.55
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseShade: {r: 0.7, g: 0.66, b: 0.74, a: 1}

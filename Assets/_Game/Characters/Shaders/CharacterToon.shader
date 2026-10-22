@@ -9,6 +9,7 @@ Shader "Game/Characters/Toon"
         _BaseGain ("Base Map Gain (1 / its mean)", Float) = 1
         _BaseLift ("Base Map Lift (its structure as light, on dark colours)", Range(0, 1)) = 0
         _Gloss ("Gloss (a toon highlight on shiny cloth; 0 matte)", Range(0, 1)) = 0
+        _Sheen ("Sheen (a soft glow at the edges of pile: velvet, faux fur)", Range(0, 1)) = 0
         [MainColor] _BaseColor ("Base Colour", Color) = (1, 1, 1, 1)
         _BaseShade ("Base Shade Colour", Color) = (0.7, 0.62, 0.68, 1)
 
@@ -174,6 +175,10 @@ Shader "Game/Characters/Toon"
                 half fresnel = 1.0 - saturate(dot(normalWS, viewWS));
                 half rim = smoothstep(1.0 - _RimWidth, 1.0 - _RimWidth + 0.06, fresnel);
                 colour += lit * _RimColor.rgb * 2.0h * mainLight.color * (rim * mainLit);
+
+                // Sheen: pile (velvet, chenille, faux fur) glows soft toward its edges, where the light grazes the
+                // fibres' sides, on the lit side and a little in shade: the look that tells velvet from cotton.
+                colour += lerp(lit, 1.0h, 0.3h) * mainLight.color * (_Sheen * fresnel * fresnel * lerp(0.35h, 1.0h, mainLit));
 
                 // Gloss: a hard-edged highlight where shiny cloth (patent, vinyl, satin, lycra, metallics) mirrors the
                 // main light toward the eye, smaller and brighter the glossier it is, the surface's colour paled toward

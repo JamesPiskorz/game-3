@@ -9,6 +9,7 @@ CBUFFER_START(UnityPerMaterial)
     half _BaseGain;
     half _BaseLift;
     half _Gloss;
+    half _Sheen;
     half4 _BaseColor;
     half4 _BaseShade;
     half4 _Color1;

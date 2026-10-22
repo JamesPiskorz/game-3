@@ -14,7 +14,7 @@ namespace Game.Characters.ContentAuthoring
     /// covers. Each fabric gets a cloth material (Fabrics/Materials/Fabric_&lt;id&gt;.mat): the cloth template with the tile
     /// as its base map, repeating per metre of the garment's fabric UVs and brightened by its mean, so the cloth keeps
     /// its colour on average, lifted by its library lift (its structure added as light, so it shows on dark cloth), and
-    /// glossy by its gloss (a toon highlight: patent, satin, lycra).
+    /// glossy by its gloss (a toon highlight: patent, satin, lycra) or soft-edged by its sheen (pile: velvet, faux fur).
     /// A generated part's sidecar names its fabric; CharacterModelImporter gives it that fabric's material.
     /// Headless: unity run . -- -executeMethod Game.Characters.ContentAuthoring.FabricTextures.Generate
     /// </summary>
@@ -43,6 +43,7 @@ namespace Game.Characters.ContentAuthoring
             public float Weight = 1f;
             public float Lift;
             public float Gloss;
+            public float Sheen;
         }
 
         sealed class Library
@@ -108,6 +109,7 @@ namespace Game.Characters.ContentAuthoring
                 material.SetFloat("_BaseGain", Mathf.Min(1f / Mathf.Max(fabric.Mean, 0.05f), MaxGain));
                 material.SetFloat("_BaseLift", fabric.Lift);
                 material.SetFloat("_Gloss", fabric.Gloss);
+                material.SetFloat("_Sheen", fabric.Sheen);
                 if (created) AssetDatabase.CreateAsset(material, path);
                 else EditorUtility.SetDirty(material);
                 made++;
