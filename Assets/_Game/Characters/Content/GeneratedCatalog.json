@@ -9019,6 +9019,39 @@
       "placement": null,
       "colourways": [],
       "colourwayChance": 0.0
+    },
+    {
+      "id": "pattern.dogs_01",
+      "name": "Dogs",
+      "weight": 0.5,
+      "tags": [
+        "cute",
+        "casual",
+        "sleep"
+      ],
+      "minScale": 3.0,
+      "maxScale": 5.0,
+      "accent": "contrast",
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
+    },
+    {
+      "id": "pattern.frogs_01",
+      "name": "Frogs",
+      "weight": 0.4,
+      "tags": [
+        "cute",
+        "casual",
+        "sleep",
+        "rain"
+      ],
+      "minScale": 3.0,
+      "maxScale": 5.0,
+      "accent": "leaf",
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     }
   ],
   "fabrics": [

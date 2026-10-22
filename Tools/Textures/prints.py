@@ -2719,6 +2719,115 @@ def triple_stripes(size, seed):
     return first, _zero(size), second
 
 
+
+def art_deco(size, seed):
+    """Art deco fans: rows of scalloped fans, each ribbed with fine rays and rimmed in the second colour (a gala)."""
+    x, y = tk.grid(size)
+    n = 4
+    rows = 4
+    colour, accent, ink = _zero(size), _zero(size), _zero(size)
+    for row in range(rows + 1):
+        shift = 0.5 / n if row % 2 else 0.0
+        u = ((x - shift) * n) % 1.0 - 0.5
+        dv = ((y - row / rows + 0.5) % 1.0 - 0.5) * rows
+        rad = np.hypot(u, dv * 0.5)
+        fan = (rad < 0.5) & (dv <= 0)
+        rays = fan & (np.abs(np.sin(np.arctan2(dv, u) * 9)) < 0.18) & (rad > 0.12)
+        rim = fan & (rad > 0.42)
+        colour = np.where(fan, (~rim).astype(float), colour)
+        accent = np.where(fan, rim.astype(float), accent)
+        ink = np.where(fan, rays * 0.6, ink)
+    return colour, ink, accent
+
+
+def bandana(size, seed):
+    """Bandana: paisleys and little flowers set inside a border of rules and dots, square by square, as a bandana is printed."""
+    x, y = tk.grid(size)
+    edge = np.minimum(np.minimum(x, 1 - x), np.minimum(y, 1 - y))
+    border = (_band(edge, 0.012, 0.02, 0.003) + _band(edge, 0.075, 0.012, 0.003)).clip(0, 1)
+    along = np.where(np.minimum(x, 1 - x) < np.minimum(y, 1 - y), y, x)
+    dots = (np.hypot(((along * 20) % 1.0) - 0.5, (edge - 0.045) * 20) < 0.28).astype(float)
+    colour, ink = _zero(size), _zero(size)
+    big, small = _paisley_shape(int(size / 3.6)), _paisley_shape(int(size / 5.5))
+    flower = _petal_flower(int(size / 9), 6, 0.45)
+    for (cx, cy), shape in (((0.32, 0.33), big), ((0.68, 0.67), big), ((0.7, 0.3), small), ((0.3, 0.7), small)):
+        tk.stamp(colour, shape[0], cx * size, cy * size)
+        tk.stamp(ink, shape[1], cx * size, cy * size)
+    for cx, cy in ((0.5, 0.5), (0.5, 0.18), (0.5, 0.82), (0.18, 0.5), (0.82, 0.5)):
+        tk.stamp(colour, flower[0], cx * size, cy * size)
+        tk.stamp(ink, flower[1], cx * size, cy * size)
+    return np.clip(np.maximum(colour, np.maximum(border, dots)), 0, 1), np.clip(ink, 0, 1)
+
+
+def line_botanicals(size, seed):
+    """Line-art botanicals: leafy sprigs drawn in fine lines, as in a botanical sketchbook."""
+    rng = np.random.default_rng(seed)
+
+    def draw(d, n):
+        for k, (cx, cy) in enumerate(tk.scatter(n, 7, seed, n / 3.2)):
+            angle = rng.random() * np.pi * 2
+            length = n * (0.3 + 0.08 * rng.random())
+            ca, sa = np.cos(angle), np.sin(angle)
+            for dx in (-n, 0, n):
+                for dy in (-n, 0, n):
+                    x0, y0 = cx + dx, cy + dy
+                    stem = [(x0 + ca * t * length + -sa * 0.08 * length * np.sin(t * 3), y0 + sa * t * length + ca * 0.08 * length * np.sin(t * 3))
+                            for t in np.linspace(-0.5, 0.5, 20)]
+                    d.line(stem, fill=255, width=max(2, n // 110))
+                    for j in range(2, 18, 3):
+                        px, py = stem[j]
+                        side = 1 if j % 2 else -1
+                        la = angle + side * 0.9
+                        lx, ly = px + np.cos(la) * length * 0.18, py + np.sin(la) * length * 0.18
+                        leaf = [(px + (lx - px) * t + side * -np.sin(la) * length * 0.05 * np.sin(np.pi * t),
+                                 py + (ly - py) * t + side * np.cos(la) * length * 0.05 * np.sin(np.pi * t)) for t in np.linspace(0, 1, 8)]
+                        leaf2 = [(px + (lx - px) * t - side * -np.sin(la) * length * 0.05 * np.sin(np.pi * t),
+                                  py + (ly - py) * t - side * np.cos(la) * length * 0.05 * np.sin(np.pi * t)) for t in np.linspace(0, 1, 8)]
+                        d.line(leaf + leaf2[::-1], fill=255, width=max(2, n // 130))
+    return _drawn(size, draw), _zero(size)
+
+
+
+def dogs(size, seed):
+    """Dog faces: round heads with floppy ears in the second colour, a nose and a little tongue (pyjamas, kids)."""
+    def dog(px):
+        r = px // 2
+        y, x = np.mgrid[-r:r + 1, -r:r + 1].astype(float) / max(r, 1)
+        head = np.hypot(x / 0.6, (y - 0.05) / 0.58) < 1
+        ears = (np.hypot((np.abs(x) - 0.58) / 0.2, (y + 0.05) / 0.42) < 1) & (y > -0.45)
+        muzzle = np.hypot(x / 0.3, (y - 0.3) / 0.2) < 1
+        eyes = np.hypot(np.abs(x) - 0.22, y + 0.08) < 0.07
+        nose = np.hypot(x / 0.11, (y - 0.2) / 0.07) < 1
+        tongue = np.hypot(x / 0.07, (y - 0.46) / 0.08) < 1
+        colour = tk.blur_small((head & ~ears).astype(float), 0.7)
+        accent = tk.blur_small(ears.astype(float), 0.7)
+        ink = np.clip(eyes + nose + tongue * 0.5 + _outline(np.maximum(colour, accent), 1) * 0.5 + _outline(muzzle.astype(float), 1) * 0.4, 0, 1)
+        return colour, ink, accent
+    return _scatter_shapes(size, [dog(int(size / 4.5)), dog(int(size / 6))], 11, seed, size / 4.2, rotate=False)
+
+
+def frogs(size, seed):
+    """Frogs: little sitting frogs with big eyes and a wide smile, among lily pads in the second colour."""
+    def frog(px):
+        r = px // 2
+        y, x = np.mgrid[-r:r + 1, -r:r + 1].astype(float) / max(r, 1)
+        body = np.hypot(x / 0.62, (y - 0.15) / 0.45) < 1
+        eyes = np.hypot(np.abs(x) - 0.32, y + 0.32) < 0.2
+        pupils = np.hypot(np.abs(x) - 0.32, y + 0.32) < 0.08
+        smile = (np.abs(np.hypot(x, y + 0.05) - 0.35) < 0.035) & (y > 0.12) & (np.abs(x) < 0.3)
+        feet = (np.hypot((np.abs(x) - 0.45) / 0.18, (y - 0.55) / 0.08) < 1)
+        shape = tk.blur_small((body | eyes | feet).astype(float), 0.7)
+        return shape, np.clip(pupils + smile + _outline(shape, 1) * 0.5, 0, 1)
+
+    def pad(px):
+        r = px // 2
+        y, x = np.mgrid[-r:r + 1, -r:r + 1].astype(float) / max(r, 1)
+        disc = (np.hypot(x, y * 1.4) < 0.8) & ~((np.abs(np.arctan2(y, x) - 0.6) < 0.25))
+        shape = tk.blur_small(disc.astype(float), 0.7)
+        return np.zeros_like(shape), _outline(shape, 1) * 0.4, shape
+    return _scatter_shapes(size, [frog(int(size / 4.5)), pad(int(size / 4)), frog(int(size / 6)), pad(int(size / 5.5))], 12, seed, size / 4.6, rotate=False)
+
+
 # name, tags, tiles per metre (min, max), weight
 PRINTS = {
     # Patterns the stand-ins share (their catalog lists these ids).
@@ -2943,6 +3052,11 @@ PRINTS = {
     "rosebuds": (rosebuds, "Rosebuds", ["date", "cute", "elegant"], (3, 5), 0.6),
     "keys": (keys, "Skeleton keys", ["gothic", "bookish"], (2.5, 4), 0.4),
     "triplestripes": (triple_stripes, "Triple stripes", ["sporty", "street"], (3, 5), 0.5),
+    "artdeco": (art_deco, "Art deco fans", ["elegant", "date"], (3, 5), 0.5),
+    "bandana": (bandana, "Bandana", ["street", "casual"], (2.5, 4), 0.5),
+    "linebotanical": (line_botanicals, "Botanical sketches", ["bookish", "elegant", "casual"], (2.5, 4), 0.5),
+    "dogs": (dogs, "Dogs", ["cute", "casual"], (3, 5), 0.5),
+    "frogs": (frogs, "Frogs", ["cute", "casual"], (3, 5), 0.4),
 }
 
 # How each print's second colour (its accent: leaves, hearts, wafers) follows its first: "leaf" (a natural green),
@@ -2955,7 +3069,7 @@ ACCENT = {
     "cacti": "leaf", "medallions": "contrast", "groovy": "contrast", "flowerpower": "gold", "dinosaurs": "contrast",
     "sailboats": "contrast", "umbrellas": "contrast", "liberty": "contrast", "lavender": "leaf", "maple": "gold",
     "pineapples": "leaf", "memphis": "contrast", "regimental": "contrast", "quilt": "contrast", "graffiti": "contrast",
-    "swooshes": "contrast", "thorns": "leaf", "rosebuds": "leaf", "triplestripes": "contrast",
+    "swooshes": "contrast", "thorns": "leaf", "rosebuds": "leaf", "triplestripes": "contrast", "artdeco": "gold", "dogs": "contrast", "frogs": "leaf",
     "tee_heart": "light", "tee_star": "light", "tee_cherries": "leaf", "tee_rose": "leaf", "tee_sunset": "gold",
     "tee_cat": "light", "tee_rainbow": "contrast", "tee_planet": "contrast", "tee_daisy": "gold", "tee_mountains": "light",
     "tee_butterfly": "contrast", "tee_moon": "gold", "tee_crown": "contrast", "tee_ghost": "light", "tee_palm": "leaf",
@@ -2990,13 +3104,13 @@ CONTEXT_TAGS = {
     "sleep": ["clouds", "moons", "stars", "hearts", "dots", "pindots", "gingham", "check", "pyjama", "bunnies", "cats",
               "raindrops", "snowflakes", "plaid", "buffalo", "candystripe", "floral", "daisies", "cherries",
               "strawberries", "bows", "paws", "rainbows", "planets", "sakura", "ticking", "notes", "smileys", "seigaiha",
-              "dinosaurs", "sailboats", "rosebuds"],
+              "dinosaurs", "sailboats", "rosebuds", "dogs", "frogs"],
     "swim": ["pineapples", "sailboats", "tropical", "hibiscus", "stripes", "breton", "waves", "scales", "shells", "fish", "seagulls", "anchors",
              "lemons", "watermelon", "floral", "bigfloral", "dots", "gingham", "leopard", "zebra", "cheetah", "tiedye",
              "cherries", "strawberries", "daisies", "sunsetfade", "ombre", "colourblock", "ricrac", "tee_palm", "icecream"],
     "rain": ["raindrops", "clouds", "umbrellas", "check", "gingham", "plaid", "buffalo", "houndstooth", "dots",
-             "stripes", "breton", "anchors", "fish"],
-    "formal": ["chains", "rosebuds", "damask", "bigfloral", "roses", "ombre", "sunsetfade", "scallop", "greekkey", "medallions", "fleurdelis",
+             "stripes", "breton", "anchors", "fish", "frogs"],
+    "formal": ["artdeco", "chains", "rosebuds", "damask", "bigfloral", "roses", "ombre", "sunsetfade", "scallop", "greekkey", "medallions", "fleurdelis",
                "paisley", "seigaiha", "shippo", "quatrefoil", "lattice", "starlattice", "watercolour", "hemflowers"],
 }
 
@@ -3031,6 +3145,7 @@ COLOURWAYS = {
     "anchors": (0.4, [("#f4f1ea", "#22305a"), ("#22305a", "#f4f1ea")]),
     "ticking": (0.5, [("#f1ece0", "#2a3f6e")]),
     "chains": (0.6, [("#f4efe4", "#b8902e"), ("#1c1c1f", "#c9a24a"), ("#22305a", "#c9a24a")]),
+    "bandana": (0.6, [("#b5232b", "#f4f1ea"), ("#22305a", "#f4f1ea"), ("#151515", "#f4f1ea")]),
 }
 
 # Animal skins and hides: the only prints a leather takes (fabrics.PRINT_TAGS). They carry the tag "animal".
