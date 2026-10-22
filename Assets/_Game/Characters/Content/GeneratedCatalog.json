@@ -9013,8 +9013,8 @@
         "elegant",
         "casual"
       ],
-      "minScale": 2.5,
-      "maxScale": 4.0,
+      "minScale": 1.8,
+      "maxScale": 3.0,
       "accent": null,
       "placement": null,
       "colourways": [],

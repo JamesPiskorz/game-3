@@ -3728,8 +3728,8 @@
     "elegant",
     "casual"
    ],
-   "minScale": 2.5,
-   "maxScale": 4,
+   "minScale": 1.8,
+   "maxScale": 3,
    "weight": 0.5,
    "accent": null,
    "placement": null,

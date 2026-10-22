@@ -2707,7 +2707,7 @@ def keys(size, seed):
         collar = (np.abs(x) < 0.1) & (np.abs(y + 0.3) < 0.04)
         shape = tk.blur_small((bow | shaft | bit | collar).astype(float), 0.7)
         return shape, _outline(shape, 1) * 0.5
-    return _scatter_shapes(size, [key(int(size / 4)), key(int(size / 5.5))], 12, seed, size / 4.5)
+    return _scatter_shapes(size, [key(int(size / 3.2)), key(int(size / 4.4))], 10, seed, size / 3.8)
 
 
 def triple_stripes(size, seed):
@@ -2773,7 +2773,7 @@ def line_botanicals(size, seed):
                     x0, y0 = cx + dx, cy + dy
                     stem = [(x0 + ca * t * length + -sa * 0.08 * length * np.sin(t * 3), y0 + sa * t * length + ca * 0.08 * length * np.sin(t * 3))
                             for t in np.linspace(-0.5, 0.5, 20)]
-                    d.line(stem, fill=255, width=max(2, n // 110))
+                    d.line(stem, fill=255, width=max(3, n // 70))
                     for j in range(2, 18, 3):
                         px, py = stem[j]
                         side = 1 if j % 2 else -1
@@ -2783,7 +2783,7 @@ def line_botanicals(size, seed):
                                  py + (ly - py) * t + side * np.cos(la) * length * 0.05 * np.sin(np.pi * t)) for t in np.linspace(0, 1, 8)]
                         leaf2 = [(px + (lx - px) * t - side * -np.sin(la) * length * 0.05 * np.sin(np.pi * t),
                                   py + (ly - py) * t - side * np.cos(la) * length * 0.05 * np.sin(np.pi * t)) for t in np.linspace(0, 1, 8)]
-                        d.line(leaf + leaf2[::-1], fill=255, width=max(2, n // 130))
+                        d.line(leaf + leaf2[::-1], fill=255, width=max(3, n // 85))
     return _drawn(size, draw), _zero(size)
 
 
@@ -3054,7 +3054,7 @@ PRINTS = {
     "triplestripes": (triple_stripes, "Triple stripes", ["sporty", "street"], (3, 5), 0.5),
     "artdeco": (art_deco, "Art deco fans", ["elegant", "date"], (3, 5), 0.5),
     "bandana": (bandana, "Bandana", ["street", "casual"], (2.5, 4), 0.5),
-    "linebotanical": (line_botanicals, "Botanical sketches", ["bookish", "elegant", "casual"], (2.5, 4), 0.5),
+    "linebotanical": (line_botanicals, "Botanical sketches", ["bookish", "elegant", "casual"], (1.8, 3), 0.5),
     "dogs": (dogs, "Dogs", ["cute", "casual"], (3, 5), 0.5),
     "frogs": (frogs, "Frogs", ["cute", "casual"], (3, 5), 0.4),
 }
