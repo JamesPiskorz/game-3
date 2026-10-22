@@ -147,7 +147,10 @@ namespace Game.Characters.ContentAuthoring
             }
             catalog.Fabrics.Clear();
             catalog.Fabrics.AddRange(FabricTextures.Entries().Select(f => new FabricEntry
-                { Id = f.Id, Name = f.Name, Tags = f.Tags.ToList(), Printable = f.Printable, PrintTags = f.PrintTags.ToList(), Weight = f.Weight }));
+                {
+                    Id = f.Id, Name = f.Name, Tags = f.Tags.ToList(), Printable = f.Printable, PrintTags = f.PrintTags.ToList(), Weight = f.Weight,
+                    Colours = f.Colours.Select(hex => new PaletteColour { Hex = hex }).ToList(), ColourChance = f.ColourChance,
+                }));
             // Fabric choices the library lacks are dropped, so the catalog validates.
             foreach (PartEntry part in catalog.Parts)
                 part.Fabrics.RemoveAll(f => catalog.Fabric(f) == null);

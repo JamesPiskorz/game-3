@@ -921,7 +921,8 @@
         "velvet",
         "chiffon",
         "lace",
-        "shantung"
+        "shantung",
+        "satin_stripe"
       ],
       "contexts": [
         "sleep"
@@ -1078,7 +1079,8 @@
         "lace",
         "dobby",
         "crinkle",
-        "shantung"
+        "shantung",
+        "satin_stripe"
       ],
       "contexts": [
         "work"
@@ -1172,7 +1174,8 @@
         "corduroy",
         "velvet",
         "linen",
-        "ottoman"
+        "ottoman",
+        "felt"
       ],
       "contexts": []
     },
@@ -1576,7 +1579,8 @@
         "velvet",
         "chiffon",
         "lace",
-        "shantung"
+        "shantung",
+        "satin_stripe"
       ],
       "contexts": [
         "sleep"
@@ -1608,7 +1612,8 @@
         "metallic",
         "shantung",
         "moire",
-        "taffeta"
+        "taffeta",
+        "satin_stripe"
       ],
       "contexts": [
         "date",
@@ -1856,7 +1861,8 @@
         "metallic",
         "shantung",
         "moire",
-        "taffeta"
+        "taffeta",
+        "satin_stripe"
       ],
       "contexts": [
         "date",
@@ -1970,7 +1976,8 @@
         "metallic",
         "shantung",
         "moire",
-        "taffeta"
+        "taffeta",
+        "satin_stripe"
       ],
       "contexts": [
         "formal",
@@ -2118,7 +2125,8 @@
         "velvet",
         "chiffon",
         "lace",
-        "shantung"
+        "shantung",
+        "satin_stripe"
       ],
       "contexts": [
         "sleep"
@@ -2237,7 +2245,8 @@
         "metallic",
         "shantung",
         "moire",
-        "taffeta"
+        "taffeta",
+        "satin_stripe"
       ],
       "contexts": [
         "date",
@@ -2297,7 +2306,8 @@
         "boucle",
         "mohair",
         "chenille",
-        "seed_stitch"
+        "seed_stitch",
+        "lurex_knit"
       ],
       "contexts": []
     },
@@ -2357,7 +2367,8 @@
         "lace",
         "dobby",
         "crinkle",
-        "shantung"
+        "shantung",
+        "satin_stripe"
       ],
       "contexts": [
         "date",
@@ -2419,7 +2430,8 @@
         "metallic",
         "shantung",
         "moire",
-        "taffeta"
+        "taffeta",
+        "satin_stripe"
       ],
       "contexts": [
         "formal"
@@ -2486,7 +2498,8 @@
         "twill",
         "denim",
         "leather",
-        "ottoman"
+        "ottoman",
+        "felt"
       ],
       "contexts": []
     },
@@ -3389,7 +3402,8 @@
         "velvet",
         "chiffon",
         "lace",
-        "shantung"
+        "shantung",
+        "satin_stripe"
       ],
       "contexts": [
         "sleep"
@@ -3478,7 +3492,8 @@
         "lace",
         "dobby",
         "crinkle",
-        "shantung"
+        "shantung",
+        "satin_stripe"
       ],
       "contexts": []
     },
@@ -3591,7 +3606,8 @@
         "pointelle",
         "mohair",
         "seed_stitch",
-        "chenille"
+        "chenille",
+        "lurex_knit"
       ],
       "contexts": []
     },
@@ -3708,7 +3724,8 @@
         "waffle",
         "crochet",
         "pointelle",
-        "mohair"
+        "mohair",
+        "lurex_knit"
       ],
       "contexts": []
     },
@@ -3824,7 +3841,8 @@
         "linen",
         "flannel",
         "seersucker",
-        "dobby"
+        "dobby",
+        "satin_stripe"
       ],
       "contexts": []
     },
@@ -3847,7 +3865,8 @@
         "velvet",
         "chiffon",
         "lace",
-        "shantung"
+        "shantung",
+        "satin_stripe"
       ],
       "contexts": [
         "sleep"
@@ -3933,7 +3952,8 @@
         "waffle",
         "crochet",
         "pointelle",
-        "mohair"
+        "mohair",
+        "lurex_knit"
       ],
       "contexts": []
     },
@@ -3990,7 +4010,8 @@
         "lace",
         "dobby",
         "crinkle",
-        "shantung"
+        "shantung",
+        "satin_stripe"
       ],
       "contexts": [
         "work"
@@ -4022,7 +4043,8 @@
         "metallic",
         "shantung",
         "moire",
-        "taffeta"
+        "taffeta",
+        "satin_stripe"
       ],
       "contexts": []
     },
@@ -4105,7 +4127,8 @@
         "waffle",
         "crochet",
         "pointelle",
-        "mohair"
+        "mohair",
+        "lurex_knit"
       ],
       "contexts": []
     },
@@ -4244,7 +4267,8 @@
         "waffle",
         "crochet",
         "pointelle",
-        "mohair"
+        "mohair",
+        "lurex_knit"
       ],
       "contexts": []
     },
@@ -4274,7 +4298,8 @@
         "metallic",
         "shantung",
         "moire",
-        "taffeta"
+        "taffeta",
+        "satin_stripe"
       ],
       "contexts": []
     },
@@ -4302,7 +4327,8 @@
         "waffle",
         "crochet",
         "pointelle",
-        "mohair"
+        "mohair",
+        "lurex_knit"
       ],
       "contexts": []
     },
@@ -5345,8 +5371,8 @@
         "street",
         "gothic"
       ],
-      "minScale": 2.0,
-      "maxScale": 3.0
+      "minScale": 4.0,
+      "maxScale": 6.0
     },
     {
       "id": "pattern.camo_01",
@@ -6037,6 +6063,76 @@
       ],
       "minScale": 2.5,
       "maxScale": 3.5
+    },
+    {
+      "id": "pattern.festive_01",
+      "name": "Christmas jumper",
+      "weight": 0.3,
+      "tags": [
+        "cute",
+        "casual",
+        "knitted"
+      ],
+      "minScale": 2.5,
+      "maxScale": 3.5
+    },
+    {
+      "id": "pattern.damask_01",
+      "name": "Damask",
+      "weight": 0.6,
+      "tags": [
+        "elegant",
+        "gothic",
+        "bookish"
+      ],
+      "minScale": 2.0,
+      "maxScale": 3.5
+    },
+    {
+      "id": "pattern.fleurdelis_01",
+      "name": "Fleur-de-lis",
+      "weight": 0.4,
+      "tags": [
+        "elegant",
+        "bookish"
+      ],
+      "minScale": 3.0,
+      "maxScale": 5.0
+    },
+    {
+      "id": "pattern.icecream_01",
+      "name": "Ice creams",
+      "weight": 0.4,
+      "tags": [
+        "cute",
+        "casual"
+      ],
+      "minScale": 2.5,
+      "maxScale": 4.0
+    },
+    {
+      "id": "pattern.doughnuts_01",
+      "name": "Doughnuts",
+      "weight": 0.4,
+      "tags": [
+        "cute",
+        "street",
+        "casual"
+      ],
+      "minScale": 2.5,
+      "maxScale": 4.0
+    },
+    {
+      "id": "pattern.watermelon_01",
+      "name": "Watermelons",
+      "weight": 0.4,
+      "tags": [
+        "cute",
+        "casual",
+        "sporty"
+      ],
+      "minScale": 2.5,
+      "maxScale": 4.0
     }
   ],
   "fabrics": [
@@ -6049,19 +6145,23 @@
         "cute"
       ],
       "printable": true,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "poplin",
       "name": "Poplin shirting",
-      "weight": 1.0,
+      "weight": 1.2,
       "tags": [
         "elegant",
         "bookish",
         "casual"
       ],
       "printable": true,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "oxford",
@@ -6072,7 +6172,9 @@
         "elegant"
       ],
       "printable": true,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "chambray",
@@ -6083,7 +6185,25 @@
         "bookish"
       ],
       "printable": true,
-      "printTags": []
+      "printTags": [],
+      "colours": [
+        {
+          "hex": "#88a4c6",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#6d8db5",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#a9bcd6",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ],
+      "colourChance": 0.7
     },
     {
       "id": "canvas",
@@ -6094,7 +6214,30 @@
         "street"
       ],
       "printable": true,
-      "printTags": []
+      "printTags": [],
+      "colours": [
+        {
+          "hex": "#c2a878",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#68684a",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#e3d9c4",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#2c3346",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ],
+      "colourChance": 0.3
     },
     {
       "id": "linen",
@@ -6106,7 +6249,25 @@
         "bookish"
       ],
       "printable": true,
-      "printTags": []
+      "printTags": [],
+      "colours": [
+        {
+          "hex": "#d8ccb4",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#efebe2",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#b9a98c",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ],
+      "colourChance": 0.3
     },
     {
       "id": "gauze",
@@ -6117,7 +6278,9 @@
         "cute"
       ],
       "printable": true,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "seersucker",
@@ -6129,7 +6292,9 @@
         "bookish"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "eyelet",
@@ -6140,29 +6305,66 @@
         "date"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "denim",
       "name": "Denim",
-      "weight": 1.0,
+      "weight": 1.4,
       "tags": [
         "casual",
         "street"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [
+        {
+          "hex": "#27334d",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#2f4670",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#3d5f8f",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#5a7caa",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#1d1d22",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#7a7f88",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ],
+      "colourChance": 0.75
     },
     {
       "id": "twill",
       "name": "Chino and gabardine twill",
-      "weight": 1.0,
+      "weight": 1.2,
       "tags": [
         "casual",
         "bookish"
       ],
       "printable": true,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "flannel",
@@ -6174,7 +6376,9 @@
         "bookish"
       ],
       "printable": true,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "herringbone",
@@ -6185,7 +6389,30 @@
         "elegant"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [
+        {
+          "hex": "#59595d",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#6a5c47",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#3e4350",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#7a7468",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ],
+      "colourChance": 0.5
     },
     {
       "id": "tweed",
@@ -6196,7 +6423,35 @@
         "elegant"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [
+        {
+          "hex": "#6a5c47",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#77786a",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#8a7963",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#474b57",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#6d5040",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ],
+      "colourChance": 0.5
     },
     {
       "id": "ripstop",
@@ -6207,23 +6462,43 @@
         "street"
       ],
       "printable": true,
-      "printTags": []
+      "printTags": [],
+      "colours": [
+        {
+          "hex": "#5b6648",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#2b3140",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#c8b48c",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ],
+      "colourChance": 0.3
     },
     {
       "id": "jersey",
       "name": "Cotton jersey",
-      "weight": 1.0,
+      "weight": 1.3,
       "tags": [
         "casual",
         "sporty"
       ],
       "printable": true,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "knit",
       "name": "Stockinette knit",
-      "weight": 1.0,
+      "weight": 1.2,
       "tags": [
         "cute",
         "bookish",
@@ -6232,7 +6507,9 @@
       "printable": true,
       "printTags": [
         "knitted"
-      ]
+      ],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "chunky_knit",
@@ -6245,7 +6522,9 @@
       "printable": true,
       "printTags": [
         "knitted"
-      ]
+      ],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "rib_knit",
@@ -6257,7 +6536,9 @@
         "elegant"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "wide_rib",
@@ -6269,7 +6550,9 @@
         "casual"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "cable_knit",
@@ -6280,7 +6563,9 @@
         "cute"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "waffle",
@@ -6291,7 +6576,9 @@
         "sporty"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "pique",
@@ -6303,18 +6590,22 @@
         "casual"
       ],
       "printable": true,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "crochet",
       "name": "Crochet",
-      "weight": 1.0,
+      "weight": 0.8,
       "tags": [
         "cute",
         "casual"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "fleece",
@@ -6326,7 +6617,9 @@
         "street"
       ],
       "printable": true,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "boucle",
@@ -6337,7 +6630,9 @@
         "cute"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "terry",
@@ -6348,19 +6643,44 @@
         "sporty"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "faux_fur",
       "name": "Faux fur",
-      "weight": 1.0,
+      "weight": 0.6,
       "tags": [
         "street",
         "elegant",
         "gothic"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [
+        {
+          "hex": "#efe6d6",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#d6c6ad",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#b5977a",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#2a2624",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ],
+      "colourChance": 0.5
     },
     {
       "id": "satin",
@@ -6371,7 +6691,9 @@
         "date"
       ],
       "printable": true,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "crepe",
@@ -6382,7 +6704,9 @@
         "date"
       ],
       "printable": true,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "chiffon",
@@ -6394,7 +6718,9 @@
         "date"
       ],
       "printable": true,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "tulle",
@@ -6405,7 +6731,9 @@
         "elegant"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "lycra",
@@ -6415,7 +6743,9 @@
         "sporty"
       ],
       "printable": true,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "velvet",
@@ -6427,29 +6757,56 @@
         "date"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "metallic",
       "name": "Lurex and lamé",
-      "weight": 1.0,
+      "weight": 0.6,
       "tags": [
         "date",
         "street"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [
+        {
+          "hex": "#c9a24a",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#b8bcc4",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#c49080",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#8a8c92",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ],
+      "colourChance": 0.6
     },
     {
       "id": "sequins",
       "name": "Sequins",
-      "weight": 1.0,
+      "weight": 0.7,
       "tags": [
         "date",
         "elegant"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "lace",
@@ -6462,7 +6819,9 @@
         "cute"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "jacquard",
@@ -6473,41 +6832,112 @@
         "gothic"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "leather",
       "name": "Leather",
-      "weight": 1.0,
+      "weight": 1.2,
       "tags": [
         "street",
         "gothic"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [
+        {
+          "hex": "#1b1919",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#3b281f",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#7f4e2c",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#a87448",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#521b1f",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ],
+      "colourChance": 0.6
     },
     {
       "id": "patent",
       "name": "Patent leather",
-      "weight": 1.0,
+      "weight": 0.8,
       "tags": [
         "gothic",
         "elegant",
         "date"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [
+        {
+          "hex": "#141416",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#9a1a20",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#c8a08a",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ],
+      "colourChance": 0.35
     },
     {
       "id": "croc",
       "name": "Embossed croc",
-      "weight": 1.0,
+      "weight": 0.6,
       "tags": [
         "elegant",
         "street"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [
+        {
+          "hex": "#1b1919",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#4a3022",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#8a5a32",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#2e3b2c",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ],
+      "colourChance": 0.5
     },
     {
       "id": "suede",
@@ -6519,7 +6949,35 @@
         "street"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [
+        {
+          "hex": "#ae8257",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#9a7149",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#56392a",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#7a746e",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#66653f",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ],
+      "colourChance": 0.6
     },
     {
       "id": "corduroy",
@@ -6530,28 +6988,65 @@
         "casual"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [
+        {
+          "hex": "#8a5a30",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#6b5a3a",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#a07848",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#4a5a3a",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#712a2a",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#3e3530",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ],
+      "colourChance": 0.45
     },
     {
       "id": "rubber",
       "name": "Rubber",
-      "weight": 1.0,
+      "weight": 0.6,
       "tags": [
         "casual"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "mesh",
       "name": "Athletic mesh",
-      "weight": 1.0,
+      "weight": 0.6,
       "tags": [
         "sporty",
         "street"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "quilted",
@@ -6563,7 +7058,9 @@
         "sporty"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "diamond_quilt",
@@ -6574,7 +7071,9 @@
         "casual"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "dobby",
@@ -6586,7 +7085,9 @@
         "casual"
       ],
       "printable": true,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "crinkle",
@@ -6597,7 +7098,9 @@
         "cute"
       ],
       "printable": true,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "stonewash",
@@ -6608,18 +7111,64 @@
         "street"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [
+        {
+          "hex": "#5c7eab",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#7898c0",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#47648e",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#8e949c",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ],
+      "colourChance": 0.8
     },
     {
       "id": "acid_wash",
       "name": "Acid-wash denim",
-      "weight": 1.0,
+      "weight": 0.5,
       "tags": [
         "street",
         "gothic"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [
+        {
+          "hex": "#6f8db5",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#93a8c4",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#4c4e55",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#a3a8b0",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ],
+      "colourChance": 0.85
     },
     {
       "id": "nylon",
@@ -6630,7 +7179,9 @@
         "street"
       ],
       "printable": true,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "waxed",
@@ -6642,7 +7193,30 @@
         "street"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [
+        {
+          "hex": "#4a5236",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#38382d",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#5a4632",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#2a3040",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ],
+      "colourChance": 0.7
     },
     {
       "id": "marl",
@@ -6654,7 +7228,30 @@
         "street"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [
+        {
+          "hex": "#9a9a9e",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#7b7b81",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#c6c6ca",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#4b4b51",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ],
+      "colourChance": 0.6
     },
     {
       "id": "slub_jersey",
@@ -6664,7 +7261,9 @@
         "casual"
       ],
       "printable": true,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "mohair",
@@ -6678,7 +7277,9 @@
       "printable": true,
       "printTags": [
         "knitted"
-      ]
+      ],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "pointelle",
@@ -6689,7 +7290,9 @@
         "date"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "seed_stitch",
@@ -6701,19 +7304,39 @@
         "casual"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "sherpa",
       "name": "Sherpa and shearling fleece",
-      "weight": 1.0,
+      "weight": 0.8,
       "tags": [
         "casual",
         "cute",
         "street"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [
+        {
+          "hex": "#f0e8d8",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#ded0b8",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#c4ab8e",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ],
+      "colourChance": 0.65
     },
     {
       "id": "chenille",
@@ -6724,7 +7347,9 @@
         "casual"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "shantung",
@@ -6735,100 +7360,155 @@
         "date"
       ],
       "printable": true,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "moire",
       "name": "Moiré silk",
-      "weight": 1.0,
+      "weight": 0.6,
       "tags": [
         "elegant",
         "gothic"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "taffeta",
       "name": "Taffeta",
-      "weight": 1.0,
+      "weight": 0.7,
       "tags": [
         "elegant",
         "date",
         "cute"
       ],
       "printable": true,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "organza",
       "name": "Organza",
-      "weight": 1.0,
+      "weight": 0.7,
       "tags": [
         "elegant",
         "cute",
         "date"
       ],
       "printable": true,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "glitter",
       "name": "Glitter",
-      "weight": 1.0,
+      "weight": 0.5,
       "tags": [
         "date",
         "cute",
         "street"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "beaded",
       "name": "Beading",
-      "weight": 1.0,
+      "weight": 0.5,
       "tags": [
         "elegant",
         "date"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "perforated",
       "name": "Perforated leather",
-      "weight": 1.0,
+      "weight": 0.6,
       "tags": [
         "sporty",
         "street"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "vinyl",
       "name": "Vinyl and PVC",
-      "weight": 1.0,
+      "weight": 0.35,
       "tags": [
         "gothic",
         "street",
         "date"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [
+        {
+          "hex": "#141416",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#9a1a20",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#e9e4dc",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ],
+      "colourChance": 0.5
     },
     {
       "id": "snake",
       "name": "Embossed snakeskin",
-      "weight": 1.0,
+      "weight": 0.6,
       "tags": [
         "street",
         "elegant",
         "gothic"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [
+        {
+          "hex": "#c9b693",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#8a7458",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#1b1919",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#b8a890",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ],
+      "colourChance": 0.5
     },
     {
       "id": "ottoman",
@@ -6839,18 +7519,43 @@
         "bookish"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "straw",
       "name": "Woven straw and raffia",
-      "weight": 1.0,
+      "weight": 0.8,
       "tags": [
         "casual",
         "cute"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [
+        {
+          "hex": "#d8c08a",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#c7a76d",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#e5d5ae",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#35302b",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ],
+      "colourChance": 0.85
     },
     {
       "id": "pleated",
@@ -6862,7 +7567,9 @@
         "bookish"
       ],
       "printable": true,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
     },
     {
       "id": "smocked",
@@ -6874,7 +7581,53 @@
         "date"
       ],
       "printable": false,
-      "printTags": []
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
+    },
+    {
+      "id": "satin_stripe",
+      "name": "Satin stripe",
+      "weight": 1.0,
+      "tags": [
+        "elegant",
+        "bookish",
+        "date"
+      ],
+      "printable": false,
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
+    },
+    {
+      "id": "felt",
+      "name": "Boiled wool and felt",
+      "weight": 1.0,
+      "tags": [
+        "bookish",
+        "elegant",
+        "casual"
+      ],
+      "printable": true,
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
+    },
+    {
+      "id": "lurex_knit",
+      "name": "Lurex knit",
+      "weight": 0.6,
+      "tags": [
+        "date",
+        "cute",
+        "elegant"
+      ],
+      "printable": true,
+      "printTags": [
+        "knitted"
+      ],
+      "colours": [],
+      "colourChance": 0.0
     }
   ],
   "palettes": [

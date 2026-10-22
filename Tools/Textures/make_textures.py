@@ -3,7 +3,7 @@
 - fabrics: Assets/_Game/Characters/Content/Fabrics/fabric.<id>.png, a seamless grey tile of each fabric's surface
   (fabrics.py), and Fabrics/library.json (id, name, mean brightness, metres per tile, style tags, whether it takes
   a print and which (a knit only takes knitted prints), how much of its structure the shader adds as light on dark
-  cloth): the generated catalog's fabrics. Unity makes a material per
+  cloth, the colours it usually comes in and how often, how common it is): the generated catalog's fabrics. Unity makes a material per
   fabric (FabricTextures.cs) and every generated garment wears its fabric's (its spec's "fabric" in outfits.json).
 - prints: Assets/_Game/Characters/Content/Patterns/pattern.<id>_01.png (red = pattern colour, green = ink) for every
   print in prints.py, and Patterns/library.json, the catalog entries (name, tags, tiles per metre, weight) that the
@@ -38,7 +38,9 @@ def write_fabrics():
         Image.fromarray(np.stack([grey] * 3, axis=-1), "RGB").save(os.path.join(folder, f"fabric.{fid}.png"))
         entries.append({"id": fid, "name": _title(fn), "mean": round(float(tile.mean()), 4), "tileMetres": fabrics.TILE_METRES,
                         "tags": fabrics.TAGS.get(fid, ["casual"]), "printable": fid not in fabrics.NO_PRINT,
-                        "printTags": fabrics.PRINT_TAGS.get(fid, []), "lift": fabrics.LIFT.get(fid, fabrics.DEFAULT_LIFT)})
+                        "printTags": fabrics.PRINT_TAGS.get(fid, []), "lift": fabrics.LIFT.get(fid, fabrics.DEFAULT_LIFT),
+                        "colourChance": fabrics.NATURAL.get(fid, (0.0, []))[0], "colours": fabrics.NATURAL.get(fid, (0.0, []))[1],
+                        "weight": fabrics.WEIGHT.get(fid, 1.0)})
     with open(os.path.join(folder, "library.json"), "w", encoding="utf-8", newline="\n") as f:
         json.dump({"fabrics": entries}, f, indent=1)
     print(f"[textures] {len(entries)} fabrics in {os.path.normpath(folder)}")

@@ -311,6 +311,12 @@ namespace Game.Characters.Content
         /// colourwork and stripes knitted into it, not a printed floral).
         /// </summary>
         public List<string> PrintTags = new List<string>();
+
+        /// <summary>The colours it usually comes in (denim indigo, straw natural, leather black and browns), if any.</summary>
+        public List<PaletteColour> Colours = new List<PaletteColour>();
+
+        /// <summary>How often an item made in it is in one of <see cref="Colours"/> rather than the outfit's colour.</summary>
+        public float ColourChance;
     }
 
     public sealed class ColourPalette

@@ -553,6 +553,18 @@ MonoBehaviour:
     Texture: {fileID: 2800000, guid: f0d65782f32c63c44bc3ffaa038766b3, type: 3}
   - Id: pattern.nordic_01
     Texture: {fileID: 2800000, guid: 39e812ff75d527940aae66465ea187e6, type: 3}
+  - Id: pattern.festive_01
+    Texture: {fileID: 2800000, guid: 07ff3859e4a7e974294413e2bc0cf64a, type: 3}
+  - Id: pattern.damask_01
+    Texture: {fileID: 2800000, guid: 6b82e14e1841dfc44ab839c24782f1ee, type: 3}
+  - Id: pattern.fleurdelis_01
+    Texture: {fileID: 2800000, guid: de8e0e009e0ac574c9d88b1439c6b54f, type: 3}
+  - Id: pattern.icecream_01
+    Texture: {fileID: 2800000, guid: 41a8726d171949140949c93a71d3d815, type: 3}
+  - Id: pattern.doughnuts_01
+    Texture: {fileID: 2800000, guid: 855378c0c21e1a6449735005cb4b088e, type: 3}
+  - Id: pattern.watermelon_01
+    Texture: {fileID: 2800000, guid: 6105f55a13f514c4092f5d3595537c98, type: 3}
   Fabrics:
   - Id: plain
     Material: {fileID: 2100000, guid: 438e55e3cc9afa740b5c2f26ae972251, type: 2}
@@ -700,6 +712,12 @@ MonoBehaviour:
     Material: {fileID: 2100000, guid: d90e6ab667ecfbc42864e41444889bcc, type: 2}
   - Id: smocked
     Material: {fileID: 2100000, guid: a2bdb3c2940208b4fb3f22eea13298b4, type: 2}
+  - Id: satin_stripe
+    Material: {fileID: 2100000, guid: b78657d650d29fc499e7e6604b29bd52, type: 2}
+  - Id: felt
+    Material: {fileID: 2100000, guid: b7ceb15a042fdea41a041e744750791b, type: 2}
+  - Id: lurex_knit
+    Material: {fileID: 2100000, guid: 364cbcde044018240ba5d768ce220de6, type: 2}
   Sliders:
   - Id: body.weight
     Kind: 0

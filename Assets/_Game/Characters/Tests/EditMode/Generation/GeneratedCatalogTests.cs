@@ -137,6 +137,26 @@ namespace Game.Characters.Tests.Generation
         }
 
         [Test]
+        public void DenimMostlyComesInItsOwnColours()
+        {
+            ContentCatalog catalog = Catalogs.Generated();
+            FabricEntry denim = catalog.Fabric("denim");
+            Assert.That(denim.Colours, Is.Not.Empty, "Denim has colours of its own: indigo, black, grey.");
+            var generator = new CharacterGenerator(catalog);
+            int worn = 0, natural = 0;
+            for (ulong seed = 1; seed <= 400; seed++)
+                foreach (OutfitDna outfit in generator.Generate(seed * 40503, GenerationRequest.Any).Outfits)
+                    foreach (ItemDna item in outfit.Items)
+                    {
+                        if (catalog.FabricOf(catalog.Part(item.ItemId), item.FabricId) != denim) continue;
+                        worn++;
+                        if (denim.Colours.Any(c => HsvColor.Distance(HsvColor.FromHex(c.Hex), item.RegionColors[0]) < 0.12f)) natural++;
+                    }
+            Assert.That(worn, Is.GreaterThan(50), "Denim is common.");
+            Assert.That(natural / (float)worn, Is.GreaterThan(0.45f), $"Most denim is indigo, black or grey ({natural} of {worn}).");
+        }
+
+        [Test]
         public void ALookMadeWithTheStandInsLoads()
         {
             var standIn = new CharacterGenerator(Catalogs.Project());

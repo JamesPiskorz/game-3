@@ -261,6 +261,22 @@ def tweed(size, seed):
     return _shade(tk.normalise(0.3 * _twill(size, 24) + 0.25 * mottle + 0.6 * flecks), 0.5)
 
 
+def satin_stripe(size, seed):
+    """Satin stripe (dress shirts, waistcoats, pyjamas): a self-coloured stripe, shining satin bands between matte ones."""
+    x, y = tk.grid(size)
+    band = tk.smoothstep(0.0, 0.03, np.abs(((x * 8) % 1.0) - 0.5) - 0.2)
+    satin = _sheen(size, seed, 6, 0.86, 1.5)
+    matte = _shade(0.5 + 0.5 * np.sin(2 * np.pi * 64 * y), 0.12) * 0.88
+    return np.clip(band * matte + (1 - band) * satin, 0, 1)
+
+
+def felt(size, seed):
+    """Boiled wool and felt (melton coats, berets): a dense matted surface, softly mottled, no weave showing."""
+    mottle = tk.value_noise(size, 8, seed, octaves=4, persistence=0.6)
+    fibres = tk.blur(tk.value_noise(size, 128, seed + 1, 1), 1)
+    return _shade(tk.normalise(0.7 * mottle + 0.3 * fibres), 0.22)
+
+
 def ripstop(size, seed):
     """Ripstop nylon (rain jackets, puffers): a smooth weave with a reinforcing grid of thicker threads, a soft sheen."""
     x, y = tk.grid(size)
@@ -311,6 +327,13 @@ def knit(size, seed):
 def chunky_knit(size, seed):
     """A chunky hand knit: big V stitches, deep shadows between."""
     return _knit(size, seed, 8, 10, 0.6)
+
+
+def lurex_knit(size, seed):
+    """Lurex knit (party sweaters): a fine knit with metallic yarn glinting through it."""
+    rng = np.random.default_rng(seed)
+    glints = np.clip(tk.blur_small((rng.random((size, size)) < 0.02).astype(float), 1) * 3, 0, 1)
+    return np.clip(_knit(size, seed, 24, 32, 0.4) * (0.9 + 0.1 * glints) + 0.18 * glints, 0, 1)
 
 
 def mohair(size, seed):
@@ -821,6 +844,7 @@ FABRICS = {
     "sherpa": sherpa, "chenille": chenille, "shantung": shantung, "moire": moire, "taffeta": taffeta,
     "organza": organza, "glitter": glitter, "beaded": beaded, "perforated": perforated, "vinyl": vinyl, "snake": snake,
     "ottoman": ottoman, "straw": straw, "pleated": pleated, "smocked": smocked,
+    "satin_stripe": satin_stripe, "felt": felt, "lurex_knit": lurex_knit,
 }
 
 # Each fabric's catalog entry: the style tags archetypes weight it by, whether a print goes on it, and how common it is.
@@ -828,10 +852,10 @@ NO_PRINT = {"denim", "leather", "patent", "croc", "suede", "sequins", "lace", "q
             "mesh", "rubber", "metallic", "cable_knit", "faux_fur", "eyelet", "tulle", "crochet", "tweed",
             "herringbone", "jacquard", "velvet", "boucle", "seersucker", "wide_rib", "rib_knit", "terry", "waffle",
             "stonewash", "acid_wash", "waxed", "pointelle", "seed_stitch", "sherpa", "chenille", "moire",
-            "glitter", "beaded", "perforated", "vinyl", "snake", "ottoman", "straw", "smocked", "marl"}
+            "glitter", "beaded", "perforated", "vinyl", "snake", "ottoman", "straw", "smocked", "marl", "satin_stripe"}
 # Fabrics that take only some prints: a knit takes only what is knitted into it (Fair Isle, stripes, argyle), not a
 # printed floral. Prints with one of these tags (prints.KNITTED's "knitted").
-PRINT_TAGS = {"knit": ["knitted"], "chunky_knit": ["knitted"], "mohair": ["knitted"]}
+PRINT_TAGS = {"knit": ["knitted"], "chunky_knit": ["knitted"], "mohair": ["knitted"], "lurex_knit": ["knitted"]}
 TAGS = {
     "plain": ["casual", "cute"], "poplin": ["elegant", "bookish", "casual"], "oxford": ["bookish", "elegant"],
     "chambray": ["casual", "bookish"], "canvas": ["casual", "street"], "linen": ["casual", "elegant", "bookish"],
@@ -858,6 +882,42 @@ TAGS = {
     "beaded": ["elegant", "date"], "perforated": ["sporty", "street"], "vinyl": ["gothic", "street", "date"],
     "snake": ["street", "elegant", "gothic"], "ottoman": ["elegant", "bookish"], "straw": ["casual", "cute"],
     "pleated": ["cute", "elegant", "bookish"], "smocked": ["cute", "casual", "date"],
+    "satin_stripe": ["elegant", "bookish", "date"], "felt": ["bookish", "elegant", "casual"], "lurex_knit": ["date", "cute", "elegant"],
+}
+
+# Fabrics that usually come in their own colours, and how often an item made in one is: (chance, hex colours). Denim
+# is mostly indigo, straw natural, leather black and browns; the rest take the outfit's colours.
+NATURAL = {
+    "denim": (0.75, ["#27334d", "#2f4670", "#3d5f8f", "#5a7caa", "#1d1d22", "#7a7f88"]),
+    "stonewash": (0.8, ["#5c7eab", "#7898c0", "#47648e", "#8e949c"]),
+    "acid_wash": (0.85, ["#6f8db5", "#93a8c4", "#4c4e55", "#a3a8b0"]),
+    "chambray": (0.7, ["#88a4c6", "#6d8db5", "#a9bcd6"]),
+    "leather": (0.6, ["#1b1919", "#3b281f", "#7f4e2c", "#a87448", "#521b1f"]),
+    "suede": (0.6, ["#ae8257", "#9a7149", "#56392a", "#7a746e", "#66653f"]),
+    "croc": (0.5, ["#1b1919", "#4a3022", "#8a5a32", "#2e3b2c"]),
+    "snake": (0.5, ["#c9b693", "#8a7458", "#1b1919", "#b8a890"]),
+    "straw": (0.85, ["#d8c08a", "#c7a76d", "#e5d5ae", "#35302b"]),
+    "tweed": (0.5, ["#6a5c47", "#77786a", "#8a7963", "#474b57", "#6d5040"]),
+    "herringbone": (0.5, ["#59595d", "#6a5c47", "#3e4350", "#7a7468"]),
+    "corduroy": (0.45, ["#8a5a30", "#6b5a3a", "#a07848", "#4a5a3a", "#712a2a", "#3e3530"]),
+    "waxed": (0.7, ["#4a5236", "#38382d", "#5a4632", "#2a3040"]),
+    "faux_fur": (0.5, ["#efe6d6", "#d6c6ad", "#b5977a", "#2a2624"]),
+    "sherpa": (0.65, ["#f0e8d8", "#ded0b8", "#c4ab8e"]),
+    "marl": (0.6, ["#9a9a9e", "#7b7b81", "#c6c6ca", "#4b4b51"]),
+    "metallic": (0.6, ["#c9a24a", "#b8bcc4", "#c49080", "#8a8c92"]),
+    "vinyl": (0.5, ["#141416", "#9a1a20", "#e9e4dc"]),
+    "patent": (0.35, ["#141416", "#9a1a20", "#c8a08a"]),
+    "canvas": (0.3, ["#c2a878", "#68684a", "#e3d9c4", "#2c3346"]),
+    "linen": (0.3, ["#d8ccb4", "#efebe2", "#b9a98c"]),
+    "ripstop": (0.3, ["#5b6648", "#2b3140", "#c8b48c"]),
+}
+
+# How common each fabric is among the ones a garment can be made in (1 unless listed): statement fabrics are rarer.
+WEIGHT = {
+    "vinyl": 0.35, "glitter": 0.5, "beaded": 0.5, "acid_wash": 0.5, "metallic": 0.6, "snake": 0.6, "croc": 0.6,
+    "faux_fur": 0.6, "lurex_knit": 0.6, "moire": 0.6, "mesh": 0.6, "perforated": 0.6, "rubber": 0.6, "organza": 0.7,
+    "taffeta": 0.7, "sequins": 0.7, "patent": 0.8, "straw": 0.8, "crochet": 0.8, "sherpa": 0.8,
+    "denim": 1.4, "jersey": 1.3, "twill": 1.2, "poplin": 1.2, "knit": 1.2, "leather": 1.2,
 }
 
 # How much of each fabric's structure is added as light (the shader's _BaseLift), so it reads on dark cloth: the
@@ -872,4 +932,5 @@ LIFT = {
     "metallic": 0.5, "glitter": 0.6, "sequins": 0.5, "beaded": 0.45, "jacquard": 0.3,
     "leather": 0.28, "patent": 0.45, "vinyl": 0.65, "rubber": 0.45, "croc": 0.3, "snake": 0.3, "perforated": 0.2,
     "waxed": 0.32, "quilted": 0.22, "diamond_quilt": 0.2, "straw": 0.2,
+    "satin_stripe": 0.3, "felt": 0.1, "lurex_knit": 0.4,
 }

@@ -607,8 +607,8 @@
     "street",
     "gothic"
    ],
-   "minScale": 2,
-   "maxScale": 3,
+   "minScale": 4,
+   "maxScale": 6,
    "weight": 0.4
   },
   {
@@ -1300,6 +1300,76 @@
    "minScale": 2.5,
    "maxScale": 3.5,
    "weight": 0.6
+  },
+  {
+   "id": "pattern.festive_01",
+   "name": "Christmas jumper",
+   "tags": [
+    "cute",
+    "casual",
+    "knitted"
+   ],
+   "minScale": 2.5,
+   "maxScale": 3.5,
+   "weight": 0.3
+  },
+  {
+   "id": "pattern.damask_01",
+   "name": "Damask",
+   "tags": [
+    "elegant",
+    "gothic",
+    "bookish"
+   ],
+   "minScale": 2,
+   "maxScale": 3.5,
+   "weight": 0.6
+  },
+  {
+   "id": "pattern.fleurdelis_01",
+   "name": "Fleur-de-lis",
+   "tags": [
+    "elegant",
+    "bookish"
+   ],
+   "minScale": 3,
+   "maxScale": 5,
+   "weight": 0.4
+  },
+  {
+   "id": "pattern.icecream_01",
+   "name": "Ice creams",
+   "tags": [
+    "cute",
+    "casual"
+   ],
+   "minScale": 2.5,
+   "maxScale": 4,
+   "weight": 0.4
+  },
+  {
+   "id": "pattern.doughnuts_01",
+   "name": "Doughnuts",
+   "tags": [
+    "cute",
+    "street",
+    "casual"
+   ],
+   "minScale": 2.5,
+   "maxScale": 4,
+   "weight": 0.4
+  },
+  {
+   "id": "pattern.watermelon_01",
+   "name": "Watermelons",
+   "tags": [
+    "cute",
+    "casual",
+    "sporty"
+   ],
+   "minScale": 2.5,
+   "maxScale": 4,
+   "weight": 0.4
   }
  ]
 }

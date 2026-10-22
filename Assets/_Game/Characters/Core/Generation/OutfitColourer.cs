@@ -43,6 +43,7 @@ namespace Game.Characters.Generation
             }
             top = AwayFromSkin(top, skin, skinContrast, accent, neutral1, neutral2);
             bottom = PickBottom(bottom, top, skin, skinContrast, neutral1, neutral2, accent);
+            HsvColor wornTop = top, wornBottom = bottom;
 
             foreach (PartEntry part in parts)
             {
@@ -74,6 +75,23 @@ namespace Game.Characters.Generation
                     FabricEntry fabric = options.Count == 0 ? null : rng.PickWeighted(options, f => f.Weight * Affinity.Of(archetype, f.Tags));
                     if (fabric != null && fabric.Id != part.Fabrics[0]) item.FabricId = fabric.Id;
                 }
+                // Often in the fabric's own colour (indigo denim, natural straw, brown suede), where it still stands
+                // apart from the skin and from the other half of the outfit.
+                FabricEntry made = catalog.FabricOf(part, item.FabricId);
+                if (made != null && made.Colours.Count > 0 && item.RegionColors.Count > 0 && rng.Chance(made.ColourChance))
+                {
+                    HsvColor natural = Colours.Pick(rng, made.Colours);
+                    bool isTop = part.Slot == Slots.Top || part.Slot == Slots.OnePiece, isBottom = part.Slot == Slots.Bottom;
+                    bool apart = (!isTop || HsvColor.Distance(natural, wornBottom) >= MinTopBottomContrast) &&
+                                 (!isBottom || HsvColor.Distance(natural, wornTop) >= MinTopBottomContrast);
+                    if (apart && HsvColor.Distance(natural, skin) >= skinContrast + JitterMargin)
+                    {
+                        item.RegionColors[0] = Colours.Jitter(rng, natural, 0.006f, 0.04f, 0.04f);
+                        if (isTop) wornTop = natural;
+                        if (isBottom) wornBottom = natural;
+                    }
+                }
+
                 // A print, at times, of those its fabric takes (only knitted ones on a knit).
                 List<PatternEntry> prints = catalog.PrintsFor(part, item.FabricId);
                 if (prints.Count > 0 && rng.Chance(archetype.PatternChance))
@@ -81,9 +99,12 @@ namespace Game.Characters.Generation
                     PatternEntry pattern = rng.PickWeighted(prints, p => p.Weight * Affinity.Of(archetype, p.Tags));
                     if (pattern != null)
                     {
+                        // In the trim, unless the item took its fabric's own colour and that matches the trim.
+                        HsvColor worn = item.RegionColors.Count > 0 ? item.RegionColors[0] : main;
+                        HsvColor ink = HsvColor.Distance(trim, worn) >= 0.15f ? trim : Colours.Shift(worn, 0f, 0f, worn.V > 0.5f ? -0.35f : 0.35f);
                         item.PatternId = pattern.Id;
                         item.PatternScale = rng.Range(pattern.MinScale, pattern.MaxScale);
-                        item.PatternColor = Colours.Jitter(rng, trim, 0.006f, 0.04f, 0.04f);
+                        item.PatternColor = Colours.Jitter(rng, ink, 0.006f, 0.04f, 0.04f);
                     }
                 }
                 outfit.Items.Add(item);

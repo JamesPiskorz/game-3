@@ -537,9 +537,9 @@ def skulls(size, seed):
 
 
 def crosses(size, seed):
-    px = int(size / 6)
+    px = int(size / 4.5)
     c = _shape(px, lambda x, y: _soft(np.minimum(np.maximum(np.abs(x) - 0.14, np.abs(y) - 0.8), np.maximum(np.abs(x) - 0.5, np.abs(y + 0.3) - 0.14)), 20))
-    return _scatter_shapes(size, [(c, _outline(c) * 0.4)], 14, seed, size / 4.5, rotate=False)
+    return _scatter_shapes(size, [(c, _outline(c) * 0.4)], 11, seed, size / 3.8, rotate=False)
 
 
 def bats(size, seed):
@@ -563,8 +563,8 @@ def spiderweb(size, seed):
     u, v = x - 0.5, y - 0.5
     r = np.hypot(u, v)
     a = np.arctan2(v, u)
-    spokes = np.exp(-(np.sin(a * 4) * r / 0.006) ** 2)
-    rings = _band((r * 9 + 0.15 * np.cos(a * 8) * r * 4) % 1.0, 0.5, 0.05, 0.02)
+    spokes = np.exp(-(np.sin(a * 4) * r / 0.011) ** 2)
+    rings = _band((r * 9 + 0.15 * np.cos(a * 8) * r * 4) % 1.0, 0.5, 0.09, 0.02)
     web = np.clip(spokes + rings, 0, 1) * (r < 0.5)
     return web, web * 0.3
 
@@ -1405,6 +1405,130 @@ def nordic(size, seed):
     return _chart(rows, size)
 
 
+
+def festive(size, seed):
+    """A Christmas jumper: knitted fir trees and reindeer between snowflake bands."""
+    tree = ["....X.......", "...XoX......", "..XoXoX.....", "...XoX......", "..XoXoX.....", ".XoXoXoX....",
+            "XoXoXoXoX...", "....X.......", "....X.......", ".", "."]
+    deer = ["X.X.........", "XXX.........", ".XX.........", ".XXX........", ".XXXXXXXX...", "..XXXXXXX...",
+            "..XXXXXXX...", "..X.X..X.X..", "..X.X..X.X..", "..X.X..X.X..", "."]
+    motif = [(t + "." * 12)[:12] + (d + "." * 12)[:12] for t, d in zip(tree, deer)]
+    rows = ["X", ".", "..X...", ".XoX..", "..X...", ".", "o", "."] + motif + [".", "o", ".", "X.....", ".", "X"]
+    return _chart(rows, size)
+
+
+# -------------------------------------------------------------------------------------- ornaments and summer treats
+
+def _mirror_shape(px, half):
+    """A shape symmetric about its upright axis: ``half(ax, y)`` gives a signed distance (inside negative) for the
+    right half, in [-1, 1] coordinates, with ax = |x|."""
+    r = px // 2
+    y, x = np.mgrid[-r:r + 1, -r:r + 1].astype(float) / max(r, 1)
+    return _soft(half(np.abs(x), y), r), r, x, y
+
+
+def damask(size, seed):
+    """Damask: mirrored ornaments of curling leaves round a central bud, framed by an ogee lattice (wallpaper florals)."""
+    def ornament(px):
+        def half(ax, y):
+            bud = (np.hypot(ax / 0.2, (y + 0.08) / 0.38) - 1) * 0.2
+            stem = np.maximum(ax - 0.05, np.abs(y - 0.45) - 0.28)
+            leaf = (np.hypot((ax - 0.36) / 0.26, (y - 0.18) / 0.15) - 1) * 0.15
+            curl = np.maximum(np.abs(np.hypot(ax - 0.44, y + 0.3) - 0.2) - 0.07, -(y + 0.3))
+            tip = np.hypot(ax, y + 0.66) - 0.12
+            return np.minimum.reduce([bud, stem, leaf, curl, tip])
+        shape, r, x, y = _mirror_shape(px, half)
+        vein = (np.abs(x) < 0.025) & (np.abs(y + 0.08) < 0.3)
+        return shape, np.clip(_outline(shape, 1) * 0.5 + vein * 0.6, 0, 1)
+    x, y = tk.grid(size)
+    # The ogee lattice: two families of waving lines crossing into onion-domed cells round each ornament.
+    a = np.abs(((x + 0.18 * np.sin(2 * np.pi * y) + 1.0) % 0.5) - 0.25)
+    b = np.abs(((x - 0.18 * np.sin(2 * np.pi * y) + 1.0) % 0.5) - 0.25)
+    lattice = np.clip((0.012 - np.minimum(a, b)) * size + 0.5, 0, 1)
+    colour, ink = 0.5 * lattice, _zero(size)
+    # One in each cell, large and small in turn.
+    big, small = ornament(int(size / 2.8)), ornament(int(size / 4.2))
+    for (cx, cy), (shape, lines) in zip(((0.25, 0.25), (0.75, 0.75), (0.75, 0.25), (0.25, 0.75)), (big, big, small, small)):
+        tk.stamp(colour, shape, cx * size, cy * size)
+        tk.stamp(ink, lines, cx * size, cy * size)
+    return colour, ink
+
+
+def fleur_de_lis(size, seed):
+    """Fleurs-de-lis in offset rows (heraldic, preppy)."""
+    def fleur(px):
+        def half(ax, y):
+            centre = np.maximum(np.hypot(ax / 0.14, (y + 0.15) / 0.55) - 1, y - 0.25) * 0.15
+            side = np.abs(np.hypot(ax - 0.42, y + 0.05) - 0.3) - 0.08
+            side = np.maximum(side, np.maximum(-ax + 0.12, y - 0.1))
+            band = np.maximum(ax - 0.36, np.abs(y - 0.2) - 0.05)
+            foot = np.maximum(np.hypot(ax - 0.18, y - 0.45) - 0.16, -(y - 0.3))
+            return np.minimum.reduce([centre, side, band, foot])
+        shape, r, x, y = _mirror_shape(px, half)
+        return shape, _outline(shape, 1) * 0.4
+    f = fleur(int(size / 4))
+    x0 = _zero(size)
+    colour, ink = x0.copy(), x0.copy()
+    for row in range(3):
+        for col in range(3):
+            cx = (col + (0.5 if row % 2 else 0.0) + 0.25) / 3 * size
+            cy = (row + 0.5) / 3 * size
+            tk.stamp(colour, f[0], cx, cy)
+            tk.stamp(ink, f[1], cx, cy)
+    return colour, ink
+
+
+def ice_creams(size, seed):
+    """Ice-cream cones: a scoop or two on a criss-crossed cone."""
+    def cone(px, scoops):
+        r = px // 2
+        y, x = np.mgrid[-r:r + 1, -r:r + 1].astype(float) / max(r, 1)
+        wafer = (y > 0.0) & (np.abs(x) < 0.32 * (1 - y / 0.95)) & (y < 0.95)
+        top = np.hypot(x, y + 0.05) < 0.34
+        second = (np.hypot(x, y + 0.45) < 0.28) if scoops > 1 else np.zeros_like(top)
+        drip = (np.abs(x + 0.12) < 0.05) & (y > 0.0) & (y < 0.15)
+        scoop = (top | second | drip) & ~wafer
+        grid = wafer & ((np.abs(np.sin((x + y) * 14)) < 0.25) | (np.abs(np.sin((x - y) * 14)) < 0.25))
+        colour = np.clip(tk.blur_small(scoop.astype(float), 0.8) + 0.5 * wafer, 0, 1)
+        return colour, np.clip(_outline(colour, 1) * 0.5 + grid * 0.5 + (top & second & (np.abs(y + 0.25) < 0.04)) * 0.6, 0, 1)
+    return _scatter_shapes(size, [cone(int(size / 3.8), 1), cone(int(size / 3.4), 2)], 9, seed, size / 3.8, rotate=False)
+
+
+def doughnuts(size, seed):
+    """Iced doughnuts with sprinkles."""
+    def ring(px):
+        r = px // 2
+        y, x = np.mgrid[-r:r + 1, -r:r + 1].astype(float) / max(r, 1)
+        d = np.hypot(x, y)
+        dough = (d < 0.85) & (d > 0.28)
+        icing = (d < 0.72 + 0.06 * np.sin(np.arctan2(y, x) * 7)) & (d > 0.36)
+        rng = np.random.default_rng(px)
+        sprinkles = np.zeros_like(d, dtype=bool)
+        for _ in range(14):
+            a, rad, tilt = rng.random() * 2 * np.pi, 0.42 + 0.22 * rng.random(), rng.random() * np.pi
+            sx, sy = np.cos(a) * rad, np.sin(a) * rad
+            u = (x - sx) * np.cos(tilt) + (y - sy) * np.sin(tilt)
+            v = -(x - sx) * np.sin(tilt) + (y - sy) * np.cos(tilt)
+            sprinkles |= (np.abs(u) < 0.08) & (np.abs(v) < 0.025)
+        colour = np.clip(0.5 * dough + 0.5 * icing, 0, 1)
+        return tk.blur_small(colour, 0.7), np.clip(_outline(dough.astype(float), 1) * 0.5 + sprinkles * icing * 0.8, 0, 1)
+    return _scatter_shapes(size, [ring(int(size / 4.2)), ring(int(size / 5.5))], 10, seed, size / 4)
+
+
+def watermelons(size, seed):
+    """Watermelon slices: red flesh, a rind and black seeds."""
+    def slice_(px):
+        r = px // 2
+        y, x = np.mgrid[-r:r + 1, -r:r + 1].astype(float) / max(r, 1)
+        d = np.hypot(x, y + 0.35)
+        wedge = (d < 0.9) & (y + 0.35 > 0.0)
+        flesh = wedge & (d < 0.74)
+        seeds = flesh & (np.abs(np.sin(np.arctan2(y + 0.35, x) * 7)) < 0.18) & (np.abs(d - 0.45) < 0.06)
+        colour = np.clip(1.0 * flesh + 0.5 * (wedge & ~flesh), 0, 1)
+        return tk.blur_small(colour, 0.7), np.clip(seeds * 0.9 + _outline(wedge.astype(float), 1) * 0.5, 0, 1)
+    return _scatter_shapes(size, [slice_(int(size / 3.8)), slice_(int(size / 5.2))], 10, seed, size / 4)
+
+
 # name, tags, tiles per metre (min, max), weight
 PRINTS = {
     # Patterns the stand-ins share (their catalog lists these ids).
@@ -1460,7 +1584,7 @@ PRINTS = {
     "bats": (bats, "Bats", ["gothic", "cute"], (2, 4), 0.5),
     "spiderweb": (spiderweb, "Spiderweb", ["gothic"], (2, 4), 0.4),
     "lightning": (lightning, "Lightning bolts", ["street", "sporty"], (3, 6), 0.5),
-    "flames": (flames, "Flames", ["street", "gothic"], (2, 3), 0.4),
+    "flames": (flames, "Flames", ["street", "gothic"], (4, 6), 0.4),
     "camo": (camo, "Camouflage", ["street", "sporty"], (1.5, 3), 0.8),
     "skatecheck": (checkerboard_skate, "Checkerboard", ["street", "sporty"], (3, 5), 0.6),
     "leopard": (leopard, "Leopard", ["street", "gothic", "date"], (3, 5), 0.9),
@@ -1522,8 +1646,14 @@ PRINTS = {
     "watercolour": (watercolour, "Watercolour", ["elegant", "cute", "date"], (1.5, 3), 0.5),
     "fairisle": (fair_isle, "Fair Isle", ["cute", "bookish", "casual"], (2.5, 3.5), 0.7),
     "nordic": (nordic, "Nordic stars", ["cute", "casual", "bookish"], (2.5, 3.5), 0.6),
+    "festive": (festive, "Christmas jumper", ["cute", "casual"], (2.5, 3.5), 0.3),
+    "damask": (damask, "Damask", ["elegant", "gothic", "bookish"], (2, 3.5), 0.6),
+    "fleurdelis": (fleur_de_lis, "Fleur-de-lis", ["elegant", "bookish"], (3, 5), 0.4),
+    "icecream": (ice_creams, "Ice creams", ["cute", "casual"], (2.5, 4), 0.4),
+    "doughnuts": (doughnuts, "Doughnuts", ["cute", "street", "casual"], (2.5, 4), 0.4),
+    "watermelon": (watermelons, "Watermelons", ["cute", "casual", "sporty"], (2.5, 4), 0.4),
 }
 
 # Prints knitted into the cloth (colourwork, stripes, intarsia) rather than printed on it: the only ones a knit takes
 # (fabrics.PRINT_TAGS). They carry the tag "knitted" in the library.
-KNITTED = {"stripes", "breton", "argyle", "knit", "snowflakes", "rugby", "hearts", "stars", "fairisle", "nordic"}
+KNITTED = {"stripes", "breton", "argyle", "knit", "snowflakes", "rugby", "hearts", "stars", "fairisle", "nordic", "festive"}

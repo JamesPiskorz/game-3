@@ -37,6 +37,8 @@ namespace Game.Characters.ContentAuthoring
             public List<string> Tags = new List<string>();
             public bool Printable = true;
             public List<string> PrintTags = new List<string>();
+            public List<string> Colours = new List<string>();
+            public float ColourChance;
             public float Weight = 1f;
             public float Lift;
         }
