@@ -9278,8 +9278,17 @@
       "maxScale": 4.0,
       "accent": "light",
       "placement": null,
-      "colourways": [],
-      "colourwayChance": 0.0
+      "colourways": [
+        {
+          "base": "#f4f6f8",
+          "print": "#2b4f8c"
+        },
+        {
+          "base": "#eef4f7",
+          "print": "#3d7fb5"
+        }
+      ],
+      "colourwayChance": 0.4
     },
     {
       "id": "pattern.celestial_01",

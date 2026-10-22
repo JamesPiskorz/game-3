@@ -3570,6 +3570,7 @@ CONTEXT_TAGS = {
 
 # Classic colourways: (how often an item with the print takes one, [(the cloth's colour, the print's)]).
 COLOURWAYS = {
+    "whales": (0.4, [("#f4f6f8", "#2b4f8c"), ("#eef4f7", "#3d7fb5")]),
     "celestial": (0.4, [("#1d2147", "#f2dc9b"), ("#141414", "#e8d08a")]),
     "azulejo": (0.6, [("#f5f3ee", "#1f4e9c"), ("#f6f1e4", "#1c6b8a")]),
     "toile": (0.6, [("#f1ebdd", "#2a3f73"), ("#f2ebe0", "#9b2335"), ("#f4f1ea", "#222222")]),
