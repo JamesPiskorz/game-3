@@ -948,6 +948,10 @@ MonoBehaviour:
     Material: {fileID: 2100000, guid: cc9164f458200ee48a493faee1835885, type: 2}
   - Id: shimmer_lycra
     Material: {fileID: 2100000, guid: 4ca84a96c03b88f47a14a87ab7537db0, type: 2}
+  - Id: hex_mesh
+    Material: {fileID: 2100000, guid: 710cd326d28154a46b641f8cca4b06b8, type: 2}
+  - Id: tricot
+    Material: {fileID: 2100000, guid: df45991b747c86c49a823946e42634f2, type: 2}
   Sliders:
   - Id: body.weight
     Kind: 0

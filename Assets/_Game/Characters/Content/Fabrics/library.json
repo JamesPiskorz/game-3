@@ -1967,6 +1967,43 @@
    "weight": 1.0,
    "gloss": 0.38,
    "sheen": 0.0
+  },
+  {
+   "id": "hex_mesh",
+   "name": "Honeycomb sports mesh",
+   "mean": 0.5787,
+   "tileMetres": 0.25,
+   "tags": [
+    "sporty",
+    "street"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.15,
+   "colourChance": 0.0,
+   "colours": [],
+   "weight": 1.0,
+   "gloss": 0.0,
+   "sheen": 0.0
+  },
+  {
+   "id": "tricot",
+   "name": "Tricot",
+   "mean": 0.8907,
+   "tileMetres": 0.25,
+   "tags": [
+    "sporty",
+    "street",
+    "casual"
+   ],
+   "printable": true,
+   "printTags": [],
+   "lift": 0.25,
+   "colourChance": 0.0,
+   "colours": [],
+   "weight": 1.0,
+   "gloss": 0.25,
+   "sheen": 0.0
   }
  ]
 }

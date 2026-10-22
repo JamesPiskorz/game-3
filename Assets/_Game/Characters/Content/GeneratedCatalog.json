@@ -927,7 +927,8 @@
         "waffle",
         "faux_fur",
         "sherpa",
-        "chenille"
+        "chenille",
+        "tricot"
       ],
       "clothBottom": 0.190623879,
       "clothTop": 1.1138171,
@@ -1126,13 +1127,15 @@
       "patternable": true,
       "fabrics": [
         "nylon",
+        "tricot",
         "ripstop",
         "lycra",
         "athletic_knit",
         "satin",
         "velvet",
         "fleece",
-        "mesh"
+        "mesh",
+        "hex_mesh"
       ],
       "clothBottom": 0.757019162,
       "clothTop": 1.12387872,
@@ -1575,13 +1578,15 @@
       "patternable": true,
       "fabrics": [
         "nylon",
+        "tricot",
         "ripstop",
         "lycra",
         "athletic_knit",
         "satin",
         "velvet",
         "fleece",
-        "mesh"
+        "mesh",
+        "hex_mesh"
       ],
       "clothBottom": 0.1262987,
       "clothTop": 1.11382389,
@@ -4074,7 +4079,8 @@
         "waffle",
         "faux_fur",
         "sherpa",
-        "chenille"
+        "chenille",
+        "tricot"
       ],
       "clothBottom": 1.13044274,
       "clothTop": 1.47413826,
@@ -4172,7 +4178,8 @@
         "waffle",
         "faux_fur",
         "sherpa",
-        "chenille"
+        "chenille",
+        "tricot"
       ],
       "clothBottom": 0.957957,
       "clothTop": 1.52776051,
@@ -4203,7 +4210,8 @@
         "knit",
         "rib_knit",
         "waffle",
-        "marl"
+        "marl",
+        "hex_mesh"
       ],
       "clothBottom": 1.06618941,
       "clothTop": 1.44291413,
@@ -4651,7 +4659,8 @@
         "knit",
         "rib_knit",
         "waffle",
-        "marl"
+        "marl",
+        "hex_mesh"
       ],
       "clothBottom": 1.17255831,
       "clothTop": 1.43933535,
@@ -4675,13 +4684,15 @@
       "patternable": true,
       "fabrics": [
         "nylon",
+        "tricot",
         "ripstop",
         "lycra",
         "athletic_knit",
         "satin",
         "velvet",
         "fleece",
-        "mesh"
+        "mesh",
+        "hex_mesh"
       ],
       "clothBottom": 1.09251273,
       "clothTop": 1.4353646,
@@ -10862,6 +10873,33 @@
         "date",
         "cute",
         "street"
+      ],
+      "printable": true,
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
+    },
+    {
+      "id": "hex_mesh",
+      "name": "Honeycomb sports mesh",
+      "weight": 1.0,
+      "tags": [
+        "sporty",
+        "street"
+      ],
+      "printable": false,
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
+    },
+    {
+      "id": "tricot",
+      "name": "Tricot",
+      "weight": 1.0,
+      "tags": [
+        "sporty",
+        "street",
+        "casual"
       ],
       "printable": true,
       "printTags": [],

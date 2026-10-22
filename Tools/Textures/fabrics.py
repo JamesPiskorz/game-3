@@ -942,6 +942,30 @@ def shimmer_lycra(size, seed):
     return np.clip(_sheen(size, seed + 1, 4, 0.86, 2.0) * 0.9 + 0.18 * specks, 0, 1)
 
 
+def hex_mesh(size, seed):
+    """Honeycomb sports mesh: hexagonal holes in a fine knit, like a football shirt's panels."""
+    x, y = tk.grid(size)
+    cols, rows = 21, 24  # hexagons 21 across and 12 rows of pairs down: within 1% of regular, and repeating
+    u, v = x * cols, y * rows / 2
+    best = np.full((size, size), 9.0)
+    for ox, oy in ((0.0, 0.0), (0.5, 0.5)):
+        cu = np.floor(u - ox) + 0.5 + ox
+        cv = np.floor(v - oy) + 0.5 + oy
+        du, dv = (u - cu), (v - cv) * 1.15
+        hexd = np.maximum(np.abs(du) * 0.866 + np.abs(dv) * 0.5, np.abs(dv))
+        best = np.minimum(best, hexd)
+    hole = 1 - tk.smoothstep(0.24, 0.3, best)
+    knit = 0.85 + 0.15 * tk.value_noise(size, 90, seed, 1)
+    return np.clip(knit * (1 - 0.85 * hole), 0, 1)
+
+
+def tricot(size, seed):
+    """Tricot (track jackets and trousers): a smooth warp knit with fine vertical wales and a soft sheen."""
+    x, y = tk.grid(size)
+    wales = 0.5 + 0.5 * np.sin(2 * np.pi * 96 * x)
+    return np.clip(_sheen(size, seed, 4, 0.86, 1.8) * (0.93 + 0.07 * wales), 0, 1)
+
+
 def rubber(size, seed):
     """Rubber (rain boots, clogs): smooth and glossy with soft reflections."""
     return np.clip(_sheen(size, seed, 3, 0.78, 3.0), 0, 1)
@@ -1076,6 +1100,7 @@ FABRICS = {
     "dotted_swiss": dotted_swiss, "brocade": brocade, "sateen": sateen,
     "black_denim": black_denim, "ripped_denim": ripped_denim, "athletic_knit": athletic_knit, "fishnet": fishnet,
     "plisse": plisse, "crushed_velvet": crushed_velvet, "foil": foil, "rib_lycra": rib_lycra, "shimmer_lycra": shimmer_lycra,
+    "hex_mesh": hex_mesh, "tricot": tricot,
 }
 
 # Each fabric's catalog entry: the style tags archetypes weight it by, whether a print goes on it, and how common it is.
@@ -1084,7 +1109,7 @@ NO_PRINT = {"denim", "croc", "sequins", "lace", "quilted", "diamond_quilt", "cor
             "herringbone", "jacquard", "velvet", "boucle", "seersucker", "terry", "waffle",
             "stonewash", "acid_wash", "waxed", "pointelle", "seed_stitch", "sherpa", "chenille", "moire",
             "glitter", "beaded", "perforated", "vinyl", "snake", "ottoman", "straw", "smocked", "marl", "satin_stripe", "pinstripe_wool", "houndstooth_wool", "patchwork",
-            "jumbo_cord", "gloss_puffer", "guipure", "dotted_swiss", "brocade", "black_denim", "ripped_denim", "fishnet", "crushed_velvet", "foil"}
+            "jumbo_cord", "gloss_puffer", "guipure", "dotted_swiss", "brocade", "black_denim", "ripped_denim", "fishnet", "crushed_velvet", "foil", "hex_mesh"}
 # Fabrics that take only some prints: a knit takes only what is knitted into it (Fair Isle, stripes, argyle), not a
 # printed floral; a leather only an animal print. Prints with one of these tags (prints.KNITTED's "knitted",
 # prints.ANIMAL's "animal").
@@ -1127,6 +1152,7 @@ TAGS = {
     "ripped_denim": ["street", "casual"], "athletic_knit": ["sporty"], "fishnet": ["gothic", "street", "date"],
     "plisse": ["elegant", "date"], "crushed_velvet": ["gothic", "date", "elegant"], "foil": ["date", "street"],
     "rib_lycra": ["sporty", "cute", "casual"], "shimmer_lycra": ["date", "cute", "street"],
+    "hex_mesh": ["sporty", "street"], "tricot": ["sporty", "street", "casual"],
 }
 
 # Fabrics that usually come in their own colours, and how often an item made in one is: (chance, hex colours). Denim
@@ -1178,7 +1204,8 @@ CONTEXT_TAGS = {
 }
 
 # Open fabrics: the shade below which a pixel is a hole, where the wearer's skin shows (the texture's alpha).
-HOLES = {"lace": 0.47, "mesh": 0.6, "crochet": 0.5, "eyelet": 0.55, "guipure": 0.5, "ripped_denim": 0.3, "fishnet": 0.45}
+HOLES = {"lace": 0.47, "mesh": 0.6, "crochet": 0.5, "eyelet": 0.55, "guipure": 0.5, "ripped_denim": 0.3, "fishnet": 0.45,
+         "hex_mesh": 0.45}
 
 # How glossy each shiny fabric is (the shader's _Gloss: a toon highlight, smaller and brighter the glossier); the rest
 # are matte.
@@ -1186,7 +1213,7 @@ GLOSS = {
     "vinyl": 1.0, "patent": 0.9, "rubber": 0.7, "metallic": 0.75, "gloss_puffer": 0.6, "sequins": 0.6, "satin": 0.5,
     "taffeta": 0.45, "lycra": 0.3, "moire": 0.4, "croc": 0.4, "glitter": 0.4, "beaded": 0.4, "satin_stripe": 0.35,
     "nylon": 0.35, "shantung": 0.3, "leather": 0.3, "snake": 0.3, "scuba": 0.25, "waxed": 0.25, "organza": 0.2,
-    "lurex_knit": 0.2, "perforated": 0.2, "brocade": 0.3, "sateen": 0.2, "athletic_knit": 0.22, "foil": 0.75, "rib_lycra": 0.3, "shimmer_lycra": 0.38,
+    "lurex_knit": 0.2, "perforated": 0.2, "brocade": 0.3, "sateen": 0.2, "athletic_knit": 0.22, "foil": 0.75, "rib_lycra": 0.3, "shimmer_lycra": 0.38, "tricot": 0.25,
 }
 
 # How much each pile fabric glows toward its edges (the shader's _Sheen: velvet's look); the rest have none.
@@ -1210,5 +1237,5 @@ LIFT = {
     "satin_stripe": 0.3, "felt": 0.1, "lurex_knit": 0.4, "pinstripe_wool": 0.35, "houndstooth_wool": 0.3, "patchwork": 0.25,
     "needlecord": 0.2, "jumbo_cord": 0.22, "scuba": 0.35, "gloss_puffer": 0.5, "guipure": 0.08,
     "dotted_swiss": 0.12, "brocade": 0.35, "sateen": 0.3, "black_denim": 0.22, "ripped_denim": 0.25, "athletic_knit": 0.3, "fishnet": 0.1,
-    "plisse": 0.2, "crushed_velvet": 0.3, "foil": 0.3, "rib_lycra": 0.3, "shimmer_lycra": 0.25,
+    "plisse": 0.2, "crushed_velvet": 0.3, "foil": 0.3, "rib_lycra": 0.3, "shimmer_lycra": 0.25, "hex_mesh": 0.15, "tricot": 0.25,
 }

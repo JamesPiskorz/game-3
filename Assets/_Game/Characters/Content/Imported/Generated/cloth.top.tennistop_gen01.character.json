@@ -22,7 +22,8 @@
     "knit",
     "rib_knit",
     "waffle",
-    "marl"
+    "marl",
+    "hex_mesh"
   ],
   "patternable": true,
   "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261022_015459_for_texture_textured.glb",

@@ -20,13 +20,15 @@
   "weight": 1.0,
   "fabric": "nylon",
   "fabrics": [
+    "tricot",
     "ripstop",
     "lycra",
     "athletic_knit",
     "satin",
     "velvet",
     "fleece",
-    "mesh"
+    "mesh",
+    "hex_mesh"
   ],
   "patternable": true,
   "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261022_041513_for_texture_textured.glb",
