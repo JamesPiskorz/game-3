@@ -2258,6 +2258,82 @@ def birds(size, seed):
     shape = _drawn(size, draw)
     return shape, _outline(np.clip(shape * 1.5, 0, 1), 1) * 0.5
 
+
+# ----------------------------------------------------------------------------------------------- retro and kids
+
+def groovy(size, seed):
+    """Groovy: fat 70s waves in two colours, swelling and narrowing as they ripple across."""
+    x, y = tk.grid(size)
+    t = (y * 3 + 0.12 * np.sin(2 * np.pi * (x * 2 + y)) + 0.06 * np.sin(2 * np.pi * x * 4)) % 1.0
+    first = (t > 0.0) & (t < 0.3)
+    second = (t > 0.45) & (t < 0.7)
+    return tk.blur_small(first.astype(float), 0.8), _zero(size), tk.blur_small(second.astype(float), 0.8)
+
+
+def flower_power(size, seed):
+    """Flower power: big round-petalled 60s daisies, their hearts in the second colour, overlapping."""
+    def bloom(px):
+        r = px // 2
+        y, x = np.mgrid[-r:r + 1, -r:r + 1].astype(float) / max(r, 1)
+        rad, ang = np.hypot(x, y), np.arctan2(y, x)
+        petals = _soft(rad - (0.62 + 0.3 * np.abs(np.cos(ang * 2.5))), r)
+        heart = _soft(rad - 0.3, r)
+        return np.clip(petals - heart, 0, 1), np.clip(_outline(petals, 1) * 0.5 + _outline(heart, 1) * 0.5, 0, 1), heart
+    return _scatter_shapes(size, [bloom(int(size / 2.6)), bloom(int(size / 3.6)), bloom(int(size / 5))], 9, seed, size / 4)
+
+
+def dinosaurs(size, seed):
+    """Dinosaurs: little long-necked and spiky ones, their spines and spots in the second colour (kids' prints)."""
+    def sauropod(px):
+        r = px // 2
+        y, x = np.mgrid[-r:r + 1, -r:r + 1].astype(float) / max(r, 1)
+        body = np.hypot((x + 0.05) / 0.5, (y - 0.15) / 0.3) < 1
+        neck = (np.abs(y + 0.25 - (x - 0.45) * -1.6) < 0.1) & (x > 0.3) & (x < 0.6) & (y < 0.15)
+        head = np.hypot((x - 0.66) / 0.13, (y + 0.62) / 0.09) < 1
+        tail = (np.abs(y - 0.2 - (x + 0.55) * -0.45) < 0.08 * np.clip(x + 1.0, 0, 1)) & (x < -0.4) & (x > -0.95)
+        legs = ((np.abs(x + 0.3) < 0.08) | (np.abs(x - 0.2) < 0.08)) & (y > 0.3) & (y < 0.62)
+        shape = tk.blur_small((body | neck | head | tail | legs).astype(float), 0.8)
+        spots = tk.blur_small(((np.hypot(x + 0.15, y - 0.05) < 0.08) | (np.hypot(x + 0.35, y - 0.18) < 0.06) |
+                               (np.hypot(x + 0.0, y - 0.25) < 0.06)).astype(float), 0.8) * shape
+        eye = np.hypot(x - 0.7, y + 0.64) < 0.03
+        return np.clip(shape - spots, 0, 1), np.clip(_outline(shape, 1) * 0.5 + eye, 0, 1), spots
+
+    def stego(px):
+        r = px // 2
+        y, x = np.mgrid[-r:r + 1, -r:r + 1].astype(float) / max(r, 1)
+        body = (np.hypot(x / 0.55, (y - 0.2) / 0.3) < 1) & (y < 0.35)
+        belly = (np.abs(x) < 0.5) & (y > 0.1) & (y < 0.35)
+        head = np.hypot((x - 0.62) / 0.14, (y - 0.25) / 0.1) < 1
+        tail = (np.abs(y - 0.2 - (x + 0.55) * -0.2) < 0.06) & (x < -0.45) & (x > -0.9)
+        legs = ((np.abs(x + 0.3) < 0.08) | (np.abs(x - 0.25) < 0.08)) & (y > 0.3) & (y < 0.58)
+        plates = np.zeros_like(x, dtype=bool)
+        for px_, height in ((-0.35, 0.2), (-0.12, 0.28), (0.12, 0.28), (0.33, 0.2)):
+            top = 0.2 - 0.3 * np.sqrt(np.clip(1 - (px_ / 0.55) ** 2, 0, 1))
+            plates |= (y < top) & (y > top - height) & (np.abs(x - px_) < 0.1 * (y - (top - height)) / height)
+        shape = tk.blur_small((body | belly | head | tail | legs).astype(float), 0.8)
+        spikes = tk.blur_small(plates.astype(float), 0.8) * (1 - shape)
+        eye = np.hypot(x - 0.68, y - 0.21) < 0.03
+        return shape, np.clip(_outline(shape, 1) * 0.5 + eye, 0, 1), spikes
+    return _scatter_shapes(size, [sauropod(int(size / 2.6)), stego(int(size / 2.8))], 7, seed, size / 3.2, rotate=False)
+
+
+def sailboats(size, seed):
+    """Sailboats: little yachts with a white sail and a coloured one, over a wave (nautical)."""
+    def boat(px):
+        r = px // 2
+        y, x = np.mgrid[-r:r + 1, -r:r + 1].astype(float) / max(r, 1)
+        hull = (y > 0.3) & (y < 0.52) & (np.abs(x) < 0.6 - (y - 0.3) * 1.2)
+        mast = (np.abs(x + 0.02) < 0.025) & (y > -0.8) & (y < 0.3)
+        sail = (x > 0.04) & (y < 0.22) & (y > -0.75) & (x < 0.04 + (y + 0.75) * 0.5)
+        jib = (x < -0.06) & (y < 0.22) & (y > -0.55) & (x > -0.06 - (y + 0.55) * 0.55)
+        wave = np.abs(y - 0.68 - 0.05 * np.sin(x * 12)) < 0.035
+        shape = tk.blur_small((hull | sail).astype(float), 0.8)
+        second = tk.blur_small(jib.astype(float), 0.8)
+        ink = np.clip(mast * 0.9 + _outline(shape, 1) * 0.4 + _outline(second, 1) * 0.4 + wave * 0.6, 0, 1)
+        return shape, ink, second
+    return _scatter_shapes(size, [boat(int(size / 4)), boat(int(size / 5.5))], 9, seed, size / 4, rotate=False)
+
+
 # name, tags, tiles per metre (min, max), weight
 PRINTS = {
     # Patterns the stand-ins share (their catalog lists these ids).
@@ -2452,6 +2528,10 @@ PRINTS = {
     "newsprint": (newsprint, "Newsprint", ["street", "bookish", "casual"], (2, 3), 0.4),
     "script": (script, "Script", ["date", "elegant", "cute"], (2, 3), 0.4),
     "birds": (birds, "Birds on branches", ["elegant", "bookish", "cute"], (2.5, 4), 0.5),
+    "groovy": (groovy, "Groovy waves", ["street", "casual", "cute"], (1.5, 3), 0.4),
+    "flowerpower": (flower_power, "Flower power", ["cute", "casual", "street"], (2, 3.5), 0.5),
+    "dinosaurs": (dinosaurs, "Dinosaurs", ["cute", "casual"], (2.5, 4), 0.3),
+    "sailboats": (sailboats, "Sailboats", ["casual", "cute", "bookish"], (2.5, 4), 0.4),
 }
 
 # How each print's second colour (its accent: leaves, hearts, wafers) follows its first: "leaf" (a natural green),
@@ -2461,7 +2541,8 @@ ACCENT = {
     "holly": "leaf", "watermelon": "leaf", "strawberries": "leaf", "daisies": "gold", "icecream": "gold",
     "doughnuts": "gold", "mushrooms": "light", "bees": "light", "planets": "contrast", "rainbows": "contrast",
     "plaid": "contrast", "glenplaid": "contrast", "argyle": "contrast", "madras": "contrast",
-    "cacti": "leaf", "medallions": "contrast",
+    "cacti": "leaf", "medallions": "contrast", "groovy": "contrast", "flowerpower": "gold", "dinosaurs": "contrast",
+    "sailboats": "contrast",
     "tee_heart": "light", "tee_star": "light", "tee_cherries": "leaf", "tee_rose": "leaf", "tee_sunset": "gold",
     "tee_cat": "light", "tee_rainbow": "contrast", "tee_planet": "contrast", "tee_daisy": "gold", "tee_mountains": "light",
     "tee_butterfly": "contrast", "tee_moon": "gold", "tee_crown": "contrast", "tee_ghost": "light", "tee_palm": "leaf",
@@ -2494,8 +2575,9 @@ KNITTED = {"stripes", "breton", "argyle", "knit", "snowflakes", "rugby", "hearts
 CONTEXT_TAGS = {
     "sleep": ["clouds", "moons", "stars", "hearts", "dots", "pindots", "gingham", "check", "pyjama", "bunnies", "cats",
               "raindrops", "snowflakes", "plaid", "buffalo", "candystripe", "floral", "daisies", "cherries",
-              "strawberries", "bows", "paws", "rainbows", "planets", "sakura", "ticking", "notes", "smileys", "seigaiha"],
-    "swim": ["tropical", "hibiscus", "stripes", "breton", "waves", "scales", "shells", "fish", "seagulls", "anchors",
+              "strawberries", "bows", "paws", "rainbows", "planets", "sakura", "ticking", "notes", "smileys", "seigaiha",
+              "dinosaurs", "sailboats"],
+    "swim": ["sailboats", "tropical", "hibiscus", "stripes", "breton", "waves", "scales", "shells", "fish", "seagulls", "anchors",
              "lemons", "watermelon", "floral", "bigfloral", "dots", "gingham", "leopard", "zebra", "cheetah", "tiedye",
              "cherries", "strawberries", "daisies", "sunsetfade", "ombre", "colourblock", "ricrac", "tee_palm", "icecream"],
     "formal": ["damask", "bigfloral", "roses", "ombre", "sunsetfade", "scallop", "greekkey", "medallions", "fleurdelis",
