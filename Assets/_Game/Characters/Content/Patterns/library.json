@@ -3979,6 +3979,23 @@
    "placement": null,
    "colourwayChance": 0.0,
    "colourways": []
+  },
+  {
+   "id": "pattern.dragonflies_01",
+   "name": "Dragonflies",
+   "tags": [
+    "cute",
+    "elegant",
+    "casual",
+    "date"
+   ],
+   "minScale": 2.5,
+   "maxScale": 4,
+   "weight": 0.6,
+   "accent": "light",
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   }
  ]
 }

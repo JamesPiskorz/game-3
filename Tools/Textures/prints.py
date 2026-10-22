@@ -1916,6 +1916,27 @@ def clovers(size, seed):
     return _scatter_shapes(size, shapes, 12, seed, size / 4.6)
 
 
+def dragonflies(size, seed):
+    """Dragonflies: slender bodies with two pairs of veined wings in the second colour, darting every which way."""
+    def dragonfly(px):
+        def ellipse(x, y, cx, cy, rx, ry):
+            return _soft(np.sqrt(((x - cx) / rx) ** 2 + ((y - cy) / ry) ** 2) - 1, px / 10)
+        def body_fn(x, y):
+            segment = _soft(np.abs(x) - 0.045, px / 2) * (y > -0.55) * (y < 0.88)
+            thorax = ellipse(x, y, 0, -0.42, 0.09, 0.16)
+            head = ellipse(x, y, 0, -0.64, 0.1, 0.08)
+            return np.maximum(np.maximum(segment, thorax), head)
+        def wing_fn(x, y):
+            return np.maximum(np.maximum(ellipse(x, y, 0.4, -0.46, 0.4, 0.1), ellipse(x, y, -0.4, -0.46, 0.4, 0.1)),
+                              np.maximum(ellipse(x, y, 0.36, -0.26, 0.36, 0.09), ellipse(x, y, -0.36, -0.26, 0.36, 0.09)))
+        body, wings = _shape(px, body_fn), _shape(px, wing_fn)
+        wings = wings * (1 - body)
+        veins = _shape(px, lambda x, y: (np.abs(((y + 0.46) * 0.6 + np.abs(x) * 0.05) % 0.12 - 0.06) < 0.008).astype(float)) * wings
+        return body, np.clip(_outline(wings, 1) * 0.6 + _outline(body, 1) * 0.5 + veins * 0.25, 0, 1), wings
+    shapes = [dragonfly(int(size / 4.2)), dragonfly(int(size / 5))]
+    return _scatter_shapes(size, shapes, 9, seed, size / 4)
+
+
 # ------------------------------------------------------------------------------- placed prints: chest graphics
 
 def _graphic(size, layers):
@@ -3435,6 +3456,7 @@ PRINTS = {
     "whales": (whales, "Whales", ["cute", "casual"], (2.5, 4), 0.6),
     "celestial": (celestial, "Suns and moons", ["casual", "gothic", "date", "cute"], (2.5, 4), 0.7),
     "clovers": (clovers, "Clovers", ["cute", "casual"], (3, 5), 0.6),
+    "dragonflies": (dragonflies, "Dragonflies", ["cute", "elegant", "casual", "date"], (2.5, 4), 0.6),
 }
 
 # How each print's second colour (its accent: leaves, hearts, wafers) follows its first: "leaf" (a natural green),
@@ -3447,7 +3469,7 @@ ACCENT = {
     "cacti": "leaf", "medallions": "contrast", "groovy": "contrast", "flowerpower": "gold", "dinosaurs": "contrast",
     "sailboats": "contrast", "umbrellas": "contrast", "liberty": "contrast", "lavender": "leaf", "maple": "gold",
     "pineapples": "leaf", "memphis": "contrast", "regimental": "contrast", "quilt": "contrast", "graffiti": "contrast",
-    "swooshes": "contrast", "thorns": "leaf", "rosebuds": "leaf", "triplestripes": "contrast", "artdeco": "gold", "dogs": "contrast", "frogs": "leaf", "pearls": "light", "swallows": "light", "foulard": "contrast", "azulejo": "light", "whales": "light", "celestial": "gold",
+    "swooshes": "contrast", "thorns": "leaf", "rosebuds": "leaf", "triplestripes": "contrast", "artdeco": "gold", "dogs": "contrast", "frogs": "leaf", "pearls": "light", "swallows": "light", "foulard": "contrast", "azulejo": "light", "whales": "light", "celestial": "gold", "dragonflies": "light",
     "tee_heart": "light", "tee_star": "light", "tee_cherries": "leaf", "tee_rose": "leaf", "tee_sunset": "gold",
     "tee_cat": "light", "tee_rainbow": "contrast", "tee_planet": "contrast", "tee_daisy": "gold", "tee_mountains": "light",
     "tee_butterfly": "contrast", "tee_moon": "gold", "tee_crown": "contrast", "tee_ghost": "light", "tee_palm": "leaf",

@@ -787,6 +787,8 @@ MonoBehaviour:
     Texture: {fileID: 2800000, guid: 04791e80f6068e141a208da6f1814f8e, type: 3}
   - Id: pattern.clovers_01
     Texture: {fileID: 2800000, guid: be19655c7bb3c114e90dacfd750e592a, type: 3}
+  - Id: pattern.dragonflies_01
+    Texture: {fileID: 2800000, guid: 700fee4c8746bd34b97e199b3141c979, type: 3}
   Fabrics:
   - Id: plain
     Material: {fileID: 2100000, guid: 438e55e3cc9afa740b5c2f26ae972251, type: 2}
