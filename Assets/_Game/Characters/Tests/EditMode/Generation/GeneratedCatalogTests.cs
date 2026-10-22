@@ -113,7 +113,7 @@ namespace Game.Characters.Tests.Generation
             var generator = new CharacterGenerator(catalog);
             var fabrics = new HashSet<string>();
             var prints = new HashSet<string>();
-            int items = 0, varied = 0, knitted = 0;
+            int items = 0, varied = 0, knitted = 0, animalShoes = 0;
             for (ulong seed = 1; seed <= 400; seed++)
                 foreach (OutfitDna outfit in generator.Generate(seed * 2654435761UL, GenerationRequest.Any).Outfits)
                     foreach (ItemDna item in outfit.Items)
@@ -127,12 +127,14 @@ namespace Game.Characters.Tests.Generation
                         {
                             prints.Add(item.PatternId);
                             Assert.That(catalog.TakesPrint(part, item.FabricId, item.PatternId), $"{item.PatternId} on {item.FabricId ?? part.Fabrics[0]}");
-                            if (catalog.FabricOf(part, item.FabricId).PrintTags.Count > 0) knitted++;
+                            if (catalog.FabricOf(part, item.FabricId).PrintTags.Contains("knitted")) knitted++;
+                            if (part.Slot == Slots.Shoes && catalog.FabricOf(part, item.FabricId).PrintTags.Contains("animal")) animalShoes++;
                         }
                     }
             Assert.That(fabrics.Count, Is.GreaterThanOrEqualTo(60), "Most of the fabric library turns up.");
             Assert.That(prints.Count, Is.GreaterThanOrEqualTo(90), "Most of the print library turns up.");
             Assert.That(knitted, Is.GreaterThan(0), "Sweaters come with knitted colourwork (Fair Isle, stripes, argyle).");
+            Assert.That(animalShoes, Is.GreaterThan(0), "Leather shoes come in leopard, zebra or snakeskin, now and then.");
             Assert.That(varied / (float)items, Is.InRange(0.2f, 0.6f), "Items are often, but not mostly, in another fabric.");
         }
 

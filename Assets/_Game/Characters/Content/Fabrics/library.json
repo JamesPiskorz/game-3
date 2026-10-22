@@ -683,8 +683,10 @@
     "street",
     "gothic"
    ],
-   "printable": false,
-   "printTags": [],
+   "printable": true,
+   "printTags": [
+    "animal"
+   ],
    "lift": 0.28,
    "colourChance": 0.6,
    "colours": [
@@ -706,8 +708,10 @@
     "elegant",
     "date"
    ],
-   "printable": false,
-   "printTags": [],
+   "printable": true,
+   "printTags": [
+    "animal"
+   ],
    "lift": 0.45,
    "colourChance": 0.35,
    "colours": [
@@ -748,8 +752,10 @@
     "bookish",
     "street"
    ],
-   "printable": false,
-   "printTags": [],
+   "printable": true,
+   "printTags": [
+    "animal"
+   ],
    "lift": 0.12,
    "colourChance": 0.6,
    "colours": [

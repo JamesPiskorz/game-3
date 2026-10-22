@@ -2816,7 +2816,7 @@
       "excludesTags": [],
       "lean": 0.6,
       "regions": 3,
-      "patternable": false,
+      "patternable": true,
       "fabrics": [
         "leather",
         "suede",
@@ -2910,7 +2910,7 @@
       "excludesTags": [],
       "lean": 0.95,
       "regions": 3,
-      "patternable": false,
+      "patternable": true,
       "fabrics": [
         "patent",
         "leather",
@@ -2941,7 +2941,7 @@
       "excludesTags": [],
       "lean": 0.4,
       "regions": 3,
-      "patternable": false,
+      "patternable": true,
       "fabrics": [
         "leather",
         "suede",
@@ -2998,7 +2998,7 @@
       "excludesTags": [],
       "lean": -0.4,
       "regions": 2,
-      "patternable": false,
+      "patternable": true,
       "fabrics": [
         "leather",
         "suede",
@@ -3029,7 +3029,7 @@
       "excludesTags": [],
       "lean": 0.6,
       "regions": 2,
-      "patternable": false,
+      "patternable": true,
       "fabrics": [
         "leather",
         "suede",
@@ -3124,7 +3124,7 @@
       ],
       "lean": 0.9,
       "regions": 2,
-      "patternable": false,
+      "patternable": true,
       "fabrics": [
         "suede",
         "leather",
@@ -3154,7 +3154,7 @@
       "excludesTags": [],
       "lean": 0.0,
       "regions": 2,
-      "patternable": false,
+      "patternable": true,
       "fabrics": [
         "leather",
         "suede",
@@ -3186,7 +3186,7 @@
       "excludesTags": [],
       "lean": 0.9,
       "regions": 2,
-      "patternable": false,
+      "patternable": true,
       "fabrics": [
         "patent",
         "leather",
@@ -3218,7 +3218,7 @@
       "excludesTags": [],
       "lean": 0.95,
       "regions": 2,
-      "patternable": false,
+      "patternable": true,
       "fabrics": [
         "patent",
         "leather",
@@ -3250,7 +3250,7 @@
       "excludesTags": [],
       "lean": 0.9,
       "regions": 3,
-      "patternable": false,
+      "patternable": true,
       "fabrics": [
         "patent",
         "leather",
@@ -3307,7 +3307,7 @@
       "excludesTags": [],
       "lean": 0.9,
       "regions": 3,
-      "patternable": false,
+      "patternable": true,
       "fabrics": [
         "patent",
         "leather",
@@ -3365,7 +3365,7 @@
       "excludesTags": [],
       "lean": 0.6,
       "regions": 2,
-      "patternable": false,
+      "patternable": true,
       "fabrics": [
         "leather",
         "suede",
@@ -3460,7 +3460,7 @@
       "excludesTags": [],
       "lean": 0.95,
       "regions": 3,
-      "patternable": false,
+      "patternable": true,
       "fabrics": [
         "leather",
         "suede",
@@ -3495,7 +3495,7 @@
       "excludesTags": [],
       "lean": 0.6,
       "regions": 2,
-      "patternable": false,
+      "patternable": true,
       "fabrics": [
         "suede",
         "leather",
@@ -3527,7 +3527,7 @@
       ],
       "lean": 0.0,
       "regions": 3,
-      "patternable": false,
+      "patternable": true,
       "fabrics": [
         "leather",
         "suede",
@@ -3558,7 +3558,7 @@
       "excludesTags": [],
       "lean": 0.6,
       "regions": 2,
-      "patternable": false,
+      "patternable": true,
       "fabrics": [
         "leather",
         "suede",
@@ -3623,7 +3623,7 @@
       "excludesTags": [],
       "lean": 0.9,
       "regions": 3,
-      "patternable": false,
+      "patternable": true,
       "fabrics": [
         "leather",
         "suede",
@@ -5885,7 +5885,8 @@
       "tags": [
         "street",
         "gothic",
-        "date"
+        "date",
+        "animal"
       ],
       "minScale": 3.0,
       "maxScale": 5.0,
@@ -5898,7 +5899,8 @@
       "weight": 0.6,
       "tags": [
         "street",
-        "gothic"
+        "gothic",
+        "animal"
       ],
       "minScale": 2.0,
       "maxScale": 4.0,
@@ -5910,7 +5912,8 @@
       "name": "Tiger",
       "weight": 0.4,
       "tags": [
-        "street"
+        "street",
+        "animal"
       ],
       "minScale": 2.0,
       "maxScale": 4.0,
@@ -5923,7 +5926,8 @@
       "weight": 0.4,
       "tags": [
         "cute",
-        "street"
+        "street",
+        "animal"
       ],
       "minScale": 2.0,
       "maxScale": 3.0,
@@ -5937,7 +5941,8 @@
       "tags": [
         "street",
         "gothic",
-        "elegant"
+        "elegant",
+        "animal"
       ],
       "minScale": 5.0,
       "maxScale": 9.0,
@@ -6532,7 +6537,8 @@
       "weight": 0.4,
       "tags": [
         "street",
-        "casual"
+        "casual",
+        "animal"
       ],
       "minScale": 2.0,
       "maxScale": 4.0,
@@ -6546,7 +6552,8 @@
       "tags": [
         "street",
         "cute",
-        "gothic"
+        "gothic",
+        "animal"
       ],
       "minScale": 2.0,
       "maxScale": 4.0,
@@ -6559,7 +6566,8 @@
       "weight": 0.5,
       "tags": [
         "street",
-        "date"
+        "date",
+        "animal"
       ],
       "minScale": 3.0,
       "maxScale": 5.0,
@@ -8289,8 +8297,10 @@
         "street",
         "gothic"
       ],
-      "printable": false,
-      "printTags": [],
+      "printable": true,
+      "printTags": [
+        "animal"
+      ],
       "colours": [
         {
           "hex": "#1b1919",
@@ -8329,8 +8339,10 @@
         "elegant",
         "date"
       ],
-      "printable": false,
-      "printTags": [],
+      "printable": true,
+      "printTags": [
+        "animal"
+      ],
       "colours": [
         {
           "hex": "#141416",
@@ -8393,8 +8405,10 @@
         "bookish",
         "street"
       ],
-      "printable": false,
-      "printTags": [],
+      "printable": true,
+      "printTags": [
+        "animal"
+      ],
       "colours": [
         {
           "hex": "#ae8257",

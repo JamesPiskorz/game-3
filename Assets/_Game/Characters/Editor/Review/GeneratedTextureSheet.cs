@@ -82,7 +82,7 @@ namespace Game.Characters.Review
                 HsvColor tint = Tints[i % Tints.Length];
                 HsvColor ink = Tints[(i + 2) % Tints.Length];
                 float scale = (pattern.MinScale + pattern.MaxScale) / 2f;
-                bool dress = i % 2 == 0;
+                bool dress = i % 2 == 0 && pattern.Placement != "hem";  // a hem's border shows in the close-up on a T-shirt
                 ItemDna printed = Item(dress ? Dress : Shirt, tint);
                 printed.PatternId = pattern.Id;
                 printed.PatternScale = scale;

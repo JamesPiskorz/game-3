@@ -92,9 +92,10 @@ namespace Game.Characters.Generation
                     }
                 }
 
-                // A print, at times, of those its fabric takes (only knitted ones on a knit).
+                // A print, at times, of those its fabric takes (only knitted ones on a knit, animal ones on leather);
+                // on shoes less often (leopard pumps are a statement).
                 List<PatternEntry> prints = catalog.PrintsFor(part, item.FabricId);
-                if (prints.Count > 0 && rng.Chance(archetype.PatternChance))
+                if (prints.Count > 0 && rng.Chance(archetype.PatternChance * (part.Slot == Slots.Shoes ? ShoePatternShare : 1f)))
                 {
                     PatternEntry pattern = rng.PickWeighted(prints, p => p.Weight * Affinity.Of(archetype, p.Tags));
                     if (pattern != null)
@@ -110,6 +111,9 @@ namespace Game.Characters.Generation
                 outfit.Items.Add(item);
             }
         }
+
+        /// <summary>How much less often than other items shoes are printed.</summary>
+        public const float ShoePatternShare = 0.4f;
 
         /// <summary>How often an item that can be made in several fabrics isn't made in its own.</summary>
         public const float FabricVariety = 0.5f;

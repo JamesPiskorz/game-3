@@ -946,16 +946,19 @@ FABRICS = {
 }
 
 # Each fabric's catalog entry: the style tags archetypes weight it by, whether a print goes on it, and how common it is.
-NO_PRINT = {"denim", "leather", "patent", "croc", "suede", "sequins", "lace", "quilted", "diamond_quilt", "corduroy",
+NO_PRINT = {"denim", "croc", "sequins", "lace", "quilted", "diamond_quilt", "corduroy",
             "mesh", "rubber", "metallic", "cable_knit", "faux_fur", "eyelet", "tulle", "crochet", "tweed",
             "herringbone", "jacquard", "velvet", "boucle", "seersucker", "terry", "waffle",
             "stonewash", "acid_wash", "waxed", "pointelle", "seed_stitch", "sherpa", "chenille", "moire",
             "glitter", "beaded", "perforated", "vinyl", "snake", "ottoman", "straw", "smocked", "marl", "satin_stripe", "pinstripe_wool", "houndstooth_wool", "patchwork",
             "jumbo_cord", "gloss_puffer", "guipure"}
 # Fabrics that take only some prints: a knit takes only what is knitted into it (Fair Isle, stripes, argyle), not a
-# printed floral. Prints with one of these tags (prints.KNITTED's "knitted").
+# printed floral; a leather only an animal print. Prints with one of these tags (prints.KNITTED's "knitted",
+# prints.ANIMAL's "animal").
 PRINT_TAGS = {"knit": ["knitted"], "chunky_knit": ["knitted"], "mohair": ["knitted"], "lurex_knit": ["knitted"],
-              "rib_knit": ["knitted"], "wide_rib": ["knitted"]}
+              "rib_knit": ["knitted"], "wide_rib": ["knitted"],
+              # Leathers take animal prints (leopard pumps, zebra boots, snakeskin loafers) and nothing else.
+              "leather": ["animal"], "suede": ["animal"], "patent": ["animal"]}
 TAGS = {
     "plain": ["casual", "cute"], "poplin": ["elegant", "bookish", "casual"], "oxford": ["bookish", "elegant"],
     "chambray": ["casual", "bookish"], "canvas": ["casual", "street"], "linen": ["casual", "elegant", "bookish"],

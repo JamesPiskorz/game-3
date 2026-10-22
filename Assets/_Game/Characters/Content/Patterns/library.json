@@ -747,7 +747,8 @@
    "tags": [
     "street",
     "gothic",
-    "date"
+    "date",
+    "animal"
    ],
    "minScale": 3,
    "maxScale": 5,
@@ -760,7 +761,8 @@
    "name": "Zebra",
    "tags": [
     "street",
-    "gothic"
+    "gothic",
+    "animal"
    ],
    "minScale": 2,
    "maxScale": 4,
@@ -772,7 +774,8 @@
    "id": "pattern.tiger_01",
    "name": "Tiger",
    "tags": [
-    "street"
+    "street",
+    "animal"
    ],
    "minScale": 2,
    "maxScale": 4,
@@ -785,7 +788,8 @@
    "name": "Cow print",
    "tags": [
     "cute",
-    "street"
+    "street",
+    "animal"
    ],
    "minScale": 2,
    "maxScale": 3,
@@ -799,7 +803,8 @@
    "tags": [
     "street",
     "gothic",
-    "elegant"
+    "elegant",
+    "animal"
    ],
    "minScale": 5,
    "maxScale": 9,
@@ -1394,7 +1399,8 @@
    "name": "Giraffe",
    "tags": [
     "street",
-    "casual"
+    "casual",
+    "animal"
    ],
    "minScale": 2,
    "maxScale": 4,
@@ -1408,7 +1414,8 @@
    "tags": [
     "street",
     "cute",
-    "gothic"
+    "gothic",
+    "animal"
    ],
    "minScale": 2,
    "maxScale": 4,
@@ -1421,7 +1428,8 @@
    "name": "Cheetah",
    "tags": [
     "street",
-    "date"
+    "date",
+    "animal"
    ],
    "minScale": 3,
    "maxScale": 5,
