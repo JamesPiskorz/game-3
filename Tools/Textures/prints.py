@@ -263,13 +263,20 @@ def big_dots(size, seed):
 
 
 def confetti(size, seed):
+    """Confetti: dots and tumbling paper slips in two colours."""
     rng = np.random.default_rng(seed)
     shapes = []
-    for k in range(6):
-        dot = tk.disc(size / 40 * (0.7 + 0.6 * rng.random()), 1.0) * (0.5 if k % 2 else 1.0)
-        shapes.append((dot, _zero(dot.shape[0])))
-    colour, ink = _scatter_shapes(size, shapes, 50, seed, size / 10, rotate=False)
-    return colour, ink
+    for k in range(8):
+        if k % 2:
+            px = int(size / 14) | 1
+            h = px // 2
+            yy, xx = np.mgrid[-h:h + 1, -h:h + 1].astype(float) / max(h, 1)
+            piece = ((np.abs(xx) < 0.9) & (np.abs(yy) < 0.32)).astype(float)
+        else:
+            piece = tk.disc(size / 40 * (0.8 + 0.6 * rng.random()), 1.0)
+        none = np.zeros_like(piece)
+        shapes.append((piece, none, none) if k % 4 < 2 else (none, none, piece))
+    return _scatter_shapes(size, shapes, 46, seed, size / 10)
 
 
 # ------------------------------------------------------------------------------------------------- florals, botanicals
@@ -704,18 +711,21 @@ def marble(size, seed):
 
 
 def brushstrokes(size, seed):
+    """Brushstrokes: bold sweeps of paint in two colours, the bristles streaking each one and its end running dry."""
     rng = np.random.default_rng(seed)
-    colour, ink = _zero(size), _zero(size)
-    for k, (cx, cy) in enumerate(tk.scatter(size, 16, seed, size / 5)):
-        length = int(size * (0.18 + 0.12 * rng.random())) | 1
+    shapes = []
+    for k in range(6):
+        length = int(size * (0.34 + 0.12 * rng.random())) | 1
         h = length // 2
         yy, xx = np.mgrid[-h:h + 1, -h:h + 1].astype(float) / h
-        width = (0.16 + 0.08 * rng.random()) * (1 - xx ** 6) * (1 + 0.15 * np.sin(xx * 3))
-        bristles = 0.75 + 0.25 * np.sin(yy * 40 + rng.random() * 6) * (0.5 + 0.5 * xx)
-        stroke = (np.abs(yy - 0.12 * np.sin(xx * 2.5)) < width).astype(float) * bristles
-        stroke = tk.rotate_shape(stroke, rng.random() * 180)
-        tk.stamp(colour, stroke * (1.0 if k % 3 else 0.5), cx, cy)
-    return colour, ink
+        width = (0.2 + 0.06 * rng.random()) * (1 - np.clip(xx, 0, 1) ** 4) * (1 - np.clip(-xx - 0.85, 0, 1) * 6)
+        streaks = np.sin(yy * 60 + 3 * np.sin(xx * 4) + rng.random() * 6)
+        dry = np.clip((xx - 0.35) / 0.6, 0, 1)  # the end of the stroke, where the brush runs out
+        body = np.abs(yy - 0.1 * np.sin(xx * 2.5)) < width
+        stroke = tk.blur_small((body & (streaks > -1 + 1.6 * dry)).astype(float), 0.8)
+        none = np.zeros_like(stroke)
+        shapes.append((stroke, none, none) if k % 3 else (none, none, stroke))
+    return _scatter_shapes(size, shapes, 9, seed, size / 3.6)
 
 
 def terrazzo(size, seed):
@@ -864,7 +874,7 @@ def _dot_grid(size, n, radius, offset=True):
 def pin_dots(size, seed):
     """Pin dots: tiny dots, close together."""
     r, px, _, _ = _dot_grid(size, 14, 0)
-    return np.clip((0.14 - r) * px + 0.5, 0, 1), _zero(size)
+    return np.clip((0.17 - r) * px + 0.5, 0, 1), _zero(size)
 
 
 def halftone(size, seed):
@@ -1989,6 +1999,54 @@ def graphic_eye(size, seed):
     return _graphic(size, (np.clip(white - iris, 0, 1), np.clip(_outline(white, 2) * 0.8 + pupil + lashes * 0.8, 0, 1), np.clip(iris - pupil, 0, 1)))
 
 
+
+# ------------------------------------------------------------- dyes over the whole garment (PLACED "body")
+# Drawn top to bottom over the garment's own height: row 0 is its top, the last row its hem. They vary only down the
+# tile, which is stretched round every panel and sleeve.
+
+def _down(size):
+    """How far down the garment each row is, 0 at the top to 1 at the hem, flat for the first and last few rows (the
+    tile's ends meet the garment's)."""
+    y = np.clip((np.arange(size)[:, None] + 0.5) / size * 1.04 - 0.02, 0, 1)
+    return np.repeat(y, size, axis=1)
+
+
+def ombre(size, seed):
+    """Ombre: the cloth's colour at the top fading to the print colour at the hem."""
+    t = _down(size)
+    return tk.smoothstep(0.1, 0.95, t), _zero(size)
+
+
+def dip_dye(size, seed):
+    """Dip-dye: the lower third dipped in the print colour, a soft wicked edge above a darker tide line."""
+    t = _down(size)
+    dyed = tk.smoothstep(0.58, 0.68, t)
+    tide = np.exp(-((t - 0.665) / 0.012) ** 2)
+    return dyed, tide * 0.35
+
+
+def sunset_fade(size, seed):
+    """A sunset fade: the second colour at the top, through the cloth's own, to the print colour at the hem."""
+    t = _down(size)
+    return tk.smoothstep(0.45, 0.95, t), _zero(size), 1 - tk.smoothstep(0.05, 0.5, t)
+
+
+def colour_block(size, seed):
+    """Colour block: the lower half in the print colour, a band of the second colour where they meet."""
+    t = _down(size)
+    lower = tk.smoothstep(0.545, 0.555, t)
+    band = tk.smoothstep(0.495, 0.505, t) * (1 - lower)
+    return lower, _zero(size), band
+
+
+def hem_stripes(size, seed):
+    """Hem stripes: a broad stripe and a narrow one near the hem, as on a tennis dress or a sailor top."""
+    t = _down(size)
+    broad = tk.smoothstep(0.86, 0.865, t) * (1 - tk.smoothstep(0.915, 0.92, t))
+    narrow = tk.smoothstep(0.94, 0.945, t) * (1 - tk.smoothstep(0.96, 0.965, t))
+    return np.maximum(broad, narrow), _zero(size)
+
+
 # name, tags, tiles per metre (min, max), weight
 PRINTS = {
     # Patterns the stand-ins share (their catalog lists these ids).
@@ -2164,6 +2222,12 @@ PRINTS = {
     "back_mountains": (graphic_mountains, "Mountains on the back", ["sporty", "casual"], (1, 1), 0.2),
     "back_rose": (graphic_rose, "Rose on the back", ["gothic", "date", "street"], (1, 1), 0.2),
     "back_butterfly": (graphic_butterfly, "Butterfly on the back", ["cute", "street", "date"], (1, 1), 0.2),
+    # Dyes over the whole garment (PLACED "body").
+    "ombre": (ombre, "Ombre", ["elegant", "date", "casual", "cute"], (1, 1), 0.6),
+    "dipdye": (dip_dye, "Dip-dye", ["casual", "street", "cute"], (1, 1), 0.5),
+    "sunsetfade": (sunset_fade, "Sunset fade", ["date", "elegant", "casual"], (1, 1), 0.4),
+    "colourblock": (colour_block, "Colour block", ["street", "sporty", "casual"], (1, 1), 0.5),
+    "hemstripes": (hem_stripes, "Hem stripes", ["sporty", "cute", "bookish", "casual"], (1, 1), 0.5),
 }
 
 # How each print's second colour (its accent: leaves, hearts, wafers) follows its first: "leaf" (a natural green),
@@ -2183,13 +2247,15 @@ ACCENT = {
     "badge_moon": "gold",
     "back_star": "light", "back_sunset": "gold", "back_mountains": "light", "back_rose": "leaf", "back_flame": "gold",
     "back_crown": "contrast", "back_butterfly": "contrast",
+    "sunsetfade": "contrast", "colourblock": "contrast", "confetti": "contrast", "brushstrokes": "contrast",
 }
 
 # Prints placed once rather than repeated, and where: "chest", a graphic on the front of a casual top or dress;
 # "badge", a small one on the left chest of any top or dress; "back", a big one across the back of a casual top,
-# dress or jacket.
+# dress or jacket; "body", over the whole garment from its top to its hem.
 PLACED = {pid: {"tee_": "chest", "badge_": "badge", "back_": "back"}[pid[:pid.index("_") + 1]]
           for pid in PRINTS if pid.startswith(("tee_", "badge_", "back_"))}
+PLACED.update({pid: "body" for pid in ("ombre", "dipdye", "sunsetfade", "colourblock", "hemstripes")})
 
 # Prints knitted into the cloth (colourwork, stripes, intarsia) rather than printed on it: the only ones a knit takes
 # (fabrics.PRINT_TAGS). They carry the tag "knitted" in the library.

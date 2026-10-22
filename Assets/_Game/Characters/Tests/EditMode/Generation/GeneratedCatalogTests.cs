@@ -154,6 +154,9 @@ namespace Game.Characters.Tests.Generation
             Assert.That(catalog.Patterns.Count(p => p.Placement == "chest"), Is.GreaterThanOrEqualTo(10), "Graphic tees.");
             Assert.That(catalog.Patterns.Count(p => p.Placement == "badge"), Is.GreaterThanOrEqualTo(5), "Polo badges.");
             Assert.That(catalog.Patterns.Count(p => p.Placement == "back"), Is.GreaterThanOrEqualTo(5), "Back prints.");
+            Assert.That(catalog.Patterns.Count(p => p.Placement == "body"), Is.GreaterThanOrEqualTo(4), "Ombres and dip-dyes.");
+            foreach (PartEntry dress in catalog.PartsInSlot(Slots.OnePiece))
+                Assert.That(dress.ClothTop - dress.ClothBottom, Is.InRange(0.15f, 1.6f), dress.Id + "'s height.");
             var generator = new CharacterGenerator(catalog);
             int graphics = 0;
             for (ulong seed = 1; seed <= 400; seed++)
@@ -164,6 +167,11 @@ namespace Game.Characters.Tests.Generation
                         if (placement == null) continue;
                         graphics++;
                         PartEntry part = catalog.Part(item.ItemId);
+                        if (placement == "body")
+                        {
+                            Assert.That(part.ClothTop - part.ClothBottom, Is.GreaterThan(0.1f), item.ItemId);
+                            continue;
+                        }
                         if (placement == "back")
                             Assert.That(part.Slot, Is.EqualTo(Slots.Top).Or.EqualTo(Slots.OnePiece).Or.EqualTo(Slots.Outer), item.ItemId);
                         else

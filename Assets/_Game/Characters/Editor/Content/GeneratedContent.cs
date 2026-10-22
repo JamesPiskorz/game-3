@@ -7,6 +7,7 @@ using Game.Characters.Content;
 using Game.Characters.Import;
 using Game.Characters.Modular;
 using Game.Characters.Springs;
+using Unity.Collections;
 using UnityEditor;
 using UnityEngine;
 
@@ -53,6 +54,34 @@ namespace Game.Characters.ContentAuthoring
 
         public static CharacterContent Load() => AssetDatabase.LoadAssetAtPath<CharacterContent>(Path);
 
+        /// <summary>
+        /// The height range of a generated part's cloth: its fabric UVs' v (height in metres, garment_tools.fabric_uvs)
+        /// over the body's panels and the legs, not the sleeves (whose v runs out along the arm) or the feet (u: the
+        /// front panel round 0, the back round 10, the arms 20-40, the legs 40-60, the feet beyond).
+        /// </summary>
+        static (float Bottom, float Top) ClothHeights(CharacterPart prefab)
+        {
+            float bottom = float.MaxValue, top = float.MinValue;
+            foreach (SkinnedMeshRenderer renderer in prefab.GetComponentsInChildren<SkinnedMeshRenderer>(true))
+            {
+                if (renderer.sharedMesh == null) continue;
+                using (Mesh.MeshDataArray data = Mesh.AcquireReadOnlyMeshData(renderer.sharedMesh))
+                {
+                    if (!data[0].HasVertexAttribute(UnityEngine.Rendering.VertexAttribute.TexCoord0)) continue;
+                    var list = new NativeArray<Vector2>(data[0].vertexCount, Allocator.Temp);
+                    data[0].GetUVs(0, list);
+                    foreach (Vector2 uv in list)
+                        if (uv.x < 15f || (uv.x >= 40f && uv.x < 60f))
+                        {
+                            bottom = Mathf.Min(bottom, uv.y);
+                            top = Mathf.Max(top, uv.y);
+                        }
+                    list.Dispose();
+                }
+            }
+            return bottom < top ? (bottom, top) : (0f, 0f);
+        }
+
         [MenuItem("Game/Characters/Content/Write Generated Content")]
         public static void WriteMenu() => Write();
 
@@ -89,6 +118,7 @@ namespace Game.Characters.ContentAuthoring
                     Fabrics = string.IsNullOrEmpty(sidecar.fabric) ? new List<string>()
                         : new[] { sidecar.fabric }.Concat(sidecar.fabrics.Where(f => f != sidecar.fabric)).Distinct().ToList(),
                 }, prefab));
+                (parts[parts.Count - 1].Entry.ClothBottom, parts[parts.Count - 1].Entry.ClothTop) = ClothHeights(prefab);
             }
 
             ContentCatalog catalog = Catalog(standIn.LoadCatalog(), parts.Select(p => p.Entry), out List<string> notes);

@@ -663,6 +663,16 @@ MonoBehaviour:
     Texture: {fileID: 2800000, guid: 2ca39a15b6bed0d428d9ab3f87fff49f, type: 3}
   - Id: pattern.back_butterfly_01
     Texture: {fileID: 2800000, guid: 746bb6c224d4ba848aac2a4662858f0a, type: 3}
+  - Id: pattern.ombre_01
+    Texture: {fileID: 2800000, guid: 861fce67757d1444ba4dd4da02f8bd2f, type: 3}
+  - Id: pattern.dipdye_01
+    Texture: {fileID: 2800000, guid: 2d488778fee9a184f9a6ff866ca998b9, type: 3}
+  - Id: pattern.sunsetfade_01
+    Texture: {fileID: 2800000, guid: 10e0eccdf4fccc44289ca81a90bb2e2e, type: 3}
+  - Id: pattern.colourblock_01
+    Texture: {fileID: 2800000, guid: feef712e583210440b3d0812dceeb2c7, type: 3}
+  - Id: pattern.hemstripes_01
+    Texture: {fileID: 2800000, guid: 0eed3d31cfdebbe4cbf94ef7c4d566e8, type: 3}
   Fabrics:
   - Id: plain
     Material: {fileID: 2100000, guid: 438e55e3cc9afa740b5c2f26ae972251, type: 2}
@@ -822,6 +832,16 @@ MonoBehaviour:
     Material: {fileID: 2100000, guid: 4b0869f2a77117a4789e33463456549b, type: 2}
   - Id: patchwork
     Material: {fileID: 2100000, guid: aaf4eb5eded207340bfa5110c06b5947, type: 2}
+  - Id: needlecord
+    Material: {fileID: 2100000, guid: 715a0b03123bee74fb27bfc9eba3ba79, type: 2}
+  - Id: jumbo_cord
+    Material: {fileID: 2100000, guid: 56534345ce98674488109a6c5026783d, type: 2}
+  - Id: scuba
+    Material: {fileID: 2100000, guid: f338800c8459df745b2250d3fec9e71d, type: 2}
+  - Id: gloss_puffer
+    Material: {fileID: 2100000, guid: 7ad87007bf854424d80d5c0580a2f2df, type: 2}
+  - Id: guipure
+    Material: {fileID: 2100000, guid: a00103016e7e6bd418efe24f9fa7b07d, type: 2}
   Sliders:
   - Id: body.weight
     Kind: 0

@@ -266,7 +266,7 @@ namespace Game.Characters.Building
                         PatternEntry print = _catalog.Patterns.FirstOrDefault(p => p.Id == item.PatternId);
                         HsvColor accent = print?.AccentFor(item.PatternColor.Value) ?? item.PatternColor.Value;
                         ToonMaterial.SetPattern(material, pattern, ToColour(item.PatternColor.Value), 1f, item.PatternScale, new Vector4(1f, 0f, 0f, 0f),
-                                                ToColour(accent), Placed(print?.Placement));
+                                                ToColour(accent), Placed(print?.Placement, entry));
                     }
                     else
                         ToonMaterial.ClearPattern(material);
@@ -282,9 +282,23 @@ namespace Game.Characters.Building
         static readonly Vector4 Badge = new Vector4(0.085f, 1.3f, 0.045f, 0.045f);
         static readonly Vector4 Back = new Vector4(10f, 1.24f, 0.12f, 0.12f);
 
-        /// <summary>Where a placed print goes on a garment (ToonMaterial.SetPattern's placement); zero for a repeat.</summary>
-        static Vector4 Placed(string placement) =>
-            placement == "chest" ? Chest : placement == "badge" ? Badge : placement == "back" ? Back : Vector4.zero;
+        /// <summary>
+        /// Where a placed print goes on a garment (ToonMaterial.SetPattern's placement); zero for a repeat. A print over
+        /// the whole garment spans its cloth's height, a centimetre beyond each end, and every panel and sleeve round it.
+        /// </summary>
+        static Vector4 Placed(string placement, PartEntry part)
+        {
+            switch (placement)
+            {
+                case "chest": return Chest;
+                case "badge": return Badge;
+                case "back": return Back;
+                case "body":
+                    float half = (part.ClothTop - part.ClothBottom) / 2f + 0.01f;
+                    return half > 0.06f ? new Vector4(40f, (part.ClothTop + part.ClothBottom) / 2f, 45f, half) : Vector4.zero;
+                default: return Vector4.zero;
+            }
+        }
 
         /// <summary>The material a part was imported with (its own fabric), from its prefab.</summary>
         Material OwnMaterial(string partId)

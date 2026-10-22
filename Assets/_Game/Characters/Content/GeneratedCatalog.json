@@ -456,8 +456,12 @@
         "twill",
         "leather",
         "velvet",
-        "patchwork"
+        "patchwork",
+        "needlecord",
+        "jumbo_cord"
       ],
+      "clothBottom": 0.828692853,
+      "clothTop": 1.111,
       "contexts": []
     },
     {
@@ -481,8 +485,11 @@
         "seersucker",
         "velvet",
         "mesh",
-        "glitter"
+        "glitter",
+        "scuba"
       ],
+      "clothBottom": 0.9100331,
+      "clothTop": 1.05727053,
       "contexts": [
         "swim"
       ]
@@ -508,8 +515,11 @@
         "seersucker",
         "velvet",
         "mesh",
-        "glitter"
+        "glitter",
+        "scuba"
       ],
+      "clothBottom": 0.9013056,
+      "clothTop": 1.083524,
       "contexts": [
         "swim"
       ]
@@ -532,6 +542,8 @@
         "ripstop",
         "satin"
       ],
+      "clothBottom": 0.5795268,
+      "clothTop": 1.1138171,
       "contexts": [
         "swim"
       ]
@@ -558,6 +570,8 @@
         "fleece",
         "velvet"
       ],
+      "clothBottom": 0.749064147,
+      "clothTop": 1.07688665,
       "contexts": [
         "sleep"
       ]
@@ -583,6 +597,8 @@
         "jersey",
         "velvet"
       ],
+      "clothBottom": 0.9078985,
+      "clothTop": 1.06773889,
       "contexts": [
         "sleep"
       ]
@@ -612,6 +628,8 @@
         "mesh",
         "waxed"
       ],
+      "clothBottom": 0.127143964,
+      "clothTop": 1.1155839,
       "contexts": []
     },
     {
@@ -642,6 +660,8 @@
         "crinkle",
         "pleated"
       ],
+      "clothBottom": 0.17532225,
+      "clothTop": 1.111,
       "contexts": []
     },
     {
@@ -667,6 +687,7 @@
         "twill",
         "denim",
         "corduroy",
+        "needlecord",
         "linen",
         "canvas",
         "flannel",
@@ -677,6 +698,8 @@
         "pinstripe_wool",
         "houndstooth_wool"
       ],
+      "clothBottom": 0.139993578,
+      "clothTop": 1.1138171,
       "contexts": []
     },
     {
@@ -705,6 +728,8 @@
         "crochet",
         "crinkle"
       ],
+      "clothBottom": 0.268714845,
+      "clothTop": 1.11823142,
       "contexts": []
     },
     {
@@ -729,8 +754,11 @@
         "crochet",
         "seersucker",
         "velvet",
-        "mesh"
+        "mesh",
+        "scuba"
       ],
+      "clothBottom": 0.580692,
+      "clothTop": 1.12001359,
       "contexts": []
     },
     {
@@ -760,6 +788,8 @@
         "chambray",
         "patchwork"
       ],
+      "clothBottom": 0.7697122,
+      "clothTop": 1.12826014,
       "contexts": []
     },
     {
@@ -791,6 +821,8 @@
         "chambray",
         "patchwork"
       ],
+      "clothBottom": 0.709037244,
+      "clothTop": 1.111,
       "contexts": []
     },
     {
@@ -814,6 +846,8 @@
         "jersey",
         "velvet"
       ],
+      "clothBottom": 0.902401149,
+      "clothTop": 1.09610355,
       "contexts": [
         "sleep"
       ]
@@ -845,6 +879,8 @@
         "chambray",
         "patchwork"
       ],
+      "clothBottom": 0.2950689,
+      "clothTop": 1.19214857,
       "contexts": []
     },
     {
@@ -875,6 +911,8 @@
         "sherpa",
         "chenille"
       ],
+      "clothBottom": 0.190808669,
+      "clothTop": 1.1138171,
       "contexts": [
         "casual",
         "sport"
@@ -903,8 +941,11 @@
         "crochet",
         "seersucker",
         "velvet",
-        "mesh"
+        "mesh",
+        "scuba"
       ],
+      "clothBottom": 0.128415689,
+      "clothTop": 1.11674929,
       "contexts": []
     },
     {
@@ -930,6 +971,8 @@
         "shantung",
         "satin_stripe"
       ],
+      "clothBottom": 0.125675634,
+      "clothTop": 1.19053161,
       "contexts": [
         "sleep"
       ]
@@ -957,6 +1000,8 @@
         "velvet",
         "jersey",
         "lace",
+        "guipure",
+        "scuba",
         "sequins",
         "jacquard",
         "metallic",
@@ -966,6 +1011,8 @@
         "ottoman",
         "vinyl"
       ],
+      "clothBottom": 0.116974249,
+      "clothTop": 1.15410352,
       "contexts": []
     },
     {
@@ -990,6 +1037,8 @@
         "velvet",
         "jersey",
         "lace",
+        "guipure",
+        "scuba",
         "sequins",
         "jacquard",
         "metallic",
@@ -999,6 +1048,8 @@
         "ottoman",
         "vinyl"
       ],
+      "clothBottom": 0.494235635,
+      "clothTop": 1.111,
       "contexts": []
     },
     {
@@ -1027,6 +1078,8 @@
         "crepe",
         "metallic"
       ],
+      "clothBottom": 0.8035983,
+      "clothTop": 1.111,
       "contexts": []
     },
     {
@@ -1052,6 +1105,8 @@
         "fleece",
         "mesh"
       ],
+      "clothBottom": 0.7571191,
+      "clothTop": 1.12387872,
       "contexts": [
         "sport",
         "casual"
@@ -1088,6 +1143,8 @@
         "shantung",
         "satin_stripe"
       ],
+      "clothBottom": 0.127833679,
+      "clothTop": 1.19342434,
       "contexts": [
         "work"
       ]
@@ -1113,6 +1170,7 @@
         "twill",
         "denim",
         "corduroy",
+        "needlecord",
         "linen",
         "canvas",
         "flannel",
@@ -1123,6 +1181,8 @@
         "pinstripe_wool",
         "houndstooth_wool"
       ],
+      "clothBottom": 0.7768746,
+      "clothTop": 1.12089586,
       "contexts": [
         "casual",
         "sport"
@@ -1156,6 +1216,8 @@
         "chambray",
         "patchwork"
       ],
+      "clothBottom": 0.13680242,
+      "clothTop": 1.1184957,
       "contexts": []
     },
     {
@@ -1188,6 +1250,8 @@
         "pinstripe_wool",
         "houndstooth_wool"
       ],
+      "clothBottom": 0.131224468,
+      "clothTop": 1.1767379,
       "contexts": []
     },
     {
@@ -1213,6 +1277,8 @@
         "fleece",
         "marl"
       ],
+      "clothBottom": 0.124234654,
+      "clothTop": 1.1138171,
       "contexts": [
         "sleep"
       ]
@@ -1239,6 +1305,7 @@
         "twill",
         "denim",
         "corduroy",
+        "needlecord",
         "linen",
         "canvas",
         "flannel",
@@ -1249,6 +1316,8 @@
         "pinstripe_wool",
         "houndstooth_wool"
       ],
+      "clothBottom": 0.133504152,
+      "clothTop": 1.11416924,
       "contexts": []
     },
     {
@@ -1273,6 +1342,7 @@
         "twill",
         "denim",
         "corduroy",
+        "needlecord",
         "linen",
         "canvas",
         "flannel",
@@ -1283,6 +1353,8 @@
         "pinstripe_wool",
         "houndstooth_wool"
       ],
+      "clothBottom": 0.132729515,
+      "clothTop": 1.1138171,
       "contexts": []
     },
     {
@@ -1306,6 +1378,7 @@
         "twill",
         "denim",
         "corduroy",
+        "needlecord",
         "linen",
         "canvas",
         "flannel",
@@ -1316,6 +1389,8 @@
         "pinstripe_wool",
         "houndstooth_wool"
       ],
+      "clothBottom": 0.13331233,
+      "clothTop": 1.16797388,
       "contexts": []
     },
     {
@@ -1339,8 +1414,11 @@
         "seersucker",
         "velvet",
         "mesh",
-        "glitter"
+        "glitter",
+        "scuba"
       ],
+      "clothBottom": 0.899024,
+      "clothTop": 1.07981014,
       "contexts": [
         "swim"
       ]
@@ -1366,8 +1444,11 @@
         "seersucker",
         "velvet",
         "mesh",
-        "glitter"
+        "glitter",
+        "scuba"
       ],
+      "clothBottom": 0.757744968,
+      "clothTop": 1.07631159,
       "contexts": [
         "swim"
       ]
@@ -1397,6 +1478,8 @@
         "crepe",
         "metallic"
       ],
+      "clothBottom": 0.6838009,
+      "clothTop": 1.111,
       "contexts": []
     },
     {
@@ -1426,6 +1509,8 @@
         "crochet",
         "crinkle"
       ],
+      "clothBottom": 0.324144155,
+      "clothTop": 1.111,
       "contexts": []
     },
     {
@@ -1454,6 +1539,8 @@
         "fleece",
         "mesh"
       ],
+      "clothBottom": 0.127039328,
+      "clothTop": 1.11382389,
       "contexts": []
     },
     {
@@ -1484,6 +1571,8 @@
         "chambray",
         "patchwork"
       ],
+      "clothBottom": 0.295069277,
+      "clothTop": 1.11407912,
       "contexts": []
     },
     {
@@ -1508,8 +1597,11 @@
         "crochet",
         "seersucker",
         "velvet",
-        "mesh"
+        "mesh",
+        "scuba"
       ],
+      "clothBottom": 0.129391134,
+      "clothTop": 1.11589944,
       "contexts": []
     },
     {
@@ -1527,10 +1619,12 @@
       "excludesTags": [],
       "lean": 0.8,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
       "fabrics": [
         "rib_knit"
       ],
+      "clothBottom": -0.00118968147,
+      "clothTop": 0.2514822,
       "contexts": []
     },
     {
@@ -1549,10 +1643,12 @@
       "excludesTags": [],
       "lean": 0.95,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
       "fabrics": [
         "chiffon"
       ],
+      "clothBottom": 0.0172364283,
+      "clothTop": 0.6701789,
       "contexts": []
     },
     {
@@ -1572,10 +1668,12 @@
       "excludesTags": [],
       "lean": 0.9,
       "regions": 1,
-      "patternable": false,
+      "patternable": true,
       "fabrics": [
         "chiffon"
       ],
+      "clothBottom": -0.00486085052,
+      "clothTop": 1.07792413,
       "contexts": []
     },
     {
@@ -1600,6 +1698,8 @@
         "shantung",
         "satin_stripe"
       ],
+      "clothBottom": 0.624144137,
+      "clothTop": 1.43654323,
       "contexts": [
         "sleep"
       ]
@@ -1633,6 +1733,8 @@
         "taffeta",
         "satin_stripe"
       ],
+      "clothBottom": -0.00421840046,
+      "clothTop": 1.32625711,
       "contexts": [
         "date",
         "formal"
@@ -1660,8 +1762,11 @@
         "velvet",
         "mesh",
         "glitter",
-        "smocked"
+        "smocked",
+        "scuba"
       ],
+      "clothBottom": 0.9113278,
+      "clothTop": 1.42296636,
       "contexts": [
         "swim"
       ]
@@ -1692,6 +1797,8 @@
         "shantung",
         "vinyl"
       ],
+      "clothBottom": 0.193612576,
+      "clothTop": 1.42770076,
       "contexts": [
         "date",
         "formal"
@@ -1720,6 +1827,8 @@
         "velvet",
         "jersey",
         "lace",
+        "guipure",
+        "scuba",
         "sequins",
         "jacquard",
         "metallic",
@@ -1729,6 +1838,8 @@
         "ottoman",
         "vinyl"
       ],
+      "clothBottom": 0.445535541,
+      "clothTop": 1.43520308,
       "contexts": [
         "date",
         "formal"
@@ -1756,8 +1867,11 @@
         "velvet",
         "mesh",
         "glitter",
-        "smocked"
+        "smocked",
+        "scuba"
       ],
+      "clothBottom": 0.878910244,
+      "clothTop": 1.42561758,
       "contexts": [
         "swim"
       ]
@@ -1786,6 +1900,8 @@
         "velvet",
         "jersey",
         "lace",
+        "guipure",
+        "scuba",
         "sequins",
         "jacquard",
         "metallic",
@@ -1795,6 +1911,8 @@
         "ottoman",
         "vinyl"
       ],
+      "clothBottom": 0.123147614,
+      "clothTop": 1.43545854,
       "contexts": []
     },
     {
@@ -1819,6 +1937,8 @@
         "velvet",
         "pointelle"
       ],
+      "clothBottom": 0.8887771,
+      "clothTop": 1.43506682,
       "contexts": [
         "sleep"
       ]
@@ -1850,6 +1970,8 @@
         "crinkle",
         "pleated"
       ],
+      "clothBottom": 0.008674862,
+      "clothTop": 1.43033683,
       "contexts": []
     },
     {
@@ -1882,6 +2004,8 @@
         "taffeta",
         "satin_stripe"
       ],
+      "clothBottom": 0.002297825,
+      "clothTop": 1.437294,
       "contexts": [
         "date",
         "formal"
@@ -1911,6 +2035,8 @@
         "crinkle",
         "pointelle"
       ],
+      "clothBottom": 0.26396066,
+      "clothTop": 1.43657291,
       "contexts": [
         "sleep"
       ]
@@ -1937,6 +2063,8 @@
         "fleece",
         "marl"
       ],
+      "clothBottom": 0.625550568,
+      "clothTop": 1.43732584,
       "contexts": [
         "sleep"
       ]
@@ -1963,8 +2091,11 @@
         "velvet",
         "mesh",
         "glitter",
-        "smocked"
+        "smocked",
+        "scuba"
       ],
+      "clothBottom": 0.9013322,
+      "clothTop": 1.43724811,
       "contexts": [
         "swim"
       ]
@@ -1997,6 +2128,8 @@
         "taffeta",
         "satin_stripe"
       ],
+      "clothBottom": 0.009966197,
+      "clothTop": 1.43791485,
       "contexts": [
         "formal",
         "date"
@@ -2024,6 +2157,8 @@
         "velvet",
         "jersey",
         "lace",
+        "guipure",
+        "scuba",
         "sequins",
         "jacquard",
         "metallic",
@@ -2033,6 +2168,8 @@
         "ottoman",
         "vinyl"
       ],
+      "clothBottom": 0.816687346,
+      "clothTop": 1.42710149,
       "contexts": [
         "date",
         "formal"
@@ -2063,6 +2200,8 @@
         "taffeta",
         "glitter"
       ],
+      "clothBottom": -0.00348125584,
+      "clothTop": 1.3902055,
       "contexts": [
         "formal"
       ]
@@ -2095,6 +2234,8 @@
         "pointelle",
         "patchwork"
       ],
+      "clothBottom": 0.7420717,
+      "clothTop": 1.42070413,
       "contexts": []
     },
     {
@@ -2119,8 +2260,11 @@
         "velvet",
         "mesh",
         "glitter",
-        "smocked"
+        "smocked",
+        "scuba"
       ],
+      "clothBottom": 0.905646563,
+      "clothTop": 1.43899465,
       "contexts": [
         "swim"
       ]
@@ -2147,6 +2291,8 @@
         "shantung",
         "satin_stripe"
       ],
+      "clothBottom": 0.6134675,
+      "clothTop": 1.43809247,
       "contexts": [
         "sleep"
       ]
@@ -2178,6 +2324,8 @@
         "crinkle",
         "smocked"
       ],
+      "clothBottom": 0.7574486,
+      "clothTop": 1.44086468,
       "contexts": []
     },
     {
@@ -2205,6 +2353,8 @@
         "glitter",
         "beaded"
       ],
+      "clothBottom": 0.625910938,
+      "clothTop": 1.42536283,
       "contexts": [
         "date",
         "formal"
@@ -2236,6 +2386,8 @@
         "dobby",
         "patchwork"
       ],
+      "clothBottom": 0.3828787,
+      "clothTop": 1.43712521,
       "contexts": []
     },
     {
@@ -2268,6 +2420,8 @@
         "taffeta",
         "satin_stripe"
       ],
+      "clothBottom": 0.313146025,
+      "clothTop": 1.43455255,
       "contexts": [
         "date",
         "formal"
@@ -2299,6 +2453,8 @@
         "smocked",
         "crinkle"
       ],
+      "clothBottom": 0.729756,
+      "clothTop": 1.43645036,
       "contexts": []
     },
     {
@@ -2329,6 +2485,8 @@
         "seed_stitch",
         "lurex_knit"
       ],
+      "clothBottom": 0.708797,
+      "clothTop": 1.4070313,
       "contexts": []
     },
     {
@@ -2353,8 +2511,11 @@
         "velvet",
         "mesh",
         "glitter",
-        "smocked"
+        "smocked",
+        "scuba"
       ],
+      "clothBottom": 0.903705239,
+      "clothTop": 1.43781793,
       "contexts": [
         "swim"
       ]
@@ -2390,6 +2551,8 @@
         "shantung",
         "satin_stripe"
       ],
+      "clothBottom": 0.353637427,
+      "clothTop": 1.42992032,
       "contexts": [
         "date",
         "formal",
@@ -2421,6 +2584,8 @@
         "moire",
         "taffeta"
       ],
+      "clothBottom": 0.009966197,
+      "clothTop": 1.4353646,
       "contexts": [
         "formal"
       ]
@@ -2453,6 +2618,8 @@
         "taffeta",
         "satin_stripe"
       ],
+      "clothBottom": -0.00295538967,
+      "clothTop": 1.33172786,
       "contexts": [
         "formal"
       ]
@@ -2479,6 +2646,8 @@
         "velvet",
         "jersey",
         "lace",
+        "guipure",
+        "scuba",
         "sequins",
         "jacquard",
         "metallic",
@@ -2488,6 +2657,8 @@
         "ottoman",
         "vinyl"
       ],
+      "clothBottom": 0.445413321,
+      "clothTop": 1.4390099,
       "contexts": []
     },
     {
@@ -2513,6 +2684,7 @@
         "tweed",
         "herringbone",
         "corduroy",
+        "jumbo_cord",
         "velvet",
         "boucle",
         "twill",
@@ -2523,6 +2695,8 @@
         "pinstripe_wool",
         "houndstooth_wool"
       ],
+      "clothBottom": 1.030073,
+      "clothTop": 1.45603573,
       "contexts": []
     },
     {
@@ -2555,6 +2729,8 @@
         "perforated",
         "straw"
       ],
+      "clothBottom": 1.17541111,
+      "clothTop": 1.4570148,
       "contexts": []
     },
     {
@@ -2583,8 +2759,11 @@
         "faux_fur",
         "corduroy",
         "nylon",
-        "sherpa"
+        "sherpa",
+        "gloss_puffer"
       ],
+      "clothBottom": 1.0618794,
+      "clothTop": 1.44970787,
       "contexts": []
     },
     {
@@ -2617,6 +2796,8 @@
         "waxed",
         "vinyl"
       ],
+      "clothBottom": 0.9242803,
+      "clothTop": 1.45856869,
       "contexts": []
     },
     {
@@ -2648,6 +2829,8 @@
         "perforated",
         "straw"
       ],
+      "clothBottom": -0.017358575,
+      "clothTop": 0.163509592,
       "contexts": []
     },
     {
@@ -2677,6 +2860,8 @@
         "straw",
         "perforated"
       ],
+      "clothBottom": -0.01627259,
+      "clothTop": 0.109683439,
       "contexts": []
     },
     {
@@ -2705,6 +2890,8 @@
         "straw",
         "perforated"
       ],
+      "clothBottom": -0.0219418742,
+      "clothTop": 0.113276586,
       "contexts": []
     },
     {
@@ -2735,6 +2922,8 @@
         "glitter",
         "snake"
       ],
+      "clothBottom": -0.008678649,
+      "clothTop": 0.07506624,
       "contexts": []
     },
     {
@@ -2765,6 +2954,8 @@
         "perforated",
         "straw"
       ],
+      "clothBottom": -0.0272318311,
+      "clothTop": 0.120557927,
       "contexts": []
     },
     {
@@ -2787,6 +2978,8 @@
         "patent",
         "vinyl"
       ],
+      "clothBottom": -0.009754961,
+      "clothTop": 0.101097107,
       "contexts": []
     },
     {
@@ -2818,6 +3011,8 @@
         "perforated",
         "straw"
       ],
+      "clothBottom": -0.0268533938,
+      "clothTop": 0.08045389,
       "contexts": []
     },
     {
@@ -2847,6 +3042,8 @@
         "perforated",
         "straw"
       ],
+      "clothBottom": -0.003061696,
+      "clothTop": 0.05575227,
       "contexts": [
         "casual",
         "date"
@@ -2875,6 +3072,8 @@
         "perforated",
         "nylon"
       ],
+      "clothBottom": -0.0220359713,
+      "clothTop": 0.10830687,
       "contexts": []
     },
     {
@@ -2903,6 +3102,8 @@
         "straw",
         "perforated"
       ],
+      "clothBottom": -0.0156579316,
+      "clothTop": 0.16047278,
       "contexts": []
     },
     {
@@ -2933,6 +3134,8 @@
         "snake",
         "sherpa"
       ],
+      "clothBottom": -0.0106087038,
+      "clothTop": 0.450362921,
       "contexts": []
     },
     {
@@ -2964,6 +3167,8 @@
         "perforated",
         "straw"
       ],
+      "clothBottom": -0.006379389,
+      "clothTop": 0.0845026448,
       "contexts": []
     },
     {
@@ -2993,6 +3198,8 @@
         "glitter",
         "snake"
       ],
+      "clothBottom": -0.00794243347,
+      "clothTop": 0.07503122,
       "contexts": []
     },
     {
@@ -3023,6 +3230,8 @@
         "glitter",
         "snake"
       ],
+      "clothBottom": -0.00480501959,
+      "clothTop": 0.0657626,
       "contexts": []
     },
     {
@@ -3053,6 +3262,8 @@
         "glitter",
         "snake"
       ],
+      "clothBottom": -0.006749411,
+      "clothTop": 0.0749523044,
       "contexts": []
     },
     {
@@ -3077,6 +3288,8 @@
         "patent",
         "vinyl"
       ],
+      "clothBottom": -0.009357234,
+      "clothTop": 0.37951532,
       "contexts": []
     },
     {
@@ -3106,6 +3319,8 @@
         "glitter",
         "snake"
       ],
+      "clothBottom": -0.00447569462,
+      "clothTop": 0.07498677,
       "contexts": []
     },
     {
@@ -3132,6 +3347,8 @@
         "perforated",
         "nylon"
       ],
+      "clothBottom": -0.0233397726,
+      "clothTop": 0.1089695,
       "contexts": []
     },
     {
@@ -3161,6 +3378,8 @@
         "perforated",
         "straw"
       ],
+      "clothBottom": -0.0166479647,
+      "clothTop": 0.0560947433,
       "contexts": [
         "casual",
         "date"
@@ -3188,6 +3407,8 @@
         "patent",
         "glitter"
       ],
+      "clothBottom": -0.00310134934,
+      "clothTop": 0.07063006,
       "contexts": [
         "date",
         "formal"
@@ -3220,6 +3441,8 @@
         "straw",
         "perforated"
       ],
+      "clothBottom": -0.021084588,
+      "clothTop": 0.109693475,
       "contexts": []
     },
     {
@@ -3250,6 +3473,8 @@
         "perforated",
         "straw"
       ],
+      "clothBottom": -0.004280202,
+      "clothTop": 0.0657518,
       "contexts": [
         "date",
         "formal"
@@ -3280,6 +3505,8 @@
         "snake",
         "sherpa"
       ],
+      "clothBottom": -0.00586778624,
+      "clothTop": 0.156266272,
       "contexts": []
     },
     {
@@ -3313,6 +3540,8 @@
         "perforated",
         "straw"
       ],
+      "clothBottom": -0.0269505735,
+      "clothTop": 0.381305575,
       "contexts": []
     },
     {
@@ -3342,6 +3571,8 @@
         "perforated",
         "straw"
       ],
+      "clothBottom": -0.0100230109,
+      "clothTop": 0.0563395061,
       "contexts": [
         "casual",
         "date"
@@ -3372,6 +3603,8 @@
         "straw",
         "perforated"
       ],
+      "clothBottom": -0.0169954151,
+      "clothTop": 0.114061609,
       "contexts": []
     },
     {
@@ -3403,6 +3636,8 @@
         "perforated",
         "straw"
       ],
+      "clothBottom": -0.00485822232,
+      "clothTop": 0.07503734,
       "contexts": []
     },
     {
@@ -3427,6 +3662,8 @@
         "shantung",
         "satin_stripe"
       ],
+      "clothBottom": 1.18666065,
+      "clothTop": 1.43721771,
       "contexts": [
         "sleep"
       ]
@@ -3453,8 +3690,11 @@
         "velvet",
         "mesh",
         "glitter",
-        "smocked"
+        "smocked",
+        "scuba"
       ],
+      "clothBottom": 1.19264984,
+      "clothTop": 1.31627846,
       "contexts": [
         "swim"
       ]
@@ -3481,8 +3721,11 @@
         "velvet",
         "mesh",
         "glitter",
-        "smocked"
+        "smocked",
+        "scuba"
       ],
+      "clothBottom": 1.1862669,
+      "clothTop": 1.43783391,
       "contexts": [
         "swim"
       ]
@@ -3517,6 +3760,8 @@
         "shantung",
         "satin_stripe"
       ],
+      "clothBottom": 1.06618941,
+      "clothTop": 1.450236,
       "contexts": []
     },
     {
@@ -3541,6 +3786,8 @@
         "velvet",
         "pointelle"
       ],
+      "clothBottom": 1.18483019,
+      "clothTop": 1.43772566,
       "contexts": [
         "sleep"
       ]
@@ -3568,6 +3815,8 @@
         "velvet",
         "pointelle"
       ],
+      "clothBottom": 1.19020033,
+      "clothTop": 1.43783391,
       "contexts": [
         "sleep"
       ]
@@ -3599,6 +3848,8 @@
         "crinkle",
         "smocked"
       ],
+      "clothBottom": 1.04149187,
+      "clothTop": 1.43255985,
       "contexts": []
     },
     {
@@ -3631,6 +3882,8 @@
         "chenille",
         "lurex_knit"
       ],
+      "clothBottom": 1.08852768,
+      "clothTop": 1.42807114,
       "contexts": []
     },
     {
@@ -3660,6 +3913,8 @@
         "shantung",
         "vinyl"
       ],
+      "clothBottom": 1.06618941,
+      "clothTop": 1.3245728,
       "contexts": []
     },
     {
@@ -3691,6 +3946,8 @@
         "sherpa",
         "chenille"
       ],
+      "clothBottom": 1.13044274,
+      "clothTop": 1.47413826,
       "contexts": []
     },
     {
@@ -3715,8 +3972,11 @@
         "velvet",
         "mesh",
         "glitter",
-        "smocked"
+        "smocked",
+        "scuba"
       ],
+      "clothBottom": 1.18220389,
+      "clothTop": 1.43372977,
       "contexts": [
         "swim"
       ]
@@ -3749,6 +4009,8 @@
         "mohair",
         "lurex_knit"
       ],
+      "clothBottom": 1.13607335,
+      "clothTop": 1.43879211,
       "contexts": []
     },
     {
@@ -3779,6 +4041,8 @@
         "sherpa",
         "chenille"
       ],
+      "clothBottom": 0.957957,
+      "clothTop": 1.52776051,
       "contexts": [
         "casual",
         "sport"
@@ -3808,6 +4072,8 @@
         "waffle",
         "marl"
       ],
+      "clothBottom": 1.06618941,
+      "clothTop": 1.44291413,
       "contexts": []
     },
     {
@@ -3837,6 +4103,8 @@
         "velvet",
         "pointelle"
       ],
+      "clothBottom": 1.18220389,
+      "clothTop": 1.42384541,
       "contexts": []
     },
     {
@@ -3866,6 +4134,8 @@
         "dobby",
         "satin_stripe"
       ],
+      "clothBottom": 1.06618941,
+      "clothTop": 1.43411446,
       "contexts": []
     },
     {
@@ -3890,6 +4160,8 @@
         "shantung",
         "satin_stripe"
       ],
+      "clothBottom": 1.09251273,
+      "clothTop": 1.42898083,
       "contexts": [
         "sleep"
       ]
@@ -3919,6 +4191,8 @@
         "crinkle",
         "smocked"
       ],
+      "clothBottom": 1.06618941,
+      "clothTop": 1.42462432,
       "contexts": []
     },
     {
@@ -3943,8 +4217,11 @@
         "velvet",
         "mesh",
         "glitter",
-        "smocked"
+        "smocked",
+        "scuba"
       ],
+      "clothBottom": 0.961149633,
+      "clothTop": 1.43304384,
       "contexts": [
         "swim"
       ]
@@ -3977,6 +4254,8 @@
         "mohair",
         "lurex_knit"
       ],
+      "clothBottom": 1.17255831,
+      "clothTop": 1.43372977,
       "contexts": []
     },
     {
@@ -4000,8 +4279,11 @@
         "seersucker",
         "velvet",
         "mesh",
-        "smocked"
+        "smocked",
+        "scuba"
       ],
+      "clothBottom": 1.18220389,
+      "clothTop": 1.42552209,
       "contexts": [
         "sport",
         "casual"
@@ -4035,6 +4317,8 @@
         "shantung",
         "satin_stripe"
       ],
+      "clothBottom": 1.09251273,
+      "clothTop": 1.43062735,
       "contexts": [
         "work"
       ]
@@ -4068,6 +4352,8 @@
         "taffeta",
         "satin_stripe"
       ],
+      "clothBottom": 1.06618941,
+      "clothTop": 1.43134117,
       "contexts": []
     },
     {
@@ -4093,6 +4379,8 @@
         "velvet",
         "pointelle"
       ],
+      "clothBottom": 1.04213691,
+      "clothTop": 1.41915965,
       "contexts": [
         "sleep"
       ]
@@ -4118,8 +4406,11 @@
         "seersucker",
         "velvet",
         "mesh",
-        "smocked"
+        "smocked",
+        "scuba"
       ],
+      "clothBottom": 1.19796455,
+      "clothTop": 1.43781793,
       "contexts": [
         "sport"
       ]
@@ -4152,6 +4443,8 @@
         "mohair",
         "lurex_knit"
       ],
+      "clothBottom": 1.06618941,
+      "clothTop": 1.43878889,
       "contexts": []
     },
     {
@@ -4176,8 +4469,11 @@
         "velvet",
         "mesh",
         "glitter",
-        "smocked"
+        "smocked",
+        "scuba"
       ],
+      "clothBottom": 1.19189453,
+      "clothTop": 1.43783,
       "contexts": [
         "swim"
       ]
@@ -4205,6 +4501,8 @@
         "waffle",
         "marl"
       ],
+      "clothBottom": 1.17255831,
+      "clothTop": 1.43933535,
       "contexts": []
     },
     {
@@ -4232,6 +4530,8 @@
         "fleece",
         "mesh"
       ],
+      "clothBottom": 1.09251273,
+      "clothTop": 1.4353646,
       "contexts": []
     },
     {
@@ -4261,6 +4561,8 @@
         "velvet",
         "pointelle"
       ],
+      "clothBottom": 1.09071159,
+      "clothTop": 1.4198873,
       "contexts": []
     },
     {
@@ -4292,6 +4594,8 @@
         "mohair",
         "lurex_knit"
       ],
+      "clothBottom": 1.06618941,
+      "clothTop": 1.44902408,
       "contexts": []
     },
     {
@@ -4323,6 +4627,8 @@
         "taffeta",
         "satin_stripe"
       ],
+      "clothBottom": 1.06618941,
+      "clothTop": 1.43261886,
       "contexts": []
     },
     {
@@ -4352,6 +4658,8 @@
         "mohair",
         "lurex_knit"
       ],
+      "clothBottom": 1.18220389,
+      "clothTop": 1.43782818,
       "contexts": []
     },
     {
@@ -4373,6 +4681,8 @@
       "regions": 1,
       "patternable": false,
       "fabrics": [],
+      "clothBottom": 1.42101455,
+      "clothTop": 1.71632314,
       "contexts": []
     },
     {
@@ -4391,6 +4701,8 @@
       "regions": 1,
       "patternable": false,
       "fabrics": [],
+      "clothBottom": 1.4365809,
+      "clothTop": 1.79450643,
       "contexts": []
     },
     {
@@ -4411,6 +4723,8 @@
       "regions": 1,
       "patternable": false,
       "fabrics": [],
+      "clothBottom": 1.47294927,
+      "clothTop": 1.740573,
       "contexts": []
     },
     {
@@ -4431,6 +4745,8 @@
       "regions": 1,
       "patternable": false,
       "fabrics": [],
+      "clothBottom": 0.8245042,
+      "clothTop": 1.704914,
       "contexts": []
     },
     {
@@ -4452,6 +4768,8 @@
       "regions": 1,
       "patternable": false,
       "fabrics": [],
+      "clothBottom": 1.40609,
+      "clothTop": 1.725106,
       "contexts": []
     },
     {
@@ -4472,6 +4790,8 @@
       "regions": 1,
       "patternable": false,
       "fabrics": [],
+      "clothBottom": 1.45822918,
+      "clothTop": 1.73823512,
       "contexts": []
     },
     {
@@ -4491,6 +4811,8 @@
       "regions": 1,
       "patternable": false,
       "fabrics": [],
+      "clothBottom": 1.41223562,
+      "clothTop": 1.74837446,
       "contexts": []
     },
     {
@@ -4511,6 +4833,8 @@
       "regions": 1,
       "patternable": false,
       "fabrics": [],
+      "clothBottom": 1.46966934,
+      "clothTop": 1.75243378,
       "contexts": []
     },
     {
@@ -4529,6 +4853,8 @@
       "regions": 1,
       "patternable": false,
       "fabrics": [],
+      "clothBottom": 0.875485,
+      "clothTop": 1.74173248,
       "contexts": []
     },
     {
@@ -4549,6 +4875,8 @@
       "regions": 1,
       "patternable": false,
       "fabrics": [],
+      "clothBottom": 1.47294927,
+      "clothTop": 1.72299635,
       "contexts": []
     },
     {
@@ -4568,6 +4896,8 @@
       "regions": 1,
       "patternable": false,
       "fabrics": [],
+      "clothBottom": 1.41501927,
+      "clothTop": 1.70505559,
       "contexts": []
     },
     {
@@ -4587,6 +4917,8 @@
       "regions": 1,
       "patternable": false,
       "fabrics": [],
+      "clothBottom": 1.42182171,
+      "clothTop": 1.65491867,
       "contexts": []
     },
     {
@@ -4606,6 +4938,8 @@
       "regions": 1,
       "patternable": false,
       "fabrics": [],
+      "clothBottom": 1.5378418,
+      "clothTop": 1.642746,
       "contexts": []
     },
     {
@@ -4625,6 +4959,8 @@
       "regions": 1,
       "patternable": false,
       "fabrics": [],
+      "clothBottom": 1.441926,
+      "clothTop": 1.65491867,
       "contexts": []
     },
     {
@@ -4644,6 +4980,8 @@
       "regions": 1,
       "patternable": false,
       "fabrics": [],
+      "clothBottom": 1.54388189,
+      "clothTop": 1.65491867,
       "contexts": []
     },
     {
@@ -4664,6 +5002,8 @@
       "regions": 1,
       "patternable": false,
       "fabrics": [],
+      "clothBottom": 1.112535,
+      "clothTop": 1.65624642,
       "contexts": []
     },
     {
@@ -4684,6 +5024,8 @@
       "regions": 1,
       "patternable": false,
       "fabrics": [],
+      "clothBottom": 1.51905751,
+      "clothTop": 1.64381516,
       "contexts": []
     },
     {
@@ -4704,6 +5046,8 @@
       "regions": 1,
       "patternable": false,
       "fabrics": [],
+      "clothBottom": 1.44281518,
+      "clothTop": 1.65491867,
       "contexts": []
     },
     {
@@ -4723,6 +5067,8 @@
       "regions": 1,
       "patternable": false,
       "fabrics": [],
+      "clothBottom": 1.53531516,
+      "clothTop": 1.64209425,
       "contexts": []
     },
     {
@@ -4743,6 +5089,8 @@
       "regions": 1,
       "patternable": false,
       "fabrics": [],
+      "clothBottom": 1.493278,
+      "clothTop": 1.65491867,
       "contexts": []
     },
     {
@@ -4762,6 +5110,8 @@
       "regions": 1,
       "patternable": false,
       "fabrics": [],
+      "clothBottom": 1.52647007,
+      "clothTop": 1.64210558,
       "contexts": []
     },
     {
@@ -4781,6 +5131,8 @@
       "regions": 1,
       "patternable": false,
       "fabrics": [],
+      "clothBottom": 1.46213877,
+      "clothTop": 1.65491867,
       "contexts": []
     }
   ],
@@ -5188,7 +5540,7 @@
       ],
       "minScale": 3.0,
       "maxScale": 5.0,
-      "accent": null,
+      "accent": "contrast",
       "placement": null
     },
     {
@@ -5629,7 +5981,7 @@
       ],
       "minScale": 2.0,
       "maxScale": 4.0,
-      "accent": null,
+      "accent": "contrast",
       "placement": null
     },
     {
@@ -7053,6 +7405,78 @@
       "maxScale": 1.0,
       "accent": "contrast",
       "placement": "back"
+    },
+    {
+      "id": "pattern.ombre_01",
+      "name": "Ombre",
+      "weight": 0.6,
+      "tags": [
+        "elegant",
+        "date",
+        "casual",
+        "cute"
+      ],
+      "minScale": 1.0,
+      "maxScale": 1.0,
+      "accent": null,
+      "placement": "body"
+    },
+    {
+      "id": "pattern.dipdye_01",
+      "name": "Dip-dye",
+      "weight": 0.5,
+      "tags": [
+        "casual",
+        "street",
+        "cute"
+      ],
+      "minScale": 1.0,
+      "maxScale": 1.0,
+      "accent": null,
+      "placement": "body"
+    },
+    {
+      "id": "pattern.sunsetfade_01",
+      "name": "Sunset fade",
+      "weight": 0.4,
+      "tags": [
+        "date",
+        "elegant",
+        "casual"
+      ],
+      "minScale": 1.0,
+      "maxScale": 1.0,
+      "accent": "contrast",
+      "placement": "body"
+    },
+    {
+      "id": "pattern.colourblock_01",
+      "name": "Colour block",
+      "weight": 0.5,
+      "tags": [
+        "street",
+        "sporty",
+        "casual"
+      ],
+      "minScale": 1.0,
+      "maxScale": 1.0,
+      "accent": "contrast",
+      "placement": "body"
+    },
+    {
+      "id": "pattern.hemstripes_01",
+      "name": "Hem stripes",
+      "weight": 0.5,
+      "tags": [
+        "sporty",
+        "cute",
+        "bookish",
+        "casual"
+      ],
+      "minScale": 1.0,
+      "maxScale": 1.0,
+      "accent": null,
+      "placement": "body"
     }
   ],
   "fabrics": [
@@ -7455,8 +7879,10 @@
         "street",
         "elegant"
       ],
-      "printable": false,
-      "printTags": [],
+      "printable": true,
+      "printTags": [
+        "knitted"
+      ],
       "colours": [],
       "colourChance": 0.0
     },
@@ -7469,8 +7895,10 @@
         "elegant",
         "casual"
       ],
-      "printable": false,
-      "printTags": [],
+      "printable": true,
+      "printTags": [
+        "knitted"
+      ],
       "colours": [],
       "colourChance": 0.0
     },
@@ -8584,6 +9012,75 @@
         "cute",
         "casual",
         "street"
+      ],
+      "printable": false,
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
+    },
+    {
+      "id": "needlecord",
+      "name": "Needlecord",
+      "weight": 1.0,
+      "tags": [
+        "bookish",
+        "casual",
+        "cute"
+      ],
+      "printable": true,
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
+    },
+    {
+      "id": "jumbo_cord",
+      "name": "Jumbo cord",
+      "weight": 1.0,
+      "tags": [
+        "casual",
+        "street",
+        "bookish"
+      ],
+      "printable": false,
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
+    },
+    {
+      "id": "scuba",
+      "name": "Scuba and neoprene",
+      "weight": 1.0,
+      "tags": [
+        "sporty",
+        "street",
+        "date"
+      ],
+      "printable": true,
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
+    },
+    {
+      "id": "gloss_puffer",
+      "name": "A glossy puffer",
+      "weight": 1.0,
+      "tags": [
+        "street",
+        "sporty"
+      ],
+      "printable": false,
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
+    },
+    {
+      "id": "guipure",
+      "name": "Guipure lace",
+      "weight": 1.0,
+      "tags": [
+        "elegant",
+        "date",
+        "gothic"
       ],
       "printable": false,
       "printTags": [],

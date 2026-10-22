@@ -403,7 +403,7 @@
    "minScale": 3,
    "maxScale": 5,
    "weight": 0.6,
-   "accent": null,
+   "accent": "contrast",
    "placement": null
   },
   {
@@ -844,7 +844,7 @@
    "minScale": 2,
    "maxScale": 4,
    "weight": 0.5,
-   "accent": null,
+   "accent": "contrast",
    "placement": null
   },
   {
@@ -2268,6 +2268,78 @@
    "weight": 0.2,
    "accent": "contrast",
    "placement": "back"
+  },
+  {
+   "id": "pattern.ombre_01",
+   "name": "Ombre",
+   "tags": [
+    "elegant",
+    "date",
+    "casual",
+    "cute"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.6,
+   "accent": null,
+   "placement": "body"
+  },
+  {
+   "id": "pattern.dipdye_01",
+   "name": "Dip-dye",
+   "tags": [
+    "casual",
+    "street",
+    "cute"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.5,
+   "accent": null,
+   "placement": "body"
+  },
+  {
+   "id": "pattern.sunsetfade_01",
+   "name": "Sunset fade",
+   "tags": [
+    "date",
+    "elegant",
+    "casual"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.4,
+   "accent": "contrast",
+   "placement": "body"
+  },
+  {
+   "id": "pattern.colourblock_01",
+   "name": "Colour block",
+   "tags": [
+    "street",
+    "sporty",
+    "casual"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.5,
+   "accent": "contrast",
+   "placement": "body"
+  },
+  {
+   "id": "pattern.hemstripes_01",
+   "name": "Hem stripes",
+   "tags": [
+    "sporty",
+    "cute",
+    "bookish",
+    "casual"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.5,
+   "accent": null,
+   "placement": "body"
   }
  ]
 }

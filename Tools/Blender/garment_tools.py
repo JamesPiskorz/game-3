@@ -2761,6 +2761,9 @@ UV_BAND = 0.02  # metres: the slices fabric UVs measure round
 # only shifts along the side seams, where the panels already meet), so a print placed on the front (a T-shirt's
 # chest graphic, round u = 0) isn't also on the back.
 BACK_PANEL_U = 10.0
+# Each limb's u starts further along still (whole numbers of tiles again), so a placed print can't land on a sleeve or
+# a trouser leg as well as the body.
+LIMB_U = {"arm.L": 20.0, "arm.R": 30.0, "leg.L": 40.0, "leg.R": 50.0, "foot.L": 60.0, "foot.R": 70.0}
 UV_SECTORS = 72
 
 
@@ -2834,6 +2837,10 @@ def fabric_uvs(part, joints, torso_only=False, layer="UVMap"):
     radius at that height, so the cloth isn't sheared where the body narrows. The wrap's seam is where a garment's
     would be: at the centre back, under the arm, the inside leg. Projected from the front instead, a texture streaked
     down every side. With ``torso_only`` (a skirt), it's all one tube round the hips.
+
+    The layout placed prints rely on (CharacterBuilder): the body's front panel has u = 0 at the centre front (the
+    wearer's left positive), the back panel u = BACK_PANEL_U at the centre back, each limb its own LIMB_U; v is the
+    height in metres in the bind pose, down a limb its root's height less the distance along it.
     """
     mesh = part.data
     co = bt.vertices(part)
@@ -2934,8 +2941,11 @@ def fabric_uvs(part, joints, torso_only=False, layer="UVMap"):
         uv[loops, 0] = _arc_lengths(bands, t, angle, radius, count, back)
         if back is not None:
             uv[loops, 0] += np.where(back, BACK_PANEL_U, 0.0)
-        # Up the torso and feet, v grows upwards (z); down the limbs, away from the body.
-        uv[loops, 1] = co[loop_vertex[loops], 2] if chain == "torso" or chain.startswith("foot") else -along
+        uv[loops, 0] += LIMB_U.get(chain, 0.0)
+        # Up the torso and feet, v is the height (z); down the limbs, the limb root's height less the distance along
+        # it, so a leg's v carries on from the hips' (a stripe round the hips meets itself round the thigh) and v is
+        # height in metres all over a standing garment.
+        uv[loops, 1] = co[loop_vertex[loops], 2] if chain == "torso" or chain.startswith("foot") else origin[2] - along
     while mesh.uv_layers:
         mesh.uv_layers.remove(mesh.uv_layers[0])
     mesh.uv_layers.new(name=layer).data.foreach_set("uv", uv.ravel())

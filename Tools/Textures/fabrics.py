@@ -750,6 +750,68 @@ def ottoman(size, seed):
     return _shade(tk.normalise(0.88 * cord + 0.12 * fine * cord), 0.46)
 
 
+def _cord(size, seed, wales, depth):
+    """Corduroy with ``wales`` per tile."""
+    x, y = tk.grid(size)
+    u = (x * wales) % 1.0
+    wale = np.sin(np.pi * u) ** 0.45
+    pile = tk.stretched_noise(size, 240, 10, seed)
+    return _shade(tk.normalise(0.85 * wale + 0.15 * pile), depth)
+
+
+def needlecord(size, seed):
+    """Needlecord: a fine corduroy, its wales 6 mm apart (shirts, dresses)."""
+    return _cord(size, seed, 40, 0.4)
+
+
+def jumbo_cord(size, seed):
+    """Jumbo cord: fat wales 2.5 cm apart (jackets, wide trousers)."""
+    return _cord(size, seed, 10, 0.58)
+
+
+def scuba(size, seed):
+    """Scuba and neoprene: thick, springy and smooth, a faint pebble and a soft sheen (skater skirts, wetsuits)."""
+    first, second, _ = tk.worley(size, 90, seed)
+    pebble = tk.smoothstep(0.0, 0.3, second - first)
+    return np.clip(_sheen(size, seed + 1, 3, 0.86, 2.0) * (0.95 + 0.05 * pebble), 0, 1)
+
+
+def gloss_puffer(size, seed):
+    """A glossy puffer: shiny channels, each with a bright highlight along its top and its seam in shadow."""
+    x, y = tk.grid(size)
+    v = (y * 2) % 1.0
+    puff = np.sin(np.pi * v) ** 0.5
+    highlight = np.exp(-((v - 0.32) / 0.06) ** 2) * (0.7 + 0.3 * tk.stretched_noise(size, 5, 2, seed))
+    stitch = (v < 0.025) | (v > 0.975)
+    structure = np.where(stitch, 0.15, 0.55 * puff + 0.45 * highlight)
+    return np.clip(0.5 + 0.5 * structure, 0, 1)
+
+
+def guipure(size, seed):
+    """Guipure lace: bold flower motifs joined by thick bars, no net between (the gaps dark, where the lining shows)."""
+    canvas_ = np.zeros((size, size))
+    rng = np.random.default_rng(seed)
+    flower = _flower(int(size / 3.8), petals=5, roundness=0.6)
+    points = tk.scatter(size, 7, seed, size / 3.2)
+    for cx, cy in points:
+        tk.stamp(canvas_, tk.rotate_shape(flower, rng.random() * 360), cx, cy)
+    # Bars joining each motif to its nearest neighbours, wrapping round the tile.
+    x, y = np.mgrid[0:size, 0:size][::-1].astype(float)
+    for i, p in enumerate(points):
+        d = [((q - p + size / 2) % size - size / 2) for q in points]
+        near = sorted(range(len(points)), key=lambda j: np.hypot(*d[j]))[1:3]
+        for j in near:
+            dx, dy = d[j]
+            length = np.hypot(dx, dy)
+            ux, uy = dx / length, dy / length
+            rx = (x - p[0] + size / 2) % size - size / 2
+            ry = (y - p[1] + size / 2) % size - size / 2
+            along = rx * ux + ry * uy
+            across = np.abs(-rx * uy + ry * ux)
+            canvas_ = np.maximum(canvas_, ((along > 0) & (along < length) & (across < size / 110)).astype(float))
+    return np.clip(0.4 + 0.6 * tk.blur_small(canvas_, 1), 0, 1)
+
+
 def rubber(size, seed):
     """Rubber (rain boots, clogs): smooth and glossy with soft reflections."""
     return np.clip(_sheen(size, seed, 3, 0.78, 3.0), 0, 1)
@@ -880,17 +942,20 @@ FABRICS = {
     "ottoman": ottoman, "straw": straw, "pleated": pleated, "smocked": smocked,
     "satin_stripe": satin_stripe, "felt": felt, "lurex_knit": lurex_knit,
     "pinstripe_wool": pinstripe_wool, "houndstooth_wool": houndstooth_wool, "patchwork": patchwork,
+    "needlecord": needlecord, "jumbo_cord": jumbo_cord, "scuba": scuba, "gloss_puffer": gloss_puffer, "guipure": guipure,
 }
 
 # Each fabric's catalog entry: the style tags archetypes weight it by, whether a print goes on it, and how common it is.
 NO_PRINT = {"denim", "leather", "patent", "croc", "suede", "sequins", "lace", "quilted", "diamond_quilt", "corduroy",
             "mesh", "rubber", "metallic", "cable_knit", "faux_fur", "eyelet", "tulle", "crochet", "tweed",
-            "herringbone", "jacquard", "velvet", "boucle", "seersucker", "wide_rib", "rib_knit", "terry", "waffle",
+            "herringbone", "jacquard", "velvet", "boucle", "seersucker", "terry", "waffle",
             "stonewash", "acid_wash", "waxed", "pointelle", "seed_stitch", "sherpa", "chenille", "moire",
-            "glitter", "beaded", "perforated", "vinyl", "snake", "ottoman", "straw", "smocked", "marl", "satin_stripe", "pinstripe_wool", "houndstooth_wool", "patchwork"}
+            "glitter", "beaded", "perforated", "vinyl", "snake", "ottoman", "straw", "smocked", "marl", "satin_stripe", "pinstripe_wool", "houndstooth_wool", "patchwork",
+            "jumbo_cord", "gloss_puffer", "guipure"}
 # Fabrics that take only some prints: a knit takes only what is knitted into it (Fair Isle, stripes, argyle), not a
 # printed floral. Prints with one of these tags (prints.KNITTED's "knitted").
-PRINT_TAGS = {"knit": ["knitted"], "chunky_knit": ["knitted"], "mohair": ["knitted"], "lurex_knit": ["knitted"]}
+PRINT_TAGS = {"knit": ["knitted"], "chunky_knit": ["knitted"], "mohair": ["knitted"], "lurex_knit": ["knitted"],
+              "rib_knit": ["knitted"], "wide_rib": ["knitted"]}
 TAGS = {
     "plain": ["casual", "cute"], "poplin": ["elegant", "bookish", "casual"], "oxford": ["bookish", "elegant"],
     "chambray": ["casual", "bookish"], "canvas": ["casual", "street"], "linen": ["casual", "elegant", "bookish"],
@@ -919,7 +984,9 @@ TAGS = {
     "pleated": ["cute", "elegant", "bookish"], "smocked": ["cute", "casual", "date"],
     "satin_stripe": ["elegant", "bookish", "date"], "felt": ["bookish", "elegant", "casual"], "lurex_knit": ["date", "cute", "elegant"],
     "pinstripe_wool": ["elegant", "bookish", "gothic"], "houndstooth_wool": ["elegant", "bookish"],
-    "patchwork": ["cute", "casual", "street"],
+    "patchwork": ["cute", "casual", "street"], "needlecord": ["bookish", "casual", "cute"],
+    "jumbo_cord": ["casual", "street", "bookish"], "scuba": ["sporty", "street", "date"], "gloss_puffer": ["street", "sporty"],
+    "guipure": ["elegant", "date", "gothic"],
 }
 
 # Fabrics that usually come in their own colours, and how often an item made in one is: (chance, hex colours). Denim
@@ -970,4 +1037,5 @@ LIFT = {
     "leather": 0.28, "patent": 0.45, "vinyl": 0.65, "rubber": 0.45, "croc": 0.3, "snake": 0.3, "perforated": 0.2,
     "waxed": 0.32, "quilted": 0.22, "diamond_quilt": 0.2, "straw": 0.2,
     "satin_stripe": 0.3, "felt": 0.1, "lurex_knit": 0.4, "pinstripe_wool": 0.35, "houndstooth_wool": 0.3, "patchwork": 0.25,
+    "needlecord": 0.2, "jumbo_cord": 0.22, "scuba": 0.35, "gloss_puffer": 0.5, "guipure": 0.08,
 }

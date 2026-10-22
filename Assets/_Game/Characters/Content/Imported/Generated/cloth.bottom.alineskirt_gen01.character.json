@@ -29,7 +29,9 @@
     "twill",
     "leather",
     "velvet",
-    "patchwork"
+    "patchwork",
+    "needlecord",
+    "jumbo_cord"
   ],
   "patternable": false,
   "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261022_021940_for_texture_textured.glb",

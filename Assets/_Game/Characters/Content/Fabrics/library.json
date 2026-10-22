@@ -342,8 +342,10 @@
     "street",
     "elegant"
    ],
-   "printable": false,
-   "printTags": [],
+   "printable": true,
+   "printTags": [
+    "knitted"
+   ],
    "lift": 0.12,
    "colourChance": 0.0,
    "colours": [],
@@ -359,8 +361,10 @@
     "elegant",
     "casual"
    ],
-   "printable": false,
-   "printTags": [],
+   "printable": true,
+   "printTags": [
+    "knitted"
+   ],
    "lift": 0.12,
    "colourChance": 0.0,
    "colours": [],
@@ -1414,6 +1418,90 @@
    "colourChance": 0.0,
    "colours": [],
    "weight": 0.6
+  },
+  {
+   "id": "needlecord",
+   "name": "Needlecord",
+   "mean": 0.8948,
+   "tileMetres": 0.25,
+   "tags": [
+    "bookish",
+    "casual",
+    "cute"
+   ],
+   "printable": true,
+   "printTags": [],
+   "lift": 0.2,
+   "colourChance": 0.0,
+   "colours": [],
+   "weight": 1.0
+  },
+  {
+   "id": "jumbo_cord",
+   "name": "Jumbo cord",
+   "mean": 0.8493,
+   "tileMetres": 0.25,
+   "tags": [
+    "casual",
+    "street",
+    "bookish"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.22,
+   "colourChance": 0.0,
+   "colours": [],
+   "weight": 1.0
+  },
+  {
+   "id": "scuba",
+   "name": "Scuba and neoprene",
+   "mean": 0.8806,
+   "tileMetres": 0.25,
+   "tags": [
+    "sporty",
+    "street",
+    "date"
+   ],
+   "printable": true,
+   "printTags": [],
+   "lift": 0.35,
+   "colourChance": 0.0,
+   "colours": [],
+   "weight": 1.0
+  },
+  {
+   "id": "gloss_puffer",
+   "name": "A glossy puffer",
+   "mean": 0.7316,
+   "tileMetres": 0.25,
+   "tags": [
+    "street",
+    "sporty"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.5,
+   "colourChance": 0.0,
+   "colours": [],
+   "weight": 1.0
+  },
+  {
+   "id": "guipure",
+   "name": "Guipure lace",
+   "mean": 0.5767,
+   "tileMetres": 0.25,
+   "tags": [
+    "elegant",
+    "date",
+    "gothic"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.08,
+   "colourChance": 0.0,
+   "colours": [],
+   "weight": 1.0
   }
  ]
 }

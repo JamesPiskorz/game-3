@@ -56,7 +56,8 @@ namespace Game.Characters.Content
             bool casual = part.Tags.Any(t => t == "casual" || t == "sporty" || t == "street");
             bool Placeable(PatternEntry p) => p.Placement == null || (p.Placement == "badge" && front) ||
                                               (p.Placement == "chest" && front && casual) ||
-                                              (p.Placement == "back" && casual && (front || part.Slot == Slots.Outer));
+                                              (p.Placement == "back" && casual && (front || part.Slot == Slots.Outer)) ||
+                                              (p.Placement == "body" && part.ClothTop - part.ClothBottom > 0.1f);
             return Patterns.Where(p => Placeable(p) &&
                                        (fabric == null || fabric.PrintTags.Count == 0 || p.Tags.Any(fabric.PrintTags.Contains))).ToList();
         }
@@ -287,6 +288,13 @@ namespace Game.Characters.Content
         /// </summary>
         public List<string> Fabrics = new List<string>();
 
+        /// <summary>
+        /// The height range of its cloth (metres, in the bind pose, from its fabric UVs, sleeves left out), which a
+        /// print over the whole garment (an ombre, a dip-dye) spans; both 0 when not known (the stand-ins).
+        /// </summary>
+        public float ClothBottom;
+        public float ClothTop;
+
         /// <summary>Outfit contexts the item can appear in; empty means any.</summary>
         public List<string> Contexts = new List<string>();
     }
@@ -314,11 +322,13 @@ namespace Game.Characters.Content
         /// <summary>
         /// Where the print is placed once, if it is rather than repeated: "chest", a graphic on the front of a casual
         /// top or dress (a graphic tee); "badge", a small one on the left chest of any top or dress (a polo's emblem);
-        /// "back", a big one across the back of a casual top, dress or jacket. Its scale is then ignored.
+        /// "back", a big one across the back of a casual top, dress or jacket; "body", once over the whole garment's
+        /// height, its top row at the garment's top and its bottom at the hem (an ombre, a dip-dye: only for parts whose
+        /// <see cref="PartEntry.ClothTop"/> is known). Its scale is then ignored.
         /// </summary>
         public string Placement;
 
-        public static readonly string[] Placements = { "chest", "badge", "back" };
+        public static readonly string[] Placements = { "chest", "badge", "back", "body" };
 
         /// <summary>The second colour for a print in <paramref name="print"/> by <see cref="Accent"/>.</summary>
         public HsvColor AccentFor(HsvColor print)
