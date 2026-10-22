@@ -238,6 +238,25 @@ namespace Game.Characters.Tests.Generation
         }
 
         [Test]
+        public void PrintedPyjamasAreMostlyMatchingSets()
+        {
+            ContentCatalog catalog = Catalogs.Generated();
+            var generator = new CharacterGenerator(catalog);
+            int printed = 0, sets = 0;
+            for (ulong seed = 1; seed <= 800; seed++)
+                foreach (OutfitDna outfit in generator.Generate(seed * 7919, GenerationRequest.Any).Outfits.Where(o => o.Context == "sleep"))
+                {
+                    ItemDna top = outfit.Items.FirstOrDefault(i => catalog.Part(i.ItemId).Slot == Slots.Top && i.PatternId != null);
+                    ItemDna bottom = outfit.Items.FirstOrDefault(i => catalog.Part(i.ItemId).Slot == Slots.Bottom);
+                    if (top == null || bottom == null || !catalog.TakesPrint(catalog.Part(bottom.ItemId), bottom.FabricId, top.PatternId)) continue;
+                    printed++;
+                    if (bottom.PatternId == top.PatternId) sets++;
+                }
+            Assert.That(printed, Is.GreaterThan(10));
+            Assert.That(sets / (float)printed, Is.GreaterThan(0.5f), $"{sets} of {printed} printed pyjamas are sets.");
+        }
+
+        [Test]
         public void DenimMostlyComesInItsOwnColours()
         {
             ContentCatalog catalog = Catalogs.Generated();

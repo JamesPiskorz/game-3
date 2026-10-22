@@ -178,6 +178,7 @@ namespace Game.Characters.Tests.Generation
                     ItemDna top = outfit.Items.FirstOrDefault(i => _catalog.Part(i.ItemId).Slot == Slots.Top);
                     ItemDna bottom = outfit.Items.FirstOrDefault(i => _catalog.Part(i.ItemId).Slot == Slots.Bottom);
                     if (top == null || bottom == null) continue;
+                    if (top.PatternId != null && top.PatternId == bottom.PatternId) continue; // a matching set, on purpose
                     // The colourer guarantees 0.15 before per-item jitter, which can take back a little.
                     Assert.That(HsvColor.Distance(top.RegionColors[0], bottom.RegionColors[0]), Is.GreaterThan(0.08f), $"seed {seed}");
                 }

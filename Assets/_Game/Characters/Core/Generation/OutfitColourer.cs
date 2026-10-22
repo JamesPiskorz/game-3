@@ -135,7 +135,29 @@ namespace Game.Characters.Generation
                 }
                 outfit.Items.Add(item);
             }
+            MatchSet(rng, catalog, outfit);
         }
+
+        /// <summary>
+        /// Pyjamas mostly, and now and then a casual co-ord, are a matching set: a printed top's print, and its colour
+        /// under it, carried on to the bottom, where the bottom takes that print.
+        /// </summary>
+        static void MatchSet(Pcg32 rng, ContentCatalog catalog, OutfitDna outfit)
+        {
+            ItemDna top = outfit.Items.FirstOrDefault(i => catalog.Part(i.ItemId)?.Slot == Slots.Top && i.PatternId != null);
+            ItemDna bottom = outfit.Items.FirstOrDefault(i => catalog.Part(i.ItemId)?.Slot == Slots.Bottom);
+            if (top == null || bottom == null || bottom.RegionColors.Count == 0) return;
+            if (!rng.Chance(outfit.Context == "sleep" ? SleepSetChance : CoordChance)) return;
+            if (!catalog.TakesPrint(catalog.Part(bottom.ItemId), bottom.FabricId, top.PatternId)) return;
+            bottom.PatternId = top.PatternId;
+            bottom.PatternScale = top.PatternScale;
+            bottom.PatternColor = top.PatternColor;
+            bottom.RegionColors[0] = top.RegionColors[0];
+        }
+
+        /// <summary>How often pyjamas with a printed top are a matching set, and other outfits a co-ord.</summary>
+        public const float SleepSetChance = 0.7f;
+        public const float CoordChance = 0.08f;
 
         /// <summary>How much less often than other items shoes are printed.</summary>
         public const float ShoePatternShare = 0.4f;
