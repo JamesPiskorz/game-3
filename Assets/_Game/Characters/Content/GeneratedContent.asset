@@ -555,6 +555,12 @@ MonoBehaviour:
     Texture: {fileID: 2800000, guid: 39e812ff75d527940aae66465ea187e6, type: 3}
   - Id: pattern.festive_01
     Texture: {fileID: 2800000, guid: 07ff3859e4a7e974294413e2bc0cf64a, type: 3}
+  - Id: pattern.knithearts_01
+    Texture: {fileID: 2800000, guid: 38ed9a9e9ec4af6489ac66e3da12d02a, type: 3}
+  - Id: pattern.knitdiamonds_01
+    Texture: {fileID: 2800000, guid: 124ebf273356291458f3eba92f256154, type: 3}
+  - Id: pattern.knitflakes_01
+    Texture: {fileID: 2800000, guid: b8983f49ad79db74982a196a4bbf463b, type: 3}
   - Id: pattern.damask_01
     Texture: {fileID: 2800000, guid: 6b82e14e1841dfc44ab839c24782f1ee, type: 3}
   - Id: pattern.fleurdelis_01

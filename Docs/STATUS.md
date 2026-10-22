@@ -2,6 +2,13 @@
 
 _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full plan and [decisions/](decisions/) for why things are the way they are._
 
+## Clothing textures (overnight 2026-10-22/23)
+
+- **A texture library** ([Tools/Textures](../Tools/Textures/README.md), decision 0008): 87 fabrics and 197 prints, drawn procedurally. Every garment is made in a fabric and can be made in others (about eight each), by style and occasion. The fabrics range from denim in three washes, knits, cords and suiting wools to satin, velvet, lace, sequins, leathers, vinyl, straw and pleats. The prints include stripes and checks, florals, geometrics, animal skins, knitted colourwork, kids' and seasonal motifs, dyes, borders, graphic tees, badges and back prints. Review sheets: `Docs/review/generated-fabrics.png`, `generated-prints.png`.
+- **In the shader:** fabrics read at play distance and on dark cloth, shiny cloth has a toon highlight, pile has a soft sheen, and skin shows through lace and eyelets. Prints can carry a second colour and can be placed once (on the chest, as a badge, on the back, over the whole garment, round the hem or the yoke) rather than repeated.
+- **In the generator:** denim is mostly indigo and leather black or brown. Classic prints often come in their classic colours, and pyjamas, swimwear, galas and rainy days lean to their own fabrics and prints. Knits take only knitted prints, and leather only animal prints.
+- **Fabric UVs:** sleeves start at the armhole, and stripes carry on from the hips to the thighs. Side seams still step a little where the front and back panels meet over the shoulders.
+
 ## Generated characters (2026-10-22)
 
 - **The game runs on generated characters by default** ([decision 0008](decisions/0008-generated-characters.md)): a body, 22 hair pieces and 134 garments from 68 outfits made with Hunyuan3D, from everyday clothes to lingerie, swimwear and gowns. They have no accessories or face marks yet. **Game › Characters › Content › Game Uses Stand-in Content** switches back.

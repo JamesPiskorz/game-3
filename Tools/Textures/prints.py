@@ -2334,6 +2334,113 @@ def sailboats(size, seed):
     return _scatter_shapes(size, [boat(int(size / 4)), boat(int(size / 5.5))], 9, seed, size / 4, rotate=False)
 
 
+
+def umbrellas(size, seed):
+    """Umbrellas: little open brollies with scalloped edges and hooked handles, the panels in two colours."""
+    def brolly(px):
+        r = px // 2
+        y, x = np.mgrid[-r:r + 1, -r:r + 1].astype(float) / max(r, 1)
+        canopy = (np.hypot(x, (y + 0.05) * 1.2) < 0.8) & (y < 0.0 + 0.08 * np.cos(x * 10))
+        panels = canopy & (np.floor((x + 0.8) / 0.4) % 2 == 0)
+        handle = ((np.abs(x) < 0.03) & (y > -0.05) & (y < 0.6)) | ((np.abs(np.hypot(x - 0.1, y - 0.6) - 0.1) < 0.03) & (y > 0.6))
+        tip = (np.abs(x) < 0.025) & (y < -0.78) & (y > -0.92)
+        colour = tk.blur_small((canopy & ~panels).astype(float), 0.8)
+        second = tk.blur_small(panels.astype(float), 0.8)
+        ink = np.clip(_outline(np.maximum(colour, second), 1) * 0.5 + handle * 0.9 + tip * 0.9, 0, 1)
+        return colour, ink, second
+    return _scatter_shapes(size, [brolly(int(size / 3.6)), brolly(int(size / 5))], 10, seed, size / 4, rotate=False)
+
+
+
+# A little 5 x 7 pixel font for slogan tees (only the letters the slogans use).
+PIXEL_FONT = {
+    "L": ["X....", "X....", "X....", "X....", "X....", "X....", "XXXXX"],
+    "O": [".XXX.", "X...X", "X...X", "X...X", "X...X", "X...X", ".XXX."],
+    "V": ["X...X", "X...X", "X...X", "X...X", ".X.X.", ".X.X.", "..X.."],
+    "E": ["XXXXX", "X....", "X....", "XXXX.", "X....", "X....", "XXXXX"],
+    "H": ["X...X", "X...X", "X...X", "XXXXX", "X...X", "X...X", "X...X"],
+    "S": [".XXXX", "X....", "X....", ".XXX.", "....X", "....X", "XXXX."],
+    "U": ["X...X", "X...X", "X...X", "X...X", "X...X", "X...X", ".XXX."],
+    "N": ["X...X", "XX..X", "X.X.X", "X..XX", "X...X", "X...X", "X...X"],
+    "Y": ["X...X", "X...X", ".X.X.", "..X..", "..X..", "..X..", "..X.."],
+    "C": [".XXXX", "X....", "X....", "X....", "X....", "X....", ".XXXX"],
+    "T": ["XXXXX", "..X..", "..X..", "..X..", "..X..", "..X..", "..X.."],
+    "2": [".XXX.", "X...X", "....X", "...X.", "..X..", ".X...", "XXXXX"],
+    "3": ["XXXX.", "....X", "....X", ".XXX.", "....X", "....X", "XXXX."],
+    "!": ["..X..", "..X..", "..X..", "..X..", "..X..", ".....", "..X.."],
+}
+
+
+def _slogan(size, lines, outline=True):
+    """A slogan in the pixel font, centred on a clear tile, each line as wide as fits; an outline in ink."""
+    rows = len(lines)
+    longest = max(len(line) for line in lines)
+    cell = int(size * 0.84 / max(longest * 6 - 1, rows * 8 - 1))
+    mask = np.zeros((size, size))
+    top = (size - (rows * 8 - 1) * cell) // 2
+    for r, line in enumerate(lines):
+        left = (size - (len(line) * 6 - 1) * cell) // 2
+        for k, ch in enumerate(line):
+            glyph = PIXEL_FONT.get(ch)
+            if glyph is None:
+                continue
+            for gy, row in enumerate(glyph):
+                for gx, bit in enumerate(row):
+                    if bit == "X":  # each pixel a little over its cell, so the strokes are bold
+                        y0 = top + (r * 8 + gy) * cell - cell // 4
+                        x0 = left + (k * 6 + gx) * cell - cell // 4
+                        mask[max(y0, 0):y0 + cell + cell // 2, max(x0, 0):x0 + cell + cell // 2] = 1.0
+    mask = tk.blur_small(mask, 0.8)
+    return mask, (_outline(mask, 2) * 0.8 if outline else _zero(size))
+
+
+def slogan_love(size, seed):
+    """LOVE, in pixel letters, on two lines."""
+    return _slogan(size, ["LO", "VE"])
+
+
+def slogan_hello(size, seed):
+    """HELLO!, in pixel letters, on two lines."""
+    return _slogan(size, ["HEL", "LO!"])
+
+
+def slogan_sunny(size, seed):
+    """SUNNY, in pixel letters, on two lines."""
+    return _slogan(size, ["SUN", "NY"])
+
+
+def slogan_cute(size, seed):
+    """CUTE!, in pixel letters, on two lines."""
+    return _slogan(size, ["CU", "TE!"])
+
+
+def varsity_23(size, seed):
+    """A varsity number, 23, big and outlined."""
+    return _slogan(size, ["23"])
+
+
+
+def knitted_hearts(size, seed):
+    """Knitted hearts: rows of little hearts between dotted bands, as on a Valentine's sweater."""
+    rows = ["X", ".", "X.X.", ".", ".", "..XX.XX.....", ".XXXXXXX....", ".XXXXXXX....", "..XXXXX.....",
+            "...XXX......", "....X.......", ".", ".", "X.X.", ".", "X", "."]
+    return _chart(rows, size)
+
+
+def knitted_diamonds(size, seed):
+    """Knitted diamonds: a lattice of outlined diamonds with a dot in each (a classic jumper), in two tones."""
+    rows = ["....X.......", "...X.X......", "..X...X.....", ".X..o..X....", "X..ooo..X...", ".X..o..X....",
+            "..X...X.....", "...X.X......", "....X......."]
+    return _chart(rows, size, 12)
+
+
+def snowflake_yoke(size, seed):
+    """A snowflake band, knitted: eight-pointed snowflakes in a row between rules (a yoke or a hem)."""
+    rows = ["X", ".", ".....X......", "..X..X..X...", "...X.X.X....", "....XXX.....", "XXXXXoXXXXX.",
+            "....XXX.....", "...X.X.X....", "..X..X..X...", ".....X......", ".", "X"]
+    return _chart(rows, size)
+
+
 # name, tags, tiles per metre (min, max), weight
 PRINTS = {
     # Patterns the stand-ins share (their catalog lists these ids).
@@ -2452,6 +2559,9 @@ PRINTS = {
     "fairisle": (fair_isle, "Fair Isle", ["cute", "bookish", "casual"], (2.5, 3.5), 0.7),
     "nordic": (nordic, "Nordic stars", ["cute", "casual", "bookish"], (2.5, 3.5), 0.6),
     "festive": (festive, "Christmas jumper", ["cute", "casual"], (2.5, 3.5), 0.3),
+    "knithearts": (knitted_hearts, "Knitted hearts", ["cute", "date", "casual"], (3, 4), 0.4),
+    "knitdiamonds": (knitted_diamonds, "Knitted diamonds", ["bookish", "casual", "elegant"], (3, 4), 0.4),
+    "knitflakes": (snowflake_yoke, "Snowflake band", ["cute", "casual", "bookish"], (7, 9), 0.4),
     "damask": (damask, "Damask", ["elegant", "gothic", "bookish"], (4, 6), 0.6),
     "fleurdelis": (fleur_de_lis, "Fleur-de-lis", ["elegant", "bookish"], (3, 5), 0.4),
     "icecream": (ice_creams, "Ice creams", ["cute", "casual"], (2.5, 4), 0.4),
@@ -2490,6 +2600,12 @@ PRINTS = {
     "tee_lips": (graphic_lips, "Kiss graphic", ["date", "street"], (0.8, 1.25), 0.3),
     "tee_notes": (graphic_notes, "Music graphic", ["street", "casual", "cute"], (0.8, 1.25), 0.3),
     "tee_eye": (graphic_eye, "Eye graphic", ["gothic", "street"], (0.8, 1.25), 0.3),
+    "tee_love": (slogan_love, "LOVE slogan", ["cute", "casual", "street"], (0.8, 1.25), 0.3),
+    "tee_hello": (slogan_hello, "HELLO slogan", ["casual", "street", "cute"], (0.8, 1.25), 0.3),
+    "tee_sunny": (slogan_sunny, "SUNNY slogan", ["casual", "sporty", "cute"], (0.8, 1.25), 0.3),
+    "tee_cute": (slogan_cute, "CUTE! slogan", ["cute", "street"], (0.8, 1.25), 0.3),
+    "tee_23": (varsity_23, "Varsity number", ["sporty", "street", "casual"], (0.8, 1.25), 0.4),
+    "back_23": (varsity_23, "Number on the back", ["sporty", "street"], (0.8, 1.25), 0.3),
     # Small badges on the left chest, as embroidered on a polo or a shirt (PLACED "badge").
     "badge_crown": (graphic_crown, "Crown badge", ["elegant", "bookish", "sporty"], (0.8, 1.25), 0.3),
     "badge_anchor": (graphic_anchor, "Anchor badge", ["bookish", "casual", "sporty"], (0.8, 1.25), 0.3),
@@ -2532,6 +2648,7 @@ PRINTS = {
     "flowerpower": (flower_power, "Flower power", ["cute", "casual", "street"], (2, 3.5), 0.5),
     "dinosaurs": (dinosaurs, "Dinosaurs", ["cute", "casual"], (2.5, 4), 0.3),
     "sailboats": (sailboats, "Sailboats", ["casual", "cute", "bookish"], (2.5, 4), 0.4),
+    "umbrellas": (umbrellas, "Umbrellas", ["cute", "casual", "bookish"], (2.5, 4), 0.4),
 }
 
 # How each print's second colour (its accent: leaves, hearts, wafers) follows its first: "leaf" (a natural green),
@@ -2542,7 +2659,7 @@ ACCENT = {
     "doughnuts": "gold", "mushrooms": "light", "bees": "light", "planets": "contrast", "rainbows": "contrast",
     "plaid": "contrast", "glenplaid": "contrast", "argyle": "contrast", "madras": "contrast",
     "cacti": "leaf", "medallions": "contrast", "groovy": "contrast", "flowerpower": "gold", "dinosaurs": "contrast",
-    "sailboats": "contrast",
+    "sailboats": "contrast", "umbrellas": "contrast",
     "tee_heart": "light", "tee_star": "light", "tee_cherries": "leaf", "tee_rose": "leaf", "tee_sunset": "gold",
     "tee_cat": "light", "tee_rainbow": "contrast", "tee_planet": "contrast", "tee_daisy": "gold", "tee_mountains": "light",
     "tee_butterfly": "contrast", "tee_moon": "gold", "tee_crown": "contrast", "tee_ghost": "light", "tee_palm": "leaf",
@@ -2564,11 +2681,12 @@ PLACED = {pid: {"tee_": "chest", "badge_": "badge", "back_": "back"}[pid[:pid.in
           for pid in PRINTS if pid.startswith(("tee_", "badge_", "back_"))}
 PLACED.update({pid: "body" for pid in ("ombre", "ombreup", "dipdye", "sunsetfade", "colourblock", "hemstripes")})
 PLACED.update({pid: "hem" for pid in ("hemflowers", "scallop", "greekkey", "folkband", "ricrac")})
-PLACED.update({pid: "yoke" for pid in ("yokeflowers", "folkyoke")})
+PLACED.update({pid: "yoke" for pid in ("yokeflowers", "folkyoke", "knitflakes")})
 
 # Prints knitted into the cloth (colourwork, stripes, intarsia) rather than printed on it: the only ones a knit takes
 # (fabrics.PRINT_TAGS). They carry the tag "knitted" in the library.
-KNITTED = {"stripes", "breton", "argyle", "knit", "snowflakes", "rugby", "hearts", "stars", "fairisle", "nordic", "festive"}
+KNITTED = {"stripes", "breton", "argyle", "knit", "snowflakes", "rugby", "hearts", "stars", "fairisle", "nordic", "festive",
+           "knithearts", "knitdiamonds", "knitflakes"}
 
 # The occasions prints suit, as extra tags the outfit contexts weight (sleep, swim, formal): pyjama prints, beach
 # prints, gala prints.
@@ -2580,6 +2698,8 @@ CONTEXT_TAGS = {
     "swim": ["sailboats", "tropical", "hibiscus", "stripes", "breton", "waves", "scales", "shells", "fish", "seagulls", "anchors",
              "lemons", "watermelon", "floral", "bigfloral", "dots", "gingham", "leopard", "zebra", "cheetah", "tiedye",
              "cherries", "strawberries", "daisies", "sunsetfade", "ombre", "colourblock", "ricrac", "tee_palm", "icecream"],
+    "rain": ["raindrops", "clouds", "umbrellas", "check", "gingham", "plaid", "buffalo", "houndstooth", "dots",
+             "stripes", "breton", "anchors", "fish"],
     "formal": ["damask", "bigfloral", "roses", "ombre", "sunsetfade", "scallop", "greekkey", "medallions", "fleurdelis",
                "paisley", "seigaiha", "shippo", "quatrefoil", "lattice", "starlattice", "watercolour", "hemflowers"],
 }

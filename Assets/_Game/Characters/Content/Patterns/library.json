@@ -2059,6 +2059,57 @@
    ]
   },
   {
+   "id": "pattern.knithearts_01",
+   "name": "Knitted hearts",
+   "tags": [
+    "cute",
+    "date",
+    "casual",
+    "knitted"
+   ],
+   "minScale": 3,
+   "maxScale": 4,
+   "weight": 0.4,
+   "accent": null,
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
+  },
+  {
+   "id": "pattern.knitdiamonds_01",
+   "name": "Knitted diamonds",
+   "tags": [
+    "bookish",
+    "casual",
+    "elegant",
+    "knitted"
+   ],
+   "minScale": 3,
+   "maxScale": 4,
+   "weight": 0.4,
+   "accent": null,
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
+  },
+  {
+   "id": "pattern.knitflakes_01",
+   "name": "Snowflake band",
+   "tags": [
+    "cute",
+    "casual",
+    "bookish",
+    "knitted"
+   ],
+   "minScale": 7,
+   "maxScale": 9,
+   "weight": 0.4,
+   "accent": null,
+   "placement": "yoke",
+   "colourwayChance": 0.0,
+   "colourways": []
+  },
+  {
    "id": "pattern.damask_01",
    "name": "Damask",
    "tags": [
