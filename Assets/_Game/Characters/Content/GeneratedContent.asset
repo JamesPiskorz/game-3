@@ -561,6 +561,10 @@ MonoBehaviour:
     Texture: {fileID: 2800000, guid: 124ebf273356291458f3eba92f256154, type: 3}
   - Id: pattern.knitflakes_01
     Texture: {fileID: 2800000, guid: b8983f49ad79db74982a196a4bbf463b, type: 3}
+  - Id: pattern.knitbunnies_01
+    Texture: {fileID: 2800000, guid: dd50c4e86b1877449ba3a5044d8e6574, type: 3}
+  - Id: pattern.knitstripes_01
+    Texture: {fileID: 2800000, guid: 7cd1e90626fcf044ab22863e9154c02f, type: 3}
   - Id: pattern.damask_01
     Texture: {fileID: 2800000, guid: 6b82e14e1841dfc44ab839c24782f1ee, type: 3}
   - Id: pattern.fleurdelis_01

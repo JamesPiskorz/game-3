@@ -2110,6 +2110,38 @@
    "colourways": []
   },
   {
+   "id": "pattern.knitbunnies_01",
+   "name": "Knitted bunnies",
+   "tags": [
+    "cute",
+    "knitted"
+   ],
+   "minScale": 3,
+   "maxScale": 4,
+   "weight": 0.3,
+   "accent": null,
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
+  },
+  {
+   "id": "pattern.knitstripes_01",
+   "name": "Knitted stripes",
+   "tags": [
+    "casual",
+    "cute",
+    "bookish",
+    "knitted"
+   ],
+   "minScale": 3,
+   "maxScale": 4.5,
+   "weight": 0.5,
+   "accent": null,
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
+  },
+  {
    "id": "pattern.damask_01",
    "name": "Damask",
    "tags": [

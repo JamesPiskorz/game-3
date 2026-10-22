@@ -604,12 +604,16 @@ def lightning(size, seed):
 
 
 def flames(size, seed):
+    """Flames: a row of licking tongues rising from a solid band, with a clear gap above them before the next row."""
     x, y = tk.grid(size)
     n = tk.value_noise(size, 6, seed, 3)
     tongues = 0.5 + 0.5 * np.sin(2 * np.pi * (x * 4 + n * 0.6))
-    height = (1 - y) * (0.6 + 0.5 * tongues) - 0.35
-    body = tk.smoothstep(-0.02, 0.02, height) * (y > 0.02)
-    core = tk.smoothstep(0.12, 0.16, height)
+    # The band is solid at the bottom of the tile (y near 1) and the tongues rise from it, reaching at most 85% of the
+    # way up, so the top of the tile is clear and the next row's band below meets clear cloth, not more flame.
+    rise = 1 - y
+    height = 0.12 + 0.6 * tongues * (0.75 + 0.25 * tk.value_noise(size, 12, seed + 1, 2)) - rise
+    body = tk.smoothstep(-0.02, 0.02, height)
+    core = tk.smoothstep(-0.02, 0.02, height - 0.14)
     return np.clip(body * 0.55 + core * 0.45, 0, 1), _outline(body) * 0.6
 
 
@@ -698,9 +702,12 @@ def tie_dye(size, seed):
     a = np.arctan2(v, u)
     n = tk.value_noise(size, 6, seed, 3)
     swirl = 0.5 + 0.5 * np.sin(a * 3 + r * 28 + n * 4)
-    fade = np.clip(1.0 - r * 1.2, 0, 1)
-    # Tileable: blend the swirl into plain bleed towards the tile's edges.
-    return np.clip(swirl * (0.35 + 0.65 * fade) + (1 - fade) * 0.25, 0, 1), _zero(size)
+    # Tileable: the swirl fades into an even bleed well before the tile's edges (the square's, not a circle's: its
+    # corners reached the edge half-swirled), so neighbouring tiles meet on the same bleed.
+    edge = np.maximum(np.abs(u), np.abs(v))
+    fade = 1 - tk.smoothstep(0.3, 0.46, edge)
+    bleed = 0.3 + 0.1 * tk.value_noise(size, 4, seed + 1, 2)
+    return np.clip(swirl * fade + bleed * (1 - fade), 0, 1), _zero(size)
 
 
 def marble(size, seed):
@@ -2828,6 +2835,21 @@ def frogs(size, seed):
     return _scatter_shapes(size, [frog(int(size / 4.5)), pad(int(size / 4)), frog(int(size / 6)), pad(int(size / 5.5))], 12, seed, size / 4.6, rotate=False)
 
 
+
+def knitted_bunnies(size, seed):
+    """Knitted bunnies: rows of little rabbits between bands of dots, as on a child's jumper."""
+    bunny = ["..X.X.......", "..X.X.......", "..XXX.......", ".XXoXX......", ".XXXXX......", "..XXX.......",
+             ".XXXXXX.....", "XXXXXXX.....", "XXXXXXX..X..", ".XXXXX......", ".X...X......", "."]
+    rows = ["X", ".", "X...", ".", "."] + bunny + [".", ".", "X...", ".", "X", "."]
+    return _chart(rows, size)
+
+
+def knitted_stripes(size, seed):
+    """Knitted stripes: uneven bands of two colours and a thin dotted row, as in a striped jumper."""
+    rows = ["X", "X", "X", ".", ".", "o", "o", ".", ".", "X.X.", ".", ".", "X", "X", ".", ".", ".", "o", "."]
+    return _chart(rows, size, 12)
+
+
 # name, tags, tiles per metre (min, max), weight
 PRINTS = {
     # Patterns the stand-ins share (their catalog lists these ids).
@@ -2949,6 +2971,8 @@ PRINTS = {
     "knithearts": (knitted_hearts, "Knitted hearts", ["cute", "date", "casual"], (3, 4), 0.4),
     "knitdiamonds": (knitted_diamonds, "Knitted diamonds", ["bookish", "casual", "elegant"], (3, 4), 0.4),
     "knitflakes": (snowflake_yoke, "Snowflake band", ["cute", "casual", "bookish"], (7, 9), 0.4),
+    "knitbunnies": (knitted_bunnies, "Knitted bunnies", ["cute"], (3, 4), 0.3),
+    "knitstripes": (knitted_stripes, "Knitted stripes", ["casual", "cute", "bookish"], (3, 4.5), 0.5),
     "damask": (damask, "Damask", ["elegant", "gothic", "bookish"], (4, 6), 0.6),
     "fleurdelis": (fleur_de_lis, "Fleur-de-lis", ["elegant", "bookish"], (3, 5), 0.4),
     "icecream": (ice_creams, "Ice creams", ["cute", "casual"], (2.5, 4), 0.4),
@@ -3096,7 +3120,7 @@ PLACED.update({pid: "yoke" for pid in ("yokeflowers", "folkyoke", "knitflakes")}
 # Prints knitted into the cloth (colourwork, stripes, intarsia) rather than printed on it: the only ones a knit takes
 # (fabrics.PRINT_TAGS). They carry the tag "knitted" in the library.
 KNITTED = {"stripes", "breton", "argyle", "knit", "snowflakes", "rugby", "hearts", "stars", "fairisle", "nordic", "festive",
-           "knithearts", "knitdiamonds", "knitflakes"}
+           "knithearts", "knitdiamonds", "knitflakes", "knitbunnies", "knitstripes"}
 
 # The occasions prints suit, as extra tags the outfit contexts weight (sleep, swim, formal): pyjama prints, beach
 # prints, gala prints.
