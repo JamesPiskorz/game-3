@@ -741,6 +741,12 @@ MonoBehaviour:
     Texture: {fileID: 2800000, guid: dbe8dd840f3506e40a62a9a558b16876, type: 3}
   - Id: pattern.spots_01
     Texture: {fileID: 2800000, guid: e6937395011c70f41a62a55116697986, type: 3}
+  - Id: pattern.graffiti_01
+    Texture: {fileID: 2800000, guid: 7e6688eff39b7f9408daa8342bba3ba5, type: 3}
+  - Id: pattern.swooshes_01
+    Texture: {fileID: 2800000, guid: 1290dd1a4d7fc934b94e94fcbb3fc29c, type: 3}
+  - Id: pattern.thorns_01
+    Texture: {fileID: 2800000, guid: b6ab01497eb69a6498b231ea08448dd3, type: 3}
   Fabrics:
   - Id: plain
     Material: {fileID: 2100000, guid: 438e55e3cc9afa740b5c2f26ae972251, type: 2}

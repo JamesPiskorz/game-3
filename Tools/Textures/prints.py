@@ -2590,6 +2590,73 @@ def painted_spots(size, seed):
     return colour, _zero(size)
 
 
+
+def graffiti(size, seed):
+    """Graffiti: spray-painted loops, drips and sparkles in two colours, outlined in ink, as on a skate wall."""
+    def layer(which):
+        rng = np.random.default_rng(seed)
+
+        def draw(d, n):
+            for k, (cx, cy) in enumerate(tk.scatter(n, 14, seed, n / 4.5)):
+                if k % 2 != which:
+                    continue
+                kind = (k // 2) % 3
+                for dx in (-n, 0, n):
+                    for dy in (-n, 0, n):
+                        x0, y0 = cx + dx, cy + dy
+                        if kind == 0:  # a looping tag: a run of loops, like joined-up spray writing
+                            pts = [(x0 + n * (0.016 * t - 0.03 * np.sin(t)), y0 - n * 0.03 * (1 - np.cos(t)))
+                                   for t in np.linspace(-6, 6, 60)]
+                            d.line(pts, fill=255, width=max(2, n // 60), joint="curve")
+                        elif kind == 1:  # a blob with drips
+                            r = n * (0.04 + 0.02 * rng.random())
+                            d.ellipse([x0 - r, y0 - r, x0 + r, y0 + r], fill=255)
+                            for j in range(3):
+                                dxj = (j - 1) * r * 0.6
+                                d.line([(x0 + dxj, y0), (x0 + dxj, y0 + r * (1.6 + 2 * rng.random()))], fill=255, width=max(3, n // 80))
+                        else:  # a four-pointed sparkle
+                            r = n * 0.055
+                            d.polygon([(x0, y0 - r), (x0 + r * 0.25, y0 - r * 0.25), (x0 + r, y0), (x0 + r * 0.25, y0 + r * 0.25),
+                                       (x0, y0 + r), (x0 - r * 0.25, y0 + r * 0.25), (x0 - r, y0), (x0 - r * 0.25, y0 - r * 0.25)], fill=255)
+        return _drawn(size, draw)
+    first, second = layer(0), layer(1)
+    second = second * (1 - first)
+    return first, _outline(np.clip(first + second, 0, 1), 1) * 0.7, second
+
+
+def swooshes(size, seed):
+    """Speed swooshes: long tapering diagonal streaks in two colours, as on sportswear."""
+    x, y = tk.grid(size)
+    t = (x * 1 + y * 2) % 1.0
+    s_ = (y * 3 - x) % 1.0
+    taper = 0.5 + 0.5 * np.sin(2 * np.pi * s_)
+    first = (np.abs(t - 0.3) < 0.085 * taper)
+    second = (np.abs(t - 0.46) < 0.04 * taper)
+    return tk.blur_small(first.astype(float), 0.8), _zero(size), tk.blur_small(second.astype(float), 0.8)
+
+
+def thorns(size, seed):
+    """Thorny vines: dark briars twisting across the cloth, sharp thorns along them and the odd rose."""
+    rng = np.random.default_rng(seed)
+
+    def draw(d, n):
+        for k in range(3):
+            phase, amp, y0 = rng.random() * 6, n * 0.06, (k + 0.5) / 3 * n
+            pts = [(x, y0 + amp * np.sin(x / n * 2 * np.pi * 2 + phase)) for x in np.linspace(-n * 0.1, n * 1.1, 80)]
+            for dy in (-n, 0, n):
+                d.line([(px, py + dy) for px, py in pts], fill=255, width=max(3, n // 60), joint="curve")
+                for j in range(4, 76, 6):
+                    (ax, ay), (bx, by) = pts[j], pts[j + 1]
+                    nx, ny = -(by - ay), bx - ax
+                    ln = np.hypot(nx, ny) or 1
+                    side = 1 if j % 12 else -1
+                    tipx, tipy = ax + side * nx / ln * n * 0.04, ay + side * ny / ln * n * 0.04 + dy
+                    d.polygon([(ax - (bx - ax) * 0.6, ay + dy), (ax + (bx - ax) * 0.6, ay + dy), (tipx, tipy)], fill=255)
+    vines = _drawn(size, draw)
+    roses, rose_ink, leaves = _scatter_shapes(size, [_rose(int(size / 3.8))], 4, seed + 3, size / 2.5)
+    return np.clip(np.maximum(vines, roses) * (1 - leaves), 0, 1), np.clip(rose_ink, 0, 1), leaves
+
+
 # name, tags, tiles per metre (min, max), weight
 PRINTS = {
     # Patterns the stand-ins share (their catalog lists these ids).
@@ -2807,6 +2874,9 @@ PRINTS = {
     "regimental": (regimental, "Regimental stripes", ["bookish", "elegant", "casual"], (4, 6), 0.5),
     "quilt": (quilt_blocks, "Quilt blocks", ["cute", "casual", "bookish"], (2, 3), 0.4),
     "spots": (painted_spots, "Painted spots", ["cute", "casual", "street"], (3, 5), 0.6),
+    "graffiti": (graffiti, "Graffiti", ["street", "sporty"], (2, 3.5), 0.5),
+    "swooshes": (swooshes, "Speed swooshes", ["sporty", "street"], (2, 3.5), 0.5),
+    "thorns": (thorns, "Thorny vines", ["gothic", "elegant"], (2, 3.5), 0.5),
 }
 
 # How each print's second colour (its accent: leaves, hearts, wafers) follows its first: "leaf" (a natural green),
@@ -2818,7 +2888,8 @@ ACCENT = {
     "plaid": "contrast", "glenplaid": "contrast", "argyle": "contrast", "madras": "contrast",
     "cacti": "leaf", "medallions": "contrast", "groovy": "contrast", "flowerpower": "gold", "dinosaurs": "contrast",
     "sailboats": "contrast", "umbrellas": "contrast", "liberty": "contrast", "lavender": "leaf", "maple": "gold",
-    "pineapples": "leaf", "memphis": "contrast", "regimental": "contrast", "quilt": "contrast",
+    "pineapples": "leaf", "memphis": "contrast", "regimental": "contrast", "quilt": "contrast", "graffiti": "contrast",
+    "swooshes": "contrast", "thorns": "leaf",
     "tee_heart": "light", "tee_star": "light", "tee_cherries": "leaf", "tee_rose": "leaf", "tee_sunset": "gold",
     "tee_cat": "light", "tee_rainbow": "contrast", "tee_planet": "contrast", "tee_daisy": "gold", "tee_mountains": "light",
     "tee_butterfly": "contrast", "tee_moon": "gold", "tee_crown": "contrast", "tee_ghost": "light", "tee_palm": "leaf",

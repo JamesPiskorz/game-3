@@ -3552,6 +3552,51 @@
    "placement": null,
    "colourwayChance": 0.0,
    "colourways": []
+  },
+  {
+   "id": "pattern.graffiti_01",
+   "name": "Graffiti",
+   "tags": [
+    "street",
+    "sporty"
+   ],
+   "minScale": 2,
+   "maxScale": 3.5,
+   "weight": 0.5,
+   "accent": "contrast",
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
+  },
+  {
+   "id": "pattern.swooshes_01",
+   "name": "Speed swooshes",
+   "tags": [
+    "sporty",
+    "street"
+   ],
+   "minScale": 2,
+   "maxScale": 3.5,
+   "weight": 0.5,
+   "accent": "contrast",
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
+  },
+  {
+   "id": "pattern.thorns_01",
+   "name": "Thorny vines",
+   "tags": [
+    "gothic",
+    "elegant"
+   ],
+   "minScale": 2,
+   "maxScale": 3.5,
+   "weight": 0.5,
+   "accent": "leaf",
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   }
  ]
 }
