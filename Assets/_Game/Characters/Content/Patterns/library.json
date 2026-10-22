@@ -3894,6 +3894,32 @@
      "print": "#222222"
     }
    ]
+  },
+  {
+   "id": "pattern.azulejo_01",
+   "name": "Azulejo tiles",
+   "tags": [
+    "elegant",
+    "casual",
+    "date",
+    "swim"
+   ],
+   "minScale": 2,
+   "maxScale": 3,
+   "weight": 0.6,
+   "accent": "light",
+   "placement": null,
+   "colourwayChance": 0.6,
+   "colourways": [
+    {
+     "base": "#f5f3ee",
+     "print": "#1f4e9c"
+    },
+    {
+     "base": "#f6f1e4",
+     "print": "#1c6b8a"
+    }
+   ]
   }
  ]
 }

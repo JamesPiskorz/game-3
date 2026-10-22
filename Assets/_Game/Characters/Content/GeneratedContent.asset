@@ -779,6 +779,8 @@ MonoBehaviour:
     Texture: {fileID: 2800000, guid: 33e982993051d944998570950aa77517, type: 3}
   - Id: pattern.toile_01
     Texture: {fileID: 2800000, guid: cd3ab4bf92e9a01478d244cc82131540, type: 3}
+  - Id: pattern.azulejo_01
+    Texture: {fileID: 2800000, guid: f72c6f73646e8214fb099f3e334d2880, type: 3}
   Fabrics:
   - Id: plain
     Material: {fileID: 2100000, guid: 438e55e3cc9afa740b5c2f26ae972251, type: 2}

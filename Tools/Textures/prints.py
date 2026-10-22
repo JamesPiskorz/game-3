@@ -1782,6 +1782,28 @@ def toile(size, seed):
     return ink, _zero(size)
 
 
+def azulejo(size, seed):
+    """Azulejo: painted tiles, a flower in a ring with petals to the corners, where quarter circles meet their
+    neighbours' in a second colour, on white between thin grout lines (summer dresses, swimwear)."""
+    x, y = tk.grid(size)
+    k = 4
+    fx, fy = (x * k) % 1.0 - 0.5, (y * k) % 1.0 - 0.5
+    rad, ang = np.hypot(fx, fy), np.arctan2(fy, fx)
+    flower = rad < 0.13 + 0.06 * np.cos(8 * ang)
+    heart = rad < 0.05
+    ring = np.abs(rad - 0.25) < 0.022
+    corner = np.hypot(0.5 - np.abs(fx), 0.5 - np.abs(fy))
+    quarter = corner < 0.15
+    arc = np.abs(corner - 0.2) < 0.02
+    petal = (rad > 0.29) & (np.abs(np.cos(2 * ang)) < 0.5 * np.clip((0.5 - rad) / 0.2, 0, 1)) & (corner > 0.24)
+    edge = np.minimum(np.hypot(np.abs(fx) - 0.5, fy), np.hypot(fx, np.abs(fy) - 0.5))
+    bud = edge < 0.07
+    grout = (np.abs(fx) > 0.493) | (np.abs(fy) > 0.493)
+    colour = tk.blur_small((flower & ~heart | ring | arc | petal | bud).astype(float), 0.7)
+    accent = tk.blur_small((quarter | heart).astype(float), 0.7)
+    return colour, grout * 0.35, accent
+
+
 # ------------------------------------------------------------------------------- placed prints: chest graphics
 
 def _graphic(size, layers):
@@ -3276,6 +3298,7 @@ PRINTS = {
     "swallows": (swallows, "Swallows", ["street", "date", "gothic"], (2.5, 4), 0.5),
     "foulard": (foulard, "Foulard", ["elegant", "bookish"], (4, 6), 0.6),
     "toile": (toile, "Toile", ["elegant", "bookish", "cute", "date"], (2.2, 3.2), 0.6),
+    "azulejo": (azulejo, "Azulejo tiles", ["elegant", "casual", "date"], (2, 3), 0.6),
 }
 
 # How each print's second colour (its accent: leaves, hearts, wafers) follows its first: "leaf" (a natural green),
@@ -3288,7 +3311,7 @@ ACCENT = {
     "cacti": "leaf", "medallions": "contrast", "groovy": "contrast", "flowerpower": "gold", "dinosaurs": "contrast",
     "sailboats": "contrast", "umbrellas": "contrast", "liberty": "contrast", "lavender": "leaf", "maple": "gold",
     "pineapples": "leaf", "memphis": "contrast", "regimental": "contrast", "quilt": "contrast", "graffiti": "contrast",
-    "swooshes": "contrast", "thorns": "leaf", "rosebuds": "leaf", "triplestripes": "contrast", "artdeco": "gold", "dogs": "contrast", "frogs": "leaf", "pearls": "light", "swallows": "light", "foulard": "contrast",
+    "swooshes": "contrast", "thorns": "leaf", "rosebuds": "leaf", "triplestripes": "contrast", "artdeco": "gold", "dogs": "contrast", "frogs": "leaf", "pearls": "light", "swallows": "light", "foulard": "contrast", "azulejo": "light",
     "tee_heart": "light", "tee_star": "light", "tee_cherries": "leaf", "tee_rose": "leaf", "tee_sunset": "gold",
     "tee_cat": "light", "tee_rainbow": "contrast", "tee_planet": "contrast", "tee_daisy": "gold", "tee_mountains": "light",
     "tee_butterfly": "contrast", "tee_moon": "gold", "tee_crown": "contrast", "tee_ghost": "light", "tee_palm": "leaf",
@@ -3324,7 +3347,7 @@ CONTEXT_TAGS = {
               "raindrops", "snowflakes", "plaid", "buffalo", "candystripe", "floral", "daisies", "cherries",
               "strawberries", "bows", "paws", "rainbows", "planets", "sakura", "ticking", "notes", "smileys", "seigaiha",
               "dinosaurs", "sailboats", "rosebuds", "dogs", "frogs"],
-    "swim": ["pineapples", "sailboats", "tropical", "hibiscus", "stripes", "breton", "waves", "scales", "shells", "fish", "seagulls", "anchors",
+    "swim": ["azulejo", "pineapples", "sailboats", "tropical", "hibiscus", "stripes", "breton", "waves", "scales", "shells", "fish", "seagulls", "anchors",
              "lemons", "watermelon", "floral", "bigfloral", "dots", "gingham", "leopard", "zebra", "cheetah", "tiedye",
              "cherries", "strawberries", "daisies", "sunsetfade", "ombre", "colourblock", "ricrac", "tee_palm", "icecream"],
     "rain": ["raindrops", "clouds", "umbrellas", "check", "gingham", "plaid", "buffalo", "houndstooth", "dots",
@@ -3335,6 +3358,7 @@ CONTEXT_TAGS = {
 
 # Classic colourways: (how often an item with the print takes one, [(the cloth's colour, the print's)]).
 COLOURWAYS = {
+    "azulejo": (0.6, [("#f5f3ee", "#1f4e9c"), ("#f6f1e4", "#1c6b8a")]),
     "toile": (0.6, [("#f1ebdd", "#2a3f73"), ("#f2ebe0", "#9b2335"), ("#f4f1ea", "#222222")]),
     "leopard": (0.6, [("#c79a5b", "#2b1c12"), ("#d8c9b0", "#3a3a3a"), ("#b08850", "#1a1410")]),
     "cheetah": (0.6, [("#d1a666", "#24180f")]),
