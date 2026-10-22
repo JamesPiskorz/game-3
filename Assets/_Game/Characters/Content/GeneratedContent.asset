@@ -793,6 +793,8 @@ MonoBehaviour:
     Texture: {fileID: 2800000, guid: 118658fe65cbf6f46b0237badb3f71e9, type: 3}
   - Id: pattern.lollies_01
     Texture: {fileID: 2800000, guid: 523d642f822793640bf83e04192bf11d, type: 3}
+  - Id: pattern.bananas_01
+    Texture: {fileID: 2800000, guid: f4fd5d9cb7c2e8c4ab242a67c10058b8, type: 3}
   Fabrics:
   - Id: plain
     Material: {fileID: 2100000, guid: 438e55e3cc9afa740b5c2f26ae972251, type: 2}

@@ -9371,6 +9371,22 @@
       "placement": null,
       "colourways": [],
       "colourwayChance": 0.0
+    },
+    {
+      "id": "pattern.bananas_01",
+      "name": "Bananas",
+      "weight": 0.5,
+      "tags": [
+        "cute",
+        "casual",
+        "street"
+      ],
+      "minScale": 2.5,
+      "maxScale": 4.0,
+      "accent": null,
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     }
   ],
   "fabrics": [

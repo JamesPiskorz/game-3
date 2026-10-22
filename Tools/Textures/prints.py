@@ -1974,6 +1974,20 @@ def lollies(size, seed):
     return _scatter_shapes(size, shapes, 10, seed, size / 4.3)
 
 
+def bananas(size, seed):
+    """Bananas: curved crescents with dark tips, tossed every which way (a fun summer shirt)."""
+    def banana(px):
+        def fn(x, y):
+            outer = np.hypot(x, y + 0.55) - 1.05
+            inner = np.hypot(x, y + 1.02) - 1.1
+            return _soft(np.maximum(np.maximum(outer, -inner), np.abs(x) - 0.82), px / 2)
+        body = _shape(px, fn)
+        tips = body * _shape(px, lambda x, y: (np.abs(x) > 0.7).astype(float))
+        return np.clip(body - tips, 0, 1), np.clip(_outline(body, 1) * 0.55 + tips * 0.8, 0, 1)
+    shapes = [banana(int(size / 4)), banana(int(size / 4.6))]
+    return _scatter_shapes(size, shapes, 10, seed, size / 4.2)
+
+
 # ------------------------------------------------------------------------------- placed prints: chest graphics
 
 def _graphic(size, layers):
@@ -3496,6 +3510,7 @@ PRINTS = {
     "dragonflies": (dragonflies, "Dragonflies", ["cute", "elegant", "casual", "date"], (2.5, 4), 0.6),
     "avocados": (avocados, "Avocados", ["cute", "casual", "street"], (2.2, 3.5), 0.5),
     "lollies": (lollies, "Ice lollies", ["cute", "casual"], (2.5, 4), 0.5),
+    "bananas": (bananas, "Bananas", ["cute", "casual", "street"], (2.5, 4), 0.5),
 }
 
 # How each print's second colour (its accent: leaves, hearts, wafers) follows its first: "leaf" (a natural green),
