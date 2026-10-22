@@ -9516,7 +9516,7 @@
     {
       "id": "chunky_knit",
       "name": "A chunky hand knit",
-      "weight": 1.0,
+      "weight": 1.8,
       "tags": [
         "cute",
         "casual"
@@ -9563,7 +9563,7 @@
     {
       "id": "cable_knit",
       "name": "Cable knit",
-      "weight": 1.0,
+      "weight": 2.2,
       "tags": [
         "bookish",
         "cute",
@@ -10255,7 +10255,7 @@
     {
       "id": "marl",
       "name": "Marl",
-      "weight": 1.0,
+      "weight": 1.4,
       "tags": [
         "casual",
         "sporty",
@@ -10292,7 +10292,7 @@
     {
       "id": "slub_jersey",
       "name": "Slub jersey",
-      "weight": 1.0,
+      "weight": 1.8,
       "tags": [
         "casual"
       ],
@@ -10871,7 +10871,7 @@
     {
       "id": "ripped_denim",
       "name": "Distressed denim",
-      "weight": 1.0,
+      "weight": 2.0,
       "tags": [
         "street",
         "casual"
@@ -11070,7 +11070,7 @@
     {
       "id": "brushed_cotton",
       "name": "Brushed cotton",
-      "weight": 1.0,
+      "weight": 1.6,
       "tags": [
         "casual",
         "cute",

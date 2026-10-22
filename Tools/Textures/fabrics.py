@@ -1222,6 +1222,8 @@ WEIGHT = {
     "faux_fur": 0.6, "lurex_knit": 0.6, "moire": 0.6, "mesh": 0.6, "perforated": 0.6, "rubber": 0.6, "organza": 0.7,
     "taffeta": 0.7, "sequins": 0.7, "patent": 0.8, "straw": 0.8, "crochet": 0.8, "sherpa": 0.8, "patchwork": 0.6,
     "denim": 1.4, "jersey": 1.3, "twill": 1.2, "poplin": 1.2, "knit": 1.2, "leather": 1.2,
+    # Everyday fabrics offered on few garments, so they turn up as often as basics should (texture-usage.md).
+    "cable_knit": 2.2, "chunky_knit": 1.8, "ripped_denim": 2.0, "slub_jersey": 1.8, "marl": 1.4, "brushed_cotton": 1.6,
 }
 
 # The occasions fabrics suit, as extra tags the outfit contexts weight (formal, sleep).

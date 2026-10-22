@@ -373,7 +373,7 @@
    "lift": 0.22,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0,
+   "weight": 1.8,
    "gloss": 0.0,
    "sheen": 0.0
   },
@@ -434,7 +434,7 @@
    "lift": 0.2,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0,
+   "weight": 2.2,
    "gloss": 0.0,
    "sheen": 0.0
   },
@@ -1126,7 +1126,7 @@
     "#c6c6ca",
     "#4b4b51"
    ],
-   "weight": 1.0,
+   "weight": 1.4,
    "gloss": 0.0,
    "sheen": 0.0
   },
@@ -1143,7 +1143,7 @@
    "lift": 0.12,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0,
+   "weight": 1.8,
    "gloss": 0.0,
    "sheen": 0.0
   },
@@ -1826,7 +1826,7 @@
     "#7898c0",
     "#2f4670"
    ],
-   "weight": 1.0,
+   "weight": 2.0,
    "gloss": 0.0,
    "sheen": 0.0
   },
@@ -2040,7 +2040,7 @@
    "lift": 0.1,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0,
+   "weight": 1.6,
    "gloss": 0.0,
    "sheen": 0.0
   },
