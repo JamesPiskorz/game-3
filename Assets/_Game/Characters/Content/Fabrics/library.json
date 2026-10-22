@@ -668,7 +668,7 @@
    "colourChance": 0.0,
    "colours": [],
    "weight": 1.0,
-   "gloss": 0.45,
+   "gloss": 0.3,
    "sheen": 0.0
   },
   {
@@ -1844,7 +1844,7 @@
    "colourChance": 0.0,
    "colours": [],
    "weight": 1.0,
-   "gloss": 0.3,
+   "gloss": 0.22,
    "sheen": 0.0
   },
   {
@@ -1946,7 +1946,7 @@
    "colourChance": 0.0,
    "colours": [],
    "weight": 1.0,
-   "gloss": 0.45,
+   "gloss": 0.3,
    "sheen": 0.0
   },
   {
@@ -1965,7 +1965,7 @@
    "colourChance": 0.0,
    "colours": [],
    "weight": 1.0,
-   "gloss": 0.5,
+   "gloss": 0.38,
    "sheen": 0.0
   }
  ]

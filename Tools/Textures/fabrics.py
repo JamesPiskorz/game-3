@@ -1184,9 +1184,9 @@ HOLES = {"lace": 0.47, "mesh": 0.6, "crochet": 0.5, "eyelet": 0.55, "guipure": 0
 # are matte.
 GLOSS = {
     "vinyl": 1.0, "patent": 0.9, "rubber": 0.7, "metallic": 0.75, "gloss_puffer": 0.6, "sequins": 0.6, "satin": 0.5,
-    "taffeta": 0.45, "lycra": 0.45, "moire": 0.4, "croc": 0.4, "glitter": 0.4, "beaded": 0.4, "satin_stripe": 0.35,
+    "taffeta": 0.45, "lycra": 0.3, "moire": 0.4, "croc": 0.4, "glitter": 0.4, "beaded": 0.4, "satin_stripe": 0.35,
     "nylon": 0.35, "shantung": 0.3, "leather": 0.3, "snake": 0.3, "scuba": 0.25, "waxed": 0.25, "organza": 0.2,
-    "lurex_knit": 0.2, "perforated": 0.2, "brocade": 0.3, "sateen": 0.2, "athletic_knit": 0.3, "foil": 0.75, "rib_lycra": 0.45, "shimmer_lycra": 0.5,
+    "lurex_knit": 0.2, "perforated": 0.2, "brocade": 0.3, "sateen": 0.2, "athletic_knit": 0.22, "foil": 0.75, "rib_lycra": 0.3, "shimmer_lycra": 0.38,
 }
 
 # How much each pile fabric glows toward its edges (the shader's _Sheen: velvet's look); the rest have none.
