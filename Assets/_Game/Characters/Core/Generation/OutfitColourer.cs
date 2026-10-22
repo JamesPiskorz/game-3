@@ -69,11 +69,13 @@ namespace Game.Characters.Generation
                 for (int region = 0; region < part.Regions && region < regions.Length; region++)
                     item.RegionColors.Add(Colours.Jitter(rng, regions[region], 0.006f, 0.04f, 0.04f));
 
-                // Made in another of the fabrics it can be, at times: a skirt in denim, corduroy or tweed, by style.
+                // Made in another of the fabrics it can be, at times: a skirt in denim, corduroy or tweed, by style and
+                // by occasion (velvet and taffeta at a gala, flannel and waffle in bed).
                 if (part.Fabrics.Count > 1 && rng.Chance(FabricVariety))
                 {
                     List<FabricEntry> options = part.Fabrics.Select(catalog.Fabric).Where(f => f != null).ToList();
-                    FabricEntry fabric = options.Count == 0 ? null : rng.PickWeighted(options, f => f.Weight * Affinity.Of(archetype, f.Tags));
+                    FabricEntry fabric = options.Count == 0 ? null
+                        : rng.PickWeighted(options, f => f.Weight * Affinity.Of(archetype, f.Tags) * Affinity.Of(context, f.Tags));
                     if (fabric != null && fabric.Id != part.Fabrics[0]) item.FabricId = fabric.Id;
                 }
                 // Often in the fabric's own colour (indigo denim, natural straw, brown suede), where it still stands

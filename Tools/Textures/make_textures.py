@@ -37,7 +37,8 @@ def write_fabrics():
         grey = (tile * 255).round().astype(np.uint8)
         Image.fromarray(np.stack([grey] * 3, axis=-1), "RGB").save(os.path.join(folder, f"fabric.{fid}.png"))
         entries.append({"id": fid, "name": _title(fn), "mean": round(float(tile.mean()), 4), "tileMetres": fabrics.TILE_METRES,
-                        "tags": fabrics.TAGS.get(fid, ["casual"]), "printable": fid not in fabrics.NO_PRINT,
+                        "tags": fabrics.TAGS.get(fid, ["casual"]) + [o for o, ids in fabrics.CONTEXT_TAGS.items() if fid in ids],
+                        "printable": fid not in fabrics.NO_PRINT,
                         "printTags": fabrics.PRINT_TAGS.get(fid, []), "lift": fabrics.LIFT.get(fid, fabrics.DEFAULT_LIFT),
                         "colourChance": fabrics.NATURAL.get(fid, (0.0, []))[0], "colours": fabrics.NATURAL.get(fid, (0.0, []))[1],
                         "weight": fabrics.WEIGHT.get(fid, 1.0), "gloss": fabrics.GLOSS.get(fid, 0.0),

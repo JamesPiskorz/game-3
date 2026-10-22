@@ -7,7 +7,8 @@
    "tileMetres": 0.25,
    "tags": [
     "casual",
-    "cute"
+    "cute",
+    "sleep"
    ],
    "printable": true,
    "printTags": [],
@@ -26,7 +27,8 @@
    "tags": [
     "elegant",
     "bookish",
-    "casual"
+    "casual",
+    "sleep"
    ],
    "printable": true,
    "printTags": [],
@@ -149,7 +151,8 @@
    "tags": [
     "casual",
     "cute",
-    "bookish"
+    "bookish",
+    "sleep"
    ],
    "printable": false,
    "printTags": [],
@@ -229,7 +232,8 @@
    "tags": [
     "casual",
     "street",
-    "bookish"
+    "bookish",
+    "sleep"
    ],
    "printable": true,
    "printTags": [],
@@ -316,7 +320,8 @@
    "tileMetres": 0.25,
    "tags": [
     "casual",
-    "sporty"
+    "sporty",
+    "sleep"
    ],
    "printable": true,
    "printTags": [],
@@ -435,7 +440,8 @@
    "tileMetres": 0.25,
    "tags": [
     "casual",
-    "sporty"
+    "sporty",
+    "sleep"
    ],
    "printable": false,
    "printTags": [],
@@ -491,7 +497,8 @@
    "tags": [
     "casual",
     "sporty",
-    "street"
+    "street",
+    "sleep"
    ],
    "printable": true,
    "printTags": [],
@@ -527,7 +534,8 @@
    "tileMetres": 0.25,
    "tags": [
     "casual",
-    "sporty"
+    "sporty",
+    "sleep"
    ],
    "printable": false,
    "printTags": [],
@@ -569,7 +577,9 @@
    "tileMetres": 0.25,
    "tags": [
     "elegant",
-    "date"
+    "date",
+    "formal",
+    "sleep"
    ],
    "printable": true,
    "printTags": [],
@@ -587,7 +597,8 @@
    "tileMetres": 0.25,
    "tags": [
     "elegant",
-    "date"
+    "date",
+    "formal"
    ],
    "printable": true,
    "printTags": [],
@@ -606,7 +617,8 @@
    "tags": [
     "elegant",
     "cute",
-    "date"
+    "date",
+    "formal"
    ],
    "printable": true,
    "printTags": [],
@@ -624,7 +636,8 @@
    "tileMetres": 0.25,
    "tags": [
     "cute",
-    "elegant"
+    "elegant",
+    "formal"
    ],
    "printable": false,
    "printTags": [],
@@ -660,7 +673,8 @@
    "tags": [
     "gothic",
     "elegant",
-    "date"
+    "date",
+    "formal"
    ],
    "printable": false,
    "printTags": [],
@@ -678,7 +692,8 @@
    "tileMetres": 0.25,
    "tags": [
     "date",
-    "street"
+    "street",
+    "formal"
    ],
    "printable": false,
    "printTags": [],
@@ -701,7 +716,8 @@
    "tileMetres": 0.25,
    "tags": [
     "date",
-    "elegant"
+    "elegant",
+    "formal"
    ],
    "printable": false,
    "printTags": [],
@@ -721,7 +737,8 @@
     "elegant",
     "gothic",
     "date",
-    "cute"
+    "cute",
+    "formal"
    ],
    "printable": false,
    "printTags": [],
@@ -739,7 +756,8 @@
    "tileMetres": 0.25,
    "tags": [
     "elegant",
-    "gothic"
+    "gothic",
+    "formal"
    ],
    "printable": false,
    "printTags": [],
@@ -974,7 +992,8 @@
    "tileMetres": 0.25,
    "tags": [
     "casual",
-    "cute"
+    "cute",
+    "sleep"
    ],
    "printable": true,
    "printTags": [],
@@ -1081,7 +1100,8 @@
    "tags": [
     "casual",
     "sporty",
-    "street"
+    "street",
+    "sleep"
    ],
    "printable": false,
    "printTags": [],
@@ -1142,7 +1162,8 @@
    "tileMetres": 0.25,
    "tags": [
     "cute",
-    "date"
+    "date",
+    "sleep"
    ],
    "printable": false,
    "printTags": [],
@@ -1180,7 +1201,8 @@
    "tags": [
     "casual",
     "cute",
-    "street"
+    "street",
+    "sleep"
    ],
    "printable": false,
    "printTags": [],
@@ -1202,7 +1224,8 @@
    "tileMetres": 0.25,
    "tags": [
     "cute",
-    "casual"
+    "casual",
+    "sleep"
    ],
    "printable": false,
    "printTags": [],
@@ -1220,7 +1243,8 @@
    "tileMetres": 0.25,
    "tags": [
     "elegant",
-    "date"
+    "date",
+    "formal"
    ],
    "printable": true,
    "printTags": [],
@@ -1238,7 +1262,8 @@
    "tileMetres": 0.25,
    "tags": [
     "elegant",
-    "gothic"
+    "gothic",
+    "formal"
    ],
    "printable": false,
    "printTags": [],
@@ -1257,7 +1282,8 @@
    "tags": [
     "elegant",
     "date",
-    "cute"
+    "cute",
+    "formal"
    ],
    "printable": true,
    "printTags": [],
@@ -1276,7 +1302,8 @@
    "tags": [
     "elegant",
     "cute",
-    "date"
+    "date",
+    "formal"
    ],
    "printable": true,
    "printTags": [],
@@ -1295,7 +1322,8 @@
    "tags": [
     "date",
     "cute",
-    "street"
+    "street",
+    "formal"
    ],
    "printable": false,
    "printTags": [],
@@ -1313,7 +1341,8 @@
    "tileMetres": 0.25,
    "tags": [
     "elegant",
-    "date"
+    "date",
+    "formal"
    ],
    "printable": false,
    "printTags": [],
@@ -1457,7 +1486,8 @@
    "tags": [
     "cute",
     "casual",
-    "date"
+    "date",
+    "sleep"
    ],
    "printable": false,
    "printTags": [],
@@ -1476,7 +1506,8 @@
    "tags": [
     "elegant",
     "bookish",
-    "date"
+    "date",
+    "formal"
    ],
    "printable": false,
    "printTags": [],
@@ -1666,7 +1697,8 @@
    "tags": [
     "elegant",
     "date",
-    "gothic"
+    "gothic",
+    "formal"
    ],
    "printable": false,
    "printTags": [],

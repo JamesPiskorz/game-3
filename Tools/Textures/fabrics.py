@@ -1027,6 +1027,14 @@ WEIGHT = {
     "denim": 1.4, "jersey": 1.3, "twill": 1.2, "poplin": 1.2, "knit": 1.2, "leather": 1.2,
 }
 
+# The occasions fabrics suit, as extra tags the outfit contexts weight (formal, sleep).
+CONTEXT_TAGS = {
+    "formal": ["satin", "velvet", "sequins", "taffeta", "organza", "jacquard", "beaded", "metallic", "lace", "guipure",
+               "moire", "shantung", "tulle", "crepe", "chiffon", "glitter", "satin_stripe"],
+    "sleep": ["flannel", "satin", "jersey", "waffle", "fleece", "terry", "marl", "pointelle", "seersucker", "smocked",
+              "chenille", "sherpa", "plain", "poplin", "crinkle"],
+}
+
 # How glossy each shiny fabric is (the shader's _Gloss: a toon highlight, smaller and brighter the glossier); the rest
 # are matte.
 GLOSS = {
