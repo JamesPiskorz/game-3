@@ -8,7 +8,8 @@
     "sporty",
     "street",
     "knitted",
-    "swim"
+    "swim",
+    "rain"
    ],
    "minScale": 6,
    "maxScale": 10,
@@ -30,7 +31,8 @@
     "cute",
     "casual",
     "sleep",
-    "swim"
+    "swim",
+    "rain"
    ],
    "minScale": 6,
    "maxScale": 10,
@@ -61,7 +63,8 @@
     "elegant",
     "gothic",
     "street",
-    "sleep"
+    "sleep",
+    "rain"
    ],
    "minScale": 3,
    "maxScale": 6,
@@ -78,7 +81,8 @@
     "cute",
     "casual",
     "gothic",
-    "sleep"
+    "sleep",
+    "rain"
    ],
    "minScale": 6,
    "maxScale": 10,
@@ -240,7 +244,8 @@
     "elegant",
     "bookish",
     "knitted",
-    "swim"
+    "swim",
+    "rain"
    ],
    "minScale": 5,
    "maxScale": 8,
@@ -324,7 +329,8 @@
     "casual",
     "date",
     "sleep",
-    "swim"
+    "swim",
+    "rain"
    ],
    "minScale": 6,
    "maxScale": 10,
@@ -354,7 +360,8 @@
     "street",
     "casual",
     "gothic",
-    "sleep"
+    "sleep",
+    "rain"
    ],
    "minScale": 6,
    "maxScale": 9,
@@ -394,7 +401,8 @@
    "tags": [
     "elegant",
     "bookish",
-    "gothic"
+    "gothic",
+    "rain"
    ],
    "minScale": 8,
    "maxScale": 14,
@@ -711,7 +719,8 @@
    "tags": [
     "cute",
     "casual",
-    "sleep"
+    "sleep",
+    "rain"
    ],
    "minScale": 2,
    "maxScale": 4,
@@ -810,7 +819,8 @@
    "tags": [
     "cute",
     "casual",
-    "sleep"
+    "sleep",
+    "rain"
    ],
    "minScale": 4,
    "maxScale": 7,
@@ -1575,7 +1585,8 @@
     "casual",
     "cute",
     "bookish",
-    "swim"
+    "swim",
+    "rain"
    ],
    "minScale": 3,
    "maxScale": 5,
@@ -1683,7 +1694,8 @@
     "cute",
     "casual",
     "sporty",
-    "swim"
+    "swim",
+    "rain"
    ],
    "minScale": 3,
    "maxScale": 5,
@@ -2637,6 +2649,100 @@
    "colourways": []
   },
   {
+   "id": "pattern.tee_love_01",
+   "name": "LOVE slogan",
+   "tags": [
+    "cute",
+    "casual",
+    "street"
+   ],
+   "minScale": 0.8,
+   "maxScale": 1.25,
+   "weight": 0.3,
+   "accent": null,
+   "placement": "chest",
+   "colourwayChance": 0.0,
+   "colourways": []
+  },
+  {
+   "id": "pattern.tee_hello_01",
+   "name": "HELLO slogan",
+   "tags": [
+    "casual",
+    "street",
+    "cute"
+   ],
+   "minScale": 0.8,
+   "maxScale": 1.25,
+   "weight": 0.3,
+   "accent": null,
+   "placement": "chest",
+   "colourwayChance": 0.0,
+   "colourways": []
+  },
+  {
+   "id": "pattern.tee_sunny_01",
+   "name": "SUNNY slogan",
+   "tags": [
+    "casual",
+    "sporty",
+    "cute"
+   ],
+   "minScale": 0.8,
+   "maxScale": 1.25,
+   "weight": 0.3,
+   "accent": null,
+   "placement": "chest",
+   "colourwayChance": 0.0,
+   "colourways": []
+  },
+  {
+   "id": "pattern.tee_cute_01",
+   "name": "CUTE! slogan",
+   "tags": [
+    "cute",
+    "street"
+   ],
+   "minScale": 0.8,
+   "maxScale": 1.25,
+   "weight": 0.3,
+   "accent": null,
+   "placement": "chest",
+   "colourwayChance": 0.0,
+   "colourways": []
+  },
+  {
+   "id": "pattern.tee_23_01",
+   "name": "Varsity number",
+   "tags": [
+    "sporty",
+    "street",
+    "casual"
+   ],
+   "minScale": 0.8,
+   "maxScale": 1.25,
+   "weight": 0.4,
+   "accent": null,
+   "placement": "chest",
+   "colourwayChance": 0.0,
+   "colourways": []
+  },
+  {
+   "id": "pattern.back_23_01",
+   "name": "Number on the back",
+   "tags": [
+    "sporty",
+    "street"
+   ],
+   "minScale": 0.8,
+   "maxScale": 1.25,
+   "weight": 0.3,
+   "accent": null,
+   "placement": "back",
+   "colourwayChance": 0.0,
+   "colourways": []
+  },
+  {
    "id": "pattern.badge_crown_01",
    "name": "Crown badge",
    "tags": [
@@ -3224,6 +3330,23 @@
     "bookish",
     "sleep",
     "swim"
+   ],
+   "minScale": 2.5,
+   "maxScale": 4,
+   "weight": 0.4,
+   "accent": "contrast",
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
+  },
+  {
+   "id": "pattern.umbrellas_01",
+   "name": "Umbrellas",
+   "tags": [
+    "cute",
+    "casual",
+    "bookish",
+    "rain"
    ],
    "minScale": 2.5,
    "maxScale": 4,

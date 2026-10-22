@@ -629,6 +629,18 @@ MonoBehaviour:
     Texture: {fileID: 2800000, guid: 38a9063923756284a8e516281c600239, type: 3}
   - Id: pattern.tee_eye_01
     Texture: {fileID: 2800000, guid: a7a3f43c9828d884285a582b25ec6ba8, type: 3}
+  - Id: pattern.tee_love_01
+    Texture: {fileID: 2800000, guid: aba55303ff1576249b1a82540fd764c5, type: 3}
+  - Id: pattern.tee_hello_01
+    Texture: {fileID: 2800000, guid: 162b63544b8694148965e5649c349084, type: 3}
+  - Id: pattern.tee_sunny_01
+    Texture: {fileID: 2800000, guid: 77b7f547302753a49af144e098a535dd, type: 3}
+  - Id: pattern.tee_cute_01
+    Texture: {fileID: 2800000, guid: 93bdffe5f4c65284b8cbee41304b7cdb, type: 3}
+  - Id: pattern.tee_23_01
+    Texture: {fileID: 2800000, guid: 95b40f42f8ebf8a4fa8b6819a778b451, type: 3}
+  - Id: pattern.back_23_01
+    Texture: {fileID: 2800000, guid: 5a55b8ee0fe554640ab65dd56e798855, type: 3}
   - Id: pattern.badge_crown_01
     Texture: {fileID: 2800000, guid: 415a9b3d8e164f64e9b10e882b9206df, type: 3}
   - Id: pattern.badge_anchor_01
@@ -703,6 +715,8 @@ MonoBehaviour:
     Texture: {fileID: 2800000, guid: f2a6b9c99134c394a8f4a52097e9245a, type: 3}
   - Id: pattern.sailboats_01
     Texture: {fileID: 2800000, guid: 352e85c034b965147951b235c4d61985, type: 3}
+  - Id: pattern.umbrellas_01
+    Texture: {fileID: 2800000, guid: 6d5d99c67f6032e49a48c17a4b14ec9c, type: 3}
   Fabrics:
   - Id: plain
     Material: {fileID: 2100000, guid: 438e55e3cc9afa740b5c2f26ae972251, type: 2}

@@ -215,7 +215,7 @@
   "contexts": [
     { "id": "casual", "name": "Casual", "tagWeights": { "casual": 1.0 } },
     { "id": "date", "name": "Date", "tagWeights": { "date": 1.5, "elegant": 0.5 } },
-    { "id": "rain", "name": "Rainy day", "tagWeights": { "casual": 1.0 }, "outer": true },
+    { "id": "rain", "name": "Rainy day", "tagWeights": { "casual": 1.0, "rain": 1.5 }, "outer": true },
     { "id": "sport", "name": "Workout", "tagWeights": { "sporty": 2.0 }, "onlyTags": ["sporty"] },
     { "id": "work", "name": "Work", "tagWeights": { "elegant": 1.5, "bookish": 1.0 }, "onlyTags": ["elegant", "bookish"] }
   ],

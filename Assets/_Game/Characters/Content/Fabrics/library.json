@@ -188,7 +188,8 @@
    "tileMetres": 0.25,
    "tags": [
     "casual",
-    "street"
+    "street",
+    "rain"
    ],
    "printable": false,
    "printTags": [],
@@ -274,7 +275,8 @@
    "tileMetres": 0.25,
    "tags": [
     "bookish",
-    "elegant"
+    "elegant",
+    "rain"
    ],
    "printable": false,
    "printTags": [],
@@ -298,7 +300,8 @@
    "tileMetres": 0.25,
    "tags": [
     "sporty",
-    "street"
+    "street",
+    "rain"
    ],
    "printable": true,
    "printTags": [],
@@ -340,7 +343,8 @@
    "tags": [
     "cute",
     "bookish",
-    "casual"
+    "casual",
+    "rain"
    ],
    "printable": true,
    "printTags": [
@@ -422,7 +426,8 @@
    "tileMetres": 0.25,
    "tags": [
     "bookish",
-    "cute"
+    "cute",
+    "rain"
    ],
    "printable": false,
    "printTags": [],
@@ -498,6 +503,7 @@
     "casual",
     "sporty",
     "street",
+    "rain",
     "sleep"
    ],
    "printable": true,
@@ -802,7 +808,8 @@
    "tags": [
     "gothic",
     "elegant",
-    "date"
+    "date",
+    "rain"
    ],
    "printable": true,
    "printTags": [
@@ -876,7 +883,8 @@
    "tileMetres": 0.25,
    "tags": [
     "bookish",
-    "casual"
+    "casual",
+    "rain"
    ],
    "printable": false,
    "printTags": [],
@@ -900,7 +908,8 @@
    "mean": 0.8294,
    "tileMetres": 0.25,
    "tags": [
-    "casual"
+    "casual",
+    "rain"
    ],
    "printable": false,
    "printTags": [],
@@ -937,7 +946,8 @@
    "tags": [
     "casual",
     "street",
-    "sporty"
+    "sporty",
+    "rain"
    ],
    "printable": false,
    "printTags": [],
@@ -1057,7 +1067,8 @@
    "tileMetres": 0.25,
    "tags": [
     "sporty",
-    "street"
+    "street",
+    "rain"
    ],
    "printable": true,
    "printTags": [],
@@ -1076,7 +1087,8 @@
    "tags": [
     "bookish",
     "casual",
-    "street"
+    "street",
+    "rain"
    ],
    "printable": false,
    "printTags": [],
@@ -1101,6 +1113,7 @@
     "casual",
     "sporty",
     "street",
+    "rain",
     "sleep"
    ],
    "printable": false,
@@ -1379,7 +1392,8 @@
    "tags": [
     "gothic",
     "street",
-    "date"
+    "date",
+    "rain"
    ],
    "printable": false,
    "printTags": [],
@@ -1678,7 +1692,8 @@
    "tileMetres": 0.25,
    "tags": [
     "street",
-    "sporty"
+    "sporty",
+    "rain"
    ],
    "printable": false,
    "printTags": [],

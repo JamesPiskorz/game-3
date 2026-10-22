@@ -5182,7 +5182,8 @@
         "sporty",
         "street",
         "knitted",
-        "swim"
+        "swim",
+        "rain"
       ],
       "minScale": 6.0,
       "maxScale": 10.0,
@@ -5204,7 +5205,8 @@
         "cute",
         "casual",
         "sleep",
-        "swim"
+        "swim",
+        "rain"
       ],
       "minScale": 6.0,
       "maxScale": 10.0,
@@ -5235,7 +5237,8 @@
         "elegant",
         "gothic",
         "street",
-        "sleep"
+        "sleep",
+        "rain"
       ],
       "minScale": 3.0,
       "maxScale": 6.0,
@@ -5252,7 +5255,8 @@
         "cute",
         "casual",
         "gothic",
-        "sleep"
+        "sleep",
+        "rain"
       ],
       "minScale": 6.0,
       "maxScale": 10.0,
@@ -5414,7 +5418,8 @@
         "elegant",
         "bookish",
         "knitted",
-        "swim"
+        "swim",
+        "rain"
       ],
       "minScale": 5.0,
       "maxScale": 8.0,
@@ -5498,7 +5503,8 @@
         "casual",
         "date",
         "sleep",
-        "swim"
+        "swim",
+        "rain"
       ],
       "minScale": 6.0,
       "maxScale": 10.0,
@@ -5528,7 +5534,8 @@
         "street",
         "casual",
         "gothic",
-        "sleep"
+        "sleep",
+        "rain"
       ],
       "minScale": 6.0,
       "maxScale": 9.0,
@@ -5568,7 +5575,8 @@
       "tags": [
         "elegant",
         "bookish",
-        "gothic"
+        "gothic",
+        "rain"
       ],
       "minScale": 8.0,
       "maxScale": 14.0,
@@ -5885,7 +5893,8 @@
       "tags": [
         "cute",
         "casual",
-        "sleep"
+        "sleep",
+        "rain"
       ],
       "minScale": 2.0,
       "maxScale": 4.0,
@@ -5984,7 +5993,8 @@
       "tags": [
         "cute",
         "casual",
-        "sleep"
+        "sleep",
+        "rain"
       ],
       "minScale": 4.0,
       "maxScale": 7.0,
@@ -6749,7 +6759,8 @@
         "casual",
         "cute",
         "bookish",
-        "swim"
+        "swim",
+        "rain"
       ],
       "minScale": 3.0,
       "maxScale": 5.0,
@@ -6857,7 +6868,8 @@
         "cute",
         "casual",
         "sporty",
-        "swim"
+        "swim",
+        "rain"
       ],
       "minScale": 3.0,
       "maxScale": 5.0,
@@ -7810,6 +7822,100 @@
       "colourwayChance": 0.0
     },
     {
+      "id": "pattern.tee_love_01",
+      "name": "LOVE slogan",
+      "weight": 0.3,
+      "tags": [
+        "cute",
+        "casual",
+        "street"
+      ],
+      "minScale": 0.8,
+      "maxScale": 1.25,
+      "accent": null,
+      "placement": "chest",
+      "colourways": [],
+      "colourwayChance": 0.0
+    },
+    {
+      "id": "pattern.tee_hello_01",
+      "name": "HELLO slogan",
+      "weight": 0.3,
+      "tags": [
+        "casual",
+        "street",
+        "cute"
+      ],
+      "minScale": 0.8,
+      "maxScale": 1.25,
+      "accent": null,
+      "placement": "chest",
+      "colourways": [],
+      "colourwayChance": 0.0
+    },
+    {
+      "id": "pattern.tee_sunny_01",
+      "name": "SUNNY slogan",
+      "weight": 0.3,
+      "tags": [
+        "casual",
+        "sporty",
+        "cute"
+      ],
+      "minScale": 0.8,
+      "maxScale": 1.25,
+      "accent": null,
+      "placement": "chest",
+      "colourways": [],
+      "colourwayChance": 0.0
+    },
+    {
+      "id": "pattern.tee_cute_01",
+      "name": "CUTE! slogan",
+      "weight": 0.3,
+      "tags": [
+        "cute",
+        "street"
+      ],
+      "minScale": 0.8,
+      "maxScale": 1.25,
+      "accent": null,
+      "placement": "chest",
+      "colourways": [],
+      "colourwayChance": 0.0
+    },
+    {
+      "id": "pattern.tee_23_01",
+      "name": "Varsity number",
+      "weight": 0.4,
+      "tags": [
+        "sporty",
+        "street",
+        "casual"
+      ],
+      "minScale": 0.8,
+      "maxScale": 1.25,
+      "accent": null,
+      "placement": "chest",
+      "colourways": [],
+      "colourwayChance": 0.0
+    },
+    {
+      "id": "pattern.back_23_01",
+      "name": "Number on the back",
+      "weight": 0.3,
+      "tags": [
+        "sporty",
+        "street"
+      ],
+      "minScale": 0.8,
+      "maxScale": 1.25,
+      "accent": null,
+      "placement": "back",
+      "colourways": [],
+      "colourwayChance": 0.0
+    },
+    {
       "id": "pattern.badge_crown_01",
       "name": "Crown badge",
       "weight": 0.3,
@@ -8405,6 +8511,23 @@
       "placement": null,
       "colourways": [],
       "colourwayChance": 0.0
+    },
+    {
+      "id": "pattern.umbrellas_01",
+      "name": "Umbrellas",
+      "weight": 0.4,
+      "tags": [
+        "cute",
+        "casual",
+        "bookish",
+        "rain"
+      ],
+      "minScale": 2.5,
+      "maxScale": 4.0,
+      "accent": "contrast",
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     }
   ],
   "fabrics": [
@@ -8590,7 +8713,8 @@
       "weight": 1.4,
       "tags": [
         "casual",
-        "street"
+        "street",
+        "rain"
       ],
       "printable": false,
       "printTags": [],
@@ -8696,7 +8820,8 @@
       "weight": 1.0,
       "tags": [
         "bookish",
-        "elegant"
+        "elegant",
+        "rain"
       ],
       "printable": false,
       "printTags": [],
@@ -8735,7 +8860,8 @@
       "weight": 1.0,
       "tags": [
         "sporty",
-        "street"
+        "street",
+        "rain"
       ],
       "printable": true,
       "printTags": [],
@@ -8779,7 +8905,8 @@
       "tags": [
         "cute",
         "bookish",
-        "casual"
+        "casual",
+        "rain"
       ],
       "printable": true,
       "printTags": [
@@ -8841,7 +8968,8 @@
       "weight": 1.0,
       "tags": [
         "bookish",
-        "cute"
+        "cute",
+        "rain"
       ],
       "printable": false,
       "printTags": [],
@@ -8897,6 +9025,7 @@
         "casual",
         "sporty",
         "street",
+        "rain",
         "sleep"
       ],
       "printable": true,
@@ -9178,7 +9307,8 @@
       "tags": [
         "gothic",
         "elegant",
-        "date"
+        "date",
+        "rain"
       ],
       "printable": true,
       "printTags": [
@@ -9285,7 +9415,8 @@
       "weight": 1.0,
       "tags": [
         "bookish",
-        "casual"
+        "casual",
+        "rain"
       ],
       "printable": false,
       "printTags": [],
@@ -9328,7 +9459,8 @@
       "name": "Rubber",
       "weight": 0.6,
       "tags": [
-        "casual"
+        "casual",
+        "rain"
       ],
       "printable": false,
       "printTags": [],
@@ -9355,7 +9487,8 @@
       "tags": [
         "casual",
         "street",
-        "sporty"
+        "sporty",
+        "rain"
       ],
       "printable": false,
       "printTags": [],
@@ -9477,7 +9610,8 @@
       "weight": 1.0,
       "tags": [
         "sporty",
-        "street"
+        "street",
+        "rain"
       ],
       "printable": true,
       "printTags": [],
@@ -9491,7 +9625,8 @@
       "tags": [
         "bookish",
         "casual",
-        "street"
+        "street",
+        "rain"
       ],
       "printable": false,
       "printTags": [],
@@ -9527,6 +9662,7 @@
         "casual",
         "sporty",
         "street",
+        "rain",
         "sleep"
       ],
       "printable": false,
@@ -9763,7 +9899,8 @@
       "tags": [
         "gothic",
         "street",
-        "date"
+        "date",
+        "rain"
       ],
       "printable": false,
       "printTags": [],
@@ -10031,7 +10168,8 @@
       "weight": 1.0,
       "tags": [
         "street",
-        "sporty"
+        "sporty",
+        "rain"
       ],
       "printable": false,
       "printTags": [],
@@ -10976,7 +11114,8 @@
       "id": "rain",
       "name": "Rainy day",
       "tagWeights": {
-        "casual": 1.0
+        "casual": 1.0,
+        "rain": 1.5
       },
       "shoes": true,
       "outer": true,

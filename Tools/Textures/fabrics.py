@@ -1073,6 +1073,8 @@ WEIGHT = {
 CONTEXT_TAGS = {
     "formal": ["satin", "velvet", "sequins", "taffeta", "organza", "jacquard", "brocade", "beaded", "metallic", "lace", "guipure",
                "moire", "shantung", "tulle", "crepe", "chiffon", "glitter", "satin_stripe"],
+    "rain": ["ripstop", "nylon", "waxed", "rubber", "vinyl", "patent", "gloss_puffer", "quilted", "fleece", "tweed",
+             "corduroy", "denim", "knit", "cable_knit", "marl"],
     "sleep": ["flannel", "satin", "jersey", "waffle", "fleece", "terry", "marl", "pointelle", "seersucker", "smocked",
               "chenille", "sherpa", "plain", "poplin", "crinkle", "sateen", "dotted_swiss"],
 }
