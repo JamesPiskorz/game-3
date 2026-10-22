@@ -565,6 +565,16 @@ MonoBehaviour:
     Texture: {fileID: 2800000, guid: 855378c0c21e1a6449735005cb4b088e, type: 3}
   - Id: pattern.watermelon_01
     Texture: {fileID: 2800000, guid: 6105f55a13f514c4092f5d3595537c98, type: 3}
+  - Id: pattern.shippo_01
+    Texture: {fileID: 2800000, guid: 1589819e9eb9af441b17081209d4ad19, type: 3}
+  - Id: pattern.starlattice_01
+    Texture: {fileID: 2800000, guid: 6c51ef25c9f4fac40a7935721808afc5, type: 3}
+  - Id: pattern.cacti_01
+    Texture: {fileID: 2800000, guid: cfaa945fe3f40974c9849379feb6bb7a, type: 3}
+  - Id: pattern.feathers_01
+    Texture: {fileID: 2800000, guid: ad0bbf43f4dda014cb11d04a0f41dc8c, type: 3}
+  - Id: pattern.medallions_01
+    Texture: {fileID: 2800000, guid: a772cbbbe2e53bf478252d31ce5e976c, type: 3}
   Fabrics:
   - Id: plain
     Material: {fileID: 2100000, guid: 438e55e3cc9afa740b5c2f26ae972251, type: 2}
@@ -718,6 +728,12 @@ MonoBehaviour:
     Material: {fileID: 2100000, guid: b7ceb15a042fdea41a041e744750791b, type: 2}
   - Id: lurex_knit
     Material: {fileID: 2100000, guid: 364cbcde044018240ba5d768ce220de6, type: 2}
+  - Id: pinstripe_wool
+    Material: {fileID: 2100000, guid: 7ba35618b074866459dbac13f8618a2f, type: 2}
+  - Id: houndstooth_wool
+    Material: {fileID: 2100000, guid: 4b0869f2a77117a4789e33463456549b, type: 2}
+  - Id: patchwork
+    Material: {fileID: 2100000, guid: aaf4eb5eded207340bfa5110c06b5947, type: 2}
   Sliders:
   - Id: body.weight
     Kind: 0

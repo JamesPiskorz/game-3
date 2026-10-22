@@ -594,7 +594,7 @@
    ],
    "printable": false,
    "printTags": [],
-   "lift": 0.16,
+   "lift": 0.1,
    "colourChance": 0.0,
    "colours": [],
    "weight": 1.0
@@ -1361,6 +1361,56 @@
     "knitted"
    ],
    "lift": 0.4,
+   "colourChance": 0.0,
+   "colours": [],
+   "weight": 0.6
+  },
+  {
+   "id": "pinstripe_wool",
+   "name": "Pinstripe suiting",
+   "mean": 0.7577,
+   "tileMetres": 0.25,
+   "tags": [
+    "elegant",
+    "bookish",
+    "gothic"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.35,
+   "colourChance": 0.0,
+   "colours": [],
+   "weight": 1.0
+  },
+  {
+   "id": "houndstooth_wool",
+   "name": "Houndstooth wool",
+   "mean": 0.7738,
+   "tileMetres": 0.25,
+   "tags": [
+    "elegant",
+    "bookish"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.3,
+   "colourChance": 0.0,
+   "colours": [],
+   "weight": 1.0
+  },
+  {
+   "id": "patchwork",
+   "name": "Patchwork",
+   "mean": 0.7269,
+   "tileMetres": 0.25,
+   "tags": [
+    "cute",
+    "casual",
+    "street"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.25,
    "colourChance": 0.0,
    "colours": [],
    "weight": 0.6

@@ -261,7 +261,13 @@ namespace Game.Characters.Building
 
                     Texture pattern = item.PatternId == null ? null : _content.Pattern(item.PatternId);
                     if (pattern != null && item.PatternColor.HasValue)
-                        ToonMaterial.SetPattern(material, pattern, ToColour(item.PatternColor.Value), 1f, item.PatternScale, new Vector4(1f, 0f, 0f, 0f));
+                    {
+                        // Its second colour (leaves, a daisy's heart) follows the print colour by the print's rule.
+                        PatternEntry print = _catalog.Patterns.FirstOrDefault(p => p.Id == item.PatternId);
+                        HsvColor accent = print?.AccentFor(item.PatternColor.Value) ?? item.PatternColor.Value;
+                        ToonMaterial.SetPattern(material, pattern, ToColour(item.PatternColor.Value), 1f, item.PatternScale, new Vector4(1f, 0f, 0f, 0f),
+                                                ToColour(accent));
+                    }
                     else
                         ToonMaterial.ClearPattern(material);
                 }

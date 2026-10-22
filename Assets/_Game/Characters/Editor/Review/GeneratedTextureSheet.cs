@@ -18,7 +18,7 @@ namespace Game.Characters.Review
     /// The clothing texture library in the game's shader (decision 0008): every fabric (FabricTextures) worn as a
     /// dress and a shirt, and every print (PatternTextures) on a dress or a T-shirt in turn, each a close-up of the upper
     /// body. Writes Docs/review/generated-fabrics.png and generated-prints.png, tiles in library order
-    /// (Tools/Textures/swatches.py labels them). Uses the generated content.
+    /// (python Tools/Textures/swatches.py label &lt;sheet&gt; &lt;out.png&gt; names them). Uses the generated content.
     /// Headless: unity run . -- -executeMethod Game.Characters.Review.GeneratedTextureSheet.Render
     /// </summary>
     public static class GeneratedTextureSheet

@@ -2843,6 +2843,13 @@ def fabric_uvs(part, joints, torso_only=False, layer="UVMap"):
             columns = [names.index(b) for b in FABRIC_CHAINS[chain] if b in names]
             if columns:
                 share[:, c] = weights[:, columns].sum(axis=1)
+            # A sleeve begins at the armhole: nothing on the body's side of the shoulder joint (across the arm) is the
+            # sleeve's, however the weights blend, so the seam runs round the joint as a garment's does. (By the
+            # weights, the sleeves took the tops of the shoulders nearly to the neck, and stripes stepped across them.)
+            if chain.startswith("arm"):
+                root = np.asarray(joints["UpperArm" + chain[-2:]], float)
+                axis = np.asarray(joints["Hand" + chain[-2:]], float) - root
+                share[(co - root) @ (axis / np.linalg.norm(axis)) < 0.0, c] = 0.0
         share[:, 0] *= 1.01  # ties (a skirt's hem, half hips, half thigh) go to the torso
         vertex_chain = share.argmax(axis=1)
     loop_vertex = np.empty(len(mesh.loops), dtype=np.int64)

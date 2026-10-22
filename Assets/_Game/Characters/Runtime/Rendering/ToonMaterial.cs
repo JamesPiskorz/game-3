@@ -14,6 +14,7 @@ namespace Game.Characters.Rendering
         public static readonly int ShadeTint = Shader.PropertyToID("_ShadeTint");
         public static readonly int PatternMap = Shader.PropertyToID("_PatternMap");
         public static readonly int PatternColor = Shader.PropertyToID("_PatternColor");
+        public static readonly int PatternAccent = Shader.PropertyToID("_PatternAccent");
         public static readonly int BaseMap = Shader.PropertyToID("_BaseMap");
         public static readonly int BaseGain = Shader.PropertyToID("_BaseGain");
         public static readonly int BaseLift = Shader.PropertyToID("_BaseLift");
@@ -54,9 +55,15 @@ namespace Game.Characters.Rendering
         public static void SetRegionColour(Material material, int region, Color colour) =>
             material.SetColor(RegionColours[region], colour);
 
-        public static void SetPattern(Material material, Texture pattern, Color colour, float strength, float tilesPerMetre, Vector4 regions)
+        /// <summary>
+        /// A print over the regions weighted by <paramref name="regions"/>: <paramref name="pattern"/>'s red in
+        /// <paramref name="colour"/>, its blue in <paramref name="accent"/> (its second colour; the print colour if none).
+        /// </summary>
+        public static void SetPattern(Material material, Texture pattern, Color colour, float strength, float tilesPerMetre, Vector4 regions,
+                                      Color? accent = null)
         {
             material.SetTexture(PatternMap, pattern);
+            material.SetColor(PatternAccent, accent ?? colour);
             colour.a = pattern == null ? 0f : strength;
             material.SetColor(PatternColor, colour);
             material.SetFloat(PatternScale, tilesPerMetre);

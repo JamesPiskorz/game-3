@@ -5,9 +5,9 @@
   a print and which (a knit only takes knitted prints), how much of its structure the shader adds as light on dark
   cloth, the colours it usually comes in and how often, how common it is): the generated catalog's fabrics. Unity makes a material per
   fabric (FabricTextures.cs) and every generated garment wears its fabric's (its spec's "fabric" in outfits.json).
-- prints: Assets/_Game/Characters/Content/Patterns/pattern.<id>_01.png (red = pattern colour, green = ink) for every
-  print in prints.py, and Patterns/library.json, the catalog entries (name, tags, tiles per metre, weight) that the
-  generated content's catalog takes its patterns from.
+- prints: Assets/_Game/Characters/Content/Patterns/pattern.<id>_01.png (red = pattern colour, green = ink, blue = the
+  second colour) for every print in prints.py, and Patterns/library.json, the catalog entries (name, tags, tiles per
+  metre, weight, how the second colour follows the first) that the generated content's catalog takes its patterns from.
 
 python Tools/Textures/make_textures.py [fabrics|prints|all]
 """
@@ -51,12 +51,14 @@ def write_prints():
     os.makedirs(folder, exist_ok=True)
     entries = []
     for i, (pid, (fn, name, tags, scales, weight)) in enumerate(prints.PRINTS.items()):
-        colour, ink = fn(PRINT_SIZE, 2000 + i)
-        rgb = np.stack([np.clip(colour, 0, 1), np.clip(ink, 0, 1), np.zeros_like(colour)], axis=-1)
+        layers = fn(PRINT_SIZE, 2000 + i)
+        colour, ink = layers[0], layers[1]
+        accent = layers[2] if len(layers) > 2 else np.zeros_like(colour)
+        rgb = np.stack([np.clip(colour, 0, 1), np.clip(ink, 0, 1), np.clip(accent, 0, 1)], axis=-1)
         Image.fromarray((rgb * 255).round().astype(np.uint8), "RGB").save(os.path.join(folder, f"pattern.{pid}_01.png"))
         tags = tags + ["knitted"] if pid in prints.KNITTED else tags
         entries.append({"id": f"pattern.{pid}_01", "name": name, "tags": tags, "minScale": scales[0], "maxScale": scales[1],
-                        "weight": weight})
+                        "weight": weight, "accent": prints.ACCENT.get(pid)})
     with open(os.path.join(folder, "library.json"), "w", encoding="utf-8", newline="\n") as f:
         json.dump({"patterns": entries}, f, indent=1)
     print(f"[textures] {len(entries)} prints in {os.path.normpath(folder)}")

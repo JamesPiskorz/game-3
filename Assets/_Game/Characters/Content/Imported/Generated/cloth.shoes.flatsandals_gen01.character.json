@@ -20,9 +20,6 @@
     "date"
   ],
   "weight": 1.0,
-  "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261022_000912_for_texture_textured.glb",
-  "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
-  "licence": "Tencent Hunyuan 3D 2.1 Community License",
   "fabric": "leather",
   "fabrics": [
     "suede",
@@ -35,5 +32,8 @@
     "perforated",
     "straw"
   ],
-  "patternable": false
+  "patternable": false,
+  "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261022_000912_for_texture_textured.glb",
+  "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
+  "licence": "Tencent Hunyuan 3D 2.1 Community License"
 }

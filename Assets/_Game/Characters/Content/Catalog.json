@@ -133,15 +133,15 @@
   "patterns": [
     { "id": "pattern.stripes_01", "name": "Stripes", "tags": ["casual", "sporty", "street"], "minScale": 6, "maxScale": 10 },
     { "id": "pattern.dots_01", "name": "Polka dots", "tags": ["cute", "casual"], "minScale": 6, "maxScale": 10 },
-    { "id": "pattern.plaid_01", "name": "Tartan", "tags": ["bookish", "elegant", "gothic", "street"], "minScale": 3, "maxScale": 6 },
+    { "id": "pattern.plaid_01", "name": "Tartan", "tags": ["bookish", "elegant", "gothic", "street"], "minScale": 3, "maxScale": 6, "accent": "contrast" },
     { "id": "pattern.check_01", "name": "Check", "tags": ["cute", "casual", "gothic"], "minScale": 6, "maxScale": 10 },
     { "id": "pattern.hearts_01", "name": "Hearts", "tags": ["cute", "date"], "minScale": 4, "maxScale": 7 },
     { "id": "pattern.stars_01", "name": "Stars", "tags": ["cute", "street", "casual"], "minScale": 4, "maxScale": 7 },
     { "id": "pattern.pinstripe_01", "name": "Pinstripe", "tags": ["elegant", "bookish", "gothic"], "minScale": 10, "maxScale": 16 },
-    { "id": "pattern.floral_01", "name": "Ditsy floral", "tags": ["cute", "elegant", "casual", "date"], "minScale": 4, "maxScale": 7 },
+    { "id": "pattern.floral_01", "name": "Ditsy floral", "tags": ["cute", "elegant", "casual", "date"], "minScale": 4, "maxScale": 7, "accent": "leaf" },
     { "id": "pattern.denim_01", "name": "Diagonal stripes", "tags": ["casual", "street"], "minScale": 5, "maxScale": 9 },
     { "id": "pattern.knit_01", "name": "Zigzag", "tags": ["cute", "bookish", "casual"], "minScale": 4, "maxScale": 7 },
-    { "id": "pattern.argyle_01", "name": "Argyle", "tags": ["bookish", "elegant", "casual"], "minScale": 4, "maxScale": 7 },
+    { "id": "pattern.argyle_01", "name": "Argyle", "tags": ["bookish", "elegant", "casual"], "minScale": 4, "maxScale": 7, "accent": "contrast" },
     { "id": "pattern.chevron_01", "name": "Chevron", "tags": ["street", "sporty", "casual"], "minScale": 5, "maxScale": 9 }
   ],
 

@@ -18,10 +18,6 @@
   ],
   "weight": 1.0,
   "fabric": "lycra",
-  "patternable": true,
-  "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261022_013604_for_texture_textured.glb",
-  "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
-  "licence": "Tencent Hunyuan 3D 2.1 Community License",
   "fabrics": [
     "metallic",
     "crochet",
@@ -30,5 +26,9 @@
     "mesh",
     "glitter",
     "smocked"
-  ]
+  ],
+  "patternable": true,
+  "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261022_013604_for_texture_textured.glb",
+  "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
+  "licence": "Tencent Hunyuan 3D 2.1 Community License"
 }

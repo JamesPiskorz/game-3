@@ -137,6 +137,17 @@ namespace Game.Characters.Tests.Generation
         }
 
         [Test]
+        public void PrintsWithASecondColourKeepItApartFromTheFirst()
+        {
+            ContentCatalog catalog = Catalogs.Generated();
+            List<PatternEntry> twoColour = catalog.Patterns.Where(p => p.Accent != null).ToList();
+            Assert.That(twoColour.Count, Is.GreaterThanOrEqualTo(15), "Florals have green leaves, daisies golden hearts, tartans an overcheck.");
+            foreach (HsvColor print in new[] { new HsvColor(0f, 0.8f, 0.7f), new HsvColor(0.6f, 0.5f, 0.3f), new HsvColor(0.15f, 0.2f, 0.95f) })
+                foreach (PatternEntry pattern in twoColour)
+                    Assert.That(HsvColor.Distance(pattern.AccentFor(print), print), Is.GreaterThan(0.1f), $"{pattern.Id} ({pattern.Accent}) on {print}");
+        }
+
+        [Test]
         public void DenimMostlyComesInItsOwnColours()
         {
             ContentCatalog catalog = Catalogs.Generated();

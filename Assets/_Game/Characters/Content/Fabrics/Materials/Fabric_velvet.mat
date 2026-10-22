@@ -41,7 +41,7 @@ Material:
     m_Floats:
     - _AmbientStrength: 1
     - _BaseGain: 1.2189176
-    - _BaseLift: 0.16
+    - _BaseLift: 0.1
     - _Cull: 0
     - _LitAmbient: 0.35
     - _MaskFromVertexColour: 1
@@ -59,6 +59,7 @@ Material:
     - _Color3: {r: 1, g: 1, b: 1, a: 1}
     - _Color4: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineColor: {r: 0.34999996, g: 0.29999998, b: 0.31999996, a: 1}
+    - _PatternAccent: {r: 1, g: 1, b: 1, a: 1}
     - _PatternColor: {r: 1, g: 1, b: 1, a: 0}
     - _PatternRegions: {r: 1, g: 0, b: 0, a: 0}
     - _RimColor: {r: 0.24999997, g: 0.21999997, b: 0.19999996, a: 1}

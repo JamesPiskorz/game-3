@@ -18,9 +18,6 @@
   "lean": 0.3,
   "contexts": [],
   "weight": 1.0,
-  "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261019_213432_for_texture_textured.glb",
-  "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
-  "licence": "Tencent Hunyuan 3D 2.1 Community License",
   "fabric": "rib_knit",
   "fabrics": [
     "jersey",
@@ -33,5 +30,8 @@
     "mohair",
     "lurex_knit"
   ],
-  "patternable": false
+  "patternable": false,
+  "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261019_213432_for_texture_textured.glb",
+  "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
+  "licence": "Tencent Hunyuan 3D 2.1 Community License"
 }

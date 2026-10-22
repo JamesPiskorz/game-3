@@ -29,8 +29,9 @@ Shader "Game/Characters/Toon"
         _RimWidth ("Rim Width", Range(0, 1)) = 0.25
 
         [Header(Pattern)]
-        _PatternMap ("Pattern (R = colour, G = ink)", 2D) = "white" {}
+        _PatternMap ("Pattern (R = colour, G = ink, B = second colour)", 2D) = "white" {}
         _PatternColor ("Pattern Colour (A = strength)", Color) = (1, 1, 1, 0)
+        _PatternAccent ("Pattern Second Colour", Color) = (1, 1, 1, 1)
         _PatternRegions ("Pattern Regions (weights for regions 1-4)", Vector) = (1, 0, 0, 0)
         _PatternScale ("Pattern Tiles Per Metre", Float) = 8
         _PatternInk ("Pattern Ink (how dark G draws)", Range(0, 1)) = 0.7

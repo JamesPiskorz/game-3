@@ -277,6 +277,26 @@ def felt(size, seed):
     return _shade(tk.normalise(0.7 * mottle + 0.3 * fibres), 0.22)
 
 
+def pinstripe_wool(size, seed):
+    """Pinstripe suiting: a fine wool twill with a thin pale thread every 1.5 cm."""
+    x, y = tk.grid(size)
+    rib = _twill(size, 56)
+    stripe = np.exp(-((((x * 16) % 1.0) - 0.5) / 0.045) ** 2)
+    return np.clip(_shade(0.7 * rib + 0.3 * tk.value_noise(size, 6, seed, 2), 0.16) * 0.8 + 0.25 * stripe, 0, 1)
+
+
+def houndstooth_wool(size, seed):
+    """Houndstooth wool (coats, suits): the broken check woven in light and dark yarn of one colour."""
+    x, y = tk.grid(size)
+    n = 16
+    u, v = (x * n) % 1.0, (y * n) % 1.0
+    cell = (u < 0.5) & (v < 0.5)
+    tooth = ((u >= 0.5) & (v < 0.5) & (u - 0.5 < v)) | ((u < 0.5) & (v >= 0.5) & (v - 0.5 < u))
+    step = (u >= 0.5) & (v >= 0.5) & (np.abs(u - v) < 0.18)
+    check = tk.blur_small((cell | tooth | step).astype(float), 1)
+    return _shade(tk.normalise(0.75 * (1 - check) + 0.25 * _twill(size, 64)), 0.38)
+
+
 def ripstop(size, seed):
     """Ripstop nylon (rain jackets, puffers): a smooth weave with a reinforcing grid of thicker threads, a soft sheen."""
     x, y = tk.grid(size)
@@ -784,6 +804,20 @@ def diamond_quilt(size, seed):
 
 # --------------------------------------------------------------------------------------------- made into a surface
 
+def patchwork(size, seed):
+    """Patchwork: 5 cm squares of the cloth in lighter and darker shades, seamed and topstitched together."""
+    x, y = tk.grid(size)
+    n = 5
+    rng = np.random.default_rng(seed)
+    shade = 0.7 + 0.3 * rng.random((n, n))
+    cell = shade[np.floor(y * n).astype(int) % n, np.floor(x * n).astype(int) % n]
+    u, v = (x * n) % 1.0, (y * n) % 1.0
+    edge = np.minimum(np.minimum(u, 1 - u), np.minimum(v, 1 - v))
+    stitch = (edge > 0.05) & (edge < 0.07) & (np.floor((x + y) * 160) % 2 == 0)
+    cloth = cell * (0.88 + 0.12 * _weave(size, 32))
+    return np.clip(np.where(edge < 0.025, cloth * 0.55, np.where(stitch, cloth * 0.8, cloth)), 0, 1)
+
+
 def pleated(size, seed):
     """Knife pleats (pleated skirts and dresses): 2.5 cm pleats down the cloth, each lit at its folded edge and
     shading into the fold under the next."""
@@ -845,6 +879,7 @@ FABRICS = {
     "organza": organza, "glitter": glitter, "beaded": beaded, "perforated": perforated, "vinyl": vinyl, "snake": snake,
     "ottoman": ottoman, "straw": straw, "pleated": pleated, "smocked": smocked,
     "satin_stripe": satin_stripe, "felt": felt, "lurex_knit": lurex_knit,
+    "pinstripe_wool": pinstripe_wool, "houndstooth_wool": houndstooth_wool, "patchwork": patchwork,
 }
 
 # Each fabric's catalog entry: the style tags archetypes weight it by, whether a print goes on it, and how common it is.
@@ -852,7 +887,7 @@ NO_PRINT = {"denim", "leather", "patent", "croc", "suede", "sequins", "lace", "q
             "mesh", "rubber", "metallic", "cable_knit", "faux_fur", "eyelet", "tulle", "crochet", "tweed",
             "herringbone", "jacquard", "velvet", "boucle", "seersucker", "wide_rib", "rib_knit", "terry", "waffle",
             "stonewash", "acid_wash", "waxed", "pointelle", "seed_stitch", "sherpa", "chenille", "moire",
-            "glitter", "beaded", "perforated", "vinyl", "snake", "ottoman", "straw", "smocked", "marl", "satin_stripe"}
+            "glitter", "beaded", "perforated", "vinyl", "snake", "ottoman", "straw", "smocked", "marl", "satin_stripe", "pinstripe_wool", "houndstooth_wool", "patchwork"}
 # Fabrics that take only some prints: a knit takes only what is knitted into it (Fair Isle, stripes, argyle), not a
 # printed floral. Prints with one of these tags (prints.KNITTED's "knitted").
 PRINT_TAGS = {"knit": ["knitted"], "chunky_knit": ["knitted"], "mohair": ["knitted"], "lurex_knit": ["knitted"]}
@@ -883,6 +918,8 @@ TAGS = {
     "snake": ["street", "elegant", "gothic"], "ottoman": ["elegant", "bookish"], "straw": ["casual", "cute"],
     "pleated": ["cute", "elegant", "bookish"], "smocked": ["cute", "casual", "date"],
     "satin_stripe": ["elegant", "bookish", "date"], "felt": ["bookish", "elegant", "casual"], "lurex_knit": ["date", "cute", "elegant"],
+    "pinstripe_wool": ["elegant", "bookish", "gothic"], "houndstooth_wool": ["elegant", "bookish"],
+    "patchwork": ["cute", "casual", "street"],
 }
 
 # Fabrics that usually come in their own colours, and how often an item made in one is: (chance, hex colours). Denim
@@ -916,7 +953,7 @@ NATURAL = {
 WEIGHT = {
     "vinyl": 0.35, "glitter": 0.5, "beaded": 0.5, "acid_wash": 0.5, "metallic": 0.6, "snake": 0.6, "croc": 0.6,
     "faux_fur": 0.6, "lurex_knit": 0.6, "moire": 0.6, "mesh": 0.6, "perforated": 0.6, "rubber": 0.6, "organza": 0.7,
-    "taffeta": 0.7, "sequins": 0.7, "patent": 0.8, "straw": 0.8, "crochet": 0.8, "sherpa": 0.8,
+    "taffeta": 0.7, "sequins": 0.7, "patent": 0.8, "straw": 0.8, "crochet": 0.8, "sherpa": 0.8, "patchwork": 0.6,
     "denim": 1.4, "jersey": 1.3, "twill": 1.2, "poplin": 1.2, "knit": 1.2, "leather": 1.2,
 }
 
@@ -926,11 +963,11 @@ DEFAULT_LIFT = 0.12
 LIFT = {
     "plain": 0.04, "poplin": 0.06, "chiffon": 0.06, "crepe": 0.08, "jersey": 0.08, "lace": 0.06, "eyelet": 0.06,
     "tweed": 0.3, "herringbone": 0.2, "marl": 0.35, "chambray": 0.2, "denim": 0.18, "stonewash": 0.3, "acid_wash": 0.5,
-    "boucle": 0.25, "sherpa": 0.3, "mohair": 0.3, "faux_fur": 0.3, "chenille": 0.25, "velvet": 0.16, "corduroy": 0.2,
+    "boucle": 0.25, "sherpa": 0.3, "mohair": 0.3, "faux_fur": 0.3, "chenille": 0.25, "velvet": 0.1, "corduroy": 0.2,
     "knit": 0.2, "chunky_knit": 0.22, "cable_knit": 0.2, "seed_stitch": 0.18, "pointelle": 0.18,
     "satin": 0.4, "shantung": 0.3, "moire": 0.35, "taffeta": 0.38, "organza": 0.08, "lycra": 0.32, "nylon": 0.3,
     "metallic": 0.5, "glitter": 0.6, "sequins": 0.5, "beaded": 0.45, "jacquard": 0.3,
     "leather": 0.28, "patent": 0.45, "vinyl": 0.65, "rubber": 0.45, "croc": 0.3, "snake": 0.3, "perforated": 0.2,
     "waxed": 0.32, "quilted": 0.22, "diamond_quilt": 0.2, "straw": 0.2,
-    "satin_stripe": 0.3, "felt": 0.1, "lurex_knit": 0.4,
+    "satin_stripe": 0.3, "felt": 0.1, "lurex_knit": 0.4, "pinstripe_wool": 0.35, "houndstooth_wool": 0.3, "patchwork": 0.25,
 }

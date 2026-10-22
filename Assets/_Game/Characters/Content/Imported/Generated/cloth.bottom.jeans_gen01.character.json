@@ -20,9 +20,6 @@
   "lean": 0.2,
   "contexts": [],
   "weight": 1.0,
-  "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261021_211850_for_texture_textured.glb",
-  "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
-  "licence": "Tencent Hunyuan 3D 2.1 Community License",
   "fabric": "denim",
   "fabrics": [
     "stonewash",
@@ -31,7 +28,11 @@
     "corduroy",
     "canvas",
     "leather",
-    "chambray"
+    "chambray",
+    "patchwork"
   ],
-  "patternable": false
+  "patternable": false,
+  "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261021_211850_for_texture_textured.glb",
+  "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
+  "licence": "Tencent Hunyuan 3D 2.1 Community License"
 }

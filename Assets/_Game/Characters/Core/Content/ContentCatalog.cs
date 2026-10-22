@@ -88,6 +88,8 @@ namespace Game.Characters.Content
             Unique(BodySliders.Concat(FaceSliders), s => s.Id, "slider");
             Unique(FacePresets, p => p.Id, "face preset");
             Unique(Patterns, p => p.Id, "pattern");
+            foreach (PatternEntry pattern in Patterns.Where(p => p.Accent != null && !PatternEntry.AccentRules.Contains(p.Accent)))
+                errors.Add($"Pattern '{pattern.Id}' has an unknown second colour '{pattern.Accent}'.");
             Unique(Fabrics, f => f.Id, "fabric");
             Unique(Contexts, c => c.Id, "context");
 
@@ -289,6 +291,34 @@ namespace Game.Characters.Content
         public List<string> Tags = new List<string>();
         public float MinScale = 6f;
         public float MaxScale = 12f;
+
+        /// <summary>
+        /// How the print's second colour (its texture's blue: a flower's leaves, a daisy's heart, a cone) follows the
+        /// print colour: "leaf" (a natural green), "gold", "light" (the print colour, paled) or "contrast" (its
+        /// opposite hue); null if it has none.
+        /// </summary>
+        public string Accent;
+
+        public static readonly string[] AccentRules = { "leaf", "gold", "light", "contrast" };
+
+        /// <summary>The second colour for a print in <paramref name="print"/> by <see cref="Accent"/>.</summary>
+        public HsvColor AccentFor(HsvColor print)
+        {
+            HsvColor accent;
+            switch (Accent)
+            {
+                case "leaf": accent = new HsvColor(0.3f, 0.5f, 0.32f + 0.3f * print.V); break;
+                case "gold": accent = new HsvColor(0.11f, 0.6f, 0.85f); break;
+                case "light": accent = new HsvColor(print.H, print.S * 0.35f, Math.Min(0.97f, 0.6f + 0.4f * print.V)); break;
+                case "contrast": accent = new HsvColor(print.H + 0.5f, Math.Max(print.S, 0.4f), print.V); break;
+                default: return print;
+            }
+            // Where that all but matches the print colour (leaves on a green print, a pale print paled), a deeper or
+            // lighter shade of it, so the second colour still shows.
+            if (HsvColor.Distance(accent, print) < 0.15f)
+                accent = new HsvColor(accent.H, Math.Min(1f, accent.S + 0.2f), accent.V > 0.5f ? accent.V - 0.35f : accent.V + 0.35f);
+            return accent.Normalized();
+        }
     }
 
     /// <summary>A fabric: a cloth's surface (its weave, stitches or grain), which parts are made in.</summary>

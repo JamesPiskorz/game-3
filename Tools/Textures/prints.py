@@ -1,7 +1,9 @@
 """Prints: patterns printed or woven onto a garment's main fabric, in the pattern colour (decision 0008's catalog
 "patterns"). Each function takes the tile size in pixels and a seed and returns (colour, ink), floats in [0, 1]:
 ``colour`` is how much of the pattern colour shows (0.5 a half blend with the cloth, for a second tone), ``ink`` how
-dark the print's drawn lines and shading are. Tiles repeat seamlessly; the catalog sets how many per metre.
+dark the print's drawn lines and shading are. Some return a third, ``accent``: how much of the print's second colour
+shows (a flower's leaves, a daisy's heart, a cone's wafer), which follows the first by the rule in ACCENT. Tiles
+repeat seamlessly; the catalog sets how many per metre.
 
 PRINTS lists each print with its catalog entry: name, style tags, tiles per metre (min, max) and weight."""
 
@@ -26,17 +28,35 @@ def _zero(size):
 
 
 def _scatter_shapes(size, shapes, count, seed, gap, rotate=True, scale=(1.0, 1.0)):
-    """Shapes (list of (colour, ink) small arrays) stamped at spread-out points, rotated at random."""
-    colour, ink = _zero(size), _zero(size)
+    """Shapes (list of (colour, ink) small arrays, or (colour, ink, accent) with parts in the second colour) stamped at
+    spread-out points, rotated at random. Returns (colour, ink), and the accent too if a shape has one; then each
+    shape covers what it lands on (a flower over a leaf)."""
+    colour, ink, accent = _zero(size), _zero(size), _zero(size)
+    accented = any(len(shape) > 2 for shape in shapes)
     rng = np.random.default_rng(seed)
     for i, (cx, cy) in enumerate(tk.scatter(size, count, seed, gap)):
-        c, k = shapes[i % len(shapes)]
+        c, k, a = (list(shapes[i % len(shapes)]) + [None])[:3]
+        a = np.zeros_like(c) if a is None else a
         angle = rng.random() * 360 if rotate else 0.0
         if rotate:
-            c, k = tk.rotate_shape(c, angle), tk.rotate_shape(k, angle)
-        tk.stamp(colour, c, cx, cy, mode="max")
+            c, k, a = tk.rotate_shape(c, angle), tk.rotate_shape(k, angle), tk.rotate_shape(a, angle)
+        if accented:
+            cover = np.clip(np.maximum(c, a), 0, 1)
+            _stamp_over(colour, c, cover, cx, cy)
+            _stamp_over(accent, a, cover, cx, cy)
+        else:
+            tk.stamp(colour, c, cx, cy, mode="max")
         tk.stamp(ink, k, cx, cy, mode="max")
-    return colour, ink
+    return (colour, ink, accent) if accented else (colour, ink)
+
+
+def _stamp_over(layer, shape, cover, cx, cy):
+    """Stamps ``shape`` onto ``layer`` at (cx, cy), wrapping, replacing what's under its ``cover``."""
+    size = layer.shape[0]
+    h, w = shape.shape
+    ys = (np.arange(h) + int(round(cy)) - h // 2) % size
+    xs = (np.arange(w) + int(round(cx)) - w // 2) % size
+    layer[np.ix_(ys, xs)] = layer[np.ix_(ys, xs)] * (1 - cover) + shape
 
 
 def _shape(size_px, fn):
@@ -113,11 +133,11 @@ def tartan(size, seed):
     wide = 0.4 * _band(x, 0.25, 0.32) + 0.4 * _band(y, 0.25, 0.32)
     mid = 0.25 * (_band(x, 0.72, 0.12) + _band(y, 0.72, 0.12))
     lines = np.maximum(_band(x, 0.62, 0.02, 0.004), _band(y, 0.62, 0.02, 0.004))
-    over = _band(x, 0.88, 0.03, 0.004) + _band(y, 0.88, 0.03, 0.004)
+    over = np.clip(_band(x, 0.88, 0.03, 0.004) + _band(y, 0.88, 0.03, 0.004), 0, 1)
     twill = 0.5 + 0.5 * np.sin(2 * np.pi * 96 * (x * 0.5 + y))
-    colour = np.clip(wide + mid + 0.6 * np.clip(over, 0, 1), 0, 1)
+    colour = np.clip(wide + mid, 0, 1) * (1 - over)
     ink = np.clip(0.55 * lines + 0.25 * wide * wide * twill, 0, 1)
-    return colour, ink
+    return colour, ink, over
 
 
 def windowpane(size, seed):
@@ -138,9 +158,8 @@ def houndstooth(size, seed):
 def argyle(size, seed):
     x, y = tk.grid(size)
     diamond = (np.abs(x - 0.5) + np.abs(y - 0.5) < 0.5).astype(float)
-    alt = (np.abs(((x + 0.5) % 1) - 0.5) + np.abs(((y + 0.5) % 1) - 0.5) < 0.5).astype(float)
-    lines = np.maximum(_band((x + y) % 1.0, 0.5, 0.02, 0.004), _band((x - y) % 1.0, 0.5, 0.02, 0.004))
-    return np.clip(diamond * 0.9 + alt * 0.0, 0, 1) * (1 - lines) + 0.0, lines * 0.8
+    lines = np.maximum(_band((x + y) % 1.0, 0.5, 0.03, 0.004), _band((x - y) % 1.0, 0.5, 0.03, 0.004))
+    return np.clip(diamond * 0.9, 0, 1) * (1 - lines), lines * 0.2, lines
 
 
 def harlequin(size, seed):
@@ -288,7 +307,7 @@ def ditsy_floral(size, seed):
         b, i = _petal_flower(int(size / 9 * (0.8 + 0.4 * rng.random())), 5, 0.45)
         shapes.append((b, i))
     lb, li = _leaf_shape(int(size / 12))
-    shapes.append((lb * 0.5, li))
+    shapes.append((np.zeros_like(lb), li, lb))
     return _scatter_shapes(size, shapes, 26, seed, size / 7)
 
 
@@ -303,7 +322,7 @@ def big_floral(size, seed):
         inner_ink = np.pad(i2, pad)[:b.shape[0], :b.shape[0]]
         shapes.append((np.clip(b * 0.6 + inner * 0.4, 0, 1), np.clip(np.maximum(i, inner_ink), 0, 1)))
     lb, li = _leaf_shape(int(size / 4))
-    shapes += [(lb * 0.45, li), (lb * 0.45, li)]
+    shapes += [(np.zeros_like(lb), li, lb), (np.zeros_like(lb), li, lb)]
     return _scatter_shapes(size, shapes, 8, seed, size / 3.6)
 
 
@@ -312,9 +331,9 @@ def daisies(size, seed):
     r = b.shape[0] // 2
     y, x = np.mgrid[-r:r + 1, -r:r + 1]
     centre = np.clip((r * 0.22 - np.hypot(x, y)) / 1.2 + 0.5, 0, 1)
-    colour = np.clip(b - centre * 0.5, 0, 1)
-    ink = np.clip(i * 0.7 + centre * 0.4, 0, 1)
-    return _scatter_shapes(size, [(colour, ink)], 10, seed, size / 3.6)
+    colour = np.clip(b - centre, 0, 1)
+    ink = np.clip(i * 0.7 + centre * 0.15, 0, 1)
+    return _scatter_shapes(size, [(colour, ink, centre)], 10, seed, size / 3.6)
 
 
 def sakura(size, seed):
@@ -335,7 +354,7 @@ def hibiscus(size, seed):
     stamen = np.exp(-(((x - y) / (r * 0.08)) ** 2)) * (x > 0) * (np.hypot(x, y) < r * 0.6)
     lb, li = _leaf_shape(int(size / 3.2))
     mb, mi = _monstera(int(size / 3))
-    return _scatter_shapes(size, [(b, np.clip(i + stamen, 0, 1)), (lb * 0.5, li), (mb * 0.5, mi)], 7, seed, size / 3.6)
+    return _scatter_shapes(size, [(b, np.clip(i + stamen, 0, 1)), (np.zeros_like(lb), li, lb), (np.zeros_like(mb), mi, mb)], 7, seed, size / 3.6)
 
 
 def _monstera(px):
@@ -516,8 +535,9 @@ def strawberries(size, seed):
         leaf_tops = (y < -0.42) & (y > -0.82) & (np.abs(x) < 0.55 * (1 - np.abs(np.sin((x + 0.55) * 5.5)) * 0.6) - (-0.42 - y) * 0.6)
         stem = (np.abs(x) < 0.05) & (y < -0.6) & (y > -0.95)
         shape = tk.blur_small(body.astype(float), 0.8)
-        ink = np.clip(_outline(shape, 1) + seeds * 0.9 + (leaf_tops | stem) * 0.85, 0, 1)
-        return shape, ink
+        top = tk.blur_small((leaf_tops | stem).astype(float), 0.8)
+        ink = np.clip(_outline(shape, 1) + seeds * 0.9 + _outline(top, 1) * 0.5, 0, 1)
+        return np.clip(shape - top, 0, 1), ink, top
     return _scatter_shapes(size, [berry(int(size / 5)), berry(int(size / 7))], 12, seed, size / 4.2)
 
 
@@ -784,17 +804,23 @@ def glen_plaid(size, seed):
     lines_y = _band(y * n / 2, 0.5, 0.2, 0.03)
     colour = np.where((hx == 0) & (hy == 0), fine * 0.85,
                       np.where((hx == 1) & (hy == 1), np.maximum(lines_x, lines_y) * 0.6, np.where(hx == 1, lines_x, lines_y) * 0.75))
-    over = np.maximum(_band(x, 0.75, 0.012, 0.003), _band(y, 0.75, 0.012, 0.003))
-    return np.clip(colour, 0, 1), over * 0.6
+    over = np.maximum(_band(x, 0.75, 0.014, 0.003), _band(y, 0.75, 0.014, 0.003))
+    return np.clip(colour, 0, 1) * (1 - over), _zero(size), over
 
 
 def madras(size, seed):
     """Madras: a summery plaid of uneven bands in several tones."""
     x, y = tk.grid(size)
-    bands = [(0.1, 0.16, 1.0), (0.3, 0.06, 0.5), (0.45, 0.2, 0.7), (0.66, 0.04, 1.0), (0.8, 0.12, 0.35)]
-    a = np.maximum.reduce([v * _band(x, c, w, 0.004) for c, w, v in bands])
-    b = np.maximum.reduce([v * _band(y, c, w, 0.004) for c, w, v in bands])
-    return np.clip(0.55 * a + 0.55 * b, 0, 1), np.clip(a * b, 0, 1) * 0.3
+    first = [(0.1, 0.16, 1.0), (0.45, 0.2, 0.7), (0.66, 0.04, 1.0)]
+    second = [(0.3, 0.06, 1.0), (0.8, 0.12, 0.6)]
+
+    def woven(bands):
+        a = np.maximum.reduce([v * _band(x, c, w, 0.004) for c, w, v in bands])
+        b = np.maximum.reduce([v * _band(y, c, w, 0.004) for c, w, v in bands])
+        return a, b
+    a, b = woven(first)
+    c, d = woven(second)
+    return np.clip(0.55 * a + 0.55 * b, 0, 1), np.clip(a * b + c * d, 0, 1) * 0.3, np.clip(0.55 * c + 0.55 * d, 0, 1)
 
 
 def tattersall(size, seed):
@@ -939,9 +965,8 @@ def _rose(px):
         rx, ry = np.cos(a) * lx + np.sin(a) * ly, -np.sin(a) * lx + np.cos(a) * ly
         leaves = np.maximum(leaves, _soft(np.hypot(rx / 0.36, ry / 0.17) - 1, r * 0.2))
     leaves = leaves * (1 - head)
-    colour = np.clip(head + 0.5 * leaves, 0, 1)
     ink = np.clip(_outline(head, 1) + swirl * 0.75 + _outline(leaves, 1) * 0.6, 0, 1)
-    return colour, ink
+    return np.clip(head, 0, 1), ink, np.clip(leaves, 0, 1)
 
 
 def roses(size, seed):
@@ -972,9 +997,9 @@ def tulips(size, seed):
         stem = (np.abs(x - 0.04 * (y - 0.05)) < 0.035) & (y > 0.0) & (y < 0.95)
         leaf = _soft(np.hypot((x - 0.18 - (y - 0.6) * 0.3) / 0.12, (y - 0.55) / 0.36) - 1, r * 0.15) * (1 - cup)
         petal_lines = ((np.abs(x - 0.12) < 0.02) | (np.abs(x + 0.12) < 0.02)) & (y < -0.25) & (y > -0.55)
-        colour = np.clip(cup + 0.5 * leaf, 0, 1)
-        ink = np.clip(_outline(cup, 1) + stem * 0.8 + petal_lines * 0.6 + _outline(leaf, 1) * 0.5, 0, 1)
-        return colour, ink
+        green = np.clip(np.maximum(leaf, tk.blur_small(stem.astype(float), 0.8)) * (1 - cup), 0, 1)
+        ink = np.clip(_outline(cup, 1) + petal_lines * 0.6 + _outline(green, 1) * 0.4, 0, 1)
+        return cup, ink, green
     return _scatter_shapes(size, [tulip(int(size / 2.8))], 8, seed, size / 3.6, rotate=False)
 
 
@@ -987,8 +1012,8 @@ def lemons(size, seed):
         fruit = _soft(body, r)
         shine = _soft(np.hypot((x + 0.25) / 0.16, (y + 0.12) / 0.07) - 1, r * 0.1)
         leaf = _soft(np.hypot((x - 0.5) / 0.24, (y + 0.5) / 0.11) - 1, r * 0.1) * (1 - fruit)
-        colour = np.clip(fruit - 0.7 * shine + 0.5 * leaf, 0, 1)
-        return colour, np.clip(_outline(fruit, 1) * 0.6 + _outline(leaf, 1) * 0.5, 0, 1)
+        colour = np.clip(fruit - 0.7 * shine, 0, 1)
+        return colour, np.clip(_outline(fruit, 1) * 0.6 + _outline(leaf, 1) * 0.5, 0, 1), leaf
     return _scatter_shapes(size, [lemon(int(size / 3.4)), lemon(int(size / 4.6))], 10, seed, size / 3.8)
 
 
@@ -1000,9 +1025,8 @@ def mushrooms(size, seed):
         cap = _soft(np.hypot(x / 0.8, (y + 0.02) / 0.62) - 1, r * 0.6) * (y < 0.05)
         stem = _soft(np.maximum(np.abs(x) - 0.24 - 0.06 * (y - 0.05), np.abs(y - 0.45) - 0.4), r) * (1 - cap)
         spots = sum(_soft(np.hypot(x - sx, y - sy) - sr, r) for sx, sy, sr in ((-0.35, -0.2, 0.12), (0.2, -0.35, 0.1), (0.45, -0.08, 0.08), (-0.05, -0.08, 0.07)))
-        colour = np.clip(cap - spots + 0.4 * stem, 0, 1)
         ink = np.clip(_outline(cap, 1) + _outline(stem, 1) * 0.7, 0, 1)
-        return colour, ink
+        return np.clip(cap - spots, 0, 1), ink, np.clip(stem + spots * cap, 0, 1)
     return _scatter_shapes(size, [toadstool(int(size / 4.5)), toadstool(int(size / 6.5))], 11, seed, size / 4.2, rotate=False)
 
 
@@ -1039,9 +1063,8 @@ def holly(size, seed):
             leaves = np.maximum(leaves, _soft(np.abs(ry) - spiky * np.sqrt(np.clip(1 - (rx / 0.48) ** 2, 0, 1)), r) * (np.abs(rx) < 0.48))
         berries = sum(_soft(np.hypot(x - bx, y - by) - 0.13, r) for bx, by in ((-0.1, 0.25), (0.12, 0.28), (0.0, 0.08)))
         berries = np.clip(berries, 0, 1)
-        colour = np.clip(0.5 * leaves * (1 - berries) + berries, 0, 1)
         ink = np.clip(_outline(leaves, 1) * 0.6 + _outline(berries, 1) * 0.5, 0, 1)
-        return colour, ink
+        return berries, ink, np.clip(leaves * (1 - berries), 0, 1)
     return _scatter_shapes(size, [sprig(int(size / 3.8))], 9, seed, size / 3.8)
 
 
@@ -1106,11 +1129,11 @@ def rainbows(size, seed):
         d = np.hypot(x, y - 0.35)
         up = y < 0.35
         bands = (d < 0.9) & (d > 0.36) & up
-        tone = np.where(np.floor((d - 0.36) / 0.18) % 2 == 0, 1.0, 0.5)
+        even = np.floor((d - 0.36) / 0.18) % 2 == 0
         clouds = sum(_soft(np.hypot(x - sx, y - 0.4) - 0.2, r) for sx in (-0.75, -0.55, 0.55, 0.75))
         clouds = np.clip(clouds, 0, 1)
-        colour = np.clip(bands * tone * (1 - clouds), 0, 1)
-        return tk.blur_small(colour, 0.7), np.clip(_outline(bands.astype(float), 1) * 0.4 + _outline(clouds, 1) * 0.6, 0, 1)
+        ink = np.clip(_outline(bands.astype(float), 1) * 0.4 + _outline(clouds, 1) * 0.6, 0, 1)
+        return (tk.blur_small((bands & even) * (1 - clouds), 0.7), ink, tk.blur_small((bands & ~even) * (1 - clouds), 0.7))
     return _scatter_shapes(size, [bow(int(size / 3.6))], 8, seed, size / 3.4, rotate=False)
 
 
@@ -1138,9 +1161,10 @@ def planets(size, seed):
         e = np.hypot(rx / 0.92, ry / 0.24)
         ring = (e < 1) & (e > 0.8) & ~(ball & (ry < 0))
         shape = tk.blur_small(ball.astype(float), 0.8)
-        return np.clip(shape * (1 - ring) + 0.5 * ring, 0, 1), np.clip(_outline(shape, 1) * 0.5 + _outline(ring.astype(float), 1) * 0.5, 0, 1)
-    colour, ink = _scatter_shapes(size, [planet(int(size / 3.5)), planet(int(size / 5.5))], 6, seed, size / 3)
-    return np.maximum(colour, stars(size, seed + 5)[0] * 0.5), ink
+        band = tk.blur_small(ring.astype(float), 0.8)
+        return np.clip(shape - band, 0, 1), np.clip(_outline(shape, 1) * 0.5 + _outline(band, 1) * 0.5, 0, 1), band
+    colour, ink, accent = _scatter_shapes(size, [planet(int(size / 3.5)), planet(int(size / 5.5))], 6, seed, size / 3)
+    return np.maximum(colour, stars(size, seed + 5)[0] * 0.5 * (1 - accent)), ink, accent
 
 
 def fish(size, seed):
@@ -1220,8 +1244,8 @@ def bees(size, seed):
         wings = (np.hypot(np.abs(x) - 0.22, y + 0.32) < 0.26) & ~body
         stripes = body & (np.abs(((x + 0.55) / 0.27) % 1.0 - 0.5) < 0.2) & (x > -0.3)
         sting = (x > 0.5) & (x < 0.7) & (np.abs(y - 0.15) < (0.7 - x) * 0.4)
-        colour = tk.blur_small(body.astype(float) + wings * 0.5, 0.8)
-        return np.clip(colour, 0, 1), np.clip(stripes * 0.85 + _outline(body.astype(float), 1) * 0.5 + _outline(wings.astype(float), 1) * 0.4 + sting, 0, 1)
+        ink = np.clip(stripes * 0.85 + _outline(body.astype(float), 1) * 0.5 + _outline(wings.astype(float), 1) * 0.4 + sting, 0, 1)
+        return tk.blur_small(body.astype(float), 0.8), ink, tk.blur_small(wings.astype(float), 0.8)
     return _scatter_shapes(size, [bee(int(size / 3.8)), bee(int(size / 5.5))], 11, seed, size / 4.2)
 
 
@@ -1489,8 +1513,10 @@ def ice_creams(size, seed):
         drip = (np.abs(x + 0.12) < 0.05) & (y > 0.0) & (y < 0.15)
         scoop = (top | second | drip) & ~wafer
         grid = wafer & ((np.abs(np.sin((x + y) * 14)) < 0.25) | (np.abs(np.sin((x - y) * 14)) < 0.25))
-        colour = np.clip(tk.blur_small(scoop.astype(float), 0.8) + 0.5 * wafer, 0, 1)
-        return colour, np.clip(_outline(colour, 1) * 0.5 + grid * 0.5 + (top & second & (np.abs(y + 0.25) < 0.04)) * 0.6, 0, 1)
+        colour = tk.blur_small(scoop.astype(float), 0.8)
+        cone_ = tk.blur_small(wafer.astype(float), 0.8)
+        ink = np.clip(_outline(np.maximum(colour, cone_), 1) * 0.5 + grid * 0.5 + (top & second & (np.abs(y + 0.25) < 0.04)) * 0.6, 0, 1)
+        return colour, ink, cone_
     return _scatter_shapes(size, [cone(int(size / 3.8), 1), cone(int(size / 3.4), 2)], 9, seed, size / 3.8, rotate=False)
 
 
@@ -1510,8 +1536,8 @@ def doughnuts(size, seed):
             u = (x - sx) * np.cos(tilt) + (y - sy) * np.sin(tilt)
             v = -(x - sx) * np.sin(tilt) + (y - sy) * np.cos(tilt)
             sprinkles |= (np.abs(u) < 0.08) & (np.abs(v) < 0.025)
-        colour = np.clip(0.5 * dough + 0.5 * icing, 0, 1)
-        return tk.blur_small(colour, 0.7), np.clip(_outline(dough.astype(float), 1) * 0.5 + sprinkles * icing * 0.8, 0, 1)
+        ink = np.clip(_outline(dough.astype(float), 1) * 0.5 + sprinkles * icing * 0.8, 0, 1)
+        return tk.blur_small(icing.astype(float), 0.7), ink, tk.blur_small((dough & ~icing).astype(float), 0.7)
     return _scatter_shapes(size, [ring(int(size / 4.2)), ring(int(size / 5.5))], 10, seed, size / 4)
 
 
@@ -1524,9 +1550,104 @@ def watermelons(size, seed):
         wedge = (d < 0.9) & (y + 0.35 > 0.0)
         flesh = wedge & (d < 0.74)
         seeds = flesh & (np.abs(np.sin(np.arctan2(y + 0.35, x) * 7)) < 0.18) & (np.abs(d - 0.45) < 0.06)
-        colour = np.clip(1.0 * flesh + 0.5 * (wedge & ~flesh), 0, 1)
-        return tk.blur_small(colour, 0.7), np.clip(seeds * 0.9 + _outline(wedge.astype(float), 1) * 0.5, 0, 1)
+        ink = np.clip(seeds * 0.9 + _outline(wedge.astype(float), 1) * 0.5, 0, 1)
+        return tk.blur_small(flesh.astype(float), 0.7), ink, tk.blur_small((wedge & ~flesh).astype(float), 0.7)
     return _scatter_shapes(size, [slice_(int(size / 3.8)), slice_(int(size / 5.2))], 10, seed, size / 4)
+
+
+
+def shippo(size, seed):
+    """Shippo (seven treasures): overlapping circles, where two overlap a pointed petal in the print colour."""
+    x, y = tk.grid(size)
+    n = 4
+    u, v = x * n, y * n
+    r = 1 / np.sqrt(2)
+    inside = np.zeros((size, size))
+    edge = np.zeros((size, size))
+    for cx in (np.floor(u), np.floor(u) + 1):
+        for cy in (np.floor(v), np.floor(v) + 1):
+            d = np.hypot(u - cx, v - cy)
+            inside += d < r
+            edge = np.maximum(edge, np.clip((0.035 - np.abs(d - r)) * size / n + 0.5, 0, 1))
+    petals = tk.blur_small((inside >= 2).astype(float), 0.8)
+    return np.clip(petals * (1 - edge), 0, 1), edge * 0.5
+
+
+def star_lattice(size, seed):
+    """A star lattice (after asanoha, the hemp leaf): a triangular grid crossed by the lines through its corners and
+    centres, a field of six-pointed stars. The triangles are 7 across and 8 rows to a tile (within 1% of equilateral),
+    so every family of lines repeats with it."""
+    x, y = tk.grid(size)
+    cols, rows = 7, 8
+    s_, t_ = x * cols - y * rows / 2, y * rows  # lattice coordinates: the corners are where both are whole
+    lines = np.zeros((size, size))
+    for c, (gx, gy) in ((t_, (0, rows)), (s_, (cols, -rows / 2)), (s_ + t_, (cols, rows / 2)),  # the grid
+                        (s_ - t_, (cols, -1.5 * rows)), (s_ + 2 * t_, (cols, 1.5 * rows)), (2 * s_ + t_, (2 * cols, 0))):
+        distance = np.abs(((c + 0.5) % 1.0) - 0.5) / np.hypot(gx, gy)  # in tiles
+        lines = np.maximum(lines, np.clip((0.004 - distance) * size + 0.5, 0, 1))
+    return lines, _zero(size)
+
+
+def cacti(size, seed):
+    """Potted cacti: green saguaros and round barrels in pots of the print colour."""
+    def plant(px, barrel):
+        r = px // 2
+        y, x = np.mgrid[-r:r + 1, -r:r + 1].astype(float) / max(r, 1)
+        pot = (np.abs(x) < 0.34 - 0.08 * (y - 0.55) / 0.4) & (y > 0.5) & (y < 0.92)
+        rim = (np.abs(x) < 0.4) & (y > 0.44) & (y < 0.54)
+        if barrel:
+            body = np.hypot(x / 0.36, (y - 0.12) / 0.38) < 1
+            ribs = body & (np.abs(np.sin(x * 14)) < 0.18)
+        else:
+            trunk = (np.abs(x) < 0.13) & (y > -0.8) & (y < 0.45) | (np.hypot(x, y + 0.8) < 0.13)
+            arm_l = ((np.abs(x + 0.33) < 0.09) & (y > -0.45) & (y < 0.0)) | ((np.abs(y) < 0.09) & (x > -0.33) & (x < 0)) | (np.hypot(x + 0.33, y + 0.45) < 0.09)
+            arm_r = ((np.abs(x - 0.3) < 0.09) & (y > -0.6) & (y < -0.15)) | ((np.abs(y + 0.15) < 0.09) & (x < 0.3) & (x > 0)) | (np.hypot(x - 0.3, y + 0.6) < 0.09)
+            body = (trunk | arm_l | arm_r) & (y < 0.5)
+            ribs = body & (np.abs(x) < 0.02) & (y < 0.4)
+        pots = tk.blur_small((pot | rim).astype(float), 0.8)
+        green = tk.blur_small((body & ~(pot | rim)).astype(float), 0.8)
+        ink = np.clip(_outline(np.maximum(pots, green), 1) * 0.5 + ribs * 0.4 + _outline(rim.astype(float), 1) * 0.4, 0, 1)
+        return pots, ink, green
+    return _scatter_shapes(size, [plant(int(size / 3.6), False), plant(int(size / 4.5), True)], 9, seed, size / 3.8, rotate=False)
+
+
+def feathers(size, seed):
+    """Feathers: long vanes with a quill and barbs, drifting every which way (boho)."""
+    def feather(px):
+        r = px // 2
+        y, x = np.mgrid[-r:r + 1, -r:r + 1].astype(float) / max(r, 1)
+        width = 0.26 * np.sqrt(np.clip(1 - ((y + 0.1) / 0.85) ** 2, 0, 1)) * (1 - 0.3 * y)
+        vane = np.abs(x) < width
+        notch = (np.abs(x - 0.18) < 0.03) & (np.abs(y + 0.2) < 0.12)
+        vane = tk.blur_small((vane & ~notch).astype(float), 0.8)
+        quill = (np.abs(x) < 0.025) & (y > -0.85) & (y < 0.95)
+        barbs = (np.abs(np.sin((y + np.abs(x) * 0.8) * 30)) < 0.2) * vane
+        return vane, np.clip(quill * 0.9 + barbs * 0.35 + _outline(vane, 1) * 0.4, 0, 1)
+    return _scatter_shapes(size, [feather(int(size / 2.8)), feather(int(size / 3.8))], 8, seed, size / 3.4)
+
+
+def medallions(size, seed):
+    """Medallions: mandala rosettes of petals and rings in two colours, in offset rows (boho, elegant)."""
+    def rosette(px):
+        r = px // 2
+        y, x = np.mgrid[-r:r + 1, -r:r + 1].astype(float) / max(r, 1)
+        rad, ang = np.hypot(x, y), np.arctan2(y, x)
+        outer = rad < 0.62 + 0.3 * np.abs(np.cos(ang * 6)) ** 1.5
+        ring = np.abs(rad - 0.55) < 0.05
+        inner = rad < 0.3 + 0.12 * np.abs(np.cos(ang * 4))
+        dots = (np.abs(rad - 0.75) < 0.05) & (np.abs(np.sin(ang * 12)) < 0.3)
+        colour = tk.blur_small((outer & ~ring & ~inner).astype(float), 0.8)
+        accent = tk.blur_small(inner.astype(float), 0.8)
+        ink = np.clip(_outline(outer.astype(float), 1) * 0.5 + ring * 0.6 + dots * 0.6 + _outline(accent, 1) * 0.5, 0, 1)
+        return colour, ink, accent
+    m = rosette(int(size / 2.4))
+    colour, ink, accent = _zero(size), _zero(size), _zero(size)
+    for cx, cy in ((0.25, 0.25), (0.75, 0.75)):
+        cover = np.clip(np.maximum(m[0], m[2]), 0, 1)
+        _stamp_over(colour, m[0], cover, cx * size, cy * size)
+        _stamp_over(accent, m[2], cover, cx * size, cy * size)
+        tk.stamp(ink, m[1], cx * size, cy * size)
+    return colour, ink, accent
 
 
 # name, tags, tiles per metre (min, max), weight
@@ -1647,11 +1768,26 @@ PRINTS = {
     "fairisle": (fair_isle, "Fair Isle", ["cute", "bookish", "casual"], (2.5, 3.5), 0.7),
     "nordic": (nordic, "Nordic stars", ["cute", "casual", "bookish"], (2.5, 3.5), 0.6),
     "festive": (festive, "Christmas jumper", ["cute", "casual"], (2.5, 3.5), 0.3),
-    "damask": (damask, "Damask", ["elegant", "gothic", "bookish"], (2, 3.5), 0.6),
+    "damask": (damask, "Damask", ["elegant", "gothic", "bookish"], (4, 6), 0.6),
     "fleurdelis": (fleur_de_lis, "Fleur-de-lis", ["elegant", "bookish"], (3, 5), 0.4),
     "icecream": (ice_creams, "Ice creams", ["cute", "casual"], (2.5, 4), 0.4),
     "doughnuts": (doughnuts, "Doughnuts", ["cute", "street", "casual"], (2.5, 4), 0.4),
     "watermelon": (watermelons, "Watermelons", ["cute", "casual", "sporty"], (2.5, 4), 0.4),
+    "shippo": (shippo, "Shippo circles", ["elegant", "cute"], (3, 5), 0.4),
+    "starlattice": (star_lattice, "Star lattice", ["elegant", "bookish"], (2, 3), 0.4),
+    "cacti": (cacti, "Cacti", ["cute", "casual"], (2.5, 4), 0.4),
+    "feathers": (feathers, "Feathers", ["casual", "elegant", "street"], (2, 3.5), 0.4),
+    "medallions": (medallions, "Medallions", ["elegant", "casual", "date"], (2.5, 4), 0.5),
+}
+
+# How each print's second colour (its accent: leaves, hearts, wafers) follows its first: "leaf" (a natural green),
+# "gold", "light" (the first, paled) or "contrast" (the first's opposite hue).
+ACCENT = {
+    "floral": "leaf", "bigfloral": "leaf", "hibiscus": "leaf", "roses": "leaf", "tulips": "leaf", "lemons": "leaf",
+    "holly": "leaf", "watermelon": "leaf", "strawberries": "leaf", "daisies": "gold", "icecream": "gold",
+    "doughnuts": "gold", "mushrooms": "light", "bees": "light", "planets": "contrast", "rainbows": "contrast",
+    "plaid": "contrast", "glenplaid": "contrast", "argyle": "contrast", "madras": "contrast",
+    "cacti": "leaf", "medallions": "contrast",
 }
 
 # Prints knitted into the cloth (colourwork, stripes, intarsia) rather than printed on it: the only ones a knit takes

@@ -22,10 +22,6 @@
     "tailored"
   ],
   "fabric": "quilted",
-  "patternable": false,
-  "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261022_021128_for_texture_textured.glb",
-  "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
-  "licence": "Tencent Hunyuan 3D 2.1 Community License",
   "fabrics": [
     "diamond_quilt",
     "ripstop",
@@ -33,5 +29,9 @@
     "corduroy",
     "nylon",
     "sherpa"
-  ]
+  ],
+  "patternable": false,
+  "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261022_021128_for_texture_textured.glb",
+  "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
+  "licence": "Tencent Hunyuan 3D 2.1 Community License"
 }

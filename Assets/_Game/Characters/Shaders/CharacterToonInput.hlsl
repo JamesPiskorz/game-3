@@ -22,6 +22,7 @@ CBUFFER_START(UnityPerMaterial)
     half4 _RimColor;
     half _RimWidth;
     half4 _PatternColor;
+    half4 _PatternAccent;
     half4 _PatternRegions;
     half _PatternScale;
     half _PatternInk;
@@ -79,7 +80,8 @@ half4 ToonMask(float2 uv, float2 uv1, half4 vertexColour)
 // The base map is a fabric's surface (its weave, stitches or grain) as shading, brightened by _BaseGain so the cloth
 // keeps its colour on average. The unmasked base region shades to _BaseShade (hand-picked, e.g. from the skin palette);
 // recoloured regions shade to their colour × _ShadeTint. A pattern's red channel is how much of the pattern colour
-// shows; its green channel is ink (outlines and shading drawn in the print), darkening by up to _PatternInk.
+// shows; its green channel is ink (outlines and shading drawn in the print), darkening by up to _PatternInk; its blue
+// channel is how much of its second colour, _PatternAccent, shows (a flower's leaves, a daisy's heart).
 // _BaseLift adds the fabric's structure as light too, the more the darker the cloth, since darkening alone can't show
 // on black: the stitches of a black knit, the flecks of a charcoal tweed, the glint of black patent.
 void ToonAlbedo(float2 uv, float2 uv1, half4 vertexColour, out half3 lit, out half3 shade)
@@ -90,13 +92,15 @@ void ToonAlbedo(float2 uv, float2 uv1, half4 vertexColour, out half3 lit, out ha
     half baseWeight = saturate(1.0 - mask.r - mask.g - mask.b - mask.a);
     half3 regions = _Color1.rgb * mask.r + _Color2.rgb * mask.g + _Color3.rgb * mask.b + _Color4.rgb * mask.a;
 
-    half2 print = SAMPLE_TEXTURE2D(_PatternMap, sampler_PatternMap, uv * _PatternScale).rg;
+    half3 print = SAMPLE_TEXTURE2D(_PatternMap, sampler_PatternMap, uv * _PatternScale).rgb;
     half strength = _PatternColor.a * dot(mask, _PatternRegions);
     half pattern = print.r * strength;
+    half accent = print.b * strength;
     half ink = 1.0 - print.g * strength * _PatternInk;
 
-    half3 litColour = ink * lerp(_BaseColor.rgb * baseWeight + regions, _PatternColor.rgb, pattern);
-    half3 shadeColour = ink * lerp(_BaseShade.rgb * baseWeight + regions * _ShadeTint.rgb, _PatternColor.rgb * _ShadeTint.rgb, pattern);
+    half3 litColour = ink * lerp(lerp(_BaseColor.rgb * baseWeight + regions, _PatternColor.rgb, pattern), _PatternAccent.rgb, accent);
+    half3 shadeColour = ink * lerp(lerp(_BaseShade.rgb * baseWeight + regions * _ShadeTint.rgb, _PatternColor.rgb * _ShadeTint.rgb, pattern),
+                                   _PatternAccent.rgb * _ShadeTint.rgb, accent);
     half3 lift = (texel - 1.0) * _BaseLift;
     const half3 luma = half3(0.2126, 0.7152, 0.0722);
     lit = max(texel * litColour + lift * (1.0 - saturate(dot(litColour, luma))), 0.0);

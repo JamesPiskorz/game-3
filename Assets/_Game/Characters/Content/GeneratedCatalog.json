@@ -455,7 +455,8 @@
         "suede",
         "twill",
         "leather",
-        "velvet"
+        "velvet",
+        "patchwork"
       ],
       "contexts": []
     },
@@ -672,7 +673,9 @@
         "tweed",
         "leather",
         "stonewash",
-        "ottoman"
+        "ottoman",
+        "pinstripe_wool",
+        "houndstooth_wool"
       ],
       "contexts": []
     },
@@ -754,7 +757,8 @@
         "corduroy",
         "canvas",
         "leather",
-        "chambray"
+        "chambray",
+        "patchwork"
       ],
       "contexts": []
     },
@@ -784,7 +788,8 @@
         "corduroy",
         "canvas",
         "leather",
-        "chambray"
+        "chambray",
+        "patchwork"
       ],
       "contexts": []
     },
@@ -837,7 +842,8 @@
         "corduroy",
         "canvas",
         "leather",
-        "chambray"
+        "chambray",
+        "patchwork"
       ],
       "contexts": []
     },
@@ -1113,7 +1119,9 @@
         "tweed",
         "leather",
         "stonewash",
-        "ottoman"
+        "ottoman",
+        "pinstripe_wool",
+        "houndstooth_wool"
       ],
       "contexts": [
         "casual",
@@ -1145,7 +1153,8 @@
         "corduroy",
         "canvas",
         "leather",
-        "chambray"
+        "chambray",
+        "patchwork"
       ],
       "contexts": []
     },
@@ -1175,7 +1184,9 @@
         "velvet",
         "linen",
         "ottoman",
-        "felt"
+        "felt",
+        "pinstripe_wool",
+        "houndstooth_wool"
       ],
       "contexts": []
     },
@@ -1234,7 +1245,9 @@
         "tweed",
         "leather",
         "stonewash",
-        "ottoman"
+        "ottoman",
+        "pinstripe_wool",
+        "houndstooth_wool"
       ],
       "contexts": []
     },
@@ -1266,7 +1279,9 @@
         "tweed",
         "leather",
         "stonewash",
-        "ottoman"
+        "ottoman",
+        "pinstripe_wool",
+        "houndstooth_wool"
       ],
       "contexts": []
     },
@@ -1297,7 +1312,9 @@
         "tweed",
         "leather",
         "stonewash",
-        "ottoman"
+        "ottoman",
+        "pinstripe_wool",
+        "houndstooth_wool"
       ],
       "contexts": []
     },
@@ -1464,7 +1481,8 @@
         "corduroy",
         "canvas",
         "leather",
-        "chambray"
+        "chambray",
+        "patchwork"
       ],
       "contexts": []
     },
@@ -2074,7 +2092,8 @@
         "jersey",
         "smocked",
         "crinkle",
-        "pointelle"
+        "pointelle",
+        "patchwork"
       ],
       "contexts": []
     },
@@ -2214,7 +2233,8 @@
         "poplin",
         "oxford",
         "stonewash",
-        "dobby"
+        "dobby",
+        "patchwork"
       ],
       "contexts": []
     },
@@ -2499,7 +2519,9 @@
         "denim",
         "leather",
         "ottoman",
-        "felt"
+        "felt",
+        "pinstripe_wool",
+        "houndstooth_wool"
       ],
       "contexts": []
     },
@@ -4774,7 +4796,8 @@
         "knitted"
       ],
       "minScale": 6.0,
-      "maxScale": 10.0
+      "maxScale": 10.0,
+      "accent": null
     },
     {
       "id": "pattern.dots_01",
@@ -4785,7 +4808,8 @@
         "casual"
       ],
       "minScale": 6.0,
-      "maxScale": 10.0
+      "maxScale": 10.0,
+      "accent": null
     },
     {
       "id": "pattern.plaid_01",
@@ -4798,7 +4822,8 @@
         "street"
       ],
       "minScale": 3.0,
-      "maxScale": 6.0
+      "maxScale": 6.0,
+      "accent": "contrast"
     },
     {
       "id": "pattern.check_01",
@@ -4810,7 +4835,8 @@
         "gothic"
       ],
       "minScale": 6.0,
-      "maxScale": 10.0
+      "maxScale": 10.0,
+      "accent": null
     },
     {
       "id": "pattern.hearts_01",
@@ -4822,7 +4848,8 @@
         "knitted"
       ],
       "minScale": 4.0,
-      "maxScale": 7.0
+      "maxScale": 7.0,
+      "accent": null
     },
     {
       "id": "pattern.stars_01",
@@ -4835,7 +4862,8 @@
         "knitted"
       ],
       "minScale": 4.0,
-      "maxScale": 7.0
+      "maxScale": 7.0,
+      "accent": null
     },
     {
       "id": "pattern.pinstripe_01",
@@ -4847,7 +4875,8 @@
         "gothic"
       ],
       "minScale": 10.0,
-      "maxScale": 16.0
+      "maxScale": 16.0,
+      "accent": null
     },
     {
       "id": "pattern.floral_01",
@@ -4860,7 +4889,8 @@
         "date"
       ],
       "minScale": 4.0,
-      "maxScale": 7.0
+      "maxScale": 7.0,
+      "accent": "leaf"
     },
     {
       "id": "pattern.denim_01",
@@ -4871,7 +4901,8 @@
         "street"
       ],
       "minScale": 5.0,
-      "maxScale": 9.0
+      "maxScale": 9.0,
+      "accent": null
     },
     {
       "id": "pattern.knit_01",
@@ -4884,7 +4915,8 @@
         "knitted"
       ],
       "minScale": 4.0,
-      "maxScale": 7.0
+      "maxScale": 7.0,
+      "accent": null
     },
     {
       "id": "pattern.argyle_01",
@@ -4897,7 +4929,8 @@
         "knitted"
       ],
       "minScale": 4.0,
-      "maxScale": 7.0
+      "maxScale": 7.0,
+      "accent": "contrast"
     },
     {
       "id": "pattern.chevron_01",
@@ -4909,7 +4942,8 @@
         "casual"
       ],
       "minScale": 5.0,
-      "maxScale": 9.0
+      "maxScale": 9.0,
+      "accent": null
     },
     {
       "id": "pattern.breton_01",
@@ -4922,7 +4956,8 @@
         "knitted"
       ],
       "minScale": 5.0,
-      "maxScale": 8.0
+      "maxScale": 8.0,
+      "accent": null
     },
     {
       "id": "pattern.chalkstripe_01",
@@ -4933,7 +4968,8 @@
         "bookish"
       ],
       "minScale": 7.0,
-      "maxScale": 10.0
+      "maxScale": 10.0,
+      "accent": null
     },
     {
       "id": "pattern.awning_01",
@@ -4945,7 +4981,8 @@
         "street"
       ],
       "minScale": 3.0,
-      "maxScale": 5.0
+      "maxScale": 5.0,
+      "accent": null
     },
     {
       "id": "pattern.candystripe_01",
@@ -4957,7 +4994,8 @@
         "bookish"
       ],
       "minScale": 6.0,
-      "maxScale": 9.0
+      "maxScale": 9.0,
+      "accent": null
     },
     {
       "id": "pattern.gingham_01",
@@ -4969,7 +5007,8 @@
         "date"
       ],
       "minScale": 6.0,
-      "maxScale": 10.0
+      "maxScale": 10.0,
+      "accent": null
     },
     {
       "id": "pattern.buffalo_01",
@@ -4981,7 +5020,8 @@
         "gothic"
       ],
       "minScale": 3.0,
-      "maxScale": 5.0
+      "maxScale": 5.0,
+      "accent": null
     },
     {
       "id": "pattern.windowpane_01",
@@ -4992,7 +5032,8 @@
         "bookish"
       ],
       "minScale": 4.0,
-      "maxScale": 7.0
+      "maxScale": 7.0,
+      "accent": null
     },
     {
       "id": "pattern.houndstooth_01",
@@ -5004,7 +5045,8 @@
         "gothic"
       ],
       "minScale": 8.0,
-      "maxScale": 14.0
+      "maxScale": 14.0,
+      "accent": null
     },
     {
       "id": "pattern.harlequin_01",
@@ -5016,7 +5058,8 @@
         "street"
       ],
       "minScale": 4.0,
-      "maxScale": 7.0
+      "maxScale": 7.0,
+      "accent": null
     },
     {
       "id": "pattern.triangles_01",
@@ -5028,7 +5071,8 @@
         "casual"
       ],
       "minScale": 3.0,
-      "maxScale": 5.0
+      "maxScale": 5.0,
+      "accent": null
     },
     {
       "id": "pattern.hexagons_01",
@@ -5039,7 +5083,8 @@
         "sporty"
       ],
       "minScale": 3.0,
-      "maxScale": 5.0
+      "maxScale": 5.0,
+      "accent": null
     },
     {
       "id": "pattern.waves_01",
@@ -5051,7 +5096,8 @@
         "cute"
       ],
       "minScale": 3.0,
-      "maxScale": 5.0
+      "maxScale": 5.0,
+      "accent": null
     },
     {
       "id": "pattern.scales_01",
@@ -5063,7 +5109,8 @@
         "street"
       ],
       "minScale": 4.0,
-      "maxScale": 8.0
+      "maxScale": 8.0,
+      "accent": null
     },
     {
       "id": "pattern.lattice_01",
@@ -5074,7 +5121,8 @@
         "bookish"
       ],
       "minScale": 4.0,
-      "maxScale": 7.0
+      "maxScale": 7.0,
+      "accent": null
     },
     {
       "id": "pattern.circles_01",
@@ -5085,7 +5133,8 @@
         "casual"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": null
     },
     {
       "id": "pattern.bigdots_01",
@@ -5097,7 +5146,8 @@
         "street"
       ],
       "minScale": 3.0,
-      "maxScale": 5.0
+      "maxScale": 5.0,
+      "accent": null
     },
     {
       "id": "pattern.confetti_01",
@@ -5109,7 +5159,8 @@
         "street"
       ],
       "minScale": 3.0,
-      "maxScale": 5.0
+      "maxScale": 5.0,
+      "accent": null
     },
     {
       "id": "pattern.bigfloral_01",
@@ -5121,7 +5172,8 @@
         "cute"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": "leaf"
     },
     {
       "id": "pattern.daisies_01",
@@ -5132,7 +5184,8 @@
         "casual"
       ],
       "minScale": 3.0,
-      "maxScale": 6.0
+      "maxScale": 6.0,
+      "accent": "gold"
     },
     {
       "id": "pattern.sakura_01",
@@ -5144,7 +5197,8 @@
         "date"
       ],
       "minScale": 3.0,
-      "maxScale": 6.0
+      "maxScale": 6.0,
+      "accent": null
     },
     {
       "id": "pattern.hibiscus_01",
@@ -5156,7 +5210,8 @@
         "sporty"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": "leaf"
     },
     {
       "id": "pattern.tropical_01",
@@ -5168,7 +5223,8 @@
         "sporty"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": null
     },
     {
       "id": "pattern.leaves_01",
@@ -5180,7 +5236,8 @@
         "cute"
       ],
       "minScale": 3.0,
-      "maxScale": 6.0
+      "maxScale": 6.0,
+      "accent": null
     },
     {
       "id": "pattern.vine_01",
@@ -5192,7 +5249,8 @@
         "cute"
       ],
       "minScale": 3.0,
-      "maxScale": 5.0
+      "maxScale": 5.0,
+      "accent": null
     },
     {
       "id": "pattern.paisley_01",
@@ -5205,7 +5263,8 @@
         "street"
       ],
       "minScale": 3.0,
-      "maxScale": 5.0
+      "maxScale": 5.0,
+      "accent": null
     },
     {
       "id": "pattern.moons_01",
@@ -5216,7 +5275,8 @@
         "gothic"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": null
     },
     {
       "id": "pattern.clouds_01",
@@ -5227,7 +5287,8 @@
         "casual"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": null
     },
     {
       "id": "pattern.cherries_01",
@@ -5239,7 +5300,8 @@
         "casual"
       ],
       "minScale": 3.0,
-      "maxScale": 6.0
+      "maxScale": 6.0,
+      "accent": null
     },
     {
       "id": "pattern.bows_01",
@@ -5250,7 +5312,8 @@
         "elegant"
       ],
       "minScale": 3.0,
-      "maxScale": 6.0
+      "maxScale": 6.0,
+      "accent": null
     },
     {
       "id": "pattern.butterflies_01",
@@ -5262,7 +5325,8 @@
         "date"
       ],
       "minScale": 3.0,
-      "maxScale": 5.0
+      "maxScale": 5.0,
+      "accent": null
     },
     {
       "id": "pattern.paws_01",
@@ -5273,7 +5337,8 @@
         "casual"
       ],
       "minScale": 3.0,
-      "maxScale": 6.0
+      "maxScale": 6.0,
+      "accent": null
     },
     {
       "id": "pattern.strawberries_01",
@@ -5284,7 +5349,8 @@
         "casual"
       ],
       "minScale": 3.0,
-      "maxScale": 6.0
+      "maxScale": 6.0,
+      "accent": "leaf"
     },
     {
       "id": "pattern.raindrops_01",
@@ -5295,7 +5361,8 @@
         "casual"
       ],
       "minScale": 4.0,
-      "maxScale": 7.0
+      "maxScale": 7.0,
+      "accent": null
     },
     {
       "id": "pattern.snowflakes_01",
@@ -5308,7 +5375,8 @@
         "knitted"
       ],
       "minScale": 3.0,
-      "maxScale": 6.0
+      "maxScale": 6.0,
+      "accent": null
     },
     {
       "id": "pattern.skulls_01",
@@ -5319,7 +5387,8 @@
         "street"
       ],
       "minScale": 3.0,
-      "maxScale": 6.0
+      "maxScale": 6.0,
+      "accent": null
     },
     {
       "id": "pattern.crosses_01",
@@ -5329,7 +5398,8 @@
         "gothic"
       ],
       "minScale": 4.0,
-      "maxScale": 7.0
+      "maxScale": 7.0,
+      "accent": null
     },
     {
       "id": "pattern.bats_01",
@@ -5340,7 +5410,8 @@
         "cute"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": null
     },
     {
       "id": "pattern.spiderweb_01",
@@ -5350,7 +5421,8 @@
         "gothic"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": null
     },
     {
       "id": "pattern.lightning_01",
@@ -5361,7 +5433,8 @@
         "sporty"
       ],
       "minScale": 3.0,
-      "maxScale": 6.0
+      "maxScale": 6.0,
+      "accent": null
     },
     {
       "id": "pattern.flames_01",
@@ -5372,7 +5445,8 @@
         "gothic"
       ],
       "minScale": 4.0,
-      "maxScale": 6.0
+      "maxScale": 6.0,
+      "accent": null
     },
     {
       "id": "pattern.camo_01",
@@ -5383,7 +5457,8 @@
         "sporty"
       ],
       "minScale": 1.5,
-      "maxScale": 3.0
+      "maxScale": 3.0,
+      "accent": null
     },
     {
       "id": "pattern.skatecheck_01",
@@ -5394,7 +5469,8 @@
         "sporty"
       ],
       "minScale": 3.0,
-      "maxScale": 5.0
+      "maxScale": 5.0,
+      "accent": null
     },
     {
       "id": "pattern.leopard_01",
@@ -5406,7 +5482,8 @@
         "date"
       ],
       "minScale": 3.0,
-      "maxScale": 5.0
+      "maxScale": 5.0,
+      "accent": null
     },
     {
       "id": "pattern.zebra_01",
@@ -5417,7 +5494,8 @@
         "gothic"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": null
     },
     {
       "id": "pattern.tiger_01",
@@ -5427,7 +5505,8 @@
         "street"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": null
     },
     {
       "id": "pattern.cow_01",
@@ -5438,7 +5517,8 @@
         "street"
       ],
       "minScale": 2.0,
-      "maxScale": 3.0
+      "maxScale": 3.0,
+      "accent": null
     },
     {
       "id": "pattern.snakeskin_01",
@@ -5450,7 +5530,8 @@
         "elegant"
       ],
       "minScale": 5.0,
-      "maxScale": 9.0
+      "maxScale": 9.0,
+      "accent": null
     },
     {
       "id": "pattern.tiedye_01",
@@ -5462,7 +5543,8 @@
         "sporty"
       ],
       "minScale": 1.5,
-      "maxScale": 3.0
+      "maxScale": 3.0,
+      "accent": null
     },
     {
       "id": "pattern.marble_01",
@@ -5473,7 +5555,8 @@
         "street"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": null
     },
     {
       "id": "pattern.brushstrokes_01",
@@ -5484,7 +5567,8 @@
         "casual"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": null
     },
     {
       "id": "pattern.terrazzo_01",
@@ -5496,7 +5580,8 @@
         "cute"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": null
     },
     {
       "id": "pattern.squiggles_01",
@@ -5508,7 +5593,8 @@
         "casual"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": null
     },
     {
       "id": "pattern.ticking_01",
@@ -5519,7 +5605,8 @@
         "bookish"
       ],
       "minScale": 4.0,
-      "maxScale": 7.0
+      "maxScale": 7.0,
+      "accent": null
     },
     {
       "id": "pattern.rugby_01",
@@ -5532,7 +5619,8 @@
         "knitted"
       ],
       "minScale": 3.0,
-      "maxScale": 5.0
+      "maxScale": 5.0,
+      "accent": null
     },
     {
       "id": "pattern.pyjama_01",
@@ -5544,7 +5632,8 @@
         "cute"
       ],
       "minScale": 4.0,
-      "maxScale": 7.0
+      "maxScale": 7.0,
+      "accent": null
     },
     {
       "id": "pattern.glenplaid_01",
@@ -5555,7 +5644,8 @@
         "bookish"
       ],
       "minScale": 3.0,
-      "maxScale": 5.0
+      "maxScale": 5.0,
+      "accent": "contrast"
     },
     {
       "id": "pattern.madras_01",
@@ -5567,7 +5657,8 @@
         "cute"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": "contrast"
     },
     {
       "id": "pattern.tattersall_01",
@@ -5578,7 +5669,8 @@
         "casual"
       ],
       "minScale": 3.0,
-      "maxScale": 5.0
+      "maxScale": 5.0,
+      "accent": null
     },
     {
       "id": "pattern.graph_01",
@@ -5589,7 +5681,8 @@
         "street"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": null
     },
     {
       "id": "pattern.wavycheck_01",
@@ -5601,7 +5694,8 @@
         "casual"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": null
     },
     {
       "id": "pattern.pindots_01",
@@ -5613,7 +5707,8 @@
         "cute"
       ],
       "minScale": 3.0,
-      "maxScale": 5.0
+      "maxScale": 5.0,
+      "accent": null
     },
     {
       "id": "pattern.halftone_01",
@@ -5624,7 +5719,8 @@
         "sporty"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": null
     },
     {
       "id": "pattern.plus_01",
@@ -5636,7 +5732,8 @@
         "cute"
       ],
       "minScale": 3.0,
-      "maxScale": 6.0
+      "maxScale": 6.0,
+      "accent": null
     },
     {
       "id": "pattern.seigaiha_01",
@@ -5647,7 +5744,8 @@
         "cute"
       ],
       "minScale": 3.0,
-      "maxScale": 6.0
+      "maxScale": 6.0,
+      "accent": null
     },
     {
       "id": "pattern.quatrefoil_01",
@@ -5658,7 +5756,8 @@
         "bookish"
       ],
       "minScale": 3.0,
-      "maxScale": 5.0
+      "maxScale": 5.0,
+      "accent": null
     },
     {
       "id": "pattern.ikat_01",
@@ -5670,7 +5769,8 @@
         "street"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": null
     },
     {
       "id": "pattern.aztec_01",
@@ -5682,7 +5782,8 @@
         "sporty"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": null
     },
     {
       "id": "pattern.opart_01",
@@ -5693,7 +5794,8 @@
         "gothic"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": null
     },
     {
       "id": "pattern.roses_01",
@@ -5706,7 +5808,8 @@
         "gothic"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": "leaf"
     },
     {
       "id": "pattern.sunflowers_01",
@@ -5717,7 +5820,8 @@
         "casual"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": null
     },
     {
       "id": "pattern.tulips_01",
@@ -5729,7 +5833,8 @@
         "elegant"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": "leaf"
     },
     {
       "id": "pattern.lemons_01",
@@ -5741,7 +5846,8 @@
         "date"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": "leaf"
     },
     {
       "id": "pattern.mushrooms_01",
@@ -5752,7 +5858,8 @@
         "bookish"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": "light"
     },
     {
       "id": "pattern.ferns_01",
@@ -5764,7 +5871,8 @@
         "elegant"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": null
     },
     {
       "id": "pattern.holly_01",
@@ -5775,7 +5883,8 @@
         "casual"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": "leaf"
     },
     {
       "id": "pattern.anchors_01",
@@ -5787,7 +5896,8 @@
         "bookish"
       ],
       "minScale": 3.0,
-      "maxScale": 5.0
+      "maxScale": 5.0,
+      "accent": null
     },
     {
       "id": "pattern.cats_01",
@@ -5798,7 +5908,8 @@
         "casual"
       ],
       "minScale": 3.0,
-      "maxScale": 5.0
+      "maxScale": 5.0,
+      "accent": null
     },
     {
       "id": "pattern.notes_01",
@@ -5810,7 +5921,8 @@
         "casual"
       ],
       "minScale": 3.0,
-      "maxScale": 5.0
+      "maxScale": 5.0,
+      "accent": null
     },
     {
       "id": "pattern.rainbows_01",
@@ -5821,7 +5933,8 @@
         "casual"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": "contrast"
     },
     {
       "id": "pattern.lips_01",
@@ -5833,7 +5946,8 @@
         "cute"
       ],
       "minScale": 3.0,
-      "maxScale": 5.0
+      "maxScale": 5.0,
+      "accent": null
     },
     {
       "id": "pattern.planets_01",
@@ -5845,7 +5959,8 @@
         "bookish"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": "contrast"
     },
     {
       "id": "pattern.fish_01",
@@ -5857,7 +5972,8 @@
         "sporty"
       ],
       "minScale": 3.0,
-      "maxScale": 5.0
+      "maxScale": 5.0,
+      "accent": null
     },
     {
       "id": "pattern.seagulls_01",
@@ -5868,7 +5984,8 @@
         "cute"
       ],
       "minScale": 3.0,
-      "maxScale": 5.0
+      "maxScale": 5.0,
+      "accent": null
     },
     {
       "id": "pattern.bunnies_01",
@@ -5878,7 +5995,8 @@
         "cute"
       ],
       "minScale": 3.0,
-      "maxScale": 5.0
+      "maxScale": 5.0,
+      "accent": null
     },
     {
       "id": "pattern.pumpkins_01",
@@ -5890,7 +6008,8 @@
         "casual"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": null
     },
     {
       "id": "pattern.eyes_01",
@@ -5901,7 +6020,8 @@
         "street"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": null
     },
     {
       "id": "pattern.bees_01",
@@ -5912,7 +6032,8 @@
         "casual"
       ],
       "minScale": 3.0,
-      "maxScale": 5.0
+      "maxScale": 5.0,
+      "accent": "light"
     },
     {
       "id": "pattern.ladybugs_01",
@@ -5922,7 +6043,8 @@
         "cute"
       ],
       "minScale": 3.0,
-      "maxScale": 5.0
+      "maxScale": 5.0,
+      "accent": null
     },
     {
       "id": "pattern.shells_01",
@@ -5934,7 +6056,8 @@
         "sporty"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": null
     },
     {
       "id": "pattern.smileys_01",
@@ -5946,7 +6069,8 @@
         "sporty"
       ],
       "minScale": 3.0,
-      "maxScale": 5.0
+      "maxScale": 5.0,
+      "accent": null
     },
     {
       "id": "pattern.giraffe_01",
@@ -5957,7 +6081,8 @@
         "casual"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": null
     },
     {
       "id": "pattern.dalmatian_01",
@@ -5969,7 +6094,8 @@
         "gothic"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": null
     },
     {
       "id": "pattern.cheetah_01",
@@ -5980,7 +6106,8 @@
         "date"
       ],
       "minScale": 3.0,
-      "maxScale": 5.0
+      "maxScale": 5.0,
+      "accent": null
     },
     {
       "id": "pattern.splatter_01",
@@ -5991,7 +6118,8 @@
         "casual"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": null
     },
     {
       "id": "pattern.shibori_01",
@@ -6002,7 +6130,8 @@
         "elegant"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": null
     },
     {
       "id": "pattern.batik_01",
@@ -6013,7 +6142,8 @@
         "elegant"
       ],
       "minScale": 2.0,
-      "maxScale": 3.0
+      "maxScale": 3.0,
+      "accent": null
     },
     {
       "id": "pattern.pixelcamo_01",
@@ -6024,7 +6154,8 @@
         "sporty"
       ],
       "minScale": 2.0,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": null
     },
     {
       "id": "pattern.watercolour_01",
@@ -6036,7 +6167,8 @@
         "date"
       ],
       "minScale": 1.5,
-      "maxScale": 3.0
+      "maxScale": 3.0,
+      "accent": null
     },
     {
       "id": "pattern.fairisle_01",
@@ -6049,7 +6181,8 @@
         "knitted"
       ],
       "minScale": 2.5,
-      "maxScale": 3.5
+      "maxScale": 3.5,
+      "accent": null
     },
     {
       "id": "pattern.nordic_01",
@@ -6062,7 +6195,8 @@
         "knitted"
       ],
       "minScale": 2.5,
-      "maxScale": 3.5
+      "maxScale": 3.5,
+      "accent": null
     },
     {
       "id": "pattern.festive_01",
@@ -6074,7 +6208,8 @@
         "knitted"
       ],
       "minScale": 2.5,
-      "maxScale": 3.5
+      "maxScale": 3.5,
+      "accent": null
     },
     {
       "id": "pattern.damask_01",
@@ -6085,8 +6220,9 @@
         "gothic",
         "bookish"
       ],
-      "minScale": 2.0,
-      "maxScale": 3.5
+      "minScale": 4.0,
+      "maxScale": 6.0,
+      "accent": null
     },
     {
       "id": "pattern.fleurdelis_01",
@@ -6097,7 +6233,8 @@
         "bookish"
       ],
       "minScale": 3.0,
-      "maxScale": 5.0
+      "maxScale": 5.0,
+      "accent": null
     },
     {
       "id": "pattern.icecream_01",
@@ -6108,7 +6245,8 @@
         "casual"
       ],
       "minScale": 2.5,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": "gold"
     },
     {
       "id": "pattern.doughnuts_01",
@@ -6120,7 +6258,8 @@
         "casual"
       ],
       "minScale": 2.5,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": "gold"
     },
     {
       "id": "pattern.watermelon_01",
@@ -6132,7 +6271,70 @@
         "sporty"
       ],
       "minScale": 2.5,
-      "maxScale": 4.0
+      "maxScale": 4.0,
+      "accent": "leaf"
+    },
+    {
+      "id": "pattern.shippo_01",
+      "name": "Shippo circles",
+      "weight": 0.4,
+      "tags": [
+        "elegant",
+        "cute"
+      ],
+      "minScale": 3.0,
+      "maxScale": 5.0,
+      "accent": null
+    },
+    {
+      "id": "pattern.starlattice_01",
+      "name": "Star lattice",
+      "weight": 0.4,
+      "tags": [
+        "elegant",
+        "bookish"
+      ],
+      "minScale": 2.0,
+      "maxScale": 3.0,
+      "accent": null
+    },
+    {
+      "id": "pattern.cacti_01",
+      "name": "Cacti",
+      "weight": 0.4,
+      "tags": [
+        "cute",
+        "casual"
+      ],
+      "minScale": 2.5,
+      "maxScale": 4.0,
+      "accent": "leaf"
+    },
+    {
+      "id": "pattern.feathers_01",
+      "name": "Feathers",
+      "weight": 0.4,
+      "tags": [
+        "casual",
+        "elegant",
+        "street"
+      ],
+      "minScale": 2.0,
+      "maxScale": 3.5,
+      "accent": null
+    },
+    {
+      "id": "pattern.medallions_01",
+      "name": "Medallions",
+      "weight": 0.5,
+      "tags": [
+        "elegant",
+        "casual",
+        "date"
+      ],
+      "minScale": 2.5,
+      "maxScale": 4.0,
+      "accent": "contrast"
     }
   ],
   "fabrics": [
@@ -7626,6 +7828,47 @@
       "printTags": [
         "knitted"
       ],
+      "colours": [],
+      "colourChance": 0.0
+    },
+    {
+      "id": "pinstripe_wool",
+      "name": "Pinstripe suiting",
+      "weight": 1.0,
+      "tags": [
+        "elegant",
+        "bookish",
+        "gothic"
+      ],
+      "printable": false,
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
+    },
+    {
+      "id": "houndstooth_wool",
+      "name": "Houndstooth wool",
+      "weight": 1.0,
+      "tags": [
+        "elegant",
+        "bookish"
+      ],
+      "printable": false,
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
+    },
+    {
+      "id": "patchwork",
+      "name": "Patchwork",
+      "weight": 0.6,
+      "tags": [
+        "cute",
+        "casual",
+        "street"
+      ],
+      "printable": false,
+      "printTags": [],
       "colours": [],
       "colourChance": 0.0
     }
