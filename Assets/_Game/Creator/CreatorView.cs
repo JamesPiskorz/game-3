@@ -387,7 +387,7 @@ namespace Game.Creator
                 if (prints.Count > 0)
                 {
                     var patterns = new List<(string, string)> { (null, "Plain") };
-                    patterns.AddRange(prints.Select(p => (p.Id, p.Name ?? ContentCatalog.Humanize(p.Id))));
+                    patterns.AddRange(prints.Select(p => (p.Id, p.Name ?? ContentCatalog.Humanize(p.Id))).OrderBy(p => p.Item2, StringComparer.OrdinalIgnoreCase));
                     AddDropdown("pattern-" + slot, $"{label}: pattern", patterns, () => _session.Item(slot)?.PatternId, id =>
                     {
                         ItemDna current = _session.Item(slot);
