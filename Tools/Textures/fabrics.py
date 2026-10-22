@@ -1001,6 +1001,15 @@ def velour(size, seed):
     return _shade(tk.normalise(0.45 * tk.normalise(streaks) + 0.2 * pile + 0.12 * wales + 0.23 * patches), 0.3)
 
 
+def cloque(size, seed):
+    """Cloqué (matelassé): a blistered double cloth, small rounded bubbles puckered up out of a flatter ground, each
+    domed and lit on its upper side (party dresses, boxy jackets)."""
+    height = tk.normalise(tk.blur(tk.value_noise(size, 22, seed, octaves=2, persistence=0.35), size // 128 + 1))
+    puff = tk.smoothstep(0.42, 0.78, height)
+    lit = np.roll(puff, size // 128 + 1, axis=0) - puff  # the bubble's upper side catches the light
+    return _shade(tk.normalise(0.2 * puff + np.clip(-lit * 4, -0.5, 0.5)), 0.4)  # one colour: relief, not blotches
+
+
 def oilskin(size, seed):
     """Oilskin (fishermen's raincoats, sou'westers): a stiff coated cotton, glossy, crumpled into creases."""
     return np.clip(0.7 + 0.3 * _crumple(size, seed, 3, 3, 1.0), 0, 1)
@@ -1141,7 +1150,7 @@ FABRICS = {
     "black_denim": black_denim, "ripped_denim": ripped_denim, "athletic_knit": athletic_knit, "fishnet": fishnet,
     "plisse": plisse, "crushed_velvet": crushed_velvet, "foil": foil, "rib_lycra": rib_lycra, "shimmer_lycra": shimmer_lycra,
     "hex_mesh": hex_mesh, "tricot": tricot,
-    "burnout_velvet": burnout_velvet, "brushed_cotton": brushed_cotton, "oilskin": oilskin, "velour": velour,
+    "burnout_velvet": burnout_velvet, "brushed_cotton": brushed_cotton, "oilskin": oilskin, "velour": velour, "cloque": cloque,
 }
 
 # Each fabric's catalog entry: the style tags archetypes weight it by, whether a print goes on it, and how common it is.
@@ -1150,7 +1159,7 @@ NO_PRINT = {"denim", "croc", "sequins", "lace", "quilted", "diamond_quilt", "cor
             "herringbone", "jacquard", "velvet", "boucle", "seersucker", "terry", "waffle",
             "stonewash", "acid_wash", "waxed", "pointelle", "seed_stitch", "sherpa", "chenille", "moire",
             "glitter", "beaded", "perforated", "vinyl", "snake", "ottoman", "straw", "smocked", "marl", "satin_stripe", "pinstripe_wool", "houndstooth_wool", "patchwork",
-            "jumbo_cord", "gloss_puffer", "guipure", "dotted_swiss", "brocade", "black_denim", "ripped_denim", "fishnet", "crushed_velvet", "foil", "hex_mesh", "burnout_velvet", "oilskin", "velour"}
+            "jumbo_cord", "gloss_puffer", "guipure", "dotted_swiss", "brocade", "black_denim", "ripped_denim", "fishnet", "crushed_velvet", "foil", "hex_mesh", "burnout_velvet", "oilskin", "velour", "cloque"}
 # Fabrics that take only some prints: a knit takes only what is knitted into it (Fair Isle, stripes, argyle), not a
 # printed floral; a leather only an animal print. Prints with one of these tags (prints.KNITTED's "knitted",
 # prints.ANIMAL's "animal").
@@ -1195,7 +1204,7 @@ TAGS = {
     "rib_lycra": ["sporty", "cute", "casual"], "shimmer_lycra": ["date", "cute", "street"],
     "hex_mesh": ["sporty", "street"], "tricot": ["sporty", "street", "casual"],
     "burnout_velvet": ["gothic", "elegant", "date"], "brushed_cotton": ["casual", "cute"], "oilskin": ["casual", "bookish"],
-    "velour": ["casual", "sporty", "street", "cute"],
+    "velour": ["casual", "sporty", "street", "cute"], "cloque": ["elegant", "date", "cute"],
 }
 
 # Fabrics that usually come in their own colours, and how often an item made in one is: (chance, hex colours). Denim
@@ -1243,7 +1252,7 @@ WEIGHT = {
 CONTEXT_TAGS = {
     "formal": ["satin", "velvet", "sequins", "taffeta", "organza", "jacquard", "brocade", "plisse", "crushed_velvet", "foil",
                "burnout_velvet", "beaded", "metallic", "lace", "guipure",
-               "moire", "shantung", "tulle", "crepe", "chiffon", "glitter", "satin_stripe"],
+               "moire", "shantung", "tulle", "crepe", "chiffon", "glitter", "satin_stripe", "cloque"],
     "rain": ["oilskin", "ripstop", "nylon", "waxed", "rubber", "vinyl", "patent", "gloss_puffer", "quilted", "fleece", "tweed",
              "corduroy", "denim", "knit", "cable_knit", "marl"],
     "sleep": ["flannel", "satin", "jersey", "waffle", "fleece", "terry", "marl", "pointelle", "seersucker", "smocked",
@@ -1275,7 +1284,7 @@ DEFAULT_LIFT = 0.12
 LIFT = {
     "plain": 0.04, "poplin": 0.06, "chiffon": 0.06, "crepe": 0.08, "jersey": 0.08, "lace": 0.06, "eyelet": 0.06,
     "tweed": 0.3, "herringbone": 0.2, "marl": 0.35, "chambray": 0.2, "denim": 0.18, "stonewash": 0.3, "acid_wash": 0.5,
-    "boucle": 0.25, "sherpa": 0.3, "mohair": 0.3, "faux_fur": 0.3, "chenille": 0.25, "velvet": 0.1, "corduroy": 0.2,
+    "cloque": 0.16, "boucle": 0.25, "sherpa": 0.3, "mohair": 0.3, "faux_fur": 0.3, "chenille": 0.25, "velvet": 0.1, "corduroy": 0.2,
     "knit": 0.2, "chunky_knit": 0.22, "cable_knit": 0.2, "seed_stitch": 0.18, "pointelle": 0.18,
     "satin": 0.4, "shantung": 0.3, "moire": 0.35, "taffeta": 0.38, "organza": 0.08, "lycra": 0.32, "nylon": 0.3,
     "metallic": 0.5, "glitter": 0.6, "sequins": 0.5, "beaded": 0.45, "jacquard": 0.3,

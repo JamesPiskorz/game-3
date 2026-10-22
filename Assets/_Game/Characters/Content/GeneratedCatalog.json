@@ -1035,7 +1035,8 @@
         "beaded",
         "glitter",
         "ottoman",
-        "vinyl"
+        "vinyl",
+        "cloque"
       ],
       "clothBottom": 0.116974249,
       "clothTop": 1.15410352,
@@ -1077,7 +1078,8 @@
         "beaded",
         "glitter",
         "ottoman",
-        "vinyl"
+        "vinyl",
+        "cloque"
       ],
       "clothBottom": 0.494235635,
       "clothTop": 1.111,
@@ -1880,7 +1882,8 @@
         "moire",
         "shantung",
         "vinyl",
-        "brocade"
+        "brocade",
+        "cloque"
       ],
       "clothBottom": 0.193612576,
       "clothTop": 1.42770076,
@@ -1926,7 +1929,8 @@
         "beaded",
         "glitter",
         "ottoman",
-        "vinyl"
+        "vinyl",
+        "cloque"
       ],
       "clothBottom": 0.445535541,
       "clothTop": 1.43520308,
@@ -2005,7 +2009,8 @@
         "beaded",
         "glitter",
         "ottoman",
-        "vinyl"
+        "vinyl",
+        "cloque"
       ],
       "clothBottom": 0.123147614,
       "clothTop": 1.43545854,
@@ -2286,7 +2291,8 @@
         "beaded",
         "glitter",
         "ottoman",
-        "vinyl"
+        "vinyl",
+        "cloque"
       ],
       "clothBottom": 0.816687346,
       "clothTop": 1.42710149,
@@ -2807,7 +2813,8 @@
         "beaded",
         "glitter",
         "ottoman",
-        "vinyl"
+        "vinyl",
+        "cloque"
       ],
       "clothBottom": 0.445413321,
       "clothTop": 1.4390099,
@@ -4066,7 +4073,8 @@
         "moire",
         "shantung",
         "vinyl",
-        "brocade"
+        "brocade",
+        "cloque"
       ],
       "clothBottom": 1.06618941,
       "clothTop": 1.3245728,
@@ -11254,6 +11262,21 @@
         "street",
         "cute",
         "sleep"
+      ],
+      "printable": false,
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
+    },
+    {
+      "id": "cloque",
+      "name": "Cloqué",
+      "weight": 1.0,
+      "tags": [
+        "elegant",
+        "date",
+        "cute",
+        "formal"
       ],
       "printable": false,
       "printTags": [],

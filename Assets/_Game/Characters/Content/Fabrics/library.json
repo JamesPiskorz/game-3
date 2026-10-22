@@ -2088,6 +2088,26 @@
    "weight": 1.0,
    "gloss": 0.0,
    "sheen": 0.35
+  },
+  {
+   "id": "cloque",
+   "name": "Cloqu\u00e9",
+   "mean": 0.7889,
+   "tileMetres": 0.25,
+   "tags": [
+    "elegant",
+    "date",
+    "cute",
+    "formal"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.16,
+   "colourChance": 0.0,
+   "colours": [],
+   "weight": 1.0,
+   "gloss": 0.0,
+   "sheen": 0.0
   }
  ]
 }
