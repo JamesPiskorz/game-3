@@ -8,6 +8,7 @@ Shader "Game/Characters/Toon"
         [MainTexture] _BaseMap ("Base Map (grayscale-authored)", 2D) = "white" {}
         _BaseGain ("Base Map Gain (1 / its mean)", Float) = 1
         _BaseLift ("Base Map Lift (its structure as light, on dark colours)", Range(0, 1)) = 0
+        _Gloss ("Gloss (a toon highlight on shiny cloth; 0 matte)", Range(0, 1)) = 0
         [MainColor] _BaseColor ("Base Colour", Color) = (1, 1, 1, 1)
         _BaseShade ("Base Shade Colour", Color) = (0.7, 0.62, 0.68, 1)
 
@@ -173,6 +174,17 @@ Shader "Game/Characters/Toon"
                 half fresnel = 1.0 - saturate(dot(normalWS, viewWS));
                 half rim = smoothstep(1.0 - _RimWidth, 1.0 - _RimWidth + 0.06, fresnel);
                 colour += lit * _RimColor.rgb * 2.0h * mainLight.color * (rim * mainLit);
+
+                // Gloss: a hard-edged highlight where shiny cloth (patent, vinyl, satin, lycra, metallics) mirrors the
+                // main light toward the eye, smaller and brighter the glossier it is, the surface's colour paled toward
+                // white. Matte cloth (_Gloss 0) has none.
+                if (_Gloss > 0.0h)
+                {
+                    half size = lerp(0.07h, 0.018h, _Gloss);
+                    half facing = dot(normalWS, normalize(mainLight.direction + viewWS));
+                    half highlight = smoothstep(1.0h - size, 1.0h - size * 0.55h, facing);
+                    colour += lerp(lit, 1.0h, 0.65h) * mainLight.color * (highlight * _Gloss * _Gloss * mainLit * 1.3h);
+                }
 
                 return half4(MixFog(colour, input.fogFactor), 1.0);
             }

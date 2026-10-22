@@ -43,6 +43,7 @@ Material:
     - _BaseGain: 1.1159469
     - _BaseLift: 0.08
     - _Cull: 0
+    - _Gloss: 0
     - _LitAmbient: 0.35
     - _MaskFromVertexColour: 1
     - _OutlineWidth: 2

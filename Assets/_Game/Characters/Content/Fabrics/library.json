@@ -14,7 +14,8 @@
    "lift": 0.04,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "poplin",
@@ -31,7 +32,8 @@
    "lift": 0.06,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.2
+   "weight": 1.2,
+   "gloss": 0.0
   },
   {
    "id": "oxford",
@@ -47,7 +49,8 @@
    "lift": 0.12,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "chambray",
@@ -67,7 +70,8 @@
     "#6d8db5",
     "#a9bcd6"
    ],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "canvas",
@@ -88,7 +92,8 @@
     "#e3d9c4",
     "#2c3346"
    ],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "linen",
@@ -109,7 +114,8 @@
     "#efebe2",
     "#b9a98c"
    ],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "gauze",
@@ -125,7 +131,8 @@
    "lift": 0.12,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "seersucker",
@@ -142,7 +149,8 @@
    "lift": 0.12,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "eyelet",
@@ -158,7 +166,8 @@
    "lift": 0.06,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "denim",
@@ -181,7 +190,8 @@
     "#1d1d22",
     "#7a7f88"
    ],
-   "weight": 1.4
+   "weight": 1.4,
+   "gloss": 0.0
   },
   {
    "id": "twill",
@@ -197,7 +207,8 @@
    "lift": 0.12,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.2
+   "weight": 1.2,
+   "gloss": 0.0
   },
   {
    "id": "flannel",
@@ -214,7 +225,8 @@
    "lift": 0.12,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "herringbone",
@@ -235,7 +247,8 @@
     "#3e4350",
     "#7a7468"
    ],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "tweed",
@@ -257,7 +270,8 @@
     "#474b57",
     "#6d5040"
    ],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "ripstop",
@@ -277,7 +291,8 @@
     "#2b3140",
     "#c8b48c"
    ],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "jersey",
@@ -293,7 +308,8 @@
    "lift": 0.08,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.3
+   "weight": 1.3,
+   "gloss": 0.0
   },
   {
    "id": "knit",
@@ -312,7 +328,8 @@
    "lift": 0.2,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.2
+   "weight": 1.2,
+   "gloss": 0.0
   },
   {
    "id": "chunky_knit",
@@ -330,7 +347,8 @@
    "lift": 0.22,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "rib_knit",
@@ -349,7 +367,8 @@
    "lift": 0.12,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "wide_rib",
@@ -368,7 +387,8 @@
    "lift": 0.12,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "cable_knit",
@@ -384,7 +404,8 @@
    "lift": 0.2,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "waffle",
@@ -400,7 +421,8 @@
    "lift": 0.12,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "pique",
@@ -417,7 +439,8 @@
    "lift": 0.12,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "crochet",
@@ -433,7 +456,8 @@
    "lift": 0.12,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 0.8
+   "weight": 0.8,
+   "gloss": 0.0
   },
   {
    "id": "fleece",
@@ -450,7 +474,8 @@
    "lift": 0.12,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "boucle",
@@ -466,7 +491,8 @@
    "lift": 0.25,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "terry",
@@ -482,7 +508,8 @@
    "lift": 0.12,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "faux_fur",
@@ -504,7 +531,8 @@
     "#b5977a",
     "#2a2624"
    ],
-   "weight": 0.6
+   "weight": 0.6,
+   "gloss": 0.0
   },
   {
    "id": "satin",
@@ -520,7 +548,8 @@
    "lift": 0.4,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.5
   },
   {
    "id": "crepe",
@@ -536,7 +565,8 @@
    "lift": 0.08,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "chiffon",
@@ -553,7 +583,8 @@
    "lift": 0.06,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "tulle",
@@ -569,7 +600,8 @@
    "lift": 0.12,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "lycra",
@@ -584,7 +616,8 @@
    "lift": 0.32,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.45
   },
   {
    "id": "velvet",
@@ -601,7 +634,8 @@
    "lift": 0.1,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "metallic",
@@ -622,7 +656,8 @@
     "#c49080",
     "#8a8c92"
    ],
-   "weight": 0.6
+   "weight": 0.6,
+   "gloss": 0.75
   },
   {
    "id": "sequins",
@@ -638,7 +673,8 @@
    "lift": 0.5,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 0.7
+   "weight": 0.7,
+   "gloss": 0.6
   },
   {
    "id": "lace",
@@ -656,7 +692,8 @@
    "lift": 0.06,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "jacquard",
@@ -672,7 +709,8 @@
    "lift": 0.3,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "leather",
@@ -696,7 +734,8 @@
     "#a87448",
     "#521b1f"
    ],
-   "weight": 1.2
+   "weight": 1.2,
+   "gloss": 0.3
   },
   {
    "id": "patent",
@@ -719,7 +758,8 @@
     "#9a1a20",
     "#c8a08a"
    ],
-   "weight": 0.8
+   "weight": 0.8,
+   "gloss": 0.9
   },
   {
    "id": "croc",
@@ -740,7 +780,8 @@
     "#8a5a32",
     "#2e3b2c"
    ],
-   "weight": 0.6
+   "weight": 0.6,
+   "gloss": 0.4
   },
   {
    "id": "suede",
@@ -765,7 +806,8 @@
     "#7a746e",
     "#66653f"
    ],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "corduroy",
@@ -788,7 +830,8 @@
     "#712a2a",
     "#3e3530"
    ],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "rubber",
@@ -803,7 +846,8 @@
    "lift": 0.45,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 0.6
+   "weight": 0.6,
+   "gloss": 0.7
   },
   {
    "id": "mesh",
@@ -819,7 +863,8 @@
    "lift": 0.12,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 0.6
+   "weight": 0.6,
+   "gloss": 0.0
   },
   {
    "id": "quilted",
@@ -836,7 +881,8 @@
    "lift": 0.22,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "diamond_quilt",
@@ -852,7 +898,8 @@
    "lift": 0.2,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "dobby",
@@ -869,7 +916,8 @@
    "lift": 0.12,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "crinkle",
@@ -885,7 +933,8 @@
    "lift": 0.12,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "stonewash",
@@ -906,7 +955,8 @@
     "#47648e",
     "#8e949c"
    ],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "acid_wash",
@@ -927,7 +977,8 @@
     "#4c4e55",
     "#a3a8b0"
    ],
-   "weight": 0.5
+   "weight": 0.5,
+   "gloss": 0.0
   },
   {
    "id": "nylon",
@@ -943,7 +994,8 @@
    "lift": 0.3,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.35
   },
   {
    "id": "waxed",
@@ -965,7 +1017,8 @@
     "#5a4632",
     "#2a3040"
    ],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.25
   },
   {
    "id": "marl",
@@ -987,7 +1040,8 @@
     "#c6c6ca",
     "#4b4b51"
    ],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "slub_jersey",
@@ -1002,7 +1056,8 @@
    "lift": 0.12,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "mohair",
@@ -1021,7 +1076,8 @@
    "lift": 0.3,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "pointelle",
@@ -1037,7 +1093,8 @@
    "lift": 0.18,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "seed_stitch",
@@ -1054,7 +1111,8 @@
    "lift": 0.18,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "sherpa",
@@ -1075,7 +1133,8 @@
     "#ded0b8",
     "#c4ab8e"
    ],
-   "weight": 0.8
+   "weight": 0.8,
+   "gloss": 0.0
   },
   {
    "id": "chenille",
@@ -1091,7 +1150,8 @@
    "lift": 0.25,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "shantung",
@@ -1107,7 +1167,8 @@
    "lift": 0.3,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.3
   },
   {
    "id": "moire",
@@ -1123,7 +1184,8 @@
    "lift": 0.35,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 0.6
+   "weight": 0.6,
+   "gloss": 0.4
   },
   {
    "id": "taffeta",
@@ -1140,7 +1202,8 @@
    "lift": 0.38,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 0.7
+   "weight": 0.7,
+   "gloss": 0.45
   },
   {
    "id": "organza",
@@ -1157,7 +1220,8 @@
    "lift": 0.08,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 0.7
+   "weight": 0.7,
+   "gloss": 0.2
   },
   {
    "id": "glitter",
@@ -1174,7 +1238,8 @@
    "lift": 0.6,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 0.5
+   "weight": 0.5,
+   "gloss": 0.4
   },
   {
    "id": "beaded",
@@ -1190,7 +1255,8 @@
    "lift": 0.45,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 0.5
+   "weight": 0.5,
+   "gloss": 0.4
   },
   {
    "id": "perforated",
@@ -1206,7 +1272,8 @@
    "lift": 0.2,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 0.6
+   "weight": 0.6,
+   "gloss": 0.2
   },
   {
    "id": "vinyl",
@@ -1227,7 +1294,8 @@
     "#9a1a20",
     "#e9e4dc"
    ],
-   "weight": 0.35
+   "weight": 0.35,
+   "gloss": 1.0
   },
   {
    "id": "snake",
@@ -1249,7 +1317,8 @@
     "#1b1919",
     "#b8a890"
    ],
-   "weight": 0.6
+   "weight": 0.6,
+   "gloss": 0.3
   },
   {
    "id": "ottoman",
@@ -1265,7 +1334,8 @@
    "lift": 0.12,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "straw",
@@ -1286,7 +1356,8 @@
     "#e5d5ae",
     "#35302b"
    ],
-   "weight": 0.8
+   "weight": 0.8,
+   "gloss": 0.0
   },
   {
    "id": "pleated",
@@ -1303,7 +1374,8 @@
    "lift": 0.12,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "smocked",
@@ -1320,7 +1392,8 @@
    "lift": 0.12,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "satin_stripe",
@@ -1337,7 +1410,8 @@
    "lift": 0.3,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.35
   },
   {
    "id": "felt",
@@ -1354,7 +1428,8 @@
    "lift": 0.1,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "lurex_knit",
@@ -1373,7 +1448,8 @@
    "lift": 0.4,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 0.6
+   "weight": 0.6,
+   "gloss": 0.2
   },
   {
    "id": "pinstripe_wool",
@@ -1390,7 +1466,8 @@
    "lift": 0.35,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "houndstooth_wool",
@@ -1406,7 +1483,8 @@
    "lift": 0.3,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "patchwork",
@@ -1423,7 +1501,8 @@
    "lift": 0.25,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 0.6
+   "weight": 0.6,
+   "gloss": 0.0
   },
   {
    "id": "needlecord",
@@ -1440,7 +1519,8 @@
    "lift": 0.2,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "jumbo_cord",
@@ -1457,7 +1537,8 @@
    "lift": 0.22,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   },
   {
    "id": "scuba",
@@ -1474,7 +1555,8 @@
    "lift": 0.35,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.25
   },
   {
    "id": "gloss_puffer",
@@ -1490,7 +1572,8 @@
    "lift": 0.5,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.6
   },
   {
    "id": "guipure",
@@ -1507,7 +1590,8 @@
    "lift": 0.08,
    "colourChance": 0.0,
    "colours": [],
-   "weight": 1.0
+   "weight": 1.0,
+   "gloss": 0.0
   }
  ]
 }

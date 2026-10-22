@@ -8,6 +8,7 @@ CBUFFER_START(UnityPerMaterial)
     float4 _BaseMap_ST;
     half _BaseGain;
     half _BaseLift;
+    half _Gloss;
     half4 _BaseColor;
     half4 _BaseShade;
     half4 _Color1;

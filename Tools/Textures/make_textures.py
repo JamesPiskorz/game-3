@@ -40,7 +40,7 @@ def write_fabrics():
                         "tags": fabrics.TAGS.get(fid, ["casual"]), "printable": fid not in fabrics.NO_PRINT,
                         "printTags": fabrics.PRINT_TAGS.get(fid, []), "lift": fabrics.LIFT.get(fid, fabrics.DEFAULT_LIFT),
                         "colourChance": fabrics.NATURAL.get(fid, (0.0, []))[0], "colours": fabrics.NATURAL.get(fid, (0.0, []))[1],
-                        "weight": fabrics.WEIGHT.get(fid, 1.0)})
+                        "weight": fabrics.WEIGHT.get(fid, 1.0), "gloss": fabrics.GLOSS.get(fid, 0.0)})
     with open(os.path.join(folder, "library.json"), "w", encoding="utf-8", newline="\n") as f:
         json.dump({"fabrics": entries}, f, indent=1)
     print(f"[textures] {len(entries)} fabrics in {os.path.normpath(folder)}")

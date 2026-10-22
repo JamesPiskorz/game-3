@@ -1027,6 +1027,15 @@ WEIGHT = {
     "denim": 1.4, "jersey": 1.3, "twill": 1.2, "poplin": 1.2, "knit": 1.2, "leather": 1.2,
 }
 
+# How glossy each shiny fabric is (the shader's _Gloss: a toon highlight, smaller and brighter the glossier); the rest
+# are matte.
+GLOSS = {
+    "vinyl": 1.0, "patent": 0.9, "rubber": 0.7, "metallic": 0.75, "gloss_puffer": 0.6, "sequins": 0.6, "satin": 0.5,
+    "taffeta": 0.45, "lycra": 0.45, "moire": 0.4, "croc": 0.4, "glitter": 0.4, "beaded": 0.4, "satin_stripe": 0.35,
+    "nylon": 0.35, "shantung": 0.3, "leather": 0.3, "snake": 0.3, "scuba": 0.25, "waxed": 0.25, "organza": 0.2,
+    "lurex_knit": 0.2, "perforated": 0.2,
+}
+
 # How much of each fabric's structure is added as light (the shader's _BaseLift), so it reads on dark cloth: the
 # shiny ones most, their highlights being the light they reflect.
 DEFAULT_LIFT = 0.12
