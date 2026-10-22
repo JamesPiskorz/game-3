@@ -17,8 +17,9 @@ namespace Game.Characters.Review
     /// <summary>
     /// The clothing texture library in the game's shader (decision 0008): every fabric (FabricTextures) worn as a
     /// dress and a shirt, and every print (PatternTextures) on a dress or a T-shirt in turn, each a close-up of the upper
-    /// body. Writes Docs/review/generated-fabrics.png and generated-prints.png, tiles in library order
-    /// (python Tools/Textures/swatches.py label &lt;sheet&gt; &lt;out.png&gt; names them). Uses the generated content.
+    /// body (from behind for a print placed on the back). Writes Docs/review/generated-fabrics.png and
+    /// generated-prints.png, tiles in library order (python Tools/Textures/swatches.py label &lt;sheet&gt; &lt;out.png&gt;
+    /// names them). Uses the generated content.
     /// Headless: unity run . -- -executeMethod Game.Characters.Review.GeneratedTextureSheet.Render
     /// </summary>
     public static class GeneratedTextureSheet
@@ -89,6 +90,7 @@ namespace Game.Characters.Review
                 ModularCharacter character = Dressed(generator, builder, dress
                     ? new[] { printed, Item(Shoes, new HsvColor(0f, 0f, 0.15f)) }
                     : new[] { printed, Item(Trousers, new HsvColor(0.6f, 0.25f, 0.3f)), Item(Shoes, new HsvColor(0f, 0f, 0.15f)) });
+                if (pattern.Placement == "back") character.transform.rotation = Quaternion.Euler(0f, 180f, 0f);  // seen from behind
                 tiles.Add(CloseUp(camera));
                 UnityEngine.Object.DestroyImmediate(character.gameObject);
             }

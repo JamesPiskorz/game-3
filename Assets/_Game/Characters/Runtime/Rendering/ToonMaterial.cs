@@ -59,8 +59,8 @@ namespace Game.Characters.Rendering
         /// <summary>
         /// A print over the regions weighted by <paramref name="regions"/>: <paramref name="pattern"/>'s red in
         /// <paramref name="colour"/>, its blue in <paramref name="accent"/> (its second colour; the print colour if none).
-        /// <paramref name="placed"/> draws it once rather than repeated (x 1, y the height, zw the half size, in metres
-        /// of the garment's fabric UVs).
+        /// <paramref name="placed"/> draws it once rather than repeated (xy its centre, zw its half size, in metres of the
+        /// garment's fabric UVs; zero to repeat it).
         /// </summary>
         public static void SetPattern(Material material, Texture pattern, Color colour, float strength, float tilesPerMetre, Vector4 regions,
                                       Color? accent = null, Vector4 placed = default)

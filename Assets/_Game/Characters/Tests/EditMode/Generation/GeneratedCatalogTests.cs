@@ -148,21 +148,29 @@ namespace Game.Characters.Tests.Generation
         }
 
         [Test]
-        public void ChestGraphicsGoOnlyOnCasualTopsAndDresses()
+        public void GraphicsAndBadgesGoOnlyOnTopsAndDresses()
         {
             ContentCatalog catalog = Catalogs.Generated();
             Assert.That(catalog.Patterns.Count(p => p.Placement == "chest"), Is.GreaterThanOrEqualTo(10), "Graphic tees.");
+            Assert.That(catalog.Patterns.Count(p => p.Placement == "badge"), Is.GreaterThanOrEqualTo(5), "Polo badges.");
+            Assert.That(catalog.Patterns.Count(p => p.Placement == "back"), Is.GreaterThanOrEqualTo(5), "Back prints.");
             var generator = new CharacterGenerator(catalog);
             int graphics = 0;
             for (ulong seed = 1; seed <= 400; seed++)
                 foreach (OutfitDna outfit in generator.Generate(seed * 7727, GenerationRequest.Any).Outfits)
                     foreach (ItemDna item in outfit.Items.Where(i => i.PatternId != null))
                     {
-                        if (catalog.Patterns.First(p => p.Id == item.PatternId).Placement == null) continue;
+                        string placement = catalog.Patterns.First(p => p.Id == item.PatternId).Placement;
+                        if (placement == null) continue;
                         graphics++;
                         PartEntry part = catalog.Part(item.ItemId);
-                        Assert.That(part.Slot, Is.EqualTo(Slots.Top).Or.EqualTo(Slots.OnePiece), item.ItemId);
-                        Assert.That(!part.Tags.Contains("swim") && part.Tags.Any(t => t == "casual" || t == "sporty" || t == "street"), item.ItemId);
+                        if (placement == "back")
+                            Assert.That(part.Slot, Is.EqualTo(Slots.Top).Or.EqualTo(Slots.OnePiece).Or.EqualTo(Slots.Outer), item.ItemId);
+                        else
+                            Assert.That(part.Slot, Is.EqualTo(Slots.Top).Or.EqualTo(Slots.OnePiece), item.ItemId);
+                        Assert.That(part.Tags, Has.No.Member("swim"), item.ItemId);
+                        if (placement != "badge")
+                            Assert.That(part.Tags.Any(t => t == "casual" || t == "sporty" || t == "street"), item.ItemId);
                     }
             Assert.That(graphics, Is.GreaterThan(0), "Some people wear graphic tees.");
         }

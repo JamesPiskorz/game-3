@@ -603,6 +603,66 @@ MonoBehaviour:
     Texture: {fileID: 2800000, guid: b1c4b62d54fa5db45bc9b91721556097, type: 3}
   - Id: pattern.tee_paw_01
     Texture: {fileID: 2800000, guid: c49a43cfb66ceb34c877de16e79e5538, type: 3}
+  - Id: pattern.tee_butterfly_01
+    Texture: {fileID: 2800000, guid: b0f4d9a74b39f904baf106fa658ea9fa, type: 3}
+  - Id: pattern.tee_bow_01
+    Texture: {fileID: 2800000, guid: ad7461bad51c2b04ca1e20300ce2c629, type: 3}
+  - Id: pattern.tee_moon_01
+    Texture: {fileID: 2800000, guid: d0fad8bba39fd8440a476c4ab592df05, type: 3}
+  - Id: pattern.tee_crown_01
+    Texture: {fileID: 2800000, guid: d5695e6bf9a7cbc4b9259d858d85a276, type: 3}
+  - Id: pattern.tee_ghost_01
+    Texture: {fileID: 2800000, guid: 7f579b9d12fbe1e45a134abf6b787c4f, type: 3}
+  - Id: pattern.tee_palm_01
+    Texture: {fileID: 2800000, guid: 1ca941f363404a347b8420ace6413673, type: 3}
+  - Id: pattern.tee_anchor_01
+    Texture: {fileID: 2800000, guid: 25ea003aa1cf4a649897afa95be5d9f1, type: 3}
+  - Id: pattern.tee_strawberry_01
+    Texture: {fileID: 2800000, guid: d32337a2dcbbc734697fb8cf66d6f826, type: 3}
+  - Id: pattern.tee_toadstool_01
+    Texture: {fileID: 2800000, guid: e249a8cb1b398d24cb18f0129fa6c975, type: 3}
+  - Id: pattern.tee_flame_01
+    Texture: {fileID: 2800000, guid: 040da63da6f99604caa1c42bce5f9f74, type: 3}
+  - Id: pattern.tee_lips_01
+    Texture: {fileID: 2800000, guid: fedfc50ba3e53f447a1f2ba271bbdc0a, type: 3}
+  - Id: pattern.tee_notes_01
+    Texture: {fileID: 2800000, guid: 38a9063923756284a8e516281c600239, type: 3}
+  - Id: pattern.tee_eye_01
+    Texture: {fileID: 2800000, guid: a7a3f43c9828d884285a582b25ec6ba8, type: 3}
+  - Id: pattern.badge_crown_01
+    Texture: {fileID: 2800000, guid: 415a9b3d8e164f64e9b10e882b9206df, type: 3}
+  - Id: pattern.badge_anchor_01
+    Texture: {fileID: 2800000, guid: 74c3be953907f2c48a43cc923a97b45b, type: 3}
+  - Id: pattern.badge_heart_01
+    Texture: {fileID: 2800000, guid: c318816e396c984499f677ddef5bae1a, type: 3}
+  - Id: pattern.badge_star_01
+    Texture: {fileID: 2800000, guid: d19431ce75c8fb04093d0aa9dca04c13, type: 3}
+  - Id: pattern.badge_cherries_01
+    Texture: {fileID: 2800000, guid: 99d60f86899887148b8c4471e2cf8800, type: 3}
+  - Id: pattern.badge_paw_01
+    Texture: {fileID: 2800000, guid: b88b5547b3d97e547b2b84b356d15b28, type: 3}
+  - Id: pattern.badge_bow_01
+    Texture: {fileID: 2800000, guid: 75fcb832d8c1b494cbe90e1c1659297e, type: 3}
+  - Id: pattern.badge_moon_01
+    Texture: {fileID: 2800000, guid: c04e719f996443842b4db5e33833f964, type: 3}
+  - Id: pattern.back_skull_01
+    Texture: {fileID: 2800000, guid: 30f59cf34da47654e856963917710c6a, type: 3}
+  - Id: pattern.back_flame_01
+    Texture: {fileID: 2800000, guid: 6d412b1f062cf8e438174eac78aa6941, type: 3}
+  - Id: pattern.back_crown_01
+    Texture: {fileID: 2800000, guid: 9c0c7baf82d472c43ba947327e6f80aa, type: 3}
+  - Id: pattern.back_star_01
+    Texture: {fileID: 2800000, guid: 21ca1453bac02e74d80ceeb0dd516e3e, type: 3}
+  - Id: pattern.back_lightning_01
+    Texture: {fileID: 2800000, guid: eb79d52729c412442ae53bac81f65f4a, type: 3}
+  - Id: pattern.back_sunset_01
+    Texture: {fileID: 2800000, guid: 5c163ad36e19de849a9a5e6f9d750fba, type: 3}
+  - Id: pattern.back_mountains_01
+    Texture: {fileID: 2800000, guid: 5c282d88d4c00ed4d8458c0705074413, type: 3}
+  - Id: pattern.back_rose_01
+    Texture: {fileID: 2800000, guid: 2ca39a15b6bed0d428d9ab3f87fff49f, type: 3}
+  - Id: pattern.back_butterfly_01
+    Texture: {fileID: 2800000, guid: 746bb6c224d4ba848aac2a4662858f0a, type: 3}
   Fabrics:
   - Id: plain
     Material: {fileID: 2100000, guid: 438e55e3cc9afa740b5c2f26ae972251, type: 2}

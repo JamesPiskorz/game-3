@@ -274,12 +274,17 @@ namespace Game.Characters.Building
             }
         }
 
-        // A chest graphic: 20 cm across, centred on the bust line of the generated garments' bind pose (their fabric
-        // UVs are metres: u round from the centre front, v the height).
-        static readonly Vector4 Chest = new Vector4(1f, 1.24f, 0.1f, 0.1f);
+        // Where placed prints go on the generated garments, whose fabric UVs are metres (u round from the centre front,
+        // towards the wearer's left; v the height in the bind pose; the back panel's u from 10 m at its centre): a chest
+        // graphic 20 cm across on the bust line, a badge 9 cm across over the left breast, a back graphic 24 cm across
+        // between the shoulder blades.
+        static readonly Vector4 Chest = new Vector4(0f, 1.24f, 0.1f, 0.1f);
+        static readonly Vector4 Badge = new Vector4(0.085f, 1.3f, 0.045f, 0.045f);
+        static readonly Vector4 Back = new Vector4(10f, 1.24f, 0.12f, 0.12f);
 
         /// <summary>Where a placed print goes on a garment (ToonMaterial.SetPattern's placement); zero for a repeat.</summary>
-        static Vector4 Placed(string placement) => placement == "chest" ? Chest : Vector4.zero;
+        static Vector4 Placed(string placement) =>
+            placement == "chest" ? Chest : placement == "badge" ? Badge : placement == "back" ? Back : Vector4.zero;
 
         /// <summary>The material a part was imported with (its own fabric), from its prefab.</summary>
         Material OwnMaterial(string partId)

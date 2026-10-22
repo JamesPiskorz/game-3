@@ -1826,6 +1826,169 @@ def graphic_paw(size, seed):
     return _graphic(size, (paw, _outline(paw, 2) * 0.6))
 
 
+
+def graphic_butterfly(size, seed):
+    """A butterfly, its wings spotted in the second colour."""
+    x, y, r = _motif(size)
+    ax = np.abs(x)
+    upper = np.hypot((ax - 0.45) / 0.5, (y + 0.22) / 0.42) < 1
+    lower = np.hypot((ax - 0.32) / 0.34, (y - 0.4) / 0.32) < 1
+    wings = tk.blur_small(((upper | lower) & (ax > 0.07)).astype(float), 1)
+    spots = tk.blur_small(((np.hypot(ax - 0.55, y + 0.3) < 0.14) | (np.hypot(ax - 0.33, y - 0.42) < 0.1)).astype(float), 1) * wings
+    body = (ax < 0.07) & (np.abs(y) < 0.6)
+    antennae = (np.abs(ax - (-y - 0.55) * 0.6) < 0.03) & (y < -0.55) & (y > -0.9)
+    return _graphic(size, (np.clip(wings - spots, 0, 1), np.clip(_outline(wings, 2) * 0.7 + body + antennae, 0, 1), spots))
+
+
+def graphic_bow(size, seed):
+    """A big bow."""
+    x, y, r = _motif(size)
+    loops = np.minimum(np.hypot((x + 0.45), y * 1.6) - 0.44, np.hypot((x - 0.45), y * 1.6) - 0.44)
+    knot = np.hypot(x, y) - 0.17
+    tails = np.where((y > 0.0) & (np.abs(np.abs(x) - y * 0.6) < 0.12) & (y < 0.85), -1.0, 1.0)
+    bow = _soft(np.minimum.reduce([loops, knot, tails]), r)
+    inner = _soft(np.minimum(np.hypot((x + 0.5), y * 1.6) - 0.22, np.hypot((x - 0.5), y * 1.6) - 0.22), r) * bow
+    return _graphic(size, (np.clip(bow - inner * 0.6, 0, 1), np.clip(_outline(bow, 2) * 0.7 + _outline(_soft(knot, r), 2) * 0.6, 0, 1)))
+
+
+def graphic_moon(size, seed):
+    """A crescent moon among golden stars."""
+    x, y, r = _motif(size)
+    moon = np.clip(_soft(np.hypot(x + 0.1, y) - 0.72, r) - _soft(np.hypot(x - 0.22, y - 0.15) - 0.62, r), 0, 1)
+    stars_ = np.zeros_like(x)
+    for sx, sy, ss in ((0.55, -0.55, 0.16), (0.7, 0.35, 0.1), (0.3, 0.7, 0.08)):
+        a = np.arctan2(y - sy, x - sx) + np.pi / 2
+        phi = np.abs(((a % (2 * np.pi / 5)) / (2 * np.pi / 5)) - 0.5) * 2
+        stars_ = np.maximum(stars_, _soft(np.hypot(x - sx, y - sy) - ss * (0.45 + 0.55 * phi ** 1.3), r))
+    return _graphic(size, (moon, _outline(moon, 2) * 0.6, stars_))
+
+
+def graphic_crown(size, seed):
+    """A crown set with jewels."""
+    px = int(size * 0.84) | 1
+    h = px / 2
+    pts = [(-0.8, 0.45), (-0.85, -0.45), (-0.45, -0.05), (-0.22, -0.6), (0.0, -0.1), (0.22, -0.6), (0.45, -0.05),
+           (0.85, -0.45), (0.8, 0.45)]
+    crown = tk.polygon_mask([(a * h, b * h) for a, b in pts], px, 1.5)
+    x, y, r = _motif(size)
+    x, y = x[:crown.shape[0], :crown.shape[1]], y[:crown.shape[0], :crown.shape[1]]
+    jewels = np.clip(sum(_soft(np.hypot(x - jx, y - jy) - js, r) for jx, jy, js in ((0, 0.22, 0.1), (-0.45, 0.25, 0.07), (0.45, 0.25, 0.07))), 0, 1)
+    band = (np.abs(y - 0.25) < 0.17) & (np.abs(x) < 0.8)
+    return _graphic(size, (np.clip(crown - jewels, 0, 1), np.clip(_outline(crown, 2) * 0.7 + _outline(band.astype(float), 1) * 0.4, 0, 1), jewels))
+
+
+def graphic_ghost(size, seed):
+    """A little ghost, blushing."""
+    x, y, r = _motif(size)
+    body = (np.hypot(x / 0.62, (y + 0.15) / 0.62) < 1) | ((np.abs(x) < 0.62) & (y > -0.15) & (y < 0.7 + 0.12 * np.cos(x * 12)))
+    ghost = tk.blur_small(body.astype(float), 1)
+    eyes = np.hypot((np.abs(x) - 0.22) / 0.08, (y + 0.15) / 0.12) < 1
+    mouth = np.hypot(x / 0.1, (y - 0.12) / 0.08) < 1
+    blush = tk.blur_small((np.hypot((np.abs(x) - 0.38) / 0.12, (y - 0.02) / 0.06) < 1).astype(float), 1)
+    return _graphic(size, (np.clip(ghost - blush, 0, 1), np.clip(_outline(ghost, 2) * 0.7 + eyes + mouth, 0, 1), blush))
+
+
+def graphic_palm(size, seed):
+    """A palm tree on an island under the sun."""
+    x, y, r = _motif(size)
+    sun = _soft(np.hypot(x, y + 0.1) - 0.75, r)
+    trunk = (np.abs(x - 0.15 * (y - 0.75) ** 2 + 0.05) < 0.05 + 0.02 * (y + 0.3)) & (y > -0.3) & (y < 0.7)
+    fronds = np.zeros_like(x, dtype=bool)
+    for k in range(5):
+        a = np.radians(-160 + k * 35)
+        cx, cy = 0.05 + 0.32 * np.cos(a), -0.32 + 0.32 * np.sin(a) + 0.12
+        fronds |= np.hypot(((x - cx) * np.cos(a) + (y - cy) * np.sin(a)) / 0.34, (-(x - cx) * np.sin(a) + (y - cy) * np.cos(a)) / 0.08) < 1
+    island = (np.hypot(x / 0.6, (y - 0.75) / 0.12) < 1)
+    leaf = tk.blur_small(fronds.astype(float), 1)
+    tree = tk.blur_small((trunk | island).astype(float), 1)
+    return _graphic(size, (np.clip(sun - tree - leaf, 0, 1) * 0.5 + tree * (1 - leaf), np.clip(_outline(sun, 2) * 0.4 + _outline(leaf, 2) * 0.6, 0, 1), leaf))
+
+
+def graphic_anchor(size, seed):
+    """An anchor with a coiled rope."""
+    x, y, r = _motif(size)
+    ring = np.abs(np.hypot(x, y + 0.72) - 0.14) < 0.055
+    shank = (np.abs(x) < 0.07) & (y > -0.6) & (y < 0.72)
+    stock = (np.abs(y + 0.4) < 0.06) & (np.abs(x) < 0.4)
+    arc = (np.abs(np.hypot(x, y - 0.1) - 0.62) < 0.08) & (y > 0.32)
+    tips = np.hypot(np.abs(x) - 0.6, y - 0.4) < 0.13
+    anchor = tk.blur_small((ring | shank | stock | arc | tips).astype(float), 1)
+    rope = (np.abs(np.hypot(x * 1.2, y * 0.9) - 0.7 + 0.03 * np.sin(np.arctan2(y, x) * 18)) < 0.03) & (y < 0.2)
+    return _graphic(size, (anchor, _outline(anchor, 2) * 0.6, tk.blur_small(rope.astype(float), 1) * (1 - anchor)))
+
+
+def graphic_strawberry(size, seed):
+    """A strawberry with a leafy top."""
+    x, y, r = _motif(size)
+    half_width = np.where(y < 0.82, 0.68 * np.sqrt(np.clip(1 - ((y + 0.05) / 0.9) ** 2, 0, 1)) * (1 - 0.25 * (y + 0.05)), 0)
+    body = (np.abs(x) < half_width) & (y > -0.5)
+    seeds = (np.sin(x * 14) * np.sin((y + x * 0.5) * 14) > 0.9) & body
+    top = (np.abs(x) < 0.04) & (y < -0.45) & (y > -0.85)  # the stalk, and five pointed sepals round it
+    for k in range(5):
+        a = np.radians(200 + k * 35)
+        cx, cy = 0.26 * np.cos(a), -0.48 + 0.2 * np.sin(a) + 0.12
+        top |= np.hypot(((x - cx) * np.cos(a) + (y - cy) * np.sin(a)) / 0.26, (-(x - cx) * np.sin(a) + (y - cy) * np.cos(a)) / 0.08) < 1
+    berry = tk.blur_small(body.astype(float), 1)
+    leaf = tk.blur_small(top.astype(float), 1)
+    return _graphic(size, (np.clip(berry - leaf, 0, 1), np.clip(_outline(berry, 2) * 0.6 + seeds * 0.9 + _outline(leaf, 2) * 0.5, 0, 1), leaf))
+
+
+def graphic_toadstool(size, seed):
+    """A spotted toadstool."""
+    x, y, r = _motif(size)
+    cap = _soft(np.hypot(x / 0.88, (y + 0.05) / 0.7) - 1, r * 0.7) * (y < 0.05)
+    stem = _soft(np.maximum(np.abs(x) - 0.26 - 0.06 * (y - 0.05), np.abs(y - 0.45) - 0.4), r) * (1 - cap)
+    spots = np.clip(sum(_soft(np.hypot(x - sx, y - sy) - sr, r) for sx, sy, sr in ((-0.4, -0.25, 0.13), (0.25, -0.4, 0.11), (0.5, -0.1, 0.09), (-0.05, -0.1, 0.08))), 0, 1) * cap
+    return _graphic(size, (np.clip(cap - spots, 0, 1), np.clip(_outline(cap, 2) * 0.7 + _outline(stem, 2) * 0.6, 0, 1), np.clip(stem + spots, 0, 1)))
+
+
+def graphic_flame(size, seed):
+    """A flame with a golden heart."""
+    x, y, r = _motif(size)
+    def flame(scale, lean):
+        u, v = x / scale, (y - 0.25) / scale
+        width = 0.55 * np.sqrt(np.clip(1 - (v / 0.65) ** 2, 0, 1)) * (v > 0) + np.clip(0.55 + v * 0.55 + 0.08 * np.sin(v * 9 + lean), 0, 1) * (v <= 0)
+        return (np.abs(u - lean * np.clip(-v, 0, 1) * 0.3) < width) & (v > -1.0) & (v < 0.65)
+    outer = tk.blur_small(flame(1.0, 0.6).astype(float), 1)
+    inner = tk.blur_small(flame(0.55, -0.4).astype(float), 1) * outer
+    return _graphic(size, (np.clip(outer - inner, 0, 1), _outline(outer, 2) * 0.6, inner))
+
+
+def graphic_lips(size, seed):
+    """A big kiss."""
+    x, y, r = _motif(size)
+    outer = np.hypot(x / 0.88, y / 0.48) < 1
+    bow = np.hypot(x, y + 0.55) < 0.2
+    lips = tk.blur_small((outer & ~bow).astype(float), 1)
+    mouth = (np.abs(y - 0.03 - 0.12 * (x / 0.88) ** 2 + 0.1 * np.exp(-(x / 0.12) ** 2)) < 0.035) & (np.abs(x) < 0.85)
+    shine = tk.blur_small((np.hypot((x + 0.35) / 0.15, (y - 0.25) / 0.05) < 1).astype(float), 1) * lips
+    return _graphic(size, (np.clip(lips - shine, 0, 1), np.clip(mouth * 0.9 + _outline(lips, 2) * 0.5, 0, 1), shine))
+
+
+def graphic_notes(size, seed):
+    """A pair of beamed quavers."""
+    x, y, r = _motif(size)
+    def head(cx, cy):
+        t = np.radians(-25)
+        lx, ly = x - cx, y - cy
+        return np.hypot((np.cos(t) * lx + np.sin(t) * ly) / 0.24, (-np.sin(t) * lx + np.cos(t) * ly) / 0.16) < 1
+    notes = head(-0.42, 0.55) | head(0.42, 0.42) | ((np.abs(x + 0.22) < 0.045) & (y > -0.58) & (y < 0.55)) | \
+        ((np.abs(x - 0.62) < 0.045) & (y > -0.72) & (y < 0.42)) | ((np.abs(y + 0.62 + (x + 0.22) * 0.17) < 0.09) & (x > -0.26) & (x < 0.66))
+    shape = tk.blur_small(notes.astype(float), 1)
+    return _graphic(size, (shape, _outline(shape, 2) * 0.5))
+
+
+def graphic_eye(size, seed):
+    """An eye with lashes and a coloured iris."""
+    x, y, r = _motif(size)
+    almond = np.maximum(np.hypot(x, y - 0.5) - 0.82, np.hypot(x, y + 0.5) - 0.82)
+    white = _soft(almond, r)
+    iris = _soft(np.hypot(x, y) - 0.28, r) * white
+    pupil = _soft(np.hypot(x, y) - 0.12, r)
+    lashes = (np.abs(np.sin(np.arctan2(y + 0.5, x) * 9)) < 0.22) & (np.hypot(x, y + 0.5) > 0.82) & (np.hypot(x, y + 0.5) < 0.98) & (y < -0.1)
+    return _graphic(size, (np.clip(white - iris, 0, 1), np.clip(_outline(white, 2) * 0.8 + pupil + lashes * 0.8, 0, 1), np.clip(iris - pupil, 0, 1)))
+
+
 # name, tags, tiles per metre (min, max), weight
 PRINTS = {
     # Patterns the stand-ins share (their catalog lists these ids).
@@ -1969,6 +2132,38 @@ PRINTS = {
     "tee_daisy": (graphic_daisy, "Daisy graphic", ["cute", "casual"], (1, 1), 0.3),
     "tee_mountains": (graphic_mountains, "Mountains graphic", ["sporty", "casual", "bookish"], (1, 1), 0.3),
     "tee_paw": (graphic_paw, "Paw graphic", ["cute", "casual", "sporty"], (1, 1), 0.3),
+    "tee_butterfly": (graphic_butterfly, "Butterfly graphic", ["cute", "casual", "date"], (1, 1), 0.3),
+    "tee_bow": (graphic_bow, "Bow graphic", ["cute", "date"], (1, 1), 0.3),
+    "tee_moon": (graphic_moon, "Moon graphic", ["cute", "gothic", "bookish"], (1, 1), 0.3),
+    "tee_crown": (graphic_crown, "Crown graphic", ["street", "date", "cute"], (1, 1), 0.3),
+    "tee_ghost": (graphic_ghost, "Ghost graphic", ["cute", "gothic"], (1, 1), 0.3),
+    "tee_palm": (graphic_palm, "Palm tree graphic", ["casual", "sporty"], (1, 1), 0.3),
+    "tee_anchor": (graphic_anchor, "Anchor graphic", ["casual", "bookish"], (1, 1), 0.3),
+    "tee_strawberry": (graphic_strawberry, "Strawberry graphic", ["cute", "casual"], (1, 1), 0.3),
+    "tee_toadstool": (graphic_toadstool, "Toadstool graphic", ["cute", "bookish"], (1, 1), 0.3),
+    "tee_flame": (graphic_flame, "Flame graphic", ["street", "sporty", "gothic"], (1, 1), 0.3),
+    "tee_lips": (graphic_lips, "Kiss graphic", ["date", "street"], (1, 1), 0.3),
+    "tee_notes": (graphic_notes, "Music graphic", ["street", "casual", "cute"], (1, 1), 0.3),
+    "tee_eye": (graphic_eye, "Eye graphic", ["gothic", "street"], (1, 1), 0.3),
+    # Small badges on the left chest, as embroidered on a polo or a shirt (PLACED "badge").
+    "badge_crown": (graphic_crown, "Crown badge", ["elegant", "bookish", "sporty"], (1, 1), 0.3),
+    "badge_anchor": (graphic_anchor, "Anchor badge", ["bookish", "casual", "sporty"], (1, 1), 0.3),
+    "badge_heart": (graphic_heart, "Heart badge", ["cute", "casual", "date"], (1, 1), 0.3),
+    "badge_star": (graphic_star, "Star badge", ["sporty", "street", "casual"], (1, 1), 0.3),
+    "badge_cherries": (graphic_cherries, "Cherries badge", ["cute", "casual"], (1, 1), 0.2),
+    "badge_paw": (graphic_paw, "Paw badge", ["cute", "sporty"], (1, 1), 0.2),
+    "badge_bow": (graphic_bow, "Bow badge", ["cute", "elegant"], (1, 1), 0.2),
+    "badge_moon": (graphic_moon, "Moon badge", ["gothic", "bookish", "cute"], (1, 1), 0.2),
+    # Big graphics across the back of a tee, a hoodie or a jacket (PLACED "back").
+    "back_skull": (graphic_skull, "Skull on the back", ["gothic", "street"], (1, 1), 0.3),
+    "back_flame": (graphic_flame, "Flame on the back", ["street", "sporty", "gothic"], (1, 1), 0.3),
+    "back_crown": (graphic_crown, "Crown on the back", ["street", "date"], (1, 1), 0.2),
+    "back_star": (graphic_star, "Star on the back", ["street", "sporty", "casual"], (1, 1), 0.3),
+    "back_lightning": (graphic_lightning, "Lightning on the back", ["street", "sporty"], (1, 1), 0.2),
+    "back_sunset": (graphic_sunset, "Sunset on the back", ["casual", "street", "sporty"], (1, 1), 0.3),
+    "back_mountains": (graphic_mountains, "Mountains on the back", ["sporty", "casual"], (1, 1), 0.2),
+    "back_rose": (graphic_rose, "Rose on the back", ["gothic", "date", "street"], (1, 1), 0.2),
+    "back_butterfly": (graphic_butterfly, "Butterfly on the back", ["cute", "street", "date"], (1, 1), 0.2),
 }
 
 # How each print's second colour (its accent: leaves, hearts, wafers) follows its first: "leaf" (a natural green),
@@ -1981,10 +2176,20 @@ ACCENT = {
     "cacti": "leaf", "medallions": "contrast",
     "tee_heart": "light", "tee_star": "light", "tee_cherries": "leaf", "tee_rose": "leaf", "tee_sunset": "gold",
     "tee_cat": "light", "tee_rainbow": "contrast", "tee_planet": "contrast", "tee_daisy": "gold", "tee_mountains": "light",
+    "tee_butterfly": "contrast", "tee_moon": "gold", "tee_crown": "contrast", "tee_ghost": "light", "tee_palm": "leaf",
+    "tee_anchor": "gold", "tee_strawberry": "leaf", "tee_toadstool": "light", "tee_flame": "gold", "tee_lips": "light",
+    "tee_eye": "contrast",
+    "badge_crown": "contrast", "badge_heart": "light", "badge_star": "light", "badge_cherries": "leaf", "badge_anchor": "gold",
+    "badge_moon": "gold",
+    "back_star": "light", "back_sunset": "gold", "back_mountains": "light", "back_rose": "leaf", "back_flame": "gold",
+    "back_crown": "contrast", "back_butterfly": "contrast",
 }
 
-# Prints placed once rather than repeated, and where: "chest", a graphic on a top's or a dress's front.
-PLACED = {pid: "chest" for pid in PRINTS if pid.startswith("tee_")}
+# Prints placed once rather than repeated, and where: "chest", a graphic on the front of a casual top or dress;
+# "badge", a small one on the left chest of any top or dress; "back", a big one across the back of a casual top,
+# dress or jacket.
+PLACED = {pid: {"tee_": "chest", "badge_": "badge", "back_": "back"}[pid[:pid.index("_") + 1]]
+          for pid in PRINTS if pid.startswith(("tee_", "badge_", "back_"))}
 
 # Prints knitted into the cloth (colourwork, stripes, intarsia) rather than printed on it: the only ones a knit takes
 # (fabrics.PRINT_TAGS). They carry the tag "knitted" in the library.

@@ -50,10 +50,14 @@ namespace Game.Characters.Content
             FabricEntry fabric = FabricOf(part, fabricId);
             if (fabric != null && !fabric.Printable) return new List<PatternEntry>();
             // A chest graphic goes on the front of a casual top or dress (a tee, a hoodie, a sundress), not a blouse, a
-            // gown or a bikini.
-            bool chest = (part.Slot == Slots.Top || part.Slot == Slots.OnePiece) && !part.Tags.Contains("swim") &&
-                         part.Tags.Any(t => t == "casual" || t == "sporty" || t == "street");
-            return Patterns.Where(p => (p.Placement == null || chest) &&
+            // gown or a bikini; a badge on any top or dress but swimwear; a back graphic across a casual top, dress or
+            // jacket.
+            bool front = (part.Slot == Slots.Top || part.Slot == Slots.OnePiece) && !part.Tags.Contains("swim");
+            bool casual = part.Tags.Any(t => t == "casual" || t == "sporty" || t == "street");
+            bool Placeable(PatternEntry p) => p.Placement == null || (p.Placement == "badge" && front) ||
+                                              (p.Placement == "chest" && front && casual) ||
+                                              (p.Placement == "back" && casual && (front || part.Slot == Slots.Outer));
+            return Patterns.Where(p => Placeable(p) &&
                                        (fabric == null || fabric.PrintTags.Count == 0 || p.Tags.Any(fabric.PrintTags.Contains))).ToList();
         }
 
@@ -309,11 +313,12 @@ namespace Game.Characters.Content
 
         /// <summary>
         /// Where the print is placed once, if it is rather than repeated: "chest", a graphic on the front of a casual
-        /// top or dress (a graphic tee). Its scale is then ignored.
+        /// top or dress (a graphic tee); "badge", a small one on the left chest of any top or dress (a polo's emblem);
+        /// "back", a big one across the back of a casual top, dress or jacket. Its scale is then ignored.
         /// </summary>
         public string Placement;
 
-        public static readonly string[] Placements = { "chest" };
+        public static readonly string[] Placements = { "chest", "badge", "back" };
 
         /// <summary>The second colour for a print in <paramref name="print"/> by <see cref="Accent"/>.</summary>
         public HsvColor AccentFor(HsvColor print)

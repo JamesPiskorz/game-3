@@ -1863,6 +1863,411 @@
    "weight": 0.3,
    "accent": null,
    "placement": "chest"
+  },
+  {
+   "id": "pattern.tee_butterfly_01",
+   "name": "Butterfly graphic",
+   "tags": [
+    "cute",
+    "casual",
+    "date"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.3,
+   "accent": "contrast",
+   "placement": "chest"
+  },
+  {
+   "id": "pattern.tee_bow_01",
+   "name": "Bow graphic",
+   "tags": [
+    "cute",
+    "date"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.3,
+   "accent": null,
+   "placement": "chest"
+  },
+  {
+   "id": "pattern.tee_moon_01",
+   "name": "Moon graphic",
+   "tags": [
+    "cute",
+    "gothic",
+    "bookish"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.3,
+   "accent": "gold",
+   "placement": "chest"
+  },
+  {
+   "id": "pattern.tee_crown_01",
+   "name": "Crown graphic",
+   "tags": [
+    "street",
+    "date",
+    "cute"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.3,
+   "accent": "contrast",
+   "placement": "chest"
+  },
+  {
+   "id": "pattern.tee_ghost_01",
+   "name": "Ghost graphic",
+   "tags": [
+    "cute",
+    "gothic"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.3,
+   "accent": "light",
+   "placement": "chest"
+  },
+  {
+   "id": "pattern.tee_palm_01",
+   "name": "Palm tree graphic",
+   "tags": [
+    "casual",
+    "sporty"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.3,
+   "accent": "leaf",
+   "placement": "chest"
+  },
+  {
+   "id": "pattern.tee_anchor_01",
+   "name": "Anchor graphic",
+   "tags": [
+    "casual",
+    "bookish"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.3,
+   "accent": "gold",
+   "placement": "chest"
+  },
+  {
+   "id": "pattern.tee_strawberry_01",
+   "name": "Strawberry graphic",
+   "tags": [
+    "cute",
+    "casual"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.3,
+   "accent": "leaf",
+   "placement": "chest"
+  },
+  {
+   "id": "pattern.tee_toadstool_01",
+   "name": "Toadstool graphic",
+   "tags": [
+    "cute",
+    "bookish"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.3,
+   "accent": "light",
+   "placement": "chest"
+  },
+  {
+   "id": "pattern.tee_flame_01",
+   "name": "Flame graphic",
+   "tags": [
+    "street",
+    "sporty",
+    "gothic"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.3,
+   "accent": "gold",
+   "placement": "chest"
+  },
+  {
+   "id": "pattern.tee_lips_01",
+   "name": "Kiss graphic",
+   "tags": [
+    "date",
+    "street"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.3,
+   "accent": "light",
+   "placement": "chest"
+  },
+  {
+   "id": "pattern.tee_notes_01",
+   "name": "Music graphic",
+   "tags": [
+    "street",
+    "casual",
+    "cute"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.3,
+   "accent": null,
+   "placement": "chest"
+  },
+  {
+   "id": "pattern.tee_eye_01",
+   "name": "Eye graphic",
+   "tags": [
+    "gothic",
+    "street"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.3,
+   "accent": "contrast",
+   "placement": "chest"
+  },
+  {
+   "id": "pattern.badge_crown_01",
+   "name": "Crown badge",
+   "tags": [
+    "elegant",
+    "bookish",
+    "sporty"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.3,
+   "accent": "contrast",
+   "placement": "badge"
+  },
+  {
+   "id": "pattern.badge_anchor_01",
+   "name": "Anchor badge",
+   "tags": [
+    "bookish",
+    "casual",
+    "sporty"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.3,
+   "accent": "gold",
+   "placement": "badge"
+  },
+  {
+   "id": "pattern.badge_heart_01",
+   "name": "Heart badge",
+   "tags": [
+    "cute",
+    "casual",
+    "date"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.3,
+   "accent": "light",
+   "placement": "badge"
+  },
+  {
+   "id": "pattern.badge_star_01",
+   "name": "Star badge",
+   "tags": [
+    "sporty",
+    "street",
+    "casual"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.3,
+   "accent": "light",
+   "placement": "badge"
+  },
+  {
+   "id": "pattern.badge_cherries_01",
+   "name": "Cherries badge",
+   "tags": [
+    "cute",
+    "casual"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.2,
+   "accent": "leaf",
+   "placement": "badge"
+  },
+  {
+   "id": "pattern.badge_paw_01",
+   "name": "Paw badge",
+   "tags": [
+    "cute",
+    "sporty"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.2,
+   "accent": null,
+   "placement": "badge"
+  },
+  {
+   "id": "pattern.badge_bow_01",
+   "name": "Bow badge",
+   "tags": [
+    "cute",
+    "elegant"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.2,
+   "accent": null,
+   "placement": "badge"
+  },
+  {
+   "id": "pattern.badge_moon_01",
+   "name": "Moon badge",
+   "tags": [
+    "gothic",
+    "bookish",
+    "cute"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.2,
+   "accent": "gold",
+   "placement": "badge"
+  },
+  {
+   "id": "pattern.back_skull_01",
+   "name": "Skull on the back",
+   "tags": [
+    "gothic",
+    "street"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.3,
+   "accent": null,
+   "placement": "back"
+  },
+  {
+   "id": "pattern.back_flame_01",
+   "name": "Flame on the back",
+   "tags": [
+    "street",
+    "sporty",
+    "gothic"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.3,
+   "accent": "gold",
+   "placement": "back"
+  },
+  {
+   "id": "pattern.back_crown_01",
+   "name": "Crown on the back",
+   "tags": [
+    "street",
+    "date"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.2,
+   "accent": "contrast",
+   "placement": "back"
+  },
+  {
+   "id": "pattern.back_star_01",
+   "name": "Star on the back",
+   "tags": [
+    "street",
+    "sporty",
+    "casual"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.3,
+   "accent": "light",
+   "placement": "back"
+  },
+  {
+   "id": "pattern.back_lightning_01",
+   "name": "Lightning on the back",
+   "tags": [
+    "street",
+    "sporty"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.2,
+   "accent": null,
+   "placement": "back"
+  },
+  {
+   "id": "pattern.back_sunset_01",
+   "name": "Sunset on the back",
+   "tags": [
+    "casual",
+    "street",
+    "sporty"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.3,
+   "accent": "gold",
+   "placement": "back"
+  },
+  {
+   "id": "pattern.back_mountains_01",
+   "name": "Mountains on the back",
+   "tags": [
+    "sporty",
+    "casual"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.2,
+   "accent": "light",
+   "placement": "back"
+  },
+  {
+   "id": "pattern.back_rose_01",
+   "name": "Rose on the back",
+   "tags": [
+    "gothic",
+    "date",
+    "street"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.2,
+   "accent": "leaf",
+   "placement": "back"
+  },
+  {
+   "id": "pattern.back_butterfly_01",
+   "name": "Butterfly on the back",
+   "tags": [
+    "cute",
+    "street",
+    "date"
+   ],
+   "minScale": 1,
+   "maxScale": 1,
+   "weight": 0.2,
+   "accent": "contrast",
+   "placement": "back"
   }
  ]
 }
