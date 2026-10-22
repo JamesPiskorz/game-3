@@ -34,7 +34,9 @@
     "shantung",
     "moire",
     "taffeta",
-    "satin_stripe"
+    "satin_stripe",
+    "brocade",
+    "sateen"
   ],
   "patternable": true,
   "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261021_230109_for_texture_textured.glb",

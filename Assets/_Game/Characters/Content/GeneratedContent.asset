@@ -665,6 +665,8 @@ MonoBehaviour:
     Texture: {fileID: 2800000, guid: 746bb6c224d4ba848aac2a4662858f0a, type: 3}
   - Id: pattern.ombre_01
     Texture: {fileID: 2800000, guid: 861fce67757d1444ba4dd4da02f8bd2f, type: 3}
+  - Id: pattern.ombreup_01
+    Texture: {fileID: 2800000, guid: c5b44ee46a89dec40bddcd3ff91519c4, type: 3}
   - Id: pattern.dipdye_01
     Texture: {fileID: 2800000, guid: 2d488778fee9a184f9a6ff866ca998b9, type: 3}
   - Id: pattern.sunsetfade_01
@@ -862,6 +864,12 @@ MonoBehaviour:
     Material: {fileID: 2100000, guid: 7ad87007bf854424d80d5c0580a2f2df, type: 2}
   - Id: guipure
     Material: {fileID: 2100000, guid: a00103016e7e6bd418efe24f9fa7b07d, type: 2}
+  - Id: dotted_swiss
+    Material: {fileID: 2100000, guid: a43be1dd8fa13404faf87eba509a4451, type: 2}
+  - Id: brocade
+    Material: {fileID: 2100000, guid: 9d41c113bfc18714781ae77691ce6b45, type: 2}
+  - Id: sateen
+    Material: {fileID: 2100000, guid: a7cf21148f469174fa83bca313b2d77b, type: 2}
   Sliders:
   - Id: body.weight
     Kind: 0

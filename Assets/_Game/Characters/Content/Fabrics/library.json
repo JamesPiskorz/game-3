@@ -1708,6 +1708,65 @@
    "weight": 1.0,
    "gloss": 0.0,
    "sheen": 0.0
+  },
+  {
+   "id": "dotted_swiss",
+   "name": "Dotted swiss",
+   "mean": 0.7519,
+   "tileMetres": 0.25,
+   "tags": [
+    "cute",
+    "date",
+    "casual",
+    "sleep"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.12,
+   "colourChance": 0.0,
+   "colours": [],
+   "weight": 1.0,
+   "gloss": 0.0,
+   "sheen": 0.0
+  },
+  {
+   "id": "brocade",
+   "name": "Brocade",
+   "mean": 0.7098,
+   "tileMetres": 0.25,
+   "tags": [
+    "elegant",
+    "gothic",
+    "formal"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.35,
+   "colourChance": 0.0,
+   "colours": [],
+   "weight": 1.0,
+   "gloss": 0.3,
+   "sheen": 0.0
+  },
+  {
+   "id": "sateen",
+   "name": "Cotton sateen",
+   "mean": 0.9251,
+   "tileMetres": 0.25,
+   "tags": [
+    "elegant",
+    "casual",
+    "bookish",
+    "sleep"
+   ],
+   "printable": true,
+   "printTags": [],
+   "lift": 0.3,
+   "colourChance": 0.0,
+   "colours": [],
+   "weight": 1.0,
+   "gloss": 0.2,
+   "sheen": 0.0
   }
  ]
 }

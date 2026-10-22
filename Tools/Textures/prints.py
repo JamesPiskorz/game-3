@@ -2017,6 +2017,11 @@ def ombre(size, seed):
     return tk.smoothstep(0.1, 0.95, t), _zero(size)
 
 
+def ombre_up(size, seed):
+    """A reverse ombre: the print colour at the top fading to the cloth's own at the hem."""
+    return 1 - tk.smoothstep(0.05, 0.9, _down(size)), _zero(size)
+
+
 def dip_dye(size, seed):
     """Dip-dye: the lower third dipped in the print colour, a soft wicked edge above a darker tide line."""
     t = _down(size)
@@ -2382,54 +2387,55 @@ PRINTS = {
     "feathers": (feathers, "Feathers", ["casual", "elegant", "street"], (2, 3.5), 0.4),
     "medallions": (medallions, "Medallions", ["elegant", "casual", "date"], (2.5, 4), 0.5),
     # Placed once on the chest (PLACED), not repeated: graphic tees.
-    "tee_heart": (graphic_heart, "Heart graphic", ["cute", "casual", "date"], (1, 1), 0.4),
-    "tee_star": (graphic_star, "Star graphic", ["casual", "street", "sporty"], (1, 1), 0.4),
-    "tee_smiley": (graphic_smiley, "Smiley graphic", ["street", "casual", "cute"], (1, 1), 0.4),
-    "tee_cherries": (graphic_cherries, "Cherries graphic", ["cute", "casual"], (1, 1), 0.3),
-    "tee_rose": (graphic_rose, "Rose graphic", ["gothic", "date", "elegant"], (1, 1), 0.3),
-    "tee_sunset": (graphic_sunset, "Sunset graphic", ["casual", "street", "sporty"], (1, 1), 0.4),
-    "tee_lightning": (graphic_lightning, "Lightning graphic", ["street", "sporty"], (1, 1), 0.3),
-    "tee_skull": (graphic_skull, "Skull graphic", ["gothic", "street"], (1, 1), 0.4),
-    "tee_cat": (graphic_cat, "Cat graphic", ["cute", "casual"], (1, 1), 0.4),
-    "tee_rainbow": (graphic_rainbow, "Rainbow graphic", ["cute", "casual"], (1, 1), 0.3),
-    "tee_planet": (graphic_planet, "Planet graphic", ["cute", "street", "bookish"], (1, 1), 0.3),
-    "tee_daisy": (graphic_daisy, "Daisy graphic", ["cute", "casual"], (1, 1), 0.3),
-    "tee_mountains": (graphic_mountains, "Mountains graphic", ["sporty", "casual", "bookish"], (1, 1), 0.3),
-    "tee_paw": (graphic_paw, "Paw graphic", ["cute", "casual", "sporty"], (1, 1), 0.3),
-    "tee_butterfly": (graphic_butterfly, "Butterfly graphic", ["cute", "casual", "date"], (1, 1), 0.3),
-    "tee_bow": (graphic_bow, "Bow graphic", ["cute", "date"], (1, 1), 0.3),
-    "tee_moon": (graphic_moon, "Moon graphic", ["cute", "gothic", "bookish"], (1, 1), 0.3),
-    "tee_crown": (graphic_crown, "Crown graphic", ["street", "date", "cute"], (1, 1), 0.3),
-    "tee_ghost": (graphic_ghost, "Ghost graphic", ["cute", "gothic"], (1, 1), 0.3),
-    "tee_palm": (graphic_palm, "Palm tree graphic", ["casual", "sporty"], (1, 1), 0.3),
-    "tee_anchor": (graphic_anchor, "Anchor graphic", ["casual", "bookish"], (1, 1), 0.3),
-    "tee_strawberry": (graphic_strawberry, "Strawberry graphic", ["cute", "casual"], (1, 1), 0.3),
-    "tee_toadstool": (graphic_toadstool, "Toadstool graphic", ["cute", "bookish"], (1, 1), 0.3),
-    "tee_flame": (graphic_flame, "Flame graphic", ["street", "sporty", "gothic"], (1, 1), 0.3),
-    "tee_lips": (graphic_lips, "Kiss graphic", ["date", "street"], (1, 1), 0.3),
-    "tee_notes": (graphic_notes, "Music graphic", ["street", "casual", "cute"], (1, 1), 0.3),
-    "tee_eye": (graphic_eye, "Eye graphic", ["gothic", "street"], (1, 1), 0.3),
+    "tee_heart": (graphic_heart, "Heart graphic", ["cute", "casual", "date"], (0.8, 1.25), 0.4),
+    "tee_star": (graphic_star, "Star graphic", ["casual", "street", "sporty"], (0.8, 1.25), 0.4),
+    "tee_smiley": (graphic_smiley, "Smiley graphic", ["street", "casual", "cute"], (0.8, 1.25), 0.4),
+    "tee_cherries": (graphic_cherries, "Cherries graphic", ["cute", "casual"], (0.8, 1.25), 0.3),
+    "tee_rose": (graphic_rose, "Rose graphic", ["gothic", "date", "elegant"], (0.8, 1.25), 0.3),
+    "tee_sunset": (graphic_sunset, "Sunset graphic", ["casual", "street", "sporty"], (0.8, 1.25), 0.4),
+    "tee_lightning": (graphic_lightning, "Lightning graphic", ["street", "sporty"], (0.8, 1.25), 0.3),
+    "tee_skull": (graphic_skull, "Skull graphic", ["gothic", "street"], (0.8, 1.25), 0.4),
+    "tee_cat": (graphic_cat, "Cat graphic", ["cute", "casual"], (0.8, 1.25), 0.4),
+    "tee_rainbow": (graphic_rainbow, "Rainbow graphic", ["cute", "casual"], (0.8, 1.25), 0.3),
+    "tee_planet": (graphic_planet, "Planet graphic", ["cute", "street", "bookish"], (0.8, 1.25), 0.3),
+    "tee_daisy": (graphic_daisy, "Daisy graphic", ["cute", "casual"], (0.8, 1.25), 0.3),
+    "tee_mountains": (graphic_mountains, "Mountains graphic", ["sporty", "casual", "bookish"], (0.8, 1.25), 0.3),
+    "tee_paw": (graphic_paw, "Paw graphic", ["cute", "casual", "sporty"], (0.8, 1.25), 0.3),
+    "tee_butterfly": (graphic_butterfly, "Butterfly graphic", ["cute", "casual", "date"], (0.8, 1.25), 0.3),
+    "tee_bow": (graphic_bow, "Bow graphic", ["cute", "date"], (0.8, 1.25), 0.3),
+    "tee_moon": (graphic_moon, "Moon graphic", ["cute", "gothic", "bookish"], (0.8, 1.25), 0.3),
+    "tee_crown": (graphic_crown, "Crown graphic", ["street", "date", "cute"], (0.8, 1.25), 0.3),
+    "tee_ghost": (graphic_ghost, "Ghost graphic", ["cute", "gothic"], (0.8, 1.25), 0.3),
+    "tee_palm": (graphic_palm, "Palm tree graphic", ["casual", "sporty"], (0.8, 1.25), 0.3),
+    "tee_anchor": (graphic_anchor, "Anchor graphic", ["casual", "bookish"], (0.8, 1.25), 0.3),
+    "tee_strawberry": (graphic_strawberry, "Strawberry graphic", ["cute", "casual"], (0.8, 1.25), 0.3),
+    "tee_toadstool": (graphic_toadstool, "Toadstool graphic", ["cute", "bookish"], (0.8, 1.25), 0.3),
+    "tee_flame": (graphic_flame, "Flame graphic", ["street", "sporty", "gothic"], (0.8, 1.25), 0.3),
+    "tee_lips": (graphic_lips, "Kiss graphic", ["date", "street"], (0.8, 1.25), 0.3),
+    "tee_notes": (graphic_notes, "Music graphic", ["street", "casual", "cute"], (0.8, 1.25), 0.3),
+    "tee_eye": (graphic_eye, "Eye graphic", ["gothic", "street"], (0.8, 1.25), 0.3),
     # Small badges on the left chest, as embroidered on a polo or a shirt (PLACED "badge").
-    "badge_crown": (graphic_crown, "Crown badge", ["elegant", "bookish", "sporty"], (1, 1), 0.3),
-    "badge_anchor": (graphic_anchor, "Anchor badge", ["bookish", "casual", "sporty"], (1, 1), 0.3),
-    "badge_heart": (graphic_heart, "Heart badge", ["cute", "casual", "date"], (1, 1), 0.3),
-    "badge_star": (graphic_star, "Star badge", ["sporty", "street", "casual"], (1, 1), 0.3),
-    "badge_cherries": (graphic_cherries, "Cherries badge", ["cute", "casual"], (1, 1), 0.2),
-    "badge_paw": (graphic_paw, "Paw badge", ["cute", "sporty"], (1, 1), 0.2),
-    "badge_bow": (graphic_bow, "Bow badge", ["cute", "elegant"], (1, 1), 0.2),
-    "badge_moon": (graphic_moon, "Moon badge", ["gothic", "bookish", "cute"], (1, 1), 0.2),
+    "badge_crown": (graphic_crown, "Crown badge", ["elegant", "bookish", "sporty"], (0.8, 1.25), 0.3),
+    "badge_anchor": (graphic_anchor, "Anchor badge", ["bookish", "casual", "sporty"], (0.8, 1.25), 0.3),
+    "badge_heart": (graphic_heart, "Heart badge", ["cute", "casual", "date"], (0.8, 1.25), 0.3),
+    "badge_star": (graphic_star, "Star badge", ["sporty", "street", "casual"], (0.8, 1.25), 0.3),
+    "badge_cherries": (graphic_cherries, "Cherries badge", ["cute", "casual"], (0.8, 1.25), 0.2),
+    "badge_paw": (graphic_paw, "Paw badge", ["cute", "sporty"], (0.8, 1.25), 0.2),
+    "badge_bow": (graphic_bow, "Bow badge", ["cute", "elegant"], (0.8, 1.25), 0.2),
+    "badge_moon": (graphic_moon, "Moon badge", ["gothic", "bookish", "cute"], (0.8, 1.25), 0.2),
     # Big graphics across the back of a tee, a hoodie or a jacket (PLACED "back").
-    "back_skull": (graphic_skull, "Skull on the back", ["gothic", "street"], (1, 1), 0.3),
-    "back_flame": (graphic_flame, "Flame on the back", ["street", "sporty", "gothic"], (1, 1), 0.3),
-    "back_crown": (graphic_crown, "Crown on the back", ["street", "date"], (1, 1), 0.2),
-    "back_star": (graphic_star, "Star on the back", ["street", "sporty", "casual"], (1, 1), 0.3),
-    "back_lightning": (graphic_lightning, "Lightning on the back", ["street", "sporty"], (1, 1), 0.2),
-    "back_sunset": (graphic_sunset, "Sunset on the back", ["casual", "street", "sporty"], (1, 1), 0.3),
-    "back_mountains": (graphic_mountains, "Mountains on the back", ["sporty", "casual"], (1, 1), 0.2),
-    "back_rose": (graphic_rose, "Rose on the back", ["gothic", "date", "street"], (1, 1), 0.2),
-    "back_butterfly": (graphic_butterfly, "Butterfly on the back", ["cute", "street", "date"], (1, 1), 0.2),
+    "back_skull": (graphic_skull, "Skull on the back", ["gothic", "street"], (0.8, 1.25), 0.3),
+    "back_flame": (graphic_flame, "Flame on the back", ["street", "sporty", "gothic"], (0.8, 1.25), 0.3),
+    "back_crown": (graphic_crown, "Crown on the back", ["street", "date"], (0.8, 1.25), 0.2),
+    "back_star": (graphic_star, "Star on the back", ["street", "sporty", "casual"], (0.8, 1.25), 0.3),
+    "back_lightning": (graphic_lightning, "Lightning on the back", ["street", "sporty"], (0.8, 1.25), 0.2),
+    "back_sunset": (graphic_sunset, "Sunset on the back", ["casual", "street", "sporty"], (0.8, 1.25), 0.3),
+    "back_mountains": (graphic_mountains, "Mountains on the back", ["sporty", "casual"], (0.8, 1.25), 0.2),
+    "back_rose": (graphic_rose, "Rose on the back", ["gothic", "date", "street"], (0.8, 1.25), 0.2),
+    "back_butterfly": (graphic_butterfly, "Butterfly on the back", ["cute", "street", "date"], (0.8, 1.25), 0.2),
     # Dyes over the whole garment (PLACED "body").
     "ombre": (ombre, "Ombre", ["elegant", "date", "casual", "cute"], (1, 1), 0.6),
+    "ombreup": (ombre_up, "Reverse ombre", ["elegant", "date", "street"], (1, 1), 0.4),
     "dipdye": (dip_dye, "Dip-dye", ["casual", "street", "cute"], (1, 1), 0.5),
     "sunsetfade": (sunset_fade, "Sunset fade", ["date", "elegant", "casual"], (1, 1), 0.4),
     "colourblock": (colour_block, "Colour block", ["street", "sporty", "casual"], (1, 1), 0.5),
@@ -2475,7 +2481,7 @@ ACCENT = {
 # garment just above its hem or under its neckline.
 PLACED = {pid: {"tee_": "chest", "badge_": "badge", "back_": "back"}[pid[:pid.index("_") + 1]]
           for pid in PRINTS if pid.startswith(("tee_", "badge_", "back_"))}
-PLACED.update({pid: "body" for pid in ("ombre", "dipdye", "sunsetfade", "colourblock", "hemstripes")})
+PLACED.update({pid: "body" for pid in ("ombre", "ombreup", "dipdye", "sunsetfade", "colourblock", "hemstripes")})
 PLACED.update({pid: "hem" for pid in ("hemflowers", "scallop", "greekkey", "folkband", "ricrac")})
 PLACED.update({pid: "yoke" for pid in ("yokeflowers", "folkyoke")})
 

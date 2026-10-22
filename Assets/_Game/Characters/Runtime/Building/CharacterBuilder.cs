@@ -282,6 +282,12 @@ namespace Game.Characters.Building
         static readonly Vector4 Badge = new Vector4(0.085f, 1.3f, 0.045f, 0.045f);
         static readonly Vector4 Back = new Vector4(10f, 1.24f, 0.12f, 0.12f);
 
+        static Vector4 Sized(Vector4 place, float scale)
+        {
+            float size = Mathf.Clamp(scale, 0.6f, 1.5f);
+            return new Vector4(place.x, place.y, place.z * size, place.w * size);
+        }
+
         /// <summary>
         /// Where a placed print goes on a garment (ToonMaterial.SetPattern's placement); zero for a repeat. A print over
         /// the whole garment spans its cloth's height, a centimetre beyond each end, and every panel and sleeve round it;
@@ -295,9 +301,10 @@ namespace Game.Characters.Building
             {
                 case "hem": return measured ? new Vector4(0f, part.ClothBottom + band + 0.015f, -1f, band) : Vector4.zero;
                 case "yoke": return measured ? new Vector4(0f, part.ClothTop - 0.13f, -1f, band) : Vector4.zero;
-                case "chest": return Chest;
-                case "badge": return Badge;
-                case "back": return Back;
+                // A graphic's scale sizes it (0.8 to 1.25 of its place), so they differ from wearer to wearer.
+                case "chest": return Sized(Chest, tilesPerMetre);
+                case "badge": return Sized(Badge, tilesPerMetre);
+                case "back": return Sized(Back, tilesPerMetre);
                 case "body":
                     float half = (part.ClothTop - part.ClothBottom) / 2f + 0.01f;
                     return half > 0.06f ? new Vector4(40f, (part.ClothTop + part.ClothBottom) / 2f, 45f, half) : Vector4.zero;

@@ -812,6 +812,46 @@ def guipure(size, seed):
     return np.clip(0.4 + 0.6 * tk.blur_small(canvas_, 1), 0, 1)
 
 
+def dotted_swiss(size, seed):
+    """Dotted swiss: a fine sheer cotton with little woven dots, raised and catching the light, in offset rows."""
+    x, y = tk.grid(size)
+    n = 20
+    u = (x * n + 0.5 * (np.floor(y * n) % 2)) % 1.0 - 0.5
+    v = (y * n) % 1.0 - 0.5
+    dot = np.clip(1 - (np.hypot(u, v) / 0.2) ** 2, 0, 1) ** 0.5
+    shadow = np.clip(1 - (np.hypot(u - 0.05, v - 0.07) / 0.2) ** 2, 0, 1) * (dot == 0)
+    ground = 0.7 + 0.1 * _weave(size, 64)
+    return np.clip(np.maximum(ground - 0.25 * shadow, 0.7 + 0.3 * dot), 0, 1)
+
+
+def brocade(size, seed):
+    """Brocade: a rich woven figure of scrolling leaves, the figure raised and shining over a fine ground."""
+    x, y = tk.grid(size)
+    canvas_ = np.zeros((size, size))
+    leaf = _leaf(int(size / 3.6))
+    flower = _flower(int(size / 4.5), petals=6, roundness=0.4)
+    for cx, cy, angle in ((0.25, 0.25, 30), (0.75, 0.75, -150), (0.75, 0.25, 120), (0.25, 0.75, -60)):
+        tk.stamp(canvas_, tk.rotate_shape(leaf, angle), cx * size, cy * size)
+    for cx, cy in ((0.5, 0.5), (0.0, 0.0), (0.5, 0.0), (0.0, 0.5)):
+        tk.stamp(canvas_, flower, cx * size, cy * size)
+    figure = tk.blur_small((canvas_ > 0.5).astype(float), 1)
+    raised = 0.86 + 0.14 * np.sin(2 * np.pi * 120 * (x + y * 0.3))
+    ground = _shade(_twill(size, 72), 0.25) * 0.78
+    edge = _outline_mask(figure)
+    return np.clip(figure * raised + (1 - figure) * ground - 0.25 * edge, 0, 1)
+
+
+def _outline_mask(mask):
+    """Where a soft mask changes: its outline."""
+    return np.clip(np.abs(mask - tk.blur_small(mask, 2)) * 3.0, 0, 1)
+
+
+def sateen(size, seed):
+    """Cotton sateen: a smooth, soft-sheened cotton, the sheen in long gentle bands over a fine diagonal."""
+    rib = _twill(size, 96)
+    return np.clip(_sheen(size, seed, 4, 0.86, 1.6) * (0.97 + 0.03 * rib), 0, 1)
+
+
 def rubber(size, seed):
     """Rubber (rain boots, clogs): smooth and glossy with soft reflections."""
     return np.clip(_sheen(size, seed, 3, 0.78, 3.0), 0, 1)
@@ -943,6 +983,7 @@ FABRICS = {
     "satin_stripe": satin_stripe, "felt": felt, "lurex_knit": lurex_knit,
     "pinstripe_wool": pinstripe_wool, "houndstooth_wool": houndstooth_wool, "patchwork": patchwork,
     "needlecord": needlecord, "jumbo_cord": jumbo_cord, "scuba": scuba, "gloss_puffer": gloss_puffer, "guipure": guipure,
+    "dotted_swiss": dotted_swiss, "brocade": brocade, "sateen": sateen,
 }
 
 # Each fabric's catalog entry: the style tags archetypes weight it by, whether a print goes on it, and how common it is.
@@ -951,7 +992,7 @@ NO_PRINT = {"denim", "croc", "sequins", "lace", "quilted", "diamond_quilt", "cor
             "herringbone", "jacquard", "velvet", "boucle", "seersucker", "terry", "waffle",
             "stonewash", "acid_wash", "waxed", "pointelle", "seed_stitch", "sherpa", "chenille", "moire",
             "glitter", "beaded", "perforated", "vinyl", "snake", "ottoman", "straw", "smocked", "marl", "satin_stripe", "pinstripe_wool", "houndstooth_wool", "patchwork",
-            "jumbo_cord", "gloss_puffer", "guipure"}
+            "jumbo_cord", "gloss_puffer", "guipure", "dotted_swiss", "brocade"}
 # Fabrics that take only some prints: a knit takes only what is knitted into it (Fair Isle, stripes, argyle), not a
 # printed floral; a leather only an animal print. Prints with one of these tags (prints.KNITTED's "knitted",
 # prints.ANIMAL's "animal").
@@ -989,7 +1030,8 @@ TAGS = {
     "pinstripe_wool": ["elegant", "bookish", "gothic"], "houndstooth_wool": ["elegant", "bookish"],
     "patchwork": ["cute", "casual", "street"], "needlecord": ["bookish", "casual", "cute"],
     "jumbo_cord": ["casual", "street", "bookish"], "scuba": ["sporty", "street", "date"], "gloss_puffer": ["street", "sporty"],
-    "guipure": ["elegant", "date", "gothic"],
+    "guipure": ["elegant", "date", "gothic"], "dotted_swiss": ["cute", "date", "casual"], "brocade": ["elegant", "gothic"],
+    "sateen": ["elegant", "casual", "bookish"],
 }
 
 # Fabrics that usually come in their own colours, and how often an item made in one is: (chance, hex colours). Denim
@@ -1029,10 +1071,10 @@ WEIGHT = {
 
 # The occasions fabrics suit, as extra tags the outfit contexts weight (formal, sleep).
 CONTEXT_TAGS = {
-    "formal": ["satin", "velvet", "sequins", "taffeta", "organza", "jacquard", "beaded", "metallic", "lace", "guipure",
+    "formal": ["satin", "velvet", "sequins", "taffeta", "organza", "jacquard", "brocade", "beaded", "metallic", "lace", "guipure",
                "moire", "shantung", "tulle", "crepe", "chiffon", "glitter", "satin_stripe"],
     "sleep": ["flannel", "satin", "jersey", "waffle", "fleece", "terry", "marl", "pointelle", "seersucker", "smocked",
-              "chenille", "sherpa", "plain", "poplin", "crinkle"],
+              "chenille", "sherpa", "plain", "poplin", "crinkle", "sateen", "dotted_swiss"],
 }
 
 # How glossy each shiny fabric is (the shader's _Gloss: a toon highlight, smaller and brighter the glossier); the rest
@@ -1041,7 +1083,7 @@ GLOSS = {
     "vinyl": 1.0, "patent": 0.9, "rubber": 0.7, "metallic": 0.75, "gloss_puffer": 0.6, "sequins": 0.6, "satin": 0.5,
     "taffeta": 0.45, "lycra": 0.45, "moire": 0.4, "croc": 0.4, "glitter": 0.4, "beaded": 0.4, "satin_stripe": 0.35,
     "nylon": 0.35, "shantung": 0.3, "leather": 0.3, "snake": 0.3, "scuba": 0.25, "waxed": 0.25, "organza": 0.2,
-    "lurex_knit": 0.2, "perforated": 0.2,
+    "lurex_knit": 0.2, "perforated": 0.2, "brocade": 0.3, "sateen": 0.2,
 }
 
 # How much each pile fabric glows toward its edges (the shader's _Sheen: velvet's look); the rest have none.
@@ -1064,4 +1106,5 @@ LIFT = {
     "waxed": 0.32, "quilted": 0.22, "diamond_quilt": 0.2, "straw": 0.2,
     "satin_stripe": 0.3, "felt": 0.1, "lurex_knit": 0.4, "pinstripe_wool": 0.35, "houndstooth_wool": 0.3, "patchwork": 0.25,
     "needlecord": 0.2, "jumbo_cord": 0.22, "scuba": 0.35, "gloss_puffer": 0.5, "guipure": 0.08,
+    "dotted_swiss": 0.12, "brocade": 0.35, "sateen": 0.3,
 }
