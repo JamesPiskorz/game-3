@@ -2757,6 +2757,10 @@ FABRIC_CHAINS = {
 
 
 UV_BAND = 0.02  # metres: the slices fabric UVs measure round
+# The back panel's u starts this far along (a whole number of fabric tiles, so the cloth is as it was; a tiled print
+# only shifts along the side seams, where the panels already meet), so a print placed on the front (a T-shirt's
+# chest graphic, round u = 0) isn't also on the back.
+BACK_PANEL_U = 10.0
 UV_SECTORS = 72
 
 
@@ -2928,6 +2932,8 @@ def fabric_uvs(part, joints, torso_only=False, layer="UVMap"):
             facing = np.add.reduceat(np.cos(angle), runs) / lengths
             back = np.repeat(facing < 0, lengths)
         uv[loops, 0] = _arc_lengths(bands, t, angle, radius, count, back)
+        if back is not None:
+            uv[loops, 0] += np.where(back, BACK_PANEL_U, 0.0)
         # Up the torso and feet, v grows upwards (z); down the limbs, away from the body.
         uv[loops, 1] = co[loop_vertex[loops], 2] if chain == "torso" or chain.startswith("foot") else -along
     while mesh.uv_layers:

@@ -15,6 +15,7 @@ namespace Game.Characters.Rendering
         public static readonly int PatternMap = Shader.PropertyToID("_PatternMap");
         public static readonly int PatternColor = Shader.PropertyToID("_PatternColor");
         public static readonly int PatternAccent = Shader.PropertyToID("_PatternAccent");
+        public static readonly int PatternPlace = Shader.PropertyToID("_PatternPlace");
         public static readonly int BaseMap = Shader.PropertyToID("_BaseMap");
         public static readonly int BaseGain = Shader.PropertyToID("_BaseGain");
         public static readonly int BaseLift = Shader.PropertyToID("_BaseLift");
@@ -58,11 +59,14 @@ namespace Game.Characters.Rendering
         /// <summary>
         /// A print over the regions weighted by <paramref name="regions"/>: <paramref name="pattern"/>'s red in
         /// <paramref name="colour"/>, its blue in <paramref name="accent"/> (its second colour; the print colour if none).
+        /// <paramref name="placed"/> draws it once rather than repeated (x 1, y the height, zw the half size, in metres
+        /// of the garment's fabric UVs).
         /// </summary>
         public static void SetPattern(Material material, Texture pattern, Color colour, float strength, float tilesPerMetre, Vector4 regions,
-                                      Color? accent = null)
+                                      Color? accent = null, Vector4 placed = default)
         {
             material.SetTexture(PatternMap, pattern);
+            material.SetVector(PatternPlace, placed);
             material.SetColor(PatternAccent, accent ?? colour);
             colour.a = pattern == null ? 0f : strength;
             material.SetColor(PatternColor, colour);
@@ -87,6 +91,7 @@ namespace Game.Characters.Rendering
         {
             material.SetTexture(PatternMap, null);
             material.SetColor(PatternColor, new Color(1f, 1f, 1f, 0f));
+            material.SetVector(PatternPlace, Vector4.zero);
         }
     }
 }

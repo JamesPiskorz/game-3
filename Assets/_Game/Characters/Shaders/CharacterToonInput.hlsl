@@ -23,6 +23,7 @@ CBUFFER_START(UnityPerMaterial)
     half _RimWidth;
     half4 _PatternColor;
     half4 _PatternAccent;
+    float4 _PatternPlace;
     half4 _PatternRegions;
     half _PatternScale;
     half _PatternInk;
@@ -81,7 +82,9 @@ half4 ToonMask(float2 uv, float2 uv1, half4 vertexColour)
 // keeps its colour on average. The unmasked base region shades to _BaseShade (hand-picked, e.g. from the skin palette);
 // recoloured regions shade to their colour × _ShadeTint. A pattern's red channel is how much of the pattern colour
 // shows; its green channel is ink (outlines and shading drawn in the print), darkening by up to _PatternInk; its blue
-// channel is how much of its second colour, _PatternAccent, shows (a flower's leaves, a daisy's heart).
+// channel is how much of its second colour, _PatternAccent, shows (a flower's leaves, a daisy's heart). A placed
+// print (_PatternPlace.x = 1: a T-shirt's chest graphic) is drawn once, .z by .w metres either side of the front
+// centre line (u = 0) and of height .y, rather than repeated: the generated garments' UVs are metres of cloth.
 // _BaseLift adds the fabric's structure as light too, the more the darker the cloth, since darkening alone can't show
 // on black: the stitches of a black knit, the flecks of a charcoal tweed, the glint of black patent.
 void ToonAlbedo(float2 uv, float2 uv1, half4 vertexColour, out half3 lit, out half3 shade)
@@ -92,7 +95,14 @@ void ToonAlbedo(float2 uv, float2 uv1, half4 vertexColour, out half3 lit, out ha
     half baseWeight = saturate(1.0 - mask.r - mask.g - mask.b - mask.a);
     half3 regions = _Color1.rgb * mask.r + _Color2.rgb * mask.g + _Color3.rgb * mask.b + _Color4.rgb * mask.a;
 
-    half3 print = SAMPLE_TEXTURE2D(_PatternMap, sampler_PatternMap, uv * _PatternScale).rgb;
+    float2 printUV = uv * _PatternScale;
+    half placed = 1.0;
+    if (_PatternPlace.x > 0.5)
+    {
+        printUV = float2(uv.x / (2.0 * _PatternPlace.z), (uv.y - _PatternPlace.y) / (2.0 * _PatternPlace.w)) + 0.5;
+        placed = step(0.0, printUV.x) * step(printUV.x, 1.0) * step(0.0, printUV.y) * step(printUV.y, 1.0);
+    }
+    half3 print = SAMPLE_TEXTURE2D(_PatternMap, sampler_PatternMap, printUV).rgb * placed;
     half strength = _PatternColor.a * dot(mask, _PatternRegions);
     half pattern = print.r * strength;
     half accent = print.b * strength;

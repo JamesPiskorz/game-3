@@ -266,13 +266,20 @@ namespace Game.Characters.Building
                         PatternEntry print = _catalog.Patterns.FirstOrDefault(p => p.Id == item.PatternId);
                         HsvColor accent = print?.AccentFor(item.PatternColor.Value) ?? item.PatternColor.Value;
                         ToonMaterial.SetPattern(material, pattern, ToColour(item.PatternColor.Value), 1f, item.PatternScale, new Vector4(1f, 0f, 0f, 0f),
-                                                ToColour(accent));
+                                                ToColour(accent), Placed(print?.Placement));
                     }
                     else
                         ToonMaterial.ClearPattern(material);
                 }
             }
         }
+
+        // A chest graphic: 20 cm across, centred on the bust line of the generated garments' bind pose (their fabric
+        // UVs are metres: u round from the centre front, v the height).
+        static readonly Vector4 Chest = new Vector4(1f, 1.24f, 0.1f, 0.1f);
+
+        /// <summary>Where a placed print goes on a garment (ToonMaterial.SetPattern's placement); zero for a repeat.</summary>
+        static Vector4 Placed(string placement) => placement == "chest" ? Chest : Vector4.zero;
 
         /// <summary>The material a part was imported with (its own fabric), from its prefab.</summary>
         Material OwnMaterial(string partId)

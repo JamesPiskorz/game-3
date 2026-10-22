@@ -575,6 +575,34 @@ MonoBehaviour:
     Texture: {fileID: 2800000, guid: ad0bbf43f4dda014cb11d04a0f41dc8c, type: 3}
   - Id: pattern.medallions_01
     Texture: {fileID: 2800000, guid: a772cbbbe2e53bf478252d31ce5e976c, type: 3}
+  - Id: pattern.tee_heart_01
+    Texture: {fileID: 2800000, guid: c4a860bb1b5d170408698ed5af382103, type: 3}
+  - Id: pattern.tee_star_01
+    Texture: {fileID: 2800000, guid: a5eb52eaac1353647aa02d73faeec50e, type: 3}
+  - Id: pattern.tee_smiley_01
+    Texture: {fileID: 2800000, guid: f145886a8c8b3f6469b40130da803b71, type: 3}
+  - Id: pattern.tee_cherries_01
+    Texture: {fileID: 2800000, guid: cc60e1fb5c62f4343a9fc6f78cee15c4, type: 3}
+  - Id: pattern.tee_rose_01
+    Texture: {fileID: 2800000, guid: 705986a6c81ecd641b76d8a253783984, type: 3}
+  - Id: pattern.tee_sunset_01
+    Texture: {fileID: 2800000, guid: 746a889a3d0e51f40a6398d99a6e9360, type: 3}
+  - Id: pattern.tee_lightning_01
+    Texture: {fileID: 2800000, guid: 5d4fcaf371259f04f87dfb95f463b219, type: 3}
+  - Id: pattern.tee_skull_01
+    Texture: {fileID: 2800000, guid: f55aa24048c2ab148a7d3ca8012fe27c, type: 3}
+  - Id: pattern.tee_cat_01
+    Texture: {fileID: 2800000, guid: e7dff762e9412fd41be219601d8f185b, type: 3}
+  - Id: pattern.tee_rainbow_01
+    Texture: {fileID: 2800000, guid: 548899789866c5840b63b73522617b7c, type: 3}
+  - Id: pattern.tee_planet_01
+    Texture: {fileID: 2800000, guid: b401a5c364322384c90c3e8b13a9ff41, type: 3}
+  - Id: pattern.tee_daisy_01
+    Texture: {fileID: 2800000, guid: 7fd4e45e65feb6a4b84e116a018ffe68, type: 3}
+  - Id: pattern.tee_mountains_01
+    Texture: {fileID: 2800000, guid: b1c4b62d54fa5db45bc9b91721556097, type: 3}
+  - Id: pattern.tee_paw_01
+    Texture: {fileID: 2800000, guid: c49a43cfb66ceb34c877de16e79e5538, type: 3}
   Fabrics:
   - Id: plain
     Material: {fileID: 2100000, guid: 438e55e3cc9afa740b5c2f26ae972251, type: 2}

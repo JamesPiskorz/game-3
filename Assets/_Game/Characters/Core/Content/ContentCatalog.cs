@@ -48,9 +48,13 @@ namespace Game.Characters.Content
         {
             if (part == null || !part.Patternable) return new List<PatternEntry>();
             FabricEntry fabric = FabricOf(part, fabricId);
-            if (fabric == null || (fabric.Printable && fabric.PrintTags.Count == 0)) return Patterns.ToList();
-            if (!fabric.Printable) return new List<PatternEntry>();
-            return Patterns.Where(p => p.Tags.Any(fabric.PrintTags.Contains)).ToList();
+            if (fabric != null && !fabric.Printable) return new List<PatternEntry>();
+            // A chest graphic goes on the front of a casual top or dress (a tee, a hoodie, a sundress), not a blouse, a
+            // gown or a bikini.
+            bool chest = (part.Slot == Slots.Top || part.Slot == Slots.OnePiece) && !part.Tags.Contains("swim") &&
+                         part.Tags.Any(t => t == "casual" || t == "sporty" || t == "street");
+            return Patterns.Where(p => (p.Placement == null || chest) &&
+                                       (fabric == null || fabric.PrintTags.Count == 0 || p.Tags.Any(fabric.PrintTags.Contains))).ToList();
         }
 
         /// <summary>Whether an item of <paramref name="part"/> made in <paramref name="fabricId"/> can take the print.</summary>
@@ -90,6 +94,8 @@ namespace Game.Characters.Content
             Unique(Patterns, p => p.Id, "pattern");
             foreach (PatternEntry pattern in Patterns.Where(p => p.Accent != null && !PatternEntry.AccentRules.Contains(p.Accent)))
                 errors.Add($"Pattern '{pattern.Id}' has an unknown second colour '{pattern.Accent}'.");
+            foreach (PatternEntry pattern in Patterns.Where(p => p.Placement != null && !PatternEntry.Placements.Contains(p.Placement)))
+                errors.Add($"Pattern '{pattern.Id}' is placed at unknown '{pattern.Placement}'.");
             Unique(Fabrics, f => f.Id, "fabric");
             Unique(Contexts, c => c.Id, "context");
 
@@ -300,6 +306,14 @@ namespace Game.Characters.Content
         public string Accent;
 
         public static readonly string[] AccentRules = { "leaf", "gold", "light", "contrast" };
+
+        /// <summary>
+        /// Where the print is placed once, if it is rather than repeated: "chest", a graphic on the front of a casual
+        /// top or dress (a graphic tee). Its scale is then ignored.
+        /// </summary>
+        public string Placement;
+
+        public static readonly string[] Placements = { "chest" };
 
         /// <summary>The second colour for a print in <paramref name="print"/> by <see cref="Accent"/>.</summary>
         public HsvColor AccentFor(HsvColor print)
