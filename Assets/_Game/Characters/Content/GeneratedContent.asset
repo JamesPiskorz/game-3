@@ -735,6 +735,12 @@ MonoBehaviour:
     Texture: {fileID: 2800000, guid: 1d87ee399c2da3e4f8dc7bcac70b6017, type: 3}
   - Id: pattern.memphis_01
     Texture: {fileID: 2800000, guid: fa74756fa81dc9443bd4c74e2f580046, type: 3}
+  - Id: pattern.regimental_01
+    Texture: {fileID: 2800000, guid: 59a7094f7f490924eaf81e67ec33c3ee, type: 3}
+  - Id: pattern.quilt_01
+    Texture: {fileID: 2800000, guid: dbe8dd840f3506e40a62a9a558b16876, type: 3}
+  - Id: pattern.spots_01
+    Texture: {fileID: 2800000, guid: e6937395011c70f41a62a55116697986, type: 3}
   Fabrics:
   - Id: plain
     Material: {fileID: 2100000, guid: 438e55e3cc9afa740b5c2f26ae972251, type: 2}

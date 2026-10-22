@@ -8760,6 +8760,54 @@
       "placement": null,
       "colourways": [],
       "colourwayChance": 0.0
+    },
+    {
+      "id": "pattern.regimental_01",
+      "name": "Regimental stripes",
+      "weight": 0.5,
+      "tags": [
+        "bookish",
+        "elegant",
+        "casual"
+      ],
+      "minScale": 4.0,
+      "maxScale": 6.0,
+      "accent": "contrast",
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
+    },
+    {
+      "id": "pattern.quilt_01",
+      "name": "Quilt blocks",
+      "weight": 0.4,
+      "tags": [
+        "cute",
+        "casual",
+        "bookish"
+      ],
+      "minScale": 2.0,
+      "maxScale": 3.0,
+      "accent": "contrast",
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
+    },
+    {
+      "id": "pattern.spots_01",
+      "name": "Painted spots",
+      "weight": 0.6,
+      "tags": [
+        "cute",
+        "casual",
+        "street"
+      ],
+      "minScale": 3.0,
+      "maxScale": 5.0,
+      "accent": null,
+      "placement": null,
+      "colourways": [],
+      "colourwayChance": 0.0
     }
   ],
   "fabrics": [

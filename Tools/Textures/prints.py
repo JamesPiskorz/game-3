@@ -2549,6 +2549,47 @@ def memphis(size, seed):
     return _scatter_shapes(size, shapes, 22, seed, size / 6.5)
 
 
+
+def regimental(size, seed):
+    """Regimental stripes: bold diagonal bands with a thin stripe of the second colour beside each (a club tie)."""
+    x, y = tk.grid(size)
+    t = (x + y) * 2 % 1.0
+    return _band(t, 0.3, 0.32, 0.008), _zero(size), _band(t, 0.6, 0.06, 0.008)
+
+
+def quilt_blocks(size, seed):
+    """Quilt blocks: half-square triangles in two colours, row on row, with stitched seams."""
+    x, y = tk.grid(size)
+    n = 4
+    u, v = (x * n) % 1.0, (y * n) % 1.0
+    qu, qv = np.floor(u * 2), np.floor(v * 2)  # which quarter of the block
+    lu, lv = (u * 2) % 1.0, (v * 2) % 1.0
+    quarter = (qu + 2 * qv).astype(int)
+    upper = np.where((quarter == 0) | (quarter == 3), lu > lv, lu + lv < 1.0)  # the triangles turn round the centre
+    block = (np.floor(x * n) + np.floor(y * n)) % 2 == 0
+    colour = (upper & block).astype(float)
+    accent = (upper & ~block).astype(float)
+    seams = np.minimum(np.abs(((x * n * 2) % 1.0) - 0.5), np.abs(((y * n * 2) % 1.0) - 0.5)) > 0.48
+    stitch = seams & (np.floor((x + y) * 200) % 2 == 0)
+    return tk.blur_small(colour, 0.7), stitch * 0.5, tk.blur_small(accent, 0.7)
+
+
+def painted_spots(size, seed):
+    """Painted spots: round dabs of paint, uneven in size and edge, as if done by hand."""
+    rng = np.random.default_rng(seed)
+    colour = _zero(size)
+    for cx, cy in tk.scatter(size, 40, seed, size / 8):
+        rad = size / 34 * (0.7 + 0.7 * rng.random())
+        px = int(rad * 3) | 1
+        h = px // 2
+        yy, xx = np.mgrid[-h:h + 1, -h:h + 1].astype(float)
+        ang = np.arctan2(yy, xx)
+        edge = rad * (1 + 0.1 * np.sin(ang * 3 + rng.random() * 6) + 0.06 * np.sin(ang * 7 + rng.random() * 6))
+        dab = np.clip(edge - np.hypot(xx, yy) + 0.5, 0, 1) * (0.8 + 0.2 * rng.random())
+        tk.stamp(colour, dab, cx, cy)
+    return colour, _zero(size)
+
+
 # name, tags, tiles per metre (min, max), weight
 PRINTS = {
     # Patterns the stand-ins share (their catalog lists these ids).
@@ -2763,6 +2804,9 @@ PRINTS = {
     "maple": (maple_leaves, "Autumn leaves", ["cute", "bookish", "casual"], (2.5, 4), 0.4),
     "pineapples": (pineapples, "Pineapples", ["cute", "casual", "sporty"], (2.5, 4), 0.4),
     "memphis": (memphis, "Memphis", ["street", "cute", "casual"], (2, 3.5), 0.4),
+    "regimental": (regimental, "Regimental stripes", ["bookish", "elegant", "casual"], (4, 6), 0.5),
+    "quilt": (quilt_blocks, "Quilt blocks", ["cute", "casual", "bookish"], (2, 3), 0.4),
+    "spots": (painted_spots, "Painted spots", ["cute", "casual", "street"], (3, 5), 0.6),
 }
 
 # How each print's second colour (its accent: leaves, hearts, wafers) follows its first: "leaf" (a natural green),
@@ -2774,7 +2818,7 @@ ACCENT = {
     "plaid": "contrast", "glenplaid": "contrast", "argyle": "contrast", "madras": "contrast",
     "cacti": "leaf", "medallions": "contrast", "groovy": "contrast", "flowerpower": "gold", "dinosaurs": "contrast",
     "sailboats": "contrast", "umbrellas": "contrast", "liberty": "contrast", "lavender": "leaf", "maple": "gold",
-    "pineapples": "leaf", "memphis": "contrast",
+    "pineapples": "leaf", "memphis": "contrast", "regimental": "contrast", "quilt": "contrast",
     "tee_heart": "light", "tee_star": "light", "tee_cherries": "leaf", "tee_rose": "leaf", "tee_sunset": "gold",
     "tee_cat": "light", "tee_rainbow": "contrast", "tee_planet": "contrast", "tee_daisy": "gold", "tee_mountains": "light",
     "tee_butterfly": "contrast", "tee_moon": "gold", "tee_crown": "contrast", "tee_ghost": "light", "tee_palm": "leaf",
