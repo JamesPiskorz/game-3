@@ -5530,8 +5530,8 @@
         "gothic",
         "sleep"
       ],
-      "minScale": 3.0,
-      "maxScale": 5.0,
+      "minScale": 6.0,
+      "maxScale": 9.0,
       "accent": null,
       "placement": null,
       "colourways": [
@@ -5837,8 +5837,8 @@
         "bookish",
         "cute"
       ],
-      "minScale": 3.0,
-      "maxScale": 5.0,
+      "minScale": 2.0,
+      "maxScale": 3.5,
       "accent": null,
       "placement": null,
       "colourways": [],
@@ -5905,8 +5905,8 @@
         "sleep",
         "swim"
       ],
-      "minScale": 3.0,
-      "maxScale": 6.0,
+      "minScale": 2.5,
+      "maxScale": 4.0,
       "accent": null,
       "placement": null,
       "colourways": [],
@@ -6719,8 +6719,8 @@
         "casual",
         "elegant"
       ],
-      "minScale": 2.0,
-      "maxScale": 4.0,
+      "minScale": 1.8,
+      "maxScale": 3.0,
       "accent": null,
       "placement": null,
       "colourways": [],
@@ -6793,8 +6793,8 @@
         "casual",
         "sleep"
       ],
-      "minScale": 3.0,
-      "maxScale": 5.0,
+      "minScale": 2.0,
+      "maxScale": 3.5,
       "accent": null,
       "placement": null,
       "colourways": [],

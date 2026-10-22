@@ -90,7 +90,7 @@ def pinstripe(size, seed):
 
 def chalk_stripe(size, seed):
     x, y = tk.grid(size)
-    chalk = _band(x, 0.5, 0.025, 0.015) * (0.7 + 0.3 * tk.value_noise(size, 30, seed, 1))
+    chalk = _band(x, 0.5, 0.04, 0.015) * (0.8 + 0.2 * tk.value_noise(size, 30, seed, 1))
     return chalk, _zero(size)
 
 
@@ -207,8 +207,8 @@ def hexagons(size, seed):
                 closer = d < best
                 second = np.where(closer, best, np.minimum(second, d))
                 best = np.where(closer, d, best)
-    edges = 1 - tk.smoothstep(0.0, 0.12, second - best)
-    return 0.55 * (1 - edges), edges * 0.85
+    edges = 1 - tk.smoothstep(0.08, 0.2, second - best)
+    return np.clip(0.35 * (1 - edges) + edges, 0, 1), edges * 0.3
 
 
 def waves(size, seed):
@@ -590,8 +590,8 @@ def spiderweb(size, seed):
     u, v = x - 0.5, y - 0.5
     r = np.hypot(u, v)
     a = np.arctan2(v, u)
-    spokes = np.exp(-(np.sin(a * 4) * r / 0.011) ** 2)
-    rings = _band((r * 9 + 0.15 * np.cos(a * 8) * r * 4) % 1.0, 0.5, 0.09, 0.02)
+    spokes = np.exp(-(np.sin(a * 4) * r / 0.016) ** 2)
+    rings = _band((r * 9 + 0.15 * np.cos(a * 8) * r * 4) % 1.0, 0.5, 0.13, 0.02)
     web = np.clip(spokes + rings, 0, 1) * (r < 0.5)
     return web, web * 0.3
 
@@ -775,8 +775,8 @@ def snowflakes(size, seed):
         def fn(x, y):
             a = np.arctan2(y, x)
             r = np.hypot(x, y)
-            arm = np.abs(np.sin(a * 3)) * r < 0.06
-            branch = (np.abs(np.sin(a * 3 + 0.5)) * r < 0.05) & (r > 0.4) & (r < 0.7)
+            arm = np.abs(np.sin(a * 3)) * r < 0.09
+            branch = (np.abs(np.sin(a * 3 + 0.5)) * r < 0.075) & (r > 0.4) & (r < 0.7)
             return ((arm | branch) & (r < 0.9)).astype(float)
         return _shape(px, fn)
     f = flake(int(size / 5))
@@ -1047,14 +1047,14 @@ def ferns(size, seed):
         y, x = np.mgrid[-r:r + 1, -r:r + 1].astype(float) / max(r, 1)
         bend = 0.18 * (y + 1) ** 2 - 0.18
         xs = x - bend
-        stem = (np.abs(xs) < 0.025) & (np.abs(y) < 0.95)
+        stem = (np.abs(xs) < 0.04) & (np.abs(y) < 0.95)
         leaflets = np.zeros_like(x)
         for k in range(9):
             t = -0.85 + k * 0.2
             w = 0.36 * (1 - (t + 0.95) / 2.2)
             for side in (-1, 1):
                 cx = side * (w * 0.6)
-                leaflets = np.maximum(leaflets, _soft(np.hypot((xs - cx) / max(w * 0.6, 0.05), (y - t - side * 0.03) / 0.07) - 1, r * 0.08))
+                leaflets = np.maximum(leaflets, _soft(np.hypot((xs - cx) / max(w * 0.7, 0.06), (y - t - side * 0.03) / 0.09) - 1, r * 0.08))
         return np.clip(leaflets, 0, 1), np.clip(stem * 0.8 + _outline(leaflets, 1) * 0.3, 0, 1)
     return _scatter_shapes(size, [frond(int(size / 2.8)), frond(int(size / 4))], 7, seed, size / 3.4)
 
@@ -1594,7 +1594,7 @@ def star_lattice(size, seed):
     for c, (gx, gy) in ((t_, (0, rows)), (s_, (cols, -rows / 2)), (s_ + t_, (cols, rows / 2)),  # the grid
                         (s_ - t_, (cols, -1.5 * rows)), (s_ + 2 * t_, (cols, 1.5 * rows)), (2 * s_ + t_, (2 * cols, 0))):
         distance = np.abs(((c + 0.5) % 1.0) - 0.5) / np.hypot(gx, gy)  # in tiles
-        lines = np.maximum(lines, np.clip((0.004 - distance) * size + 0.5, 0, 1))
+        lines = np.maximum(lines, np.clip((0.006 - distance) * size + 0.5, 0, 1))
     return lines, _zero(size)
 
 
@@ -2224,7 +2224,7 @@ def script(size, seed):
                     py = base - (1 - np.cos(t)) * n * 0.012 * tall
                     points.append((px, py))
                 for dx in (-n, 0, n):  # wrapping round the tile
-                    d.line([(px + dx, py) for px, py in points], fill=255, width=max(1, n // 220), joint="curve")
+                    d.line([(px + dx, py) for px, py in points], fill=255, width=max(1, n // 150), joint="curve")
                 x = points[-1][0] + n * 0.03
     return _drawn(size, draw), _zero(size)
 
@@ -2355,7 +2355,7 @@ PRINTS = {
     "awning": (awning, "Awning stripes", ["casual", "cute", "street"], (3, 5), 0.6),
     "candystripe": (candy_stripe, "Candy stripes", ["cute", "casual", "bookish"], (6, 9), 0.7),
     "gingham": (gingham, "Gingham", ["cute", "casual", "date"], (6, 10), 1.2),
-    "buffalo": (buffalo_check, "Buffalo check", ["street", "casual", "gothic"], (3, 5), 0.8),
+    "buffalo": (buffalo_check, "Buffalo check", ["street", "casual", "gothic"], (6, 9), 0.8),
     "windowpane": (windowpane, "Windowpane", ["elegant", "bookish"], (4, 7), 0.6),
     "houndstooth": (houndstooth, "Houndstooth", ["elegant", "bookish", "gothic"], (8, 14), 1.0),
     "harlequin": (harlequin, "Harlequin", ["gothic", "cute", "street"], (4, 7), 0.5),
@@ -2373,11 +2373,11 @@ PRINTS = {
     "hibiscus": (hibiscus, "Hibiscus", ["casual", "street", "sporty"], (2, 4), 0.8),
     "tropical": (tropical_leaves, "Tropical leaves", ["casual", "street", "sporty"], (2, 4), 0.8),
     "leaves": (leaves, "Leaves", ["casual", "bookish", "cute"], (3, 6), 0.7),
-    "vine": (vine, "Trailing vine", ["elegant", "bookish", "cute"], (3, 5), 0.6),
+    "vine": (vine, "Trailing vine", ["elegant", "bookish", "cute"], (2, 3.5), 0.6),
     "paisley": (paisley, "Paisley", ["elegant", "bookish", "gothic", "street"], (3, 5), 0.8),
     "moons": (moons_and_stars, "Moons and stars", ["cute", "gothic"], (2, 4), 0.6),
     "clouds": (clouds, "Clouds", ["cute", "casual"], (2, 4), 0.6),
-    "cherries": (cherries, "Cherries", ["cute", "date", "casual"], (3, 6), 0.7),
+    "cherries": (cherries, "Cherries", ["cute", "date", "casual"], (2.5, 4), 0.7),
     "bows": (bows, "Bows", ["cute", "elegant"], (3, 6), 0.6),
     "butterflies": (butterflies, "Butterflies", ["cute", "casual", "date"], (3, 5), 0.6),
     "paws": (paw_prints, "Paw prints", ["cute", "casual"], (3, 6), 0.5),
@@ -2424,11 +2424,11 @@ PRINTS = {
     "tulips": (tulips, "Tulips", ["cute", "casual", "elegant"], (2, 4), 0.6),
     "lemons": (lemons, "Lemons", ["cute", "casual", "date"], (2, 4), 0.6),
     "mushrooms": (mushrooms, "Toadstools", ["cute", "bookish"], (2, 4), 0.5),
-    "ferns": (ferns, "Ferns", ["bookish", "casual", "elegant"], (2, 4), 0.5),
+    "ferns": (ferns, "Ferns", ["bookish", "casual", "elegant"], (1.8, 3), 0.5),
     "holly": (holly, "Holly", ["cute", "casual"], (2, 4), 0.3),
     "anchors": (anchors, "Anchors", ["casual", "cute", "bookish"], (3, 5), 0.5),
     "cats": (cats, "Cats", ["cute", "casual"], (3, 5), 0.6),
-    "notes": (music_notes, "Music notes", ["cute", "street", "casual"], (3, 5), 0.4),
+    "notes": (music_notes, "Music notes", ["cute", "street", "casual"], (2, 3.5), 0.4),
     "rainbows": (rainbows, "Rainbows", ["cute", "casual"], (2, 4), 0.5),
     "lips": (lips, "Kisses", ["date", "street", "cute"], (3, 5), 0.4),
     "planets": (planets, "Planets", ["cute", "street", "bookish"], (2, 4), 0.5),
