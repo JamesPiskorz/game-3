@@ -107,6 +107,18 @@ namespace Game.Characters.Tests.Generation
         }
 
         [Test]
+        public void EveryFabricAndPrintInTheLibraryCanBeWorn()
+        {
+            ContentCatalog catalog = Catalogs.Generated();
+            List<PartEntry> clothes = catalog.Parts.Where(p => p.Fabrics.Count > 0).ToList();
+            foreach (FabricEntry fabric in catalog.Fabrics)
+                Assert.That(clothes.Any(p => p.Fabrics.Contains(fabric.Id)), $"Nothing is made in {fabric.Id}.");
+            foreach (PatternEntry print in catalog.Patterns)
+                Assert.That(clothes.Any(p => p.Fabrics.Any(f => catalog.TakesPrint(p, f == p.Fabrics[0] ? null : f, print.Id))),
+                            $"Nothing can be printed with {print.Id}.");
+        }
+
+        [Test]
         public void ThePopulationWearsABroadRangeOfFabricsAndPrints()
         {
             ContentCatalog catalog = Catalogs.Generated();
