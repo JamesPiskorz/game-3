@@ -85,6 +85,8 @@ half4 ToonMask(float2 uv, float2 uv1, half4 vertexColour)
 // channel is how much of its second colour, _PatternAccent, shows (a flower's leaves, a daisy's heart). A placed
 // print (_PatternPlace.z > 0: a T-shirt's chest graphic, a polo's badge) is drawn once, .z by .w metres either side of
 // the point (u, v) = .xy, rather than repeated: the generated garments' UVs are metres of cloth, u from the centre front.
+// A band (.z < 0: a hem's border, an embroidered yoke) repeats round the garment at _PatternScale tiles per metre and
+// is placed up it, .w metres either side of the height .y.
 // _BaseLift adds the fabric's structure as light too, the more the darker the cloth, since darkening alone can't show
 // on black: the stitches of a black knit, the flecks of a charcoal tweed, the glint of black patent.
 void ToonAlbedo(float2 uv, float2 uv1, half4 vertexColour, out half3 lit, out half3 shade)
@@ -101,6 +103,11 @@ void ToonAlbedo(float2 uv, float2 uv1, half4 vertexColour, out half3 lit, out ha
     {
         printUV = (uv - _PatternPlace.xy) / (2.0 * _PatternPlace.zw) + 0.5;
         placed = step(0.0, printUV.x) * step(printUV.x, 1.0) * step(0.0, printUV.y) * step(printUV.y, 1.0);
+    }
+    else if (_PatternPlace.z < 0.0)
+    {
+        printUV.y = (uv.y - _PatternPlace.y) / (2.0 * _PatternPlace.w) + 0.5;
+        placed = step(0.0, printUV.y) * step(printUV.y, 1.0);
     }
     half3 print = SAMPLE_TEXTURE2D(_PatternMap, sampler_PatternMap, printUV).rgb * placed;
     half strength = _PatternColor.a * dot(mask, _PatternRegions);

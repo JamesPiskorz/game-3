@@ -266,7 +266,7 @@ namespace Game.Characters.Building
                         PatternEntry print = _catalog.Patterns.FirstOrDefault(p => p.Id == item.PatternId);
                         HsvColor accent = print?.AccentFor(item.PatternColor.Value) ?? item.PatternColor.Value;
                         ToonMaterial.SetPattern(material, pattern, ToColour(item.PatternColor.Value), 1f, item.PatternScale, new Vector4(1f, 0f, 0f, 0f),
-                                                ToColour(accent), Placed(print?.Placement, entry));
+                                                ToColour(accent), Placed(print?.Placement, entry, item.PatternScale));
                     }
                     else
                         ToonMaterial.ClearPattern(material);
@@ -284,12 +284,17 @@ namespace Game.Characters.Building
 
         /// <summary>
         /// Where a placed print goes on a garment (ToonMaterial.SetPattern's placement); zero for a repeat. A print over
-        /// the whole garment spans its cloth's height, a centimetre beyond each end, and every panel and sleeve round it.
+        /// the whole garment spans its cloth's height, a centimetre beyond each end, and every panel and sleeve round it;
+        /// a band (a border above the hem, an embroidered yoke under the neckline) is as tall as a tile is wide.
         /// </summary>
-        static Vector4 Placed(string placement, PartEntry part)
+        static Vector4 Placed(string placement, PartEntry part, float tilesPerMetre)
         {
+            float band = 0.5f / Mathf.Max(tilesPerMetre, 1f);
+            bool measured = part.ClothTop - part.ClothBottom > 0.1f;
             switch (placement)
             {
+                case "hem": return measured ? new Vector4(0f, part.ClothBottom + band + 0.015f, -1f, band) : Vector4.zero;
+                case "yoke": return measured ? new Vector4(0f, part.ClothTop - 0.13f, -1f, band) : Vector4.zero;
                 case "chest": return Chest;
                 case "badge": return Badge;
                 case "back": return Back;

@@ -673,6 +673,20 @@ MonoBehaviour:
     Texture: {fileID: 2800000, guid: feef712e583210440b3d0812dceeb2c7, type: 3}
   - Id: pattern.hemstripes_01
     Texture: {fileID: 2800000, guid: 0eed3d31cfdebbe4cbf94ef7c4d566e8, type: 3}
+  - Id: pattern.hemflowers_01
+    Texture: {fileID: 2800000, guid: f70d000c81e55d54890a80a9e105500b, type: 3}
+  - Id: pattern.scallop_01
+    Texture: {fileID: 2800000, guid: ba2bedef99b38c14db5999bc473bb164, type: 3}
+  - Id: pattern.greekkey_01
+    Texture: {fileID: 2800000, guid: e799af9582f252049a8ae82db1a5d5d6, type: 3}
+  - Id: pattern.folkband_01
+    Texture: {fileID: 2800000, guid: a83270932c71a744bb3fdb38b160f6c4, type: 3}
+  - Id: pattern.ricrac_01
+    Texture: {fileID: 2800000, guid: 1590ed23a248926489ffe087ac8824bd, type: 3}
+  - Id: pattern.yokeflowers_01
+    Texture: {fileID: 2800000, guid: e377f8f4487485b4fbf4c9ea4af65b57, type: 3}
+  - Id: pattern.folkyoke_01
+    Texture: {fileID: 2800000, guid: b684a40c5dff9ca43ac268a89da88775, type: 3}
   Fabrics:
   - Id: plain
     Material: {fileID: 2100000, guid: 438e55e3cc9afa740b5c2f26ae972251, type: 2}

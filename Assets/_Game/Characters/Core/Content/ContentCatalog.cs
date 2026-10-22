@@ -57,7 +57,9 @@ namespace Game.Characters.Content
             bool Placeable(PatternEntry p) => p.Placement == null || (p.Placement == "badge" && front) ||
                                               (p.Placement == "chest" && front && casual) ||
                                               (p.Placement == "back" && casual && (front || part.Slot == Slots.Outer)) ||
-                                              (p.Placement == "body" && part.ClothTop - part.ClothBottom > 0.1f);
+                                              ((p.Placement == "body" || p.Placement == "hem") && part.ClothTop - part.ClothBottom > 0.1f &&
+                                               part.Slot != Slots.Shoes) ||
+                                              (p.Placement == "yoke" && front && part.ClothTop - part.ClothBottom > 0.2f);
             return Patterns.Where(p => Placeable(p) &&
                                        (fabric == null || fabric.PrintTags.Count == 0 || p.Tags.Any(fabric.PrintTags.Contains))).ToList();
         }
@@ -324,11 +326,13 @@ namespace Game.Characters.Content
         /// top or dress (a graphic tee); "badge", a small one on the left chest of any top or dress (a polo's emblem);
         /// "back", a big one across the back of a casual top, dress or jacket; "body", once over the whole garment's
         /// height, its top row at the garment's top and its bottom at the hem (an ombre, a dip-dye: only for parts whose
-        /// <see cref="PartEntry.ClothTop"/> is known). Its scale is then ignored.
+        /// <see cref="PartEntry.ClothTop"/> is known); "hem", a band repeating round the garment just above its hem (a
+        /// border of flowers, a scalloped edge), and "yoke", one under the neckline of a top or dress (embroidery). The
+        /// scale of a placed print is ignored, except for a band's: tiles per metre round the garment.
         /// </summary>
         public string Placement;
 
-        public static readonly string[] Placements = { "chest", "badge", "back", "body" };
+        public static readonly string[] Placements = { "chest", "badge", "back", "body", "hem", "yoke" };
 
         /// <summary>The second colour for a print in <paramref name="print"/> by <see cref="Accent"/>.</summary>
         public HsvColor AccentFor(HsvColor print)

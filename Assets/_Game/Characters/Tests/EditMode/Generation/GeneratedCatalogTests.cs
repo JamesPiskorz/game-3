@@ -155,6 +155,7 @@ namespace Game.Characters.Tests.Generation
             Assert.That(catalog.Patterns.Count(p => p.Placement == "badge"), Is.GreaterThanOrEqualTo(5), "Polo badges.");
             Assert.That(catalog.Patterns.Count(p => p.Placement == "back"), Is.GreaterThanOrEqualTo(5), "Back prints.");
             Assert.That(catalog.Patterns.Count(p => p.Placement == "body"), Is.GreaterThanOrEqualTo(4), "Ombres and dip-dyes.");
+            Assert.That(catalog.Patterns.Count(p => p.Placement == "hem" || p.Placement == "yoke"), Is.GreaterThanOrEqualTo(5), "Borders.");
             foreach (PartEntry dress in catalog.PartsInSlot(Slots.OnePiece))
                 Assert.That(dress.ClothTop - dress.ClothBottom, Is.InRange(0.15f, 1.6f), dress.Id + "'s height.");
             var generator = new CharacterGenerator(catalog);
@@ -167,7 +168,7 @@ namespace Game.Characters.Tests.Generation
                         if (placement == null) continue;
                         graphics++;
                         PartEntry part = catalog.Part(item.ItemId);
-                        if (placement == "body")
+                        if (placement == "body" || placement == "hem")
                         {
                             Assert.That(part.ClothTop - part.ClothBottom, Is.GreaterThan(0.1f), item.ItemId);
                             continue;
@@ -177,7 +178,7 @@ namespace Game.Characters.Tests.Generation
                         else
                             Assert.That(part.Slot, Is.EqualTo(Slots.Top).Or.EqualTo(Slots.OnePiece), item.ItemId);
                         Assert.That(part.Tags, Has.No.Member("swim"), item.ItemId);
-                        if (placement != "badge")
+                        if (placement == "chest" || placement == "back")
                             Assert.That(part.Tags.Any(t => t == "casual" || t == "sporty" || t == "street"), item.ItemId);
                     }
             Assert.That(graphics, Is.GreaterThan(0), "Some people wear graphic tees.");

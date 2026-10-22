@@ -2047,6 +2047,106 @@ def hem_stripes(size, seed):
     return np.maximum(broad, narrow), _zero(size)
 
 
+
+# ------------------------------------------------- borders: bands round the hem or under the neckline
+# A band's tile repeats round the garment (across) and is placed once up it (down the tile: row 0 the band's top);
+# its first and last rows stay clear, so it meets the cloth cleanly.
+
+def _band_grid(size):
+    x, y = tk.grid(size)
+    return x, (y - 0.5) * 2  # y in -1 (the band's top) .. 1 (its bottom)
+
+
+def hem_flowers(size, seed):
+    """A border of flowers along a wavy vine, leaves between."""
+    x, y = _band_grid(size)
+    vine = np.abs(y - 0.25 * np.sin(2 * np.pi * x)) < 0.05
+    colour, ink, accent = _zero(size), _zero(size), _zero(size)
+    flower, flower_ink = _petal_flower(int(size * 0.42), 5, 0.5)
+    leaf, leaf_ink = _leaf_shape(int(size * 0.26))
+    tk.stamp(colour, flower, size * 0.25, size * (0.5 + 0.25 * 0.5 * np.sin(np.pi / 2)) - 0 * size)
+    tk.stamp(ink, flower_ink, size * 0.25, size * 0.5 + size * 0.0625)
+    tk.stamp(colour, flower * 0.6, size * 0.75, size * 0.5 - size * 0.0625)
+    tk.stamp(ink, flower_ink, size * 0.75, size * 0.5 - size * 0.0625)
+    for cx, angle in ((0.05, 60), (0.48, -60), (0.55, 120), (0.98, -120)):
+        rotated, rotated_ink = tk.rotate_shape(leaf, angle), tk.rotate_shape(leaf_ink, angle)
+        tk.stamp(accent, rotated, cx * size, size * (0.5 + 0.125 * np.sin(2 * np.pi * cx)))
+        tk.stamp(ink, rotated_ink * 0.5, cx * size, size * (0.5 + 0.125 * np.sin(2 * np.pi * cx)))
+    accent = np.clip(np.maximum(accent, tk.blur_small(vine.astype(float), 0.8)) * (1 - colour), 0, 1)
+    return colour, ink, accent
+
+
+def scallop_edge(size, seed):
+    """A scalloped lace edge: a row of round scallops, each pierced with eyelets, above a fine line."""
+    x, y = _band_grid(size)
+    u = (x * 2) % 1.0 - 0.5
+    # u and y are in the same units (half a tile across is one, the band's height is two).
+    scallop = (np.hypot(u, y + 0.3) < 0.5) & (y > -0.3)
+    top = (y > -0.5) & (y <= -0.3)
+    holes = np.hypot(u, y + 0.02) < 0.1  # an eyelet in each scallop, a ring of pinholes round it
+    rad, ang = np.hypot(u, y + 0.3), np.arctan2(y + 0.3, u)
+    holes |= (np.abs(rad - 0.38) < 0.035) & (np.abs(np.sin(ang * 6)) < 0.3) & (y > -0.25)
+    shape = tk.blur_small(((scallop | top) & ~holes).astype(float), 0.8)
+    return shape, np.clip(_outline(shape, 1) * 0.5, 0, 1)
+
+
+def greek_key(size, seed):
+    """A Greek key (meander) between two rules."""
+    x, y = _band_grid(size)
+    n = 2
+    u = (x * n) % 1.0  # one key per half tile, on a 6 x 6 grid of steps
+    gx, gy = np.floor(u * 6), np.floor((y + 0.6) / 1.2 * 6)
+    inside = (y > -0.6) & (y < 0.6)
+    path = np.zeros_like(x, dtype=bool)
+    cells = {(0, 5), (1, 5), (2, 5), (3, 5), (4, 5), (5, 5), (0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (1, 0), (2, 0), (3, 0),
+             (4, 0), (4, 1), (4, 2), (4, 3), (3, 3), (2, 3), (2, 2)}
+    for cx, cy in cells:
+        path |= (gx == cx) & (gy == cy)
+    rules = (np.abs(y + 0.8) < 0.07) | (np.abs(y - 0.8) < 0.07)
+    return tk.blur_small(((path & inside) | rules).astype(float), 0.8), _zero(size)
+
+
+def folk_band(size, seed):
+    """Folk embroidery: a band of diamonds with dotted hearts between zigzags and rules, in two colours."""
+    x, y = _band_grid(size)
+    u = (x * 2) % 1.0 - 0.5
+    rules = (np.abs(np.abs(y) - 0.88) < 0.04)
+    zig = np.abs(np.abs(y) - (0.7 - 0.08 * np.abs(((x * 8) % 1.0) - 0.5) * 4)) < 0.035
+    diamond = np.abs(u) * 2.2 + np.abs(y) * 1.4 < 0.75
+    inner = np.abs(u) * 2.2 + np.abs(y) * 1.4 < 0.4
+    dots = np.hypot(np.abs(u) - 0.5, y * 0.5) < 0.06
+    stitches = (np.floor(x * 96) % 2 == 0)
+    colour = tk.blur_small(((rules | zig) & stitches | (diamond & ~inner)).astype(float), 0.8)
+    accent = tk.blur_small((inner | dots).astype(float), 0.8)
+    return colour, _zero(size), accent
+
+
+def ric_rac(size, seed):
+    """Ric-rac trims: two wavy braids, the second in the second colour."""
+    x, y = _band_grid(size)
+    first = np.abs(y + 0.35 - 0.22 * np.sin(2 * np.pi * x * 4)) < 0.13
+    second = np.abs(y - 0.35 - 0.22 * np.sin(2 * np.pi * x * 4 + np.pi)) < 0.13
+    return tk.blur_small(first.astype(float), 0.8), _zero(size), tk.blur_small(second.astype(float), 0.8)
+
+
+def yoke_flowers(size, seed):
+    """Embroidered flowers under the neckline, as on a peasant blouse: a row of small blooms on stems, dots between."""
+    x, y = _band_grid(size)
+    colour, ink, accent = _zero(size), _zero(size), _zero(size)
+    flower, flower_ink = _petal_flower(int(size * 0.32), 6, 0.4)
+    for cx in (0.25, 0.75):
+        tk.stamp(colour, flower, cx * size, size * 0.4)
+        tk.stamp(ink, flower_ink * 0.6, cx * size, size * 0.4)
+    stems = np.zeros_like(x, dtype=bool)
+    for cx in (0.25, 0.75):
+        stems |= (np.abs(x - cx) < 0.012) & (y > 0.1) & (y < 0.8)
+        for side in (-1, 1):
+            stems |= np.hypot((x - cx - side * 0.06) / 0.05, (y - 0.5) / 0.08) < 1
+    dots = (np.hypot(((x * 4) % 1.0 - 0.5) / 0.04, (y - 0.0) / 0.06) < 1) & (np.abs(((x * 2) % 1.0) - 0.5) < 0.2)
+    accent = tk.blur_small(stems.astype(float), 0.8) * (1 - colour)
+    return np.clip(colour + tk.blur_small(dots.astype(float), 0.8), 0, 1), ink, accent
+
+
 # name, tags, tiles per metre (min, max), weight
 PRINTS = {
     # Patterns the stand-ins share (their catalog lists these ids).
@@ -2228,6 +2328,15 @@ PRINTS = {
     "sunsetfade": (sunset_fade, "Sunset fade", ["date", "elegant", "casual"], (1, 1), 0.4),
     "colourblock": (colour_block, "Colour block", ["street", "sporty", "casual"], (1, 1), 0.5),
     "hemstripes": (hem_stripes, "Hem stripes", ["sporty", "cute", "bookish", "casual"], (1, 1), 0.5),
+    # Bands round the hem or under the neckline (PLACED "hem", "yoke"): tiles per metre round the garment, the band as
+    # tall as a tile is wide.
+    "hemflowers": (hem_flowers, "Floral border", ["cute", "elegant", "date", "casual"], (6, 8), 0.5),
+    "scallop": (scallop_edge, "Scalloped edge", ["cute", "elegant", "date"], (10, 14), 0.5),
+    "greekkey": (greek_key, "Greek key border", ["elegant", "bookish"], (8, 11), 0.4),
+    "folkband": (folk_band, "Folk embroidery hem", ["cute", "casual", "bookish"], (6, 9), 0.4),
+    "ricrac": (ric_rac, "Ric-rac trim", ["cute", "casual"], (12, 18), 0.4),
+    "yokeflowers": (yoke_flowers, "Embroidered yoke", ["cute", "casual", "date"], (7, 9), 0.4),
+    "folkyoke": (folk_band, "Folk embroidery yoke", ["cute", "casual", "bookish"], (7, 10), 0.3),
 }
 
 # How each print's second colour (its accent: leaves, hearts, wafers) follows its first: "leaf" (a natural green),
@@ -2248,15 +2357,22 @@ ACCENT = {
     "back_star": "light", "back_sunset": "gold", "back_mountains": "light", "back_rose": "leaf", "back_flame": "gold",
     "back_crown": "contrast", "back_butterfly": "contrast",
     "sunsetfade": "contrast", "colourblock": "contrast", "confetti": "contrast", "brushstrokes": "contrast",
+    "hemflowers": "leaf", "folkband": "contrast", "ricrac": "contrast", "yokeflowers": "leaf", "folkyoke": "contrast",
 }
 
 # Prints placed once rather than repeated, and where: "chest", a graphic on the front of a casual top or dress;
 # "badge", a small one on the left chest of any top or dress; "back", a big one across the back of a casual top,
-# dress or jacket; "body", over the whole garment from its top to its hem.
+# dress or jacket; "body", over the whole garment from its top to its hem; "hem" and "yoke", a band repeating round the
+# garment just above its hem or under its neckline.
 PLACED = {pid: {"tee_": "chest", "badge_": "badge", "back_": "back"}[pid[:pid.index("_") + 1]]
           for pid in PRINTS if pid.startswith(("tee_", "badge_", "back_"))}
 PLACED.update({pid: "body" for pid in ("ombre", "dipdye", "sunsetfade", "colourblock", "hemstripes")})
+PLACED.update({pid: "hem" for pid in ("hemflowers", "scallop", "greekkey", "folkband", "ricrac")})
+PLACED.update({pid: "yoke" for pid in ("yokeflowers", "folkyoke")})
 
 # Prints knitted into the cloth (colourwork, stripes, intarsia) rather than printed on it: the only ones a knit takes
 # (fabrics.PRINT_TAGS). They carry the tag "knitted" in the library.
 KNITTED = {"stripes", "breton", "argyle", "knit", "snowflakes", "rugby", "hearts", "stars", "fairisle", "nordic", "festive"}
+
+# Animal skins and hides: the only prints a leather takes (fabrics.PRINT_TAGS). They carry the tag "animal".
+ANIMAL = {"leopard", "zebra", "tiger", "cow", "snakeskin", "giraffe", "dalmatian", "cheetah"}

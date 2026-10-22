@@ -2340,6 +2340,103 @@
    "weight": 0.5,
    "accent": null,
    "placement": "body"
+  },
+  {
+   "id": "pattern.hemflowers_01",
+   "name": "Floral border",
+   "tags": [
+    "cute",
+    "elegant",
+    "date",
+    "casual"
+   ],
+   "minScale": 6,
+   "maxScale": 8,
+   "weight": 0.5,
+   "accent": "leaf",
+   "placement": "hem"
+  },
+  {
+   "id": "pattern.scallop_01",
+   "name": "Scalloped edge",
+   "tags": [
+    "cute",
+    "elegant",
+    "date"
+   ],
+   "minScale": 10,
+   "maxScale": 14,
+   "weight": 0.5,
+   "accent": null,
+   "placement": "hem"
+  },
+  {
+   "id": "pattern.greekkey_01",
+   "name": "Greek key border",
+   "tags": [
+    "elegant",
+    "bookish"
+   ],
+   "minScale": 8,
+   "maxScale": 11,
+   "weight": 0.4,
+   "accent": null,
+   "placement": "hem"
+  },
+  {
+   "id": "pattern.folkband_01",
+   "name": "Folk embroidery hem",
+   "tags": [
+    "cute",
+    "casual",
+    "bookish"
+   ],
+   "minScale": 6,
+   "maxScale": 9,
+   "weight": 0.4,
+   "accent": "contrast",
+   "placement": "hem"
+  },
+  {
+   "id": "pattern.ricrac_01",
+   "name": "Ric-rac trim",
+   "tags": [
+    "cute",
+    "casual"
+   ],
+   "minScale": 12,
+   "maxScale": 18,
+   "weight": 0.4,
+   "accent": "contrast",
+   "placement": "hem"
+  },
+  {
+   "id": "pattern.yokeflowers_01",
+   "name": "Embroidered yoke",
+   "tags": [
+    "cute",
+    "casual",
+    "date"
+   ],
+   "minScale": 7,
+   "maxScale": 9,
+   "weight": 0.4,
+   "accent": "leaf",
+   "placement": "yoke"
+  },
+  {
+   "id": "pattern.folkyoke_01",
+   "name": "Folk embroidery yoke",
+   "tags": [
+    "cute",
+    "casual",
+    "bookish"
+   ],
+   "minScale": 7,
+   "maxScale": 10,
+   "weight": 0.3,
+   "accent": "contrast",
+   "placement": "yoke"
   }
  ]
 }
