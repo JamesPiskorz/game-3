@@ -912,6 +912,12 @@ MonoBehaviour:
     Material: {fileID: 2100000, guid: 67db124dc9c0cd247a2a642f8919e750, type: 2}
   - Id: fishnet
     Material: {fileID: 2100000, guid: 026fee8349ac54e48900ca4c777aec0c, type: 2}
+  - Id: plisse
+    Material: {fileID: 2100000, guid: c229cee3bac6735479e44289d5f142db, type: 2}
+  - Id: crushed_velvet
+    Material: {fileID: 2100000, guid: 0d8e1760e55b7444893417fbbd98cb06, type: 2}
+  - Id: foil
+    Material: {fileID: 2100000, guid: 35d8073b9b884214aa74d41c5f86c4ff, type: 2}
   Sliders:
   - Id: body.weight
     Kind: 0

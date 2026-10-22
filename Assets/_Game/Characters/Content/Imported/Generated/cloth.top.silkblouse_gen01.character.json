@@ -33,7 +33,9 @@
     "taffeta",
     "satin_stripe",
     "brocade",
-    "sateen"
+    "sateen",
+    "plisse",
+    "crushed_velvet"
   ],
   "patternable": true,
   "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261022_001403_for_texture_textured.glb",

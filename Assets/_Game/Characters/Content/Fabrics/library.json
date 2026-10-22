@@ -1865,6 +1865,70 @@
    "weight": 0.5,
    "gloss": 0.0,
    "sheen": 0.0
+  },
+  {
+   "id": "plisse",
+   "name": "Pliss\u00e9",
+   "mean": 0.8564,
+   "tileMetres": 0.25,
+   "tags": [
+    "elegant",
+    "date",
+    "formal"
+   ],
+   "printable": true,
+   "printTags": [],
+   "lift": 0.2,
+   "colourChance": 0.0,
+   "colours": [],
+   "weight": 1.0,
+   "gloss": 0.0,
+   "sheen": 0.0
+  },
+  {
+   "id": "crushed_velvet",
+   "name": "Crushed velvet",
+   "mean": 0.7651,
+   "tileMetres": 0.25,
+   "tags": [
+    "gothic",
+    "date",
+    "elegant",
+    "formal"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.3,
+   "colourChance": 0.0,
+   "colours": [],
+   "weight": 1.0,
+   "gloss": 0.0,
+   "sheen": 0.55
+  },
+  {
+   "id": "foil",
+   "name": "Foil lam\u00e9",
+   "mean": 0.7964,
+   "tileMetres": 0.25,
+   "tags": [
+    "date",
+    "street",
+    "formal"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.3,
+   "colourChance": 0.7,
+   "colours": [
+    "#c9a24a",
+    "#c0c4cc",
+    "#c49080",
+    "#7d5cae",
+    "#3f7fb5"
+   ],
+   "weight": 0.5,
+   "gloss": 0.75,
+   "sheen": 0.0
   }
  ]
 }

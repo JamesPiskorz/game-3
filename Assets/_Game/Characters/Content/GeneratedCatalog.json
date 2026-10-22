@@ -480,6 +480,7 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "foil",
         "metallic",
         "crochet",
         "seersucker",
@@ -510,6 +511,7 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "foil",
         "metallic",
         "crochet",
         "seersucker",
@@ -659,7 +661,8 @@
         "organza",
         "crinkle",
         "pleated",
-        "dotted_swiss"
+        "dotted_swiss",
+        "plisse"
       ],
       "clothBottom": 0.17532225,
       "clothTop": 1.111,
@@ -1013,6 +1016,9 @@
         "lace",
         "guipure",
         "scuba",
+        "plisse",
+        "foil",
+        "crushed_velvet",
         "sequins",
         "jacquard",
         "metallic",
@@ -1050,6 +1056,9 @@
         "lace",
         "guipure",
         "scuba",
+        "plisse",
+        "foil",
+        "crushed_velvet",
         "sequins",
         "jacquard",
         "metallic",
@@ -1429,6 +1438,7 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "foil",
         "metallic",
         "crochet",
         "seersucker",
@@ -1459,6 +1469,7 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "foil",
         "metallic",
         "crochet",
         "seersucker",
@@ -1767,7 +1778,9 @@
         "taffeta",
         "satin_stripe",
         "brocade",
-        "sateen"
+        "sateen",
+        "plisse",
+        "crushed_velvet"
       ],
       "clothBottom": -0.00421840046,
       "clothTop": 1.32625711,
@@ -1792,6 +1805,7 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "foil",
         "metallic",
         "crochet",
         "seersucker",
@@ -1866,6 +1880,9 @@
         "lace",
         "guipure",
         "scuba",
+        "plisse",
+        "foil",
+        "crushed_velvet",
         "sequins",
         "jacquard",
         "metallic",
@@ -1898,6 +1915,7 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "foil",
         "metallic",
         "crochet",
         "seersucker",
@@ -1939,6 +1957,9 @@
         "lace",
         "guipure",
         "scuba",
+        "plisse",
+        "foil",
+        "crushed_velvet",
         "sequins",
         "jacquard",
         "metallic",
@@ -2006,7 +2027,8 @@
         "organza",
         "crinkle",
         "pleated",
-        "dotted_swiss"
+        "dotted_swiss",
+        "plisse"
       ],
       "clothBottom": 0.008674862,
       "clothTop": 1.43033683,
@@ -2042,7 +2064,9 @@
         "taffeta",
         "satin_stripe",
         "brocade",
-        "sateen"
+        "sateen",
+        "plisse",
+        "crushed_velvet"
       ],
       "clothBottom": 0.002297825,
       "clothTop": 1.437294,
@@ -2127,6 +2151,7 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "foil",
         "metallic",
         "crochet",
         "seersucker",
@@ -2170,7 +2195,9 @@
         "taffeta",
         "satin_stripe",
         "brocade",
-        "sateen"
+        "sateen",
+        "plisse",
+        "crushed_velvet"
       ],
       "clothBottom": 0.009966197,
       "clothTop": 1.43791485,
@@ -2203,6 +2230,9 @@
         "lace",
         "guipure",
         "scuba",
+        "plisse",
+        "foil",
+        "crushed_velvet",
         "sequins",
         "jacquard",
         "metallic",
@@ -2300,6 +2330,7 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "foil",
         "metallic",
         "crochet",
         "seersucker",
@@ -2398,7 +2429,9 @@
         "satin",
         "lace",
         "glitter",
-        "beaded"
+        "beaded",
+        "foil",
+        "crushed_velvet"
       ],
       "clothBottom": 0.625910938,
       "clothTop": 1.42536283,
@@ -2467,7 +2500,9 @@
         "taffeta",
         "satin_stripe",
         "brocade",
-        "sateen"
+        "sateen",
+        "plisse",
+        "crushed_velvet"
       ],
       "clothBottom": 0.313146025,
       "clothTop": 1.43455255,
@@ -2554,6 +2589,7 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "foil",
         "metallic",
         "crochet",
         "seersucker",
@@ -2634,7 +2670,8 @@
         "lace",
         "moire",
         "taffeta",
-        "brocade"
+        "brocade",
+        "crushed_velvet"
       ],
       "clothBottom": 0.009966197,
       "clothTop": 1.4353646,
@@ -2670,7 +2707,9 @@
         "taffeta",
         "satin_stripe",
         "brocade",
-        "sateen"
+        "sateen",
+        "plisse",
+        "crushed_velvet"
       ],
       "clothBottom": -0.00295538967,
       "clothTop": 1.33172786,
@@ -2702,6 +2741,9 @@
         "lace",
         "guipure",
         "scuba",
+        "plisse",
+        "foil",
+        "crushed_velvet",
         "sequins",
         "jacquard",
         "metallic",
@@ -3739,6 +3781,7 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "foil",
         "metallic",
         "crochet",
         "seersucker",
@@ -3770,6 +3813,7 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "foil",
         "metallic",
         "crochet",
         "seersucker",
@@ -4024,6 +4068,7 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "foil",
         "metallic",
         "crochet",
         "seersucker",
@@ -4270,6 +4315,7 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "foil",
         "metallic",
         "crochet",
         "seersucker",
@@ -4414,7 +4460,9 @@
         "taffeta",
         "satin_stripe",
         "brocade",
-        "sateen"
+        "sateen",
+        "plisse",
+        "crushed_velvet"
       ],
       "clothBottom": 1.06618941,
       "clothTop": 1.43134117,
@@ -4528,6 +4576,7 @@
       "patternable": true,
       "fabrics": [
         "lycra",
+        "foil",
         "metallic",
         "crochet",
         "seersucker",
@@ -4693,7 +4742,9 @@
         "taffeta",
         "satin_stripe",
         "brocade",
-        "sateen"
+        "sateen",
+        "plisse",
+        "crushed_velvet"
       ],
       "clothBottom": 1.06618941,
       "clothTop": 1.43261886,
@@ -10461,6 +10512,75 @@
       "printTags": [],
       "colours": [],
       "colourChance": 0.0
+    },
+    {
+      "id": "plisse",
+      "name": "Plissé",
+      "weight": 1.0,
+      "tags": [
+        "elegant",
+        "date",
+        "formal"
+      ],
+      "printable": true,
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
+    },
+    {
+      "id": "crushed_velvet",
+      "name": "Crushed velvet",
+      "weight": 1.0,
+      "tags": [
+        "gothic",
+        "date",
+        "elegant",
+        "formal"
+      ],
+      "printable": false,
+      "printTags": [],
+      "colours": [],
+      "colourChance": 0.0
+    },
+    {
+      "id": "foil",
+      "name": "Foil lamé",
+      "weight": 0.5,
+      "tags": [
+        "date",
+        "street",
+        "formal"
+      ],
+      "printable": false,
+      "printTags": [],
+      "colours": [
+        {
+          "hex": "#c9a24a",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#c0c4cc",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#c49080",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#7d5cae",
+          "neutral": false,
+          "weight": 1.0
+        },
+        {
+          "hex": "#3f7fb5",
+          "neutral": false,
+          "weight": 1.0
+        }
+      ],
+      "colourChance": 0.7
     }
   ],
   "palettes": [
