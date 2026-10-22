@@ -270,7 +270,9 @@ namespace Game.Characters.Building
                         // Its second colour (leaves, a daisy's heart) follows the print colour by the print's rule.
                         PatternEntry print = _catalog.Patterns.FirstOrDefault(p => p.Id == item.PatternId);
                         HsvColor accent = print?.AccentFor(item.PatternColor.Value) ?? item.PatternColor.Value;
-                        ToonMaterial.SetPattern(material, pattern, ToColour(item.PatternColor.Value), 1f, item.PatternScale, new Vector4(1f, 0f, 0f, 0f),
+                        // A print sized for a dress is drawn finer on smaller things: leopard spots on a shoe, dots on tights.
+                        float scale = item.PatternScale * (entry.Slot == Slots.Shoes ? 1.8f : entry.Slot == Slots.Legwear ? 1.4f : 1f);
+                        ToonMaterial.SetPattern(material, pattern, ToColour(item.PatternColor.Value), 1f, scale, new Vector4(1f, 0f, 0f, 0f),
                                                 ToColour(accent), Placed(print?.Placement, entry, item.PatternScale), RepeatOffset(dna.Seed, item.ItemId));
                     }
                     else
