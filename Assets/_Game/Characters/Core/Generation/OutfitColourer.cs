@@ -21,6 +21,7 @@ namespace Game.Characters.Generation
         public static void Colour(Pcg32 rng, ContentCatalog catalog, StyleArchetype archetype, ColourPalette palette, IReadOnlyList<PartEntry> parts, OutfitDna outfit, HsvColor skin)
         {
             float skinContrast = catalog.Skin.MinClothingContrast;
+            OutfitContext context = catalog.Context(outfit.Context);
             List<PaletteColour> neutrals = palette.Colours.Where(c => c.Neutral).ToList();
             List<PaletteColour> accents = palette.Colours.Where(c => !c.Neutral).ToList();
             if (neutrals.Count == 0) neutrals = palette.Colours;
@@ -97,7 +98,8 @@ namespace Game.Characters.Generation
                 List<PatternEntry> prints = catalog.PrintsFor(part, item.FabricId);
                 if (prints.Count > 0 && rng.Chance(archetype.PatternChance * (part.Slot == Slots.Shoes ? ShoePatternShare : 1f)))
                 {
-                    PatternEntry pattern = rng.PickWeighted(prints, p => p.Weight * Affinity.Of(archetype, p.Tags));
+                    // By style and by occasion: clouds and bunnies on pyjamas, tropical leaves on swimwear, damask at a gala.
+                    PatternEntry pattern = rng.PickWeighted(prints, p => p.Weight * Affinity.Of(archetype, p.Tags) * Affinity.Of(context, p.Tags));
                     if (pattern != null)
                     {
                         // In the trim, unless the item took its fabric's own colour and that matches the trim.

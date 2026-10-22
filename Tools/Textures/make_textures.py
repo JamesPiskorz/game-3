@@ -59,6 +59,7 @@ def write_prints():
         Image.fromarray((rgb * 255).round().astype(np.uint8), "RGB").save(os.path.join(folder, f"pattern.{pid}_01.png"))
         tags = tags + ["knitted"] if pid in prints.KNITTED else tags
         tags = tags + ["animal"] if pid in prints.ANIMAL else tags
+        tags = tags + [occasion for occasion, ids in prints.CONTEXT_TAGS.items() if pid in ids]
         entries.append({"id": f"pattern.{pid}_01", "name": name, "tags": tags, "minScale": scales[0], "maxScale": scales[1],
                         "weight": weight, "accent": prints.ACCENT.get(pid), "placement": prints.PLACED.get(pid),
                         "colourwayChance": prints.COLOURWAYS.get(pid, (0.0, []))[0],

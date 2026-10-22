@@ -208,6 +208,24 @@ namespace Game.Characters.Tests.Generation
         }
 
         [Test]
+        public void PrintsSuitTheOccasion()
+        {
+            ContentCatalog catalog = Catalogs.Generated();
+            var generator = new CharacterGenerator(catalog);
+            int printed = 0, suited = 0;
+            for (ulong seed = 1; seed <= 600; seed++)
+                foreach (OutfitDna outfit in generator.Generate(seed * 104723, GenerationRequest.Any).Outfits.Where(o => o.Context == "sleep"))
+                    foreach (ItemDna item in outfit.Items.Where(i => i.PatternId != null))
+                    {
+                        printed++;
+                        if (catalog.Patterns.First(p => p.Id == item.PatternId).Tags.Contains("sleep")) suited++;
+                    }
+            float share = catalog.Patterns.Count(p => p.Tags.Contains("sleep")) / (float)catalog.Patterns.Count;
+            Assert.That(printed, Is.GreaterThan(20));
+            Assert.That(suited / (float)printed, Is.GreaterThan(share * 1.3f), $"{suited} of {printed} pyjama prints; {share:P0} of the library.");
+        }
+
+        [Test]
         public void DenimMostlyComesInItsOwnColours()
         {
             ContentCatalog catalog = Catalogs.Generated();

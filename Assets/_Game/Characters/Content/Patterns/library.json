@@ -7,7 +7,8 @@
     "casual",
     "sporty",
     "street",
-    "knitted"
+    "knitted",
+    "swim"
    ],
    "minScale": 6,
    "maxScale": 10,
@@ -27,7 +28,9 @@
    "name": "Polka dots",
    "tags": [
     "cute",
-    "casual"
+    "casual",
+    "sleep",
+    "swim"
    ],
    "minScale": 6,
    "maxScale": 10,
@@ -57,7 +60,8 @@
     "bookish",
     "elegant",
     "gothic",
-    "street"
+    "street",
+    "sleep"
    ],
    "minScale": 3,
    "maxScale": 6,
@@ -73,7 +77,8 @@
    "tags": [
     "cute",
     "casual",
-    "gothic"
+    "gothic",
+    "sleep"
    ],
    "minScale": 6,
    "maxScale": 10,
@@ -89,7 +94,8 @@
    "tags": [
     "cute",
     "date",
-    "knitted"
+    "knitted",
+    "sleep"
    ],
    "minScale": 4,
    "maxScale": 7,
@@ -106,7 +112,8 @@
     "cute",
     "street",
     "casual",
-    "knitted"
+    "knitted",
+    "sleep"
    ],
    "minScale": 4,
    "maxScale": 7,
@@ -148,7 +155,9 @@
     "cute",
     "elegant",
     "casual",
-    "date"
+    "date",
+    "sleep",
+    "swim"
    ],
    "minScale": 4,
    "maxScale": 7,
@@ -230,7 +239,8 @@
     "casual",
     "elegant",
     "bookish",
-    "knitted"
+    "knitted",
+    "swim"
    ],
    "minScale": 5,
    "maxScale": 8,
@@ -295,7 +305,8 @@
    "tags": [
     "cute",
     "casual",
-    "bookish"
+    "bookish",
+    "sleep"
    ],
    "minScale": 6,
    "maxScale": 9,
@@ -311,7 +322,9 @@
    "tags": [
     "cute",
     "casual",
-    "date"
+    "date",
+    "sleep",
+    "swim"
    ],
    "minScale": 6,
    "maxScale": 10,
@@ -340,7 +353,8 @@
    "tags": [
     "street",
     "casual",
-    "gothic"
+    "gothic",
+    "sleep"
    ],
    "minScale": 3,
    "maxScale": 5,
@@ -448,7 +462,8 @@
    "tags": [
     "casual",
     "sporty",
-    "cute"
+    "cute",
+    "swim"
    ],
    "minScale": 3,
    "maxScale": 5,
@@ -464,7 +479,8 @@
    "tags": [
     "cute",
     "elegant",
-    "street"
+    "street",
+    "swim"
    ],
    "minScale": 4,
    "maxScale": 8,
@@ -479,7 +495,8 @@
    "name": "Lattice",
    "tags": [
     "elegant",
-    "bookish"
+    "bookish",
+    "formal"
    ],
    "minScale": 4,
    "maxScale": 7,
@@ -542,7 +559,9 @@
    "tags": [
     "elegant",
     "date",
-    "cute"
+    "cute",
+    "swim",
+    "formal"
    ],
    "minScale": 2,
    "maxScale": 4,
@@ -557,7 +576,9 @@
    "name": "Daisies",
    "tags": [
     "cute",
-    "casual"
+    "casual",
+    "sleep",
+    "swim"
    ],
    "minScale": 3,
    "maxScale": 6,
@@ -573,7 +594,8 @@
    "tags": [
     "cute",
     "elegant",
-    "date"
+    "date",
+    "sleep"
    ],
    "minScale": 3,
    "maxScale": 6,
@@ -589,7 +611,8 @@
    "tags": [
     "casual",
     "street",
-    "sporty"
+    "sporty",
+    "swim"
    ],
    "minScale": 2,
    "maxScale": 4,
@@ -605,7 +628,8 @@
    "tags": [
     "casual",
     "street",
-    "sporty"
+    "sporty",
+    "swim"
    ],
    "minScale": 2,
    "maxScale": 4,
@@ -654,7 +678,8 @@
     "elegant",
     "bookish",
     "gothic",
-    "street"
+    "street",
+    "formal"
    ],
    "minScale": 3,
    "maxScale": 5,
@@ -669,7 +694,8 @@
    "name": "Moons and stars",
    "tags": [
     "cute",
-    "gothic"
+    "gothic",
+    "sleep"
    ],
    "minScale": 2,
    "maxScale": 4,
@@ -684,7 +710,8 @@
    "name": "Clouds",
    "tags": [
     "cute",
-    "casual"
+    "casual",
+    "sleep"
    ],
    "minScale": 2,
    "maxScale": 4,
@@ -700,7 +727,9 @@
    "tags": [
     "cute",
     "date",
-    "casual"
+    "casual",
+    "sleep",
+    "swim"
    ],
    "minScale": 3,
    "maxScale": 6,
@@ -715,7 +744,8 @@
    "name": "Bows",
    "tags": [
     "cute",
-    "elegant"
+    "elegant",
+    "sleep"
    ],
    "minScale": 3,
    "maxScale": 6,
@@ -746,7 +776,8 @@
    "name": "Paw prints",
    "tags": [
     "cute",
-    "casual"
+    "casual",
+    "sleep"
    ],
    "minScale": 3,
    "maxScale": 6,
@@ -761,7 +792,9 @@
    "name": "Strawberries",
    "tags": [
     "cute",
-    "casual"
+    "casual",
+    "sleep",
+    "swim"
    ],
    "minScale": 3,
    "maxScale": 6,
@@ -776,7 +809,8 @@
    "name": "Raindrops",
    "tags": [
     "cute",
-    "casual"
+    "casual",
+    "sleep"
    ],
    "minScale": 4,
    "maxScale": 7,
@@ -793,7 +827,8 @@
     "cute",
     "casual",
     "bookish",
-    "knitted"
+    "knitted",
+    "sleep"
    ],
    "minScale": 3,
    "maxScale": 6,
@@ -937,7 +972,8 @@
     "street",
     "gothic",
     "date",
-    "animal"
+    "animal",
+    "swim"
    ],
    "minScale": 3,
    "maxScale": 5,
@@ -966,7 +1002,8 @@
    "tags": [
     "street",
     "gothic",
-    "animal"
+    "animal",
+    "swim"
    ],
    "minScale": 2,
    "maxScale": 4,
@@ -1058,7 +1095,8 @@
    "tags": [
     "casual",
     "street",
-    "sporty"
+    "sporty",
+    "swim"
    ],
    "minScale": 1.5,
    "maxScale": 3,
@@ -1135,7 +1173,8 @@
    "name": "Ticking stripes",
    "tags": [
     "casual",
-    "bookish"
+    "bookish",
+    "sleep"
    ],
    "minScale": 4,
    "maxScale": 7,
@@ -1182,7 +1221,8 @@
    "tags": [
     "casual",
     "bookish",
-    "cute"
+    "cute",
+    "sleep"
    ],
    "minScale": 4,
    "maxScale": 7,
@@ -1280,7 +1320,8 @@
    "tags": [
     "elegant",
     "bookish",
-    "cute"
+    "cute",
+    "sleep"
    ],
    "minScale": 3,
    "maxScale": 5,
@@ -1335,7 +1376,9 @@
    "name": "Seigaiha waves",
    "tags": [
     "elegant",
-    "cute"
+    "cute",
+    "sleep",
+    "formal"
    ],
    "minScale": 3,
    "maxScale": 6,
@@ -1355,7 +1398,8 @@
    "name": "Quatrefoil",
    "tags": [
     "elegant",
-    "bookish"
+    "bookish",
+    "formal"
    ],
    "minScale": 3,
    "maxScale": 5,
@@ -1419,7 +1463,8 @@
     "elegant",
     "date",
     "cute",
-    "gothic"
+    "gothic",
+    "formal"
    ],
    "minScale": 2,
    "maxScale": 4,
@@ -1466,7 +1511,8 @@
    "tags": [
     "cute",
     "casual",
-    "date"
+    "date",
+    "swim"
    ],
    "minScale": 2,
    "maxScale": 4,
@@ -1528,7 +1574,8 @@
    "tags": [
     "casual",
     "cute",
-    "bookish"
+    "bookish",
+    "swim"
    ],
    "minScale": 3,
    "maxScale": 5,
@@ -1552,7 +1599,8 @@
    "name": "Cats",
    "tags": [
     "cute",
-    "casual"
+    "casual",
+    "sleep"
    ],
    "minScale": 3,
    "maxScale": 5,
@@ -1568,7 +1616,8 @@
    "tags": [
     "cute",
     "street",
-    "casual"
+    "casual",
+    "sleep"
    ],
    "minScale": 3,
    "maxScale": 5,
@@ -1583,7 +1632,8 @@
    "name": "Rainbows",
    "tags": [
     "cute",
-    "casual"
+    "casual",
+    "sleep"
    ],
    "minScale": 2,
    "maxScale": 4,
@@ -1615,7 +1665,8 @@
    "tags": [
     "cute",
     "street",
-    "bookish"
+    "bookish",
+    "sleep"
    ],
    "minScale": 2,
    "maxScale": 4,
@@ -1631,7 +1682,8 @@
    "tags": [
     "cute",
     "casual",
-    "sporty"
+    "sporty",
+    "swim"
    ],
    "minScale": 3,
    "maxScale": 5,
@@ -1646,7 +1698,8 @@
    "name": "Seagulls",
    "tags": [
     "casual",
-    "cute"
+    "cute",
+    "swim"
    ],
    "minScale": 3,
    "maxScale": 5,
@@ -1660,7 +1713,8 @@
    "id": "pattern.bunnies_01",
    "name": "Bunnies",
    "tags": [
-    "cute"
+    "cute",
+    "sleep"
    ],
    "minScale": 3,
    "maxScale": 5,
@@ -1736,7 +1790,8 @@
    "tags": [
     "casual",
     "cute",
-    "sporty"
+    "sporty",
+    "swim"
    ],
    "minScale": 2,
    "maxScale": 4,
@@ -1752,7 +1807,8 @@
    "tags": [
     "street",
     "cute",
-    "sporty"
+    "sporty",
+    "sleep"
    ],
    "minScale": 3,
    "maxScale": 5,
@@ -1811,7 +1867,8 @@
    "tags": [
     "street",
     "date",
-    "animal"
+    "animal",
+    "swim"
    ],
    "minScale": 3,
    "maxScale": 5,
@@ -1901,7 +1958,8 @@
    "tags": [
     "elegant",
     "cute",
-    "date"
+    "date",
+    "formal"
    ],
    "minScale": 1.5,
    "maxScale": 3,
@@ -1994,7 +2052,8 @@
    "tags": [
     "elegant",
     "gothic",
-    "bookish"
+    "bookish",
+    "formal"
    ],
    "minScale": 4,
    "maxScale": 6,
@@ -2009,7 +2068,8 @@
    "name": "Fleur-de-lis",
    "tags": [
     "elegant",
-    "bookish"
+    "bookish",
+    "formal"
    ],
    "minScale": 3,
    "maxScale": 5,
@@ -2024,7 +2084,8 @@
    "name": "Ice creams",
    "tags": [
     "cute",
-    "casual"
+    "casual",
+    "swim"
    ],
    "minScale": 2.5,
    "maxScale": 4,
@@ -2056,7 +2117,8 @@
    "tags": [
     "cute",
     "casual",
-    "sporty"
+    "sporty",
+    "swim"
    ],
    "minScale": 2.5,
    "maxScale": 4,
@@ -2071,7 +2133,8 @@
    "name": "Shippo circles",
    "tags": [
     "elegant",
-    "cute"
+    "cute",
+    "formal"
    ],
    "minScale": 3,
    "maxScale": 5,
@@ -2095,7 +2158,8 @@
    "name": "Star lattice",
    "tags": [
     "elegant",
-    "bookish"
+    "bookish",
+    "formal"
    ],
    "minScale": 2,
    "maxScale": 3,
@@ -2142,7 +2206,8 @@
    "tags": [
     "elegant",
     "casual",
-    "date"
+    "date",
+    "formal"
    ],
    "minScale": 2.5,
    "maxScale": 4,
@@ -2453,7 +2518,8 @@
    "name": "Palm tree graphic",
    "tags": [
     "casual",
-    "sporty"
+    "sporty",
+    "swim"
    ],
    "minScale": 1,
    "maxScale": 1,
@@ -2842,7 +2908,9 @@
     "elegant",
     "date",
     "casual",
-    "cute"
+    "cute",
+    "swim",
+    "formal"
    ],
    "minScale": 1,
    "maxScale": 1,
@@ -2874,7 +2942,9 @@
    "tags": [
     "date",
     "elegant",
-    "casual"
+    "casual",
+    "swim",
+    "formal"
    ],
    "minScale": 1,
    "maxScale": 1,
@@ -2890,7 +2960,8 @@
    "tags": [
     "street",
     "sporty",
-    "casual"
+    "casual",
+    "swim"
    ],
    "minScale": 1,
    "maxScale": 1,
@@ -2924,7 +2995,8 @@
     "cute",
     "elegant",
     "date",
-    "casual"
+    "casual",
+    "formal"
    ],
    "minScale": 6,
    "maxScale": 8,
@@ -2940,7 +3012,8 @@
    "tags": [
     "cute",
     "elegant",
-    "date"
+    "date",
+    "formal"
    ],
    "minScale": 10,
    "maxScale": 14,
@@ -2955,7 +3028,8 @@
    "name": "Greek key border",
    "tags": [
     "elegant",
-    "bookish"
+    "bookish",
+    "formal"
    ],
    "minScale": 8,
    "maxScale": 11,
@@ -2986,7 +3060,8 @@
    "name": "Ric-rac trim",
    "tags": [
     "cute",
-    "casual"
+    "casual",
+    "swim"
    ],
    "minScale": 12,
    "maxScale": 18,

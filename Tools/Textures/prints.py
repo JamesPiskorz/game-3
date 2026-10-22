@@ -2374,6 +2374,19 @@ PLACED.update({pid: "yoke" for pid in ("yokeflowers", "folkyoke")})
 # (fabrics.PRINT_TAGS). They carry the tag "knitted" in the library.
 KNITTED = {"stripes", "breton", "argyle", "knit", "snowflakes", "rugby", "hearts", "stars", "fairisle", "nordic", "festive"}
 
+# The occasions prints suit, as extra tags the outfit contexts weight (sleep, swim, formal): pyjama prints, beach
+# prints, gala prints.
+CONTEXT_TAGS = {
+    "sleep": ["clouds", "moons", "stars", "hearts", "dots", "pindots", "gingham", "check", "pyjama", "bunnies", "cats",
+              "raindrops", "snowflakes", "plaid", "buffalo", "candystripe", "floral", "daisies", "cherries",
+              "strawberries", "bows", "paws", "rainbows", "planets", "sakura", "ticking", "notes", "smileys", "seigaiha"],
+    "swim": ["tropical", "hibiscus", "stripes", "breton", "waves", "scales", "shells", "fish", "seagulls", "anchors",
+             "lemons", "watermelon", "floral", "bigfloral", "dots", "gingham", "leopard", "zebra", "cheetah", "tiedye",
+             "cherries", "strawberries", "daisies", "sunsetfade", "ombre", "colourblock", "ricrac", "tee_palm", "icecream"],
+    "formal": ["damask", "bigfloral", "roses", "ombre", "sunsetfade", "scallop", "greekkey", "medallions", "fleurdelis",
+               "paisley", "seigaiha", "shippo", "quatrefoil", "lattice", "starlattice", "watercolour", "hemflowers"],
+}
+
 # Classic colourways: (how often an item with the print takes one, [(the cloth's colour, the print's)]).
 COLOURWAYS = {
     "leopard": (0.6, [("#c79a5b", "#2b1c12"), ("#d8c9b0", "#3a3a3a"), ("#b08850", "#1a1410")]),
