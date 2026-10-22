@@ -1786,6 +1786,7 @@ def azulejo(size, seed):
     """Azulejo: painted tiles, a flower in a ring with petals to the corners, where quarter circles meet their
     neighbours' in a second colour, on white between thin grout lines (summer dresses, swimwear)."""
     x, y = tk.grid(size)
+    x, y = x + 0.5 / size, y + 0.5 / size  # grout centred between pixels, as wide at the tile's edge as inside it
     k = 4
     fx, fy = (x * k) % 1.0 - 0.5, (y * k) % 1.0 - 0.5
     rad, ang = np.hypot(fx, fy), np.arctan2(fy, fx)
