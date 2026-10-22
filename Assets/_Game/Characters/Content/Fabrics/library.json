@@ -3,93 +3,109 @@
   {
    "id": "plain",
    "name": "Smooth cotton",
-   "mean": 0.964,
+   "mean": 0.9602,
    "tileMetres": 0.25,
    "tags": [
     "casual",
     "cute"
    ],
-   "printable": true
+   "printable": true,
+   "printTags": [],
+   "lift": 0.04
   },
   {
    "id": "poplin",
    "name": "Poplin shirting",
-   "mean": 0.9584,
+   "mean": 0.9264,
    "tileMetres": 0.25,
    "tags": [
     "elegant",
     "bookish",
     "casual"
    ],
-   "printable": true
+   "printable": true,
+   "printTags": [],
+   "lift": 0.06
   },
   {
    "id": "oxford",
    "name": "Oxford cloth",
-   "mean": 0.9098,
+   "mean": 0.8297,
    "tileMetres": 0.25,
    "tags": [
     "bookish",
     "elegant"
    ],
-   "printable": true
+   "printable": true,
+   "printTags": [],
+   "lift": 0.12
   },
   {
    "id": "chambray",
    "name": "Chambray",
-   "mean": 0.8781,
+   "mean": 0.8168,
    "tileMetres": 0.25,
    "tags": [
     "casual",
     "bookish"
    ],
-   "printable": true
+   "printable": true,
+   "printTags": [],
+   "lift": 0.2
   },
   {
    "id": "canvas",
    "name": "Canvas",
-   "mean": 0.8384,
+   "mean": 0.7875,
    "tileMetres": 0.25,
    "tags": [
     "casual",
     "street"
    ],
-   "printable": true
+   "printable": true,
+   "printTags": [],
+   "lift": 0.12
   },
   {
    "id": "linen",
    "name": "Linen",
-   "mean": 0.8269,
+   "mean": 0.7646,
    "tileMetres": 0.25,
    "tags": [
     "casual",
     "elegant",
     "bookish"
    ],
-   "printable": true
+   "printable": true,
+   "printTags": [],
+   "lift": 0.12
   },
   {
    "id": "gauze",
    "name": "Cotton gauze and cheesecloth",
-   "mean": 0.8837,
+   "mean": 0.8278,
    "tileMetres": 0.25,
    "tags": [
     "casual",
     "cute"
    ],
-   "printable": true
+   "printable": true,
+   "printTags": [],
+   "lift": 0.12
   },
   {
    "id": "seersucker",
    "name": "Seersucker",
-   "mean": 0.9163,
+   "mean": 0.8886,
    "tileMetres": 0.25,
    "tags": [
     "casual",
     "cute",
     "bookish"
    ],
-   "printable": false
+   "printable": false,
+   "printTags": [],
+   "lift": 0.12
   },
   {
    "id": "eyelet",
@@ -100,166 +116,200 @@
     "cute",
     "date"
    ],
-   "printable": false
+   "printable": false,
+   "printTags": [],
+   "lift": 0.06
   },
   {
    "id": "denim",
    "name": "Denim",
-   "mean": 0.8391,
+   "mean": 0.7829,
    "tileMetres": 0.25,
    "tags": [
     "casual",
     "street"
    ],
-   "printable": false
+   "printable": false,
+   "printTags": [],
+   "lift": 0.18
   },
   {
    "id": "twill",
    "name": "Chino and gabardine twill",
-   "mean": 0.926,
+   "mean": 0.8804,
    "tileMetres": 0.25,
    "tags": [
     "casual",
     "bookish"
    ],
-   "printable": true
+   "printable": true,
+   "printTags": [],
+   "lift": 0.12
   },
   {
    "id": "flannel",
    "name": "Flannel",
-   "mean": 0.9118,
+   "mean": 0.8625,
    "tileMetres": 0.25,
    "tags": [
     "casual",
     "street",
     "bookish"
    ],
-   "printable": true
+   "printable": true,
+   "printTags": [],
+   "lift": 0.12
   },
   {
    "id": "herringbone",
    "name": "Herringbone wool",
-   "mean": 0.8604,
+   "mean": 0.8239,
    "tileMetres": 0.25,
    "tags": [
     "bookish",
     "elegant"
    ],
-   "printable": false
+   "printable": false,
+   "printTags": [],
+   "lift": 0.2
   },
   {
    "id": "tweed",
    "name": "Tweed",
-   "mean": 0.8502,
+   "mean": 0.7568,
    "tileMetres": 0.25,
    "tags": [
     "bookish",
     "elegant"
    ],
-   "printable": false
+   "printable": false,
+   "printTags": [],
+   "lift": 0.3
   },
   {
    "id": "ripstop",
    "name": "Ripstop nylon",
-   "mean": 0.9487,
+   "mean": 0.8955,
    "tileMetres": 0.25,
    "tags": [
     "sporty",
     "street"
    ],
-   "printable": true
+   "printable": true,
+   "printTags": [],
+   "lift": 0.12
   },
   {
    "id": "jersey",
    "name": "Cotton jersey",
-   "mean": 0.9047,
+   "mean": 0.8961,
    "tileMetres": 0.25,
    "tags": [
     "casual",
     "sporty"
    ],
-   "printable": true
+   "printable": true,
+   "printTags": [],
+   "lift": 0.08
   },
   {
    "id": "knit",
    "name": "Stockinette knit",
-   "mean": 0.7557,
+   "mean": 0.7425,
    "tileMetres": 0.25,
    "tags": [
     "cute",
     "bookish",
     "casual"
    ],
-   "printable": false
+   "printable": true,
+   "printTags": [
+    "knitted"
+   ],
+   "lift": 0.2
   },
   {
    "id": "chunky_knit",
    "name": "A chunky hand knit",
-   "mean": 0.7075,
+   "mean": 0.6898,
    "tileMetres": 0.25,
    "tags": [
     "cute",
     "casual"
    ],
-   "printable": false
+   "printable": true,
+   "printTags": [
+    "knitted"
+   ],
+   "lift": 0.22
   },
   {
    "id": "rib_knit",
    "name": "Rib knit",
-   "mean": 0.85,
+   "mean": 0.7582,
    "tileMetres": 0.25,
    "tags": [
     "casual",
     "street",
     "elegant"
    ],
-   "printable": false
+   "printable": false,
+   "printTags": [],
+   "lift": 0.12
   },
   {
    "id": "wide_rib",
    "name": "A wide rib",
-   "mean": 0.8254,
+   "mean": 0.7463,
    "tileMetres": 0.25,
    "tags": [
     "cute",
     "elegant",
     "casual"
    ],
-   "printable": false
+   "printable": false,
+   "printTags": [],
+   "lift": 0.12
   },
   {
    "id": "cable_knit",
    "name": "Cable knit",
-   "mean": 0.7616,
+   "mean": 0.668,
    "tileMetres": 0.25,
    "tags": [
     "bookish",
     "cute"
    ],
-   "printable": false
+   "printable": false,
+   "printTags": [],
+   "lift": 0.2
   },
   {
    "id": "waffle",
    "name": "Waffle knit",
-   "mean": 0.8605,
+   "mean": 0.7903,
    "tileMetres": 0.25,
    "tags": [
     "casual",
     "sporty"
    ],
-   "printable": false
+   "printable": false,
+   "printTags": [],
+   "lift": 0.12
   },
   {
    "id": "pique",
    "name": "Piqu\u00e9",
-   "mean": 0.9447,
+   "mean": 0.9246,
    "tileMetres": 0.25,
    "tags": [
     "sporty",
     "bookish",
     "casual"
    ],
-   "printable": true
+   "printable": true,
+   "printTags": [],
+   "lift": 0.12
   },
   {
    "id": "crochet",
@@ -270,131 +320,155 @@
     "cute",
     "casual"
    ],
-   "printable": false
+   "printable": false,
+   "printTags": [],
+   "lift": 0.12
   },
   {
    "id": "fleece",
    "name": "Fleece and sweatshirt fleece",
-   "mean": 0.9152,
+   "mean": 0.8181,
    "tileMetres": 0.25,
    "tags": [
     "casual",
     "sporty",
     "street"
    ],
-   "printable": true
+   "printable": true,
+   "printTags": [],
+   "lift": 0.12
   },
   {
    "id": "boucle",
    "name": "Boucl\u00e9",
-   "mean": 0.8513,
+   "mean": 0.7227,
    "tileMetres": 0.25,
    "tags": [
     "elegant",
     "cute"
    ],
-   "printable": false
+   "printable": false,
+   "printTags": [],
+   "lift": 0.25
   },
   {
    "id": "terry",
    "name": "Terry towelling",
-   "mean": 0.8065,
+   "mean": 0.7324,
    "tileMetres": 0.25,
    "tags": [
     "casual",
     "sporty"
    ],
-   "printable": false
+   "printable": false,
+   "printTags": [],
+   "lift": 0.12
   },
   {
    "id": "faux_fur",
-   "name": "Faux fur and shearling",
-   "mean": 0.8415,
+   "name": "Faux fur",
+   "mean": 0.7643,
    "tileMetres": 0.25,
    "tags": [
     "street",
     "elegant",
     "gothic"
    ],
-   "printable": false
+   "printable": false,
+   "printTags": [],
+   "lift": 0.3
   },
   {
    "id": "satin",
    "name": "Satin and silk",
-   "mean": 0.9587,
+   "mean": 0.8533,
    "tileMetres": 0.25,
    "tags": [
     "elegant",
     "date"
    ],
-   "printable": true
+   "printable": true,
+   "printTags": [],
+   "lift": 0.4
   },
   {
    "id": "crepe",
    "name": "Cr\u00eape",
-   "mean": 0.9434,
+   "mean": 0.9193,
    "tileMetres": 0.25,
    "tags": [
     "elegant",
     "date"
    ],
-   "printable": true
+   "printable": true,
+   "printTags": [],
+   "lift": 0.08
   },
   {
    "id": "chiffon",
    "name": "Chiffon and voile",
-   "mean": 0.9597,
+   "mean": 0.929,
    "tileMetres": 0.25,
    "tags": [
     "elegant",
     "cute",
     "date"
    ],
-   "printable": true
+   "printable": true,
+   "printTags": [],
+   "lift": 0.06
   },
   {
    "id": "tulle",
    "name": "Tulle and net",
-   "mean": 0.8781,
+   "mean": 0.8105,
    "tileMetres": 0.25,
    "tags": [
     "cute",
     "elegant"
    ],
-   "printable": false
+   "printable": false,
+   "printTags": [],
+   "lift": 0.12
   },
   {
    "id": "lycra",
    "name": "Lycra and spandex",
-   "mean": 0.9791,
+   "mean": 0.8797,
    "tileMetres": 0.25,
    "tags": [
     "sporty"
    ],
-   "printable": true
+   "printable": true,
+   "printTags": [],
+   "lift": 0.32
   },
   {
    "id": "velvet",
    "name": "Velvet and velour",
-   "mean": 0.8194,
+   "mean": 0.8204,
    "tileMetres": 0.25,
    "tags": [
     "gothic",
     "elegant",
     "date"
    ],
-   "printable": false
+   "printable": false,
+   "printTags": [],
+   "lift": 0.16
   },
   {
    "id": "metallic",
    "name": "Lurex and lam\u00e9",
-   "mean": 0.9166,
+   "mean": 0.7994,
    "tileMetres": 0.25,
    "tags": [
     "date",
     "street"
    ],
-   "printable": false
+   "printable": false,
+   "printTags": [],
+   "lift": 0.5
   },
   {
    "id": "sequins",
@@ -405,12 +479,14 @@
     "date",
     "elegant"
    ],
-   "printable": false
+   "printable": false,
+   "printTags": [],
+   "lift": 0.5
   },
   {
    "id": "lace",
    "name": "Lace",
-   "mean": 0.5033,
+   "mean": 0.5032,
    "tileMetres": 0.25,
    "tags": [
     "elegant",
@@ -418,41 +494,49 @@
     "date",
     "cute"
    ],
-   "printable": false
+   "printable": false,
+   "printTags": [],
+   "lift": 0.06
   },
   {
    "id": "jacquard",
    "name": "Jacquard and brocade",
-   "mean": 0.8969,
+   "mean": 0.7226,
    "tileMetres": 0.25,
    "tags": [
     "elegant",
     "gothic"
    ],
-   "printable": false
+   "printable": false,
+   "printTags": [],
+   "lift": 0.3
   },
   {
    "id": "leather",
    "name": "Leather",
-   "mean": 0.9175,
+   "mean": 0.7903,
    "tileMetres": 0.25,
    "tags": [
     "street",
     "gothic"
    ],
-   "printable": false
+   "printable": false,
+   "printTags": [],
+   "lift": 0.28
   },
   {
    "id": "patent",
    "name": "Patent leather",
-   "mean": 0.9635,
+   "mean": 0.8276,
    "tileMetres": 0.25,
    "tags": [
     "gothic",
     "elegant",
     "date"
    ],
-   "printable": false
+   "printable": false,
+   "printTags": [],
+   "lift": 0.45
   },
   {
    "id": "croc",
@@ -463,51 +547,61 @@
     "elegant",
     "street"
    ],
-   "printable": false
+   "printable": false,
+   "printTags": [],
+   "lift": 0.3
   },
   {
    "id": "suede",
    "name": "Suede",
-   "mean": 0.8918,
+   "mean": 0.8541,
    "tileMetres": 0.25,
    "tags": [
     "casual",
     "bookish",
     "street"
    ],
-   "printable": false
+   "printable": false,
+   "printTags": [],
+   "lift": 0.12
   },
   {
    "id": "corduroy",
    "name": "Corduroy",
-   "mean": 0.8738,
+   "mean": 0.8644,
    "tileMetres": 0.25,
    "tags": [
     "bookish",
     "casual"
    ],
-   "printable": false
+   "printable": false,
+   "printTags": [],
+   "lift": 0.2
   },
   {
    "id": "rubber",
    "name": "Rubber",
-   "mean": 0.969,
+   "mean": 0.8294,
    "tileMetres": 0.25,
    "tags": [
     "casual"
    ],
-   "printable": false
+   "printable": false,
+   "printTags": [],
+   "lift": 0.45
   },
   {
    "id": "mesh",
    "name": "Athletic mesh",
-   "mean": 0.904,
+   "mean": 0.8821,
    "tileMetres": 0.25,
    "tags": [
     "sporty",
     "street"
    ],
-   "printable": false
+   "printable": false,
+   "printTags": [],
+   "lift": 0.12
   },
   {
    "id": "quilted",
@@ -519,7 +613,9 @@
     "street",
     "sporty"
    ],
-   "printable": false
+   "printable": false,
+   "printTags": [],
+   "lift": 0.22
   },
   {
    "id": "diamond_quilt",
@@ -530,7 +626,361 @@
     "elegant",
     "casual"
    ],
-   "printable": false
+   "printable": false,
+   "printTags": [],
+   "lift": 0.2
+  },
+  {
+   "id": "dobby",
+   "name": "Dobby shirting",
+   "mean": 0.8611,
+   "tileMetres": 0.25,
+   "tags": [
+    "bookish",
+    "elegant",
+    "casual"
+   ],
+   "printable": true,
+   "printTags": [],
+   "lift": 0.12
+  },
+  {
+   "id": "crinkle",
+   "name": "Crinkle cotton and crushed gauze",
+   "mean": 0.9029,
+   "tileMetres": 0.25,
+   "tags": [
+    "casual",
+    "cute"
+   ],
+   "printable": true,
+   "printTags": [],
+   "lift": 0.12
+  },
+  {
+   "id": "stonewash",
+   "name": "Stonewashed denim",
+   "mean": 0.78,
+   "tileMetres": 0.25,
+   "tags": [
+    "casual",
+    "street"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.3
+  },
+  {
+   "id": "acid_wash",
+   "name": "Acid-wash denim",
+   "mean": 0.8118,
+   "tileMetres": 0.25,
+   "tags": [
+    "street",
+    "gothic"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.5
+  },
+  {
+   "id": "nylon",
+   "name": "Nylon shell",
+   "mean": 0.8093,
+   "tileMetres": 0.25,
+   "tags": [
+    "sporty",
+    "street"
+   ],
+   "printable": true,
+   "printTags": [],
+   "lift": 0.3
+  },
+  {
+   "id": "waxed",
+   "name": "Waxed cotton",
+   "mean": 0.7894,
+   "tileMetres": 0.25,
+   "tags": [
+    "bookish",
+    "casual",
+    "street"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.32
+  },
+  {
+   "id": "marl",
+   "name": "Marl",
+   "mean": 0.7839,
+   "tileMetres": 0.25,
+   "tags": [
+    "casual",
+    "sporty",
+    "street"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.35
+  },
+  {
+   "id": "slub_jersey",
+   "name": "Slub jersey",
+   "mean": 0.8573,
+   "tileMetres": 0.25,
+   "tags": [
+    "casual"
+   ],
+   "printable": true,
+   "printTags": [],
+   "lift": 0.12
+  },
+  {
+   "id": "mohair",
+   "name": "Mohair and angora",
+   "mean": 0.7457,
+   "tileMetres": 0.25,
+   "tags": [
+    "cute",
+    "elegant",
+    "gothic"
+   ],
+   "printable": true,
+   "printTags": [
+    "knitted"
+   ],
+   "lift": 0.3
+  },
+  {
+   "id": "pointelle",
+   "name": "Pointelle",
+   "mean": 0.7174,
+   "tileMetres": 0.25,
+   "tags": [
+    "cute",
+    "date"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.18
+  },
+  {
+   "id": "seed_stitch",
+   "name": "Seed stitch",
+   "mean": 0.7192,
+   "tileMetres": 0.25,
+   "tags": [
+    "bookish",
+    "cute",
+    "casual"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.18
+  },
+  {
+   "id": "sherpa",
+   "name": "Sherpa and shearling fleece",
+   "mean": 0.7645,
+   "tileMetres": 0.25,
+   "tags": [
+    "casual",
+    "cute",
+    "street"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.3
+  },
+  {
+   "id": "chenille",
+   "name": "Chenille",
+   "mean": 0.8419,
+   "tileMetres": 0.25,
+   "tags": [
+    "cute",
+    "casual"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.25
+  },
+  {
+   "id": "shantung",
+   "name": "Shantung and dupioni silk",
+   "mean": 0.8268,
+   "tileMetres": 0.25,
+   "tags": [
+    "elegant",
+    "date"
+   ],
+   "printable": true,
+   "printTags": [],
+   "lift": 0.3
+  },
+  {
+   "id": "moire",
+   "name": "Moir\u00e9 silk",
+   "mean": 0.8048,
+   "tileMetres": 0.25,
+   "tags": [
+    "elegant",
+    "gothic"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.35
+  },
+  {
+   "id": "taffeta",
+   "name": "Taffeta",
+   "mean": 0.776,
+   "tileMetres": 0.25,
+   "tags": [
+    "elegant",
+    "date",
+    "cute"
+   ],
+   "printable": true,
+   "printTags": [],
+   "lift": 0.38
+  },
+  {
+   "id": "organza",
+   "name": "Organza",
+   "mean": 0.9374,
+   "tileMetres": 0.25,
+   "tags": [
+    "elegant",
+    "cute",
+    "date"
+   ],
+   "printable": true,
+   "printTags": [],
+   "lift": 0.08
+  },
+  {
+   "id": "glitter",
+   "name": "Glitter",
+   "mean": 0.7153,
+   "tileMetres": 0.25,
+   "tags": [
+    "date",
+    "cute",
+    "street"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.6
+  },
+  {
+   "id": "beaded",
+   "name": "Beading",
+   "mean": 0.6772,
+   "tileMetres": 0.25,
+   "tags": [
+    "elegant",
+    "date"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.45
+  },
+  {
+   "id": "perforated",
+   "name": "Perforated leather",
+   "mean": 0.8847,
+   "tileMetres": 0.25,
+   "tags": [
+    "sporty",
+    "street"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.2
+  },
+  {
+   "id": "vinyl",
+   "name": "Vinyl and PVC",
+   "mean": 0.7229,
+   "tileMetres": 0.25,
+   "tags": [
+    "gothic",
+    "street",
+    "date"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.65
+  },
+  {
+   "id": "snake",
+   "name": "Embossed snakeskin",
+   "mean": 0.8187,
+   "tileMetres": 0.25,
+   "tags": [
+    "street",
+    "elegant",
+    "gothic"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.3
+  },
+  {
+   "id": "ottoman",
+   "name": "Ottoman",
+   "mean": 0.8543,
+   "tileMetres": 0.25,
+   "tags": [
+    "elegant",
+    "bookish"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.12
+  },
+  {
+   "id": "straw",
+   "name": "Woven straw and raffia",
+   "mean": 0.8369,
+   "tileMetres": 0.25,
+   "tags": [
+    "casual",
+    "cute"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.2
+  },
+  {
+   "id": "pleated",
+   "name": "Knife pleats",
+   "mean": 0.8335,
+   "tileMetres": 0.25,
+   "tags": [
+    "cute",
+    "elegant",
+    "bookish"
+   ],
+   "printable": true,
+   "printTags": [],
+   "lift": 0.12
+  },
+  {
+   "id": "smocked",
+   "name": "Smocking and shirring",
+   "mean": 0.781,
+   "tileMetres": 0.25,
+   "tags": [
+    "cute",
+    "casual",
+    "date"
+   ],
+   "printable": false,
+   "printTags": [],
+   "lift": 0.12
   }
  ]
 }

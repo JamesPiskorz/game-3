@@ -34,7 +34,10 @@
     "chiffon",
     "jacquard",
     "lace",
-    "metallic"
+    "metallic",
+    "shantung",
+    "moire",
+    "taffeta"
   ],
   "patternable": true
 }

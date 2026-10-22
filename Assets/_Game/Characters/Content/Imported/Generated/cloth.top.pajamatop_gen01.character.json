@@ -24,7 +24,8 @@
   "fabrics": [
     "velvet",
     "chiffon",
-    "lace"
+    "lace",
+    "shantung"
   ],
   "patternable": true
 }

@@ -6,7 +6,8 @@
    "tags": [
     "casual",
     "sporty",
-    "street"
+    "street",
+    "knitted"
    ],
    "minScale": 6,
    "maxScale": 10,
@@ -53,7 +54,8 @@
    "name": "Hearts",
    "tags": [
     "cute",
-    "date"
+    "date",
+    "knitted"
    ],
    "minScale": 4,
    "maxScale": 7,
@@ -65,7 +67,8 @@
    "tags": [
     "cute",
     "street",
-    "casual"
+    "casual",
+    "knitted"
    ],
    "minScale": 4,
    "maxScale": 7,
@@ -113,7 +116,8 @@
    "tags": [
     "cute",
     "bookish",
-    "casual"
+    "casual",
+    "knitted"
    ],
    "minScale": 4,
    "maxScale": 7,
@@ -125,7 +129,8 @@
    "tags": [
     "bookish",
     "elegant",
-    "casual"
+    "casual",
+    "knitted"
    ],
    "minScale": 4,
    "maxScale": 7,
@@ -149,7 +154,8 @@
    "tags": [
     "casual",
     "elegant",
-    "bookish"
+    "bookish",
+    "knitted"
    ],
    "minScale": 5,
    "maxScale": 8,
@@ -534,7 +540,8 @@
    "tags": [
     "cute",
     "casual",
-    "bookish"
+    "bookish",
+    "knitted"
    ],
    "minScale": 3,
    "maxScale": 6,
@@ -739,6 +746,560 @@
    "minScale": 2,
    "maxScale": 4,
    "weight": 0.5
+  },
+  {
+   "id": "pattern.ticking_01",
+   "name": "Ticking stripes",
+   "tags": [
+    "casual",
+    "bookish"
+   ],
+   "minScale": 4,
+   "maxScale": 7,
+   "weight": 0.5
+  },
+  {
+   "id": "pattern.rugby_01",
+   "name": "Rugby hoops",
+   "tags": [
+    "sporty",
+    "casual",
+    "street",
+    "knitted"
+   ],
+   "minScale": 3,
+   "maxScale": 5,
+   "weight": 0.6
+  },
+  {
+   "id": "pattern.pyjama_01",
+   "name": "Pyjama stripes",
+   "tags": [
+    "casual",
+    "bookish",
+    "cute"
+   ],
+   "minScale": 4,
+   "maxScale": 7,
+   "weight": 0.6
+  },
+  {
+   "id": "pattern.glenplaid_01",
+   "name": "Glen plaid",
+   "tags": [
+    "elegant",
+    "bookish"
+   ],
+   "minScale": 3,
+   "maxScale": 5,
+   "weight": 0.7
+  },
+  {
+   "id": "pattern.madras_01",
+   "name": "Madras",
+   "tags": [
+    "casual",
+    "bookish",
+    "cute"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.6
+  },
+  {
+   "id": "pattern.tattersall_01",
+   "name": "Tattersall",
+   "tags": [
+    "bookish",
+    "casual"
+   ],
+   "minScale": 3,
+   "maxScale": 5,
+   "weight": 0.5
+  },
+  {
+   "id": "pattern.graph_01",
+   "name": "Graph paper",
+   "tags": [
+    "bookish",
+    "street"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.4
+  },
+  {
+   "id": "pattern.wavycheck_01",
+   "name": "Wavy checkerboard",
+   "tags": [
+    "street",
+    "cute",
+    "casual"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.5
+  },
+  {
+   "id": "pattern.pindots_01",
+   "name": "Pin dots",
+   "tags": [
+    "elegant",
+    "bookish",
+    "cute"
+   ],
+   "minScale": 3,
+   "maxScale": 5,
+   "weight": 0.6
+  },
+  {
+   "id": "pattern.halftone_01",
+   "name": "Halftone",
+   "tags": [
+    "street",
+    "sporty"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.4
+  },
+  {
+   "id": "pattern.plus_01",
+   "name": "Plus signs",
+   "tags": [
+    "street",
+    "casual",
+    "cute"
+   ],
+   "minScale": 3,
+   "maxScale": 6,
+   "weight": 0.4
+  },
+  {
+   "id": "pattern.seigaiha_01",
+   "name": "Seigaiha waves",
+   "tags": [
+    "elegant",
+    "cute"
+   ],
+   "minScale": 3,
+   "maxScale": 6,
+   "weight": 0.5
+  },
+  {
+   "id": "pattern.quatrefoil_01",
+   "name": "Quatrefoil",
+   "tags": [
+    "elegant",
+    "bookish"
+   ],
+   "minScale": 3,
+   "maxScale": 5,
+   "weight": 0.5
+  },
+  {
+   "id": "pattern.ikat_01",
+   "name": "Ikat",
+   "tags": [
+    "casual",
+    "elegant",
+    "street"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.5
+  },
+  {
+   "id": "pattern.aztec_01",
+   "name": "Aztec bands",
+   "tags": [
+    "casual",
+    "street",
+    "sporty"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.5
+  },
+  {
+   "id": "pattern.opart_01",
+   "name": "Op art squares",
+   "tags": [
+    "street",
+    "gothic"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.3
+  },
+  {
+   "id": "pattern.roses_01",
+   "name": "Cabbage roses",
+   "tags": [
+    "elegant",
+    "date",
+    "cute",
+    "gothic"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.9
+  },
+  {
+   "id": "pattern.sunflowers_01",
+   "name": "Sunflowers",
+   "tags": [
+    "cute",
+    "casual"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.6
+  },
+  {
+   "id": "pattern.tulips_01",
+   "name": "Tulips",
+   "tags": [
+    "cute",
+    "casual",
+    "elegant"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.6
+  },
+  {
+   "id": "pattern.lemons_01",
+   "name": "Lemons",
+   "tags": [
+    "cute",
+    "casual",
+    "date"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.6
+  },
+  {
+   "id": "pattern.mushrooms_01",
+   "name": "Toadstools",
+   "tags": [
+    "cute",
+    "bookish"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.5
+  },
+  {
+   "id": "pattern.ferns_01",
+   "name": "Ferns",
+   "tags": [
+    "bookish",
+    "casual",
+    "elegant"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.5
+  },
+  {
+   "id": "pattern.holly_01",
+   "name": "Holly",
+   "tags": [
+    "cute",
+    "casual"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.3
+  },
+  {
+   "id": "pattern.anchors_01",
+   "name": "Anchors",
+   "tags": [
+    "casual",
+    "cute",
+    "bookish"
+   ],
+   "minScale": 3,
+   "maxScale": 5,
+   "weight": 0.5
+  },
+  {
+   "id": "pattern.cats_01",
+   "name": "Cats",
+   "tags": [
+    "cute",
+    "casual"
+   ],
+   "minScale": 3,
+   "maxScale": 5,
+   "weight": 0.6
+  },
+  {
+   "id": "pattern.notes_01",
+   "name": "Music notes",
+   "tags": [
+    "cute",
+    "street",
+    "casual"
+   ],
+   "minScale": 3,
+   "maxScale": 5,
+   "weight": 0.4
+  },
+  {
+   "id": "pattern.rainbows_01",
+   "name": "Rainbows",
+   "tags": [
+    "cute",
+    "casual"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.5
+  },
+  {
+   "id": "pattern.lips_01",
+   "name": "Kisses",
+   "tags": [
+    "date",
+    "street",
+    "cute"
+   ],
+   "minScale": 3,
+   "maxScale": 5,
+   "weight": 0.4
+  },
+  {
+   "id": "pattern.planets_01",
+   "name": "Planets",
+   "tags": [
+    "cute",
+    "street",
+    "bookish"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.5
+  },
+  {
+   "id": "pattern.fish_01",
+   "name": "Fish",
+   "tags": [
+    "cute",
+    "casual",
+    "sporty"
+   ],
+   "minScale": 3,
+   "maxScale": 5,
+   "weight": 0.4
+  },
+  {
+   "id": "pattern.seagulls_01",
+   "name": "Seagulls",
+   "tags": [
+    "casual",
+    "cute"
+   ],
+   "minScale": 3,
+   "maxScale": 5,
+   "weight": 0.4
+  },
+  {
+   "id": "pattern.bunnies_01",
+   "name": "Bunnies",
+   "tags": [
+    "cute"
+   ],
+   "minScale": 3,
+   "maxScale": 5,
+   "weight": 0.5
+  },
+  {
+   "id": "pattern.pumpkins_01",
+   "name": "Pumpkins",
+   "tags": [
+    "cute",
+    "gothic",
+    "casual"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.3
+  },
+  {
+   "id": "pattern.eyes_01",
+   "name": "Eyes",
+   "tags": [
+    "gothic",
+    "street"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.4
+  },
+  {
+   "id": "pattern.bees_01",
+   "name": "Bees",
+   "tags": [
+    "cute",
+    "casual"
+   ],
+   "minScale": 3,
+   "maxScale": 5,
+   "weight": 0.5
+  },
+  {
+   "id": "pattern.ladybugs_01",
+   "name": "Ladybirds",
+   "tags": [
+    "cute"
+   ],
+   "minScale": 3,
+   "maxScale": 5,
+   "weight": 0.5
+  },
+  {
+   "id": "pattern.shells_01",
+   "name": "Shells and starfish",
+   "tags": [
+    "casual",
+    "cute",
+    "sporty"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.5
+  },
+  {
+   "id": "pattern.smileys_01",
+   "name": "Smileys",
+   "tags": [
+    "street",
+    "cute",
+    "sporty"
+   ],
+   "minScale": 3,
+   "maxScale": 5,
+   "weight": 0.5
+  },
+  {
+   "id": "pattern.giraffe_01",
+   "name": "Giraffe",
+   "tags": [
+    "street",
+    "casual"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.4
+  },
+  {
+   "id": "pattern.dalmatian_01",
+   "name": "Dalmatian",
+   "tags": [
+    "street",
+    "cute",
+    "gothic"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.5
+  },
+  {
+   "id": "pattern.cheetah_01",
+   "name": "Cheetah",
+   "tags": [
+    "street",
+    "date"
+   ],
+   "minScale": 3,
+   "maxScale": 5,
+   "weight": 0.5
+  },
+  {
+   "id": "pattern.splatter_01",
+   "name": "Paint splatter",
+   "tags": [
+    "street",
+    "casual"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.4
+  },
+  {
+   "id": "pattern.shibori_01",
+   "name": "Shibori",
+   "tags": [
+    "casual",
+    "elegant"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.5
+  },
+  {
+   "id": "pattern.batik_01",
+   "name": "Batik",
+   "tags": [
+    "casual",
+    "elegant"
+   ],
+   "minScale": 2,
+   "maxScale": 3,
+   "weight": 0.4
+  },
+  {
+   "id": "pattern.pixelcamo_01",
+   "name": "Digital camo",
+   "tags": [
+    "street",
+    "sporty"
+   ],
+   "minScale": 2,
+   "maxScale": 4,
+   "weight": 0.4
+  },
+  {
+   "id": "pattern.watercolour_01",
+   "name": "Watercolour",
+   "tags": [
+    "elegant",
+    "cute",
+    "date"
+   ],
+   "minScale": 1.5,
+   "maxScale": 3,
+   "weight": 0.5
+  },
+  {
+   "id": "pattern.fairisle_01",
+   "name": "Fair Isle",
+   "tags": [
+    "cute",
+    "bookish",
+    "casual",
+    "knitted"
+   ],
+   "minScale": 2.5,
+   "maxScale": 3.5,
+   "weight": 0.7
+  },
+  {
+   "id": "pattern.nordic_01",
+   "name": "Nordic stars",
+   "tags": [
+    "cute",
+    "casual",
+    "bookish",
+    "knitted"
+   ],
+   "minScale": 2.5,
+   "maxScale": 3.5,
+   "weight": 0.6
   }
  ]
 }

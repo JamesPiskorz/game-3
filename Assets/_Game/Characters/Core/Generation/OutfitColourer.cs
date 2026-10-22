@@ -74,11 +74,11 @@ namespace Game.Characters.Generation
                     FabricEntry fabric = options.Count == 0 ? null : rng.PickWeighted(options, f => f.Weight * Affinity.Of(archetype, f.Tags));
                     if (fabric != null && fabric.Id != part.Fabrics[0]) item.FabricId = fabric.Id;
                 }
-                bool printable = catalog.FabricOf(part, item.FabricId)?.Printable ?? true;
-
-                if (part.Patternable && printable && rng.Chance(archetype.PatternChance))
+                // A print, at times, of those its fabric takes (only knitted ones on a knit).
+                List<PatternEntry> prints = catalog.PrintsFor(part, item.FabricId);
+                if (prints.Count > 0 && rng.Chance(archetype.PatternChance))
                 {
-                    PatternEntry pattern = rng.PickWeighted(catalog.Patterns, p => p.Weight * Affinity.Of(archetype, p.Tags));
+                    PatternEntry pattern = rng.PickWeighted(prints, p => p.Weight * Affinity.Of(archetype, p.Tags));
                     if (pattern != null)
                     {
                         item.PatternId = pattern.Id;

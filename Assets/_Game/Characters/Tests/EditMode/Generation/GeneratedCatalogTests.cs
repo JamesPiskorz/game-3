@@ -96,13 +96,13 @@ namespace Game.Characters.Tests.Generation
         public void EveryGarmentIsMadeOfAFabricFromTheLibrary()
         {
             ContentCatalog catalog = Catalogs.Generated();
-            Assert.That(catalog.Fabrics.Count, Is.GreaterThanOrEqualTo(40), "A broad fabric library.");
-            Assert.That(catalog.Patterns.Count, Is.GreaterThanOrEqualTo(60), "A broad print library.");
+            Assert.That(catalog.Fabrics.Count, Is.GreaterThanOrEqualTo(70), "A broad fabric library.");
+            Assert.That(catalog.Patterns.Count, Is.GreaterThanOrEqualTo(100), "A broad print library.");
             foreach (PartEntry part in catalog.Parts.Where(p => p.Id.StartsWith("cloth.")))
             {
                 Assert.That(part.Fabrics, Is.Not.Empty, $"{part.Id} has no fabric.");
                 Assert.That(part.Fabrics.Select(catalog.Fabric), Has.None.Null, part.Id);
-                if (part.Patternable) Assert.That(catalog.Fabric(part.Fabrics[0]).Printable, part.Id + " takes prints on a fabric that doesn't.");
+                if (part.Patternable) Assert.That(part.Fabrics.Any(f => catalog.Fabric(f).Printable), part.Id + " takes prints but is made in nothing that does.");
             }
         }
 
@@ -113,7 +113,7 @@ namespace Game.Characters.Tests.Generation
             var generator = new CharacterGenerator(catalog);
             var fabrics = new HashSet<string>();
             var prints = new HashSet<string>();
-            int items = 0, varied = 0;
+            int items = 0, varied = 0, knitted = 0;
             for (ulong seed = 1; seed <= 400; seed++)
                 foreach (OutfitDna outfit in generator.Generate(seed * 2654435761UL, GenerationRequest.Any).Outfits)
                     foreach (ItemDna item in outfit.Items)
@@ -126,11 +126,13 @@ namespace Game.Characters.Tests.Generation
                         if (item.PatternId != null)
                         {
                             prints.Add(item.PatternId);
-                            Assert.That(catalog.FabricOf(part, item.FabricId).Printable, $"{item.PatternId} on {item.FabricId ?? part.Fabrics[0]}");
+                            Assert.That(catalog.TakesPrint(part, item.FabricId, item.PatternId), $"{item.PatternId} on {item.FabricId ?? part.Fabrics[0]}");
+                            if (catalog.FabricOf(part, item.FabricId).PrintTags.Count > 0) knitted++;
                         }
                     }
-            Assert.That(fabrics.Count, Is.GreaterThanOrEqualTo(35), "Most of the fabric library turns up.");
-            Assert.That(prints.Count, Is.GreaterThanOrEqualTo(45), "Most of the print library turns up.");
+            Assert.That(fabrics.Count, Is.GreaterThanOrEqualTo(60), "Most of the fabric library turns up.");
+            Assert.That(prints.Count, Is.GreaterThanOrEqualTo(90), "Most of the print library turns up.");
+            Assert.That(knitted, Is.GreaterThan(0), "Sweaters come with knitted colourwork (Fair Isle, stripes, argyle).");
             Assert.That(varied / (float)items, Is.InRange(0.2f, 0.6f), "Items are often, but not mostly, in another fabric.");
         }
 

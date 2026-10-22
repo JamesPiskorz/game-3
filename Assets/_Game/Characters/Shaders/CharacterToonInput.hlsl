@@ -7,6 +7,7 @@
 CBUFFER_START(UnityPerMaterial)
     float4 _BaseMap_ST;
     half _BaseGain;
+    half _BaseLift;
     half4 _BaseColor;
     half4 _BaseShade;
     half4 _Color1;
@@ -79,6 +80,8 @@ half4 ToonMask(float2 uv, float2 uv1, half4 vertexColour)
 // keeps its colour on average. The unmasked base region shades to _BaseShade (hand-picked, e.g. from the skin palette);
 // recoloured regions shade to their colour × _ShadeTint. A pattern's red channel is how much of the pattern colour
 // shows; its green channel is ink (outlines and shading drawn in the print), darkening by up to _PatternInk.
+// _BaseLift adds the fabric's structure as light too, the more the darker the cloth, since darkening alone can't show
+// on black: the stitches of a black knit, the flecks of a charcoal tweed, the glint of black patent.
 void ToonAlbedo(float2 uv, float2 uv1, half4 vertexColour, out half3 lit, out half3 shade)
 {
     half gain = _BaseGain > 0.0 ? _BaseGain : 1.0; // shaders and materials without the property keep the texture as is
@@ -92,8 +95,12 @@ void ToonAlbedo(float2 uv, float2 uv1, half4 vertexColour, out half3 lit, out ha
     half pattern = print.r * strength;
     half ink = 1.0 - print.g * strength * _PatternInk;
 
-    lit = texel * ink * lerp(_BaseColor.rgb * baseWeight + regions, _PatternColor.rgb, pattern);
-    shade = texel * ink * lerp(_BaseShade.rgb * baseWeight + regions * _ShadeTint.rgb, _PatternColor.rgb * _ShadeTint.rgb, pattern);
+    half3 litColour = ink * lerp(_BaseColor.rgb * baseWeight + regions, _PatternColor.rgb, pattern);
+    half3 shadeColour = ink * lerp(_BaseShade.rgb * baseWeight + regions * _ShadeTint.rgb, _PatternColor.rgb * _ShadeTint.rgb, pattern);
+    half3 lift = (texel - 1.0) * _BaseLift;
+    const half3 luma = half3(0.2126, 0.7152, 0.0722);
+    lit = max(texel * litColour + lift * (1.0 - saturate(dot(litColour, luma))), 0.0);
+    shade = max(texel * shadeColour + lift * 0.6 * (1.0 - saturate(dot(shadeColour, luma))), 0.0);
 }
 
 #endif

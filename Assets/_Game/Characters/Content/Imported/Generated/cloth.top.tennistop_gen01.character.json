@@ -25,6 +25,7 @@
     "jersey",
     "knit",
     "rib_knit",
-    "waffle"
+    "waffle",
+    "marl"
   ]
 }

@@ -22,7 +22,8 @@
     "jersey",
     "knit",
     "rib_knit",
-    "waffle"
+    "waffle",
+    "marl"
   ],
   "patternable": true,
   "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261022_053906_for_texture_textured.glb",

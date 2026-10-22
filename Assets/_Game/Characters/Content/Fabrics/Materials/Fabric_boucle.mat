@@ -40,7 +40,8 @@ Material:
     - _HiddenRegions: 0
     m_Floats:
     - _AmbientStrength: 1
-    - _BaseGain: 1.174674
+    - _BaseGain: 1.35
+    - _BaseLift: 0.25
     - _Cull: 0
     - _LitAmbient: 0.35
     - _MaskFromVertexColour: 1

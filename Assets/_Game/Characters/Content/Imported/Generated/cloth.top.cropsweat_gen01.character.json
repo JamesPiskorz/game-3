@@ -29,10 +29,13 @@
   "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
   "licence": "Tencent Hunyuan 3D 2.1 Community License",
   "fabrics": [
+    "marl",
     "jersey",
     "terry",
     "velvet",
     "waffle",
-    "faux_fur"
+    "faux_fur",
+    "sherpa",
+    "chenille"
   ]
 }

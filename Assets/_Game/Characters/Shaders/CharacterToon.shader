@@ -7,6 +7,7 @@ Shader "Game/Characters/Toon"
     {
         [MainTexture] _BaseMap ("Base Map (grayscale-authored)", 2D) = "white" {}
         _BaseGain ("Base Map Gain (1 / its mean)", Float) = 1
+        _BaseLift ("Base Map Lift (its structure as light, on dark colours)", Range(0, 1)) = 0
         [MainColor] _BaseColor ("Base Colour", Color) = (1, 1, 1, 1)
         _BaseShade ("Base Shade Colour", Color) = (0.7, 0.62, 0.68, 1)
 

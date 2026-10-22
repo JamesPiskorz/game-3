@@ -25,7 +25,8 @@
   "licence": "Tencent Hunyuan 3D 2.1 Community License",
   "fabric": "rubber",
   "fabrics": [
-    "patent"
+    "patent",
+    "vinyl"
   ],
   "patternable": false
 }

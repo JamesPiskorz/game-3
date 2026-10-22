@@ -386,7 +386,7 @@ namespace Game.Characters.Creator
             PartEntry part = item == null ? null : _catalog.Part(item.ItemId);
             if (part == null || (fabricId != null && !part.Fabrics.Contains(fabricId))) return dna;
             item.FabricId = part.Fabrics.Count > 0 && fabricId == part.Fabrics[0] ? null : fabricId;
-            if (!(_catalog.FabricOf(part, item.FabricId)?.Printable ?? true))
+            if (item.PatternId != null && !_catalog.TakesPrint(part, item.FabricId, item.PatternId))
             {
                 item.PatternId = null;
                 item.PatternColor = null;
@@ -398,7 +398,7 @@ namespace Game.Characters.Creator
         {
             ItemDna item = dna.Outfits.First(o => o.Context == Context).Items.FirstOrDefault(i => _catalog.Part(i.ItemId)?.Slot == slot);
             PartEntry part = item == null ? null : _catalog.Part(item.ItemId);
-            if (part == null || !part.Patternable) return dna;
+            if (part == null || !part.Patternable || (patternId != null && !_catalog.TakesPrint(part, item.FabricId, patternId))) return dna;
             item.PatternId = patternId;
             item.PatternColor = patternId == null ? (HsvColor?)null : colour.Normalized();
             item.PatternScale = scale;

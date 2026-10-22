@@ -7,6 +7,7 @@ using Game.Characters.ContentAuthoring;
 using Game.Characters.Dna;
 using Game.Characters.Generation;
 using Game.Characters.Modular;
+using Game.Characters.Rendering;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -15,8 +16,8 @@ namespace Game.Characters.Review
 {
     /// <summary>
     /// The clothing texture library in the game's shader (decision 0008): every fabric (FabricTextures) worn as a
-    /// dress and a shirt, and every print (PatternTextures) on a dress and a T-shirt, each a close-up of the upper body
-    /// and a full figure. Writes Docs/review/generated-fabrics.png and generated-prints.png, tiles in library order
+    /// dress and a shirt, and every print (PatternTextures) on a dress or a T-shirt in turn, each a close-up of the upper
+    /// body. Writes Docs/review/generated-fabrics.png and generated-prints.png, tiles in library order
     /// (Tools/Textures/swatches.py labels them). Uses the generated content.
     /// Headless: unity run . -- -executeMethod Game.Characters.Review.GeneratedTextureSheet.Render
     /// </summary>
@@ -80,22 +81,20 @@ namespace Game.Characters.Review
                 HsvColor tint = Tints[i % Tints.Length];
                 HsvColor ink = Tints[(i + 2) % Tints.Length];
                 float scale = (pattern.MinScale + pattern.MaxScale) / 2f;
-                foreach (bool dress in new[] { true, false })
-                {
-                    ItemDna printed = Item(dress ? Dress : Shirt, tint);
-                    printed.PatternId = pattern.Id;
-                    printed.PatternScale = scale;
-                    printed.PatternColor = ink;
-                    ModularCharacter character = Dressed(generator, builder, dress
-                        ? new[] { printed, Item(Shoes, new HsvColor(0f, 0f, 0.15f)) }
-                        : new[] { printed, Item(Trousers, new HsvColor(0.6f, 0.25f, 0.3f)), Item(Shoes, new HsvColor(0f, 0f, 0.15f)) });
-                    tiles.Add(CloseUp(camera));
-                    UnityEngine.Object.DestroyImmediate(character.gameObject);
-                }
+                bool dress = i % 2 == 0;
+                ItemDna printed = Item(dress ? Dress : Shirt, tint);
+                printed.PatternId = pattern.Id;
+                printed.PatternScale = scale;
+                printed.PatternColor = ink;
+                ModularCharacter character = Dressed(generator, builder, dress
+                    ? new[] { printed, Item(Shoes, new HsvColor(0f, 0f, 0.15f)) }
+                    : new[] { printed, Item(Trousers, new HsvColor(0.6f, 0.25f, 0.3f)), Item(Shoes, new HsvColor(0f, 0f, 0.15f)) });
+                tiles.Add(CloseUp(camera));
+                UnityEngine.Object.DestroyImmediate(character.gameObject);
             }
             string path = GeneratedLineup.Folder + "/generated-prints.png";
             Snapshot.Save(Snapshot.Grid(tiles, 8, Color.black), path);
-            Debug.Log($"[Review] Wrote {path}: {catalog.Patterns.Count} prints, each on a dress and a T-shirt: {string.Join(", ", catalog.Patterns.Select(p => p.Id))}");
+            Debug.Log($"[Review] Wrote {path}: {catalog.Patterns.Count} prints, on a dress and a T-shirt in turn: {string.Join(", ", catalog.Patterns.Select(p => p.Id))}");
         }
 
         static void Session(out CharacterContent content, out CharacterGenerator generator, out CharacterBuilder builder, out Camera camera)
@@ -141,12 +140,7 @@ namespace Game.Characters.Review
             RegionColors = Enumerable.Repeat(colour, 3).ToList(),
         };
 
-        /// <summary>A part's material wearing another fabric: its surface texture, tiling and gain.</summary>
-        static void Wear(Material material, Material fabric)
-        {
-            material.SetTexture("_BaseMap", fabric.GetTexture("_BaseMap"));
-            material.SetTextureScale("_BaseMap", fabric.GetTextureScale("_BaseMap"));
-            material.SetFloat("_BaseGain", fabric.GetFloat("_BaseGain"));
-        }
+        /// <summary>A part's material wearing another fabric: its surface texture, tiling, gain and lift.</summary>
+        static void Wear(Material material, Material fabric) => ToonMaterial.SetFabric(material, fabric);
     }
 }

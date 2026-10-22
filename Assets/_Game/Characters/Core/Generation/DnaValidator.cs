@@ -112,8 +112,9 @@ namespace Game.Characters.Generation
                 if (item.PatternId != null)
                 {
                     if (!part.Patternable) errors.Add($"'{item.ItemId}' can't take a pattern.");
-                    if (!(catalog.FabricOf(part, item.FabricId)?.Printable ?? true)) errors.Add($"'{item.ItemId}' in {item.FabricId} can't take a print.");
                     if (catalog.Patterns.All(p => p.Id != item.PatternId)) errors.Add($"Unknown pattern '{item.PatternId}'.");
+                    else if (part.Patternable && !catalog.TakesPrint(part, item.FabricId, item.PatternId))
+                        errors.Add($"'{item.ItemId}' in {item.FabricId ?? "its own fabric"} can't take '{item.PatternId}'.");
                     if (item.PatternColor.HasValue) CheckColour(errors, item.PatternColor.Value, $"'{item.ItemId}' pattern");
                 }
             }

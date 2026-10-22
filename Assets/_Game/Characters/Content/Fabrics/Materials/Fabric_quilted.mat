@@ -41,6 +41,7 @@ Material:
     m_Floats:
     - _AmbientStrength: 1
     - _BaseGain: 1.1344299
+    - _BaseLift: 0.22
     - _Cull: 0
     - _LitAmbient: 0.35
     - _MaskFromVertexColour: 1

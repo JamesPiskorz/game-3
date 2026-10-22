@@ -29,11 +29,14 @@
   "licence": "Tencent Hunyuan 3D 2.1 Community License",
   "fabric": "fleece",
   "fabrics": [
+    "marl",
     "jersey",
     "terry",
     "velvet",
     "waffle",
-    "faux_fur"
+    "faux_fur",
+    "sherpa",
+    "chenille"
   ],
   "patternable": true
 }

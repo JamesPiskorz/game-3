@@ -23,8 +23,11 @@
   "generator": "Hunyuan3D 2.1 (tencent/Hunyuan3D-2.1)",
   "licence": "Tencent Hunyuan 3D 2.1 Community License",
   "fabrics": [
+    "marl",
+    "slub_jersey",
     "waffle",
     "fleece",
-    "velvet"
+    "velvet",
+    "pointelle"
   ]
 }

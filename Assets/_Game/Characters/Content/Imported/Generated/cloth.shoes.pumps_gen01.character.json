@@ -29,7 +29,10 @@
     "suede",
     "croc",
     "metallic",
-    "velvet"
+    "velvet",
+    "vinyl",
+    "glitter",
+    "snake"
   ],
   "patternable": false
 }

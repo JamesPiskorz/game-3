@@ -24,9 +24,12 @@
   "licence": "Tencent Hunyuan 3D 2.1 Community License",
   "fabrics": [
     "jersey",
+    "marl",
     "wide_rib",
     "knit",
     "waffle",
-    "crochet"
+    "crochet",
+    "pointelle",
+    "mohair"
   ]
 }

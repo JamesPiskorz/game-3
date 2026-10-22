@@ -383,10 +383,11 @@ namespace Game.Creator
                     AddDropdown("fabric-" + slot, $"{label}: fabric", fabrics,
                         () => _session.Item(slot)?.FabricId ?? part.Fabrics[0], id => _session.SetItemFabric(slot, id));
                 }
-                if (part.Patternable && (_catalog.FabricOf(part, _session.Item(slot)?.FabricId)?.Printable ?? true))
+                List<PatternEntry> prints = _catalog.PrintsFor(part, _session.Item(slot)?.FabricId);
+                if (prints.Count > 0)
                 {
                     var patterns = new List<(string, string)> { (null, "Plain") };
-                    patterns.AddRange(_catalog.Patterns.Select(p => (p.Id, p.Name ?? ContentCatalog.Humanize(p.Id))));
+                    patterns.AddRange(prints.Select(p => (p.Id, p.Name ?? ContentCatalog.Humanize(p.Id))));
                     AddDropdown("pattern-" + slot, $"{label}: pattern", patterns, () => _session.Item(slot)?.PatternId, id =>
                     {
                         ItemDna current = _session.Item(slot);

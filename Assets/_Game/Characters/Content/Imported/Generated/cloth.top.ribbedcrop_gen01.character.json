@@ -22,10 +22,13 @@
   "fabric": "rib_knit",
   "fabrics": [
     "jersey",
+    "marl",
     "wide_rib",
     "knit",
     "waffle",
-    "crochet"
+    "crochet",
+    "pointelle",
+    "mohair"
   ],
   "patternable": false,
   "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261022_060004_for_texture_textured.glb",

@@ -33,7 +33,10 @@
     "satin",
     "velvet",
     "crepe",
-    "lace"
+    "lace",
+    "moire",
+    "shantung",
+    "vinyl"
   ],
   "patternable": false
 }

@@ -38,6 +38,24 @@ namespace Game.Characters.Content
         /// <summary>The fabric an item is made in: its own choice, else the part's own (its first), else none.</summary>
         public FabricEntry FabricOf(PartEntry part, string fabricId) =>
             Fabric(fabricId) ?? (part != null && part.Fabrics.Count > 0 ? Fabric(part.Fabrics[0]) : null);
+
+        /// <summary>
+        /// The prints an item can take: none unless the part takes a pattern and the fabric it's made in takes prints;
+        /// of those, only the fabric's kind where it names one (a knit takes only what's knitted in: Fair Isle, stripes,
+        /// argyle).
+        /// </summary>
+        public List<PatternEntry> PrintsFor(PartEntry part, string fabricId)
+        {
+            if (part == null || !part.Patternable) return new List<PatternEntry>();
+            FabricEntry fabric = FabricOf(part, fabricId);
+            if (fabric == null || (fabric.Printable && fabric.PrintTags.Count == 0)) return Patterns.ToList();
+            if (!fabric.Printable) return new List<PatternEntry>();
+            return Patterns.Where(p => p.Tags.Any(fabric.PrintTags.Contains)).ToList();
+        }
+
+        /// <summary>Whether an item of <paramref name="part"/> made in <paramref name="fabricId"/> can take the print.</summary>
+        public bool TakesPrint(PartEntry part, string fabricId, string patternId) =>
+            patternId != null && PrintsFor(part, fabricId).Any(p => p.Id == patternId);
         public ColourPalette Palette(string id) => Palettes.FirstOrDefault(p => p.Id == id);
 
         /// <summary>"cloth.top.tshirt_01" → "Tshirt": the last ID segment without its variant number, capitalised.</summary>
@@ -287,6 +305,12 @@ namespace Game.Characters.Content
 
         /// <summary>Whether a print goes on it (not on lace, sequins, leather, a cable knit...).</summary>
         public bool Printable = true;
+
+        /// <summary>
+        /// If any, the only prints that go on it: those with one of these tags (a knit takes "knitted" prints, the
+        /// colourwork and stripes knitted into it, not a printed floral).
+        /// </summary>
+        public List<string> PrintTags = new List<string>();
     }
 
     public sealed class ColourPalette

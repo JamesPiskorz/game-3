@@ -13,8 +13,8 @@ namespace Game.Characters.ContentAuthoring
     /// the cloth's surface, and listed in Fabrics/library.json with its mean brightness and the metres of cloth a tile
     /// covers. Each fabric gets a cloth material (Fabrics/Materials/Fabric_&lt;id&gt;.mat): the cloth template with the tile
     /// as its base map, repeating per metre of the garment's fabric UVs and brightened by its mean, so the cloth keeps
-    /// its colour on average. A generated part's sidecar names its fabric; CharacterModelImporter gives it that
-    /// fabric's material.
+    /// its colour on average, and lifted by its library lift (its structure added as light, so it shows on dark cloth).
+    /// A generated part's sidecar names its fabric; CharacterModelImporter gives it that fabric's material.
     /// Headless: unity run . -- -executeMethod Game.Characters.ContentAuthoring.FabricTextures.Generate
     /// </summary>
     public static class FabricTextures
@@ -36,7 +36,9 @@ namespace Game.Characters.ContentAuthoring
             public float TileMetres = 0.25f;
             public List<string> Tags = new List<string>();
             public bool Printable = true;
+            public List<string> PrintTags = new List<string>();
             public float Weight = 1f;
+            public float Lift;
         }
 
         sealed class Library
@@ -100,6 +102,7 @@ namespace Game.Characters.ContentAuthoring
                 float perMetre = 1f / Mathf.Max(fabric.TileMetres, 0.01f);
                 material.SetTextureScale("_BaseMap", new Vector2(perMetre, perMetre));
                 material.SetFloat("_BaseGain", Mathf.Min(1f / Mathf.Max(fabric.Mean, 0.05f), MaxGain));
+                material.SetFloat("_BaseLift", fabric.Lift);
                 if (created) AssetDatabase.CreateAsset(material, path);
                 else EditorUtility.SetDirty(material);
                 made++;

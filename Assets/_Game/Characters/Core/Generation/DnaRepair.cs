@@ -153,8 +153,7 @@ namespace Game.Characters.Generation
             if (item.RegionColors.Count > part.Regions) item.RegionColors.RemoveRange(part.Regions, item.RegionColors.Count - part.Regions);
             for (int i = 0; i < item.RegionColors.Count; i++) item.RegionColors[i] = Clamp(item.RegionColors[i]);
             if (item.FabricId != null && !part.Fabrics.Contains(item.FabricId)) item.FabricId = null;
-            bool printable = catalog.FabricOf(part, item.FabricId)?.Printable ?? true;
-            if (item.PatternId != null && (!part.Patternable || !printable || catalog.Patterns.All(p => p.Id != item.PatternId)))
+            if (item.PatternId != null && !catalog.TakesPrint(part, item.FabricId, item.PatternId))
             {
                 item.PatternId = null;
                 item.PatternColor = null;

@@ -25,7 +25,9 @@
   "fabrics": [
     "canvas",
     "leather",
-    "ripstop"
+    "ripstop",
+    "perforated",
+    "nylon"
   ],
   "patternable": false
 }

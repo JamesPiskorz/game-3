@@ -30,7 +30,11 @@
     "wide_rib",
     "boucle",
     "rib_knit",
-    "crochet"
+    "crochet",
+    "pointelle",
+    "mohair",
+    "seed_stitch",
+    "chenille"
   ],
-  "patternable": false
+  "patternable": true
 }

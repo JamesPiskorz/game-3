@@ -24,10 +24,13 @@
   "fabric": "rib_knit",
   "fabrics": [
     "jersey",
+    "marl",
     "wide_rib",
     "knit",
     "waffle",
-    "crochet"
+    "crochet",
+    "pointelle",
+    "mohair"
   ],
   "patternable": false
 }

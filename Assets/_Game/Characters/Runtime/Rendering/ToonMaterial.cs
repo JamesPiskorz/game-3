@@ -16,6 +16,7 @@ namespace Game.Characters.Rendering
         public static readonly int PatternColor = Shader.PropertyToID("_PatternColor");
         public static readonly int BaseMap = Shader.PropertyToID("_BaseMap");
         public static readonly int BaseGain = Shader.PropertyToID("_BaseGain");
+        public static readonly int BaseLift = Shader.PropertyToID("_BaseLift");
         public static readonly int PatternRegions = Shader.PropertyToID("_PatternRegions");
         public static readonly int PatternScale = Shader.PropertyToID("_PatternScale");
         public static readonly int OutlineWidth = Shader.PropertyToID("_OutlineWidth");
@@ -64,7 +65,7 @@ namespace Game.Characters.Rendering
 
         /// <summary>
         /// Gives <paramref name="material"/> the cloth surface of <paramref name="fabric"/> (a fabric's material, or a
-        /// part's own): its base map, tiling and gain.
+        /// part's own): its base map, tiling, gain and lift.
         /// </summary>
         public static void SetFabric(Material material, Material fabric)
         {
@@ -72,6 +73,7 @@ namespace Game.Characters.Rendering
             material.SetTexture(BaseMap, fabric.GetTexture(BaseMap));
             material.SetTextureScale(BaseMap, fabric.GetTextureScale(BaseMap));
             material.SetFloat(BaseGain, fabric.HasFloat(BaseGain) ? fabric.GetFloat(BaseGain) : 1f);
+            material.SetFloat(BaseLift, fabric.HasFloat(BaseLift) ? fabric.GetFloat(BaseLift) : 0f);
         }
 
         public static void ClearPattern(Material material)

@@ -31,7 +31,9 @@
     "suede",
     "denim",
     "corduroy",
-    "mesh"
+    "mesh",
+    "straw",
+    "perforated"
   ],
   "patternable": true
 }

@@ -26,7 +26,10 @@
   "fabrics": [
     "satin",
     "chiffon",
-    "lace"
+    "lace",
+    "organza",
+    "taffeta",
+    "glitter"
   ],
   "patternable": false,
   "source": "D:\\Tools\\Hunyuan3D\\outputs\\hunyuan3d_20261022_053027_for_texture_textured.glb",

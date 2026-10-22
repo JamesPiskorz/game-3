@@ -28,6 +28,8 @@
   "licence": "Tencent Hunyuan 3D 2.1 Community License",
   "fabric": "denim",
   "fabrics": [
+    "stonewash",
+    "acid_wash",
     "twill",
     "corduroy",
     "canvas",
