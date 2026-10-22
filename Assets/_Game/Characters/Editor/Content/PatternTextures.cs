@@ -39,8 +39,9 @@ namespace Game.Characters.ContentAuthoring
 
         public static Texture2D Load(string id) => AssetDatabase.LoadAssetAtPath<Texture2D>($"{Folder}/{id}.png");
 
-        /// <summary>Sets every print's import settings: linear data, repeating, mipmapped, uncompressed (the two
-        /// channels are independent, and compression bled one into the other). The textures themselves come from
+        /// <summary>Sets every print's import settings: linear data, repeating, mipmapped, compressed in high quality
+        /// (BC7 on PC, which keeps the three channels apart, where the old DXT bled one into another; a third of the
+        /// memory of the uncompressed tiles, 200 of them being 50 MB). The textures themselves come from
         /// Tools/Textures/make_textures.py.</summary>
         [MenuItem("Game/Characters/Content/Import Pattern Textures")]
         public static void Generate()
@@ -55,12 +56,12 @@ namespace Game.Characters.ContentAuthoring
                     continue;
                 }
                 bool changed = importer.sRGBTexture || importer.wrapMode != TextureWrapMode.Repeat || !importer.mipmapEnabled
-                    || importer.textureCompression != TextureImporterCompression.Uncompressed || importer.anisoLevel != 4;
+                    || importer.textureCompression != TextureImporterCompression.CompressedHQ || importer.anisoLevel != 4;
                 if (!changed) continue;
                 importer.sRGBTexture = false;
                 importer.wrapMode = TextureWrapMode.Repeat;
                 importer.mipmapEnabled = true;
-                importer.textureCompression = TextureImporterCompression.Uncompressed;
+                importer.textureCompression = TextureImporterCompression.CompressedHQ;
                 importer.anisoLevel = 4;
                 importer.SaveAndReimport();
             }
