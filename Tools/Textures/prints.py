@@ -1668,6 +1668,120 @@ def medallions(size, seed):
 
 
 
+def foulard(size, seed):
+    """Foulard: small four-petal flowers on a diagonal lattice with a dot between, as on a silk tie or a pyjama shirt."""
+    x, y = tk.grid(size)
+    k = 6
+    u, v = (x + y) * k, (x - y) * k
+    fu, fv = u % 1.0 - 0.5, v % 1.0 - 0.5
+    rad, ang = np.hypot(fu, fv), np.arctan2(fv, fu)
+    petals = (rad < 0.36 * np.abs(np.cos(2 * ang)) ** 0.7 + 0.04).astype(float)
+    centre = (rad < 0.08).astype(float)
+    cu, cv = np.minimum(u % 1.0, 1 - u % 1.0), np.minimum(v % 1.0, 1 - v % 1.0)
+    between = (np.hypot(cu, cv) < 0.07).astype(float)
+    colour = tk.blur_small(np.clip(petals - centre, 0, 1), 0.7)
+    accent = tk.blur_small(np.maximum(centre, between), 0.7)
+    return colour, _outline(petals, 1) * 0.35, accent
+
+
+def toile(size, seed):
+    """Toile de Jouy: pastoral scenes in one colour's engraved line art, a cottage under a tree and a bird on a branch,
+    shaded with hatching, on the ground (a classic for a dress, pyjamas or a shirt)."""
+    def scenes(d, n, solid):
+        w = max(4, n // 200)
+        thin = max(3, w - 1)
+
+        def tree(cx, cy, s):
+            if solid:
+                for ox, oy, r in ((0, -0.8, 0.27), (-0.26, -0.64, 0.21), (0.27, -0.66, 0.2), (-0.14, -0.98, 0.2),
+                                  (0.17, -0.97, 0.19), (-0.36, -0.86, 0.15), (0.36, -0.88, 0.14)):
+                    d.ellipse([cx + (ox - r) * s, cy + (oy - r) * s, cx + (ox + r) * s, cy + (oy + r) * s], fill=255)
+                d.polygon([(cx - s * 0.06, cy), (cx - s * 0.04, cy - s * 0.55), (cx + s * 0.04, cy - s * 0.55),
+                           (cx + s * 0.07, cy)], fill=255)
+            else:
+                d.line([(cx - s * 0.04, cy - s * 0.5), (cx - s * 0.14, cy - s * 0.66)], fill=255, width=thin)
+                d.line([(cx + s * 0.03, cy - s * 0.45), (cx + s * 0.16, cy - s * 0.62)], fill=255, width=thin)
+
+        def cottage(cx, cy, s):
+            if solid:
+                d.rectangle([cx - s * 0.3, cy - s * 0.4, cx + s * 0.3, cy], fill=255)
+                d.polygon([(cx - s * 0.4, cy - s * 0.38), (cx, cy - s * 0.74), (cx + s * 0.4, cy - s * 0.38)], fill=255)
+                d.rectangle([cx + s * 0.12, cy - s * 0.7, cx + s * 0.21, cy - s * 0.5], fill=255)
+            else:
+                d.line([(cx - s * 0.3, cy - s * 0.4), (cx + s * 0.3, cy - s * 0.4)], fill=255, width=thin)  # eaves
+                d.rectangle([cx - s * 0.07, cy - s * 0.24, cx + s * 0.07, cy], outline=255, width=thin)
+                for wx in (-0.2, 0.17):
+                    d.rectangle([cx + (wx - 0.055) * s, cy - s * 0.32, cx + (wx + 0.055) * s, cy - s * 0.2], outline=255, width=thin)
+                    d.line([(cx + wx * s, cy - s * 0.32), (cx + wx * s, cy - s * 0.2)], fill=255, width=max(2, thin - 1))
+
+        def ground(cx, cy, s):
+            if solid:
+                return
+            d.arc([cx - s * 0.95, cy - s * 0.1, cx + s * 0.95, cy + s * 0.16], 190, 350, fill=255, width=w)
+            for i in range(11):
+                gx = cx + (-0.8 + 0.16 * i) * s
+                d.line([(gx, cy + s * 0.01), (gx - s * 0.04, cy - s * 0.08)], fill=255, width=thin)
+                d.line([(gx, cy + s * 0.01), (gx + s * 0.03, cy - s * 0.07)], fill=255, width=thin)
+            for i in range(4):  # a fence
+                fx = cx + (0.45 + 0.1 * i) * s
+                d.line([(fx, cy - s * 0.02), (fx, cy - s * 0.16)], fill=255, width=thin)
+            d.line([(cx + s * 0.42, cy - s * 0.11), (cx + s * 0.78, cy - s * 0.11)], fill=255, width=thin)
+
+        def branch(cx, cy, s):
+            if solid:
+                for lx, angle in ((-0.52, 2.4), (-0.38, -2.2), (-0.22, 2.0), (0.28, 1.0), (0.44, -0.8), (0.6, 0.7)):
+                    px, py = cx + lx * s, cy + (0.02 + 0.06 * lx * lx) * s  # a pointed leaf from the twig
+                    tx, ty = np.cos(angle) * s * 0.17, np.sin(angle) * s * 0.17
+                    d.polygon([(px, py), (px + tx * 0.5 - ty * 0.3, py + ty * 0.5 + tx * 0.3), (px + tx, py + ty),
+                               (px + tx * 0.5 + ty * 0.3, py + ty * 0.5 - tx * 0.3)], fill=255)
+                bx, by = cx + s * 0.02, cy - s * 0.14
+                d.ellipse([bx - s * 0.2, by - s * 0.12, bx + s * 0.12, by + s * 0.08], fill=255)
+                d.ellipse([bx + s * 0.04, by - s * 0.22, bx + s * 0.2, by - s * 0.06], fill=255)
+                d.polygon([(bx + s * 0.19, by - s * 0.16), (bx + s * 0.29, by - s * 0.13), (bx + s * 0.19, by - s * 0.1)], fill=255)
+                d.polygon([(bx - s * 0.16, by - s * 0.04), (bx - s * 0.42, by + s * 0.06), (bx - s * 0.38, by + s * 0.12),
+                           (bx - s * 0.12, by + s * 0.04)], fill=255)
+            else:
+                twig = [(cx + t * s, cy + (0.02 + 0.06 * t * t) * s) for t in np.linspace(-0.62, 0.66, 12)]
+                d.line(twig, fill=255, width=w, joint="curve")
+                d.line([(cx + s * 0.3, cy + s * 0.07), (cx + s * 0.42, cy - s * 0.06)], fill=255, width=thin)
+                bx, by = cx + s * 0.02, cy - s * 0.14
+                d.arc([bx - s * 0.13, by - s * 0.09, bx + s * 0.07, by + s * 0.05], 160, 330, fill=255, width=thin)
+
+        def flying(cx, cy, s):
+            if not solid:
+                d.arc([cx - s * 0.2, cy - s * 0.06, cx, cy + s * 0.1], 200, 340, fill=255, width=thin)
+                d.arc([cx, cy - s * 0.06, cx + s * 0.2, cy + s * 0.1], 200, 340, fill=255, width=thin)
+
+        def sprig(cx, cy, s):
+            if solid:
+                for t in (0.25, 0.5, 0.75, 1.0):
+                    px, py = cx + s * 0.08 * t, cy - s * 0.4 * t
+                    d.ellipse([px - s * 0.11, py - s * 0.04, px - s * 0.01, py + s * 0.02], fill=255)
+                    d.ellipse([px + s * 0.01, py - s * 0.07, px + s * 0.11, py - s * 0.01], fill=255)
+            else:
+                d.line([(cx, cy), (cx + s * 0.09, cy - s * 0.44)], fill=255, width=thin)
+
+        for dx in (-n, 0, n):
+            for dy in (-n, 0, n):
+                tree(dx + n * 0.2, dy + n * 0.47, n * 0.42)
+                cottage(dx + n * 0.42, dy + n * 0.47, n * 0.26)
+                ground(dx + n * 0.31, dy + n * 0.48, n * 0.3)
+                branch(dx + n * 0.74, dy + n * 0.88, n * 0.36)
+                flying(dx + n * 0.66, dy + n * 0.16, n * 0.2)
+                flying(dx + n * 0.8, dy + n * 0.24, n * 0.15)
+                sprig(dx + n * 0.86, dy + n * 0.6, n * 0.3)
+                sprig(dx + n * 0.18, dy + n * 0.9, n * 0.26)
+                sprig(dx + n * 0.5, dy + n * 0.72, n * 0.2)
+    solid = _drawn(size, lambda d, n: scenes(d, n, True))
+    lines = _drawn(size, lambda d, n: scenes(d, n, False))
+    x, y = tk.grid(size)
+    hatch = ((x - y) * 48 % 1.0 < 0.4).astype(float)
+    lit = np.roll(solid, (size // 64, size // 64), axis=(0, 1))  # the shape moved down-right: its lower right is in shade
+    shade = np.clip(solid - lit, 0, 1) + 0.25 * solid
+    ink = np.clip(_outline(solid, 1) * 1.6 + lines * 1.3 + hatch * np.clip(shade, 0, 1) * 0.9, 0, 1)
+    return ink, _zero(size)
+
+
 # ------------------------------------------------------------------------------- placed prints: chest graphics
 
 def _graphic(size, layers):
@@ -3160,6 +3274,8 @@ PRINTS = {
     "pearls": (pearls, "Pearls", ["date", "elegant"], (2.5, 4), 0.5),
     "ravens": (ravens, "Ravens", ["gothic"], (2.5, 4), 0.5),
     "swallows": (swallows, "Swallows", ["street", "date", "gothic"], (2.5, 4), 0.5),
+    "foulard": (foulard, "Foulard", ["elegant", "bookish"], (4, 6), 0.6),
+    "toile": (toile, "Toile", ["elegant", "bookish", "cute", "date"], (2.2, 3.2), 0.6),
 }
 
 # How each print's second colour (its accent: leaves, hearts, wafers) follows its first: "leaf" (a natural green),
@@ -3172,7 +3288,7 @@ ACCENT = {
     "cacti": "leaf", "medallions": "contrast", "groovy": "contrast", "flowerpower": "gold", "dinosaurs": "contrast",
     "sailboats": "contrast", "umbrellas": "contrast", "liberty": "contrast", "lavender": "leaf", "maple": "gold",
     "pineapples": "leaf", "memphis": "contrast", "regimental": "contrast", "quilt": "contrast", "graffiti": "contrast",
-    "swooshes": "contrast", "thorns": "leaf", "rosebuds": "leaf", "triplestripes": "contrast", "artdeco": "gold", "dogs": "contrast", "frogs": "leaf", "pearls": "light", "swallows": "light",
+    "swooshes": "contrast", "thorns": "leaf", "rosebuds": "leaf", "triplestripes": "contrast", "artdeco": "gold", "dogs": "contrast", "frogs": "leaf", "pearls": "light", "swallows": "light", "foulard": "contrast",
     "tee_heart": "light", "tee_star": "light", "tee_cherries": "leaf", "tee_rose": "leaf", "tee_sunset": "gold",
     "tee_cat": "light", "tee_rainbow": "contrast", "tee_planet": "contrast", "tee_daisy": "gold", "tee_mountains": "light",
     "tee_butterfly": "contrast", "tee_moon": "gold", "tee_crown": "contrast", "tee_ghost": "light", "tee_palm": "leaf",
@@ -3204,7 +3320,7 @@ KNITTED = {"stripes", "breton", "argyle", "knit", "snowflakes", "rugby", "hearts
 # The occasions prints suit, as extra tags the outfit contexts weight (sleep, swim, formal): pyjama prints, beach
 # prints, gala prints.
 CONTEXT_TAGS = {
-    "sleep": ["clouds", "moons", "stars", "hearts", "dots", "pindots", "gingham", "check", "pyjama", "bunnies", "cats",
+    "sleep": ["foulard", "toile", "clouds", "moons", "stars", "hearts", "dots", "pindots", "gingham", "check", "pyjama", "bunnies", "cats",
               "raindrops", "snowflakes", "plaid", "buffalo", "candystripe", "floral", "daisies", "cherries",
               "strawberries", "bows", "paws", "rainbows", "planets", "sakura", "ticking", "notes", "smileys", "seigaiha",
               "dinosaurs", "sailboats", "rosebuds", "dogs", "frogs"],
@@ -3213,12 +3329,13 @@ CONTEXT_TAGS = {
              "cherries", "strawberries", "daisies", "sunsetfade", "ombre", "colourblock", "ricrac", "tee_palm", "icecream"],
     "rain": ["raindrops", "clouds", "umbrellas", "check", "gingham", "plaid", "buffalo", "houndstooth", "dots",
              "stripes", "breton", "anchors", "fish", "frogs"],
-    "formal": ["pearls", "artdeco", "chains", "rosebuds", "damask", "bigfloral", "roses", "ombre", "sunsetfade", "scallop", "greekkey", "medallions", "fleurdelis",
+    "formal": ["foulard", "pearls", "artdeco", "chains", "rosebuds", "damask", "bigfloral", "roses", "ombre", "sunsetfade", "scallop", "greekkey", "medallions", "fleurdelis",
                "paisley", "seigaiha", "shippo", "quatrefoil", "lattice", "starlattice", "watercolour", "hemflowers"],
 }
 
 # Classic colourways: (how often an item with the print takes one, [(the cloth's colour, the print's)]).
 COLOURWAYS = {
+    "toile": (0.6, [("#f1ebdd", "#2a3f73"), ("#f2ebe0", "#9b2335"), ("#f4f1ea", "#222222")]),
     "leopard": (0.6, [("#c79a5b", "#2b1c12"), ("#d8c9b0", "#3a3a3a"), ("#b08850", "#1a1410")]),
     "cheetah": (0.6, [("#d1a666", "#24180f")]),
     "zebra": (0.6, [("#f2efe8", "#161616")]),

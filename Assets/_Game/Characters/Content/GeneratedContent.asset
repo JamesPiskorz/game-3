@@ -775,6 +775,10 @@ MonoBehaviour:
     Texture: {fileID: 2800000, guid: 5b60a7e9d36ed5b49b5ecce2682fa1fe, type: 3}
   - Id: pattern.swallows_01
     Texture: {fileID: 2800000, guid: 02599c28215f5e34ea8e34e187aa91c5, type: 3}
+  - Id: pattern.foulard_01
+    Texture: {fileID: 2800000, guid: 33e982993051d944998570950aa77517, type: 3}
+  - Id: pattern.toile_01
+    Texture: {fileID: 2800000, guid: cd3ab4bf92e9a01478d244cc82131540, type: 3}
   Fabrics:
   - Id: plain
     Material: {fileID: 2100000, guid: 438e55e3cc9afa740b5c2f26ae972251, type: 2}

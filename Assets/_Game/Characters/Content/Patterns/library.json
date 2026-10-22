@@ -3846,6 +3846,54 @@
    "placement": null,
    "colourwayChance": 0.0,
    "colourways": []
+  },
+  {
+   "id": "pattern.foulard_01",
+   "name": "Foulard",
+   "tags": [
+    "elegant",
+    "bookish",
+    "sleep",
+    "formal"
+   ],
+   "minScale": 4,
+   "maxScale": 6,
+   "weight": 0.6,
+   "accent": "contrast",
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
+  },
+  {
+   "id": "pattern.toile_01",
+   "name": "Toile",
+   "tags": [
+    "elegant",
+    "bookish",
+    "cute",
+    "date",
+    "sleep"
+   ],
+   "minScale": 2.2,
+   "maxScale": 3.2,
+   "weight": 0.6,
+   "accent": null,
+   "placement": null,
+   "colourwayChance": 0.6,
+   "colourways": [
+    {
+     "base": "#f1ebdd",
+     "print": "#2a3f73"
+    },
+    {
+     "base": "#f2ebe0",
+     "print": "#9b2335"
+    },
+    {
+     "base": "#f4f1ea",
+     "print": "#222222"
+    }
+   ]
   }
  ]
 }
