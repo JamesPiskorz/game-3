@@ -2735,36 +2735,57 @@ def painted_spots(size, seed):
 
 
 def graffiti(size, seed):
-    """Graffiti: spray-painted loops, drips and sparkles in two colours, outlined in ink, as on a skate wall."""
+    """Graffiti: spray-painted tags, drips, sparkles, zigzag arrows and crowns in two colours, outlined in ink, with
+    overspray round them, as on a skate wall."""
     def layer(which):
-        rng = np.random.default_rng(seed)
+        rng = np.random.default_rng(seed + which)
 
         def draw(d, n):
-            for k, (cx, cy) in enumerate(tk.scatter(n, 14, seed, n / 4.5)):
+            for k, (cx, cy) in enumerate(tk.scatter(n, 24, seed, n / 6.5)):
                 if k % 2 != which:
                     continue
-                kind = (k // 2) % 3
+                kind = (k // 2) % 5
                 for dx in (-n, 0, n):
                     for dy in (-n, 0, n):
                         x0, y0 = cx + dx, cy + dy
                         if kind == 0:  # a looping tag: a run of loops, like joined-up spray writing
-                            pts = [(x0 + n * (0.016 * t - 0.03 * np.sin(t)), y0 - n * 0.03 * (1 - np.cos(t)))
-                                   for t in np.linspace(-6, 6, 60)]
-                            d.line(pts, fill=255, width=max(2, n // 60), joint="curve")
+                            pts = [(x0 + n * (0.022 * t - 0.045 * np.sin(t)), y0 - n * 0.045 * (1 - np.cos(t)))
+                                   for t in np.linspace(-6, 6, 70)]
+                            d.line(pts, fill=255, width=max(3, n // 40), joint="curve")
                         elif kind == 1:  # a blob with drips
-                            r = n * (0.04 + 0.02 * rng.random())
+                            r = n * (0.055 + 0.03 * rng.random())
                             d.ellipse([x0 - r, y0 - r, x0 + r, y0 + r], fill=255)
                             for j in range(3):
                                 dxj = (j - 1) * r * 0.6
-                                d.line([(x0 + dxj, y0), (x0 + dxj, y0 + r * (1.6 + 2 * rng.random()))], fill=255, width=max(3, n // 80))
-                        else:  # a four-pointed sparkle
-                            r = n * 0.055
-                            d.polygon([(x0, y0 - r), (x0 + r * 0.25, y0 - r * 0.25), (x0 + r, y0), (x0 + r * 0.25, y0 + r * 0.25),
-                                       (x0, y0 + r), (x0 - r * 0.25, y0 + r * 0.25), (x0 - r, y0), (x0 - r * 0.25, y0 - r * 0.25)], fill=255)
-        return _drawn(size, draw)
-    first, second = layer(0), layer(1)
-    second = second * (1 - first)
-    return first, _outline(np.clip(first + second, 0, 1), 1) * 0.7, second
+                                drip = y0 + r * (1.5 + 2 * rng.random())
+                                d.line([(x0 + dxj, y0), (x0 + dxj, drip)], fill=255, width=max(4, n // 55))
+                                d.ellipse([x0 + dxj - n * 0.008, drip - n * 0.008, x0 + dxj + n * 0.008, drip + n * 0.008], fill=255)
+                        elif kind == 2:  # a four-pointed sparkle
+                            r = n * 0.075
+                            d.polygon([(x0, y0 - r), (x0 + r * 0.22, y0 - r * 0.22), (x0 + r, y0), (x0 + r * 0.22, y0 + r * 0.22),
+                                       (x0, y0 + r), (x0 - r * 0.22, y0 + r * 0.22), (x0 - r, y0), (x0 - r * 0.22, y0 - r * 0.22)], fill=255)
+                        elif kind == 3:  # a zigzag arrow
+                            s = n * 0.05
+                            pts = [(x0 - 2 * s, y0 + s), (x0 - s, y0 - s * 0.6), (x0, y0 + s * 0.6), (x0 + s, y0 - s)]
+                            d.line(pts, fill=255, width=max(4, n // 38), joint="curve")
+                            d.polygon([(x0 + s * 1.7, y0 - s * 1.6), (x0 + s * 0.4, y0 - s * 1.6), (x0 + s * 1.5, y0 - s * 0.3)], fill=255)
+                        else:  # a three-pointed crown
+                            s = n * 0.05
+                            d.polygon([(x0 - s * 1.2, y0 + s * 0.7), (x0 - s * 1.3, y0 - s * 0.8), (x0 - s * 0.6, y0 - s * 0.1),
+                                       (x0, y0 - s * 1.1), (x0 + s * 0.6, y0 - s * 0.1), (x0 + s * 1.3, y0 - s * 0.8),
+                                       (x0 + s * 1.2, y0 + s * 0.7)], outline=255, width=max(4, n // 45))
+                            for px in (-1.3, 0, 1.3):
+                                py = -0.8 if px else -1.1
+                                d.ellipse([x0 + (px - 0.18) * s, y0 + (py - 0.36) * s, x0 + (px + 0.18) * s, y0 + py * s], fill=255)
+        paint = _drawn(size, draw)
+        near = np.clip(tk.blur(paint, 4) * 3, 0, 1) * (1 - paint)  # overspray: fine specks round the paint
+        specks = (rng.random((size, size)) < 0.25 * near).astype(float)
+        return paint, specks
+    (first, first_specks), (second, second_specks) = layer(0), layer(1)
+    ink = _outline(np.clip(first + second, 0, 1), 1) * 0.6  # the paint outlined, not its overspray
+    first = np.clip(first + first_specks * 0.8 * (1 - second), 0, 1)
+    second = np.clip(second + second_specks * 0.8, 0, 1) * (1 - first)
+    return first, ink, second
 
 
 def swooshes(size, seed):
