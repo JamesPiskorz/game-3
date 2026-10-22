@@ -4012,6 +4012,22 @@
    "placement": null,
    "colourwayChance": 0.0,
    "colourways": []
+  },
+  {
+   "id": "pattern.lollies_01",
+   "name": "Ice lollies",
+   "tags": [
+    "cute",
+    "casual",
+    "swim"
+   ],
+   "minScale": 2.5,
+   "maxScale": 4,
+   "weight": 0.5,
+   "accent": "contrast",
+   "placement": null,
+   "colourwayChance": 0.0,
+   "colourways": []
   }
  ]
 }

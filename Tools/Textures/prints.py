@@ -1954,6 +1954,26 @@ def avocados(size, seed):
     return _scatter_shapes(size, shapes, 10, seed, size / 4.2)
 
 
+def lollies(size, seed):
+    """Ice lollies: rounded lollies on sticks, the top dipped in the second colour and a bite out of some (summer)."""
+    def lolly(px, bitten):
+        def box(x, y):  # a rounded rectangle's distance
+            r = 0.22
+            qx, qy = np.abs(x) - 0.3 + r, np.abs(y + 0.12) - 0.5 + r
+            return np.hypot(np.maximum(qx, 0), np.maximum(qy, 0)) + np.minimum(np.maximum(qx, qy), 0) - r
+        def body_fn(x, y):
+            d = box(x, y)
+            if bitten:
+                d = np.maximum(d, -(np.hypot(x - 0.3, y + 0.58) - 0.16))
+            return _soft(d, px / 2)
+        body = _shape(px, body_fn)
+        dip = body * _shape(px, lambda x, y: _soft(y + 0.25 + 0.04 * np.sin(x * 14), px / 2))
+        stick = _shape(px, lambda x, y: _soft(np.maximum(np.abs(x) - 0.06, np.abs(y - 0.55) - 0.2), px / 2)) * (1 - body)
+        return np.clip(body - dip, 0, 1), np.clip(_outline(body, 1) * 0.55 + stick * 0.35 + _outline(stick, 1) * 0.4, 0, 1), dip
+    shapes = [lolly(int(size / 4.5), True), lolly(int(size / 4.8), False)]
+    return _scatter_shapes(size, shapes, 10, seed, size / 4.3)
+
+
 # ------------------------------------------------------------------------------- placed prints: chest graphics
 
 def _graphic(size, layers):
@@ -3475,6 +3495,7 @@ PRINTS = {
     "clovers": (clovers, "Clovers", ["cute", "casual"], (3, 5), 0.6),
     "dragonflies": (dragonflies, "Dragonflies", ["cute", "elegant", "casual", "date"], (2.5, 4), 0.6),
     "avocados": (avocados, "Avocados", ["cute", "casual", "street"], (2.2, 3.5), 0.5),
+    "lollies": (lollies, "Ice lollies", ["cute", "casual"], (2.5, 4), 0.5),
 }
 
 # How each print's second colour (its accent: leaves, hearts, wafers) follows its first: "leaf" (a natural green),
@@ -3487,7 +3508,7 @@ ACCENT = {
     "cacti": "leaf", "medallions": "contrast", "groovy": "contrast", "flowerpower": "gold", "dinosaurs": "contrast",
     "sailboats": "contrast", "umbrellas": "contrast", "liberty": "contrast", "lavender": "leaf", "maple": "gold",
     "pineapples": "leaf", "memphis": "contrast", "regimental": "contrast", "quilt": "contrast", "graffiti": "contrast",
-    "swooshes": "contrast", "thorns": "leaf", "rosebuds": "leaf", "triplestripes": "contrast", "artdeco": "gold", "dogs": "contrast", "frogs": "leaf", "pearls": "light", "swallows": "light", "foulard": "contrast", "azulejo": "light", "whales": "light", "celestial": "gold", "dragonflies": "light", "avocados": "contrast",
+    "swooshes": "contrast", "thorns": "leaf", "rosebuds": "leaf", "triplestripes": "contrast", "artdeco": "gold", "dogs": "contrast", "frogs": "leaf", "pearls": "light", "swallows": "light", "foulard": "contrast", "azulejo": "light", "whales": "light", "celestial": "gold", "dragonflies": "light", "avocados": "contrast", "lollies": "contrast",
     "tee_heart": "light", "tee_star": "light", "tee_cherries": "leaf", "tee_rose": "leaf", "tee_sunset": "gold",
     "tee_cat": "light", "tee_rainbow": "contrast", "tee_planet": "contrast", "tee_daisy": "gold", "tee_mountains": "light",
     "tee_butterfly": "contrast", "tee_moon": "gold", "tee_crown": "contrast", "tee_ghost": "light", "tee_palm": "leaf",
@@ -3523,7 +3544,7 @@ CONTEXT_TAGS = {
               "raindrops", "snowflakes", "plaid", "buffalo", "candystripe", "floral", "daisies", "cherries",
               "strawberries", "bows", "paws", "rainbows", "planets", "sakura", "ticking", "notes", "smileys", "seigaiha",
               "dinosaurs", "sailboats", "rosebuds", "dogs", "frogs"],
-    "swim": ["whales", "azulejo", "pineapples", "sailboats", "tropical", "hibiscus", "stripes", "breton", "waves", "scales", "shells", "fish", "seagulls", "anchors",
+    "swim": ["lollies", "whales", "azulejo", "pineapples", "sailboats", "tropical", "hibiscus", "stripes", "breton", "waves", "scales", "shells", "fish", "seagulls", "anchors",
              "lemons", "watermelon", "floral", "bigfloral", "dots", "gingham", "leopard", "zebra", "cheetah", "tiedye",
              "cherries", "strawberries", "daisies", "sunsetfade", "ombre", "colourblock", "ricrac", "tee_palm", "icecream"],
     "rain": ["raindrops", "clouds", "umbrellas", "check", "gingham", "plaid", "buffalo", "houndstooth", "dots",
