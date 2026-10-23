@@ -43,6 +43,7 @@ CBUFFER_END
 TEXTURE2D(_BaseMap);    SAMPLER(sampler_BaseMap);
 TEXTURE2D(_MaskMap);    SAMPLER(sampler_MaskMap);
 TEXTURE2D(_PatternMap); SAMPLER(sampler_PatternMap);
+TEXTURE2D(_LightMap);   SAMPLER(sampler_LightMap);
 
 // Body meshes carry their region ID in vertex colour red (ID / 255).
 uint ToonRegionId(half4 vertexColour)
@@ -136,6 +137,27 @@ void ToonAlbedo(float2 uv, float2 uv1, half4 vertexColour, out half3 lit, out ha
     half open = (1.0 - surface.a) * _Sheer;
     lit = lerp(lit, _SkinLit.rgb, open);
     shade = lerp(shade, _SkinShade.rgb, open);
+}
+
+// The part's lightmap (graphics plan G1.1), linear RGBA on UV0:
+//   R  shadow bias: 0.5 neutral; lower falls into shade sooner, higher stays lit longer (R1, painted cel shadows)
+//   G  specular mask (G1.5)
+//   B  metal mask (G1.6)
+//   A  material type, which picks the ramp row (G1.2): 0 skin, 32 hair, 64 cloth, 128 metal, out of 255
+// Only R is read so far. A part without a lightmap gets Unity's linearGrey (every channel about 0.5): neutral in R,
+// but not in G-A, so the steps that read those must not take the default at face value.
+half4 ToonLightMap(float2 uv)
+{
+    return SAMPLE_TEXTURE2D(_LightMap, sampler_LightMap, uv);
+}
+
+// How far the bias moves the toon step's threshold: 0 at neutral, up to ±0.5 (0 never lit, 1 always lit). Anything
+// within one 8-bit step of 0.5 is neutral: linearGrey reads just under 0.5 and our textures write 0.5 as 128/255, and
+// both must leave the shading exactly as it was without a lightmap.
+half ToonShadowBias(half4 lightMap)
+{
+    half bias = lightMap.r - 0.5;
+    return abs(bias) < 1.0 / 255.0 ? 0.0 : bias;
 }
 
 #endif

@@ -1,6 +1,7 @@
 // CharacterToon v0 (Spike A): two-tone lighting with art-directed shade colours, rim light, inverted-hull
 // outline, mask/vertex-colour recolouring, pattern overlay and body-region hiding. See PLAN.md §3.7. Characters never
-// shadow themselves and are in the environment's shadow as a whole (Docs/graphics-plan.md R2-R3).
+// shadow themselves and are in the environment's shadow as a whole (Docs/graphics-plan.md R2-R3). A per-part lightmap
+// paints where the shadow edge falls (R1; layout in CharacterToonInput.hlsl).
 Shader "Game/Characters/Toon"
 {
     Properties
@@ -32,6 +33,7 @@ Shader "Game/Characters/Toon"
         _LitAmbient ("Ambient On The Lit Side", Range(0, 1)) = 0.35
         _RimColor ("Rim Colour", Color) = (0.25, 0.22, 0.2, 1)
         _RimWidth ("Rim Width", Range(0, 1)) = 0.25
+        [NoScaleOffset] _LightMap ("Lightmap (linear: R shadow bias, G specular, B metal, A material type)", 2D) = "linearGrey" {}
 
         [Header(Pattern)]
         _PatternMap ("Pattern (R = colour, G = ink, B = second colour)", 2D) = "white" {}
@@ -111,11 +113,13 @@ Shader "Game/Characters/Toon"
                 return output;
             }
 
-            // 0 in shade, 1 lit: a narrow smoothstep around the threshold on half-Lambert.
-            half ToonStep(float3 normalWS, float3 lightDirection)
+            // 0 in shade, 1 lit: a narrow smoothstep around the threshold on half-Lambert. The lightmap's shadow bias
+            // moves the threshold, so painted creases fall into shade sooner (graphics plan R1).
+            half ToonStep(float3 normalWS, float3 lightDirection, half shadowBias)
             {
                 half halfLambert = dot(normalWS, lightDirection) * 0.5 + 0.5;
-                return smoothstep(_ShadeThreshold - _ShadeSoftness, _ShadeThreshold + _ShadeSoftness, halfLambert);
+                half threshold = _ShadeThreshold - shadowBias;
+                return smoothstep(threshold - _ShadeSoftness, threshold + _ShadeSoftness, halfLambert);
             }
 
             // The environment's shadow on the whole character, 0 in shadow, 1 lit. The shadow map is read once, at
@@ -149,11 +153,12 @@ Shader "Game/Characters/Toon"
 
                 float3 normalWS = normalize(input.normalWS) * (isFrontFace ? 1.0 : -1.0);
                 float3 viewWS = GetWorldSpaceNormalizeViewDir(input.positionWS);
+                half shadowBias = ToonShadowBias(ToonLightMap(input.uv.xy));
 
                 // Main light: shade colour where unlit, base colour where lit. Shading comes from the light direction
-                // alone; the environment's shadow covers the whole character or none of it.
+                // and the painted bias alone; the environment's shadow covers the whole character or none of it.
                 Light mainLight = GetMainLight();
-                half mainLit = ToonStep(normalWS, mainLight.direction) * CharacterShadow();
+                half mainLit = ToonStep(normalWS, mainLight.direction, shadowBias) * CharacterShadow();
                 half3 colour = lerp(shade, lit, mainLit) * mainLight.color;
 
                 // Ambient fills from the shade colour, so dark scenes keep the art-directed hues. Mostly on the shaded
@@ -170,7 +175,7 @@ Shader "Game/Characters/Toon"
                 LIGHT_LOOP_BEGIN(lightCount)
                     Light light = GetAdditionalLight(lightIndex, input.positionWS, half4(1, 1, 1, 1));
                     half attenuation = light.distanceAttenuation;
-                    colour += lit * light.color * (ToonStep(normalWS, light.direction) * attenuation);
+                    colour += lit * light.color * (ToonStep(normalWS, light.direction, shadowBias) * attenuation);
                 LIGHT_LOOP_END
             #endif
 

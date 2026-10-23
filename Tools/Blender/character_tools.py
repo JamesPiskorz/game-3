@@ -344,8 +344,11 @@ def barycentric(p, a, b, c):
 
 # ---------------------------------------------------------------------------------------------------- validation
 
-def validate_part(part, rig, body, max_triangles=12000, max_bone_distance=None):
-    """Problems that would break the part in Unity. Empty list = OK to export."""
+def validate_part(part, rig, body, max_triangles=12000, max_bone_distance=None, follows_body_shapes=True):
+    """
+    Problems that would break the part in Unity. Empty list = OK to export. Parts that don't follow the body shapes
+    (hair, hats: sidecar followsBodyShapes false) skip the shape-key check.
+    """
     problems = []
     bone_names = {bone.name for bone in rig.data.bones}
     for group in part.vertex_groups:
@@ -374,7 +377,7 @@ def validate_part(part, rig, body, max_triangles=12000, max_bone_distance=None):
         break
     body_shapes = {k.name for k in body.data.shape_keys.key_blocks if k.name != "Basis"} if body.data.shape_keys else set()
     part_shapes = {k.name for k in part.data.shape_keys.key_blocks} if part.data.shape_keys else set()
-    for missing in sorted(body_shapes - part_shapes):
+    for missing in sorted(body_shapes - part_shapes) if follows_body_shapes else []:
         problems.append(f"{part.name}: missing body shape key '{missing}' (it would clip when the shape is used)")
     part.data.calc_loop_triangles()
     if len(part.data.loop_triangles) > max_triangles:

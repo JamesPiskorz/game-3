@@ -12,6 +12,7 @@ namespace Game.Characters.Rendering
         public static readonly int RimColor = Shader.PropertyToID("_RimColor");
         public static readonly int ShadowAnchor = Shader.PropertyToID("_ShadowAnchor");
         public static readonly int ShadeTint = Shader.PropertyToID("_ShadeTint");
+        public static readonly int LightMap = Shader.PropertyToID("_LightMap");
         public static readonly int PatternMap = Shader.PropertyToID("_PatternMap");
         public static readonly int PatternColor = Shader.PropertyToID("_PatternColor");
         public static readonly int PatternAccent = Shader.PropertyToID("_PatternAccent");
@@ -57,6 +58,12 @@ namespace Game.Characters.Rendering
         /// </summary>
         public static void SetShadowAnchor(Material material, Vector3 point, float towardLight) =>
             material.SetVector(ShadowAnchor, new Vector4(point.x, point.y, point.z, towardLight));
+
+        /// <summary>
+        /// The part's lightmap (graphics plan G1.1): a linear texture on UV0 with RGBA = shadow bias (0.5 neutral, lower
+        /// falls into shade sooner), specular mask, metal mask, material type. Null puts back the neutral default.
+        /// </summary>
+        public static void SetLightMap(Material material, Texture lightMap) => material.SetTexture(LightMap, lightMap);
 
         /// <summary>Sets recolour region <paramref name="region"/> (0-3, i.e. mask channel R-A).</summary>
         public static void SetRegionColour(Material material, int region, Color colour) =>
