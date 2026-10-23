@@ -468,6 +468,21 @@ namespace Game.Characters.Content
 
         /// <summary>If set, only parts with one of these tags are worn in this context (sportswear at the gym). Hair is the person's own.</summary>
         public List<string> OnlyTags = new List<string>();
+
+        /// <summary>
+        /// If set, an item worn in this context is made, besides its own fabric, only in fabrics with one of these tags
+        /// (no velvet track pants or faux-fur hoodie at the gym).
+        /// </summary>
+        public List<string> FabricTags = new List<string>();
+
+        /// <summary>
+        /// A garment's own fabric too must have one of <see cref="FabricTags"/> where it can be made in one that does (a
+        /// poplin dress in satin at a gala). Shoes keep theirs: leather pumps are smart enough.
+        /// </summary>
+        public bool StrictFabrics;
+
+        /// <summary>If set, only prints with one of these tags are worn in this context (no tropical shirt at a gala).</summary>
+        public List<string> PrintTags = new List<string>();
     }
 
     public sealed class HairRules

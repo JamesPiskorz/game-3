@@ -1197,7 +1197,7 @@ TAGS = {
     "metallic": ["date", "street"], "sequins": ["date", "elegant"], "lace": ["elegant", "gothic", "date", "cute"],
     "jacquard": ["elegant", "gothic"], "leather": ["street", "gothic"], "patent": ["gothic", "elegant", "date"],
     "croc": ["elegant", "street"], "suede": ["casual", "bookish", "street"], "corduroy": ["bookish", "casual"],
-    "rubber": ["casual"], "mesh": ["sporty", "street"], "quilted": ["casual", "street", "sporty"],
+    "rubber": ["casual"], "mesh": ["sporty", "street"], "quilted": ["casual", "street"],
     "diamond_quilt": ["elegant", "casual"],
     "dobby": ["bookish", "elegant", "casual"], "crinkle": ["casual", "cute"], "stonewash": ["casual", "street"],
     "acid_wash": ["street", "gothic"], "nylon": ["sporty", "street"], "waxed": ["bookish", "casual", "street"],
@@ -1211,7 +1211,7 @@ TAGS = {
     "satin_stripe": ["elegant", "bookish", "date"], "felt": ["bookish", "elegant", "casual"], "lurex_knit": ["date", "cute", "elegant"],
     "pinstripe_wool": ["elegant", "bookish", "gothic"], "houndstooth_wool": ["elegant", "bookish"],
     "patchwork": ["cute", "casual", "street"], "needlecord": ["bookish", "casual", "cute"],
-    "jumbo_cord": ["casual", "street", "bookish"], "scuba": ["sporty", "street", "date"], "gloss_puffer": ["street", "sporty"],
+    "jumbo_cord": ["casual", "street", "bookish"], "scuba": ["sporty", "street", "date"], "gloss_puffer": ["street"],
     "guipure": ["elegant", "date", "gothic"], "dotted_swiss": ["cute", "date", "casual"], "brocade": ["elegant", "gothic"],
     "sateen": ["elegant", "casual", "bookish"], "black_denim": ["street", "gothic", "casual"],
     "ripped_denim": ["street", "casual"], "athletic_knit": ["sporty"], "fishnet": ["gothic", "street", "date"],
@@ -1265,7 +1265,7 @@ WEIGHT = {
 
 # The occasions fabrics suit, as extra tags the outfit contexts weight (formal, sleep).
 CONTEXT_TAGS = {
-    "formal": ["satin", "velvet", "sequins", "taffeta", "organza", "jacquard", "brocade", "plisse", "crushed_velvet", "foil",
+    "formal": ["patent", "satin", "velvet", "sequins", "taffeta", "organza", "jacquard", "brocade", "plisse", "crushed_velvet", "foil",
                "burnout_velvet", "beaded", "metallic", "lace", "guipure",
                "moire", "shantung", "tulle", "crepe", "chiffon", "glitter", "satin_stripe", "cloque", "diamante"],
     "rain": ["oilskin", "ripstop", "nylon", "waxed", "rubber", "vinyl", "patent", "gloss_puffer", "quilted", "fleece", "tweed",

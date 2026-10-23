@@ -21,13 +21,8 @@
   "fabrics": [
     "rib_lycra",
     "shimmer_lycra",
-    "foil",
-    "metallic",
-    "crochet",
     "seersucker",
-    "velvet",
     "mesh",
-    "glitter",
     "scuba"
   ],
   "patternable": true,

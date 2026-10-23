@@ -66,7 +66,7 @@ ALTERNATIVES = {
     "twill": ["denim", "black_denim", "corduroy", "needlecord", "herringbone", "felt", "boucle", "linen", "canvas", "flannel", "tweed", "leather", "stonewash", "ottoman", "pinstripe_wool", "houndstooth_wool"],
     "denim": ["stonewash", "acid_wash", "black_denim", "ripped_denim", "twill", "corduroy", "canvas", "leather", "chambray", "patchwork"],
     "poplin": ["oxford", "chambray", "linen", "satin", "seersucker", "flannel", "lace", "dobby", "crinkle", "shantung", "satin_stripe", "sateen", "dotted_swiss"],
-    "oxford": ["poplin", "chambray", "linen", "flannel", "seersucker", "dobby", "satin_stripe"],
+    "oxford": ["poplin", "chambray", "linen", "flannel", "seersucker", "dobby", "satin_stripe", "satin"],
     "linen": ["poplin", "gauze", "chambray", "seersucker", "canvas", "crochet", "crinkle", "smocked"],
     "satin": ["crepe", "velvet", "chiffon", "jacquard", "lace", "metallic", "shantung", "moire", "taffeta", "satin_stripe", "brocade", "sateen", "plisse", "crushed_velvet", "burnout_velvet"],
     "crepe": ["satin", "velvet", "jersey", "lace", "guipure", "scuba", "plisse", "foil", "crushed_velvet", "boucle", "felt", "sequins", "jacquard", "metallic", "taffeta", "beaded", "glitter", "ottoman", "vinyl", "cloque"],
@@ -112,7 +112,8 @@ NOT_FOR = {
     "bottom": {"smocked", "straw", "perforated", "pointelle"},
     "onepiece": {"straw", "perforated"},
 }
-SWIM = {"metallic", "crochet", "seersucker", "velvet", "mesh", "satin", "glitter", "smocked", "crinkle", "scuba", "foil",
+# No velvet, satin or nylon: a velvet rash guard and satin or nylon board shorts looked like rubber at the pool.
+SWIM = {"metallic", "crochet", "seersucker", "mesh", "glitter", "smocked", "crinkle", "scuba", "foil",
         "rib_lycra", "shimmer_lycra"}
 SLEEP = {"satin", "jersey", "waffle", "flannel", "lace", "velvet", "mesh", "chiffon", "fleece", "terry", "poplin", "linen",
          "pointelle", "marl", "slub_jersey", "sherpa", "chenille", "crinkle", "smocked", "shantung", "seersucker", "satin_stripe", "sateen", "dotted_swiss", "brushed_cotton", "velour"}
@@ -140,6 +141,9 @@ for k, v in o.items():
         # Swimwear and lingerie stay swim- and sleep-like: no tweed bikinis.
         if "swim" in g.get("tags", []):
             options = [f for f in options if f in SWIM]
+            # Rash guards and swim shorts are for swimming in, not lounging by the pool: no lamé, glitter or crochet.
+            if any(w in g["name"].lower() for w in ("rash guard", "shorts")):
+                options = [f for f in options if f not in {"foil", "metallic", "glitter", "crochet", "smocked"}]
         if "sleep" in g.get("tags", []):
             options = [f for f in options if f in SLEEP]
         # Sporty leggings and shorts aren't vinyl; gowns and party dresses are where the sparkle goes.

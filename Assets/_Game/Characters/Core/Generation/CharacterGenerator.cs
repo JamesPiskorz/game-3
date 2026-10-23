@@ -279,9 +279,9 @@ namespace Game.Characters.Generation
                     Wear(PickPart(neck, Slots.Neck, archetype, context, femininity, worn));
                 if (!context.Outer && outer.Chance(archetype.OuterChance))
                     Wear(PickPart(outer, Slots.Outer, archetype, context, femininity, worn));
-                // Tights or socks, where legs show; their own stream again.
+                // Tights or socks, where legs show and shoes are worn (not in bed or at the pool); their own stream again.
                 Pcg32 legs = SeedStreams.For(seed, "outfit.legwear." + contextId);
-                if (legs.Chance(archetype.LegwearChance))
+                if (context.Shoes && legs.Chance(archetype.LegwearChance))
                     Wear(PickPart(legs, Slots.Legwear, archetype, context, femininity, worn));
                 Pcg32 bag = SeedStreams.For(seed, "outfit.bag." + contextId);
                 if (bag.Chance(archetype.BagChance))

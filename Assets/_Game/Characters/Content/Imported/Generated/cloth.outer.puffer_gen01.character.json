@@ -15,7 +15,11 @@
     "sporty"
   ],
   "lean": 0.3,
-  "contexts": [],
+  "contexts": [
+    "casual",
+    "date",
+    "rain"
+  ],
   "weight": 1.0,
   "excludesTags": [
     "hooded",

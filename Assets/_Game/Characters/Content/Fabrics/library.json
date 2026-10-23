@@ -809,6 +809,7 @@
     "gothic",
     "elegant",
     "date",
+    "formal",
     "rain"
    ],
    "printable": true,
@@ -946,7 +947,6 @@
    "tags": [
     "casual",
     "street",
-    "sporty",
     "rain"
    ],
    "printable": false,
@@ -1692,7 +1692,6 @@
    "tileMetres": 0.25,
    "tags": [
     "street",
-    "sporty",
     "rain"
    ],
    "printable": false,

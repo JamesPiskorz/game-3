@@ -486,7 +486,6 @@
         "metallic",
         "crochet",
         "seersucker",
-        "velvet",
         "mesh",
         "glitter",
         "scuba"
@@ -519,7 +518,6 @@
         "metallic",
         "crochet",
         "seersucker",
-        "velvet",
         "mesh",
         "glitter",
         "scuba"
@@ -546,7 +544,7 @@
       "patternable": true,
       "fabrics": [
         "ripstop",
-        "satin"
+        "nylon"
       ],
       "clothBottom": 0.5792446,
       "clothTop": 1.1138171,
@@ -1470,7 +1468,6 @@
         "metallic",
         "crochet",
         "seersucker",
-        "velvet",
         "mesh",
         "glitter",
         "scuba"
@@ -1499,13 +1496,8 @@
         "lycra",
         "rib_lycra",
         "shimmer_lycra",
-        "foil",
-        "metallic",
-        "crochet",
         "seersucker",
-        "velvet",
         "mesh",
-        "glitter",
         "scuba"
       ],
       "clothBottom": 0.757614732,
@@ -1845,7 +1837,6 @@
         "metallic",
         "crochet",
         "seersucker",
-        "velvet",
         "mesh",
         "glitter",
         "smocked",
@@ -1961,7 +1952,6 @@
         "metallic",
         "crochet",
         "seersucker",
-        "velvet",
         "mesh",
         "glitter",
         "smocked",
@@ -2203,7 +2193,6 @@
         "metallic",
         "crochet",
         "seersucker",
-        "velvet",
         "mesh",
         "glitter",
         "smocked",
@@ -2389,7 +2378,6 @@
         "metallic",
         "crochet",
         "seersucker",
-        "velvet",
         "mesh",
         "glitter",
         "smocked",
@@ -2652,7 +2640,6 @@
         "metallic",
         "crochet",
         "seersucker",
-        "velvet",
         "mesh",
         "glitter",
         "smocked",
@@ -2923,7 +2910,11 @@
       ],
       "clothBottom": 1.0618794,
       "clothTop": 1.44970787,
-      "contexts": []
+      "contexts": [
+        "casual",
+        "date",
+        "rain"
+      ]
     },
     {
       "id": "cloth.outer.rainjacket_gen01",
@@ -3843,7 +3834,6 @@
         "metallic",
         "crochet",
         "seersucker",
-        "velvet",
         "mesh",
         "glitter",
         "smocked",
@@ -3877,7 +3867,6 @@
         "metallic",
         "crochet",
         "seersucker",
-        "velvet",
         "mesh",
         "glitter",
         "smocked",
@@ -4138,7 +4127,6 @@
         "metallic",
         "crochet",
         "seersucker",
-        "velvet",
         "mesh",
         "glitter",
         "smocked",
@@ -4305,7 +4293,8 @@
         "flannel",
         "seersucker",
         "dobby",
-        "satin_stripe"
+        "satin_stripe",
+        "satin"
       ],
       "clothBottom": 1.06618941,
       "clothTop": 1.43411446,
@@ -4387,14 +4376,8 @@
         "lycra",
         "rib_lycra",
         "shimmer_lycra",
-        "foil",
-        "metallic",
-        "crochet",
         "seersucker",
-        "velvet",
         "mesh",
-        "glitter",
-        "smocked",
         "scuba"
       ],
       "clothBottom": 0.961149633,
@@ -4659,7 +4642,6 @@
         "metallic",
         "crochet",
         "seersucker",
-        "velvet",
         "mesh",
         "glitter",
         "smocked",
@@ -10176,6 +10158,7 @@
         "gothic",
         "elegant",
         "date",
+        "formal",
         "rain"
       ],
       "printable": true,
@@ -10355,7 +10338,6 @@
       "tags": [
         "casual",
         "street",
-        "sporty",
         "rain"
       ],
       "printable": false,
@@ -11036,7 +11018,6 @@
       "weight": 1.0,
       "tags": [
         "street",
-        "sporty",
         "rain"
       ],
       "printable": false,
@@ -12294,7 +12275,10 @@
       },
       "shoes": true,
       "outer": false,
-      "onlyTags": []
+      "onlyTags": [],
+      "fabricTags": [],
+      "strictFabrics": false,
+      "printTags": []
     },
     {
       "id": "date",
@@ -12305,7 +12289,10 @@
       },
       "shoes": true,
       "outer": false,
-      "onlyTags": []
+      "onlyTags": [],
+      "fabricTags": [],
+      "strictFabrics": false,
+      "printTags": []
     },
     {
       "id": "rain",
@@ -12316,7 +12303,10 @@
       },
       "shoes": true,
       "outer": true,
-      "onlyTags": []
+      "onlyTags": [],
+      "fabricTags": [],
+      "strictFabrics": false,
+      "printTags": []
     },
     {
       "id": "sport",
@@ -12328,7 +12318,12 @@
       "outer": false,
       "onlyTags": [
         "sporty"
-      ]
+      ],
+      "fabricTags": [
+        "sporty"
+      ],
+      "strictFabrics": false,
+      "printTags": []
     },
     {
       "id": "work",
@@ -12344,7 +12339,10 @@
         "elegant",
         "bookish",
         "uniform"
-      ]
+      ],
+      "fabricTags": [],
+      "strictFabrics": false,
+      "printTags": []
     },
     {
       "id": "swim",
@@ -12356,7 +12354,10 @@
       "outer": false,
       "onlyTags": [
         "swim"
-      ]
+      ],
+      "fabricTags": [],
+      "strictFabrics": false,
+      "printTags": []
     },
     {
       "id": "sleep",
@@ -12368,7 +12369,10 @@
       "outer": false,
       "onlyTags": [
         "sleep"
-      ]
+      ],
+      "fabricTags": [],
+      "strictFabrics": false,
+      "printTags": []
     },
     {
       "id": "formal",
@@ -12379,6 +12383,13 @@
       "shoes": true,
       "outer": false,
       "onlyTags": [
+        "formal"
+      ],
+      "fabricTags": [
+        "formal"
+      ],
+      "strictFabrics": true,
+      "printTags": [
         "formal"
       ]
     }

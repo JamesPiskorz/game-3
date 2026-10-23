@@ -221,7 +221,8 @@ namespace Game.Characters.ContentAuthoring
         /// <summary>
         /// Occasions only the generated parts dress: swimming and sleepwear, barefoot, from parts tagged "swim" and
         /// "sleep" only, so swimwear and lingerie never turn up in everyday outfits; and formal wear (gowns, a wedding
-        /// dress, a dress shirt and trousers), from parts tagged "formal". The town dresses for them where the catalog
+        /// dress, a dress shirt and trousers), from parts tagged "formal", made in formal fabrics wherever a part can be
+        /// (a velvet blazer, patent shoes) and printed only with formal prints. The town dresses for them where the catalog
         /// has them (SimWorld.OutfitAt): nightwear at home at night, swimwear at the beach, formal wear at the town's
         /// occasional events (TownEvents). The creator lists them.
         /// </summary>
@@ -229,7 +230,11 @@ namespace Game.Characters.ContentAuthoring
         {
             yield return new OutfitContext { Id = "swim", Name = "Swimming", TagWeights = { ["swim"] = 1f }, OnlyTags = { "swim" }, Shoes = false };
             yield return new OutfitContext { Id = "sleep", Name = "Sleepwear", TagWeights = { ["sleep"] = 1f }, OnlyTags = { "sleep" }, Shoes = false };
-            yield return new OutfitContext { Id = "formal", Name = "Formal", TagWeights = { ["formal"] = 1f }, OnlyTags = { "formal" }, Shoes = true };
+            yield return new OutfitContext
+            {
+                Id = "formal", Name = "Formal", TagWeights = { ["formal"] = 1f }, OnlyTags = { "formal" }, Shoes = true,
+                FabricTags = { "formal" }, StrictFabrics = true, PrintTags = { "formal" },
+            };
         }
 
         /// <summary>

@@ -70,11 +70,22 @@ namespace Game.Characters.Generation
                     item.RegionColors.Add(Colours.Jitter(rng, regions[region], 0.006f, 0.04f, 0.04f));
 
                 // Made in another of the fabrics it can be, at times: a skirt in denim, corduroy or tweed, by style and
-                // by occasion (velvet and taffeta at a gala, flannel and waffle in bed).
-                if (part.Fabrics.Count > 1 && rng.Chance(FabricVariety))
+                // by occasion (velvet and taffeta at a gala, flannel and waffle in bed). An occasion can rule fabrics out
+                // (only sportswear fabrics at the gym) and want them even instead of a garment's own (a poplin dress in
+                // satin at a gala; shoes keep theirs, as leather pumps are smart enough).
+                if (part.Fabrics.Count > 1)
                 {
+                    bool vary = rng.Chance(FabricVariety), mustChange = false;
                     List<FabricEntry> options = part.Fabrics.Select(catalog.Fabric).Where(f => f != null).ToList();
-                    FabricEntry fabric = options.Count == 0 ? null
+                    if (context != null && context.FabricTags.Count > 0)
+                    {
+                        FabricEntry own = catalog.Fabric(part.Fabrics[0]);
+                        List<FabricEntry> suited = options.Where(f => f.Tags.Any(context.FabricTags.Contains)).ToList();
+                        mustChange = context.StrictFabrics && part.Slot != Slots.Shoes && suited.Count > 0 && !suited.Contains(own);
+                        if (!mustChange && own != null && !suited.Contains(own)) suited.Insert(0, own);
+                        options = suited;
+                    }
+                    FabricEntry fabric = options.Count == 0 || !(vary || mustChange) ? null
                         : rng.PickWeighted(options, f => f.Weight * Affinity.Of(archetype, f.Tags) * Affinity.Of(context, f.Tags));
                     if (fabric != null && fabric.Id != part.Fabrics[0]) item.FabricId = fabric.Id;
                 }
@@ -98,6 +109,9 @@ namespace Game.Characters.Generation
                 // A print, at times, of those its fabric takes (only knitted ones on a knit, animal ones on leather);
                 // on shoes less often (leopard pumps are a statement).
                 List<PatternEntry> prints = catalog.PrintsFor(part, item.FabricId);
+                // Only those the occasion allows, if it says (damask or pearls at a gala, not tropical leaves).
+                if (context != null && context.PrintTags.Count > 0)
+                    prints = prints.Where(p => p.Tags.Any(context.PrintTags.Contains)).ToList();
                 // A graphic (a tee's chest print, a back print) is its own choice, not just one print among many: a
                 // casual top that can take one has one about GraphicChance of the time, on top of other prints.
                 List<PatternEntry> graphics = prints.Where(p => p.Placement == "chest" || p.Placement == "back").ToList();
