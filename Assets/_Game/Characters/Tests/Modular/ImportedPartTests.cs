@@ -39,6 +39,10 @@ namespace Game.Characters.Tests.Modular
             HashSet<int> regions = new HashSet<int>(mesh.colors.Select(c => Mathf.RoundToInt(c.r * 255f)));
             Assert.That(regions, Is.SupersetOf(new[] { 0, 1, 2, 3, 4, 5, 6, 11, 16 }), "region IDs should arrive unaltered (linear vertex colours)");
             Assert.That(mesh.tangents.Length, Is.EqualTo(mesh.vertexCount), "outline normals should be baked into tangents");
+            var lightMap = new List<Vector4>();
+            mesh.GetUVs(2, lightMap);
+            Assert.That(lightMap.Count == mesh.vertexCount && lightMap.All(v => v == Vector4.zero),
+                "a neutral lightmap should be in UV2: the toon shader reads it on vertex-data materials");
             Assert.That(character.Body.sharedMaterial != null && character.Body.sharedMaterial.shader.name == "Game/Characters/Toon");
         }
 

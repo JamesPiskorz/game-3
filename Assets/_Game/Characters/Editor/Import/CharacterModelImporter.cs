@@ -13,6 +13,7 @@ namespace Game.Characters.Import
     /// with no hand set-up (PLAN.md §4):
     /// - import settings: generic rig, blendshapes kept with authored normals, no imported materials or tangents;
     /// - smoothed outline normals baked into tangents (decision 0002);
+    /// - a neutral lightmap in UV2 (graphics plan G1.1), which the templates' vertex data reads;
     /// - toon material templates assigned (a part made of a library fabric gets its fabric's material);
     /// - the sidecar &lt;name&gt;.character.json turned into a ModularCharacter (body) or CharacterPart (slot, covered
     ///   regions, blocked slots, spring chains).
@@ -25,7 +26,7 @@ namespace Game.Characters.Import
         const string FabricFolder = "Assets/_Game/Characters/Content/Fabrics/Materials";
 
         // Bump to reimport every character model when this importer's behaviour changes.
-        public override uint GetVersion() => 3;
+        public override uint GetVersion() => 4;
 
         bool Applies => assetPath.StartsWith(Folder, StringComparison.Ordinal) && assetPath.EndsWith(".fbx", StringComparison.OrdinalIgnoreCase);
 
@@ -87,6 +88,7 @@ namespace Game.Characters.Import
             foreach (SkinnedMeshRenderer renderer in renderers)
             {
                 OutlineNormals.Bake(renderer.sharedMesh);
+                WriteNeutralLightMap(renderer.sharedMesh);
                 if (template != null)
                     renderer.sharedMaterials = Enumerable.Repeat(template, renderer.sharedMesh.subMeshCount).ToArray();
             }
@@ -116,6 +118,19 @@ namespace Game.Characters.Import
                 if (Enum.TryParse(region, out BodyRegions parsed)) part.CoveredRegions |= parsed;
                 else context.LogImportError($"Unknown body region '{region}' in {Path.GetFileName(sidecarPath)}.");
             }
+        }
+
+        // The templates take vertex data, so the toon shader reads the lightmap from UV2, and a mesh without UV2 hands
+        // it UV1 instead (region 4 would stay lit). Imported parts have no painted lightmap yet: zero is neutral. Packed
+        // into 4 bytes like the stand-ins' (StandInMesh.Build).
+        static void WriteNeutralLightMap(Mesh mesh)
+        {
+            mesh.SetUVs(2, new Vector4[mesh.vertexCount]);
+            var layout = mesh.GetVertexAttributes();
+            int uv2 = Array.FindIndex(layout, attribute => attribute.attribute == UnityEngine.Rendering.VertexAttribute.TexCoord2);
+            layout[uv2] = new UnityEngine.Rendering.VertexAttributeDescriptor(UnityEngine.Rendering.VertexAttribute.TexCoord2,
+                UnityEngine.Rendering.VertexAttributeFormat.SNorm8, 4, layout[uv2].stream);
+            mesh.SetVertexBufferParams(mesh.vertexCount, layout);
         }
     }
 }
