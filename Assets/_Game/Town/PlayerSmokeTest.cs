@@ -91,9 +91,49 @@ namespace Game.Town
                     Finish(false, $"Nothing happened in town (met {met}, characters on stage {built}).");
                     yield break;
                 }
+                if (System.Environment.GetCommandLineArgs().Contains("-smoke-feedback"))
+                {
+                    string folder = null;
+                    yield return Game.Feedback.FeedbackReporter.Instance.SaveTicket("Smoke test", "Saved by the player smoke test.", saved => folder = saved);
+                    string problem = CheckTicket(folder);
+                    if (problem != null)
+                    {
+                        Finish(false, "Feedback ticket: " + problem);
+                        yield break;
+                    }
+                    Debug.Log("[Smoke] Feedback ticket saved: " + folder);
+
+                    // For review: the form as the player sees it (-smoke-feedback-form <png>).
+                    string formShot = Game.Feedback.FeedbackPaths.Argument("-smoke-feedback-form");
+                    if (formShot != null && !Application.isBatchMode)
+                    {
+                        Game.Feedback.FeedbackReporter.Instance.Open();
+                        for (int frame = 0; frame < 120 && !Game.Feedback.FeedbackReporter.Instance.IsOpen; frame++) yield return null;
+                        for (int frame = 0; frame < 5; frame++) yield return null;
+                        yield return new WaitForEndOfFrame();
+                        var shot = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
+                        shot.ReadPixels(new Rect(0f, 0f, Screen.width, Screen.height), 0, 0, false);
+                        System.IO.File.WriteAllBytes(formShot, shot.EncodeToPNG());
+                        Destroy(shot);
+                        Game.Feedback.FeedbackReporter.Instance.Close();
+                    }
+                }
                 Finish(_errors == 0, _errors == 0
                     ? $"Played a day: met {met} people, {built} characters on stage, now {session.World.Now}."
                     : $"{_errors} errors, first: {_firstError}");
+            }
+
+            /// <summary>What's missing from a ticket saved in town, or null: its text, the state with people on screen, the town, the save, the screenshot.</summary>
+            static string CheckTicket(string folder)
+            {
+                if (folder == null || !System.IO.File.Exists(System.IO.Path.Combine(folder, Game.Feedback.FeedbackTicket.MarkdownFile))) return "no ticket.md";
+                var context = Newtonsoft.Json.Linq.JObject.Parse(System.IO.File.ReadAllText(System.IO.Path.Combine(folder, Game.Feedback.FeedbackTicket.ContextFile)));
+                if (!(context["characters"] is Newtonsoft.Json.Linq.JArray characters) || !characters.Any(c => (bool)c["onScreen"] && c["dna"]?.Type == Newtonsoft.Json.Linq.JTokenType.Object))
+                    return "nobody on screen with their DNA";
+                if (context["game"]?["town"]?["now"] == null) return "no town state";
+                if (!System.IO.File.Exists(System.IO.Path.Combine(folder, "town-save.json"))) return "no town save";
+                if (!Application.isBatchMode && !System.IO.File.Exists(System.IO.Path.Combine(folder, Game.Feedback.FeedbackTicket.ScreenshotFile))) return "no screenshot";
+                return null;
             }
 
             void Finish(bool ok, string message)

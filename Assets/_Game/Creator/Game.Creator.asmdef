@@ -3,7 +3,8 @@
     "rootNamespace": "Game.Creator",
     "references": [
         "Game.Characters",
-        "Game.Characters.Unity"
+        "Game.Characters.Unity",
+        "Game.Feedback"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

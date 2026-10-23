@@ -2,6 +2,11 @@
 
 _Updated 2026-10-18 (overnight build). See [PLAN.md](../PLAN.md) for the full plan and [decisions/](decisions/) for why things are the way they are._
 
+## In-game feedback (2026-10-23)
+
+- **F8, or the Feedback button** in the bottom-left corner, in any scene ([decision 0009](decisions/0009-in-game-feedback.md)), opens a form over the paused game. The ticket carries the screenshot and the whole moment: the build and its commit, the machine and settings, every camera and light, every character with their DNA and each material's shader values, the town's state (time, place, who's there), the screen's text, the recent log, and the town as a save.
+- **Saved** in `feedback-tickets/` (gitignored) and **filed as a GitHub issue** with `gh`: the screenshot shows inline, and the game state and save are linked. This needs `gh auth login` on the machine; until then tickets stay local and go with the next one, or with *Game > Feedback > File Waiting Tickets on GitHub*. The repository is public, so these issues are public.
+
 ## Clothing textures (overnight 2026-10-22/23)
 
 - **A texture library** ([Tools/Textures](../Tools/Textures/README.md), decision 0008): 104 fabrics and 233 prints, drawn procedurally. Every garment is made in a fabric and can be made in others (about eight each), by style and occasion. The fabrics range from denim in five washes (ripped jeans show skin through the rips), knits, cords and suiting wools to satin, velvet, lace, sequins, leathers, vinyl, straw and pleats. The prints include stripes and checks, florals, geometrics, animal skins, knitted colourwork, kids' and seasonal motifs, dyes, borders, graphic tees (with pixel-font slogans), badges and back prints. [Tools/Textures/LIBRARY.md](../Tools/Textures/LIBRARY.md) lists them all. Review sheets: `Docs/review/generated-fabrics.png`, `generated-prints.png`, `generated-legwear.png`; in play: `town-gala.png`, `town-beach.png`.

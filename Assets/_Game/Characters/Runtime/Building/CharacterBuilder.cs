@@ -49,6 +49,7 @@ namespace Game.Characters.Building
         public void Apply(ModularCharacter character, CharacterDna dna, string context = null)
         {
             OutfitDna outfit = dna.Outfits.FirstOrDefault(o => o.Context == context) ?? dna.Outfits.FirstOrDefault();
+            character.Remember(dna, outfit?.Context);
             EquipParts(character, dna, outfit);
             ApplyShapesAndBones(character, dna);
             SpringBoneRig.Sync(character, _content.SpringColliders);

@@ -76,3 +76,9 @@ __pycache__/
 
 # Diagnostic sheets (graphics plan V1): regenerated on demand, too big for git
 Docs/review/diagnostics/
+
+# In-game feedback (Assets/_Game/Feedback): tickets are filed as GitHub issues; the local copies stay local.
+/feedback-tickets/
+# Written for the length of a player build only.
+/Assets/_Game/Feedback/Resources/
+/Assets/_Game/Feedback/Resources.meta

@@ -1,9 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Game.Characters.Building;
 using Game.Characters.Content;
 using Game.Characters.Dna;
 using Game.Characters.Generation;
+using Game.Feedback;
 using Game.Sim;
 using Game.Sim.Sandbox;
 using UnityEngine;
@@ -15,9 +18,9 @@ namespace Game.Town
     /// Runs the sandbox prototype: generates the town, puts the player in it and connects the
     /// <see cref="TownSession"/> to the HUD (<see cref="TownView"/>) and the 3D stage (<see cref="TownStage"/>).
     /// The player's look comes from the character creator (<see cref="PlayerLook"/>) when one was saved, else from
-    /// <see cref="PlayerSeed"/>.
+    /// <see cref="PlayerSeed"/>. Feedback tickets (F8) get the town's state from it, and its save.
     /// </summary>
-    public sealed class TownScreen : MonoBehaviour
+    public sealed class TownScreen : MonoBehaviour, IFeedbackSource
     {
         public CharacterContent Content;
         public TextAsset SimCatalogJson;
@@ -132,5 +135,69 @@ namespace Game.Town
                 Session.Tell("Couldn't load the save: " + e.Message);
             }
         }
+
+        // ---------------------------------------------------------------- feedback tickets
+
+        string IFeedbackSource.FeedbackSection => "town";
+
+        object IFeedbackSource.DescribeForFeedback()
+        {
+            if (Session == null) return null;
+            SimWorld world = Session.World;
+            string here = Session.Location;
+            return new
+            {
+                worldSeed = world.Seed.ToString("x"),
+                now = world.Now.ToString(),
+                weather = world.Weather.ToString(),
+                location = here,
+                place = Session.LocationName(here),
+                open = Session.IsOpen(here),
+                occasion = TownEvents.At(world, here, world.Now)?.Name,
+                eventsToday = TownEvents.On(world, world.Now.Day).Select(e => new { e.Name, e.Location, e.Start, e.End }),
+                player = new
+                {
+                    world.Player.Name, world.Player.Location, world.Player.Outfit, outfitHere = world.OutfitAt(here),
+                    world.Player.Money, world.Player.Stats, world.Player.LookVersion,
+                    seed = world.Player.Dna?.Seed.ToString("x"), wardrobe = world.Player.Wardrobe.Count,
+                },
+                selected = Session.Selected?.ToString(),
+                dateWith = Session.DateWith?.ToString(),
+                speaker = Session.Speaker?.ToString(),
+                notice = Session.Notice,
+                hint = Session.Hint(),
+                present = Session.Present().Select(r => new { r.Index, r.Name, seed = r.Dna.Seed.ToString("x"), outfit = world.OutfitFor(r, here) }),
+                actions = world.Actions,
+            };
+        }
+
+        IEnumerable<(string Label, string Value)> IFeedbackSource.FeedbackSummary
+        {
+            get
+            {
+                if (Session == null) yield break;
+                string occasion = TownEvents.At(Session.World, Session.Location, Session.World.Now)?.Name;
+                yield return ("Game time", $"{Session.World.Now}, {Session.World.Weather}");
+                yield return ("Place", Session.LocationName(Session.Location) + (occasion != null ? $" ({occasion})" : ""));
+                if (Session.Selected != null) yield return ("With", Session.Selected.Name);
+                yield return ("World seed", Session.World.Seed.ToString("x"));
+            }
+        }
+
+        IReadOnlyDictionary<ulong, string> IFeedbackSource.FeedbackNames
+        {
+            get
+            {
+                if (Session == null) return null;
+                var names = new Dictionary<ulong, string>();
+                foreach (Resident resident in Session.World.Residents.Where(r => r.Dna != null)) names[resident.Dna.Seed] = resident.Name;
+                if (Session.World.Player.Dna != null) names[Session.World.Player.Dna.Seed] = Session.World.Player.Name + " (the player)";
+                return names;
+            }
+        }
+
+        /// <summary>The town saved as it is: load it to stand where the ticket was made.</summary>
+        IReadOnlyDictionary<string, string> IFeedbackSource.FeedbackAttachments =>
+            Session == null ? null : new Dictionary<string, string> { ["town-save.json"] = SimSave.Capture(Session.World).ToJson() };
     }
 }

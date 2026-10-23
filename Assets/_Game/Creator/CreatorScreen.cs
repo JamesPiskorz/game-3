@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using Game.Characters.Building;
 using Game.Characters.Creator;
 using Game.Characters.Dna;
 using Game.Characters.Expressions;
 using Game.Characters.Generation;
 using Game.Characters.Modular;
+using Game.Feedback;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
@@ -13,9 +15,9 @@ namespace Game.Creator
     /// <summary>
     /// Runs the character creator: a <see cref="CreatorSession"/> edited through <see cref="CreatorView"/>, rebuilt
     /// into a live 3D preview by <see cref="CharacterBuilder"/> after every change. The camera eases between a
-    /// full-body and a face view; dragging the preview turns the character.
+    /// full-body and a face view; dragging the preview turns the character. Feedback tickets (F8) get the look from it.
     /// </summary>
-    public sealed class CreatorScreen : MonoBehaviour
+    public sealed class CreatorScreen : MonoBehaviour, IFeedbackSource
     {
         public CharacterContent Content;
         public UIDocument Document;
@@ -127,5 +129,30 @@ namespace Game.Creator
             _faceView = face;
             SnapCamera();
         }
+
+        // ---------------------------------------------------------------- feedback tickets
+
+        string IFeedbackSource.FeedbackSection => "creator";
+
+        object IFeedbackSource.DescribeForFeedback() => _session == null ? null : new
+        {
+            outfit = _session.Context, seed = _session.Dna.Seed.ToString("x"), style = _session.Dna.Style, faceView = _faceView, turned = _yaw,
+        };
+
+        IEnumerable<(string Label, string Value)> IFeedbackSource.FeedbackSummary
+        {
+            get
+            {
+                if (_session == null) yield break;
+                yield return ("Creator", $"{_session.Context} outfit, {(_faceView ? "face" : "body")} view");
+            }
+        }
+
+        IReadOnlyDictionary<ulong, string> IFeedbackSource.FeedbackNames =>
+            _session == null ? null : new Dictionary<ulong, string> { [_session.Dna.Seed] = "The look being made" };
+
+        /// <summary>The look as it is, to load in the creator.</summary>
+        IReadOnlyDictionary<string, string> IFeedbackSource.FeedbackAttachments =>
+            _session == null ? null : new Dictionary<string, string> { ["look.json"] = DnaSerializer.ToJson(_session.Dna) };
     }
 }

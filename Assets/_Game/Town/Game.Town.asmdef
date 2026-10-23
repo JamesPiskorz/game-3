@@ -4,7 +4,8 @@
     "references": [
         "Game.Characters",
         "Game.Characters.Unity",
-        "Game.Sim"
+        "Game.Sim",
+        "Game.Feedback"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

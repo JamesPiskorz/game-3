@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using CharacterDna = Game.Characters.Dna.CharacterDna;
 
 namespace Game.Characters.Modular
 {
@@ -31,6 +32,17 @@ namespace Game.Characters.Modular
 
         public SkinnedMeshRenderer Body => _body;
         public BodyRegions HiddenRegions { get; private set; }
+
+        /// <summary>The DNA it was last built from and the outfit it wears (set by CharacterBuilder), for tools that describe it: the feedback reporter.</summary>
+        public CharacterDna Dna { get; private set; }
+
+        public string OutfitContext { get; private set; }
+
+        public void Remember(CharacterDna dna, string outfitContext)
+        {
+            Dna = dna;
+            OutfitContext = outfitContext;
+        }
 
         public void Initialize(Transform skeletonRoot, SkinnedMeshRenderer body)
         {
