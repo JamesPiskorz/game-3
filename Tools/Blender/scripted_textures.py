@@ -1,4 +1,4 @@
-"""Procedural textures for the scripted parts (art spike, decision 0009).
+"""Procedural textures for the scripted parts (art spike, decision 0010).
 
 Each part is unwrapped, then Cycles bakes what the textures are computed from into float images: surface position and
 normal, ambient occlusion (hair alone; the body and garments in the relaxed pose, garments with the body there too)

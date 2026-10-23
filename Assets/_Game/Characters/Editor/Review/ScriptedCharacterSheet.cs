@@ -13,7 +13,7 @@ using UnityEngine;
 namespace Game.Characters.Review
 {
     /// <summary>
-    /// The scripted-art spike (decision 0009): the character built entirely by script in Blender
+    /// The scripted-art spike (decision 0010): the character built entirely by script in Blender
     /// (Tools/Blender/make_scripted_character.py) on the right, a stand-in wearing the matching pieces on the left, in
     /// the same colours, pose and lighting, rendered with the game's toon shader (Docs/review/scripted-character.png),
     /// and both in three test poses (Docs/review/scripted-poses.png); then the scripted character under a light

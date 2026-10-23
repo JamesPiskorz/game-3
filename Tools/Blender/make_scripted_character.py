@@ -1,4 +1,4 @@
-"""Builds the scripted-art spike character (decision 0009): body and head, hair, a jacket and shorts, all from
+"""Builds the scripted-art spike character (decision 0010): body and head, hair, a jacket and shorts, all from
 scripts, with procedural textures; validates, checks deformation in test poses, and exports FBX plus sidecars and
 textures for Unity's CharacterModelImporter.
 

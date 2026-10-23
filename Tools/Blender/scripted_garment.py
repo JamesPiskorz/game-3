@@ -1,4 +1,4 @@
-"""Scripted garments as shells cut from the body's own cage (art spike, decision 0009).
+"""Scripted garments as shells cut from the body's own cage (art spike, decision 0010).
 
 A garment takes the faces of the body cage it covers (so its edge loops and seam lines are the body's), eases them out
 along the cage normals, adds bands at its open edges (hem, cuffs, collar, waistband) each with a turned-back facing

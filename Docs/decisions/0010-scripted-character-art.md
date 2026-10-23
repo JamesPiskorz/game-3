@@ -1,4 +1,4 @@
-# 0009: Character art built entirely by script (scripted-art spike)
+# 0010: Character art built entirely by script (scripted-art spike)
 
 **Status:** Accepted (spike result) · 2026-10-18 · Blender 5.2.1 LTS, Unity 6000.6.6f1
 

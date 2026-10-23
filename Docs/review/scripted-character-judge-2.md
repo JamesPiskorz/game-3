@@ -1,6 +1,6 @@
 # Judge report: scripted character, second pass
 
-_Track V judging for the second pass of the scripted-art spike, [decision 0009](../decisions/0009-scripted-character-art.md#second-pass). 2026-10-18._
+_Track V judging for the second pass of the scripted-art spike, [decision 0010](../decisions/0010-scripted-character-art.md#second-pass). 2026-10-18._
 
 **Method.** As in the [first report](scripted-character-judge.md): a subagent with fresh context got only the renders, the prompt and the rubric, and listed defects before its verdicts. It saw no code, no plan and none of the building session. This time it got two sets of renders and three characters, and answered two A/B questions:
 

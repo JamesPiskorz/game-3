@@ -1,6 +1,6 @@
 # Judge report: scripted character vs stand-in
 
-_Track V judging (graphics plan V3) for the scripted-art spike, [decision 0009](../decisions/0009-scripted-character-art.md). 2026-10-18._
+_Track V judging (graphics plan V3) for the scripted-art spike, [decision 0010](../decisions/0010-scripted-character-art.md). 2026-10-18._
 
 **Method.** A subagent with fresh context got only the two renders below, the prompt and rubric that follow, and the question of whether the new character beats the stand-in. It was told to list defects (tile, location, fix) before its verdict. It saw no code, no plan and none of the building session. Its report is pasted unedited under [Report](#report).
 

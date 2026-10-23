@@ -1,4 +1,4 @@
-"""Scripted hair from guide curves (art spike, decision 0009).
+"""Scripted hair from guide curves (art spike, decision 0010).
 
 Each clump is grown as a guide curve: it starts under the scalp, follows its comb direction over the skull (pushed out
 of the head and body by collision, so it lies on them), and gravity takes over as it leaves the head. A tapered,

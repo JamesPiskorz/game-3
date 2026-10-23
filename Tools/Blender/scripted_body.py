@@ -1,4 +1,4 @@
-"""Scripted base body and anime head (art spike, decision 0009).
+"""Scripted base body and anime head (art spike, decision 0010).
 
 The body is a quad cage built ring by ring, so edge loops sit where the rig bends: three loops at each shoulder,
 wrist, hip and ankle, five at each knee and elbow (weighted so they keep their volume, see HINGES), and loops at each
