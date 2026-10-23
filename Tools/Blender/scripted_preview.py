@@ -14,7 +14,8 @@ from mathutils import Matrix
 import character_tools as ct
 
 # Test poses: (bone, axis in Unity terms, degrees), applied parents first. Each turns the bone about an axis through
-# its head, in the character's frame, on top of whatever its parent already did.
+# its head, in the character's frame, on top of whatever its parent already did. The turn is right-handed about the
+# axis as Blender sees it, so +X here lifts a leg forward (the opposite sign to the Euler angles in the Unity sheets).
 POSES = {
     "rest": [],
     "relaxed": [  # matches Game.Characters.Building.Poses.Relaxed: arms down, elbows soft
@@ -25,14 +26,14 @@ POSES = {
         ("Chest", (0, 1, 0), 14), ("Head", (0, 1, 0), -28), ("Head", (1, 0, 0), 10),
         ("UpperArm.L", (0, 1, 0), 80), ("UpperArm.L", (0, 0, 1), -20),
         ("UpperArm.R", (0, 0, 1), 60), ("LowerArm.R", (0, 1, 0), 125),
-        ("UpperLeg.L", (1, 0, 0), -80), ("LowerLeg.L", (1, 0, 0), 105), ("Foot.L", (1, 0, 0), -20),
+        ("UpperLeg.L", (1, 0, 0), 80), ("LowerLeg.L", (1, 0, 0), -105), ("Foot.L", (1, 0, 0), 20),
     ],
     "sit": [
         ("UpperArm.L", (0, 0, 1), -65), ("UpperArm.R", (0, 0, 1), 65),
         ("LowerArm.L", (0, 1, 0), -35), ("LowerArm.R", (0, 1, 0), 35),
-        ("UpperLeg.L", (1, 0, 0), -90), ("UpperLeg.R", (1, 0, 0), -90),
-        ("LowerLeg.L", (1, 0, 0), 90), ("LowerLeg.R", (1, 0, 0), 90),
-        ("Spine", (1, 0, 0), 6),
+        ("UpperLeg.L", (1, 0, 0), 90), ("UpperLeg.R", (1, 0, 0), 90),
+        ("LowerLeg.L", (1, 0, 0), -90), ("LowerLeg.R", (1, 0, 0), -90),
+        ("Spine", (1, 0, 0), -6),
     ],
 }
 

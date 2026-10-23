@@ -25,17 +25,17 @@ It writes `Assets/_Game/Characters/Content/Imported/ScriptedSpike/` (FBX, sideca
 | Shorts | `scripted_garment.py` | The same tool with a different recipe (not asked for; added so the comparison isn't bare legs). | 1,984 |
 | Textures | `scripted_textures.py` | Cycles bakes position, normal, ambient occlusion and curvature, plus construction attributes; numpy writes `_base` (value detail), `_mask` (regions 1-4) and `_light` (G1.1 layout: shadow bias, specular mask, metal mask, material type). The face (eyes, lashes, brows, mouth) is drawn with signed-distance shapes in face space. | — |
 
-The character carries about 13.7k skinned vertices before shoes (a generated stand-in averages about 21k, `Docs/review/perf.md`). Every part passes `validate_part`. Test poses (relaxed, reach, sit) keep every triangle above 16% of its rest area.
+The character carries about 13.7k skinned vertices before shoes (a generated stand-in averages about 21k, `Docs/review/perf.md`). Every part passes `validate_part`. Test poses (relaxed, reach, sit) keep every triangle above 16% of its rest area. (The Blender poses bent the knees backward; with the knees bent forward the figure is 6%. See [Second pass](#second-pass).)
 
-**Unity:** the parts import with the unchanged `CharacterModelImporter`. **Game → Characters → Review → Render Scripted Character Sheet** renders the character with the current toon shader next to a stand-in in the same colours, pose and light (`Docs/review/scripted-character.png`, `scripted-poses.png`). The scripted character borrows the stand-in sneakers, with bind poses rebaked for its rig. The sheet applies `_BaseMap`, `_MaskMap` and, since G1.1, `_LightMap` (shadow bias only so far; `Docs/review/scripted-lightmap.png` shows it under a light turntable).
+**Unity:** the parts import with the unchanged `CharacterModelImporter`. **Game → Characters → Review → Render Scripted Character Sheet** renders the character with the current toon shader next to a stand-in in the same colours, pose and light (`Docs/review/scripted-character.png`, `scripted-poses.png`). At first the scripted character borrowed the stand-in sneakers, with bind poses rebaked for its rig; since the [second pass](#second-pass) it wears its own. The sheet applies `_BaseMap`, `_MaskMap` and, since G1.1, `_LightMap` (shadow bias only so far; `Docs/review/scripted-lightmap.png` shows it under a light turntable).
 
 **Lightmap creases (after G1.1):** the body and garments now bake occlusion in the relaxed pose (arms down). Garments bake with the body present and add a wider 8 cm bake, and they carry painted fold strokes (`fold_shadows` in `scripted_garment.py`: armpit pulls, inner elbow, under the bust, waist, above the cuffs, short pulls from the crotch on the shorts). The underside of the jaw gets a painted shadow. Share of in-UV texels with shadow bias below 0.45: jacket 0.2% → 23%, of which 14% is the outside and 9% the facings that sit against the body; shorts 0.8% → 17%; body 2.7% → 7.8% (torso and arms 0% → 9%). The hair is unchanged. Row 3 of the turntable now marks the collar under the jaw, the armpits and the folds as well as the hair.
 
 ## Results
 
-![Stand-in (left) and scripted character (right)](../review/scripted-character.png)
+![Stand-in (left) and scripted character (right), first pass](../review/scripted-character-pass1.png)
 
-Test poses: [scripted-poses.png](../review/scripted-poses.png). Full judge report: [scripted-character-judge.md](../review/scripted-character-judge.md).
+Test poses: [scripted-poses-pass1.png](../review/scripted-poses-pass1.png). Full judge report: [scripted-character-judge.md](../review/scripted-character-judge.md). (The review sheet now renders the second pass; see [Second pass](#second-pass).)
 
 **Track V judge** (fresh context; renders, rubric and question only; defects before verdict): **the scripted character beats the stand-in, with high confidence.** Its reasons: an anime face with large catch-lit eyes against a box with dots; layered long hair and one smooth body against a helmet on tubes with stub hands; and a jacket with collar, placket, buttons, seams, hem and cuffs that holds its shape in the reach pose.
 
@@ -117,7 +117,75 @@ This keeps G2 (one hero character to measure art cost) but changes what's measur
 
 ## Next
 
-- **The judge's top fixes, in the scripts:** fewer, wider hair clumps with normals from a smooth proxy and a highlight band that reads; corrective shapes at the knees and elbows; thicker face lines with a contrast floor (and the SDF face map, G1.4); painted fold shapes in the lightmap (a scripted first pass is in, see Unity above; an artist should place the final ones); a scripted shoe recipe.
+- **The judge's top fixes, in the scripts:** fewer, wider hair clumps with normals from a smooth proxy and a highlight band that reads; corrective shapes at the knees and elbows; thicker face lines with a contrast floor (and the SDF face map, G1.4); painted fold shapes in the lightmap (a scripted first pass is in, see Unity above; an artist should place the final ones); a scripted shoe recipe. Done in the [second pass](#second-pass), except the SDF face map; the knees use weights, not correctives.
 - **G1.1:** read `_light` in the toon shader, using these parts as the test assets.
 - **Art and production:** decide whether to replace stand-ins with scripted parts slot by slot, and run G2 with the script kit to measure art hours per part.
 - **Compare with the image-to-3D head spike** when it reports: a generated head wrapped to the shared topology could supply the face these scripts can't.
+
+## Second pass
+
+**Question:** is "VRoid-tier" the ceiling of script-only art, or just where a first pass landed? This pass fixed the judge's top defects in the scripts, all still parametric, rebuilt and re-rendered the character, and asked a new fresh-context judge two A/B questions:
+
+- the second pass against the first, blind as to which is newer;
+- the second pass against the stand-in.
+
+Full report, with the round-1 report on an intermediate build: [scripted-character-judge-2.md](../review/scripted-character-judge-2.md).
+
+![Stand-in (left) and the second pass (right)](../review/scripted-character.png)
+
+Test poses: [scripted-poses.png](../review/scripted-poses.png).
+
+| First judge's defect | Fix, by script | What the judges saw |
+|---|---|---|
+| Hair stringy and noisy, no highlight, clipping at the shoulders and across the face | 44 clumps down to 24 (7 + 5 at the back, 6 bangs, 3 side locks a side): wider, with sharp tips and a U-shaped hem. Normals from a smooth proxy of the hair volume, centred behind the skull. Collision against capsules for the arms as they hang in the relaxed pose, with clearance for the jacket below the neck. One highlight stroke per clump. Hair triangles down from 11.8k to 9.0k. | Clean clumps with pointed tips, the face visible from the front and three-quarter, no shoulder clipping. New problems: two dark lobes at the crown read as ears, and a side lock lies on the cheek in profile. The highlight doesn't read at sheet scale. |
+| Knees fold to a sharp corner | Five loops at each knee and elbow instead of three. On the outside of the bend the blend starts at the joint and runs toward the child bone; on the inside it stays tight. A kneecap and an elbow point. No new bones or corrective shapes, and the importer is unchanged (`HINGES` in `scripted_body.py`). | Measured on the outside of the knee in the sit pose, the worst vertex keeps 0.79 of its distance from the bones (was 0.71). The elbow's outside keeps a mean of 0.86 (was 0.69). The judges rated deformation the same for both passes. |
+| Face faint at distance and at sunset | Brows, lashes and mouth about 1.6-1.9× thicker, eyes 4% larger, and a contrast floor in the detail map under every line. | The eyes read at sunset and in three-quarter view. The brows and mouth are still "faint" and "a tiny mark". |
+| Jacket looks painted on | Painted fold and shadow strokes in the detail map (drags from the armpits, inside the elbows, waist, hem; on the shorts, folds from the crotch and under the seat), and a light-to-dark fall down the jacket. | The folds on the shorts were seen. The jacket's, on dark navy, were not. |
+| Borrowed brick shoes | A sneaker recipe: the body's foot cage below the ankle, eased out, with a padded collar and a flat flared sole with toe spring. Toe cap, stripe, eyelets, laces and sole edge are in the textures. 1,216 triangles. | "Real sneakers", one of the three reasons the second pass won. At sunset they read as sandals. |
+
+**Verdicts:**
+
+- **Second pass against the first pass:** the second pass wins, **medium** confidence. Its reasons: the hair is cleaner and off the face; the sneakers are real; the shorts have folds. It wasn't higher because of the crown lobes and the lock on the cheek, and because "at full-body distance, B's long flowing hair arguably reads as more glamorous".
+- **Second pass against the stand-in:** the second pass wins, **high** confidence.
+- **Distance from the target:** "a clean but bare 3D anime base model, closer to an un-customised avatar-maker default than to a finished gacha hero … perhaps a third of the way there". The round-1 judge also said "roughly a third of the way".
+
+**Checks:** all six parts (now with shoes) pass `validate_part`, three builds in a row are byte-identical (30 files), and the 315 EditMode tests pass.
+
+**Hours:** about 1 h of wall-clock time for one agent session (14:24-15:24), machine time included. Builds now take about 2-3 minutes; renders about 1.
+
+| Step | Time |
+|---|---|
+| Merge, reading, worktree set-up, baseline build | 8 min |
+| Hair, face lines, knee and elbow weights (a 2D skinning model, then measured in Blender), painted folds | 9 min |
+| Sneaker recipe and review-sheet change | 4 min |
+| Render-and-fix rounds (hair standing out at the shoulders, bangs, highlight, side clumps) | 15 min |
+| Judge round 1, determinism, tests | 6 min |
+| Round-1 fixes (U-shaped hem, narrower side clumps, three side locks, no highlight on the cap, proxy set back, white shoe collar) | 9 min |
+| Final judge, determinism, tests, write-up | 9 min |
+
+**What moved:** every defect the first judge listed, in about 45 minutes of changes, mostly parameters:
+
+- the hair went from a mop to clumps;
+- the face is no longer hidden;
+- the shoes are real;
+- painted folds show where the cloth is light enough;
+- the knees and elbows measurably keep more volume.
+
+**What didn't move:** the distance from the target. Both new judges put the character a third of the way there and called it a clean, bare base model, the same tier as the first judge's "basic VRoid or MMD". What remains is what scripts are worst at:
+
+- **The hair's designed shape.** Each fix to the silhouette made a new problem somewhere else: wider clumps made the crown lobes, and moving the locks off the face put one on the cheek in profile.
+- **The face's appeal.**
+- **Costume density.**
+
+Two fixes don't read at review distance at all: the jacket folds and the hair highlight. How big and how strong to make them is a design call, not a rule.
+
+**Ceiling: unchanged.** "VRoid-tier" wasn't just a first pass: a second pass that fixed every listed defect stayed in the same tier. Script iteration polishes defects quickly. It doesn't supply designed appeal.
+
+**Recommendation: unchanged, with one point strengthened.** Scripts remain the backbone: body, garments, shoes, weights, masks, bakes and validation. Artists do faces, hair silhouettes (as guide curves) and painted detail. The strengthened point: the scripted parts now beat the stand-ins with high confidence in both judging rounds, shoes included. They are ready to replace the stand-ins slot by slot whenever production wants it. The highlight and the jacket folds are better tested once G1 reads the lightmap (specular from G, shadow bias from R) than by pushing the textures harder.
+
+**Lessons:**
+
+- **The Blender test poses bent the knees backward.** `scripted_preview.py` turns right-handed about the converted axis, so the X angles need the opposite sign to the Unity sheet's Euler angles. The first pass's "every triangle above 16% of its rest area" was measured on hyperextended knees. With knees bent forward, the smallest triangle is 6% (reach) and 9% (sit) in both passes; the squashed triangles sit in the creases behind the knees and inside the elbows.
+- **Hair grown against the T-pose stands out once the arms hang down.** Collide with capsules for the arms in the relaxed pose, not with the rest mesh's deltoids.
+- **Normals from a smooth proxy give clean toon shapes but lose the outline at clump edges.** Keep a share of the clump's own normal at its sides, and paint a dark line down each side.
+- **A highlight painted on an unbroken surface reads as a sticker.** Paint it per clump.

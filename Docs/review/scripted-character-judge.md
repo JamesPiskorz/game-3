@@ -4,10 +4,10 @@ _Track V judging (graphics plan V3) for the scripted-art spike, [decision 0009](
 
 **Method.** A subagent with fresh context got only the two renders below, the prompt and rubric that follow, and the question of whether the new character beats the stand-in. It was told to list defects (tile, location, fix) before its verdict. It saw no code, no plan and none of the building session. Its report is pasted unedited under [Report](#report).
 
-**Renders** (Game → Characters → Review → **Render Scripted Character Sheet**, current toon shader, Day and Sunset lighting rigs, 4× MSAA):
+**Renders** (Game → Characters → Review → **Render Scripted Character Sheet**, current toon shader, Day and Sunset lighting rigs, 4× MSAA). The sheet now renders the second pass ([scripted-character-judge-2.md](scripted-character-judge-2.md)); the first-pass renders this report judged are kept as:
 
-- [scripted-character.png](scripted-character.png): stand-in (A) and scripted character (B) in the same colours, pose and light.
-- [scripted-poses.png](scripted-poses.png): both in three test poses (relaxed, reach, sit), front and side.
+- [scripted-character-pass1.png](scripted-character-pass1.png): stand-in (A) and scripted character (B) in the same colours, pose and light.
+- [scripted-poses-pass1.png](scripted-poses-pass1.png): both in three test poses (relaxed, reach, sit), front and side.
 
 ## Prompt and rubric given to the judge
 

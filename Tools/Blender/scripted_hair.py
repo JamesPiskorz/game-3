@@ -3,7 +3,9 @@
 Each clump is grown as a guide curve: it starts under the scalp, follows its comb direction over the skull (pushed out
 of the head and body by collision, so it lies on them), and gravity takes over as it leaves the head. A tapered,
 lens-shaped ribbon is swept along the curve, with its tip curled. Count, width, taper and curl are parameters of each
-group of clumps. A cap over the scalp hides the gaps between clumps.
+group of clumps. A cap over the scalp hides the gaps between clumps. Below the neck the hair keeps clear of the
+clothes, and the normals come mostly from a smooth proxy of the whole hair volume, so the toon ramp draws a few big
+shapes rather than one stripe per clump.
 
 Spring chains come from the curves: each chain is the average of the hanging parts of the clumps assigned to it, and
 each clump vertex is weighted along its own curve to that chain's bones (blended between neighbouring chains by where
@@ -32,21 +34,28 @@ HEAD_CENTRE = np.asarray(sb.HEAD["centre"])
 # exponent past the taper start, thickness, curl at the tip (degrees, + curls toward the body), and how far off the
 # head they lie (layer offset, metres; outer layers further out).
 BACK_GROUPS = [
-    # Outer layer: from round the crown's whorl, over the back of the head, to the middle of the back.
-    dict(name="outer", count=16, azimuth=(-124, 124), elevation=(70, 78), down=0.25, length=(0.72, 0.80),
-         width=0.052, taper=1.0, thickness=0.010, curl=26, offset=0.018, gravity=7.0, stiff=0.10, sides=6, rows=24, seed=11),
+    # Outer layer: from round the crown's whorl, over the back of the head, to the middle of the back. Few and wide, so
+    # each clump shows as a shape of its own; side clumps lean down sooner so the sides of the head stay round.
+    dict(name="outer", count=7, azimuth=(-92, 92), elevation=(72, 80), down=0.2, side_down=0.35, length=(0.66, 0.82),
+         width=0.066, taper=0.7, thickness=0.017, curl=24, offset=0.024, gravity=7.0, stiff=0.12, sides=8, rows=24, seed=11),
     # Inner layer, staggered and a little shorter, so the outer clumps never show a gap.
-    dict(name="inner", count=13, azimuth=(-112, 112), elevation=(26, 38), down=0.5, length=(0.50, 0.56),
-         width=0.046, taper=0.9, thickness=0.009, curl=16, offset=0.011, gravity=9.0, stiff=0.05, sides=6, rows=20, seed=23),
+    dict(name="inner", count=5, azimuth=(-84, 84), elevation=(26, 36), down=0.5, side_down=0.2, length=(0.50, 0.58),
+         width=0.060, taper=0.7, thickness=0.013, curl=14, offset=0.014, gravity=9.0, stiff=0.05, sides=8, rows=20, seed=23),
 ]
-TAPER_START = 0.45  # clumps keep their width to here, then taper to a point
+TAPER_START = 0.55  # clumps keep their width to here, then taper to a sharp point
+TWIST = 0.15        # how far a clump may turn about its own length by the tip (radians, either way)
+# Clumps round the sides comb back (from, to azimuth; strength per metre) while above the shoulder blades (height), so
+# they fall behind the shoulders instead of landing on them.
+SIDE_DRIFT = (35.0, 90.0, 9.0, 1.32)
 FRONT_GROUPS = [
-    # Bangs swept toward the character's left from a parting right of centre, ending around the brows.
-    dict(name="bangs", count=11, parting=0.028, spread=(-0.08, 0.075), length=(0.11, 0.135), width=0.026, taper=0.9,
-         thickness=0.008, curl=12, offset=0.015, sweep=0.45, sides=6, rows=12, seed=41),
-    # Side locks: two per side, from the temples down past the jaw to the chest.
-    dict(name="locks", per_side=2, length=(0.30, 0.25), width=0.032, taper=1.1, thickness=0.009, curl=22, offset=0.012,
-         sides=6, rows=22, seed=53),
+    # Bangs swept toward the character's left from a parting right of centre, ending at the brows; the outer ones are
+    # shorter, so nothing crosses the eyes.
+    dict(name="bangs", count=6, parting=0.028, spread=(-0.075, 0.07), length=(0.091, 0.105), width=0.030, taper=0.7,
+         thickness=0.011, curl=14, offset=0.016, sweep=0.4, sides=8, rows=12, seed=41),
+    # Side locks: three per side, from in front of the ears down past the jaw to the chest, hanging outside the cheeks
+    # and in front of the hair behind them.
+    dict(name="locks", per_side=3, length=(0.32, 0.27, 0.22), width=0.033, taper=0.8, thickness=0.011, curl=8, offset=0.014,
+         sides=8, rows=22, seed=53),
 ]
 # Spring chains: name, azimuth of the clumps it carries, bones.
 BACK_CHAINS = [("Hair.Back.R", -60.0, 3), ("Hair.Back.C", 0.0, 3), ("Hair.Back.L", 60.0, 3)]
@@ -55,7 +64,20 @@ HANG_Y = 1.585      # below this a clump hangs free of the skull and rides its c
 FREE_GRAVITY = 32.0  # how hard gravity turns a clump once it hangs free (per metre)
 FREE_INWARD = 1.5    # and how much it is drawn toward the body axis
 BODY_AXIS_Z = -0.03
-CAP_OFFSET = 0.010  # the scalp cap's distance off the head
+CAP_OFFSET = 0.012  # the scalp cap's distance off the head
+# Below the head, hair keeps clear of the clothes (jacket collar and shoulders), not just the skin.
+BODY_CLEARANCE = 0.040
+NECK_RAMP = (1.58, 1.49)  # from head clearance (above) to body clearance (below)
+# The upper arms as they hang in the relaxed pose (Poses.Relaxed turns them 72° down about the shoulder), as capsules
+# from the shoulder joint: hair rests on the shoulders and falls behind them instead of standing out on the T-pose's
+# deltoids. (start, direction, length, radius)
+RELAXED_ARMS = [((sign * 0.16, 1.40, 0.0), (sign * 0.309, -0.951, 0.0), 0.28, 0.056) for sign in (-1, 1)]
+# The smooth shape the hair's normals come from (offsets from the head centre, radii): a shell round the skull and the
+# curtain hanging down the back, blended. Toon shading then makes a few big clean shapes instead of one per clump. The
+# shell's centre sits behind the skull's, so the hair beside the face turns toward the front and catches the key light
+# instead of falling into shade as a dark slab (the usual anime trick of normals from a sphere set back).
+NORMAL_PROXY = dict(head=((0.0, 0.020, -0.055), (0.124, 0.130, 0.170)), back=((0.0, -0.33, -0.075), (0.17, 0.40, 0.085)),
+                    blend=0.07, clump_share=(0.18, 0.45))  # share of the clump's own normal: along its middle, at its sides
 # Hairline height above the head centre by angle round the head from the front (degrees): the cap ends here.
 HAIRLINE = [(0, 0.083), (40, 0.070), (65, 0.040), (95, 0.005), (125, -0.045), (150, -0.075), (180, -0.085)]
 
@@ -65,10 +87,11 @@ HAIRLINE = [(0, 0.083), (40, 0.070), (65, 0.040), (95, 0.005), (125, -0.045), (1
 class Collider:
     """
     Pushes points out of the body (head included) to a given clearance, using the body mesh at rest. The arms can be
-    left out: the rest pose is a T-pose, and hair grown against outstretched arms would splay out along them.
+    left out: the rest pose is a T-pose, and hair grown against outstretched arms would splay out along them. Capsules
+    (start, direction, length, radius) stand in for limbs in another pose, such as the arms hanging at the sides.
     """
 
-    def __init__(self, body, with_arms=True):
+    def __init__(self, body, with_arms=True, capsules=()):
         bm = bmesh.new()
         bm.from_mesh(body.data)
         if not with_arms:
@@ -77,13 +100,23 @@ class Collider:
             bmesh.ops.delete(bm, geom=[f for f in bm.faces if any(arm[v.index] for v in f.verts)], context="FACES")
         self.tree = BVHTree.FromBMesh(bm)
         bm.free()
+        self.capsules = [(np.asarray(a, dtype=float), np.asarray(d, dtype=float) / np.linalg.norm(d), length, radius)
+                         for a, d, length, radius in capsules]
 
     def nearest(self, p):
         location, normal, _, distance = self.tree.find_nearest(ct.unity_to_blender(tuple(p)))
         q = np.array((-location.x, location.z, -location.y))
         n = np.array((-normal.x, normal.z, -normal.y))
         inside = np.dot(p - q, n) < 0
-        return q, n, (-distance if inside else distance)
+        signed = -distance if inside else distance
+        for a, d, length, radius in self.capsules:
+            axis = a + d * min(max(np.dot(p - a, d), 0.0), length)
+            offset = p - axis
+            reach = np.linalg.norm(offset)
+            if reach - radius < signed and reach > 1e-9:
+                n = offset / reach
+                q, signed = axis + n * radius, reach - radius
+        return q, n, signed
 
     def push_out(self, p, clearance):
         q, n, d = self.nearest(p)
@@ -94,8 +127,11 @@ class Collider:
 
 # ---------------------------------------------------------------------------------------------------- guide curves
 
-def grow(collider, root, comb, length, clearance, gravity, stiff, curl, rows, drift=(0.0, 0.0, 0.0)):
-    """A guide curve from root: combed, then pulled down by gravity, kept clear of the body. Returns points."""
+def grow(collider, root, comb, length, clearance, gravity, stiff, curl, rows, drift=(0.0, 0.0, 0.0), drift_above=-1.0):
+    """
+    A guide curve from root: combed, then pulled down by gravity, kept clear of the body, with a drift that turns it
+    while it is above drift_above. Returns points.
+    """
     steps = rows * 4
     ds = length / steps
     p = np.asarray(root, dtype=float)
@@ -107,7 +143,7 @@ def grow(collider, root, comb, length, clearance, gravity, stiff, curl, rows, dr
     for step in range(steps):
         s = (step + 1) * ds
         _, _, distance = collider.nearest(p)
-        if distance < clearance + 0.008:
+        if distance < clearance_at(p, clearance) + 0.008:
             # Lying on the head or body: combed, with gravity coming in past the stiff root.
             pull = gravity * ss.smoothstep(0.0, stiff, s) * ds
             inward = np.zeros(3)
@@ -116,10 +152,10 @@ def grow(collider, root, comb, length, clearance, gravity, stiff, curl, rows, dr
             pull = FREE_GRAVITY * ds
             inward = -np.array((p[0], 0.0, p[2] - BODY_AXIS_Z))
             inward *= FREE_INWARD * ds / max(np.linalg.norm(inward), 1e-9)
-        d = d + np.array((0.0, -1.0, 0.0)) * pull + inward + np.asarray(drift) * ds
+        d = d + np.array((0.0, -1.0, 0.0)) * pull + inward + np.asarray(drift) * ds * (p[1] > drift_above)
         d /= np.linalg.norm(d)
         # The root starts inside the cap and comes out through it over the first few centimetres.
-        reach = clearance * (0.1 + 0.9 * ss.smoothstep(0.0, 0.05, s))
+        reach = clearance_at(p, clearance) * (0.1 + 0.9 * ss.smoothstep(0.0, 0.05, s))
         moved, _ = collider.push_out(p + d * ds, reach)
         d = moved - p
         d /= max(np.linalg.norm(d), 1e-9)
@@ -129,6 +165,11 @@ def grow(collider, root, comb, length, clearance, gravity, stiff, curl, rows, dr
     if curl:
         points = curl_tip(points, collider, math.radians(curl))
     return resample(points, rows)
+
+
+def clearance_at(p, clearance):
+    """The head clearance on the head; below the neck, the body clearance (clear of the collar and shoulders)."""
+    return clearance + (BODY_CLEARANCE - clearance) * float(ss.smoothstep(NECK_RAMP[0], NECK_RAMP[1], p[1]))
 
 
 def curl_tip(points, collider, angle, portion=0.35):
@@ -285,14 +326,22 @@ def build_back(collider):
             # Combed away from the crown along this azimuth, leaning down by the group's amount.
             away = np.array((direction[0], 0.0, direction[2]))
             away /= max(np.linalg.norm(away), 1e-9)
-            comb = away * (1 - group["down"]) + np.array((0.0, -1.0, 0.0)) * group["down"]
-            length = group["length"][0] + (group["length"][1] - group["length"][0]) * ss.hash01(group["seed"], i, 3)
+            down = group["down"] + group["side_down"] * float(ss.smoothstep(50, 100, abs(azimuth)))
+            comb = away * (1 - down) + np.array((0.0, -1.0, 0.0)) * down
+            # Longest down the middle of the back and shorter round the sides (a U-shaped hem), with long and short
+            # clumps alternating and a little noise, so the tips make a jagged, pointed edge rather than a sawtooth.
+            spread = (0.55 * (1 - ss.smoothstep(0, 95, abs(azimuth))) + 0.25 * (i % 2)
+                      + 0.2 * ss.hash01(group["seed"], i, 3))
+            length = group["length"][0] + (group["length"][1] - group["length"][0]) * spread
+            # Clumps round the sides are narrower, so the hair beside the face breaks up instead of reading as a slab.
+            side_width = 1.0 - 0.3 * float(ss.smoothstep(50, 90, abs(azimuth)))
             # Clumps at the sides drift back, so they fall behind the shoulders and leave room for the side locks.
-            side_drift = np.array((0.0, 0.0, -1.5)) * ss.smoothstep(60, 118, abs(azimuth))
+            side_drift = np.array((0.0, 0.0, -SIDE_DRIFT[2])) * ss.smoothstep(SIDE_DRIFT[0], SIDE_DRIFT[1], abs(azimuth))
             points = grow(collider, root, comb, length, group["offset"] + 0.002 * ss.hash01(group["seed"], i, 4),
-                          group["gravity"], group["stiff"], group["curl"] * (0.7 + 0.6 * r), group["rows"], drift=side_drift)
-            hair.add_clump(collider, points, group["width"] * (0.85 + 0.3 * r), group["taper"], group["thickness"], group["sides"],
-                           azimuth, group["name"], twist=(r - 0.5) * 0.6)
+                          group["gravity"], group["stiff"], group["curl"] * (0.7 + 0.6 * r), group["rows"], drift=side_drift,
+                          drift_above=SIDE_DRIFT[3])
+            hair.add_clump(collider, points, group["width"] * (0.8 + 0.4 * r) * side_width, group["taper"], group["thickness"], group["sides"],
+                           azimuth, group["name"], twist=(r - 0.5) * TWIST)
     return hair
 
 
@@ -309,18 +358,21 @@ def build_front(collider):
         comb = np.array((sweep, -0.25, 0.85))
         length = bangs["length"][0] + (bangs["length"][1] - bangs["length"][0]) * r
         length *= 1.0 - 0.25 * ss.smoothstep(0.02, 0.07, x)  # shorter toward the parting's short side
+        length *= 1.0 - 0.22 * ss.smoothstep(0.045, 0.075, -x)  # and over the far temple, clear of the eye
         points = grow(collider, root, comb, length, bangs["offset"], 7.0, 0.035, bangs["curl"] * (0.6 + 0.8 * r), bangs["rows"])
         hair.add_clump(collider, points, bangs["width"] * (0.85 + 0.3 * r), bangs["taper"], bangs["thickness"], bangs["sides"], 180.0, "bangs")
     locks = FRONT_GROUPS[1]
     for side in (-1, 1):
         for j in range(locks["per_side"]):
             r = ss.hash01(locks["seed"], side, j)
-            root = ss.ray_surface(sb.head_sdf, HEAD_CENTRE, normalise(np.array((side * 0.085, 0.06, 0.05 - 0.03 * j)))[None, :])[0]
-            comb = np.array((side * 0.15, -1.0, 0.25))
+            # Rooted in front of the ear and combed straight down and a little out, so a lock frames the cheek
+            # instead of lying across it.
+            root = ss.ray_surface(sb.head_sdf, HEAD_CENTRE, normalise(np.array((side * 0.09, 0.06 - 0.008 * j, 0.03 - 0.028 * j)))[None, :])[0]
+            comb = np.array((side * 0.12, -1.0, 0.12))
             points = grow(collider, root, comb, locks["length"][j], locks["offset"] + 0.004 * j, 6.0, 0.03,
-                          locks["curl"] * (0.8 + 0.4 * r), locks["rows"], drift=(-side * 0.4, 0.0, 0.6))
+                          locks["curl"] * (0.8 + 0.4 * r), locks["rows"], drift=(side * 0.05, 0.0, 0.3))
             hair.add_clump(collider, points, locks["width"] * (1.0 - 0.15 * j), locks["taper"], locks["thickness"], locks["sides"],
-                           side * 120.0, "locks", side=side, twist=side * 0.4)
+                           side * 120.0, "locks", side=side, twist=side * 0.2)
     return hair
 
 
@@ -366,6 +418,29 @@ def build_cap(body, name):
     ss.set_point_attribute(obj, "hair_edge", np.zeros(len(q)))
     ss.set_point_attribute(obj, "clump", np.full(len(q), 0.5))
     return obj
+
+
+def proxy_sdf(p):
+    """The smooth hair volume the normals are taken from (see NORMAL_PROXY)."""
+    head_offset, head_radii = NORMAL_PROXY["head"]
+    back_offset, back_radii = NORMAL_PROXY["back"]
+    head = ss.sd_ellipsoid(p, HEAD_CENTRE + head_offset, head_radii)
+    back = ss.sd_ellipsoid(p, HEAD_CENTRE + back_offset, back_radii)
+    return ss.smooth_min(head, back, NORMAL_PROXY["blend"])
+
+
+def set_hair_normals(obj):
+    """
+    Normals mostly from the smooth proxy, so light and shade fall across the hair as a few big shapes. Each clump keeps
+    a share of its own normal, more at its sides, where the outline pass needs it to draw the clump's edge.
+    """
+    p = ss.unity_positions(obj)
+    proxy = ss.gradient(proxy_sdf, p)
+    own = ss.unity_normals(obj)
+    middle, sides = NORMAL_PROXY["clump_share"]
+    share = (middle + (sides - middle) * ss.smoothstep(0.6, 1.0, ss.point_attribute(obj, "hair_edge")))[:, None]
+    n = proxy * (1 - share) + own * share
+    ss.set_custom_normals(obj, n / np.linalg.norm(n, axis=1, keepdims=True))
 
 
 def join(objects, name):
@@ -469,7 +544,7 @@ def build_rig_with(bones):
 
 def build_hair(body):
     """Returns ((back object, back rig, back chain roots), (front object, front rig, front chain roots))."""
-    collider = Collider(body, with_arms=False)
+    collider = Collider(body, with_arms=False, capsules=RELAXED_ARMS)
 
     back = build_back(collider)
     chain_select = lambda curve, chain: back_chain_weights(curve["azimuth"]).get(chain, 0.0) > 0.35
@@ -494,6 +569,8 @@ def build_hair(body):
 
     paint_hair_colour(back_obj)
     paint_hair_colour(front_obj)
+    set_hair_normals(back_obj)
+    set_hair_normals(front_obj)
     return ((back_obj, back_rig, [f"{name}.1" for name, _, _ in BACK_CHAINS]),
             (front_obj, front_rig, [f"{name}.1" for name, _ in LOCK_CHAINS.values()]))
 

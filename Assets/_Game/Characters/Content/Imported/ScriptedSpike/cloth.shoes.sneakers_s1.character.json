@@ -1,0 +1,9 @@
+{
+  "kind": "part",
+  "slot": "shoes",
+  "covers": [
+    "FootL",
+    "FootR"
+  ],
+  "followsBodyShapes": true
+}

@@ -8,9 +8,11 @@ writes three textures per part:
 
 * ``_base``: the painted detail the toon shader multiplies its region colours by (value only, sRGB). Crevices get a
   stepped darker value, the way painted cel shadows sit in creases; the face gets its eyes, lashes, brows and mouth
-  shading; hair gets strand lines; seams get a line.
+  shading, each line with a contrast floor; hair gets a dark line down each clump's sides; seams get a line; clothes
+  get painted fold and shadow strokes; shoes get laces and a sole edge.
 * ``_mask``: recolour regions 1-4 (RGBA, linear), decided by how the part was built (iris, brows and lashes, eye
-  whites, lips on the body; base, tips and highlight band on hair; fabric, trims, lining and buttons on clothes).
+  whites, lips on the body; base, tips and one highlight stroke per clump on hair; fabric, trims, lining and buttons on
+  clothes; upper, accents, lining and sole on shoes).
 * ``_light``: the lightmap graphics-plan step G1.1 asks for, ready for when the shader reads it (RGBA, linear):
   R shadow bias (0.5 neutral, lower falls into shade sooner) from occlusion and concavity, plus painted fold strokes
   on garments and a shadow under the jaw; G specular mask (the
@@ -347,15 +349,18 @@ def save(path, pixels):
 
 # The face, drawn in face space: (x, y) on the front of the head, metres from the head centre. Original design.
 FACE = {
-    "eye": dict(centre=(0.0330, -0.0085), half=(0.0192, 0.0166), tilt=4.0),   # the eye opening (eye white)
-    "iris": dict(offset=(-0.0013, -0.0018), half=(0.0121, 0.0159)),
-    "pupil": dict(offset=(-0.0004, 0.0004), half=(0.0049, 0.0073)),
-    "lash": dict(thickness=0.0028, flick=0.006),
-    "crease": dict(lift=0.0036, thickness=0.0006),
-    "brow": dict(start=(0.012, 0.024), end=(0.050, 0.023), arch=0.0045, thickness=0.0022),
-    "mouth": dict(centre=(0.0, -0.064), half_width=0.0085, smile=0.0012, thickness=0.0011),
-    "nose_tick": dict(centre=(0.0, -0.0415), half=(0.0028, 0.0009)),
+    "eye": dict(centre=(0.0330, -0.0085), half=(0.0200, 0.0175), tilt=4.0),   # the eye opening (eye white)
+    "iris": dict(offset=(-0.0013, -0.0018), half=(0.0127, 0.0166)),
+    "pupil": dict(offset=(-0.0004, 0.0004), half=(0.0052, 0.0077)),
+    "lash": dict(thickness=0.0044, flick=0.0078),
+    "crease": dict(lift=0.0042, thickness=0.0008),
+    "brow": dict(start=(0.012, 0.0265), end=(0.051, 0.0255), arch=0.0045, thickness=0.0036, taper=0.45),
+    "mouth": dict(centre=(0.0, -0.064), half_width=0.0098, smile=0.0013, thickness=0.0021),
+    "nose_tick": dict(centre=(0.0, -0.0415), half=(0.0032, 0.0011)),
 }
+# Contrast floor: the detail value under each line, so lines stay darker than the skin round them whatever the light
+# and region colours do (the detail map multiplies lit and shaded colour alike), and survive at full-body distance.
+LINE_FLOOR = dict(lines=0.38, mouth=0.55, iris_rim=0.45, pupil=0.22)
 
 
 def sd_ellipse(x, y, cx, cy, hx, hy):
@@ -400,9 +405,9 @@ def draw_face(fx, fy, front):
         # Iris value: darker under the lid, lighter toward the bottom, a darker rim, the pupil darkest.
         t = np.clip((fy - (cy - ir["half"][1])) / (2 * ir["half"][1]), 0, 1)
         iris_value = 1.0 - 0.45 * t ** 1.4
-        rim = ss.smoothstep(-0.0025, 0.0, d_iris)
-        iris_value *= 1.0 - 0.35 * rim
-        iris_value = iris_value * (1 - in_pupil) + 0.32 * in_pupil
+        rim = ss.smoothstep(-0.0028, -0.0004, d_iris)
+        iris_value *= 1.0 - (1.0 - LINE_FLOOR["iris_rim"]) * rim
+        iris_value = iris_value * (1 - in_pupil) + LINE_FLOOR["pupil"] * in_pupil
         # Catch-lights in the eye-white colour: upper left as you look at the face, the same side on both eyes.
         light_big = coverage_aa(sd_ellipse(fx, fy, cx + 0.0042, cy + 0.0055, 0.0029, 0.0033))
         light_small = coverage_aa(sd_ellipse(fx, fy, cx - 0.004, cy - 0.006, 0.0012, 0.0012))
@@ -426,7 +431,7 @@ def draw_face(fx, fy, front):
         ex, ey = b["end"]
         u = np.clip((side * fx - sx) / (ex - sx), 0, 1)
         line_y = sy + (ey - sy) * u + b["arch"] * np.sin(np.pi * u) * 0.9
-        thick = b["thickness"] * (1.0 - 0.6 * u)
+        thick = b["thickness"] * (1.0 - b["taper"] * u)
         on_brow = ((side * fx >= sx - 0.001) & (side * fx <= ex + 0.001)).astype(float)
         brow = coverage_aa(np.abs(fy - line_y) - thick * 0.5) * on_brow
         dark = np.maximum(dark, brow)
@@ -434,6 +439,7 @@ def draw_face(fx, fy, front):
         white = np.maximum(white, white_here * (1 - dark))
         brows = np.maximum(brows, dark)
         value = np.where(iris_here > 0, value * (1 - iris_here) + iris_value * iris_here, value)
+        value = np.minimum(value, 1.0 - (1.0 - LINE_FLOOR["lines"]) * dark)
         # Soft shade under the upper lid on the eye white.
         value *= 1.0 - 0.2 * white_here * ss.smoothstep(-0.004, 0.0, d_eye) * (ry > 0)
     m = FACE["mouth"]
@@ -441,6 +447,7 @@ def draw_face(fx, fy, front):
     curve = m["centre"][1] + m["smile"] * mx * mx
     taper = np.clip(1 - np.abs(mx) ** 4, 0, 1)
     lips = coverage_aa(np.abs(fy - curve) - m["thickness"] * 0.5 * taper) * (np.abs(mx) < 1)
+    value *= 1.0 - (1.0 - LINE_FLOOR["mouth"]) * lips
     value *= 1.0 - 0.08 * coverage_aa(sd_ellipse(fx, fy, 0, m["centre"][1] - 0.0035, 0.005, 0.0016), 0.002)  # lower lip
     n = FACE["nose_tick"]
     value *= 1.0 - 0.22 * coverage_aa(sd_ellipse(fx, fy, n["centre"][0], n["centre"][1], *n["half"]))
@@ -481,7 +488,10 @@ def body_textures(obj, folder, name, rig, size=2048):
 
 # ---------------------------------------------------------------------------------------------------- hair
 
-ANGEL_RING = dict(elevation=36.0, half_width=4.5, teeth=7.0, depth=2.5)  # degrees above the head centre
+# The highlight ring, in degrees above the head centre: one stroke per clump where the clump crosses the ring, widest
+# along the clump's middle and pinched to nothing at its sides, with a tooth hanging down the middle (the painted
+# "angel ring" of the reference, broken up by the clumps instead of drawn round the head).
+ANGEL_RING = dict(elevation=44.0, above=4.0, below=4.5, tooth=8.0, tooth_width=0.45, jitter=5.0, reach=0.18)
 
 
 def hair_textures(obj, folder, name, size=1024):
@@ -496,19 +506,23 @@ def hair_textures(obj, folder, name, size=1024):
     c = np.asarray(sb.HEAD["centre"])
     rel = p - c
     elevation = np.degrees(np.arctan2(rel[..., 1], np.hypot(rel[..., 0], rel[..., 2])))
-    azimuth = np.degrees(np.arctan2(rel[..., 0], rel[..., 2]))
-    near_head = np.linalg.norm(rel, axis=-1) < 0.17
+    near_head = np.linalg.norm(rel, axis=-1) < ANGEL_RING["reach"]
 
     tips = ss.smoothstep(0.6, 0.95, v)
     r = ANGEL_RING
-    zigzag = r["depth"] * np.abs(((azimuth / 360.0 * 2 * math.pi * r["teeth"] * 3) / math.pi) % 2 - 1)
-    band = (np.abs(elevation - r["elevation"] + zigzag - r["depth"] * 0.5) < r["half_width"]) & near_head
-    ring = band * ss.smoothstep(0.3, 0.7, outer)
-    # Strand lines along each clump, darker toward its edges and on its underside; tips a touch darker.
-    strands = 0.5 + 0.5 * np.sin(edge * 22.0 + clump * 40.0)
-    value = 1.0 - 0.14 * edge ** 2 * outer - 0.06 * strands * outer - 0.22 * (1 - outer)
-    value *= painted_shadow(bakes, strength=1.2)
-    value = np.clip(value, 0, 1)
+    across = np.clip(1.0 - edge * edge, 0.0, 1.0) ** 0.7  # 1 along the clump's middle, 0 at its sides
+    d = elevation - (r["elevation"] + (clump - 0.5) * r["jitter"])
+    tooth = r["tooth"] * np.clip(1.0 - edge / r["tooth_width"], 0.0, 1.0) ** 1.5
+    stroke = (d < r["above"] * across) & (d > -(r["below"] * across + tooth)) & (across > 0.05)
+    on_clump = v > 0.03  # the scalp cap (v = 0) gets no ring: unbroken, it reads as a pasted-on patch
+    ring = stroke * near_head * on_clump * ss.smoothstep(0.35, 0.6, outer)
+    # Flat colour along each clump, darker on its underside, with a painted dark line down each side (so clumps read
+    # as separate shapes even where the outline doesn't reach) and a faint strand texture.
+    strands = 0.5 + 0.5 * np.sin(edge * 14.0 + clump * 40.0)
+    side_line = ss.smoothstep(0.9, 0.98, edge)
+    value = 1.0 - 0.03 * strands * outer - 0.12 * (1 - outer) - 0.2 * side_line
+    value *= painted_shadow(bakes, strength=1.0)
+    value = np.where(ring > 0.5, 1.0, np.clip(value, 0, 1))
     region2 = tips * (1 - ring)
     region3 = ring
     region1 = np.clip(1 - region2 - region3, 0, 1)
@@ -524,6 +538,42 @@ def is_cap(obj, polygon):
 
 
 # ---------------------------------------------------------------------------------------------------- garments
+
+def fold_stroke(u, v, a, b, half_width):
+    """Coverage of a tapered stroke from a to b in a 2D chart (metres): widest in the middle, pointed at both ends."""
+    a, b = np.asarray(a, dtype=float), np.asarray(b, dtype=float)
+    ab = b - a
+    t = np.clip(((u - a[0]) * ab[0] + (v - a[1]) * ab[1]) / ab.dot(ab), 0.0, 1.0)
+    d = np.hypot(u - (a[0] + t * ab[0]), v - (a[1] + t * ab[1]))
+    return coverage_aa(d - half_width * np.sin(math.pi * t) ** 0.6, 0.0009)
+
+
+def painted_folds(p, sleeve, folds):
+    """
+    Fold and shadow shapes painted into the detail map, the way the reference paints cloth: dark tapered strokes where
+    cloth bunches or drags (inside the elbows, from the armpits, at the waist, along the hem), mirrored left and right
+    with a small offset so the sides don't match exactly. Torso strokes are drawn in (|x|, y) on the front or back;
+    sleeve strokes in (distance out along the arm, distance round it from the top toward the front). Returns 0..1.
+    """
+    if not folds:
+        return np.zeros(p.shape[:2])
+    ink = np.zeros(p.shape[:2])
+    on_sleeve = (sleeve > 0.5) & (p[..., 1] > 1.2)  # arms only: trouser legs are drawn in the torso's chart
+    front = p[..., 2] > 0.0
+    round_arm = np.arctan2(p[..., 2] + 0.004, p[..., 1] - 1.40) * folds["arm_radius"]
+    for side in (-1, 1):
+        mine = (p[..., 0] * side) > 0
+        shift = folds["asymmetry"] * (side > 0)
+        u_torso, v_torso = np.abs(p[..., 0]), p[..., 1] + shift
+        for where, strokes in (("front", folds["front"]), ("back", folds["back"])):
+            facing = front if where == "front" else ~front
+            for a, b, w in strokes:
+                ink = np.maximum(ink, fold_stroke(u_torso, v_torso, a, b, w) * facing * mine * ~on_sleeve)
+        u_arm = np.abs(p[..., 0]) + shift
+        for a, b, w in folds["sleeve"]:
+            ink = np.maximum(ink, fold_stroke(u_arm, round_arm, a, b, w) * mine * on_sleeve)
+    return ink
+
 
 def garment_textures(obj, folder, name, garment, rig, body, size=1024):
     unwrap(obj, [(lambda p: True, 1.0, False)])
@@ -548,6 +598,33 @@ def garment_textures(obj, folder, name, garment, rig, body, size=1024):
     region2 = np.clip(np.maximum(trim, placket) * (1 - lining) * (1 - buttons), 0, 1)
     region3 = lining * (1 - buttons)
     region4 = buttons
+    shoe_lines = np.zeros_like(trim)
+    if "sole" in garment:
+        # Shoes: the sole is region 4; the toe cap, a stripe down the outer side and the eyelet strips join the
+        # collar in region 2; the laces are drawn on the upper.
+        s = garment["sole"]
+        sole_line = s["height"] + s["toe_spring"] * ss.smoothstep(s["toe_from"], s["toe_to"], p[..., 2]) ** 2
+        sole = coverage_aa(p[..., 1] - sole_line, 0.0008) * (1 - lining)
+        side = np.sign(p[..., 0])
+        x_rel = (p[..., 0] - side * garment["laces"]["centre"]) * side  # + toward the outer side of each foot
+        toe = ss.smoothstep(garment["toe_cap"] - 0.002, garment["toe_cap"] + 0.002, p[..., 2])
+        st = garment["stripe"]
+        outer_side = ss.smoothstep(0.2, 0.5, n[..., 0] * side)
+        stripe = fold_stroke(p[..., 2], p[..., 1], st["start"], st["end"], st["half_width"]) * outer_side
+        lc = garment["laces"]
+        instep = ss.smoothstep(0.25, 0.5, n[..., 1]) * (p[..., 2] > lc["rows"][0] - 0.012) * (p[..., 2] < lc["rows"][-1] + 0.012)
+        eyelets = coverage_aa(np.abs(np.abs(x_rel) - lc["half_width"] - 0.003) - 0.0028, 0.0006) * instep
+        between = coverage_aa(np.abs(x_rel) - lc["half_width"], 0.0006) * instep
+        laces = np.zeros_like(trim)
+        for z in lc["rows"]:
+            laces = np.maximum(laces, coverage_aa(np.abs(p[..., 2] - z) - lc["thickness"] * 0.5, 0.0005))
+        laces *= between
+        shoe_lines = between * (1 - laces)  # the tongue, in shadow between the laces
+        shoe_lines = np.maximum(shoe_lines, 1.4 * coverage_aa(np.abs(p[..., 1] - sole_line) - 0.0012, 0.0006))  # sole edge
+        accent = np.clip(np.maximum.reduce([toe, stripe, eyelets]) * (1 - sole) * (1 - laces), 0, 1)
+        region2 = np.clip(accent * (1 - sole), 0, 1)  # the collar stays the upper's colour: dark, it reads as a strap
+        region3 = region3 * (1 - sole)
+        region4 = sole
     region1 = np.clip(1 - region2 - region3 - region4, 0, 1)
     # Seam lines (the grooves), and a stitch line just inside each placket edge.
     seam_line = ss.smoothstep(0.86, 0.97, seam / max(seam.max(), 1e-6)) * (1 - lining)
@@ -559,11 +636,19 @@ def garment_textures(obj, folder, name, garment, rig, body, size=1024):
         value *= 1 - 0.3 * coverage_aa(np.abs(d - 0.0048) - 0.0006, 0.0005) * (buttons > 0)  # button rim
         value *= 1 - 0.35 * coverage_aa(np.hypot(np.abs(p[..., 0]) - 0.0017, p[..., 1] - y) - 0.0007, 0.0004) * (buttons > 0)
     value *= 1 - 0.15 * lining
+    value *= 1 - 0.22 * shoe_lines
+    folds = garment.get("painted_folds")
+    if folds:
+        fabric = region1 * (1 - seam_line)
+        value *= 1 - folds["depth"] * painted_folds(p, sleeve, folds) * fabric
+        # A painted light-to-dark fall down the garment, as the reference paints cloth.
+        value *= 1 - folds["fall"] * (1 - ss.smoothstep(folds["fall_from"][0], folds["fall_from"][1], p[..., 1])) * fabric
     base = np.repeat(np.clip(value, 0, 1)[..., None], 3, axis=2)
     mask = np.stack([region1, region2, region3, region4], axis=-1)
     material = np.where(buttons > 0.5, MATERIAL["metal"], MATERIAL["cloth"]) / 255.0
-    wide = np.clip(1.0 - bakes.wide_ao, 0.0, 1.0)
-    bias = shadow_bias(bakes) - 0.3 * ss.smoothstep(0.08, 0.45, wide)
+    bias = shadow_bias(bakes)
+    if bakes.wide_ao is not None:
+        bias -= 0.3 * ss.smoothstep(0.08, 0.45, np.clip(1.0 - bakes.wide_ao, 0.0, 1.0))
     bias -= fold_shadows(bakes, garment["fold_shadows"]) * (1 - trim) * (1 - lining) * (1 - buttons)
     light = np.stack([np.clip(bias, 0, 1), np.zeros_like(trim), buttons, material], axis=-1)
     write_set(folder, name, base, mask, light)
