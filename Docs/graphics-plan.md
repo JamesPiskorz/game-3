@@ -25,7 +25,7 @@ The look comes from a dozen tricks, most of them faked for art direction rather 
 
 ## Progress
 
-**2026-10-18: G0.1-G0.3, G1.3, V1 and V2 are done. G1.1 has its shader half.**
+**2026-10-18: G0.1-G0.3, G1.1, G1.3, V1 and V2 are done.**
 
 - **G0.1, honest captures.**
   - `GameCamera` sets up every camera (town, creator, menu, portrait studio, review sheets): post on, MSAA from the pipeline asset.
@@ -42,12 +42,17 @@ The look comes from a dozen tricks, most of them faked for art direction rather 
   - One environment-shadow sample per character (`CharacterShadowAnchor`, decision 0002 item 5).
   - `ShadowCheck` passes at 0% wrong, against 30% and 52% for the old per-pixel shadows.
   - The blocky hair patches (baseline 6) are gone from the town captures.
-- **G1.1, lightmap input (shader half).**
+- **G1.1, lightmap input.**
   - `_LightMap` on the toon shader (layout in `CharacterToonInput.hlsl`): R, the shadow bias, moves the toon step's threshold by up to ±0.5, for the main light and lamps. G, B and A wait for G1.5, G1.6 and G1.2. `ToonMaterial.SetLightMap` sets it.
   - Unset, it's Unity's `linearGrey`, which reads just under 0.5 (treating 128/255 as neutral darkened 1.8% of the stand-in part sheet's pixels along the shadow edge); the Blender scripts write 0.5 as 128. Anything within one 8-bit step of 0.5 counts as neutral, so the stand-in part sheet renders pixel-identical: 0 of 9.5 M pixels differ.
   - Proved on the scripted character (decision 0009), whose parts carry G1.1 lightmaps: `Docs/review/scripted-lightmap.png` (row 1 without lightmaps, row 2 with, row 3 marks what moved, row 4 another colourway). The hair layers fall into shade sooner at every sun angle. At first the body and jacket lightmaps were nearly flat, because they were baked in the rest pose with the arms out. They're now baked in the relaxed pose, with the body occluding the garments and painted fold strokes added (decision 0009). So the shadow edge also moves at the armpits, the folds, and the collar under the jaw, where the high collar leaves the jaw shadow its only room.
   - `ToonShaderTests` checks the shader stays SRP Batcher compatible, using Unity's internal check (the one the shader inspector shows), against a built-in shader as a control.
-  - Not done: procedural lightmaps for the stand-ins (the generator half of the row).
+  - **Stand-ins carry their lightmap per vertex, in UV2, not as a texture.** Their UV0 is in metres so patterns tile at one size, so there's no unique unwrap for a texture, and they already keep their recolour masks in vertex colour for the same reason. `_MASK_VERTEX_COLOUR` switches both. UV2 holds (R − 0.5, G, B, A) in 4 bytes (SNorm8), so zeroed data is neutral. Authored parts keep textures on UV0, set with `SetLightMap`. Vertex resolution is enough for the stand-ins' creases, and the shine mask follows the hair band's own vertices exactly.
+  - `StandInLightMap` paints them as the meshes are generated, from where each vertex sits on the rest-pose body, so the body and every part over the same spot agree. The bias drops at the armpits, the elbows (most in the crook), the crotch and the knees (most behind), round the neck under the head and down to the collar, and on the hair's lower layers near the nape. The face stays neutral for G1.4's face map. G is the hair band (vertex region 3), B is 1 on metal accessories (glasses, earrings, the hair clip, the necklace), and A is the material type.
+  - Proved on `Docs/review/standin-lightmap.png`: one stand-in under a sun turntable in four views (arms, legs, head and shoulders, and from behind), each without lightmaps, with them, and what moved. The top row shows the lightmap itself, and the last row the same parts in other colours. The edge moves at the armpits, elbows and knees, on the neck from the jaw down to the collar, and on the nape and the bob's lower layers (0.2-0.9% of each view's pixels over the turntable). At the collar it moves on the neck, not on the cloth: the stand-in collars are flat rings facing up (the jacket's barely rises above its shoulders), and a 42° sun always lights those.
+  - With the lightmaps zeroed, the part sheet renders pixel-identical to before (0 of 9.5 M pixels differ). With them, 1.1% of its pixels change.
+  - A mesh without UV2 doesn't read as zero: Unity hands the shader UV1 instead, so the lips (region 4, in UV1.x) stayed lit. Every stand-in mesh has UV2, and `StandInLightMapTests` checks that and its packing, along with the neck, elbows, face, hair band and metal mask.
+  - `DiagnosticSheet` has a lightmap tile (rubric tile 10).
 - **V1:** `DiagnosticSheet` renders all 70 parts in 17 s, and two runs give identical images (0 pixels differ). The sheets are regenerated on demand and kept out of git.
 - **V2:** rubrics in [Docs/review/rubrics](review/rubrics/README.md). Every R element and baseline problem has a question.
 - **Benchmark:**
@@ -59,6 +64,13 @@ The look comes from a dozen tricks, most of them faked for art direction rather 
   | Shadow cost | 2.2 ms | 0.6 ms | −1.6 ms |
 
   Within G0's +1.5 ms budget. Most of the anti-aliasing and post cost is paid for by the cheaper shadows.
+
+  G1.1's stand-in lightmaps cost nothing measurable. In one session, using medians of three runs (single runs of one build differ by up to 1.9 ms), the town renders in:
+  - 11.28 ms with the lightmaps (10.66 ms with CharacterLod);
+  - 11.29 ms (10.46 ms) with their UV2 stripped;
+  - 11.74 ms (11.09 ms) with UV2 stripped and the shader as it was before (`bcbe991`).
+
+  The machine ran about 1 ms slower in that session than for the table above.
 
 **2026-10-18 (later): G0.4-G0.10 are done.** G0 is complete.
 

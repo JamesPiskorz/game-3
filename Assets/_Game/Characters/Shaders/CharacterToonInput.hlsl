@@ -146,9 +146,16 @@ void ToonAlbedo(float2 uv, float2 uv1, half4 vertexColour, out half3 lit, out ha
 //   A  material type, which picks the ramp row (G1.2): 0 skin, 32 hair, 64 cloth, 128 metal, out of 255
 // Only R is read so far. A part without a lightmap gets Unity's linearGrey (every channel about 0.5): neutral in R,
 // but not in G-A, so the steps that read those must not take the default at face value.
-half4 ToonLightMap(float2 uv)
+// Procedural stand-ins have no unique UVs to hold a texture (their UV0 is in metres, for patterns), so like their
+// masks they carry it per vertex: UV2 = (R - 0.5, G, B, A), so zeroed data is neutral. Every stand-in mesh must have
+// UV2: without it the shader isn't given zeros (it reads the lips' UV1 as a bias).
+half4 ToonLightMap(float2 uv, float4 uv2)
 {
+#if defined(_MASK_VERTEX_COLOUR)
+    return half4(uv2.x + 0.5, uv2.yzw);
+#else
     return SAMPLE_TEXTURE2D(_LightMap, sampler_LightMap, uv);
+#endif
 }
 
 // How far the bias moves the toon step's threshold: 0 at neutral, up to ±0.5 (0 never lit, 1 always lit). Anything

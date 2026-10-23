@@ -62,6 +62,8 @@ namespace Game.Characters.Rendering
         /// <summary>
         /// The part's lightmap (graphics plan G1.1): a linear texture on UV0 with RGBA = shadow bias (0.5 neutral, lower
         /// falls into shade sooner), specular mask, metal mask, material type. Null puts back the neutral default.
+        /// Materials taking vertex data (<see cref="VertexColourMaskKeyword"/>, the procedural stand-ins) read theirs
+        /// from the mesh's UV2 instead and ignore this.
         /// </summary>
         public static void SetLightMap(Material material, Texture lightMap) => material.SetTexture(LightMap, lightMap);
 

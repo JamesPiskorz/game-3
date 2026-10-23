@@ -18,7 +18,8 @@ namespace Game.Characters.Review
     /// <summary>
     /// The diagnostic set for every part (graphics plan V1), one sheet per part in Docs/review/diagnostics/ (not in
     /// git: regenerate on demand). Row 1: orthographic front, side and top, a three-quarter beauty shot, the
-    /// silhouette and a close-up. Row 2: wireframe, mesh normals, outline normals (the tangents), and the first three
+    /// silhouette and a close-up. Row 2: wireframe, mesh normals, outline normals (the tangents), the lightmap (G1.1:
+    /// blue where the shadow bias falls into shade sooner, green the shine mask, gold the metal mask), and the first two
     /// light-turntable steps. Row 3: the rest of the light turntable, the sun stepped round in 45° increments. Beauty
     /// shots render as the game does (post on); debug views render without post, so their colours are exact.
     /// Headless: -executeMethod Game.Characters.Review.DiagnosticSheet.Render [-parts id,id,...]
@@ -28,6 +29,7 @@ namespace Game.Characters.Review
         public const string Folder = GeneratedLineup.Folder + "/diagnostics";
         const int TileWidth = 200, TileHeight = 260, Columns = 6, TurntableSteps = 8;
         static readonly Color Backdrop = LightingRig.Day.Background;
+        internal static readonly Color LightMapBackdrop = new Color(0.35f, 0.35f, 0.38f);
 
         [MenuItem("Game/Characters/Review/Render Diagnostic Sheets")]
         public static void Render()
@@ -65,6 +67,7 @@ namespace Game.Characters.Review
                     Wireframe(camera, character, diagnostics, wireMaterial, focus, head),
                     DebugView(camera, character, diagnostics, 0f, Color.white, new Color(0.5f, 0.5f, 0.5f), () => Perspective(camera, focus, head)),
                     DebugView(camera, character, diagnostics, 1f, Color.white, new Color(0.5f, 0.5f, 0.5f), () => Perspective(camera, focus, head)),
+                    DebugView(camera, character, diagnostics, 3f, Color.white, LightMapBackdrop, () => Perspective(camera, focus, head)),
                 };
                 Quaternion daylight = sun.transform.rotation;
                 for (int i = 0; i < TurntableSteps; i++)
@@ -110,7 +113,7 @@ namespace Game.Characters.Review
         }
 
         // Every material swapped for a debug view, no post, on a plain background; then put back.
-        static Texture2D DebugView(Camera camera, ModularCharacter character, Shader shader, float mode, Color flat, Color background, Func<Texture2D> shoot)
+        internal static Texture2D DebugView(Camera camera, ModularCharacter character, Shader shader, float mode, Color flat, Color background, Func<Texture2D> shoot)
         {
             var swapped = new List<(Renderer Renderer, Material[] Materials)>();
             foreach (Renderer renderer in character.GetComponentsInChildren<Renderer>())

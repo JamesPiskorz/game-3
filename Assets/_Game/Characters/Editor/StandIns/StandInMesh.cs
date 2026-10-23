@@ -4,6 +4,7 @@ using System.Linq;
 using Game.Characters.Modular;
 using Game.Characters.Rendering;
 using UnityEngine;
+using UnityEngine.Rendering;
 using static Game.Characters.Modular.BodyRegions;
 
 namespace Game.Characters.StandIns
@@ -11,8 +12,10 @@ namespace Game.Characters.StandIns
     /// <summary>
     /// Procedural mesh builder for stand-in characters and parts. Vertex colour carries the body region ID in red
     /// and recolour weights for regions 1-3 in green, blue and alpha (the Toon shader's vertex-colour mask). UV0 is in
-    /// metres (around, along) so patterns tile at a consistent size on every piece. Body shapes are evaluated from
-    /// the body surface beneath each vertex, which is what the Blender shape-key transfer does for real clothing.
+    /// metres (around, along) so patterns tile at a consistent size on every piece. UV2 carries the lightmap
+    /// (graphics plan G1.1): with no unique UVs to hold a texture, stand-ins keep it per vertex, as they do their
+    /// masks. Body shapes are evaluated from the body surface beneath each vertex, which is what the Blender
+    /// shape-key transfer does for real clothing.
     /// </summary>
     public sealed class StandInMesh
     {
@@ -83,6 +86,13 @@ namespace Game.Characters.StandIns
         /// Whatever is left over is the base region.
         /// </summary>
         public delegate Vector4 MaskFunction(float along, float around);
+
+        /// <summary>
+        /// The lightmap at a vertex at rest, in the texture's layout (CharacterToonInput.hlsl): R shadow bias (0.5
+        /// neutral), G specular mask, B metal mask, A material type. <paramref name="regions"/> are the vertex's recolour
+        /// weights for regions 1-4.
+        /// </summary>
+        public delegate Vector4 LightMapFunction(Vector3 position, Vector3 normal, Vector4 regions);
 
         public static readonly MaskFunction BaseOnly = (along, around) => Vector4.zero;
         public static readonly MaskFunction Region1 = (along, around) => new Vector4(1f, 0f, 0f, 0f);
@@ -431,8 +441,11 @@ namespace Game.Characters.StandIns
             Stitch(first, Sides + 1, Rings, ring => ring / (float)Rings, mask);
         }
 
-        /// <summary>Builds a new mesh, or rebuilds <paramref name="into"/> in place (keeping an existing asset's GUID).</summary>
-        public Mesh Build(string name, bool withShapes, Mesh into = null)
+        /// <summary>
+        /// Builds a new mesh, or rebuilds <paramref name="into"/> in place (keeping an existing asset's GUID), painting
+        /// <paramref name="lightMap"/> into UV2 (none leaves every vertex neutral).
+        /// </summary>
+        public Mesh Build(string name, bool withShapes, Mesh into = null, LightMapFunction lightMap = null)
         {
             Mesh mesh = into != null ? into : new Mesh();
             mesh.Clear();
@@ -442,6 +455,7 @@ namespace Game.Characters.StandIns
             mesh.SetNormals(_normals);
             mesh.SetUVs(0, _uvs);
             mesh.SetUVs(1, _uv1);
+            mesh.SetUVs(2, Enumerable.Range(0, _positions.Count).Select(i => VertexLightMap(i, lightMap)).ToList());
             mesh.SetColors(_colours);
             mesh.boneWeights = _weights.ToArray();
             // Rest bones have identity rotation and every mesh sits at the character's origin.
@@ -452,7 +466,22 @@ namespace Game.Characters.StandIns
                     mesh.AddBlendShapeFrame(BodyShapes[shape], 100f, _deltas.Select(d => d == null ? Vector3.zero : d[shape]).ToArray(), null, null);
             mesh.RecalculateBounds();
             OutlineNormals.Bake(mesh);
+            // The lightmap packed into 4 bytes, not 16: SNorm8 holds the bias offset (-0.5..0.5) and the masks to 1/127,
+            // and zero exactly. Changing the layout converts the data in place.
+            VertexAttributeDescriptor[] layout = mesh.GetVertexAttributes();
+            int uv2 = Array.FindIndex(layout, attribute => attribute.attribute == VertexAttribute.TexCoord2);
+            layout[uv2] = new VertexAttributeDescriptor(VertexAttribute.TexCoord2, VertexAttributeFormat.SNorm8, 4, layout[uv2].stream);
+            mesh.SetVertexBufferParams(mesh.vertexCount, layout);
             return mesh;
+        }
+
+        // Stored as (R - 0.5, G, B, A), so zeroed data is neutral (no lightmap), not deep shade.
+        Vector4 VertexLightMap(int vertex, LightMapFunction lightMap)
+        {
+            if (lightMap == null) return Vector4.zero;
+            Color32 colour = _colours[vertex];
+            Vector4 texel = lightMap(_positions[vertex], _normals[vertex], new Vector4(colour.g / 255f, colour.b / 255f, colour.a / 255f, _uv1[vertex].x));
+            return new Vector4(texel.x - 0.5f, texel.y, texel.z, texel.w);
         }
     }
 }
